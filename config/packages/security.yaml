@@ -1,0 +1,36 @@
+security:
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        db_users:
+            entity:
+                class: App\Entity\Coaches
+                property: name
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: true
+            provider: db_users
+            # activate different ways to authenticate
+
+            #http_basic: true
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+
+            form_login: 
+                login_path: login
+                check_path: login
+            # https://symfony.com/doc/current/security/form_login_setup.html
+            
+            logout:
+                path:   /logout
+                target: /
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+         - { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/profile, roles: ROLE_USER }
+    encoders:
+        App\Entity\Coaches:
+            algorithm: bcrypt

@@ -1,0 +1,48 @@
+<table class="table">
+	<thead>
+		<tr>
+			<th>Equipe</th>
+			<th>Race</th>
+			<th>TV</th>
+			<th>G</th>
+			<th>E</th>
+			<th>P</th>
+			<th>ELO</th>
+			<th>Statut</th>
+			<th>Retirer ?</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for team in coachteam %}
+		{% if (team.retired == 1)  %}
+		<tr class="danger hidden"> 
+		{% else %}
+		<tr>
+		{% endif %}
+			<td><a href="{{ path('team', {'id': team.teamId,'type':'n' }) }}">{{team.name}}</a></td>
+			<td>{{team.frace.name}}</td>
+			<td>{{team.tv/1000}}</td>
+			{% for data in tdata %}
+				{% if data.tId == team.teamId %}
+			<td>{{data.win}}</td>
+			<td>{{data.draw}}</td>
+			<td>{{data.loss}}</td>
+				{% endif %}
+			{% endfor %}
+			<td>{{team.elo}}</td>
+			{% if team.retired == 1 %}
+			<td> Retirée</td>
+			{% elseif team.rdy == 0 %}
+			<td>Pas prête</td>
+			{% else %}
+			<td>Prête</td>
+			{% endif %}
+			
+			<td><span class="glyphicon glyphicon-remove text-danger" teamId="{{team.teamId}}" id="retire_{{team.teamId}}" ></span></a></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+<button type="button" id="showall_btn" class="btn btn-primary">
+  Montrer les équipes retirées
+</button>	

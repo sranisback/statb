@@ -1,0 +1,21 @@
+ <div class="container-fluid">
+	<div class="row">  
+  <div class="form-group">
+	<div class="col-sm-9 col-lg-9 col-md-9">
+    <label>Equipe {{nbr}}</label>
+		<select class="form-control" id="selectedTeam_{{nbr}}" name= "team_{{nbr}}" side="{{nbr}}">
+			<option value="" selected>Choisir une équipe</option>
+		{% for team in teams %}
+			<option  value="{{team.teamId}}">{{team.name}}({{team.fRace.name}}),{{team.tv/1000}} de {{team.ownedByCoach.name}}</option>
+		{% endfor %}
+		</select>
+	</div>
+		<div class="col-sm-3 col-lg-3 col-md-3">
+		<a class="glyphicon glyphicon-ok text-success" side="{{nbr}}" id="valideteam{{nbr}}"></a>
+		</div>
+  </div>
+  </div>
+</div>
+
+
+

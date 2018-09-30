@@ -1,0 +1,34 @@
+{% if limit == 0%}
+<div class="modal-body">
+{% endif %}
+<h3>{{title}}</h3>
+<div class="table-responsive">
+{%if class == 'class_Tbash' %}
+	{{ render(controller('App\\Controller\\StatBBController::Totalcas' )) }}
+{% endif %}
+<table class="table table-striped" id="{{class}}">
+	<tbody>
+		{%for team in teams%}
+		<tr>
+			<td>{{loop.index}}</td><td>{{team.name}}</td><td>{{team.score}}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+</div>
+
+{% if limit == 0%}
+</div>
+{% endif %}
+{% if limit > 0%}
+
+<a type="button" class="btn btn-primary" data-toggle="modal" href="{{ path('classement',{'type':type,'teamorplayer':teamorplayer,'limit':0}) }}" data-target="#clt{{type}}">Toutes les équipes</a>
+
+<div class="modal fade" id="clt{{type}}">
+  <div class="modal-dialog">
+	<div class="modal-content">
+
+	</div>
+  </div>
+</div>
+{% endif %}

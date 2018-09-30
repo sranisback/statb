@@ -1,0 +1,28 @@
+{% if limit == 0%}
+<div class="modal-body">
+{% endif %}
+<h3>{{title}}</h3>
+<div class="table-responsive">
+<table class="table table-striped" id="{{class}}">
+	<tbody>
+		{%for player in players%}
+		<tr>
+			<td>{{loop.index}}</td><td><img src="{{ asset('build/images/player_icons/'~player.icon~'.gif') }}" class=".img-responsive">{{player.nr}}.{{player.name}}{{player.sold}}{{player.dead}} - {{player.teams}}</td><td>{{player.score}}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+</div>
+{% if limit == 0%}
+</div>
+{% endif %}
+{% if limit > 0%}
+<a type="button" class="btn btn-primary" data-toggle="modal" href="{{ path('classement',{'type':type,'teamorplayer':teamorplayer,'limit':0}) }}" data-target="#cl{{type}}">Tous les joueurs</a>
+
+<div class="modal fade" id="cl{{type}}">
+  <div class="modal-dialog">
+	<div class="modal-content">
+	</div>
+  </div>
+</div>
+{% endif %}
