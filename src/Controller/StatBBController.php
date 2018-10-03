@@ -517,18 +517,7 @@ class StatBBController extends Controller
 			
 	}
 	
-	/**
-     * @Route("/testajax", name="testajax")
-    */
-    public function testajax(Request $request)
-    {
-		$response = new Response();
-		$response->setContent('You are not allowed to delete this post');
-		$response->setStatusCode(200);
-		return $response;
-	}
-	
-	
+
 	/**
      * @Route("/", name="index")
     */
@@ -579,7 +568,14 @@ class StatBBController extends Controller
 		
 		return $this->render('statbb/front.html.twig');
 	}
-	
+
+    /**
+     * @Route("/logout", name="logout")
+     */
+    public function logout(Request $request, AuthenticationUtils $authenticationUtils)
+    {
+        return $this->redirectToRoute('index');
+    }
 	/**
     * @Route("/citation")
     */
