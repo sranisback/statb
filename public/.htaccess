@@ -1,4 +1,4 @@
-SetEnv DATABASE_URL "mysql://root@127.0.0.1:3306/bb_symf"
+SetEnv DATABASE_URL "mysql://u678740852_statb:fhjqFWglq7Zf@localhost:3306/u678740852_statb"
 SetEnv APP_ENV prod
 SetEnv APP_SECRET d69e2e733d5989da2f79cac89a065dae
 
