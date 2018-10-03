@@ -1,0 +1,11 @@
+SetEnv DATABASE_URL "mysql://root@127.0.0.1:3306/bb_symf"
+SetEnv APP_ENV prod
+SetEnv APP_SECRET d69e2e733d5989da2f79cac89a065dae
+
+
+<IfModule mod_rewrite.c>
+    Options -MultiViews
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>
