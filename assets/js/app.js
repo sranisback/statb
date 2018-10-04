@@ -17,31 +17,7 @@ $(document).ready(function() {
 	});*/
 
 
-	$("span[att^='test']").click(function() {
-		
-		let clicked = $(this);
-	
-		$.post("/testajax",
-		{
-		},
-		function(result)
-		{
-			if(result !== 0)
-			{
-				
-				clicked.after("<h1>test</h1>")
-					
-			}
-			else
-			{
-				
-			}		
-		
-		})
-	
-	});
 
-	
 	$('#showall_btn').click(function () {
 				
 		$("tr.danger").toggleClass("hidden");
