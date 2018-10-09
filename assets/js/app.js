@@ -63,7 +63,7 @@ $(document).ready(function() {
 	function addLine(clicked,side)
 	{
 		
-		$.getJSON("/dropdownPlayer/"+clicked.attr('teamId')+"/"+side,
+		$.getJSON("./dropdownPlayer/"+clicked.attr('teamId')+"/"+side,
 		{			
 		},
 		function(result)
@@ -85,7 +85,7 @@ $(document).ready(function() {
         label.val($(this).data('value'));
 		$('#btn_addplayer').attr('posId',$(this).attr('posId'));
 		
-		$.post("/getposstat/"+$(this).attr('posId'),
+		$.post("./getposstat/"+$(this).attr('posId'),
 		{			
 		},
 		function(result)
@@ -98,7 +98,7 @@ $(document).ready(function() {
 	
 	$("#btn_addplayer").click(function(){
 			
-		$.getJSON("/add_player/"+$(this).attr('posId')+"/"+$(this).attr('teamId'),
+		$.getJSON("./add_player/"+$(this).attr('posId')+"/"+$(this).attr('teamId'),
 			{			
 			},
 			function(result)
@@ -180,7 +180,7 @@ $(document).ready(function() {
 
 	    let label = $("#dLabel");
 
-		$.post("/createTeam/"+$('#nTeamName').val()+"/"+label.attr('coachId')+"/"+label.attr('raceId'),
+		$.post("./createTeam/"+$('#nTeamName').val()+"/"+label.attr('coachId')+"/"+label.attr('raceId'),
 		{			
 		},
 		function(result)
@@ -195,7 +195,7 @@ $(document).ready(function() {
 		let test = $(this).parent().parent();
 		let totalPV = $("#totalPV");
 	
-		$.post("/remPlayer/"+$(this).attr("playerId"),
+		$.post("./remPlayer/"+$(this).attr("playerId"),
 		{
 		},
 		function(result)
@@ -224,7 +224,7 @@ $(document).ready(function() {
 	
 	$("[id^='add_']").click(function(){
 
-		$.post("/add_inducement/" + $(this).attr("teamId") + '/' +$(this).attr("type"),
+		$.post("./add_inducement/" + $(this).attr("teamId") + '/' +$(this).attr("type"),
 		{			
 		},
 		function(result)
@@ -242,7 +242,7 @@ $(document).ready(function() {
 	
 	$("[id^='rem_']").click(function(){
 
-		$.post("/rem_inducement/" + $(this).attr("teamId") + '/' +$(this).attr("type"),
+		$.post("./rem_inducement/" + $(this).attr("teamId") + '/' +$(this).attr("type"),
 		{			
 		},
 		function(result)
@@ -291,7 +291,7 @@ $(document).ready(function() {
 	
 	$("#comp").click(function(){
 
-        $.post("/addComp/"+$('#skill option:selected').val()+"/"+ $(this).attr('playerid'),
+        $.post("./addComp/"+$('#skill option:selected').val()+"/"+ $(this).attr('playerid'),
         {
         },
         function()
@@ -314,7 +314,7 @@ $(document).ready(function() {
                 $('#inp_'+id).after($('#loadingmessage'));
                 $('#loadingmessage').show();
 
-                $.post("/changeNr/"+$(this).val()+"/"+ $(this).attr('playerid'),
+                $.post("./changeNr/"+$(this).val()+"/"+ $(this).attr('playerid'),
                 {
                 },
                 function(result)
@@ -348,7 +348,7 @@ $(document).ready(function() {
                 $('#inp_name_'+id).after($('#loadingmessage'));
                 $('#loadingmessage').show();
 
-                $.post("/changeName/"+$(this).val()+"/"+ $(this).attr('playerid'),
+                $.post("./changeName/"+$(this).val()+"/"+ $(this).attr('playerid'),
                     {
                     },
                     function(result)
