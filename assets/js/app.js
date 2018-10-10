@@ -97,8 +97,9 @@ $(document).ready(function() {
 	});
 	
 	$("#btn_addplayer").click(function(){
-			
-		$.getJSON("./add_player/"+$(this).attr('posId')+"/"+$(this).attr('teamId'),
+
+
+		$.getJSON("http://statbrutedebowl.url.ph/statb/add_player/"+$(this).attr('posId')+"/"+$(this).attr('teamId'),
 			{			
 			},
 			function(result)
