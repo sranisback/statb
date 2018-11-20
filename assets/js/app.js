@@ -9,6 +9,9 @@ import './jquery.tablesorter.js'
 import './jquery.paginate.js'
 import './jquery.serializeToJSON.js'
 
+const routes = require('./fos_js_routes.json');
+import Routing from './router.min.js';
+
 $(document).ready(function() {
 //	$('.name').nameBadge({size:60,border:{width:0}});
 	
@@ -16,7 +19,7 @@ $(document).ready(function() {
 		headers: {0: { sorter: false}}
 	});*/
 
-
+    Routing.setRoutingData(routes);
 
 	$('#showall_btn').click(function () {
 				
@@ -63,7 +66,8 @@ $(document).ready(function() {
 	function addLine(clicked,side)
 	{
 		
-		$.getJSON("./dropdownPlayer/"+clicked.attr('teamId')+"/"+side,
+		//$.getJSON("./dropdownPlayer/"+clicked.attr('teamId')+"/"+side,
+        $.getJSON(Routing.generate('dropdownPlayer',{teamId: clicked.attr('teamId'),nbr:side}),
 		{			
 		},
 		function(result)
@@ -85,8 +89,9 @@ $(document).ready(function() {
         label.val($(this).data('value'));
 		$('#btn_addplayer').attr('posId',$(this).attr('posId'));
 		
-		$.post("./getposstat/"+$(this).attr('posId'),
-		{			
+		//$.post("http://statbrutedebowl.url.ph/statb/getposstat/"+$(this).attr('posId'),
+		$.post(Routing.generate('getposstat', { posId: $(this).attr('posId') }),
+		{
 		},
 		function(result)
 		{
@@ -99,7 +104,8 @@ $(document).ready(function() {
 	$("#btn_addplayer").click(function(){
 
 
-		$.getJSON("http://statbrutedebowl.url.ph/statb/add_player/"+$(this).attr('posId')+"/"+$(this).attr('teamId'),
+		//$.getJSON("http://statbrutedebowl.url.ph/statb/add_player/"+$(this).attr('posId')+"/"+$(this).attr('teamId'),
+        $.getJSON(Routing.generate('add_player',{ posId: $(this).attr('posId'),teamId:$(this).attr('teamId') }),
 			{			
 			},
 			function(result)
@@ -127,7 +133,8 @@ $(document).ready(function() {
 								
 								let test = $(this).parent().parent();
 							
-								$.post("/remPlayer/"+$(this).attr("playerId"),
+								//$.post("/remPlayer/"+$(this).attr("playerId"),
+                                $.post(Routing.generate('remPlayer', { playerId: $(this).attr("playerId")}),
 								{
 								},
 								function(result)
@@ -181,7 +188,8 @@ $(document).ready(function() {
 
 	    let label = $("#dLabel");
 
-		$.post("./createTeam/"+$('#nTeamName').val()+"/"+label.attr('coachId')+"/"+label.attr('raceId'),
+		//$.post("./createTeam/"+$('#nTeamName').val()+"/"+label.attr('coachId')+"/"+label.attr('raceId'),
+        $.post(Routing.generate('createTeam', { teamname: $('#nTeamName').val(),coachid:label.attr('coachId'),raceid:label.attr('raceId')}),
 		{			
 		},
 		function(result)
@@ -196,7 +204,8 @@ $(document).ready(function() {
 		let test = $(this).parent().parent();
 		let totalPV = $("#totalPV");
 	
-		$.post("./remPlayer/"+$(this).attr("playerId"),
+		//$.post("./remPlayer/"+$(this).attr("playerId"),
+        $.post(Routing.generate('remPlayer',{playerId: $(this).attr("playerId")}),
 		{
 		},
 		function(result)
@@ -225,7 +234,8 @@ $(document).ready(function() {
 	
 	$("[id^='add_']").click(function(){
 
-		$.post("./add_inducement/" + $(this).attr("teamId") + '/' +$(this).attr("type"),
+		//$.post("./add_inducement/" + $(this).attr("teamId") + '/' +$(this).attr("type"),
+		$.post(Routing.generate('add_inducement',{teamId:$(this).attr("teamId"),type:$(this).attr("type")}),
 		{			
 		},
 		function(result)
@@ -243,7 +253,8 @@ $(document).ready(function() {
 	
 	$("[id^='rem_']").click(function(){
 
-		$.post("./rem_inducement/" + $(this).attr("teamId") + '/' +$(this).attr("type"),
+		//$.post("./rem_inducement/" + $(this).attr("teamId") + '/' +$(this).attr("type"),
+        $.post(Routing.generate('rem_inducement',{teamId:$(this).attr("teamId"),type:$(this).attr("type")}),
 		{			
 		},
 		function(result)
@@ -264,7 +275,8 @@ $(document).ready(function() {
 		
 		let clicked = $(this).parent().parent();
 		
-		$.post("/ret_team/" + $(this).attr("teamId"),
+		//$.post("/ret_team/" + $(this).attr("teamId"),
+		$.post(Routing.generate('ret_team/',{teamId:$(this).attr("teamId")}),
 		{			
 		},
 		function()
@@ -278,11 +290,8 @@ $(document).ready(function() {
 		
 		//console.log(JSON.stringify($("#formMatch").serializeToJSON()))
 		
-		$.post("/addGame",
-				
-			JSON.stringify($("#formMatch").serializeToJSON())
-		
-		,
+		//$.post("/addGame",JSON.stringify($("#formMatch").serializeToJSON()),
+        $.post(Routing.generate('addGame'),JSON.stringify($("#formMatch").serializeToJSON()),
 		function(result)
 		{
 			// console.log(result)
@@ -292,7 +301,8 @@ $(document).ready(function() {
 	
 	$("#comp").click(function(){
 
-        $.post("./addComp/"+$('#skill option:selected').val()+"/"+ $(this).attr('playerid'),
+       // $.post("./addComp/"+$('#skill option:selected').val()+"/"+ $(this).attr('playerid'),
+        $.post(Routing.generate('addComp',{skillid:$('#skill option:selected').val(), playerid:$(this).attr('playerid')}),
         {
         },
         function()
@@ -315,7 +325,8 @@ $(document).ready(function() {
                 $('#inp_'+id).after($('#loadingmessage'));
                 $('#loadingmessage').show();
 
-                $.post("./changeNr/"+$(this).val()+"/"+ $(this).attr('playerid'),
+                //$.post("./changeNr/"+$(this).val()+"/"+ $(this).attr('playerid'),
+				$.post(Routing.generate('changeNr',{newnr: $(this).val(),playerid:$(this).attr('playerid')}),
                 {
                 },
                 function(result)
@@ -349,7 +360,8 @@ $(document).ready(function() {
                 $('#inp_name_'+id).after($('#loadingmessage'));
                 $('#loadingmessage').show();
 
-                $.post("./changeName/"+$(this).val()+"/"+ $(this).attr('playerid'),
+                //$.post("./changeName/"+$(this).val()+"/"+ $(this).attr('playerid'),
+                $.post(Routing.generate('changeName',{newname: $(this).val(),playerid:$(this).attr('playerid')}),
                     {
                     },
                     function(result)

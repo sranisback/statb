@@ -32,7 +32,7 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 class StatBBController extends Controller
 {
     /**
-     * @Route("/showteams", name="showteams")
+     * @Route("/showteams", name="showteams", options = { "expose" = true })
      */
     public function show_teams()
     {	
@@ -59,7 +59,7 @@ class StatBBController extends Controller
     }
 	
     /**
-     * @Route("/showuserteams", name="showuserteams")
+     * @Route("/showuserteams", name="showuserteams", options = { "expose" = true })
      */	
     public function show_user_teams()
     {
@@ -119,7 +119,7 @@ class StatBBController extends Controller
 	}
 	
 	 /**
-     * @Route("/team/{id}/{type}", name="team")
+     * @Route("/team/{id}/{type}", name="team", options = { "expose" = true })
      */
     public function show_team($id,$type)
     {
@@ -323,7 +323,7 @@ class StatBBController extends Controller
     }
 	
 	 /**
-     * @Route("/player/{id}/{type}", name="Player")
+     * @Route("/player/{id}/{type}", name="Player", options = { "expose" = true })
      */
     public function show_player($id,$type)
     {
@@ -519,7 +519,7 @@ class StatBBController extends Controller
 	
 
 	/**
-     * @Route("/", name="index")
+     * @Route("/", name="index", options = { "expose" = true })
     */
 	 public function index(AuthenticationUtils $authenticationUtils)
 	 {
@@ -550,7 +550,7 @@ class StatBBController extends Controller
     }
 	
 	/**
-    * @Route("/login", name="login")
+    * @Route("/login", name="login", options = { "expose" = true })
     */
 	public function login(Request $request, AuthenticationUtils $authenticationUtils)
 	{
@@ -577,7 +577,7 @@ class StatBBController extends Controller
         return $this->redirectToRoute('index');
     }
 	/**
-    * @Route("/citation")
+    * @Route("/citation", options = { "expose" = true })
     */
     public function citation()
     {
@@ -590,7 +590,7 @@ class StatBBController extends Controller
 	
 	
 	/**
-    * @Route("/classement/general/{limit}", name="classementgen")
+    * @Route("/classement/general/{limit}", name="classementgen", options = { "expose" = true })
     */
 	public function class_gen($limit)
 	{
@@ -603,7 +603,7 @@ class StatBBController extends Controller
 	
 	
 	/**
-    * @Route("/classement/{type}/{teamorplayer}/{limit}", name="classement")
+    * @Route("/classement/{type}/{teamorplayer}/{limit}", name="classement", options = { "expose" = true })
     */
 	public function Sclass($type,$teamorplayer,$limit)
 	{
@@ -694,7 +694,7 @@ class StatBBController extends Controller
 	}
 	
 	/**
-    * @Route("/totalcas")
+    * @Route("/totalcas", options = { "expose" = true })
     */
 	public function Totalcas()
 	{
@@ -723,7 +723,7 @@ class StatBBController extends Controller
 	
 	
 	/**
-    * @Route("/lastfive")
+    * @Route("/lastfive", options = { "expose" = true })
     */
 	public function lastfive()
 	{
@@ -751,7 +751,7 @@ class StatBBController extends Controller
 	}
 	
 	/**
-    * @Route("/dyk", name="dyk")
+    * @Route("/dyk", name="dyk", options = { "expose" = true })
     */
 	public function dyk()
 	{
@@ -767,7 +767,7 @@ class StatBBController extends Controller
 	}
 	
 	/**
-	* @Route("/getposstat/{posId}")
+	* @Route("/getposstat/{posId}", name="getposstat", options = { "expose" = true })
 	*/
 	public function getposstat($posId)
 	{
@@ -830,7 +830,7 @@ class StatBBController extends Controller
 	}
 	
 	/**
-	* @Route("/raceSelector")
+	* @Route("/raceSelector", options = { "expose" = true })
 	*/
 	public function raceSelector()
 	{
@@ -841,7 +841,7 @@ class StatBBController extends Controller
 	}
 	
 	/**
-    * @Route("/createTeam/{teamname}/{coachid}/{raceid}")
+    * @Route("/createTeam/{teamname}/{coachid}/{raceid}", options = { "expose" = true })
     */
 	public function create_team($teamname,$coachid,$raceid)
 	{
@@ -967,7 +967,7 @@ class StatBBController extends Controller
 	}
 	
     /**
-     * @Route("/player_adder/{raceId}/{teamId}", name="player_adder")
+     * @Route("/player_adder/{raceId}/{teamId}", name="player_adder", options = { "expose" = true })
      */	
     public function player_adder($raceId,$teamId)
     {
@@ -980,7 +980,7 @@ class StatBBController extends Controller
 	}
 	
 	/**
-	* @Route("/add_player/{posId}/{teamId}")
+	* @Route("/add_player/{posId}/{teamId}", options = { "expose" = true })
 	*/
 	public function add_player($posId,$teamId)
 	{
@@ -1116,7 +1116,7 @@ class StatBBController extends Controller
 
 	
 	/**
-	* @Route("/remPlayer/{playerId}")
+	* @Route("/remPlayer/{playerId}", options = { "expose" = true })
 	*/
 	public function remPlayer($playerId)
 	{
@@ -1233,7 +1233,7 @@ class StatBBController extends Controller
 	}
 	
 	/**
-    * @Route("/add_inducement/{teamId}/{type}")
+    * @Route("/add_inducement/{teamId}/{type}", options = { "expose" = true })
     */
     public function add_inducement($teamId,$type)
     {
@@ -1401,7 +1401,7 @@ class StatBBController extends Controller
 	}
 	
 	/**
-    * @Route("/rem_inducement/{teamId}/{type}")
+    * @Route("/rem_inducement/{teamId}/{type}", options = { "expose" = true })
     */
     public function rem_inducement($teamId,$type)
     {
@@ -1578,7 +1578,7 @@ class StatBBController extends Controller
 	}
 	
 	/**
-    * @Route("/ret_team/{teamId}")
+    * @Route("/ret_team/{teamId}", options = { "expose" = true })
     */
     public function ret_team($teamId)
     {
@@ -1622,7 +1622,7 @@ class StatBBController extends Controller
 	}
 	
 	/**
-    * @Route("/dropdownPlayer/{teamId}/{nbr}")
+    * @Route("/dropdownPlayer/{teamId}/{nbr}", options = { "expose" = true })
     */
 
     public function dropdownPlayer($teamId,$nbr)
@@ -1656,7 +1656,7 @@ class StatBBController extends Controller
 	
 	
 	/**
-    * @Route("/addGame")
+    * @Route("/addGame", options = { "expose" = true })
     */
 
     public function addGame(Request $request)
@@ -2008,7 +2008,7 @@ class StatBBController extends Controller
 	}
 	
 	/**
-     * @Route("/chkteam/{teamId}", name="Chkteam")
+     * @Route("/chkteam/{teamId}", name="Chkteam", options = { "expose" = true })
      */
 	public function chkteam($teamId)
     {
@@ -2213,7 +2213,7 @@ class StatBBController extends Controller
 	}
 	
 	/**
-     * @Route("/skillmodal/{playerid}", name="skillmodal")
+     * @Route("/skillmodal/{playerid}", name="skillmodal", options = { "expose" = true })
      */
 	public function skillmodal($playerid)
     {
@@ -2235,7 +2235,7 @@ class StatBBController extends Controller
 	}
 
 	/**
-     * @Route("/addComp/{skillid}/{playerid}", name="addComp")
+     * @Route("/addComp/{skillid}/{playerid}", name="addComp", options = { "expose" = true })
     */
 	public function addComp($skillid,$playerid)
     {
@@ -2298,7 +2298,7 @@ class StatBBController extends Controller
 	}
 
     /**
-     * @Route("/changeNr/{newnr}/{playerid}", name="changeNr")
+     * @Route("/changeNr/{newnr}/{playerid}", name="changeNr", options = { "expose" = true })
      */
     public function changeNr($newnr,$playerid)
     {
@@ -2319,7 +2319,7 @@ class StatBBController extends Controller
     }
 
     /**
-     * @Route("/changeName/{newname}/{playerid}", name="changeName")
+     * @Route("/changeName/{newname}/{playerid}", name="changeName", options = { "expose" = true })
      */
     public function changeName($newname,$playerid)
     {
