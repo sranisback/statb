@@ -33,7 +33,7 @@
 						<th>Mvp</th>
 						<th>Agg</th>
 						<th>Spp</th>
-						<th>Cost</th>
+						<th class="text-right" >Cost</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -55,7 +55,7 @@
 						<td><span class="glyphicon glyphicon-remove text-danger"></span></td>
 					{% endif %}				
 						<td><div id="number_{{player.playerId}}" playerid="{{player.playerId}}">{{player.nr}}</div></td>
-					<td><div id="name_{{player.playerId}}" playerid="{{player.playerId}}">{{player.name}} </div><a class="glyphicon glyphicon-search" href="{{ path('Player', {'id': player.playerId,'type':'n' }) }}"></a>
+					<td><span id="name_{{player.playerId}}" playerid="{{player.playerId}}">{{player.name}} </span><a class="glyphicon glyphicon-search" href="{{ path('Player', {'id': player.playerId,'type':'n' }) }}"></a>
 						{% if player.type == 2 %}
 						<p class="glyphicon glyphicon-euro" />
 						{% endif %}
@@ -132,7 +132,8 @@
                     <td class="text-right" id="totalPV">{{tdata.playersCost}}</td>
 				</tr>
 				<tr>
-					<td colspan =4 >Races : {{team.fRace.name}}</td><td colspan =3 class="text-right"> Relance : </td><td colspan =2>
+					<td colspan =4 >Races : {{team.fRace.name}}</td>
+					<td colspan =5 class="text-right"> Relance :
 					{%if app.user and team.retired == 0%}
 						<span class="glyphicon glyphicon-plus text-success" id="add_rr" type="rr" teamId = "{{team.teamId}}"></span>
 					{% endif %}					
@@ -143,8 +144,8 @@
 					x {{team.fRace.costRr}}</td><td class="text-right" id="trr">{{tdata.rerolls}}</td>
 				</tr>
 				<tr>
-					<td colspan =4 >Trésor : <span id="tresor">{{team.treasury}}</span></td><td colspan =3 class="text-right"> Popularité : </td>
-					<td colspan =2>
+					<td colspan =4 >Trésor : <span id="tresor">{{team.treasury}}</span></td>
+					<td colspan =5 class="text-right"> Popularité :
 					{%if app.user and team.retired == 0%}
 						<span class="glyphicon glyphicon-plus text-success" id="add_pop" type="pop" teamId = "{{team.teamId}}"></span>
 					{% endif %}
@@ -157,8 +158,8 @@
 					<td class="text-right" id="tpop">{{tdata.pop}}</td>
 				</tr>
 				<tr>
-					<td colspan =4 >TV : <span id="pTv">{{tdata.tv/1000}}</span></td><td colspan =3 class="text-right"> Ass. Coach : </td>
-					<td colspan =2>
+					<td colspan =4 >TV : <span id="pTv">{{tdata.tv/1000}}</span></td>
+					<td colspan =5 class="text-right"> Ass. Coach :
 					{%if app.user and team.retired == 0%}
 						<span class="glyphicon glyphicon-plus text-success" id="add_ac" type="ac" teamId = "{{team.teamId}}"></span>
 					{% endif %}	
@@ -170,8 +171,8 @@
 					</td><td class="text-right" id="tac">{{tdata.asscoaches}}</td>
 				</tr>
 				<tr>
-					<td colspan =4 >ELO : {{team.elo}}</td><td colspan =3 class="text-right"> Cheerleaders : </td>
-					<td colspan =2>
+					<td colspan =4 >ELO : {{team.elo}}</td>
+					<td colspan =5 class="text-right"> Cheerleaders :
 					{%if app.user and team.retired == 0%}
 						<span class="glyphicon glyphicon-plus text-success" id="add_chl" type="chl" teamId = "{{team.teamId}}"></span>
 					{% endif %}						
@@ -182,8 +183,8 @@
 					x 10000</td> <td class="text-right" id="tchl">{{tdata.cheerleader}}</td>
 				</tr>
 				<tr>
-					<td colspan =4 >Stadium : {{team.stadiumName}}</td><td colspan =3 class="text-right"> Apothicaire : </td>
-					<td colspan =2>
+					<td colspan =4 >Stadium : {{team.stadiumName}}</td>
+					<td colspan =5 class="text-right"> Apothicaire :
 					{%if app.user and team.retired == 0%}
 						<span class="glyphicon glyphicon-plus text-success" id="add_apo" type="apo" teamId = "{{team.teamId}}"></span>
 					{% endif %}								
