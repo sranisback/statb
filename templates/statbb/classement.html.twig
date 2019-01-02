@@ -22,9 +22,6 @@
 						</div>
 					</div>
 				</div>
-
-
-
 			</td>
 			<td><img src="{{ asset('build/images/race_icons/'~team.icon~'.png') }}" class="img-responsive"></td><td>{{team.race}}</td><td>{{team.name}}</td><td>{{team.Win}}</td><td>{{team.Draw}}</td><td>{{team.Lost}}</td><td>{{team.pts}}</td><td>{{team.nbrg}}</td><td>{{team.tv}}</td>
 		</tr>
@@ -38,7 +35,7 @@
 {% endif %}
 {% if limit > 0%}
 
-<a type="button" class="btn btn-primary" data-toggle="modal" href="{{ path('classementgen',{'limit':0}) }}" data-target="#cltgen_">Toutes les équipes</a>
+<a type="button" class="btn btn-primary" data-toggle="modal" href="{{ path('classementgen',{'limit':0}) }}" data-target="#cltgen">Toutes les équipes</a>
 
 {% endif %}
 <div class="modal fade" id="cltgen">

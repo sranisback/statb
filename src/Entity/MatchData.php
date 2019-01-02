@@ -91,7 +91,9 @@ class MatchData
      * @var \Players
      *
      * @ORM\ManyToOne(targetEntity="Players", fetch="EAGER")
-     * @ORM\JoinColumn(name="f_player_id", referencedColumnName="player_id")
+     * @ORM\JoinColumns({
+     *      @ORM\JoinColumn(name="f_player_id", referencedColumnName="player_id")
+     * })
      */
     private $fPlayer;
 

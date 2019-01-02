@@ -87,7 +87,7 @@ class Teams
      *
      * @ORM\Column(name="retired", type="boolean", nullable=false)
      */
-    private $retired = '0';
+    private $retired = false;
 
     /**
      * @var int|null
