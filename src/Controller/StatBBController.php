@@ -190,9 +190,6 @@ class StatBBController extends Controller
 
             if ($player->getInjNi() > 0) {
                 $listskill .= '<text class="text-danger">+1 Ni</text>, ';
-
-                $tcost += 30000;
-
             }
 
             if ($player->getAchMa() > 0) {
