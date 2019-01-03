@@ -38,7 +38,10 @@ class StatBBController extends Controller
 
         $setting = $this->getDoctrine()->getRepository(Setting::class)->findOneBy(['name' => 'year']);
 
-        $teams = $this->getDoctrine()->getRepository(Teams::class)->findBy(['year'=> $setting->getValue(),'retired'=>false], array('name' => 'ASC'));
+        $teams = $this->getDoctrine()->getRepository(Teams::class)->findBy(
+            ['year' => $setting->getValue(), 'retired' => false],
+            array('name' => 'ASC')
+        );
 
         foreach ($teams as $number => $team) {
 
@@ -64,7 +67,7 @@ class StatBBController extends Controller
         $setting = $this->getDoctrine()->getRepository(Setting::class)->findOneBy(['name' => 'year']);
 
         $coachTeam = $this->getDoctrine()->getRepository(Teams::class)->findBy(
-            ['ownedByCoach' => $this->getUser(), 'year' => $setting->getValue(),'retired'=>false]
+            ['ownedByCoach' => $this->getUser(), 'year' => $setting->getValue(), 'retired' => false]
         );
 
         $count = 0;
@@ -182,6 +185,13 @@ class StatBBController extends Controller
                     $listskill .= '<text class="text-danger">'.$comps->getFSkill()->getName().'</text>, ';
 
                 }
+
+            }
+
+            if ($player->getInjNi() > 0) {
+                $listskill .= '<text class="text-danger">+1 Ni</text>, ';
+
+                $tcost += 30000;
 
             }
 
@@ -865,14 +875,6 @@ class StatBBController extends Controller
         $response->setStatusCode(200);
 
         return $response;
-    }
-
-    /**
-     * @Route("/tk", name="tk")
-     */
-    public function tk()
-    {
-        return '<div class="panel"><h1>test</h1></div>';
     }
 
     /**
@@ -1596,7 +1598,9 @@ class StatBBController extends Controller
         $tt = 0;
 
         foreach ($players as $player) {
-            if ($player->getStatus() == 1 || $player->getStatus() == 9 || $player->getInjRpm() == 0) {
+            if ($player->getStatus() == 7 || $player->getStatus() == 8 || $player->getInjRpm() == 1) {
+            }// if ($player->getStatus() == 1 || $player->getStatus() == 9 || $player->getInjRpm() == 0)
+            else {
                 $matchdata = new MatchData();
 
                 $matchdata->setAgg(0);
@@ -1618,13 +1622,31 @@ class StatBBController extends Controller
                 $entityManager->flush();
 
             }
+        }
+
+        foreach ($players as $player){
+
+            if ($player->getStatus() == 7 || $player->getStatus() == 8 ) {
+
+            }// if ($player->getStatus() == 1 || $player->getStatus() == 9 || $player->getInjRpm() == 0)
+            elseif($player->getInjRpm() == 1) {
+
+                $player->setInjRpm(0);
+
+                $entityManager->persist($matchdata);
+
+                $entityManager->flush();
+            }
+
         }
 
         $players = $this->getDoctrine()->getRepository(Players::class)->findBy(['ownedByTeam' => $team2->getTeamId()]);
 
         foreach ($players as $player) {
-            if ($player->getStatus() == 1 || $player->getStatus() == 9 || $player->getInjRpm() == 0) {
+            if ($player->getStatus() == 7 || $player->getStatus() == 8 || $player->getInjRpm() == 1) {
 
+            }// if ($player->getStatus() == 1 || $player->getStatus() == 9 || $player->getInjRpm() == 0)
+            else {
                 $matchdata = new MatchData();
 
                 $matchdata->setAgg(0);
@@ -1648,7 +1670,23 @@ class StatBBController extends Controller
             }
         }
 
-        $team1->setTreasury($team1->getTreasury() + $parametersAsArray['gain1']);
+        foreach ($players as $player){
+
+            if ($player->getStatus() == 7 || $player->getStatus() == 8 ) {
+
+            }// if ($player->getStatus() == 1 || $player->getStatus() == 9 || $player->getInjRpm() == 0)
+            elseif($player->getInjRpm() == 1) {
+
+                $player->setInjRpm(0);
+
+                $entityManager->persist($matchdata);
+
+                $entityManager->flush();
+            }
+
+        }
+
+            $team1->setTreasury($team1->getTreasury() + $parametersAsArray['gain1']);
         $team2->setTreasury($team2->getTreasury() + $parametersAsArray['gain2']);
 
 
