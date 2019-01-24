@@ -11,7 +11,8 @@
 		<button type="button" id="showall_btn" class="btn btn-primary">
 			  Show All players
 		</button>		
-		<div class="panel-body table-responsive">
+		<div class="panel-body ">
+			<div class="table-responsive">
 			<table class="table" id="teamsheet">
 				<thead>
 					<tr>
@@ -123,6 +124,7 @@
 				{%if app.user and team.retired == 0%}
 					{{ render(controller('App\\Controller\\StatBBController::player_adder',{'raceId':team.fRace.raceId,'teamId':team.teamId} )) }}
 					<a type="button" class="btn btn-primary" href="{{ path('Chkteam', {'teamId': team.teamId} ) }}">Check Equipe</a>
+					<a href="{{ path('pdfteam', {'id': team.teamId} ) }}">PDF</a>
 				{% endif %}
 				<table class="table">
 				<tr>
@@ -199,6 +201,7 @@
 				</tr>
 
 			</table>
+			</div>
 		</div>
 	</div>
 </div>

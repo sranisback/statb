@@ -26,7 +26,8 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class StatBBController extends Controller
 {
@@ -299,18 +300,18 @@ class StatBBController extends Controller
         if ($type == "modal") {
             return $this->render(
                 'statbb/team_modal.html.twig',
-                array('players' => $players, 'team' => $team, 'pdata' => $pdata, 'tdata' => $tdata)
+                ['players' => $players, 'team' => $team, 'pdata' => $pdata, 'tdata' => $tdata]
             );
         } else {
             return $this->render(
                 'statbb/team.html.twig',
-                array(
+                [
                     'players' => $players,
                     'last_username' => $lastUsername,
                     'team' => $team,
                     'pdata' => $pdata,
                     'tdata' => $tdata,
-                )
+                ]
             );
         }
 
@@ -609,35 +610,35 @@ class StatBBController extends Controller
             switch ($type) {
                 case 'bash':
 
-                    $title = 'The Bash Lord - Most CAS';
+                    $title = 'Le Bash Lord - Record CAS';
                     $class = 'class_bash';
 
                     break;
 
                 case 'td':
 
-                    $title = 'The Golden Hand - Most TD';
+                    $title = 'Le Marqueur - Record TD';
                     $class = 'class_td';
 
                     break;
 
                 case 'xp':
 
-                    $title = 'The Best - Most SPP';
+                    $title = 'Le Meilleur - Record SPP';
                     $class = 'class_xp';
 
                     break;
 
                 case 'pass':
 
-                    $title = 'The Ball Giver - Most Pass';
+                    $title = 'La Main d\'or - Record Passes';
                     $class = 'class_pass';
 
                     break;
 
                 case 'foul' :
 
-                    $title = 'The Cheater - Most Foul';
+                    $title = 'Le Tricheur - Record Fautes';
                     $class = 'class_foul';
                     break;
             }
@@ -658,14 +659,14 @@ class StatBBController extends Controller
             switch ($type) {
                 case 'bash':
 
-                    $title = 'The most cas team';
+                    $title = 'Les plus méchants';
                     $class = 'class_Tbash';
 
                     break;
 
                 case 'td':
 
-                    $title = 'The most Td team';
+                    $title = 'Le plus de TD';
                     $class = 'class_Ttd';
 
                     break;
@@ -673,13 +674,13 @@ class StatBBController extends Controller
 
                 case 'dead' :
 
-                    $title = 'The most deads team';
+                    $title = 'Fournisseurs de cadavres';
                     $class = 'class_Tdead';
                     break;
 
                 case 'foul' :
 
-                    $title = 'The most foul team';
+                    $title = 'Les tricheurs';
                     $class = 'class_Tfoul';
                     break;
             }
@@ -721,8 +722,8 @@ class StatBBController extends Controller
         }
 
         return new Response(
-            '<strong>Total : '.$total_cas[0]['score'].' In '.count($matches).' games</strong><br/>
-			 <strong>By Game :  '.round($total_cas[0]['score'] / count($matches), 2).'</strong>'
+            '<strong>Total : '.$total_cas[0]['score'].' En '.count($matches).' Matches.</strong><br/>
+			 <strong>Par Matches :  '.round($total_cas[0]['score'] / count($matches), 2).'</strong>'
         );
 
     }
@@ -1621,12 +1622,12 @@ class StatBBController extends Controller
             }
         }
 
-        foreach ($players as $player){
+        foreach ($players as $player) {
 
-            if ($player->getStatus() == 7 || $player->getStatus() == 8 ) {
+            if ($player->getStatus() == 7 || $player->getStatus() == 8) {
 
             }// if ($player->getStatus() == 1 || $player->getStatus() == 9 || $player->getInjRpm() == 0)
-            elseif($player->getInjRpm() == 1) {
+            elseif ($player->getInjRpm() == 1) {
 
                 $player->setInjRpm(0);
 
@@ -1667,12 +1668,12 @@ class StatBBController extends Controller
             }
         }
 
-        foreach ($players as $player){
+        foreach ($players as $player) {
 
-            if ($player->getStatus() == 7 || $player->getStatus() == 8 ) {
+            if ($player->getStatus() == 7 || $player->getStatus() == 8) {
 
             }// if ($player->getStatus() == 1 || $player->getStatus() == 9 || $player->getInjRpm() == 0)
-            elseif($player->getInjRpm() == 1) {
+            elseif ($player->getInjRpm() == 1) {
 
                 $player->setInjRpm(0);
 
@@ -1683,7 +1684,7 @@ class StatBBController extends Controller
 
         }
 
-            $team1->setTreasury($team1->getTreasury() + $parametersAsArray['gain1']);
+        $team1->setTreasury($team1->getTreasury() + $parametersAsArray['gain1']);
         $team2->setTreasury($team2->getTreasury() + $parametersAsArray['gain2']);
 
 
@@ -2327,6 +2328,212 @@ class StatBBController extends Controller
         $response->setStatusCode(200);
 
         return $response;
+    }
+
+    /**
+     * @Route("/pdfteam/{id}", name="pdfteam", options = { "expose" = true })
+     */
+    public function pdfteam($id)
+    {
+
+        $players = $this->getDoctrine()->getRepository(Players::class)->findBy(
+            array('ownedByTeam' => $id),
+            array('nr' => 'ASC')
+        );
+
+        $team = $this->getDoctrine()->getRepository(Teams::class)->find($id);
+
+        $allskills = $this->getDoctrine()->getRepository(GameDataSkills::class)->findAll();
+
+        $count = 0;
+        $tdata['playersCost'] = 0;
+
+        if (empty($players)) {
+            $pdata = '';
+        } else {
+
+        }
+
+        foreach ($players as $number => $player) {
+
+            if ($player->getStatus() == 7 || $player->getStatus() == 8 || $player->getInjRpm() == 1) {
+                unset($player);
+            }
+            else{
+
+
+                $tcost = 0;
+
+                $playerskills = explode(",", $player->getFPos()->getSkills());
+
+                $listskill = '';
+
+                foreach ($playerskills as $playerskill) {
+                    foreach ($allskills as $baseskill) {
+                        if ($baseskill->getSkillId() == $playerskill) {
+                            $listskill .= '<text class="test-primary">'.$baseskill->getName().'</text>, ';
+                        }
+
+                    }
+                }
+
+                if ($listskill == '<text class="test-primary"></text>, ') {
+                    $listskill = '';
+                }
+
+                $supcomp = $this->getDoctrine()->getRepository(PlayersSkills::class)->findBy(
+                    ['fPid' => $player->getPlayerId()]
+                );
+
+                foreach ($supcomp as $comps) {
+
+
+                    if ($comps->getType() == 'N') {
+
+                        $tcost += 20000;
+                        $listskill .= '<text class="text-success">'.$comps->getFSkill()->getName().'</text>, ';
+
+                    } else {
+
+                        $tcost += 30000;
+                        $listskill .= '<text class="text-danger">'.$comps->getFSkill()->getName().'</text>, ';
+
+                    }
+
+                }
+
+                if ($player->getInjNi() > 0) {
+                    $listskill .= '<text class="text-danger">+1 Ni</text>, ';
+                }
+
+                if ($player->getAchMa() > 0) {
+                    $listskill .= '<text class="text-success">+1 Ma</text>, ';
+
+                    $tcost += 30000;
+
+                }
+
+                if ($player->getAchSt() > 0) {
+                    $listskill .= '<text class="text-success">+1 St</text>, ';
+
+                    $tcost += 50000;
+                }
+
+                if ($player->getAchAg() > 0) {
+                    $listskill .= '<text class="text-success">+1 Ag</text>, ';
+
+                    $tcost += 40000;
+                }
+
+                if ($player->getAchAv() > 0) {
+                    $listskill .= '<text class="text-success">+1 Av</text>, ';
+
+                    $tcost += 30000;
+                }
+
+                $mdata = $this->getDoctrine()->getRepository(MatchData::class)->findBy(
+                    ['fPlayer' => $player->getPlayerId()]
+                );
+
+                $tcp = 0;
+                $ttd = 0;
+                $tint = 0;
+                $tcas = 0;
+                $tmvp = 0;
+                $tagg = 0;
+
+                foreach ($mdata as $game) {
+                    $tcp += $game->getCp();
+                    $ttd += $game->getTd();
+                    $tint += $game->getIntcpt();
+                    $tcas += ($game->getBh() + $game->getSi() + $game->getKi());
+                    $tmvp += $game->getMvp();
+                    $tagg += $game->getAgg();
+
+                }
+
+                $pdata[$count]['pid'] = $player->getPlayerId();
+                $pdata[$count]['nbrm'] = count($mdata);
+                $pdata[$count]['cp'] = $tcp;
+                $pdata[$count]['td'] = $ttd;
+                $pdata[$count]['int'] = $tint;
+                $pdata[$count]['cas'] = $tcas;
+                $pdata[$count]['mvp'] = $tmvp;
+                $pdata[$count]['agg'] = $tagg;
+                $pdata[$count]['skill'] = substr($listskill, 0, strlen($listskill) - 2);
+                $pdata[$count]['spp'] = $tcp + ($ttd * 3) + ($tint * 2) + ($tcas * 2) + ($tmvp * 5);
+                $pdata[$count]['cost'] = $player->getFPos()->getCost() + $tcost;
+
+                switch ($player->getStatus()) {
+                    case 7:
+                        $pdata[$count]['status'] = 'VENDU';
+                        break;
+
+                    case 8:
+                        $pdata[$count]['status'] = 'MORT';
+                        break;
+
+                    case 9:
+                        $pdata[$count]['status'] = 'PX';
+                        $tdata['playersCost'] += $pdata[$count]['cost'];
+                        break;
+
+                    default:
+
+                        if ($player->getInjRpm() != 0) {
+                            $pdata[$count]['status'] = 'RPM';
+                        } else {
+                            $pdata[$count]['status'] = '';
+                            $tdata['playersCost'] += $pdata[$count]['cost'];
+                        }
+
+
+                        break;
+                }
+
+
+                if (!$player->getName()) {
+
+                    $player->setName('Inconnu');
+                }
+
+                $count++;
+
+            }
+        }
+
+        $tdata['rerolls'] = $team->getRerolls() * $team->getFRace()->getCostRr();
+        $tdata['pop'] = ($team->getFf() + $team->getFfBought()) * 10000;
+        $tdata['asscoaches'] = $team->getAssCoaches() * 10000;
+        $tdata['cheerleader'] = $team->getCheerleaders() * 10000;
+        $tdata['apo'] = $team->getApothecary() * 50000;
+        $tdata['tv'] = $tdata['playersCost'] + $tdata['rerolls'] + $tdata['pop'] + $tdata['asscoaches'] + $tdata['cheerleader'] + $tdata['apo'];
+
+        // Configure Dompdf according to your needs
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+        $pdfOptions->setIsRemoteEnabled(true);
+        $pdfOptions->setIsHtml5ParserEnabled(true);
+
+        $dompdf = new Dompdf($pdfOptions);
+
+        $html = $this->renderView('statbb/pdfteam.html.twig', [
+            'players' => $players, 'team' => $team, 'pdata' => $pdata, 'tdata' => $tdata
+        ]);
+
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+
+         // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'landscape');
+
+                // Render the HTML as PDF
+        $dompdf->render();
+
+        $dompdf->stream("mypdf.pdf", [
+                    "Attachment" => true
+                ]);
+
     }
 
 }
