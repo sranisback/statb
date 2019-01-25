@@ -974,6 +974,7 @@ class StatBBController extends Controller
                 $player->setOwnedByTeam($team);
                 $player->setFCid($team->getOwnedByCoach());
                 $player->setValue($position->getCost());
+                $player->setStatus(1);
 
                 $entityManager->persist($player);
 
@@ -2356,11 +2357,6 @@ class StatBBController extends Controller
 
         foreach ($players as $number => $player) {
 
-            if ($player->getStatus() == 7 || $player->getStatus() == 8 || $player->getInjRpm() == 1) {
-                unset($player);
-            }
-            else{
-
 
                 $tcost = 0;
 
@@ -2482,6 +2478,7 @@ class StatBBController extends Controller
 
                         if ($player->getInjRpm() != 0) {
                             $pdata[$count]['status'] = 'RPM';
+                            $pdata[$count]['cost'] = '<s>'.$pdata[$count]['cost'].'</s>';
                         } else {
                             $pdata[$count]['status'] = '';
                             $tdata['playersCost'] += $pdata[$count]['cost'];
@@ -2499,7 +2496,7 @@ class StatBBController extends Controller
 
                 $count++;
 
-            }
+            //}
         }
 
         $tdata['rerolls'] = $team->getRerolls() * $team->getFRace()->getCostRr();
@@ -2527,10 +2524,12 @@ class StatBBController extends Controller
          // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
         $dompdf->setPaper('A4', 'landscape');
 
-                // Render the HTML as PDF
+         // Render the HTML as PDF
         $dompdf->render();
 
-        $dompdf->stream("mypdf.pdf", [
+      //  echo $html;
+
+        $dompdf->stream($team->getName().'.pdf', [
                     "Attachment" => true
                 ]);
 
