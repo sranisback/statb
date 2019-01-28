@@ -750,13 +750,15 @@ class StatBBController extends Controller
 
         }
 
-        if ($teamId) {
+        if($teamId)
+        {
             foreach ($matches as $number => $match) {
-                if ($match->getTeam2()->getTeamId() == $teamId || $match->getTeam1()->getTeamId() == $teamId) {
+                if($match->getTeam2()->getTeamId() == $teamId || $match->getTeam1()->getTeamId() == $teamId)
+                {
                     $games[] = $match;
                 }
             }
-        } else {
+        }else{
 
             for ($x = 0; $x < 5; $x++) {
                 $games[] = $matches[$x];
@@ -765,7 +767,8 @@ class StatBBController extends Controller
 
         }
 
-        return $this->render('statbb/lastfivesmatches.html.twig', ['games' => $games]);
+
+        return $this->render('statbb/lastfivesmatches.html.twig', array('games' => $games));
 
     }
 
