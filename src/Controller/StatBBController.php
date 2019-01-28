@@ -730,10 +730,11 @@ class StatBBController extends Controller
 
 
     /**
-     * @Route("/lastfive", options = { "expose" = true })
+     * @Route("/lastfive/{teamId}", options = { "expose" = true })
      */
-    public function lastfive()
+    public function lastfive($teamId = null)
     {
+
         $setting = $this->getDoctrine()->getRepository(Setting::class)->findOneBy(['name' => 'year']);
 
         $matches = $this->getDoctrine()->getRepository(Matches::class)->findBy(array(), array('dateCreated' => 'DESC'));
@@ -747,9 +748,23 @@ class StatBBController extends Controller
 
         }
 
-        for ($x = 0; $x < 5; $x++) {
-            $games[$x] = $matches[$x];
+        if($teamId)
+        {
+            foreach ($matches as $number => $match) {
+                if($match->getTeam2()->getTeamId() == $teamId || $match->getTeam1()->getTeamId() == $teamId)
+                {
+                    $games[] = $match;
+                }
+            }
+        }else{
+
+            for ($x = 0; $x < 5; $x++) {
+                $games[] = $matches[$x];
+            }
+
+
         }
+
 
         return $this->render('statbb/lastfivesmatches.html.twig', array('games' => $games));
 
@@ -763,7 +778,6 @@ class StatBBController extends Controller
         $dyk = $this->getDoctrine()->getRepository(Dyk::class)->findAll();
 
         $nbr = rand(1, count($dyk) - 1);
-
 
         return new Response(
             '<b>Did you know ?</b> <i>'.$dyk[$nbr]->getDykText().'</i>'
