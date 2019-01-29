@@ -560,7 +560,7 @@ $(document).ready(function () {
         "lengthChange": false,
         "pageLength": 20,
         "info": false
-    } );
+    });
 
     $('#showall_btn').click(function () {
 
@@ -898,20 +898,20 @@ $(document).ready(function () {
 
     });
 
-    $("[id^='team_']").on('show.bs.modal',function () {
-        var height = $(window).height() - 200;
-        $(this).find(".modal-body").css("max-height", height);
+
+    $("[id^='team_']").on('show.bs.modal', function () {
+        /*     var height = $(window).height() - 200;
+             $(this).find(".modal-body").css("max-height", height);*/
     });
 
 
-    $("[id^='team_']").on('loaded.bs.modal',function () {
+    $("[id^='team_']").on('loaded.bs.modal', function () {
 
 
     });
 
-    $("[id^='team_']").on('hidden.bs.modal',function () {
+    $("[id^='team_']").on('hidden.bs.modal', function () {
 
-       $("[id^=modal_team_]").remove();
 
     });
 
