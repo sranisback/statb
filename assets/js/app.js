@@ -35,7 +35,7 @@ const routes = {
             "schemes": []
         },
         "team": {
-            "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "id"], ["text", "\/team"]],
+            "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "teamid"], ["text", "\/team"]],
             "defaults": [],
             "requirements": [],
             "hosttokens": [],
@@ -303,7 +303,7 @@ const routes = {
             "schemes": []
         },
         "team": {
-            "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "id"], ["text", "\/team"]],
+            "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "teamid"], ["text", "\/team"]],
             "defaults": [],
             "requirements": [],
             "hosttokens": [],
@@ -722,7 +722,7 @@ $(document).ready(function () {
             }),
             {},
             function (result) {
-                window.location.href = "team/" + result + "/n"
+                window.location.href = "teamid/" + result + "/n"
             })
 
     });
@@ -892,7 +892,7 @@ $(document).ready(function () {
 
     });
 
-    $(".modal").on('show.bs.modal',function () {
+    $(".modal").on('show.bs.modal', function () {
 
         $(this).draggable();
 
@@ -900,8 +900,7 @@ $(document).ready(function () {
 
 
     $("[id^='team_']").on('show.bs.modal', function () {
-        /*     var height = $(window).height() - 200;
-             $(this).find(".modal-body").css("max-height", height);*/
+
     });
 
 
