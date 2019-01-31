@@ -5,6 +5,7 @@ namespace App\Service;
 
 use App\Entity\MatchData;
 
+use App\Entity\Matches;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 use App\Entity\Players;
@@ -242,5 +243,62 @@ class playerService
                 }
 
         }
+    }
+
+    /**
+     * @param Players $joueur
+     * @param Matches $match
+     * @return array
+     */
+    public function actionDuJoueurDansUnMatch(Players $joueur,MatchData $matchData)
+    {
+        $tcp = 0;
+        $ttd = 0;
+        $tint = 0;
+        $tcas = 0;
+        $tmvp = 0;
+        $tagg = 0;
+
+
+        $tcp += $matchData->getCp();
+        $ttd += $matchData->getTd();
+        $tint += $matchData->getIntcpt();
+        $tcas += ($matchData->getBh() + $matchData->getSi() + $matchData->getKi());
+        $tmvp += $matchData->getMvp();
+        $tagg += $matchData->getAgg();
+
+        $rec = '';
+
+        if ($matchData->getCp() > 0 || $matchData->getTd() > 0 || $matchData->getIntcpt() > 0 || ($matchData->getBh() + $matchData->getSi(
+                ) + $matchData->getKi()) > 0 || $matchData->getMvp() > 0 || $matchData->getAgg() > 0) {
+
+            if ($matchData->getCp() > 0) {
+                $rec .= 'CP: '.$matchData->getCp().', ';
+            }
+
+            if ($matchData->getTd() > 0) {
+                $rec .= 'TD: '.$matchData->getTd().', ';
+            }
+
+            if ($matchData->getIntcpt() > 0) {
+                $rec .= 'INT: '.$matchData->getIntcpt().',';
+            }
+
+            if (($matchData->getBh() + $matchData->getSi() + $matchData->getKi()) > 0) {
+                $rec .= 'CAS: '.($matchData->getBh() + $matchData->getSi() + $matchData->getKi()).', ';
+            }
+
+            if ($matchData->getMvp() > 0) {
+                $rec .= 'MVP: '.$matchData->getMvp().', ';
+            }
+
+            if ($matchData->getAgg() > 0) {
+                $rec .= 'AGG: '.$matchData->getAgg().', ';
+            }
+
+
+        }
+
+        return [$tcp, $ttd, $tint, $tcas, $tmvp, $tagg, $rec];
     }
 }

@@ -43,7 +43,7 @@ const routes = {
             "schemes": []
         },
         "Player": {
-            "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "id"], ["text", "\/player"]],
+            "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "playerid"], ["text", "\/player"]],
             "defaults": [],
             "requirements": [],
             "hosttokens": [],
@@ -311,7 +311,7 @@ const routes = {
             "schemes": []
         },
         "Player": {
-            "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "id"], ["text", "\/player"]],
+            "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "playerid"], ["text", "\/player"]],
             "defaults": [],
             "requirements": [],
             "hosttokens": [],
