@@ -5,7 +5,7 @@
         <div class="col-md-3">
             <div class="col-sm-12 col-lg-12 col-md-12 panel panel-default" style="padding:0px;">
                 <div class="panel-heading">
-                    <h4><a data-toggle="modal" data-target="#team_{{ team.teamid }}"
+                    <h4><a data-toggle="modal" data-target="#team_b_{{ team.teamid }}"
                            href='{{ path("team",{"teamid":team.teamid,"type":"modal"}) }}'>{{ team.name }}</a></h4>
                 </div>
                 <div class="panel-body">
@@ -26,7 +26,7 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="team_{{ team.teamid }}">
+            <div class="modal fade" id="team_b_{{ team.teamid }}">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <img src="{{ asset('build/images/big-loader.gif') }}" class="img-responsive center-block">
