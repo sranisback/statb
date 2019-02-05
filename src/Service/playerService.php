@@ -48,13 +48,14 @@ class playerService
 
         $toutesLesCompsDuJoueur .= $compsupp[0];
 
-       // $coutTotal += $compsupp[1];
-
         $statpec = $this->listenivSpeciauxEtSurcout($joueur);
 
         $toutesLesCompsDuJoueur .= $statpec[0];
 
-       // $coutTotal += $statpec[1];
+        if($joueur->getType()!= 1){
+
+            $toutesLesCompsDuJoueur = '<text class="text-danger">Loner</text>, ';
+        }
 
         $actions = $this->actionsDuJoueur($joueur);
 

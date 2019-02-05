@@ -226,7 +226,7 @@ const routes = {
             "methods": [],
             "schemes": []
         },
-        "addgame": {
+        "addGame" : {
             "tokens": [["text", "\/addGame"]],
             "defaults": [],
             "requirements": [],
@@ -494,7 +494,7 @@ const routes = {
             "methods": [],
             "schemes": []
         },
-        "addgame": {
+        "addGame": {
             "tokens": [["text", "\/addGame"]],
             "defaults": [],
             "requirements": [],
@@ -895,22 +895,6 @@ $(document).ready(function () {
     $(".modal").on('show.bs.modal', function () {
 
         $(this).draggable();
-
-    });
-
-
-    $("[id^='team_']").on('show.bs.modal', function () {
-
-    });
-
-
-    $("[id^='team_']").on('loaded.bs.modal', function () {
-
-
-    });
-
-    $("[id^='team_']").on('hidden.bs.modal', function () {
-
 
     });
 
