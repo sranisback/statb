@@ -112,6 +112,10 @@ class StatBBController extends AbstractController
 
             $ficheJoueur = $playerService->statsDuJoueur($joueur);
 
+            //$ficheJoueur[0]--> comp
+            //$ficheJoueur[1]--> cout
+            //$ficheJoueur[2]--> actions
+
             $pdata[$count]['pid'] = $joueur->getPlayerId();
             $pdata[$count]['nbrm'] = $ficheJoueur[2][0];
             $pdata[$count]['cp'] = $ficheJoueur[2][1];
@@ -137,7 +141,7 @@ class StatBBController extends AbstractController
                 break;
 
                 default:
-                    ($joueur->getInjRpm() != 0)?/**/:$coutTotalJoueur += $joueur->getValue();
+                    ($joueur->getInjRpm() != 0)?/*rien faire*/:$coutTotalJoueur += $joueur->getValue();
                     break;
             }
 
@@ -226,8 +230,6 @@ class StatBBController extends AbstractController
 
             $count++;
         }
-
-        dump($parties);
 
         $matches = $this->getDoctrine()->getRepository(Matches::class)->findBy(['matchId' => $parties]);
 

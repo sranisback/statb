@@ -1,30 +1,5 @@
 {% extends "statbb/base.html.twig" %}
       
-
-{% block nav %}
-    <nav class="navbar navbar-fixed-top navbar-default" id="nav_center" role="navigation">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="{{ path('index') }}">Site de stat Blood bowl</a>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li>
-                        {% block citation %}
-                            {{ render(controller('App\\Controller\\StatBBController::citation' )) }}</a>
-                        {% endblock %}
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="{{ path('logout') }}">{{ app.user.name }}</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-{% endblock %}
-
 {% block body %}
     <div class="container-fluid">
         <div class="jumbotron">

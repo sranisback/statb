@@ -59,8 +59,13 @@
                         </li>
                     {% else %}
                         <li>
-                            <a href="{{ path('logout') }}"
-                               class="glyphicon glyphicon-remove text-danger">{{ app.user.name }}</a>
+                            <a href="{{ path('index') }}" class="glyphicon glyphicon-home"></a>
+                        </li>
+                        <li>
+                            <a href="#">{{ app.user.name }}</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('logout') }}" class="glyphicon glyphicon-remove"></a>
                         </li>
                     {% endif %}
                 </ul>
@@ -74,7 +79,6 @@
 {% endblock %}
 <!-- footer -->
 {% block footer %}
-    <a id="loadingmessage" style="display:none"><img src="{{ asset('build/images/ajax-loader.gif') }}"/></a>
     <footer class="footer bg-white footer-custom">
         <div class="container">
             {{ render(controller('App\\Controller\\StatBBController::dyk')) }}

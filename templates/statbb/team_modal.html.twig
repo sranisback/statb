@@ -2,10 +2,10 @@
     <div class="panel">
         <div class="panel-heading">
             <div class="row">
-                <div class="col-md-1 col-xs-1"><img
-                            src="{{ asset('build/images/race_icons/'~team.fRace.icon~'.png') }}"></div>
-                <div class="col-md-10 col-xs-10"><h1>{{ team.name }}</h1></div>
-                <div class="col-md-1 col-xs-1">
+                <div class="col-md-2 col-xs-1"><img
+                            src="{{ asset('build/images/race_icons/'~team.fRace.icon~'.png') }}"  class="img-responsive"></div>
+                <div class="col-md-8 col-xs-10"><h1 class="text-center">{{ team.name }}</h1></div>
+                <div class="col-md-2 col-xs-1">
                     <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span>
                     </button>
@@ -60,7 +60,7 @@
                             {% endif %}
                         </td>
                         <td><img src="{{ asset('build/images/player_icons/'~player.fpos.icon~'.gif') }}"
-                                 class=".img-responsive">{{ player.fpos.pos }}</td>
+                                 class="img-responsive">{{ player.fpos.pos }}</td>
 
                         {% if player.achMa>0 %}
                             <td class="success">{{ player.fpos.ma + player.achMa - player.injMa }}</td>

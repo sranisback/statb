@@ -4,11 +4,8 @@ require('bootstrap-sass');
 
 
 import './jquery-ui.js'
-import './jquery.nameBadges.js'
-import './jquery.tablesorter.js'
-import './jquery.paginate.js'
 import './jquery.serializeToJSON.js'
-import './dataTables.js'
+import './jquery.dataTables.min.js'
 
 
 import Routing from './router.min.js';
