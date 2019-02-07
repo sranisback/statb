@@ -810,6 +810,7 @@ $(document).ready(function () {
         $.post(Routing.generate('addGame'), JSON.stringify($("#formMatch").serializeToJSON()),
             function (result) {
                 // console.log(result)
+                window.location.reload();
             }, "json");
 
     });
