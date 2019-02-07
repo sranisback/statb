@@ -1,11 +1,11 @@
 <div class="container-fluid">
-    <div class="panel"  >
+    <div class="panel">
         <div class="panel-heading">
             <div class="row">
-                <div class="col-md-1 col-xs-1"><img
-                            src="{{ asset('build/images/race_icons/'~team.fRace.icon~'.png') }}"></div>
-                <div class="col-md-10 col-xs-10"><h1>{{ team.name }}</h1></div>
-                <div class="col-md-1 col-xs-1">
+                <div class="col-md-2 col-xs-1"><img
+                            src="{{ asset('build/images/race_icons/'~team.fRace.icon~'.png') }}"  class="img-responsive"></div>
+                <div class="col-md-8 col-xs-10"><h1 class="text-center">{{ team.name }}</h1></div>
+                <div class="col-md-2 col-xs-1">
                     <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span>
                     </button>
@@ -19,14 +19,14 @@
                     <thead>
                     <tr>
                         <th>Nr</th>
-                        <th>Name</th>
+                        <th>Nom</th>
                         <th>Position</th>
                         <th>MA</th>
                         <th>ST</th>
                         <th>AG</th>
                         <th>AV</th>
                         <th>Skill</th>
-                        <th>NbrG</th>
+                        <th>NbrM</th>
                         <th>Stat</th>
                         <th>Cp</th>
                         <th>Td</th>
@@ -35,20 +35,20 @@
                         <th>Mvp</th>
                         <th>Agg</th>
                         <th>Spp</th>
-                        <th>Cost</th>
+                        <th class="text-right">Coût</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for player in players %}
 
-                        {% if (player.status == 8) %}
-                            <tr class="danger hidden">
+                    {% if (player.status == 8) %}
+                    <tr class="danger hidden">
                         {% elseif player.status == 7 %}
-                            <tr class="info hidden">
+                    <tr class="info hidden">
                         {% elseif (player.injrpm == 1  or player.status ==9) %}
-                            <tr class="warning">
+                    <tr class="warning">
                         {% else %}
-                            <tr>
+                    <tr>
                         {% endif %}
                         <td>{{ player.nr }}</td>
                         <td>{{ player.name }}
@@ -60,7 +60,7 @@
                             {% endif %}
                         </td>
                         <td><img src="{{ asset('build/images/player_icons/'~player.fpos.icon~'.gif') }}"
-                                 class=".img-responsive">{{ player.fpos.pos }}</td>
+                                 class="img-responsive">{{ player.fpos.pos }}</td>
 
                         {% if player.achMa>0 %}
                             <td class="success">{{ player.fpos.ma + player.achMa - player.injMa }}</td>
@@ -111,7 +111,7 @@
                         {% endfor %}
 
                         </td>
-                    {% endfor %}
+                        {% endfor %}
                     <tr>
                         <td colspan=7 rowspan=7></td>
                         <td rowspan=7><img src="{{ asset('build/images/race_icons/'~team.fRace.icon~'.png') }}"></td>
@@ -167,7 +167,7 @@
 <div class="modal fade" id="player">
     <div class="modal-dialog">
         <div class="modal-content">
-
+            <img src="{{ asset('build/images/big-loader.gif') }}" class="img-responsive center-block">
         </div>
     </div>
 </div>

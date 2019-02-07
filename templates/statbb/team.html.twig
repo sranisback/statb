@@ -68,7 +68,7 @@
                             <td><span id="name_{{ player.playerId }}"
                                       playerid="{{ player.playerId }}">{{ player.name }} </span><a
                                         class="glyphicon glyphicon-search"
-                                        href="{{ path('Player', {'id': player.playerId,'type':'n' }) }}"></a>
+                                        href="{{ path('Player', {'playerid': player.playerId,'type':'n' }) }}"></a>
                                 {% if player.type == 2 %}
                                     <p class="glyphicon glyphicon-euro"/>
                                 {% endif %}

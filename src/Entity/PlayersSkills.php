@@ -31,7 +31,7 @@ class PlayersSkills
     /**
      * @var \GameDataSkills
      *
-     * @ORM\ManyToOne(targetEntity="GameDataSkills")
+     * @ORM\ManyToOne(targetEntity="GameDataSkills", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="f_skill_id", referencedColumnName="skill_id")
      * })
@@ -41,7 +41,7 @@ class PlayersSkills
     /**
      * @var \Players
      *
-     * @ORM\ManyToOne(targetEntity="Players")
+     * @ORM\ManyToOne(targetEntity="Players", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="f_pid", referencedColumnName="player_id")
      * })

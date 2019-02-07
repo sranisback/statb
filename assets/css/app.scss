@@ -1,9 +1,5 @@
-//@import "../../../statb/node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
-//@import url("http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css");
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
-//@import "jquery.paginate.css";
 @import url("https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css");
-//@import url("https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js");
 
 @-moz-document url-prefix() {
   fieldset {
@@ -31,12 +27,15 @@ $font-size-base2: 0.95em;
 
 }
 
-@media  screen and (max-width: 850px) {
+@media  screen and (max-width: 768px) {
 
 
   body {
 
-    margin: 0;
+    padding-top: 125px;
+    background-image: url("bg.jpg");
+    background-attachment: fixed;
+    background-size: 100%;
 
   }
 
@@ -47,12 +46,70 @@ $font-size-base2: 0.95em;
 
   }
 
+  .bg-white {
+
+    background-color: white;
+
+  }
+
+  #login-dp {
+    min-width: 250px;
+    padding: 14px 14px 0;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, .8);
+  }
+
+  #login-dp .help-block {
+    font-size: 12px
+  }
+
+  #login-dp .bottom {
+    background-color: rgba(255, 255, 255, .8);
+    border-top: 1px solid #ddd;
+    clear: both;
+    padding: 14px;
+  }
+
+  #login-dp .social-buttons {
+    margin: 12px 0
+  }
+
+  #login-dp .social-buttons a {
+    width: 49%;
+  }
+
+  #login-dp .form-group {
+    margin-bottom: 10px;
+  }
+
+  .btn-fb {
+    color: #fff;
+    background-color: #3b5998;
+  }
+
+  .btn-fb:hover {
+    color: #fff;
+    background-color: #496ebc
+  }
+
+  .btn-tw {
+    color: #fff;
+    background-color: #55acee;
+  }
+
+  .btn-tw:hover {
+    color: #fff;
+    background-color: #59b5fa;
+  }
+
+
+
 
 }
 
 
 
-@media  (min-width: 850px) {
+@media  (min-width: 768px) {
 
   body {
 
@@ -68,13 +125,9 @@ $font-size-base2: 0.95em;
 
     font-size: $font-size-base;
   }
-  /*
-  .vcenter {
-    display: inline-block;
-    vertical-align: middle;
-    float: none;
-  }*/
+
   //navbar login form
+
 
   #login-dp {
     min-width: 250px;

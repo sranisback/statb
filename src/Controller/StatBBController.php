@@ -15,8 +15,13 @@ use App\Entity\Setting;
 use App\Entity\Dyk;
 use App\Entity\Coaches;
 
+use App\Service\coachService;
+use App\Service\equipeService;
+use App\Service\playerService;
+use App\Service\settingsService;
+
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -29,99 +34,65 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
-class StatBBController extends Controller
+class StatBBController extends AbstractController
 {
     /**
      * @Route("/showteams", name="showteams", options = { "expose" = true })
+     * @param equipeService $equipeService
+     * @param settingsService $settingsService
+     * @return response
      */
-    public function show_teams()
+    public function show_teams(equipeService $equipeService, settingsService $settingsService)
     {
-
-        $setting = $this->getDoctrine()->getRepository(Setting::class)->findOneBy(['name' => 'year']);
-
-        $teams = $this->getDoctrine()->getRepository(Teams::class)->findBy(
-            ['year' => $setting->getValue(), 'retired' => false],
-            array('name' => 'ASC')
+        return $this->render(
+            'statbb/showteams.html.twig',
+            ['teams' => $equipeService->toutesLesTeamsParAnnee($settingsService->anneeCourante())]
         );
-
-        foreach ($teams as $number => $team) {
-
-            if ($team->getYear() < 2 || $team->getRetired() == true) {
-                unset($teams[$number]);
-            } else {
-
-                $team->setTv($team->getTv());
-            }
-
-
-        }
-
-        return $this->render('statbb/showteams.html.twig', ['teams' => $teams]);
-
     }
 
     /**
      * @Route("/showuserteams", name="showuserteams", options = { "expose" = true })
+     * @param settingsService $settingsService
+     * @param coachService $coachService
+     * @param equipeService $equipeService
+     * @return response
      */
-    public function show_user_teams()
-    {
-        $setting = $this->getDoctrine()->getRepository(Setting::class)->findOneBy(['name' => 'year']);
+    public function show_user_teams(
+        settingsService $settingsService,
+        coachService $coachService,
+        equipeService $equipeService
+    ) {
 
-        $coachTeam = $this->getDoctrine()->getRepository(Teams::class)->findBy(
-            ['ownedByCoach' => $this->getUser(), 'year' => $setting->getValue(), 'retired' => false]
-        );
+        $tdata = [];
 
-        $count = 0;
+        $equipesCollection = $coachService->listeDesEquipeDuCoach($this->getUser(), $settingsService->anneeCourante());
 
-        foreach ($coachTeam as $number => $team) {
+        $countEquipe = 0;
 
-            $matches1 = $this->getDoctrine()->getRepository(Matches::class)->findBy(
-                array('team1' => $team->getTeamId()),
-                array('dateCreated' => 'DESC')
-            );
-            $matches2 = $this->getDoctrine()->getRepository(Matches::class)->findBy(
-                array('team2' => $team->getTeamId()),
-                array('dateCreated' => 'DESC')
-            );
+        foreach ($equipesCollection as $equipe) {
 
-            $matches = array_merge($matches1, $matches2);
+            $tdata[$countEquipe]['tId'] = $equipe->getTeamId();
 
-            $win = 0;
-            $draw = 0;
-            $loss = 0;
+            $resultats = $equipeService->resultatsDelEquipe($equipe, $equipeService->listeDesMatchs($equipe));
 
-            foreach ($matches as $match) {
-                if (($team == $match->getTeam1() && $match->getTeam1Score() > $match->getTeam2Score(
-                        )) || ($team == $match->getTeam2() && $match->getTeam1Score() < $match->getTeam2Score())) {
-                    $win++;
-                } elseif (($team == $match->getTeam1() && $match->getTeam1Score() < $match->getTeam2Score(
-                        )) || ($team == $match->getTeam2() && $match->getTeam1Score() > $match->getTeam2Score())) {
-                    $loss++;
-                } elseif (($team == $match->getTeam1() && $match->getTeam1Score() == $match->getTeam2Score(
-                        )) || ($team == $match->getTeam2() && $match->getTeam1Score() == $match->getTeam2Score())) {
-                    $draw++;
-                }
-            }
+            $tdata[$countEquipe]['win'] = $resultats[0];
+            $tdata[$countEquipe]['loss'] = $resultats[1];
+            $tdata[$countEquipe]['draw'] = $resultats[2];
 
-            $tdata[$count]['tId'] = $team->getTeamId();
-            $tdata[$count]['win'] = $win;
-            $tdata[$count]['loss'] = $loss;
-            $tdata[$count]['draw'] = $draw;
-
-            $count++;
-
+            $countEquipe++;
         }
-
-
-        return $this->render('statbb/user_teams.html.twig', ['coachteam' => $coachTeam, 'tdata' => $tdata]);
+        return $this->render('statbb/user_teams.html.twig', ['coachteam' => $equipesCollection, 'tdata' => $tdata]);
     }
 
     /**
-     * @Route("/team/{id}/{type}", name="team", options = { "expose" = true })
+     * @Route("/team/{teamid}/{type}", name="team", options = { "expose" = true })
+     * @param $teamid
+     * @param $type
+     * @param playerService $playerService
+     * @return Response
      */
-    public function show_team($id, $type)
+    public function show_team($teamid, $type, playerService $playerService)
     {
-        $user = $this->getUser();
 
         if (!isset($lastUsername)) {
 
@@ -129,178 +100,68 @@ class StatBBController extends Controller
 
         }
 
-        $players = $this->getDoctrine()->getRepository(Players::class)->findBy(
-            array('ownedByTeam' => $id),
-            array('nr' => 'ASC')
-        );
+        $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId'=>$teamid]);
 
-        $team = $this->getDoctrine()->getRepository(Teams::class)->find($id);
-
-        $allskills = $this->getDoctrine()->getRepository(GameDataSkills::class)->findAll();
+        $players = $playerService->listeDesJoueursDelEquipe($equipe);
 
         $count = 0;
-        $tdata['playersCost'] = 0;
 
-        if (empty($players)) {
-            $pdata = '';
-        } else {
+        $coutTotalJoueur = 0;
 
-        }
+        foreach ($players as $joueur){
 
-        foreach ($players as $number => $player) {
+            $ficheJoueur = $playerService->statsDuJoueur($joueur);
 
-            $tcost = 0;
+            //$ficheJoueur[0]--> comp
+            //$ficheJoueur[1]--> cout
+            //$ficheJoueur[2]--> actions
 
-            $playerskills = explode(",", $player->getFPos()->getSkills());
+            $pdata[$count]['pid'] = $joueur->getPlayerId();
+            $pdata[$count]['nbrm'] = $ficheJoueur[2][0];
+            $pdata[$count]['cp'] = $ficheJoueur[2][1];
+            $pdata[$count]['td'] = $ficheJoueur[2][2];
+            $pdata[$count]['int'] = $ficheJoueur[2][3];
+            $pdata[$count]['cas'] = $ficheJoueur[2][4];
+            $pdata[$count]['mvp'] = $ficheJoueur[2][5];
+            $pdata[$count]['agg'] = $ficheJoueur[2][6];
+            $pdata[$count]['skill'] = substr($ficheJoueur[0], 0, strlen($ficheJoueur[0]) - 2);
+            $pdata[$count]['spp'] = $playerService->xpDuJoueur($joueur);
+            $pdata[$count]['cost'] = $joueur->getValue();
+            $pdata[$count]['status']  = $playerService->statutDuJoueur($joueur);
 
-            $listskill = '';
+            if (!$joueur->getName()) {
 
-            foreach ($playerskills as $playerskill) {
-                foreach ($allskills as $baseskill) {
-                    if ($baseskill->getSkillId() == $playerskill) {
-                        $listskill .= '<text class="test-primary">'.$baseskill->getName().'</text>, ';
-                    }
-
-                }
+                $joueur->setName('Inconnu');
             }
 
-            if ($listskill == '<text class="test-primary"></text>, ') {
-                $listskill = '';
-            }
-
-            $supcomp = $this->getDoctrine()->getRepository(PlayersSkills::class)->findBy(
-                ['fPid' => $player->getPlayerId()]
-            );
-
-            foreach ($supcomp as $comps) {
-
-
-                if ($comps->getType() == 'N') {
-
-                    $tcost += 20000;
-                    $listskill .= '<text class="text-success">'.$comps->getFSkill()->getName().'</text>, ';
-
-                } else {
-
-                    $tcost += 30000;
-                    $listskill .= '<text class="text-danger">'.$comps->getFSkill()->getName().'</text>, ';
-
-                }
-
-            }
-
-            if ($player->getInjNi() > 0) {
-                $listskill .= '<text class="text-danger">+1 Ni</text>, ';
-            }
-
-            if ($player->getAchMa() > 0) {
-                $listskill .= '<text class="text-success">+1 Ma</text>, ';
-
-                $tcost += 30000;
-
-            }
-
-            if ($player->getAchSt() > 0) {
-                $listskill .= '<text class="text-success">+1 St</text>, ';
-
-                $tcost += 50000;
-            }
-
-            if ($player->getAchAg() > 0) {
-                $listskill .= '<text class="text-success">+1 Ag</text>, ';
-
-                $tcost += 40000;
-            }
-
-            if ($player->getAchAv() > 0) {
-                $listskill .= '<text class="text-success">+1 Av</text>, ';
-
-                $tcost += 30000;
-            }
-
-            $mdata = $this->getDoctrine()->getRepository(MatchData::class)->findBy(
-                ['fPlayer' => $player->getPlayerId()]
-            );
-
-            $tcp = 0;
-            $ttd = 0;
-            $tint = 0;
-            $tcas = 0;
-            $tmvp = 0;
-            $tagg = 0;
-
-            foreach ($mdata as $game) {
-                $tcp += $game->getCp();
-                $ttd += $game->getTd();
-                $tint += $game->getIntcpt();
-                $tcas += ($game->getBh() + $game->getSi() + $game->getKi());
-                $tmvp += $game->getMvp();
-                $tagg += $game->getAgg();
-
-            }
-
-            $pdata[$count]['pid'] = $player->getPlayerId();
-            $pdata[$count]['nbrm'] = count($mdata);
-            $pdata[$count]['cp'] = $tcp;
-            $pdata[$count]['td'] = $ttd;
-            $pdata[$count]['int'] = $tint;
-            $pdata[$count]['cas'] = $tcas;
-            $pdata[$count]['mvp'] = $tmvp;
-            $pdata[$count]['agg'] = $tagg;
-            $pdata[$count]['skill'] = substr($listskill, 0, strlen($listskill) - 2);
-            $pdata[$count]['spp'] = $tcp + ($ttd * 3) + ($tint * 2) + ($tcas * 2) + ($tmvp * 5);
-            $pdata[$count]['cost'] = $player->getFPos()->getCost() + $tcost;
-
-            switch ($player->getStatus()) {
+            switch ($joueur->getStatus())
+            {
                 case 7:
-                    $pdata[$count]['status'] = 'VENDU';
-                    break;
-
                 case 8:
-                    $pdata[$count]['status'] = 'MORT';
-                    break;
-
-                case 9:
-                    $pdata[$count]['status'] = 'PX';
-                    $tdata['playersCost'] += $pdata[$count]['cost'];
-                    break;
+                break;
 
                 default:
-
-                    if ($player->getInjRpm() != 0) {
-                        $pdata[$count]['status'] = 'RPM';
-                    } else {
-                        $pdata[$count]['status'] = '';
-                        $tdata['playersCost'] += $pdata[$count]['cost'];
-                    }
-
-
+                    ($joueur->getInjRpm() != 0)?/*rien faire*/:$coutTotalJoueur += $joueur->getValue();
                     break;
             }
 
 
-            if (!$player->getName()) {
-
-                $player->setName('Inconnu');
-            }
-
-            $count++;
-
+           $count++;
 
         }
 
-        $tdata['rerolls'] = $team->getRerolls() * $team->getFRace()->getCostRr();
-        $tdata['pop'] = ($team->getFf() + $team->getFfBought()) * 10000;
-        $tdata['asscoaches'] = $team->getAssCoaches() * 10000;
-        $tdata['cheerleader'] = $team->getCheerleaders() * 10000;
-        $tdata['apo'] = $team->getApothecary() * 50000;
-        $tdata['tv'] = $tdata['playersCost'] + $tdata['rerolls'] + $tdata['pop'] + $tdata['asscoaches'] + $tdata['cheerleader'] + $tdata['apo'];
-
+        $tdata['playersCost'] = $coutTotalJoueur;
+        $tdata['rerolls'] = $equipe->getRerolls() * $equipe->getFRace()->getCostRr();
+        $tdata['pop'] = ($equipe->getFf() + $equipe->getFfBought()) * 10000;
+        $tdata['asscoaches'] = $equipe->getAssCoaches() * 10000;
+        $tdata['cheerleader'] = $equipe->getCheerleaders() * 10000;
+        $tdata['apo'] = $equipe->getApothecary() * 50000;
+        $tdata['tv'] = $coutTotalJoueur + $tdata['rerolls'] + $tdata['pop'] + $tdata['asscoaches'] + $tdata['cheerleader'] + $tdata['apo'];
 
         if ($type == "modal") {
             return $this->render(
                 'statbb/team_modal.html.twig',
-                ['players' => $players, 'team' => $team, 'pdata' => $pdata, 'tdata' => $tdata]
+                ['players' => $players, 'team' => $equipe, 'pdata' => $pdata, 'tdata' => $tdata]
             );
         } else {
             return $this->render(
@@ -308,7 +169,7 @@ class StatBBController extends Controller
                 [
                     'players' => $players,
                     'last_username' => $lastUsername,
-                    'team' => $team,
+                    'team' => $equipe,
                     'pdata' => $pdata,
                     'tdata' => $tdata,
                 ]
@@ -318,9 +179,13 @@ class StatBBController extends Controller
     }
 
     /**
-     * @Route("/player/{id}/{type}", name="Player", options = { "expose" = true })
+     * @Route("/player/{playerid}/{type}", name="Player", options = { "expose" = true })
+     * @param $playerid
+     * @param $type
+     * @param playerService $playerService
+     * @return Response
      */
-    public function show_player($id, $type)
+    public function show_player($playerid, $type, playerService $playerService )
     {
 
         if (!isset($lastUsername)) {
@@ -329,163 +194,55 @@ class StatBBController extends Controller
 
         }
 
-        $player = $this->getDoctrine()->getRepository(Players::class)->findOneBy(['playerId' => $id]);
+        $joueur = $this->getDoctrine()->getRepository(Players::class)->findOneBy(['playerId'=>$playerid]);
 
-        $allskills = $this->getDoctrine()->getRepository(GameDataSkills::class)->findAll();
+        $ficheJoueur = $playerService->statsDuJoueur($joueur);
 
-        $tcost = 0;
+        $pdata['nbrm'] = $ficheJoueur[2][0];
+        $pdata['cp'] = $ficheJoueur[2][1];
+        $pdata['td'] = $ficheJoueur[2][2];
+        $pdata['int'] = $ficheJoueur[2][3];
+        $pdata['cas'] = $ficheJoueur[2][4];
+        $pdata['mvp'] = $ficheJoueur[2][5];
+        $pdata['agg'] = $ficheJoueur[2][6];
+        $pdata['skill'] = substr($ficheJoueur[0], 0, strlen($ficheJoueur[0]) - 2);
+        $pdata['spp'] = $playerService->xpDuJoueur($joueur);
+        $pdata['cost'] = $joueur->getValue();
 
-        $playerskills = explode(",", $player->getFPos()->getSkills());
-
-        $listskill = '';
-
-        foreach ($playerskills as $playerskill) {
-            foreach ($allskills as $baseskill) {
-                if ($baseskill->getSkillId() == $playerskill) {
-                    $listskill .= '<text class="test-primary">'.$baseskill->getName().'</text>, ';
-                }
-
-            }
+        if (!$joueur->getName()) {
+            $joueur->setName('Inconnu');
         }
 
-        if ($listskill == '<text class="test-primary"></text>, ') {
-            $listskill = '';
-        }
-
-        $supcomp = $this->getDoctrine()->getRepository(PlayersSkills::class)->findBy(
-            ['fPid' => $player->getPlayerId()]
-        );
-
-        foreach ($supcomp as $comps) {
-
-
-            if ($comps->getType() == 'N') {
-
-                $tcost += 20000;
-                $listskill .= '<text class="text-success">'.$comps->getFSkill()->getName().'</text>, ';
-
-            } else {
-
-                $tcost += 30000;
-                $listskill .= '<text class="text-danger">'.$comps->getFSkill()->getName().'</text>, ';
-
-            }
-
-        }
-
-        if ($player->getAchMa() > 0) {
-            $listskill .= '<text class="text-success">+1 Ma</text>, ';
-
-            $tcost += 30000;
-
-        }
-
-        if ($player->getAchSt() > 0) {
-            $listskill .= '<text class="text-success">+1 St</text>, ';
-
-            $tcost += 50000;
-        }
-
-        if ($player->getAchAg() > 0) {
-            $listskill .= '<text class="text-success">+1 Ag</text>, ';
-
-            $tcost += 40000;
-        }
-
-        if ($player->getAchAv() > 0) {
-            $listskill .= '<text class="text-success">+1 Av</text>, ';
-
-            $tcost += 30000;
-        }
-
-        $mdata = $this->getDoctrine()->getRepository(MatchData::class)->findBy(['fPlayer' => $player->getPlayerId()]);
-
-        $tcp = 0;
-        $ttd = 0;
-        $tint = 0;
-        $tcas = 0;
-        $tmvp = 0;
-        $tagg = 0;
-
-        $matches = array();
+        $mdata = $this->getDoctrine()->getRepository(MatchData::class)->findBy(['fPlayer' => $joueur->getPlayerId()]);
 
         $count = 0;
 
-        foreach ($mdata as $game) {
+        $parties = [];
 
-            $tcp += $game->getCp();
-            $ttd += $game->getTd();
-            $tint += $game->getIntcpt();
-            $tcas += ($game->getBh() + $game->getSi() + $game->getKi());
-            $tmvp += $game->getMvp();
-            $tagg += $game->getAgg();
+        foreach ($mdata as $matchData) {
 
-            $matches[] = $game->getFMatch()->getMatchId();
+            $actionsDuMatch = $playerService->actionDuJoueurDansUnMatch($joueur,$matchData);
 
-            if ($game->getCp() > 0 || $game->getTd() > 0 || $game->getIntcpt() > 0 || ($game->getBh() + $game->getSi(
-                    ) + $game->getKi()) > 0 || $game->getMvp() > 0 || $game->getAgg() > 0) {
+            $parties[] = $matchData->getFMatch()->getMatchId();
 
-                $rec = '';
+            $msdata[$count]["mId"] = $matchData->getFMatch()->getMatchId();
+            $msdata[$count]["data"] = substr($actionsDuMatch[6], 0, strlen($actionsDuMatch[6]) - 2);
 
-                if ($game->getCp() > 0) {
-                    $rec .= 'CP: '.$game->getCp().', ';
-                }
-
-                if ($game->getTd() > 0) {
-                    $rec .= 'TD: '.$game->getTd().', ';
-                }
-
-                if ($game->getIntcpt() > 0) {
-                    $rec .= 'INT: '.$game->getIntcpt().',';
-                }
-
-                if (($game->getBh() + $game->getSi() + $game->getKi()) > 0) {
-                    $rec .= 'CAS: '.($game->getBh() + $game->getSi() + $game->getKi()).', ';
-                }
-
-                if ($game->getMvp() > 0) {
-                    $rec .= 'MVP: '.$game->getMvp().', ';
-                }
-
-                if ($game->getAgg() > 0) {
-                    $rec .= 'AGG: '.$game->getAgg().', ';
-                }
-
-                $msdata[$count]["mId"] = $game->getFMatch()->getMatchId();
-                $msdata[$count]["data"] = substr($rec, 0, strlen($rec) - 2);
-
-                $count++;
-            }
-
+            $count++;
         }
+
+        $matches = $this->getDoctrine()->getRepository(Matches::class)->findBy(['matchId' => $parties]);
 
         if ($count == 0) {
             $msdata[$count]["mId"] = 0;
             $msdata[$count]["data"] = '';
         }
 
-        $pdata['nbrm'] = count($mdata);
-        $pdata['cp'] = $tcp;
-        $pdata['td'] = $ttd;
-        $pdata['int'] = $tint;
-        $pdata['cas'] = $tcas;
-        $pdata['mvp'] = $tmvp;
-        $pdata['agg'] = $tagg;
-        $pdata['skill'] = substr($listskill, 0, strlen($listskill) - 2);
-        $pdata['spp'] = $tcp + ($ttd * 3) + ($tint * 2) + ($tcas * 2) + ($tmvp * 5);
-        $pdata['cost'] = $player->getFPos()->getCost() + $tcost;
-
-        if (!$player->getName()) {
-            $player->setName('Inconnu');
-        }
-
-        $matches = $this->getDoctrine()->getRepository(Matches::class)->findBy(array('matchId' => $matches));
-
         if ($type == "modal") {
             return $this->render(
                 'statbb/player_modal.html.twig',
                 array(
-                    'player' => $player,
+                    'player' => $joueur,
                     'pdata' => $pdata,
                     'matches' => $matches,
                     'mdata' => $msdata,
@@ -496,7 +253,7 @@ class StatBBController extends Controller
             return $this->render(
                 'statbb/player.html.twig',
                 array(
-                    'player' => $player,
+                    'player' => $joueur,
                     'pdata' => $pdata,
                     'matches' => $matches,
                     'mdata' => $msdata,
@@ -546,12 +303,6 @@ class StatBBController extends Controller
 
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
-
-        /*return $this->render('statbb/login.html.twig', array(
-            'last_username' => $lastUsername,
-            'error'         => $error,
-        ));
-        */
 
         return $this->render('statbb/front.html.twig');
     }
@@ -2542,8 +2293,6 @@ class StatBBController extends Controller
 
          // Render the HTML as PDF
         $dompdf->render();
-
-      //  echo $html;
 
         $dompdf->stream($team->getName().'.pdf', [
                     "Attachment" => true

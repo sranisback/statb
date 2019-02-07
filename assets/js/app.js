@@ -4,11 +4,8 @@ require('bootstrap-sass');
 
 
 import './jquery-ui.js'
-import './jquery.nameBadges.js'
-import './jquery.tablesorter.js'
-import './jquery.paginate.js'
 import './jquery.serializeToJSON.js'
-import './dataTables.js'
+import './jquery.dataTables.min.js'
 
 
 import Routing from './router.min.js';
@@ -35,7 +32,7 @@ const routes = {
             "schemes": []
         },
         "team": {
-            "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "id"], ["text", "\/team"]],
+            "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "teamid"], ["text", "\/team"]],
             "defaults": [],
             "requirements": [],
             "hosttokens": [],
@@ -43,7 +40,7 @@ const routes = {
             "schemes": []
         },
         "Player": {
-            "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "id"], ["text", "\/player"]],
+            "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "playerid"], ["text", "\/player"]],
             "defaults": [],
             "requirements": [],
             "hosttokens": [],
@@ -226,7 +223,7 @@ const routes = {
             "methods": [],
             "schemes": []
         },
-        "addgame": {
+        "addGame" : {
             "tokens": [["text", "\/addGame"]],
             "defaults": [],
             "requirements": [],
@@ -303,7 +300,7 @@ const routes = {
             "schemes": []
         },
         "team": {
-            "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "id"], ["text", "\/team"]],
+            "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "teamid"], ["text", "\/team"]],
             "defaults": [],
             "requirements": [],
             "hosttokens": [],
@@ -311,7 +308,7 @@ const routes = {
             "schemes": []
         },
         "Player": {
-            "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "id"], ["text", "\/player"]],
+            "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "playerid"], ["text", "\/player"]],
             "defaults": [],
             "requirements": [],
             "hosttokens": [],
@@ -494,7 +491,7 @@ const routes = {
             "methods": [],
             "schemes": []
         },
-        "addgame": {
+        "addGame": {
             "tokens": [["text", "\/addGame"]],
             "defaults": [],
             "requirements": [],
@@ -560,7 +557,7 @@ $(document).ready(function () {
         "lengthChange": false,
         "pageLength": 20,
         "info": false
-    } );
+    });
 
     $('#showall_btn').click(function () {
 
@@ -722,7 +719,7 @@ $(document).ready(function () {
             }),
             {},
             function (result) {
-                window.location.href = "team/" + result + "/n"
+                window.location.href = "teamid/" + result + "/n"
             })
 
     });
@@ -892,26 +889,9 @@ $(document).ready(function () {
 
     });
 
-    $(".modal").on('show.bs.modal',function () {
+    $(".modal").on('show.bs.modal', function () {
 
         $(this).draggable();
-
-    });
-
-    $("[id^='team_']").on('show.bs.modal',function () {
-        var height = $(window).height() - 200;
-        $(this).find(".modal-body").css("max-height", height);
-    });
-
-
-    $("[id^='team_']").on('loaded.bs.modal',function () {
-
-
-    });
-
-    $("[id^='team_']").on('hidden.bs.modal',function () {
-
-       $("[id^=modal_team_]").remove();
 
     });
 

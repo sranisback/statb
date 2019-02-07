@@ -21,11 +21,12 @@
             <tr>
                 <td class="pos">{{ loop.index }}</td>
                 <td><a data-toggle="modal" data-target="#team_{{ team.team_id }}"
-                       href="{{ path('team', {'id': team.team_id,'type':'modal' }) }}">{{ team.team_name }}</a>
+                       href="{{ path('team', {'teamid': team.team_id,'type':'modal' }) }}">{{ team.team_name }}</a>
                     <div class="modal fade" id="team_{{ team.team_id }}">
-                        <div class="modal-dialog modal-lg" >
+                        <div class="modal-dialog modal-lg">
                             <div class="modal-content">
-
+                                <img src="{{ asset('build/images/big-loader.gif') }}"
+                                     class="img-responsive center-block">
                             </div>
                         </div>
                     </div>
