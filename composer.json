@@ -16,7 +16,8 @@
         "symfony/twig-bundle": "*",
         "symfony/web-server-bundle": "*",
         "symfony/webpack-encore-pack": "^1.0",
-        "symfony/yaml": "*"
+        "symfony/yaml": "*",
+		"symfony/monolog-bundle":"*"
     },
     "require-dev": {
         "symfony/debug-pack": "^1.0",
