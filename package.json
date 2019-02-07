@@ -16,6 +16,7 @@
     },
     "dependencies": {
         "bootstrap-sass": "^3.3.7",
+        "datatables.net": "^1.10.19",
         "jquery": "^3.3.1"
     }
 }

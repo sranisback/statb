@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    {#<meta name="viewport" content="width=1024">#}
-    <title>{% block title %}Site de Stat Blood bowl{% endblock %}</title>
-    {% block cssjs %}
-        <link rel="stylesheet" media="screen" href="{{ asset('build/css/app.css') }}">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <head>
+        <meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>{% block title %}Site de Stat Blood bowl{% endblock %}</title>
+		{% block cssjs%}
+			<link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 
-        <script src="{{ asset('build/js/app.js') }}"></script> -
-    {% endblock %}
-</head>
-<body>
-<!-- Navigation -->
+			<script src="{{ asset('build/js/app.js') }}" ></script> -
+		{% endblock %}
+    </head>
+    <body>
+	<!-- Navigation -->
 {% block nav %}
     <nav class="navbar navbar-fixed-top navbar-default">
         <div class="container-fluid">
@@ -76,16 +75,17 @@
     </nav>
 {% endblock %}
 
-<!-- content -->
-{% block body %}
-{% endblock %}
-<!-- footer -->
-{% block footer %}
-    <footer class="footer bg-white footer-custom">
-        <div class="container">
-            {{ render(controller('App\\Controller\\StatBBController::dyk')) }}
-        </div>
-    </footer>
-{% endblock %}
-</body>
+	<!-- content -->
+	{% block body %}
+	{% endblock %}	
+	<!-- footer -->
+	{% block footer %}
+		<a id="loadingmessage" style="display:none" ><img src="{{ asset('build/images/ajax-loader.gif') }}" /></a>
+		<footer class="footer bg-white footer-custom">
+		  <div class="container">
+			{{ render(controller('App\\Controller\\StatBBController::dyk'))}}
+		  </div>
+		</footer>
+	{% endblock %}	
+    </body>
 </html>

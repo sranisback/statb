@@ -1,3 +1,4 @@
+<div class="table-responsive">
 <table class="table">
 	<thead>
 		<tr>
@@ -19,7 +20,7 @@
 		{% else %}
 		<tr>
 		{% endif %}
-			<td><a href="{{ path('team', {'id': team.teamId,'type':'n' }) }}">{{team.name}}</a></td>
+			<td><a href="{{ path('team', {'teamid': team.teamId,'type':'n' }) }}">{{team.name}}</a></td>
 			<td>{{team.frace.name}}</td>
 			<td>{{team.tv/1000}}</td>
 			{% for data in tdata %}
@@ -38,11 +39,13 @@
 			<td>Prête</td>
 			{% endif %}
 			
-			<td><span class="glyphicon glyphicon-remove text-danger" teamId="{{team.teamId}}" id="retire_{{team.teamId}}" ></span></a></td>
+			<td><span class="glyphicon glyphicon-remove text-danger" teamId="{{team.teamId}}" id="retire_{{team.teamId}}" ></span></td>
 		</tr>
 		{% endfor %}
 	</tbody>
 </table>
+
+</div>
 <button type="button" id="showall_btn" class="btn btn-primary">
-  Montrer les équipes retirées
-</button>	
+	Montrer les équipes retirées
+</button>
