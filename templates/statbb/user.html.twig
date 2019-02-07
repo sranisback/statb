@@ -2,7 +2,8 @@
       
 {% block body %}
     <div class="container-fluid">
-        <div class="jumbotron">
+        <div class="panel panel-default">
+            <div class="panel-body">
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
                 <li><a data-toggle="tab" href="#allteam">Toutes les équipes</a></li>
@@ -151,6 +152,7 @@
                     {{ render(controller('App\\Controller\\StatBBController::class_gen',{'limit':0} )) }}
                 </div>
             </div>
+        </div>
         </div>
     </div>
 
