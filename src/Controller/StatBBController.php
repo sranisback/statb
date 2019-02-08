@@ -270,19 +270,7 @@ class StatBBController extends AbstractController
      */
     public function index(AuthenticationUtils $authenticationUtils)
     {
-        $user = $this->getUser();
-
-        if (isset($user)) {
-
-            return $this->render('statbb/user.html.twig');
-
-        } else {
-
             return $this->render('statbb/front.html.twig');
-
-        }
-
-
     }
 
     /**
@@ -2297,6 +2285,26 @@ class StatBBController extends AbstractController
         $dompdf->stream($team->getName().'.pdf', [
                     "Attachment" => true
                 ]);
+
+    }
+
+
+    /**
+     * @Route("/frontUser", name="frontUser", options = { "expose" = true })
+     */
+    public function frontUser(){
+
+        return $this->render('statbb/user.html.twig');
+
+    }
+
+
+    /**
+     * @Route("/ajoutMatch", name="ajoutMatch", options = { "expose" = true })
+     */
+    public function ajoutMatch(){
+
+        return $this->render('statbb/ajoutMatch.html.twig');
 
     }
 

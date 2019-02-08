@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>{% block title %}Site de Stat Blood bowl{% endblock %}</title>
-		{% block cssjs%}
-			<link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
-			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Site de Stat Blood bowl{% endblock %}</title>
+    {% block cssjs %}
+        <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 
-			<script src="{{ asset('build/js/app.js') }}" ></script> -
-		{% endblock %}
-    </head>
-    <body>
-	<!-- Navigation -->
+        <script src="{{ asset('build/js/app.js') }}"></script>
+    {% endblock %}
+</head>
+<body>
+<!-- Navigation -->
 {% block nav %}
     <nav class="navbar navbar-fixed-top navbar-default">
         <div class="container-fluid">
@@ -21,71 +21,70 @@
                 <a class="navbar-brand" href="{{ path('index') }}">Site de stat Blood bowl</a>
             </div>
 
-                <ul class="nav navbar-nav hidden-xs">
-                    <li>
-                        {% block citation %}
-                            {{ render(controller('App\\Controller\\StatBBController::citation' )) }}</a>
-                        {% endblock %}
+            <ul class="nav navbar-nav hidden-xs">
+                <li>
+                    {% block citation %}
+                        {{ render(controller('App\\Controller\\StatBBController::citation' )) }}
+                    {% endblock %}
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if not app.user %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span
+                                    class="caret"></span></a>
+                        <ul id="login-dp" class="dropdown-menu">
+                            <li>
+                                <form class="form" role="form" method="post" action="{{ path('login') }}"
+                                      accept-charset="UTF-8" id="login-nav">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="_username"
+                                               placeholder="Nom du coach" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control" name="_password"
+                                               placeholder="Password" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary btn-block">Go</button>
+                                    </div>
+                                </form>
+                            </li>
+                        </ul>
                     </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    {% if not app.user %}
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span
-                                        class="caret"></span></a>
-                            <ul id="login-dp" class="dropdown-menu">
-                                <li>
-                                    <form class="form" role="form" method="post" action="{{ path('login') }}"
-                                          accept-charset="UTF-8" id="login-nav">
-                                        <div class="form-group">
-                                            <label class="sr-only" for="exampleInputEmail2">Email address</label>
-                                            <input type="text" class="form-control" name="_username"
-                                                   placeholder="Coach Name" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="sr-only" for="exampleInputPassword2">Password</label>
-                                            <input type="password" class="form-control" name="_password"
-                                                   placeholder="Password" required>
-                                            <div class="help-block text-right"><a href="">Forget the password ?</a>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <button type="submit" class="btn btn-primary btn-block">Sign in</button>
-                                        </div>
-                                    </form>
-                                </li>
-                            </ul>
-                        </li>
-                    {% else %}
-                        <li class="visible-md visible-lg hidden-xs">
-                            <a href="{{ path('index') }}" class="glyphicon glyphicon-home"></a>
-                        </li>
-                        <li class="visible-md visible-lg hidden-xs">
-                            <a href="#">{{ app.user.name }}</a>
-                        </li>
-                        <li class="visible-md visible-lg hidden-xs">
-                            <a href="{{ path('logout') }}" class="glyphicon glyphicon-remove"></a>
-                        </li>
-                    {% endif %}
-                </ul>
+                {% else %}
+                    <li class="visible-md visible-lg hidden-xs">
+                        <a href="{{ path('index') }}" class="glyphicon glyphicon-home"></a>
+                    </li>
+                    <li class="visible-md visible-lg hidden-xs">
+                        <a href="{{ path('frontUser') }}">Le coin du coach</a>
+                    </li>
+                    <li class="visible-md visible-lg hidden-xs">
+                        <a href="{{ path('logout') }}" class="glyphicon glyphicon-remove"></a>
+                    </li>
+                {% endif %}
+            </ul>
             {% if app.user %}
-                <div class="hidden-md hidden-lg visible-xs"><a href="{{ path('index') }}" class="glyphicon glyphicon-home"></a> | <a href="{{ path('logout') }}" class="glyphicon glyphicon-remove"></a></div>
+                <span class="hidden-md hidden-lg visible-xs"><a href="{{ path('index') }}"
+                                                                class="glyphicon glyphicon-home"></a>|<a
+                            href="{{ path('frontUser') }}" class="glyphicon glyphicon-tower"></a>|<a
+                            href="{{ path('logout') }}" class="glyphicon glyphicon-remove"></a></span>
             {% endif %}
         </div>
     </nav>
 {% endblock %}
 
-	<!-- content -->
-	{% block body %}
-	{% endblock %}	
-	<!-- footer -->
-	{% block footer %}
-		<a id="loadingmessage" style="display:none" ><img src="{{ asset('build/images/ajax-loader.gif') }}" /></a>
-		<footer class="footer bg-white footer-custom">
-		  <div class="container">
-			{{ render(controller('App\\Controller\\StatBBController::dyk'))}}
-		  </div>
-		</footer>
-	{% endblock %}	
-    </body>
+<!-- content -->
+{% block body %}
+{% endblock %}
+<!-- footer -->
+{% block footer %}
+    <a id="loadingmessage" style="display:none"><img src="{{ asset('build/images/ajax-loader.gif') }}"/></a>
+    <footer class="footer bg-white footer-custom">
+        <div class="container">
+            {{ render(controller('App\\Controller\\StatBBController::dyk')) }}
+        </div>
+    </footer>
+{% endblock %}
+</body>
 </html>

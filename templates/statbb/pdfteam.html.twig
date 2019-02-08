@@ -49,7 +49,7 @@
         <tbody>
         {% for player in players %}
 
-        {% if (player.status ==1) %}
+        {% if (player.status ==1 or player.status==9) %}
             <tr>
                 <td>{{ player.nr }}</td>
                 <td>{{ player.name }}
