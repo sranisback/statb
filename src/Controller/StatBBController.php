@@ -1951,7 +1951,7 @@ class StatBBController extends AbstractController
         $entityManager->persist($team);
         $entityManager->flush();
 
-        return $this->redirectToRoute('team', ['id' => $team->getTeamId(), 'type' => 'n']);
+        return $this->redirectToRoute('team', ['teamid' => $team->getTeamId(), 'type' => 'n'],302);
 
     }
 
