@@ -1949,10 +1949,8 @@ class StatBBController extends AbstractController
         $team->setRdy(1);
 
         $entityManager->persist($team);
-        //$entityManager->flush();
-//@Route("/team/{teamid}/{type}", name="team", options = { "expose" = true })
-       // dump($team->getTeamId());
-        //return $this->redirectToRoute('team', ['id' => $team->getTeamId(), 'type' => 'n']);
+        $entityManager->flush();
+
         return $this->redirectToRoute('team', ['teamid' => $team->getTeamId(), 'type' => 'n'],302);
 
     }
