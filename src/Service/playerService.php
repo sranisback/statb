@@ -46,11 +46,11 @@ class playerService
         $toutesLesCompsDuJoueur = $this->listeDesCompdDeBasedUnJoueur($joueur);
         $compsupp = $this->listeDesCompEtSurcoutGagnedUnJoueur($joueur);
 
-        $toutesLesCompsDuJoueur .= $compsupp[0];
+        $toutesLesCompsDuJoueur .= $compsupp['compgagnee'];
 
         $statpec = $this->listenivSpeciauxEtSurcout($joueur);
 
-        $toutesLesCompsDuJoueur .= $statpec[0];
+        $toutesLesCompsDuJoueur .= $statpec['nivspec'];
 
         if($joueur->getType()!= 1){
 
@@ -59,7 +59,7 @@ class playerService
 
         $actions = $this->actionsDuJoueur($joueur);
 
-        return [$toutesLesCompsDuJoueur, $coutTotal, $actions];
+        return ['comp'=>$toutesLesCompsDuJoueur, 'cout'=>$coutTotal, 'actions'=>$actions];
     }
 
     /**
@@ -126,7 +126,7 @@ class playerService
             }
         }
 
-        return [$listCompGagnee, $coutTotal];
+        return ['compgagnee'=>$listCompGagnee,'cout'=> $coutTotal];
     }
 
     /**
@@ -167,7 +167,7 @@ class playerService
             $cout += 30000;
         }
 
-        return [$listSupp, $cout];
+        return ['nivspec'=>$listSupp,'cout'=> $cout];
     }
 
     /**
@@ -200,7 +200,7 @@ class playerService
 
         }
 
-        return [$tMatch, $tcp, $ttd, $tint, $tcas, $tmvp, $tagg];
+        return ['NbrMatch'=>$tMatch, 'cp'=> $tcp, 'td'=>$ttd,'int'=> $tint,'cas'=> $tcas,'mvp' => $tmvp,'agg'=> $tagg];
 
     }
 
@@ -213,7 +213,7 @@ class playerService
 
         $actions = $this->actionsDuJoueur($joueur);
 
-        return $actions[1] + ($actions[2] * 3) + ($actions[3] * 2) + ($actions[4] * 2) + ($actions[5] * 5);
+        return $actions['cp'] + ($actions['td'] * 3) + ($actions['int'] * 2) + ($actions['cas'] * 2) + ($actions['mvp'] * 5);
 
     }
 
@@ -300,6 +300,6 @@ class playerService
 
         }
 
-        return [$tcp, $ttd, $tint, $tcas, $tmvp, $tagg, $rec];
+        return ['cp'=> $tcp, 'td'=>$ttd,'int'=> $tint,'cas'=> $tcas,'mvp' => $tmvp,'agg'=> $tagg,'rec'=>$rec];
     }
 }

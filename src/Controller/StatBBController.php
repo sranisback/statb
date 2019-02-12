@@ -112,19 +112,15 @@ class StatBBController extends AbstractController
 
             $ficheJoueur = $playerService->statsDuJoueur($joueur);
 
-            //$ficheJoueur[0]--> comp
-            //$ficheJoueur[1]--> cout
-            //$ficheJoueur[2]--> actions
-
             $pdata[$count]['pid'] = $joueur->getPlayerId();
-            $pdata[$count]['nbrm'] = $ficheJoueur[2][0];
-            $pdata[$count]['cp'] = $ficheJoueur[2][1];
-            $pdata[$count]['td'] = $ficheJoueur[2][2];
-            $pdata[$count]['int'] = $ficheJoueur[2][3];
-            $pdata[$count]['cas'] = $ficheJoueur[2][4];
-            $pdata[$count]['mvp'] = $ficheJoueur[2][5];
-            $pdata[$count]['agg'] = $ficheJoueur[2][6];
-            $pdata[$count]['skill'] = substr($ficheJoueur[0], 0, strlen($ficheJoueur[0]) - 2);
+            $pdata[$count]['nbrm'] = $ficheJoueur['actions']['NbrMatch'];
+            $pdata[$count]['cp'] = $ficheJoueur['actions']['cp'];
+            $pdata[$count]['td'] = $ficheJoueur['actions']['td'];
+            $pdata[$count]['int'] = $ficheJoueur['actions']['int'];
+            $pdata[$count]['cas'] = $ficheJoueur['actions']['cas'];
+            $pdata[$count]['mvp'] = $ficheJoueur['actions']['mvp'];
+            $pdata[$count]['agg'] = $ficheJoueur['actions']['agg'];
+            $pdata[$count]['skill'] = substr($ficheJoueur['comp'], 0, strlen($ficheJoueur['comp']) - 2);
             $pdata[$count]['spp'] = $playerService->xpDuJoueur($joueur);
             $pdata[$count]['cost'] = $joueur->getValue();
             $pdata[$count]['status']  = $playerService->statutDuJoueur($joueur);
@@ -198,14 +194,14 @@ class StatBBController extends AbstractController
 
         $ficheJoueur = $playerService->statsDuJoueur($joueur);
 
-        $pdata['nbrm'] = $ficheJoueur[2][0];
-        $pdata['cp'] = $ficheJoueur[2][1];
-        $pdata['td'] = $ficheJoueur[2][2];
-        $pdata['int'] = $ficheJoueur[2][3];
-        $pdata['cas'] = $ficheJoueur[2][4];
-        $pdata['mvp'] = $ficheJoueur[2][5];
-        $pdata['agg'] = $ficheJoueur[2][6];
-        $pdata['skill'] = substr($ficheJoueur[0], 0, strlen($ficheJoueur[0]) - 2);
+        $pdata['nbrm'] = $ficheJoueur['actions']['NbrMatch'];
+        $pdata['cp'] = $ficheJoueur['actions']['cp'];
+        $pdata['td'] = $ficheJoueur['actions']['td'];
+        $pdata['int'] = $ficheJoueur['actions']['int'];
+        $pdata['cas'] = $ficheJoueur['actions']['cas'];
+        $pdata['mvp'] = $ficheJoueur['actions']['mvp'];
+        $pdata['agg'] = $ficheJoueur['actions']['agg'];
+        $pdata['skill'] = substr($ficheJoueur['comp'], 0, strlen($ficheJoueur['comp']) - 2);
         $pdata['spp'] = $playerService->xpDuJoueur($joueur);
         $pdata['cost'] = $joueur->getValue();
 
@@ -226,7 +222,7 @@ class StatBBController extends AbstractController
             $parties[] = $matchData->getFMatch()->getMatchId();
 
             $msdata[$count]["mId"] = $matchData->getFMatch()->getMatchId();
-            $msdata[$count]["data"] = substr($actionsDuMatch[6], 0, strlen($actionsDuMatch[6]) - 2);
+            $msdata[$count]["data"] = substr($actionsDuMatch['rec'], 0, strlen($actionsDuMatch['rec']) - 2);
 
             $count++;
         }
@@ -270,19 +266,7 @@ class StatBBController extends AbstractController
      */
     public function index(AuthenticationUtils $authenticationUtils)
     {
-        $user = $this->getUser();
-
-        if (isset($user)) {
-
-            return $this->render('statbb/user.html.twig');
-
-        } else {
-
             return $this->render('statbb/front.html.twig');
-
-        }
-
-
     }
 
     /**
@@ -298,11 +282,6 @@ class StatBBController extends AbstractController
      */
     public function login(Request $request, AuthenticationUtils $authenticationUtils)
     {
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
-
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('statbb/front.html.twig');
     }
@@ -2297,6 +2276,26 @@ class StatBBController extends AbstractController
         $dompdf->stream($team->getName().'.pdf', [
                     "Attachment" => true
                 ]);
+
+    }
+
+
+    /**
+     * @Route("/frontUser", name="frontUser", options = { "expose" = true })
+     */
+    public function frontUser(){
+
+        return $this->render('statbb/user.html.twig');
+
+    }
+
+
+    /**
+     * @Route("/ajoutMatch", name="ajoutMatch", options = { "expose" = true })
+     */
+    public function ajoutMatch(){
+
+        return $this->render('statbb/ajoutMatch.html.twig');
 
     }
 

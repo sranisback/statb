@@ -547,9 +547,6 @@ const routes = {
 }
 */
 $(document).ready(function () {
-    /*	$("#class_gen").tablesorter({
-            headers: {0: { sorter: false}}
-        });*/
 
     Routing.setRoutingData(routes);
 
@@ -557,6 +554,7 @@ $(document).ready(function () {
         "lengthChange": false,
         "pageLength": 20,
         "info": false
+
     });
 
     $('#showall_btn').click(function () {
@@ -808,7 +806,7 @@ $(document).ready(function () {
 
         //$.post("/addGame",JSON.stringify($("#formMatch").serializeToJSON()),
         $.post(Routing.generate('addGame'), JSON.stringify($("#formMatch").serializeToJSON()),
-            function (result) {
+            function () {
                 // console.log(result)
                 window.location.reload();
             }, "json");
@@ -845,7 +843,7 @@ $(document).ready(function () {
                 //$.post("./changeNr/"+$(this).val()+"/"+ $(this).attr('playerid'),
                 $.post(Routing.generate('changeNr', {newnr: $(this).val(), playerid: $(this).attr('playerid')}),
                     {},
-                    function (result) {
+                    function () {
                         $('#inp_' + id).replaceWith('<div id="number_' + $('#inp_' + id).val() + '" playerid="' + $('#inp_' + id).attr('playerid') + '">' + $('#inp_' + id).val() + '</div>');
 
                         window.location.reload();
