@@ -115,7 +115,7 @@
                                 {% if data.pid == player.playerId %}
                                     <td>{{ data.skill|raw }}</td>
                                     <td>{{ data.nbrm }}</td>
-                                    {% if data.status=='PX' %}
+                                    {% if data.status=='XP' %}
                                         <td>{{ render(controller('App\\Controller\\StatBBController::skillmodal',{'playerid':player.playerId} )) }}</td>
                                     {% else %}
                                         <td>{{ data.status }}</td>
