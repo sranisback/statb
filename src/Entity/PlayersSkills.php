@@ -7,7 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * PlayersSkills
  *
- * @ORM\Table(name="players_skills", indexes={@ORM\Index(name="fk_players_skills_players1_idx", columns={"f_pid"}), @ORM\Index(name="fk_players_skills_game_data_skills1_idx", columns={"f_skill_id"})})
+ * @ORM\Table(name="players_skills", indexes={@ORM\Index(name="fk_players_skills_players1_idx", columns={"f_pid"}),
+ * @ORM\Index(name="fk_players_skills_game_data_skills1_idx", columns={"f_skill_id"})})
  * @ORM\Entity
  */
 class PlayersSkills
@@ -29,7 +30,7 @@ class PlayersSkills
     private $type;
 
     /**
-     * @var \GameDataSkills
+     * @var GameDataSkills
      *
      * @ORM\ManyToOne(targetEntity="GameDataSkills", fetch="EAGER")
      * @ORM\JoinColumns({
@@ -39,7 +40,7 @@ class PlayersSkills
     private $fSkill;
 
     /**
-     * @var \Players
+     * @var Players
      *
      * @ORM\ManyToOne(targetEntity="Players", fetch="EAGER")
      * @ORM\JoinColumns({
@@ -70,7 +71,7 @@ class PlayersSkills
         return $this->fSkill;
     }
 
-    public function setFSkill(?GameDataSkills $fSkill): self
+    public function setFSkill(GameDataSkills $fSkill): self
     {
         $this->fSkill = $fSkill;
 
@@ -82,12 +83,10 @@ class PlayersSkills
         return $this->fPid;
     }
 
-    public function setFPid(?Players $fPid): self
+    public function setFPid(Players $fPid): self
     {
         $this->fPid = $fPid;
 
         return $this;
     }
-
-
 }

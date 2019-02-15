@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 use App\Entity\Players;
@@ -9,7 +10,9 @@ use App\Entity\Players;
 /**
  * Matches
  *
- * @ORM\Table(name="matches", indexes={@ORM\Index(name="idx_team1_id_team2_id", columns={"team1_id", "team2_id"}), @ORM\Index(name="idx_team2_id", columns={"team2_id"}), @ORM\Index(name="IDX_62615BAE72BCFA4", columns={"team1_id"})})
+ * @ORM\Table(name="matches", indexes={@ORM\Index(name="idx_team1_id_team2_id", columns={"team1_id", "team2_id"}),
+ *     @ORM\Index(name="idx_team2_id", columns={"team2_id"}),
+ *     @ORM\Index(name="IDX_62615BAE72BCFA4", columns={"team1_id"})})
  * @ORM\Entity
  */
 class Matches
@@ -28,7 +31,7 @@ class Matches
      *
      * @ORM\Column(name="fans", type="integer", nullable=false, options={"unsigned"=true})
      */
-    private $fans = '0';
+    private $fans = 0;
 
     /**
      * @var int|null
@@ -59,7 +62,7 @@ class Matches
     private $income2;
 
     /**
-     * @var \DateTime|null
+     * @var DateTimeInterface
      *
      * @ORM\Column(name="date_created", type="datetime", nullable=true)
      */
@@ -84,17 +87,17 @@ class Matches
      *
      * @ORM\Column(name="tv1", type="integer", nullable=false)
      */
-    private $tv1 = '0';
+    private $tv1 = 0;
 
     /**
      * @var int
      *
      * @ORM\Column(name="tv2", type="integer", nullable=false)
      */
-    private $tv2 = '0';
+    private $tv2 = 0;
 
     /**
-     * @var \Teams
+     * @var Teams
      *
      * @ORM\ManyToOne(targetEntity="Teams", fetch="EAGER")
      * @ORM\JoinColumns({
@@ -104,7 +107,7 @@ class Matches
     private $team1;
 
     /**
-     * @var \Teams
+     * @var Teams
      *
      * @ORM\ManyToOne(targetEntity="Teams", fetch="EAGER")
      * @ORM\JoinColumns({
@@ -183,7 +186,7 @@ class Matches
         return $this->dateCreated;
     }
 
-    public function setDateCreated(?\DateTimeInterface $dateCreated): self
+    public function setDateCreated(\DateTimeInterface $dateCreated): self
     {
         $this->dateCreated = $dateCreated;
 
@@ -207,7 +210,7 @@ class Matches
         return $this->team2Score;
     }
 
-    public function setTeam2Score(?int $team2Score): self
+    public function setTeam2Score(int $team2Score): self
     {
         $this->team2Score = $team2Score;
 
@@ -243,7 +246,7 @@ class Matches
         return $this->team1;
     }
 
-    public function setTeam1(?Teams $team1): self
+    public function setTeam1(Teams $team1): self
     {
         $this->team1 = $team1;
 
@@ -255,12 +258,10 @@ class Matches
         return $this->team2;
     }
 
-    public function setTeam2(?Teams $team2): self
+    public function setTeam2(Teams $team2): self
     {
         $this->team2 = $team2;
 
         return $this;
     }
-
-
 }

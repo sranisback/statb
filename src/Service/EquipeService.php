@@ -7,8 +7,7 @@ use App\Entity\Matches;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 
-
-class equipeService
+class EquipeService
 {
 
     private $doctrineEntityManager;
@@ -19,18 +18,15 @@ class equipeService
     }
 
     /**
-     * @param $annee
+     * @param int $annee
      * @return array
      */
     public function toutesLesTeamsParAnnee($annee)
     {
-
         return $this->doctrineEntityManager->getRepository(Teams::class)->findBy(
             ['year' => $annee, 'retired' => false],
             array('name' => 'ASC')
         );
-
-
     }
 
     /**
@@ -52,12 +48,11 @@ class equipeService
         $matches = array_merge($matches1, $matches2);
 
         return $matches;
-
     }
 
     /**
      * @param Teams $equipe
-     * @param array
+     * @param array $matchesCollection
      * @return array
      */
     public function resultatsDelEquipe(Teams $equipe, Array $matchesCollection)
@@ -67,20 +62,19 @@ class equipeService
         $Totalloss = 0;
 
         foreach ($matchesCollection as $match) {
-            list($win, $loss, $draw) = $this->resultatDuMatch($equipe, $match);
+            $results = $this->resultatDuMatch($equipe, $match);
 
-            $TotalWin += $win;
-            $Totaldraw += $draw;
-            $Totalloss += $loss;
-
+            $TotalWin += $results['win'];
+            $Totaldraw += $results['draw'];
+            $Totalloss += $results['loss'];
         }
 
-        return [$TotalWin, $Totaldraw, $Totalloss];
+        return ['win'=>$TotalWin,'draw'=> $Totaldraw,'loss'=> $Totalloss];
     }
 
     /**
      * @param Teams $equipe
-     * @param $match
+     * @param Matches $match
      * @return array
      */
     public function resultatDuMatch(Teams $equipe, $match): array
@@ -89,19 +83,17 @@ class equipeService
         $loss = 0;
         $draw = 0;
 
-        if (($equipe == $match->getTeam1() && $match->getTeam1Score() > $match->getTeam2Score(
-                )) || ($equipe == $match->getTeam2() && $match->getTeam1Score() < $match->getTeam2Score())) {
+        if (($equipe === $match->getTeam1() && $match->getTeam1Score() > $match->getTeam2Score(
+        )) || ($equipe === $match->getTeam2() && $match->getTeam1Score() < $match->getTeam2Score())) {
             $win++;
-        } elseif (($equipe == $match->getTeam1() && $match->getTeam1Score() < $match->getTeam2Score(
-                )) || ($equipe == $match->getTeam2() && $match->getTeam1Score() > $match->getTeam2Score())) {
+        } elseif (($equipe === $match->getTeam1() && $match->getTeam1Score() < $match->getTeam2Score(
+        )) || ($equipe === $match->getTeam2() && $match->getTeam1Score() > $match->getTeam2Score())) {
             $loss++;
-        } elseif (($equipe == $match->getTeam1() && $match->getTeam1Score() == $match->getTeam2Score(
-                )) || ($equipe == $match->getTeam2() && $match->getTeam1Score() == $match->getTeam2Score())) {
+        } elseif (($equipe === $match->getTeam1() && $match->getTeam1Score() == $match->getTeam2Score(
+        )) || ($equipe === $match->getTeam2() && $match->getTeam1Score() == $match->getTeam2Score())) {
             $draw++;
         }
 
-        return [$win, $loss, $draw];
+        return ['win'=>$win, 'loss'=>$loss,'draw'=> $draw];
     }
-
-
 }

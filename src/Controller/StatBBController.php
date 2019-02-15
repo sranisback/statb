@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUndefinedMethodInspection */
 
 namespace App\Controller;
 
@@ -16,8 +16,8 @@ use App\Entity\Dyk;
 use App\Entity\Coaches;
 
 use App\Service\coachService;
-use App\Service\equipeService;
-use App\Service\playerService;
+use App\Service\EquipeService;
+use App\Service\PlayerService;
 use App\Service\settingsService;
 
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,16 +33,21 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
+/**
+ * Class StatBBController
+ * @package App\Controller
+ */
 class StatBBController extends AbstractController
 {
     /**
      * @Route("/showteams", name="showteams", options = { "expose" = true })
-     * @param equipeService $equipeService
+     * @param EquipeService $equipeService
      * @param settingsService $settingsService
      * @return response
      */
-    public function show_teams(equipeService $equipeService, settingsService $settingsService)
+    public function showTeams(EquipeService $equipeService, settingsService $settingsService)
     {
         return $this->render(
             'statbb/showteams.html.twig',
@@ -54,13 +59,13 @@ class StatBBController extends AbstractController
      * @Route("/showuserteams", name="showuserteams", options = { "expose" = true })
      * @param settingsService $settingsService
      * @param coachService $coachService
-     * @param equipeService $equipeService
+     * @param EquipeService $equipeService
      * @return response
      */
-    public function show_user_teams(
+    public function showUserTeams(
         settingsService $settingsService,
         coachService $coachService,
-        equipeService $equipeService
+        EquipeService $equipeService
     ) {
 
         $tdata = [];
@@ -70,37 +75,32 @@ class StatBBController extends AbstractController
         $countEquipe = 0;
 
         foreach ($equipesCollection as $equipe) {
-
             $tdata[$countEquipe]['tId'] = $equipe->getTeamId();
 
             $resultats = $equipeService->resultatsDelEquipe($equipe, $equipeService->listeDesMatchs($equipe));
 
-            $tdata[$countEquipe]['win'] = $resultats[0];
-            $tdata[$countEquipe]['loss'] = $resultats[1];
-            $tdata[$countEquipe]['draw'] = $resultats[2];
+            $tdata[$countEquipe]['win'] = $resultats['win'];
+            $tdata[$countEquipe]['loss'] = $resultats['loss'];
+            $tdata[$countEquipe]['draw'] = $resultats['draw'];
 
             $countEquipe++;
         }
+
         return $this->render('statbb/user_teams.html.twig', ['coachteam' => $equipesCollection, 'tdata' => $tdata]);
     }
 
     /**
      * @Route("/team/{teamid}/{type}", name="team", options = { "expose" = true })
-     * @param $teamid
-     * @param $type
-     * @param playerService $playerService
+     * @param int $teamid
+     * @param string $type
+     * @param PlayerService $playerService
      * @return Response
      */
-    public function show_team($teamid, $type, playerService $playerService)
+    public function showTeam($teamid, $type, PlayerService $playerService)
     {
+        $pdata = [];
 
-        if (!isset($lastUsername)) {
-
-            $lastUsername = '';
-
-        }
-
-        $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId'=>$teamid]);
+        $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamid]);
 
         $players = $playerService->listeDesJoueursDelEquipe($equipe);
 
@@ -108,8 +108,7 @@ class StatBBController extends AbstractController
 
         $coutTotalJoueur = 0;
 
-        foreach ($players as $joueur){
-
+        foreach ($players as $joueur) {
             $ficheJoueur = $playerService->statsDuJoueur($joueur);
 
             $pdata[$count]['pid'] = $joueur->getPlayerId();
@@ -123,27 +122,24 @@ class StatBBController extends AbstractController
             $pdata[$count]['skill'] = substr($ficheJoueur['comp'], 0, strlen($ficheJoueur['comp']) - 2);
             $pdata[$count]['spp'] = $playerService->xpDuJoueur($joueur);
             $pdata[$count]['cost'] = $joueur->getValue();
-            $pdata[$count]['status']  = $playerService->statutDuJoueur($joueur);
+            $pdata[$count]['status'] = $playerService->statutDuJoueur($joueur);
 
             if (!$joueur->getName()) {
-
                 $joueur->setName('Inconnu');
             }
 
-            switch ($joueur->getStatus())
-            {
+            switch ($joueur->getStatus()) {
                 case 7:
                 case 8:
-                break;
+                    break;
 
                 default:
-                    ($joueur->getInjRpm() != 0)?/*rien faire*/:$coutTotalJoueur += $joueur->getValue();
+                    ($joueur->getInjRpm() != 0) ?/*rien faire*/ : $coutTotalJoueur += $joueur->getValue();
                     break;
             }
 
 
-           $count++;
-
+            $count++;
         }
 
         $tdata['playersCost'] = $coutTotalJoueur;
@@ -152,7 +148,8 @@ class StatBBController extends AbstractController
         $tdata['asscoaches'] = $equipe->getAssCoaches() * 10000;
         $tdata['cheerleader'] = $equipe->getCheerleaders() * 10000;
         $tdata['apo'] = $equipe->getApothecary() * 50000;
-        $tdata['tv'] = $coutTotalJoueur + $tdata['rerolls'] + $tdata['pop'] + $tdata['asscoaches'] + $tdata['cheerleader'] + $tdata['apo'];
+        $tdata['tv'] = $coutTotalJoueur + $tdata['rerolls'] + $tdata['pop']
+            + $tdata['asscoaches'] + $tdata['cheerleader'] + $tdata['apo'];
 
         if ($type == "modal") {
             return $this->render(
@@ -164,33 +161,27 @@ class StatBBController extends AbstractController
                 'statbb/team.html.twig',
                 [
                     'players' => $players,
-                    'last_username' => $lastUsername,
                     'team' => $equipe,
                     'pdata' => $pdata,
                     'tdata' => $tdata,
                 ]
             );
         }
-
     }
 
     /**
      * @Route("/player/{playerid}/{type}", name="Player", options = { "expose" = true })
-     * @param $playerid
-     * @param $type
-     * @param playerService $playerService
+     * @param int $playerid
+     * @param string $type
+     * @param PlayerService $playerService
      * @return Response
      */
-    public function show_player($playerid, $type, playerService $playerService )
+    public function showPlayer($playerid, $type, PlayerService $playerService)
     {
 
-        if (!isset($lastUsername)) {
+        $msdata= [];
 
-            $lastUsername = '';
-
-        }
-
-        $joueur = $this->getDoctrine()->getRepository(Players::class)->findOneBy(['playerId'=>$playerid]);
+        $joueur = $this->getDoctrine()->getRepository(Players::class)->findOneBy(['playerId' => $playerid]);
 
         $ficheJoueur = $playerService->statsDuJoueur($joueur);
 
@@ -216,8 +207,7 @@ class StatBBController extends AbstractController
         $parties = [];
 
         foreach ($mdata as $matchData) {
-
-            $actionsDuMatch = $playerService->actionDuJoueurDansUnMatch($joueur,$matchData);
+            $actionsDuMatch = $playerService->actionDuJoueurDansUnMatch($matchData);
 
             $parties[] = $matchData->getFMatch()->getMatchId();
 
@@ -237,27 +227,24 @@ class StatBBController extends AbstractController
         if ($type == "modal") {
             return $this->render(
                 'statbb/player_modal.html.twig',
-                array(
+                [
                     'player' => $joueur,
                     'pdata' => $pdata,
                     'matches' => $matches,
                     'mdata' => $msdata,
-                    'last_username' => $lastUsername,
-                )
+                ]
             );
         } else {
             return $this->render(
                 'statbb/player.html.twig',
-                array(
+                [
                     'player' => $joueur,
                     'pdata' => $pdata,
                     'matches' => $matches,
                     'mdata' => $msdata,
-                    'last_username' => $lastUsername,
-                )
+                ]
             );
         }
-
     }
 
 
@@ -266,7 +253,7 @@ class StatBBController extends AbstractController
      */
     public function index(AuthenticationUtils $authenticationUtils)
     {
-            return $this->render('statbb/front.html.twig');
+        return $this->render('statbb/front.html.twig');
     }
 
     /**
@@ -274,7 +261,7 @@ class StatBBController extends AbstractController
      */
     public function admin()
     {
-        return new Response('<html><body>Admin page!</body></html>');
+        return $this->render('statbb/admin.html.twig');
     }
 
     /**
@@ -306,11 +293,43 @@ class StatBBController extends AbstractController
         return $this->render('statbb/citation.html.twig', array('citation' => $citations[$nbr]));
     }
 
+    /**
+     * @Route("/touslescoaches", options = { "expose" = true })
+     */
+    public function tousLesCoaches(Request $request)
+    {
+        $coach = new coaches();
+        $coach->setName('test');
+        $coach->setPasswd('test');
+
+        $form = $this->createFormBuilder($coach)->add('name', null)->add('passwd', null)->add(
+            'save',
+            SubmitType::class,
+            ['label' => 'go']
+        )->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->addFlash('success', 'Genus created!');
+
+            //    return $this->redirectToRoute('frontUser');
+        } else {
+            $this->addFlash('success', 'Genus created!');
+        }
+
+        dump($coach);
+
+        return $this->render('statbb/listeCoaches.html.twig', ['form' => $form->createView()]);
+
+        //return $this->render('statbb/listeCoaches.html.twig',['coaches'=>$this->getDoctrine()->getRepository(Coaches::class)->findAll()]);
+    }
+
 
     /**
      * @Route("/classement/general/{limit}", name="classementgen", options = { "expose" = true })
      */
-    public function class_gen($limit)
+    public function classGen($limit)
     {
         $setting = $this->getDoctrine()->getRepository(Setting::class)->findOneBy(['name' => 'year']);
 
@@ -323,7 +342,7 @@ class StatBBController extends AbstractController
     /**
      * @Route("/classement/{type}/{teamorplayer}/{limit}", name="classement", options = { "expose" = true })
      */
-    public function Sclass($type, $teamorplayer, $limit)
+    public function sClass($type, $teamorplayer, $limit)
     {
         $setting = $this->getDoctrine()->getRepository(Setting::class)->findOneBy(['name' => 'year']);
 
@@ -336,38 +355,32 @@ class StatBBController extends AbstractController
 
 
         if ($teamorplayer == 'player') {
-
             switch ($type) {
                 case 'bash':
-
                     $title = 'Le Bash Lord - Record CAS';
                     $class = 'class_bash';
 
                     break;
 
                 case 'td':
-
                     $title = 'Le Marqueur - Record TD';
                     $class = 'class_td';
 
                     break;
 
                 case 'xp':
-
                     $title = 'Le Meilleur - Record SPP';
                     $class = 'class_xp';
 
                     break;
 
                 case 'pass':
-
                     $title = 'La Main d\'or - Record Passes';
                     $class = 'class_pass';
 
                     break;
 
-                case 'foul' :
-
+                case 'foul':
                     $title = 'Le Tricheur - Record Fautes';
                     $class = 'class_foul';
                     break;
@@ -384,32 +397,27 @@ class StatBBController extends AbstractController
                     'limit' => $limit,
                 )
             );
-
         } else {
             switch ($type) {
                 case 'bash':
-
                     $title = 'Les plus méchants';
                     $class = 'class_Tbash';
 
                     break;
 
                 case 'td':
-
                     $title = 'Le plus de TD';
                     $class = 'class_Ttd';
 
                     break;
 
 
-                case 'dead' :
-
+                case 'dead':
                     $title = 'Fournisseurs de cadavres';
                     $class = 'class_Tdead';
                     break;
 
-                case 'foul' :
-
+                case 'foul':
                     $title = 'Les tricheurs';
                     $class = 'class_Tfoul';
                     break;
@@ -426,15 +434,13 @@ class StatBBController extends AbstractController
                     'limit' => $limit,
                 )
             );
-
         }
-
     }
 
     /**
      * @Route("/totalcas", options = { "expose" = true })
      */
-    public function Totalcas()
+    public function totalCas()
     {
         $setting = $this->getDoctrine()->getRepository(Setting::class)->findOneBy(['name' => 'year']);
 
@@ -443,19 +449,16 @@ class StatBBController extends AbstractController
         $matches = $this->getDoctrine()->getRepository(Matches::class)->findAll();
 
         foreach ($matches as $number => $match) {
-            if ($match->getTeam1()->getYear() != $setting->getValue() || $match->getTeam2()->getYear(
-                ) != $setting->getValue()) {
+            if ($match->getTeam1()->getYear() != $setting->getValue()
+            || $match->getTeam2()->getYear() != $setting->getValue()) {
                 unset($matches[$number]);
-
             }
-
         }
 
         return new Response(
             '<strong>Total : '.$total_cas[0]['score'].' En '.count($matches).' Matches.</strong><br/>
 			 <strong>Par Matches :  '.round($total_cas[0]['score'] / count($matches), 2).'</strong>'
         );
-
     }
 
 
@@ -469,37 +472,27 @@ class StatBBController extends AbstractController
 
         $matches = $this->getDoctrine()->getRepository(Matches::class)->findBy(array(), array('dateCreated' => 'DESC'));
 
-        $games = null ;
+        $games = null;
 
         foreach ($matches as $number => $match) {
-            if ($match->getTeam1()->getYear() != $setting->getValue() || $match->getTeam2()->getYear(
-                ) != $setting->getValue()) {
+            if ($match->getTeam1()->getYear() != $setting->getValue()
+                || $match->getTeam2()->getYear() != $setting->getValue()) {
                 unset($matches[$number]);
-
             }
-
         }
 
-        if($teamId)
-        {
+        if ($teamId) {
             foreach ($matches as $number => $match) {
-                if($match->getTeam2()->getTeamId() == $teamId || $match->getTeam1()->getTeamId() == $teamId)
-                {
+                if ($match->getTeam2()->getTeamId() == $teamId || $match->getTeam1()->getTeamId() == $teamId) {
                     $games[] = $match;
                 }
             }
-        }else{
-
+        } else {
             for ($x = 0; $x < 5; $x++) {
                 $games[] = $matches[$x];
             }
-
-
         }
-
-
         return $this->render('statbb/lastfivesmatches.html.twig', array('games' => $games));
-
     }
 
     /**
@@ -514,7 +507,6 @@ class StatBBController extends AbstractController
         return new Response(
             '<b>Did you know ?</b> <i>'.$dyk[$nbr]->getDykText().'</i>'
         );
-
     }
 
     /**
@@ -536,7 +528,6 @@ class StatBBController extends AbstractController
                 if ($baseskill->getSkillId() == $playerskill) {
                     $listskill .= $baseskill->getName().', ';
                 }
-
             }
         }
 
@@ -590,7 +581,7 @@ class StatBBController extends AbstractController
     /**
      * @Route("/createTeam/{teamname}/{coachid}/{raceid}", options = { "expose" = true })
      */
-    public function create_team($teamname, $coachid, $raceid)
+    public function createTeam($teamname, $coachid, $raceid)
     {
         $setting = $this->getDoctrine()->getRepository(Setting::class)->findOneBy(['name' => 'year']);
 
@@ -622,9 +613,9 @@ class StatBBController extends AbstractController
     }
 
     /**
-     * @Route("/player_adder/{raceId}/{teamId}", name="player_adder", options = { "expose" = true })
+     * @Route("/playerAdder/{raceId}/{teamId}", name="playerAdder", options = { "expose" = true })
      */
-    public function player_adder($raceId, $teamId)
+    public function playerAdder($raceId, $teamId)
     {
 
         $race = $this->getDoctrine()->getRepository(races::class)->findOneBy(array('raceId' => $raceId));
@@ -638,9 +629,9 @@ class StatBBController extends AbstractController
     }
 
     /**
-     * @Route("/add_player/{posId}/{teamId}", options = { "expose" = true })
+     * @Route("/addPlayer/{posId}/{teamId}", options = { "expose" = true })
      */
-    public function add_player($posId, $teamId)
+    public function addPlayer($posId, $teamId)
     {
 
         $position = $this->getDoctrine()->getRepository(GameDataPlayers::class)->findOneBy(['posId' => $posId]);
@@ -650,9 +641,6 @@ class StatBBController extends AbstractController
         $tv = 0;
         $tresors = '';
         $pcost = '';
-        $reponse = '';
-        $html = '';
-
         $player = new Players();
 
         $listskill = '';
@@ -665,7 +653,6 @@ class StatBBController extends AbstractController
             $count = count($allPlayerByPos);
 
             if ($count < $position->getQty()) {
-
                 $tresors = $team->getTreasury() - $position->getCost();
 
                 $team->setTreasury($tresors);
@@ -685,7 +672,6 @@ class StatBBController extends AbstractController
                         if ($baseskill->getSkillId() == $playerskill) {
                             $listskill .= $baseskill->getName().', ';
                         }
-
                     }
                 }
 
@@ -710,7 +696,6 @@ class StatBBController extends AbstractController
                     } else {
                         break;
                     }
-
                 }
 
                 $player->setNr($nr);
@@ -734,18 +719,13 @@ class StatBBController extends AbstractController
                 )->getContent();
                 $reponse = "ok";
             } else {
-
                 $reponse = "pl";
                 $html = "Plus de place !";
-
             }
         } else {
-
             $reponse = "ar";
             $html = "Pas assez d'argent !";
-
         }
-
 
         $encoders = array(new XmlEncoder(), new JsonEncoder());
         $normalizers = array(new ObjectNormalizer());
@@ -764,7 +744,6 @@ class StatBBController extends AbstractController
         $jsonContent = $serializer->serialize($response, 'json');
 
         return new JsonResponse($jsonContent);
-
     }
 
     /**
@@ -787,7 +766,6 @@ class StatBBController extends AbstractController
         );
 
         if (count($matchest1) == 0 || count($matchest2) == 0) {
-
             $player->getOwnedByTeam()->setTreasury(
                 $player->getOwnedByTeam()->getTreasury() + $player->getFPos()->getCost()
             );
@@ -804,26 +782,19 @@ class StatBBController extends AbstractController
         $listskill = '';
 
         foreach ($supcomp as $comps) {
-
             if ($comps->getType() == 'N') {
-
                 $tcost += 20000;
                 $listskill .= '<text class="text-success">'.$comps->getFSkill()->getName().'</text>, ';
-
             } else {
-
                 $tcost += 30000;
                 $listskill .= '<text class="text-danger">'.$comps->getFSkill()->getName().'</text>, ';
-
             }
-
         }
 
         if ($player->getAchMa() > 0) {
             $listskill .= '<text class="text-success">+1 Ma</text>, ';
 
             $tcost += 30000;
-
         }
 
         if ($player->getAchSt() > 0) {
@@ -877,13 +848,12 @@ class StatBBController extends AbstractController
         $jsonContent = $serializer->serialize($response, 'json');
 
         return new JsonResponse($jsonContent);
-
     }
 
     /**
-     * @Route("/add_inducement/{teamId}/{type}", options = { "expose" = true })
+     * @Route("/addInducement/{teamId}/{type}", options = { "expose" = true })
      */
-    public function add_inducement($teamId, $type)
+    public function addInducement($teamId, $type)
     {
 
         $team = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
@@ -891,9 +861,7 @@ class StatBBController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
 
         switch ($type) {
-
             case "rr":
-
                 $inducost = $team->getFRace()->getCostRr();
 
                 $matchest1 = $this->getDoctrine()->getRepository(Matches::class)->findBy(
@@ -905,13 +873,10 @@ class StatBBController extends AbstractController
                 );
 
                 if (count($matchest1) > 0 || count($matchest2) > 0) {
-
                     $inducost = $inducost * 2;
-
                 }
 
                 if ($team->getTreasury() >= $inducost) {
-
                     $nbr = $team->getRerolls() + 1;
 
                     $team->setRerolls($nbr);
@@ -925,15 +890,12 @@ class StatBBController extends AbstractController
                     $team->setTv($tv);
 
                     $inducost = $team->getFRace()->getCostRr();
-
                 }
 
                 break;
 
             case "pop":
-
                 if ($team->getTreasury() >= 10000) {
-
                     $matchest1 = $this->getDoctrine()->getRepository(Matches::class)->findBy(
                         ['team1' => $team->getTeamId()]
                     );
@@ -943,7 +905,6 @@ class StatBBController extends AbstractController
                     );
 
                     if (count($matchest1) == 0 || count($matchest2) == 0) {
-
                         $nbr = $team->getFfBought() + 1;
 
                         $team->setFfBought($nbr);
@@ -963,7 +924,6 @@ class StatBBController extends AbstractController
                 break;
 
             case "ac":
-
                 if ($team->getTreasury() >= 10000) {
                     $nbr = $team->getAssCoaches() + 1;
 
@@ -983,7 +943,6 @@ class StatBBController extends AbstractController
                 break;
 
             case "chl":
-
                 if ($team->getTreasury() >= 10000) {
                     $nbr = $team->getCheerleaders() + 1;
 
@@ -1003,7 +962,6 @@ class StatBBController extends AbstractController
                 break;
 
             case "apo":
-
                 if ($team->getTreasury() >= 50000 && $team->getApothecary() < 1) {
                     $nbr = $team->getApothecary() + 1;
 
@@ -1021,7 +979,6 @@ class StatBBController extends AbstractController
                 }
 
                 break;
-
         }
 
         $encoders = array(new XmlEncoder(), new JsonEncoder());
@@ -1045,15 +1002,13 @@ class StatBBController extends AbstractController
         $jsonContent = $serializer->serialize($response, 'json');
 
         return new JsonResponse($jsonContent);
-
     }
 
     /**
-     * @Route("/rem_inducement/{teamId}/{type}", options = { "expose" = true })
+     * @Route("/remInducement/{teamId}/{type}", options = { "expose" = true })
      */
-    public function rem_inducement($teamId, $type)
+    public function remInducement($teamId, $type)
     {
-
         $team = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
 
         $entityManager = $this->getDoctrine()->getManager();
@@ -1063,9 +1018,7 @@ class StatBBController extends AbstractController
         $matchest2 = $this->getDoctrine()->getRepository(Matches::class)->findBy(['team2' => $team->getTeamId()]);
 
         switch ($type) {
-
             case "rr":
-
                 if ($team->getRerolls() > 0) {
                     $inducost = $team->getFRace()->getCostRr();
 
@@ -1074,26 +1027,20 @@ class StatBBController extends AbstractController
                     $team->setRerolls($nbr);
 
                     if (count($matchest1) == 0 || count($matchest2) == 0) {
-
                         $treasury = $team->getTreasury() + $inducost;
 
                         $team->setTreasury($treasury);
-
                     }
 
                     $tv = $team->getTv() - $team->getFRace()->getCostRr();
 
                     $team->setTv($tv);
-
                 }
 
                 break;
 
             case "pop":
-
-
                 if ((count($matchest1) == 0 || count($matchest2) == 0) && $team->getFfBought() > 0) {
-
                     $nbr = $team->getFfBought() - 1;
 
                     $team->setFfBought($nbr);
@@ -1105,11 +1052,9 @@ class StatBBController extends AbstractController
                     $inducost = 10000;
 
                     if (count($matchest1) == 0 || count($matchest2) == 0) {
-
                         $treasury = $team->getTreasury() + 10000;
 
                         $team->setTreasury($treasury);
-
                     }
                 }
 
@@ -1117,7 +1062,6 @@ class StatBBController extends AbstractController
                 break;
 
             case "ac":
-
                 if ($team->getAssCoaches() > 0) {
                     $nbr = $team->getAssCoaches() - 1;
 
@@ -1130,18 +1074,15 @@ class StatBBController extends AbstractController
                     $inducost = 10000;
 
                     if (count($matchest1) == 0 || count($matchest2) == 0) {
-
                         $treasury = $team->getTreasury() + 10000;
 
                         $team->setTreasury($treasury);
-
                     }
                 }
 
                 break;
 
             case "chl":
-
                 if ($team->getCheerleaders() > 0) {
                     $nbr = $team->getCheerleaders() - 1;
 
@@ -1154,18 +1095,15 @@ class StatBBController extends AbstractController
                     $inducost = 10000;
 
                     if (count($matchest1) == 0 || count($matchest2) == 0) {
-
                         $treasury = $team->getTreasury() + 10000;
 
                         $team->setTreasury($treasury);
-
                     }
                 }
 
                 break;
 
             case "apo":
-
                 if ($team->getApothecary() > 0) {
                     $nbr = $team->getApothecary() - 1;
 
@@ -1178,16 +1116,12 @@ class StatBBController extends AbstractController
                     $inducost = 50000;
 
                     if (count($matchest1) == 0 || count($matchest2) == 0) {
-
                         $treasury = $team->getTreasury() + 50000;
 
                         $team->setTreasury($treasury);
-
                     }
                 }
-
                 break;
-
         }
 
         $encoders = array(new XmlEncoder(), new JsonEncoder());
@@ -1211,13 +1145,12 @@ class StatBBController extends AbstractController
         $jsonContent = $serializer->serialize($response, 'json');
 
         return new JsonResponse($jsonContent);
-
     }
 
     /**
-     * @Route("/ret_team/{teamId}", options = { "expose" = true })
+     * @Route("/retTeam/{teamId}", options = { "expose" = true })
      */
-    public function ret_team($teamId)
+    public function retTeam($teamId)
     {
         $team = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
 
@@ -1239,7 +1172,6 @@ class StatBBController extends AbstractController
         $jsonContent = $serializer->serialize($response, 'json');
 
         return new JsonResponse($jsonContent);
-
     }
 
     /**
@@ -1256,8 +1188,6 @@ class StatBBController extends AbstractController
         );
 
         return $this->render('statbb/dropdownteams.html.twig', ['teams' => $teams, 'nbr' => $nbr]);
-
-
     }
 
     /**
@@ -1275,11 +1205,9 @@ class StatBBController extends AbstractController
         );
 
         foreach ($players as $number => $player) {
-
             if ($player->getStatus() == 7 || $player->getStatus() == 8 || $player->getInjRpm() == 1) {
                 unset($players[$number]);
             }
-
         }
 
         $response = [
@@ -1344,8 +1272,7 @@ class StatBBController extends AbstractController
 
         foreach ($players as $player) {
             if ($player->getStatus() == 7 || $player->getStatus() == 8 || $player->getInjRpm() == 1) {
-            }// if ($player->getStatus() == 1 || $player->getStatus() == 9 || $player->getInjRpm() == 0)
-            else {
+            } else {
                 $matchdata = new MatchData();
 
                 $matchdata->setAgg(0);
@@ -1365,33 +1292,25 @@ class StatBBController extends AbstractController
                 $entityManager->persist($matchdata);
 
                 $entityManager->flush();
-
             }
         }
 
         foreach ($players as $player) {
-
             if ($player->getStatus() == 7 || $player->getStatus() == 8) {
-
-            }// if ($player->getStatus() == 1 || $player->getStatus() == 9 || $player->getInjRpm() == 0)
-            elseif ($player->getInjRpm() == 1) {
-
+            } elseif ($player->getInjRpm() == 1) {
                 $player->setInjRpm(0);
 
                 $entityManager->persist($matchdata);
 
                 $entityManager->flush();
             }
-
         }
 
         $players = $this->getDoctrine()->getRepository(Players::class)->findBy(['ownedByTeam' => $team2->getTeamId()]);
 
         foreach ($players as $player) {
             if ($player->getStatus() == 7 || $player->getStatus() == 8 || $player->getInjRpm() == 1) {
-
-            }// if ($player->getStatus() == 1 || $player->getStatus() == 9 || $player->getInjRpm() == 0)
-            else {
+            } else {
                 $matchdata = new MatchData();
 
                 $matchdata->setAgg(0);
@@ -1411,42 +1330,31 @@ class StatBBController extends AbstractController
                 $entityManager->persist($matchdata);
 
                 $entityManager->flush();
-
             }
         }
 
         foreach ($players as $player) {
-
             if ($player->getStatus() == 7 || $player->getStatus() == 8) {
-
-            }// if ($player->getStatus() == 1 || $player->getStatus() == 9 || $player->getInjRpm() == 0)
-            elseif ($player->getInjRpm() == 1) {
-
+            } elseif ($player->getInjRpm() == 1) {
                 $player->setInjRpm(0);
 
                 $entityManager->persist($matchdata);
 
                 $entityManager->flush();
             }
-
         }
 
         $team1->setTreasury($team1->getTreasury() + $parametersAsArray['gain1']);
         $team2->setTreasury($team2->getTreasury() + $parametersAsArray['gain2']);
 
-
         if ($team1->getFf() + $parametersAsArray['varpop_team1'] < 0) {
-
             $team1->setFf(0);
-
         } else {
             $team1->setFf($team1->getFf() + $parametersAsArray['varpop_team1']);
         }
 
         if ($team2->getFf() + $parametersAsArray['varpop_team2'] < 0) {
-
             $team2->setFf(0);
-
         } else {
             $team2->setFf($team2->getFf() + $parametersAsArray['varpop_team2']);
         }
@@ -1462,111 +1370,93 @@ class StatBBController extends AbstractController
 
 
         foreach ($parametersAsArray['player'] as $action) {
-
             $mdplayer = $this->getDoctrine()->getRepository(MatchData::class)->findOneBy(
                 ['fPlayer' => $action['id'], 'fMatch' => $match->getMatchId()]
             );
             $playerstat = $this->getDoctrine()->getRepository(Players::class)->findOneBy(['playerId' => $action['id']]);
 
             switch ($action['action']) {
-
                 case 'COMP':
-
                     $mdplayer->setCp(1);
 
                     break;
 
                 case 'TD':
-
                     $mdplayer->setTd(1);
 
                     break;
 
                 case 'INT':
-
                     $mdplayer->setIntcpt(1);
 
                     break;
 
                 case 'CAS - BH':
-
                     $mdplayer->setBh(1);
 
                     break;
 
                 case 'CAS - SI':
-
                     $mdplayer->setSi(1);
 
                     break;
 
                 case 'CAS - KI':
-
                     $mdplayer->setKi(1);
 
                     break;
 
                 case 'MVP':
-
                     $mdplayer->setMvp(1);
 
                     break;
 
                 case 'AGG':
-
                     $mdplayer->setAgg(1);
 
                     break;
 
                 case '-1 Ma':
-
                     $playerstat->setInjMa($playerstat->getInjMa() + 1);
                     $playerstat->setInjRpm(1);
 
                     break;
 
                 case '-1 St':
-
                     $playerstat->setInjSt($playerstat->getInjSt() + 1);
                     $playerstat->setInjRpm(1);
 
                     break;
 
                 case '-1 Ag':
-
                     $playerstat->setInjAg($playerstat->getInjAg() + 1);
                     $playerstat->setInjRpm(1);
 
                     break;
 
                 case '-1 Av':
-
                     $playerstat->setInjAv($playerstat->getInjAv() + 1);
                     $playerstat->setInjRpm(1);
 
                     break;
 
                 case 'Ni':
-
                     $playerstat->setInjNi($playerstat->getInjNi() + 1);
                     $playerstat->setInjRpm(1);
 
                     break;
 
                 case 'RPM':
-
                     $playerstat->setInjRpm(1);
 
                     break;
 
                 case 'Tué':
-
                     $playerstat->setDateDied(\DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s")));
                     $playerstat->setStatus(8);
 
 
                     break;
-
             }
 
             $entityManager->persist($mdplayer);
@@ -1589,7 +1479,6 @@ class StatBBController extends AbstractController
                 $tcas += ($game->getBh() + $game->getSi() + $game->getKi());
                 $tmvp += $game->getMvp();
                 $tagg += $game->getAgg();
-
             }
 
             $spp = $tcp + ($ttd * 3) + ($tint * 2) + ($tcas * 2) + ($tmvp * 5);
@@ -1599,60 +1488,45 @@ class StatBBController extends AbstractController
             );
 
             switch (count($nbrskill)) {
-                case 0 :
+                case 0:
                     if ($spp > 5) {
-
                         $playerstat->setStatus(9);
-
                     }
                     break;
 
-                case 1 :
+                case 1:
                     if ($spp > 15) {
-
                         $playerstat->setStatus(9);
-
                     }
                     break;
 
-                case 2 :
+                case 2:
                     if ($spp > 30) {
-
                         $playerstat->setStatus(9);
-
                     }
                     break;
 
-                case 3 :
+                case 3:
                     if ($spp > 50) {
-
                         $playerstat->setStatus(9);
-
                     }
                     break;
 
-                case 4 :
+                case 4:
                     if ($spp > 75) {
-
                         $playerstat->setStatus(9);
-
                     }
                     break;
 
-                case 5 :
+                case 5:
                     if ($spp > 175) {
-
                         $playerstat->setStatus(9);
-
                     }
                     break;
-
             }
 
             $entityManager->persist($playerstat);
-
         }
-
 
         $team1->setTv($this->calculateTV($team1) * 1000);
         $team2->setTv($this->calculateTV($team2) * 1000);
@@ -1676,9 +1550,12 @@ class StatBBController extends AbstractController
         $jsonContent = $serializer->serialize($tt, 'json');
 
         return new JsonResponse($jsonContent);
-
     }
 
+    /**
+     * @param $team
+     * @return float|int
+     */
     public function calculateTV($team)
     {
         $tv = 0;
@@ -1693,9 +1570,7 @@ class StatBBController extends AbstractController
         );
 
         foreach ($players as $player) {
-
             if ($player->getStatus() != 7 && $player->getStatus() != 8) {
-
                 $pcost = 0;
 
                 $pcost += $player->getFPos()->getCost();
@@ -1705,49 +1580,32 @@ class StatBBController extends AbstractController
                 );
 
                 foreach ($supcomp as $comps) {
-
                     if ($comps->getType() == 'N') {
-
                         $pcost += 20000;
-
                     } else {
-
                         $pcost += 30000;
-
                     }
                 }
 
                 if ($player->getAchMa() > 0) {
-
                     $pcost += 30000;
-
                 }
 
                 if ($player->getAchSt() > 0) {
-
                     $pcost += 50000;
-
                 }
 
                 if ($player->getAchAg() > 0) {
-
                     $pcost += 40000;
-
                 }
 
                 if ($player->getAchAv() > 0) {
-
                     $pcost += 30000;
                 }
 
-
                 $tcost += $pcost;
-
-
             }
-
         }
-
 
         $tcost += $team->getRerolls() * $team->getFRace()->getCostRr();
         $tcost += ($team->getFf() + $team->getFfBought()) * 10000;
@@ -1766,29 +1624,21 @@ class StatBBController extends AbstractController
      */
     public function chkteam($teamId)
     {
-
         $entityManager = $this->getDoctrine()->getManager();
 
         $team = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
         $players = $this->getDoctrine()->getRepository(Players::class)->findBy(['ownedByTeam' => $team->getTeamId()]);
 
         if ($team->getFRace()->getRaceId() == 17) {
-
             $positionJr = $this->getDoctrine()->getRepository(GameDataPlayers::class)->findOneBy(['posId' => '171']);
-
         } else {
-
             $positionJr = $this->getDoctrine()->getRepository(GameDataPlayers::class)->findOneBy(
                 ['fRace' => $team->getFRace(), 'qty' => '16']
             );
-
         }
-
-
         $number = 0;
 
         foreach ($players as $player) {
-
             if ($player->getStatus() != 7 && $player->getStatus() != 8 && $player->getInjRpm() != 1) {
                 $number++;
             }
@@ -1811,7 +1661,6 @@ class StatBBController extends AbstractController
                 $tcas += ($game->getBh() + $game->getSi() + $game->getKi());
                 $tmvp += $game->getMvp();
                 $tagg += $game->getAgg();
-
             }
 
             $spp = $tcp + ($ttd * 3) + ($tint * 2) + ($tcas * 2) + ($tmvp * 5);
@@ -1822,73 +1671,50 @@ class StatBBController extends AbstractController
 
             $nbrskill = 0;
 
-            $nbrskill += count($skills) + $player->getAchAg() + $player->getAchAv() + $player->getAchMa(
-                ) + $player->getAchSt();
+            $nbrskill += count($skills) + $player->getAchAg() + $player->getAchAv()
+                + $player->getAchMa() + $player->getAchSt();
 
             switch ($nbrskill) {
-                case 0 :
+                case 0:
                     if ($spp > 5) {
-
                         $player->setStatus(9);
-
                     }
                     break;
-
-                case 1 :
+                case 1:
                     if ($spp > 15) {
-
                         $player->setStatus(9);
-
                     }
                     break;
-
-                case 2 :
+                case 2:
                     if ($spp > 30) {
-
                         $player->setStatus(9);
-
                     }
                     break;
-
-                case 3 :
+                case 3:
                     if ($spp > 50) {
-
                         $player->setStatus(9);
-
                     }
                     break;
-
-                case 4 :
+                case 4:
                     if ($spp > 75) {
-
                         $player->setStatus(9);
-
                     }
                     break;
-
-                case 5 :
+                case 5:
                     if ($spp > 175) {
-
                         $player->setStatus(9);
-
                     }
                     break;
-
-
             }
-
             $entityManager->persist($player);
-
         }
 
         if ($number < 11) {
-
             $diff = 11 - $number;
 
             $number = 16;
 
             for ($x = 1; $x < $diff + 1; $x++) {
-
                 $players = $this->getDoctrine()->getRepository(Players::class)->findBy(
                     ['ownedByTeam' => $team->getTeamId(), 'type' => 2],
                     ['nr' => 'ASC']
@@ -1897,9 +1723,7 @@ class StatBBController extends AbstractController
                 foreach ($players as $player) {
                     if ($number == $player->getNr()) {
                         $number++;
-
                     } else {
-
                         break;
                     }
                 }
@@ -1920,10 +1744,8 @@ class StatBBController extends AbstractController
                 $entityManager->flush();
 
                 $number = 16;
-
             }
         } else {
-
             $players = $this->getDoctrine()->getRepository(Players::class)->findBy(
                 ['ownedByTeam' => $team->getTeamId(), 'type' => 2],
                 ['nr' => 'DESC']
@@ -1942,7 +1764,6 @@ class StatBBController extends AbstractController
                     break;
                 }
             }
-
         }
 
         $team->setTv($this->calculateTV($team) * 1000);
@@ -1951,8 +1772,7 @@ class StatBBController extends AbstractController
         $entityManager->persist($team);
         $entityManager->flush();
 
-        return $this->redirectToRoute('team', ['teamid' => $team->getTeamId(), 'type' => 'n'],302);
-
+        return $this->redirectToRoute('team', ['teamid' => $team->getTeamId(), 'type' => 'n'], 302);
     }
 
     /**
@@ -1960,18 +1780,13 @@ class StatBBController extends AbstractController
      */
     public function skillmodal($playerid)
     {
-
         $listskill = $this->getDoctrine()->getRepository(GameDataSkills::class)->findAll();
 
         foreach ($listskill as $key => $skill) {
-
             if ($skill->getCat() == 'E') {
                 unset($listskill[$key]);
             }
-
         }
-
-
         return $this->render('statbb/skillmodal.html.twig', ['listskill' => $listskill, 'playerId' => $playerid]);
     }
 
@@ -1980,7 +1795,6 @@ class StatBBController extends AbstractController
      */
     public function addComp($skillid, $playerid)
     {
-
         $entityManager = $this->getDoctrine()->getManager();
 
         $skill = $this->getDoctrine()->getRepository(GameDataSkills::class)->findOneBy(['skillId' => $skillid]);
@@ -1998,11 +1812,8 @@ class StatBBController extends AbstractController
         $pos = stripos($norm, $skill->getCat());
 
         if ($pos === false) {
-
         } else {
-
             $toadd->setType('N');
-
         }
 
         $double = $player->getFPos()->getDoub();
@@ -2010,14 +1821,9 @@ class StatBBController extends AbstractController
         $pos = stripos($double, $skill->getCat());
 
         if ($pos === false) {
-
         } else {
-
             $toadd->setType('D');
-
         }
-
-
         $entityManager->persist($toadd);
         $entityManager->flush();
 
@@ -2038,7 +1844,6 @@ class StatBBController extends AbstractController
      */
     public function changeNr($newnr, $playerid)
     {
-
         $entityManager = $this->getDoctrine()->getManager();
 
         $player = $this->getDoctrine()->getRepository(players::class)->findOneBy(['playerId' => $playerid]);
@@ -2060,7 +1865,6 @@ class StatBBController extends AbstractController
      */
     public function changeName($newname, $playerid)
     {
-
         $entityManager = $this->getDoctrine()->getManager();
 
         $player = $this->getDoctrine()->getRepository(players::class)->findOneBy(['playerId' => $playerid]);
@@ -2082,7 +1886,6 @@ class StatBBController extends AbstractController
      */
     public function pdfteam($id)
     {
-
         $players = $this->getDoctrine()->getRepository(Players::class)->findBy(
             array('ownedByTeam' => $id),
             array('nr' => 'ASC')
@@ -2097,152 +1900,128 @@ class StatBBController extends AbstractController
 
         if (empty($players)) {
             $pdata = '';
-        } else {
-
         }
 
         foreach ($players as $number => $player) {
+            $tcost = 0;
 
+            $playerskills = explode(",", $player->getFPos()->getSkills());
 
-                $tcost = 0;
+            $listskill = '';
 
-                $playerskills = explode(",", $player->getFPos()->getSkills());
+            foreach ($playerskills as $playerskill) {
+                foreach ($allskills as $baseskill) {
+                    if ($baseskill->getSkillId() == $playerskill) {
+                        $listskill .= '<text class="test-primary">'.$baseskill->getName().'</text>, ';
+                    }
+                }
+            }
 
+            if ($listskill == '<text class="test-primary"></text>, ') {
                 $listskill = '';
+            }
 
-                foreach ($playerskills as $playerskill) {
-                    foreach ($allskills as $baseskill) {
-                        if ($baseskill->getSkillId() == $playerskill) {
-                            $listskill .= '<text class="test-primary">'.$baseskill->getName().'</text>, ';
-                        }
+            $supcomp = $this->getDoctrine()->getRepository(PlayersSkills::class)->findBy(
+                ['fPid' => $player->getPlayerId()]
+            );
 
-                    }
+            foreach ($supcomp as $comps) {
+                if ($comps->getType() == 'N') {
+                    $tcost += 20000;
+                    $listskill .= '<text class="text-success">'.$comps->getFSkill()->getName().'</text>, ';
+                } else {
+                    $tcost += 30000;
+                    $listskill .= '<text class="text-danger">'.$comps->getFSkill()->getName().'</text>, ';
                 }
+            }
 
-                if ($listskill == '<text class="test-primary"></text>, ') {
-                    $listskill = '';
-                }
+            if ($player->getInjNi() > 0) {
+                $listskill .= '<text class="text-danger">+1 Ni</text>, ';
+            }
 
-                $supcomp = $this->getDoctrine()->getRepository(PlayersSkills::class)->findBy(
-                    ['fPid' => $player->getPlayerId()]
-                );
+            if ($player->getAchMa() > 0) {
+                $listskill .= '<text class="text-success">+1 Ma</text>, ';
 
-                foreach ($supcomp as $comps) {
+                $tcost += 30000;
+            }
 
+            if ($player->getAchSt() > 0) {
+                $listskill .= '<text class="text-success">+1 St</text>, ';
 
-                    if ($comps->getType() == 'N') {
+                $tcost += 50000;
+            }
 
-                        $tcost += 20000;
-                        $listskill .= '<text class="text-success">'.$comps->getFSkill()->getName().'</text>, ';
+            if ($player->getAchAg() > 0) {
+                $listskill .= '<text class="text-success">+1 Ag</text>, ';
 
+                $tcost += 40000;
+            }
+
+            if ($player->getAchAv() > 0) {
+                $listskill .= '<text class="text-success">+1 Av</text>, ';
+
+                $tcost += 30000;
+            }
+
+            $mdata = $this->getDoctrine()->getRepository(MatchData::class)->findBy(
+                ['fPlayer' => $player->getPlayerId()]
+            );
+
+            $tcp = 0;
+            $ttd = 0;
+            $tint = 0;
+            $tcas = 0;
+            $tmvp = 0;
+            $tagg = 0;
+
+            foreach ($mdata as $game) {
+                $tcp += $game->getCp();
+                $ttd += $game->getTd();
+                $tint += $game->getIntcpt();
+                $tcas += ($game->getBh() + $game->getSi() + $game->getKi());
+                $tmvp += $game->getMvp();
+                $tagg += $game->getAgg();
+            }
+
+            $pdata[$count]['pid'] = $player->getPlayerId();
+            $pdata[$count]['nbrm'] = count($mdata);
+            $pdata[$count]['cp'] = $tcp;
+            $pdata[$count]['td'] = $ttd;
+            $pdata[$count]['int'] = $tint;
+            $pdata[$count]['cas'] = $tcas;
+            $pdata[$count]['mvp'] = $tmvp;
+            $pdata[$count]['agg'] = $tagg;
+            $pdata[$count]['skill'] = substr($listskill, 0, strlen($listskill) - 2);
+            $pdata[$count]['spp'] = $tcp + ($ttd * 3) + ($tint * 2) + ($tcas * 2) + ($tmvp * 5);
+            $pdata[$count]['cost'] = $player->getFPos()->getCost() + $tcost;
+
+            switch ($player->getStatus()) {
+                case 7:
+                    $pdata[$count]['status'] = 'VENDU';
+                    break;
+                case 8:
+                    $pdata[$count]['status'] = 'MORT';
+                    break;
+                case 9:
+                    $pdata[$count]['status'] = 'PX';
+                    $tdata['playersCost'] += $pdata[$count]['cost'];
+                    break;
+                default:
+                    if ($player->getInjRpm() != 0) {
+                        $pdata[$count]['status'] = 'RPM';
+                        $pdata[$count]['cost'] = '<s>'.$pdata[$count]['cost'].'</s>';
                     } else {
-
-                        $tcost += 30000;
-                        $listskill .= '<text class="text-danger">'.$comps->getFSkill()->getName().'</text>, ';
-
-                    }
-
-                }
-
-                if ($player->getInjNi() > 0) {
-                    $listskill .= '<text class="text-danger">+1 Ni</text>, ';
-                }
-
-                if ($player->getAchMa() > 0) {
-                    $listskill .= '<text class="text-success">+1 Ma</text>, ';
-
-                    $tcost += 30000;
-
-                }
-
-                if ($player->getAchSt() > 0) {
-                    $listskill .= '<text class="text-success">+1 St</text>, ';
-
-                    $tcost += 50000;
-                }
-
-                if ($player->getAchAg() > 0) {
-                    $listskill .= '<text class="text-success">+1 Ag</text>, ';
-
-                    $tcost += 40000;
-                }
-
-                if ($player->getAchAv() > 0) {
-                    $listskill .= '<text class="text-success">+1 Av</text>, ';
-
-                    $tcost += 30000;
-                }
-
-                $mdata = $this->getDoctrine()->getRepository(MatchData::class)->findBy(
-                    ['fPlayer' => $player->getPlayerId()]
-                );
-
-                $tcp = 0;
-                $ttd = 0;
-                $tint = 0;
-                $tcas = 0;
-                $tmvp = 0;
-                $tagg = 0;
-
-                foreach ($mdata as $game) {
-                    $tcp += $game->getCp();
-                    $ttd += $game->getTd();
-                    $tint += $game->getIntcpt();
-                    $tcas += ($game->getBh() + $game->getSi() + $game->getKi());
-                    $tmvp += $game->getMvp();
-                    $tagg += $game->getAgg();
-
-                }
-
-                $pdata[$count]['pid'] = $player->getPlayerId();
-                $pdata[$count]['nbrm'] = count($mdata);
-                $pdata[$count]['cp'] = $tcp;
-                $pdata[$count]['td'] = $ttd;
-                $pdata[$count]['int'] = $tint;
-                $pdata[$count]['cas'] = $tcas;
-                $pdata[$count]['mvp'] = $tmvp;
-                $pdata[$count]['agg'] = $tagg;
-                $pdata[$count]['skill'] = substr($listskill, 0, strlen($listskill) - 2);
-                $pdata[$count]['spp'] = $tcp + ($ttd * 3) + ($tint * 2) + ($tcas * 2) + ($tmvp * 5);
-                $pdata[$count]['cost'] = $player->getFPos()->getCost() + $tcost;
-
-                switch ($player->getStatus()) {
-                    case 7:
-                        $pdata[$count]['status'] = 'VENDU';
-                        break;
-
-                    case 8:
-                        $pdata[$count]['status'] = 'MORT';
-                        break;
-
-                    case 9:
-                        $pdata[$count]['status'] = 'PX';
+                        $pdata[$count]['status'] = '';
                         $tdata['playersCost'] += $pdata[$count]['cost'];
-                        break;
+                    }
+                    break;
+            }
 
-                    default:
+            if (!$player->getName()) {
+                $player->setName('Inconnu');
+            }
 
-                        if ($player->getInjRpm() != 0) {
-                            $pdata[$count]['status'] = 'RPM';
-                            $pdata[$count]['cost'] = '<s>'.$pdata[$count]['cost'].'</s>';
-                        } else {
-                            $pdata[$count]['status'] = '';
-                            $tdata['playersCost'] += $pdata[$count]['cost'];
-                        }
-
-
-                        break;
-                }
-
-
-                if (!$player->getName()) {
-
-                    $player->setName('Inconnu');
-                }
-
-                $count++;
-
-            //}
+            $count++;
         }
 
         $tdata['rerolls'] = $team->getRerolls() * $team->getFRace()->getCostRr();
@@ -2250,7 +2029,8 @@ class StatBBController extends AbstractController
         $tdata['asscoaches'] = $team->getAssCoaches() * 10000;
         $tdata['cheerleader'] = $team->getCheerleaders() * 10000;
         $tdata['apo'] = $team->getApothecary() * 50000;
-        $tdata['tv'] = $tdata['playersCost'] + $tdata['rerolls'] + $tdata['pop'] + $tdata['asscoaches'] + $tdata['cheerleader'] + $tdata['apo'];
+        $tdata['tv'] = $tdata['playersCost'] + $tdata['rerolls']
+            + $tdata['pop'] + $tdata['asscoaches'] + $tdata['cheerleader'] + $tdata['apo'];
 
         // Configure Dompdf according to your needs
         $pdfOptions = new Options();
@@ -2260,43 +2040,43 @@ class StatBBController extends AbstractController
 
         $dompdf = new Dompdf($pdfOptions);
 
-        $html = $this->renderView('statbb/pdfteam.html.twig', [
-            'players' => $players, 'team' => $team, 'pdata' => $pdata, 'tdata' => $tdata
-        ]);
+        $html = $this->renderView(
+            'statbb/pdfteam.html.twig',
+            [
+                'players' => $players,
+                'team' => $team,
+                'pdata' => $pdata,
+                'tdata' => $tdata,
+            ]
+        );
 
         // Load HTML to Dompdf
         $dompdf->loadHtml($html);
 
-         // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
         $dompdf->setPaper('A4', 'landscape');
 
-         // Render the HTML as PDF
+        // Render the HTML as PDF
         $dompdf->render();
 
-        $dompdf->stream($team->getName().'.pdf', [
-                    "Attachment" => true
-                ]);
-
+        $dompdf->stream($team->getName(). '.pdf', ["Attachment" => true]);
     }
 
 
     /**
      * @Route("/frontUser", name="frontUser", options = { "expose" = true })
      */
-    public function frontUser(){
-
+    public function frontUser()
+    {
         return $this->render('statbb/user.html.twig');
-
     }
 
 
     /**
      * @Route("/ajoutMatch", name="ajoutMatch", options = { "expose" = true })
      */
-    public function ajoutMatch(){
-
+    public function ajoutMatch()
+    {
         return $this->render('statbb/ajoutMatch.html.twig');
-
     }
-
 }

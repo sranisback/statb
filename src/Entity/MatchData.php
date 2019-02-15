@@ -10,7 +10,12 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * MatchData
  *
- * @ORM\Table(name="match_data", indexes={@ORM\Index(name="idx_m", columns={"f_match_id"}), @ORM\Index(name="idx_p_m", columns={"f_player_id", "f_match_id"}), @ORM\Index(name="idx_p_tr", columns={"f_player_id"}), @ORM\Index(name="idx_t_m", columns={"f_match_id"}), @ORM\Index(name="idx_r_m", columns={"f_match_id"}), @ORM\Index(name="idx_c_m", columns={"f_match_id"})})
+ * @ORM\Table(name="match_data", indexes={@ORM\Index(name="idx_m", columns={"f_match_id"}),
+ *     @ORM\Index(name="idx_p_m", columns={"f_player_id", "f_match_id"}),
+ *     @ORM\Index(name="idx_p_tr", columns={"f_player_id"}),
+ *     @ORM\Index(name="idx_t_m", columns={"f_match_id"}),
+ *     @ORM\Index(name="idx_r_m", columns={"f_match_id"}),
+ *     @ORM\Index(name="idx_c_m", columns={"f_match_id"})})
  * @ORM\Entity(repositoryClass="App\Repository\MatchDataRepository")
  */
 class MatchData
@@ -88,7 +93,7 @@ class MatchData
     private $agg;
 
     /**
-     * @var \Players
+     * @var Players
      *
      * @ORM\ManyToOne(targetEntity="Players", fetch="EAGER")
      * @ORM\JoinColumns({
@@ -98,7 +103,7 @@ class MatchData
     private $fPlayer;
 
     /**
-     * @var \Matches
+     * @var Matches
      *
      * @ORM\ManyToOne(targetEntity="Matches", fetch="EAGER")
      * @ORM\JoinColumns({
@@ -225,7 +230,7 @@ class MatchData
         return $this->fPlayer;
     }
 
-    public function setFPlayer(?Players $fPlayer): self
+    public function setFPlayer(Players $fPlayer): self
     {
         $this->fPlayer = $fPlayer;
 
@@ -237,12 +242,10 @@ class MatchData
         return $this->fMatch;
     }
 
-    public function setFMatch(?Matches $fMatch): self
+    public function setFMatch(Matches $fMatch): self
     {
         $this->fMatch = $fMatch;
 
         return $this;
     }
-
-
 }

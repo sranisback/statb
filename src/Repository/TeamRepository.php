@@ -11,13 +11,13 @@ class TeamRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Teams::class);
     }
-	
-	
-	public function classement($year,$limit): array
-	{
-		$conn = $this->getEntityManager()->getConnection();
+    
+    
+    public function classement($year, $limit): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
 
-		$sql = '
+        $sql = '
 SELECT team_id,ra.icon,t.name as "team_name" ,ra.name as "race",co.name,
 	
 				SUM(IF(team_id = a.team1_id AND a.team1_score>a.team2_score,1,0)+ 
@@ -85,18 +85,17 @@ SELECT team_id,ra.icon,t.name as "team_name" ,ra.name as "race",co.name,
 
 				GROUP BY t.name
 				ORDER BY pts DESC,nbrg DESC,tv DESC';
-				
-				
-				if($limit > 0)
-				{
-					$sql .= ' LIMIT '.$limit;
-				}
-				
-				
-		$stmt = $conn->prepare($sql);
-		$stmt->execute();
+                
+                
+        if ($limit > 0) {
+            $sql .= ' LIMIT '.$limit;
+        }
+                
+                
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
 
-		// returns an array of arrays (i.e. a raw data set)
-		return $stmt->fetchAll();
-	}
+        // returns an array of arrays (i.e. a raw data set)
+        return $stmt->fetchAll();
+    }
 }

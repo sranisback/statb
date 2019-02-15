@@ -16,13 +16,11 @@ class settingsService
     }
 
     /**
-     * @return $anneeCourante
+     * @return int $anneeCourante
      */
     public function anneeCourante()
     {
 
         return $this->doctrineEntityManager->getRepository(Setting::class)->findOneBy(['name' => 'year'])->getValue();
-
     }
-
 }

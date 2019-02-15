@@ -5,14 +5,14 @@ namespace App\Service;
 
 use App\Entity\MatchData;
 
-use App\Entity\Matches;
+use App\Entity\Teams;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 use App\Entity\Players;
 use App\Entity\PlayersSkills;
 use App\Entity\GameDataSkills;
 
-class playerService
+class PlayerService
 {
 
     private $doctrineEntityManager;
@@ -23,7 +23,7 @@ class playerService
     }
 
     /**
-     * @param Players
+     * @param Teams $equipe
      * @return array
      */
     public function listeDesJoueursDelEquipe($equipe)
@@ -35,31 +35,32 @@ class playerService
     }
 
     /**
-     * @param Players $joueur
+     * @param Players|null $joueur
      * @return array
      */
-    public function statsDuJoueur(Players $joueur)
+    public function statsDuJoueur(Players $joueur = null)
     {
-
         $coutTotal = 0;
 
-        $toutesLesCompsDuJoueur = $this->listeDesCompdDeBasedUnJoueur($joueur);
-        $compsupp = $this->listeDesCompEtSurcoutGagnedUnJoueur($joueur);
+        if ($joueur) {
+            $toutesLesCompsDuJoueur = $this->listeDesCompdDeBasedUnJoueur($joueur);
+            $compsupp = $this->listeDesCompEtSurcoutGagnedUnJoueur($joueur);
 
-        $toutesLesCompsDuJoueur .= $compsupp['compgagnee'];
+            $toutesLesCompsDuJoueur .= $compsupp['compgagnee'];
 
-        $statpec = $this->listenivSpeciauxEtSurcout($joueur);
+            $statpec = $this->listenivSpeciauxEtSurcout($joueur);
 
-        $toutesLesCompsDuJoueur .= $statpec['nivspec'];
+            $toutesLesCompsDuJoueur .= $statpec['nivspec'];
 
-        if($joueur->getType()!= 1){
+            if ($joueur->getType()!= 1) {
+                $toutesLesCompsDuJoueur = '<text class="text-danger">Loner</text>, ';
+            }
 
-            $toutesLesCompsDuJoueur = '<text class="text-danger">Loner</text>, ';
+            $actions = $this->actionsDuJoueur($joueur);
+
+            return ['comp'=>$toutesLesCompsDuJoueur, 'cout'=>$coutTotal, 'actions'=>$actions];
         }
-
-        $actions = $this->actionsDuJoueur($joueur);
-
-        return ['comp'=>$toutesLesCompsDuJoueur, 'cout'=>$coutTotal, 'actions'=>$actions];
+        return [];
     }
 
     /**
@@ -68,29 +69,30 @@ class playerService
      */
     public function listeDesCompdDeBasedUnJoueur(Players $joueur)
     {
+        $positionJoueur  = $joueur->getFPos();
 
-        $idcompCollection = explode(",", $joueur->getFPos()->getSkills());
+        if ($positionJoueur) {
+            $idcompCollection = explode(",", (string) $positionJoueur->getSkills());
 
-        $listeCompDeBase = '';
-
-        foreach ($idcompCollection as $idComp) {
-
-            $comp = $this->doctrineEntityManager->getRepository(GameDataSkills::class)->findOneBy(
-                ['skillId' => $idComp]
-            );
-
-            $listeCompDeBase .= '<text class="test-primary">'.$comp->getName().'</text>, ';
-
-        }
-
-        if ($listeCompDeBase == '<text class="test-primary"></text>, ') {
             $listeCompDeBase = '';
+
+            foreach ($idcompCollection as $idComp) {
+                $comp = $this->doctrineEntityManager->getRepository(GameDataSkills::class)->findOneBy(
+                    ['skillId' => $idComp]
+                );
+
+                $listeCompDeBase .= '<text class="test-primary">'.$comp->getName().'</text>, ';
+            }
+
+            if ($listeCompDeBase == '<text class="test-primary"></text>, ') {
+                $listeCompDeBase = '';
+            }
+
+
+            return $listeCompDeBase;
         }
 
-
-        return $listeCompDeBase;
-
-
+        return 'Error';
     }
 
     /**
@@ -108,24 +110,16 @@ class playerService
         $listCompGagnee = '';
 
         if ($compSupplementaire) {
-
             foreach ($compSupplementaire as $comp) {
-
                 if ($comp->getType() == 'N') {
-
                     $coutTotal += 20000;
                     $listCompGagnee .= '<text class="text-success">'.$comp->getFSkill()->getName().'</text>, ';
-
                 } else {
-
                     $coutTotal += 30000;
                     $listCompGagnee .= '<text class="text-danger">'.$comp->getFSkill()->getName().'</text>, ';
-
                 }
-
             }
         }
-
         return ['compgagnee'=>$listCompGagnee,'cout'=> $coutTotal];
     }
 
@@ -144,9 +138,7 @@ class playerService
 
         if ($joueur->getAchMa() > 0) {
             $listSupp .= '<text class="text-success">+1 Ma</text>, ';
-
             $cout += 30000;
-
         }
 
         if ($joueur->getAchSt() > 0) {
@@ -171,7 +163,7 @@ class playerService
     }
 
     /**
-     * @param Players $joueur
+     * @param Players  $joueur
      * @return array
      */
     public function actionsDuJoueur(Players $joueur)
@@ -197,24 +189,22 @@ class playerService
             $tmvp += $game->getMvp();
             $tagg += $game->getAgg();
             $tMatch++;
-
         }
 
         return ['NbrMatch'=>$tMatch, 'cp'=> $tcp, 'td'=>$ttd,'int'=> $tint,'cas'=> $tcas,'mvp' => $tmvp,'agg'=> $tagg];
-
     }
 
     /**
      * @param Players $joueur
-     * @return int
+     * @return float|int
      */
     public function xpDuJoueur(Players $joueur)
     {
 
         $actions = $this->actionsDuJoueur($joueur);
 
-        return $actions['cp'] + ($actions['td'] * 3) + ($actions['int'] * 2) + ($actions['cas'] * 2) + ($actions['mvp'] * 5);
-
+        return $actions['cp'] + ($actions['td'] * 3)
+            + ($actions['int'] * 2) + ($actions['cas'] * 2) + ($actions['mvp'] * 5);
     }
 
     /**
@@ -223,9 +213,7 @@ class playerService
      */
     public function statutDuJoueur(Players $joueur)
     {
-
         switch ($joueur->getStatus()) {
-
             case 7:
                 return 'VENDU';
 
@@ -236,22 +224,19 @@ class playerService
                 return 'XP';
 
             default:
-
                 if ($joueur->getInjRpm() != 0) {
                     return 'RPM';
                 } else {
                     return '';
                 }
-
         }
     }
 
     /**
-     * @param Players $joueur
-     * @param Matches $match
+     * @param MatchData $matchData
      * @return array
      */
-    public function actionDuJoueurDansUnMatch(Players $joueur,MatchData $matchData)
+    public function actionDuJoueurDansUnMatch(MatchData $matchData)
     {
         $tcp = 0;
         $ttd = 0;
@@ -270,9 +255,9 @@ class playerService
 
         $rec = '';
 
-        if ($matchData->getCp() > 0 || $matchData->getTd() > 0 || $matchData->getIntcpt() > 0 || ($matchData->getBh() + $matchData->getSi(
-                ) + $matchData->getKi()) > 0 || $matchData->getMvp() > 0 || $matchData->getAgg() > 0) {
-
+        if ($matchData->getCp() > 0 || $matchData->getTd() > 0 || $matchData->getIntcpt() > 0
+            || ($matchData->getBh() + $matchData->getSi() + $matchData->getKi()) > 0 || $matchData->getMvp() > 0
+            || $matchData->getAgg() > 0) {
             if ($matchData->getCp() > 0) {
                 $rec .= 'CP: '.$matchData->getCp().', ';
             }
@@ -296,8 +281,6 @@ class playerService
             if ($matchData->getAgg() > 0) {
                 $rec .= 'AGG: '.$matchData->getAgg().', ';
             }
-
-
         }
 
         return ['cp'=> $tcp, 'td'=>$ttd,'int'=> $tint,'cas'=> $tcas,'mvp' => $tmvp,'agg'=> $tagg,'rec'=>$rec];

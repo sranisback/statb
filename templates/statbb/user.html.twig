@@ -10,25 +10,31 @@
                 <li><a data-toggle="tab" href="#classement">Classement général</a></li>
                 {% if app.user.roles["role"] == 'ROLE_ADMIN' %}
                     <li><a data-toggle="tab" href="#match">Ajouter un match</a></li>
+                    <li><a data-toggle="tab" href="#Admin">Admin</a></li>
                 {% endif %}
             </ul>
 
             <div class="tab-content">
                 <div id="home" class="tab-pane fade in active">
                     <h3>HOME</h3>
-                    {{ render(controller('App\\Controller\\StatBBController::show_user_teams' )) }}
+                    {{ render(controller('App\\Controller\\StatBBController::showUserTeams' )) }}
                     {{ render(controller('App\\Controller\\StatBBController::raceSelector' )) }}
                 </div>
                 <div id="allteam" class="tab-pane fade">
                     <h3>Toute les équipes</h3>
-                    {{ render(controller('App\\Controller\\StatBBController::show_teams' )) }}
+                    {{ render(controller('App\\Controller\\StatBBController::showTeams' )) }}
                 </div>
+                <div id="classement" class="tab-pane fade">
+                    {{ render(controller('App\\Controller\\StatBBController::classGen',{'limit':0} )) }}
+                </div>
+                {% if app.user.roles["role"] == 'ROLE_ADMIN' %}
                 <div id="match" class="tab-pane fade">
                     {{ render(controller('App\\Controller\\StatBBController::ajoutMatch' )) }}
                 </div>
-                <div id="classement" class="tab-pane fade">
-                    {{ render(controller('App\\Controller\\StatBBController::class_gen',{'limit':0} )) }}
+                <div id="Admin" class="tab-pane fade">
+                    {{ render(controller('App\\Controller\\StatBBController::admin' )) }}
                 </div>
+                {% endif %}
             </div>
         </div>
         </div>
