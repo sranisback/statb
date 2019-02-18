@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -48,14 +49,14 @@ class Players
     private $nr;
 
     /**
-     * @var DateTimeInterface
+     * @var DateTime
      *
      * @ORM\Column(name="date_bought", type="datetime", nullable=true)
      */
     private $dateBought;
 
     /**
-     * @var DateTimeInterface
+     * @var DateTime
      *
      * @ORM\Column(name="date_sold", type="datetime", nullable=true)
      */
@@ -118,7 +119,7 @@ class Players
     private $status;
 
     /**
-     * @var DateTimeInterface|null
+     * @var DateTime
      *
      * @ORM\Column(name="date_died", type="datetime", nullable=true)
      */
@@ -239,24 +240,24 @@ class Players
         return $this;
     }
 
-    public function getDateBought(): ?\DateTimeInterface
+    public function getDateBought(): DateTime
     {
         return $this->dateBought;
     }
 
-    public function setDateBought(DateTimeInterface $dateBought): self
+    public function setDateBought(DateTime $dateBought): self
     {
         $this->dateBought = $dateBought;
 
         return $this;
     }
 
-    public function getDateSold(): ?\DateTimeInterface
+    public function getDateSold(): DateTime
     {
         return $this->dateSold;
     }
 
-    public function setDateSold(DateTimeInterface $dateSold): self
+    public function setDateSold(DateTime $dateSold): self
     {
         $this->dateSold = $dateSold;
 
@@ -364,16 +365,16 @@ class Players
         return $this;
     }
 
-    public function getDateDied(): ?\DateTimeInterface
+    public function getDateDied(): DateTime
     {
         return $this->dateDied;
     }
 
     /**
-     * @param DateTimeInterface $dateDied
+     * @param DateTime $dateDied
      * @return Players
      */
-    public function setDateDied(DateTimeInterface $dateDied): self
+    public function setDateDied(DateTime $dateDied): self
     {
         $this->dateDied = $dateDied;
 

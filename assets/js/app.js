@@ -717,7 +717,7 @@ $(document).ready(function () {
             }),
             {},
             function (result) {
-                window.location.href = "teamid/" + result + "/n"
+                window.location.href = "team/" + result + "/n"
             })
 
     });

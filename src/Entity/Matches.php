@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -62,7 +63,7 @@ class Matches
     private $income2;
 
     /**
-     * @var DateTimeInterface
+     * @var DateTime
      *
      * @ORM\Column(name="date_created", type="datetime", nullable=true)
      */
@@ -181,12 +182,12 @@ class Matches
         return $this;
     }
 
-    public function getDateCreated(): ?\DateTimeInterface
+    public function getDateCreated(): DateTime
     {
         return $this->dateCreated;
     }
 
-    public function setDateCreated(\DateTimeInterface $dateCreated): self
+    public function setDateCreated(DateTime $dateCreated): self
     {
         $this->dateCreated = $dateCreated;
 
