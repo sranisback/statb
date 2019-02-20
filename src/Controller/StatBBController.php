@@ -343,8 +343,6 @@ class StatBBController extends AbstractController
             $this->addFlash('success', 'Genus created!');
         }
 
-        dump($coach);
-
         return $this->render('statbb/listeCoaches.html.twig', ['form' => $form->createView()]);
     }
 
