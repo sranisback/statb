@@ -7,7 +7,7 @@ use App\Entity\Teams;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 
-class coachService
+class CoachService
 {
     private $doctrineEntityManager;
 

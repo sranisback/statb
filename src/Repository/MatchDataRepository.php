@@ -3,6 +3,7 @@ namespace App\Repository;
 
 use App\Entity\MatchData;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\DBALException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class MatchDataRepository extends ServiceEntityRepository
@@ -11,15 +12,23 @@ class MatchDataRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, MatchData::class);
     }
-    
-    
-    public function Sclassement($year, $type, $teamorplayer, $limit): array
+
+
+    /**
+     * @param int $year
+     * @param string $type
+     * @param string $teamorplayer
+     * @param int $limit
+     * @return array
+     */
+    public function SClassement($year, $type, $teamorplayer, $limit): array
     {
         $conn = $this->getEntityManager()->getConnection();
 
         if ($teamorplayer == 'player') {
             $select = '
-			SELECT nr,IF(a.name != "",a.name,"Unnamed") AS name ,IF(a.status = 8,"(DEAD)","") AS dead ,IF(a.status = 7,"(SOLD)","") AS sold, b.name AS teams, c.icon,';
+			SELECT nr,IF(a.name != "",a.name,"Unnamed") AS name ,IF(a.status = 8,"(DEAD)","") AS dead 
+			,IF(a.status = 7,"(SOLD)","") AS sold, b.name AS teams, c.icon,';
 
             $groupby = 'GROUP BY f_player_id';
 
@@ -90,15 +99,22 @@ class MatchDataRepository extends ServiceEntityRepository
                 }
                 break;
         }
-        
-        
-        $stmt = $conn->prepare($sql);
-        $stmt->execute();
 
-        // returns an array of arrays (i.e. a raw data set)
-        return $stmt->fetchAll();
+
+        try {
+            $stmt = $conn->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (DBALException $e) {
+        }
+
+        return [];
     }
-    
+
+    /**
+     * @param int $year
+     * @return array
+     */
     public function totalcas($year): array
     {
         $conn = $this->getEntityManager()->getConnection();
@@ -111,11 +127,14 @@ class MatchDataRepository extends ServiceEntityRepository
 				WHERE retired = 0 AND year = '.$year.'
 				 HAVING score >0
 				ORDER BY score DESC, tv DESC';
-        
-        $stmt = $conn->prepare($sql);
-        $stmt->execute();
 
-        // returns an array of arrays (i.e. a raw data set)
-        return $stmt->fetchAll();
+        try {
+            $stmt = $conn->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (DBALException $e) {
+        }
+
+        return [];
     }
 }

@@ -6,7 +6,7 @@ use App\Entity\Setting;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 
-class settingsService
+class SettingsService
 {
     private $doctrineEntityManager;
 

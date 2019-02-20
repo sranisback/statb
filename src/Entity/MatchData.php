@@ -2,9 +2,6 @@
 
 namespace App\Entity;
 
-use App\Entity\Matches;
-use App\Entity\Players;
-
 use Doctrine\ORM\Mapping as ORM;
 
 /**
