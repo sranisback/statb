@@ -167,7 +167,7 @@ const routes = {
             "methods": [],
             "schemes": []
         },
-        "add_player": {
+        "addPlayer": {
             "tokens": [["variable", "\/", "[^\/]++", "teamId"], ["variable", "\/", "[^\/]++", "posId"], ["text", "\/addPlayer"]],
             "defaults": [],
             "requirements": [],
@@ -435,7 +435,7 @@ const routes = {
             "methods": [],
             "schemes": []
         },
-        "add_player": {
+        "addPlayer": {
             "tokens": [["variable", "\/", "[^\/]++", "teamId"], ["variable", "\/", "[^\/]++", "posId"], ["text", "\/addPlayer"]],
             "defaults": [],
             "requirements": [],
@@ -633,7 +633,7 @@ $(document).ready(function () {
 
 
         //$.getJSON("http://statbrutedebowl.url.ph/statb/add_player/"+$(this).attr('posId')+"/"+$(this).attr('teamId'),
-        $.getJSON(Routing.generate('add_player', {posId: $(this).attr('posId'), teamId: $(this).attr('teamId')}),
+        $.getJSON(Routing.generate('addPlayer', {posId: $(this).attr('posId'), teamId: $(this).attr('teamId')}),
             {},
             function (result) {
                 result = JSON.parse(result);

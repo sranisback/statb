@@ -35,14 +35,14 @@ class EquipeService
      */
     public function listeDesMatchs(Teams $equipe)
     {
-
         $matches1 = $this->doctrineEntityManager->getRepository(Matches::class)->findBy(
-            array('team1' => $equipe->getTeamId()),
-            array('dateCreated' => 'DESC')
+            ['team1' => $equipe->getTeamId()],
+            ['dateCreated' => 'DESC']
         );
+
         $matches2 = $this->doctrineEntityManager->getRepository(Matches::class)->findBy(
-            array('team2' => $equipe->getTeamId()),
-            array('dateCreated' => 'DESC')
+            ['team2' => $equipe->getTeamId()],
+            ['dateCreated' => 'DESC']
         );
 
         $matches = array_merge($matches1, $matches2);

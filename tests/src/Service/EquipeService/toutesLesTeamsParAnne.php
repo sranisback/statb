@@ -16,7 +16,6 @@ class toutesLesTeamsParAnne extends TestCase
     public function Est_Ce_Qu_on_Recoit_Une_Equipe()
     {
         $team = new Teams();
-        $team->setName('test team');
         $team->setYear(3);
 
         $teamRepo = $this->createMock(ObjectRepository::class);
@@ -29,10 +28,7 @@ class toutesLesTeamsParAnne extends TestCase
 
         $testing = new EquipeService($registryManager);
 
-        $testReturn = $testing->toutesLesTeamsParAnnee(3);
-
-        $this->assertEquals("test team", $testReturn->getName());
-        $this->assertEquals(1, count($testReturn));
+        $this->assertEquals(1, count($testing->toutesLesTeamsParAnnee(3)));
     }
 
     /**
@@ -50,9 +46,7 @@ class toutesLesTeamsParAnne extends TestCase
 
         $testing = new EquipeService($registryManager);
 
-        $testReturn = $testing->toutesLesTeamsParAnnee(3);
-
-        $this->assertEquals(0, count($testReturn));
+        $this->assertEquals(0, count($testing->toutesLesTeamsParAnnee(3)));
     }
 
     /**
@@ -62,7 +56,6 @@ class toutesLesTeamsParAnne extends TestCase
     {
         for($x=0;$x<10;$x++){
             $team[$x] = new Teams();
-            $team[$x]->setName('test'.$x.' team');
             $team[$x]->setYear(3);
         }
 
@@ -76,10 +69,7 @@ class toutesLesTeamsParAnne extends TestCase
 
         $testing = new EquipeService($registryManager);
 
-        $testReturn = $testing->toutesLesTeamsParAnnee(3);
-
-        $this->assertEquals(10, count($testReturn));
-
+        $this->assertEquals(10, count($testing->toutesLesTeamsParAnnee(3)));
     }
 }
 
