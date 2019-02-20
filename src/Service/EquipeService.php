@@ -21,11 +21,11 @@ class EquipeService
      * @param int $annee
      * @return array
      */
-    public function toutesLesTeamsParAnnee($annee)
+    public function toutesLesTeamsParAnnee($annee = 1)
     {
         return $this->doctrineEntityManager->getRepository(Teams::class)->findBy(
             ['year' => $annee, 'retired' => false],
-            array('name' => 'ASC')
+            ['name' => 'ASC']
         );
     }
 
