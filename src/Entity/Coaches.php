@@ -110,7 +110,7 @@ class Coaches implements UserInterface
     }
 
     /** @see \Serializable::unserialize()
-     * @param $serialized
+     * @param string $serialized
      */
     public function unserialize($serialized)
     {

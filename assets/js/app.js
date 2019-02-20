@@ -168,7 +168,7 @@ const routes = {
             "schemes": []
         },
         "add_player": {
-            "tokens": [["variable", "\/", "[^\/]++", "teamId"], ["variable", "\/", "[^\/]++", "posId"], ["text", "\/add_player"]],
+            "tokens": [["variable", "\/", "[^\/]++", "teamId"], ["variable", "\/", "[^\/]++", "posId"], ["text", "\/addPlayer"]],
             "defaults": [],
             "requirements": [],
             "hosttokens": [],
@@ -436,7 +436,7 @@ const routes = {
             "schemes": []
         },
         "add_player": {
-            "tokens": [["variable", "\/", "[^\/]++", "teamId"], ["variable", "\/", "[^\/]++", "posId"], ["text", "\/add_player"]],
+            "tokens": [["variable", "\/", "[^\/]++", "teamId"], ["variable", "\/", "[^\/]++", "posId"], ["text", "\/addPlayer"]],
             "defaults": [],
             "requirements": [],
             "hosttokens": [],

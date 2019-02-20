@@ -735,12 +735,18 @@ class StatBBController extends AbstractController
 
             $listskill = '';
 
-            if ($team->getTreasury() > $position->getCost()) {
+            if ($team->getTreasury() >= $position->getCost()) {
                 $allPlayerByPos = $this->getDoctrine()->getRepository(Players::class)->findBy(
                     ['fPos' => $position, 'ownedByTeam' => $team]
                 );
 
-                $count = count($allPlayerByPos);
+                $count = 0;
+
+                foreach ($allPlayerByPos as $players) {
+                    if ($players->getStatus()!=7 && $players->getStatus()!=8) {
+                        $count++;
+                    }
+                }
 
                 if ($count < $position->getQty()) {
                     $tresors = $team->getTreasury() - $position->getCost();
