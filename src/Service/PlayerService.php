@@ -35,6 +35,28 @@ class PlayerService
     }
 
     /**
+     * @param Teams $equipe
+     * @return array
+     */
+    public function listeDesJoueursActifsDelEquipe(Teams $equipe)
+    {
+        $joueurActifCollection = [];
+
+        $playerCollection = $this->doctrineEntityManager->getRepository(Players::class)->findBy(
+            ['ownedByTeam' => $equipe->getTeamId()],
+            ['nr' => 'ASC']
+        );
+
+        foreach ($playerCollection as $player) {
+            if ($player->getStatus()!=7 && $player->getStatus()!=8) {
+                $joueurActifCollection[] = $player;
+            }
+        }
+
+        return $joueurActifCollection;
+    }
+
+    /**
      * @param Players|null $joueur
      * @return array
      */
@@ -43,24 +65,31 @@ class PlayerService
         $coutTotal = 0;
 
         if ($joueur) {
-            $toutesLesCompsDuJoueur = $this->listeDesCompdDeBasedUnJoueur($joueur);
-            $compsupp = $this->listeDesCompEtSurcoutGagnedUnJoueur($joueur);
-
-            $toutesLesCompsDuJoueur .= $compsupp['compgagnee'];
-
-            $statpec = $this->listenivSpeciauxEtSurcout($joueur);
-
-            $toutesLesCompsDuJoueur .= $statpec['nivspec'];
-
-            if ($joueur->getType()!= 1) {
-                $toutesLesCompsDuJoueur = '<text class="text-danger">Loner</text>, ';
-            }
+            $toutesLesCompsDuJoueur = $this->toutesLesCompsdUnJoueur($joueur);
 
             $actions = $this->actionsDuJoueur($joueur);
 
             return ['comp'=>$toutesLesCompsDuJoueur, 'cout'=>$coutTotal, 'actions'=>$actions];
         }
         return [];
+    }
+
+    public function toutesLesCompsdUnJoueur(Players $joueur)
+    {
+        $toutesLesCompsDuJoueur = $this->listeDesCompdDeBasedUnJoueur($joueur);
+        $compsupp = $this->listeDesCompEtSurcoutGagnedUnJoueur($joueur);
+
+        $toutesLesCompsDuJoueur .= $compsupp['compgagnee'];
+
+        $statpec = $this->listenivSpeciauxEtSurcout($joueur);
+
+        $toutesLesCompsDuJoueur .= $statpec['nivspec'];
+
+        if ($joueur->getType()!= 1) {
+            $toutesLesCompsDuJoueur .= '<text class="text-danger">Loner</text>, ';
+        }
+
+        return $toutesLesCompsDuJoueur;
     }
 
     /**
@@ -284,5 +313,26 @@ class PlayerService
         }
 
         return ['cp'=> $tcp, 'td'=>$ttd,'int'=> $tint,'cas'=> $tcas,'mvp' => $tmvp,'agg'=> $tagg,'rec'=>$rec];
+    }
+
+    /**
+     * @param Teams $equipe
+     * @return int
+     */
+    public function numeroLibreDelEquipe($equipe)
+    {
+        $joueurCollection = $this->listeDesJoueursActifsDelEquipe($equipe);
+
+        $numero = 1;
+
+        foreach ($joueurCollection as $joueur) {
+            if ($numero == $joueur->getNr()) {
+                $numero++;
+            } else {
+                break;
+            }
+        }
+
+        return $numero;
     }
 }

@@ -326,7 +326,7 @@ class StatBBController extends AbstractController
      */
     public function tousLesCoaches(Request $request)
     {
-   /*     $coach = new coaches();
+        $coach = new coaches();
         $coach->setName('test');
         $coach->setPasswd('test');
 
@@ -346,7 +346,7 @@ class StatBBController extends AbstractController
             $this->addFlash('success', 'Genus created!');
         }
 
-        return $this->render('statbb/listeCoaches.html.twig', ['form' => $form->createView()]);*/
+        return $this->render('statbb/listeCoaches.html.twig');
     }
 
 
@@ -667,7 +667,6 @@ class StatBBController extends AbstractController
      */
     public function createTeam(Request $request, EquipeService $equipeService)
     {
-        $coach = new Coaches();
         $coach = $this->getUser();
 
         $form = $request->request->get('form');
@@ -702,151 +701,62 @@ class StatBBController extends AbstractController
 
     /**
      * @Route("/addPlayer/{posId}/{teamId}", options = { "expose" = true })
+     * @param PlayerService $playerService
+     * @param EquipeService $equipeService
      * @param int $posId
      * @param int $teamId
      * @return JsonResponse
      */
-    public function addPlayer($posId, $teamId)
+    public function addPlayer(PlayerService $playerService, EquipeService $equipeService, $posId, $teamId)
     {
+        $resultat = $equipeService->ajoutJoueur($playerService, $posId, $teamId);
+        $tv = 0;
+        $tresors = 0;
+        $html = '';
+        $coutjoueur = 0;
+        $reponse = '';
 
-        $position = $this->getDoctrine()->getRepository(GameDataPlayers::class)->findOneBy(['posId' => $posId]);
+        if ($resultat['resultat'] == 'ok') {
+            $joueur = $resultat['joueur'];
+            $position = $joueur->getFPos();
+            if ($position) {
+                $competences = $playerService->listeDesCompdDeBasedUnJoueur($joueur);
 
-        $team = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
+                $html = $this->render(
+                    'statbb/lineteamsheet.html.twig',
+                    ['position' => $position, 'player' => $joueur, 'skill' => $competences]
+                )
+                    ->getContent();
 
-        if ($team && $position) {
-            $tv = 0;
-            $tresors = '';
-            $pcost = '';
-            $player = new Players();
+                $equipe = $joueur->getOwnedByTeam();
 
-            $listskill = '';
+                $coutjoueur = $joueur->getValue();
 
-            if ($team->getTreasury() >= $position->getCost()) {
-                $allPlayerByPos = $this->getDoctrine()->getRepository(Players::class)->findBy(
-                    ['fPos' => $position, 'ownedByTeam' => $team]
-                );
-
-                $count = 0;
-
-                foreach ($allPlayerByPos as $players) {
-                    if ($players->getStatus()!=7 && $players->getStatus()!=8) {
-                        $count++;
-                    }
+                if ($equipe) {
+                    $tv = $equipe->getTv();
+                    $tresors = $equipe->getTreasury();
                 }
 
-                if ($count < $position->getQty()) {
-                    $tresors = $team->getTreasury() - $position->getCost();
-
-                    $team->setTreasury($tresors);
-
-                    $tv = $team->getTv() + $position->getCost();
-
-                    $team->setTv($tv);
-
-                    $pcost = $position->getCost();
-
-                    $allskills = $this->getDoctrine()->getRepository(GameDataSkills::class)->findAll();
-
-                    $playerskills = explode(",", (string)$position->getSkills());
-
-                    foreach ($playerskills as $playerskill) {
-                        foreach ($allskills as $baseskill) {
-                            if ($baseskill->getSkillId() == $playerskill) {
-                                $listskill .= $baseskill->getName().', ';
-                            }
-                        }
-                    }
-
-                    if ($listskill == ', ') {
-                        $listskill = '';
-                    }
-
-                    $listskill = substr($listskill, 0, strlen($listskill) - 2);
-
-                    $entityManager = $this->getDoctrine()->getManager();
-
-                    $allPlayersTeam = $this->getDoctrine()->getRepository(Players::class)->findBy(
-                        ['ownedByTeam' => $team],
-                        ['nr' => 'ASC']
-                    );
-
-                    $nr = 1;
-
-                    foreach ($allPlayersTeam as $playerteam) {
-                        if ($nr == $playerteam->getNr()) {
-                            $nr++;
-                        } else {
-                            break;
-                        }
-                    }
-
-                    $coach = $team->getOwnedByCoach();
-                    $race = $position->getFRace();
-
-                    if ($coach) {
-                        $player->setFCid($coach);
-                    }
-
-                    if ($race) {
-                        $player->setFRid($race);
-                    }
-
-                    $player->setNr($nr);
-
-                    $dateBoughtFormat = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
-
-                    if ($dateBoughtFormat) {
-                        $player->setDateBought($dateBoughtFormat);
-                    }
-
-                    $player->setFPos($position);
-                    $player->setOwnedByTeam($team);
-                    $player->setValue((int)$position->getCost());
-                    $player->setStatus(1);
-
-                    $entityManager->persist($player);
-
-                    $entityManager->persist($team);
-
-                    $entityManager->flush();
-
-                    $html = $this->render(
-                        'statbb/lineteamsheet.html.twig',
-                        ['position' => $position, 'player' => $player, 'skill' => $listskill]
-                    )->getContent();
-                    $reponse = "ok";
-                } else {
-                    $reponse = "pl";
-                    $html = "Plus de place !";
-                }
-            } else {
-                $reponse = "ar";
-                $html = "Pas assez d'argent !";
+                $reponse = 'ok';
             }
-
-            $encoders = array(new XmlEncoder(), new JsonEncoder());
-            $normalizers = array(new ObjectNormalizer());
-
-            $serializer = new Serializer($normalizers, $encoders);
-
-            $response = array(
-                "html" => $html,
-                "tv" => $tv,
-                "ptv" => ($tv / 1000),
-                "tresor" => $tresors,
-                "playercost" => $pcost,
-                "reponse" => $reponse,
-            );
-
-            $jsonContent = $serializer->serialize($response, 'json');
-
-            return new JsonResponse($jsonContent);
+        } else {
+            $html = $resultat['resultat'];
         }
+
         $encoders = array(new XmlEncoder(), new JsonEncoder());
         $normalizers = array(new ObjectNormalizer());
-
         $serializer = new Serializer($normalizers, $encoders);
-        $jsonContent = $serializer->serialize(["rien"=>''], 'json');
+
+        $response = array(
+            "html" => $html,
+            "tv" => $tv,
+            "ptv" => ($tv / 1000),
+            "tresor" => $tresors,
+            "playercost" => $coutjoueur,
+            "reponse" => $reponse
+        );
+
+        $jsonContent = $serializer->serialize($response, 'json');
 
         return new JsonResponse($jsonContent);
     }
@@ -2392,14 +2302,5 @@ class StatBBController extends AbstractController
     public function ajoutMatch()
     {
         return $this->render('statbb/ajoutMatch.html.twig');
-    }
-
-    /**
-     * @Route("/testForm", name="testForm", options = { "expose" = true })
-     */
-    public function testForm(Request $request)
-    {
-        $form = $request->request->get('form');
-        return $this->render('statbb/front.html.twig');
     }
 }

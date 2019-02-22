@@ -583,17 +583,19 @@ $(document).ready(function () {
 
 
     $("#selectedPos li a").click(function () {
-
+        $("#pos_table").remove();
         let label = $('#dLabel');
-
+        $("#res").remove();
         label.html($(this).text() + ' <span class="caret"></span>');
         label.val($(this).data('value'));
         $('#btn_addplayer').attr('posId', $(this).attr('posId'));
+        $("#teamdrop").after('<div id="loader"><img src="/build/images/ajax-loader.gif"></div>');
 
         //$.post("http://statbrutedebowl.url.ph/statb/getposstat/"+$(this).attr('posId'),
         $.post(Routing.generate('getposstat', {posId: $(this).attr('posId')}),
             {},
             function (result) {
+                $("#loader").remove();
                 $("#pos_table").remove();
                 $("#teamdrop").after(result);
             })
@@ -601,76 +603,33 @@ $(document).ready(function () {
     });
 
     $("#btn_addplayer").click(function () {
-
+        $("#teamsheet").after('<div id="loader"><img src="/build/images/ajax-loader.gif"></div>');
 
         //$.getJSON("http://statbrutedebowl.url.ph/statb/add_player/"+$(this).attr('posId')+"/"+$(this).attr('teamId'),
         $.getJSON(Routing.generate('addPlayer', {posId: $(this).attr('posId'), teamId: $(this).attr('teamId')}),
             {},
             function (result) {
+                $("#loader").remove();
                 result = JSON.parse(result);
 
                 let totalltv = $("#totalPV");
                 let res = $("#res");
                 let modalfooter = $(".modal-footer");
 
-                switch (result.reponse) {
-                    case "ok":
+                res.remove();
 
+                if(result.reponse =="ok"){
+                    $("#teamsheet").append(result.html);
 
-                        $("#teamsheet").append(result.html);
+                    $("#caseTv").text(result.tv);
+                    $("#pTv").text(result.ptv);
+                    totalltv.text(Number(totalltv.text()) + result.playercost);
+                    $("#tresor").text(result.tresor);
+                } else{
+                    res.remove();
+                    $("#teamdrop").before('<div id="res" class="alert alert-danger" role="alert">' + result.html + '</div>');
 
-                        $("#caseTv").text(result.tv);
-                        $("#pTv").text(result.ptv);
-                        totalltv.text(Number(totalltv.text()) + result.playercost);
-                        $("#tresor").text(result.tresor);
-
-                        $("[id^='remove_pl']").click(function () {
-
-                            let test = $(this).parent().parent();
-
-                            //$.post("/remPlayer/"+$(this).attr("playerId"),
-                            $.post(Routing.generate('remPlayer', {playerId: $(this).attr("playerId")}),
-                                {},
-                                function (result) {
-                                    result = JSON.parse(result);
-
-                                    console.log(result);
-
-                                    switch (result.reponse) {
-                                        case "rm":
-                                            test.remove();
-                                            break;
-
-                                        case "sld":
-                                            test.addClass("info hidden");
-                                            break;
-                                    }
-
-                                    $("#caseTv").text(result.tv);
-                                    $("#pTv").text(result.ptv);
-                                    totalltv.text(Number(totalltv.text()) - result.playercost);
-                                    $("#tresor").text(result.tresor)
-
-                                })
-                        });
-
-                        break;
-
-                    case "pl":
-
-                        res.remove();
-                        modalfooter.append("<div id=\"res\">" + result.html + "</div>");
-
-                        break;
-
-                    case "ar":
-
-                        res.remove();
-                        modalfooter.append("<div id=\"res\">" + result.html + "</div>");
-
-                        break;
                 }
-
             });
 
     });
@@ -844,6 +803,12 @@ $(document).ready(function () {
     $(".modal").on('show.bs.modal', function () {
 
         $(this).draggable();
+
+    });
+
+    $("#addplayer").on('hide.bs.modal',function(){
+
+        window.location.reload();
 
     });
 
