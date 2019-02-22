@@ -6,18 +6,18 @@ namespace App\Service;
 use App\Entity\MatchData;
 
 use App\Entity\Teams;
-use Doctrine\Common\Persistence\ManagerRegistry;
 
 use App\Entity\Players;
 use App\Entity\PlayersSkills;
 use App\Entity\GameDataSkills;
+use Doctrine\ORM\EntityManagerInterface;
 
 class PlayerService
 {
 
     private $doctrineEntityManager;
 
-    public function __construct(ManagerRegistry $doctrineEntityManager)
+    public function __construct(EntityManagerInterface $doctrineEntityManager)
     {
         $this->doctrineEntityManager = $doctrineEntityManager;
     }

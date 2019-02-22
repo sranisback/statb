@@ -21,6 +21,9 @@ use App\Service\PlayerService;
 use App\Service\SettingsService;
 
 use DateTime;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -323,7 +326,7 @@ class StatBBController extends AbstractController
      */
     public function tousLesCoaches(Request $request)
     {
-        $coach = new coaches();
+   /*     $coach = new coaches();
         $coach->setName('test');
         $coach->setPasswd('test');
 
@@ -343,7 +346,7 @@ class StatBBController extends AbstractController
             $this->addFlash('success', 'Genus created!');
         }
 
-        return $this->render('statbb/listeCoaches.html.twig', ['form' => $form->createView()]);
+        return $this->render('statbb/listeCoaches.html.twig', ['form' => $form->createView()]);*/
     }
 
 
@@ -634,71 +637,56 @@ class StatBBController extends AbstractController
 
     /**
      * @Route("/raceSelector", options = { "expose" = true })
+     * @param Request $request
+     * @return Response
      */
-    public function raceSelector()
+    public function raceSelector(Request $request)
     {
+        $team = new Teams();
 
-        $races = $this->getDoctrine()->getRepository(races::class)->findAll();
+        $form = $this->createFormBuilder($team)
+            ->add("Name", TextType::class, ['label'=>"Nom de l'équipe", 'required' => 'true'])
+            ->add(
+                'fRace',
+                EntityType::class,
+                ['class'=> Races::class,'choice_label' =>'name','label'=>'Choisir une Race']
+            )
+            ->add('submit', SubmitType::class, ['label' => 'Créer'])
+            ->add('cancel', ButtonType::class, ['label'=>'Annuler','attr'=>['data-dismiss'=>'modal']])
+            ->setAction($this->generateUrl('createTeam'))
+            ->getForm();
 
-        return $this->render('statbb/addteam.html.twig', ['races' => $races]);
+        return $this->render('statbb/addteam.html.twig', ['form' => $form->createView()]);
     }
 
     /**
-     * @Route("/createTeam/{teamname}/{coachid}/{raceid}", options = { "expose" = true })
-     * @param string $teamname
-     * @param int $coachid
-     * @param int $raceid
+     * @Route("/createTeam", name="createTeam", options = { "expose" = true })
+     * @param Request $request
+     * @param EquipeService $equipeService
      * @return Response
      */
-    public function createTeam($teamname, $coachid, $raceid)
+    public function createTeam(Request $request, EquipeService $equipeService)
     {
-        $setting = $this->getDoctrine()->getRepository(Setting::class)->findOneBy(['name' => 'year']);
+        $coach = new Coaches();
+        $coach = $this->getUser();
 
-        if ($setting) {
-            $entityManager = $this->getDoctrine()->getManager();
+        $form = $request->request->get('form');
 
-            $team = new Teams();
+        $teamid = 0;
 
-            $team->setName($teamname);
-
-            $race = $this->getDoctrine()->getRepository(races::class)->findOneBy(array('raceId' => $raceid));
-
-            if ($race) {
-                $team->setFRace($race);
-            }
-            $coach = $this->getDoctrine()->getRepository(Coaches::class)->findOneBy(array('coachId' => $coachid));
-
-            if ($coach) {
-                $team->setOwnedByCoach($coach);
-            }
-
-            $team->setYear((int)$setting->getValue());
-
-            $team->setTreasury(1000000);
-
-            $entityManager->persist($team);
-
-            $entityManager->flush();
-
-            $response = new Response();
-            $response->setContent($team->getTeamId());
-            $response->setStatusCode(200);
-
-            return $response;
+        if ($coach) {
+            $teamid =  $equipeService->createTeam($form['Name'], $coach->getCoachId(), $form['fRace']);
         }
-        $response = new Response();
-        $response->setContent('');
-        $response->setStatusCode(500);
 
-        return $response;
+        return $this->redirectToRoute('team', ['teamid'=>$teamid,'type'=>'n']);
     }
 
-    /**
-     * @Route("/playerAdder/{raceId}/{teamId}", name="playerAdder", options = { "expose" = true })
-     * @param int $raceId
-     * @param int $teamId
-     * @return Response
-     */
+   /**
+    * @Route("/playerAdder/{raceId}/{teamId}", name="playerAdder", options = { "expose" = true })
+    * @param int $raceId
+    * @param int $teamId
+    * @return Response
+    */
     public function playerAdder($raceId, $teamId)
     {
 
@@ -2404,5 +2392,14 @@ class StatBBController extends AbstractController
     public function ajoutMatch()
     {
         return $this->render('statbb/ajoutMatch.html.twig');
+    }
+
+    /**
+     * @Route("/testForm", name="testForm", options = { "expose" = true })
+     */
+    public function testForm(Request $request)
+    {
+        $form = $request->request->get('form');
+        return $this->render('statbb/front.html.twig');
     }
 }

@@ -143,14 +143,6 @@ const routes = {
             "methods": [],
             "schemes": []
         },
-        "createTeam": {
-            "tokens": [["variable", "\/", "[^\/]++", "raceid"], ["variable", "\/", "[^\/]++", "coachid"], ["variable", "\/", "[^\/]++", "teamname"], ["text", "\/createTeam"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
         "tk": {
             "tokens": [["text", "\/tk"]],
             "defaults": [],
@@ -199,8 +191,8 @@ const routes = {
             "methods": [],
             "schemes": []
         },
-        "ret_team": {
-            "tokens": [["variable", "\/", "[^\/]++", "teamId"], ["text", "\/ret_team"]],
+        "retTeam": {
+            "tokens": [["variable", "\/", "[^\/]++", "teamId"], ["text", "\/retTeam"]],
             "defaults": [],
             "requirements": [],
             "hosttokens": [],
@@ -411,14 +403,6 @@ const routes = {
             "methods": [],
             "schemes": []
         },
-        "createTeam": {
-            "tokens": [["variable", "\/", "[^\/]++", "raceid"], ["variable", "\/", "[^\/]++", "coachid"], ["variable", "\/", "[^\/]++", "teamname"], ["text", "\/createTeam"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
         "tk": {
             "tokens": [["text", "\/tk"]],
             "defaults": [],
@@ -467,8 +451,8 @@ const routes = {
             "methods": [],
             "schemes": []
         },
-        "ret_team": {
-            "tokens": [["variable", "\/", "[^\/]++", "teamId"], ["text", "\/ret_team"]],
+        "retTeam": {
+            "tokens": [["variable", "\/", "[^\/]++", "teamId"], ["text", "\/retTeam"]],
             "defaults": [],
             "requirements": [],
             "hosttokens": [],
@@ -562,19 +546,6 @@ $(document).ready(function () {
         $("tr.danger").toggleClass("hidden");
         $("tr.info").toggleClass("hidden");
     });
-
-    $("#selectedRace li a").click(function () {
-
-        let label = $('#dLabel');
-
-        label.html($(this).text() + ' <span class="caret"></span>');
-        label.val($(this).data('value'));
-
-        label.attr('coachId', $(this).attr('coachId'));
-        label.attr('raceId', $(this).attr('raceId'));
-
-    });
-
 
     $("[id^='selectedTeam']").change(function () {
 
@@ -704,24 +675,6 @@ $(document).ready(function () {
 
     });
 
-
-    $("#addteam").click(function () {
-
-        let label = $("#dLabel");
-
-        //$.post("./createTeam/"+$('#nTeamName').val()+"/"+label.attr('coachId')+"/"+label.attr('raceId'),
-        $.post(Routing.generate('createTeam', {
-                teamname: $('#nTeamName').val(),
-                coachid: label.attr('coachId'),
-                raceid: label.attr('raceId')
-            }),
-            {},
-            function (result) {
-                window.location.href = "team/" + result + "/n"
-            })
-
-    });
-
     $("[id^='remove_pl']").click(function () {
 
         let test = $(this).parent().parent();
@@ -791,8 +744,8 @@ $(document).ready(function () {
 
         let clicked = $(this).parent().parent();
 
-        //$.post("/ret_team/" + $(this).attr("teamId"),
-        $.post(Routing.generate('ret_team', {teamId: $(this).attr("teamId")}),
+        //$.post("/retTeam/" + $(this).attr("teamId"),
+        $.post(Routing.generate('retTeam', {teamId: $(this).attr("teamId")}),
             {},
             function () {
                 clicked.addClass("danger hidden")

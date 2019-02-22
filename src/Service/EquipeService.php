@@ -2,17 +2,23 @@
 
 namespace App\Service;
 
+use App\Entity\Coaches;
+use App\Entity\Races;
+use App\Entity\Setting;
 use App\Entity\Teams;
 use App\Entity\Matches;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\ORMException;
 
 class EquipeService
 {
 
     private $doctrineEntityManager;
 
-    public function __construct(ManagerRegistry $doctrineEntityManager)
+    private $tresorDepart = 1000000;
+
+    public function __construct(EntityManagerInterface $doctrineEntityManager)
     {
         $this->doctrineEntityManager = $doctrineEntityManager;
     }
@@ -23,10 +29,14 @@ class EquipeService
      */
     public function toutesLesTeamsParAnnee($annee = 1)
     {
-        return $this->doctrineEntityManager->getRepository(Teams::class)->findBy(
-            ['year' => $annee, 'retired' => false],
-            ['name' => 'ASC']
-        );
+        if (!empty($this->doctrineEntityManager)) {
+            return $this->doctrineEntityManager->getRepository(Teams::class)->findBy(
+                ['year' => $annee, 'retired' => false],
+                ['name' => 'ASC']
+            );
+        }
+
+        return [];
     }
 
     /**
@@ -95,5 +105,51 @@ class EquipeService
         }
 
         return ['win'=>$win, 'loss'=>$loss,'draw'=> $draw];
+    }
+
+    public function createTeam($teamname, $coachid, $raceid)
+    {
+        $team = new Teams();
+
+        $team->setName($teamname);
+
+        $setting = $this->doctrineEntityManager->getRepository(Setting::class)->findOneBy(['name' => 'year']);
+
+        $currentYear = 0;
+
+        if ($setting) {
+            try {
+                $currentYear = $setting->getValue();
+            } catch (ORMException $e) {
+            }
+
+            $team->setYear((int)$currentYear);
+        }
+
+        $race = $this->doctrineEntityManager->getRepository(Races::class)->findOneBy(['raceId' => $raceid]);
+
+        if ($race) {
+            $team->setFRace($race);
+        }
+
+        $coach = $this->doctrineEntityManager->getRepository(Coaches::class)->findOneBy(array('coachId' => $coachid));
+
+        if ($coach) {
+            $team->setOwnedByCoach($coach);
+        }
+
+        $team->setTreasury($this->tresorDepart);
+
+        $teamid = 0;
+
+        try {
+            $this->doctrineEntityManager->persist($team);
+            $this->doctrineEntityManager->flush();
+            $this->doctrineEntityManager->refresh($team);
+            $teamid = $team->getTeamId();
+        } catch (ORMException $e) {
+        }
+
+        return $teamid;
     }
 }

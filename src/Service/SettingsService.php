@@ -4,13 +4,14 @@ namespace App\Service;
 
 use App\Entity\Setting;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\ORMException;
 
 class SettingsService
 {
     private $doctrineEntityManager;
 
-    public function __construct(ManagerRegistry $doctrineEntityManager)
+    public function __construct(EntityManagerInterface $doctrineEntityManager)
     {
         $this->doctrineEntityManager = $doctrineEntityManager;
     }
@@ -21,6 +22,11 @@ class SettingsService
     public function anneeCourante()
     {
 
-        return $this->doctrineEntityManager->getRepository(Setting::class)->findOneBy(['name' => 'year'])->getValue();
+        try {
+            return $this->doctrineEntityManager->getRepository(Setting::class)->findOneBy(['name' => 'year'])->getValue(
+            );
+        } catch (ORMException $e) {
+        }
+        return 0;
     }
 }
