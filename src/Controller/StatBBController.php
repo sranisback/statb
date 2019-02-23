@@ -123,9 +123,9 @@ class StatBBController extends AbstractController
                 $pdata[$count]['cas'] = $ficheJoueur['actions']['cas'];
                 $pdata[$count]['mvp'] = $ficheJoueur['actions']['mvp'];
                 $pdata[$count]['agg'] = $ficheJoueur['actions']['agg'];
-                $pdata[$count]['skill'] = substr($ficheJoueur['comp'], 0, strlen($ficheJoueur['comp']) - 2);
+                $pdata[$count]['skill'] = $ficheJoueur['comp'];
                 $pdata[$count]['spp'] = $playerService->xpDuJoueur($joueur);
-                $pdata[$count]['cost'] = $joueur->getValue();
+                $pdata[$count]['cost'] = $playerService->valeurDunJoueur($joueur);
                 $pdata[$count]['status'] = $playerService->statutDuJoueur($joueur);
 
                 if (!$joueur->getName()) {
@@ -209,7 +209,7 @@ class StatBBController extends AbstractController
             $pdata['agg'] = $ficheJoueur['actions']['agg'];
             $pdata['skill'] = substr($ficheJoueur['comp'], 0, strlen($ficheJoueur['comp']) - 2);
             $pdata['spp'] = $playerService->xpDuJoueur($joueur);
-            $pdata['cost'] = $joueur->getValue();
+            $pdata['cost'] = $playerService->valeurDunJoueur($joueur);
 
             if (!$joueur->getName()) {
                 $joueur->setName('Inconnu');
@@ -575,30 +575,13 @@ class StatBBController extends AbstractController
      * @param int $posId
      * @return Response
      */
-    public function getposstat($posId)
+    public function getposstat(PlayerService $playerService, $posId)
     {
         $position = $this->getDoctrine()->getRepository(GameDataPlayers::class)->findOneBy(['posId' => $posId]);
+
         if ($position) {
-            $allskills = $this->getDoctrine()->getRepository(GameDataSkills::class)->findAll();
-
-            $playerskills = explode(",", (string)$position->getSkills());
-
-            $listskill = '';
-
-            foreach ($playerskills as $playerskill) {
-                foreach ($allskills as $baseskill) {
-                    if ($baseskill->getSkillId() == $playerskill) {
-                        $listskill .= $baseskill->getName().', ';
-                    }
-                }
-            }
-
-            if ($listskill == ', ') {
-                $listskill = '';
-            }
-
-            $listskill = substr($listskill, 0, strlen($listskill) - 2);
-
+            $competences = $playerService->listeDesCompdUnePosition($position);
+            $competences = substr($competences, 0, strlen($competences) - 2);
 
             $render = '<table class="table" id="pos_table">
                                     <thead>
@@ -620,7 +603,7 @@ class StatBBController extends AbstractController
                                             <td>'.$position->getSt().'</td>										
                                             <td>'.$position->getAg().'</td>										
                                             <td>'.$position->getAv().'</td>										
-                                            <td>'.$listskill.'</td>
+                                            <td>'.$competences.'</td>
                                             <td>'.$position->getCost().'</td>	
                                         </tr>
                                     </tbody>
@@ -688,7 +671,6 @@ class StatBBController extends AbstractController
     */
     public function playerAdder($raceId, $teamId)
     {
-
         $race = $this->getDoctrine()->getRepository(races::class)->findOneBy(array('raceId' => $raceId));
 
         $playerpositions = $this->getDoctrine()->getRepository(GameDataPlayers::class)->findBy(['fRace' => $race]);
@@ -702,14 +684,13 @@ class StatBBController extends AbstractController
     /**
      * @Route("/addPlayer/{posId}/{teamId}", options = { "expose" = true })
      * @param PlayerService $playerService
-     * @param EquipeService $equipeService
      * @param int $posId
      * @param int $teamId
      * @return JsonResponse
      */
-    public function addPlayer(PlayerService $playerService, EquipeService $equipeService, $posId, $teamId)
+    public function addPlayer(PlayerService $playerService, $posId, $teamId)
     {
-        $resultat = $equipeService->ajoutJoueur($playerService, $posId, $teamId);
+        $resultat = $playerService->ajoutJoueur($posId, $teamId);
         $tv = 0;
         $tresors = 0;
         $html = '';
@@ -743,22 +724,20 @@ class StatBBController extends AbstractController
             $html = $resultat['resultat'];
         }
 
-        $encoders = array(new XmlEncoder(), new JsonEncoder());
-        $normalizers = array(new ObjectNormalizer());
+        $encoders = [new XmlEncoder(), new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
         $serializer = new Serializer($normalizers, $encoders);
 
-        $response = array(
+        $response = [
             "html" => $html,
             "tv" => $tv,
             "ptv" => ($tv / 1000),
             "tresor" => $tresors,
             "playercost" => $coutjoueur,
             "reponse" => $reponse
-        );
+        ];
 
-        $jsonContent = $serializer->serialize($response, 'json');
-
-        return new JsonResponse($jsonContent);
+        return new JsonResponse($serializer->serialize($response, 'json'));
     }
 
     /**
@@ -766,110 +745,28 @@ class StatBBController extends AbstractController
      * @param int $playerId
      * @return JsonResponse
      */
-    public function remPlayer($playerId)
+    public function remPlayer(PlayerService $playerService, $playerId)
     {
-        $effect = "sld";
+        $resultat['']= '';
+        $joueur  = $this->getDoctrine()->getRepository(Players::class)->findOneBy(['playerId' => $playerId]);
 
-        $entityManager = $this->getDoctrine()->getManager();
-
-        $player = $this->getDoctrine()->getRepository(Players::class)->findOneBy(['playerId' => $playerId]);
-
-        if ($player) {
-            $team = $player->getOwnedByTeam();
-
-            $playerPosition = $player->getFPos();
-
-            if ($team  && $playerPosition) {
-                $matchest1 = $this->getDoctrine()->getRepository(Matches::class)->findBy(
-                    ['team1' => $team->getTeamId()]
-                );
-
-                $matchest2 = $this->getDoctrine()->getRepository(Matches::class)->findBy(
-                    ['team2' => $team->getTeamId()]
-                );
-
-                if (count($matchest1) == 0 || count($matchest2) == 0) {
-                    $team->setTreasury(
-                        $team->getTreasury() + $playerPosition->getCost()
-                    );
-
-                    $effect = "rm";
-                }
-
-                $tcost = 0;
-
-                $supcomp = $this->getDoctrine()->getRepository(PlayersSkills::class)->findBy(
-                    ['fPid' => $player->getPlayerId()]
-                );
-
-                if ($supcomp) {
-                    foreach ($supcomp as $comps) {
-                        if ($comps->getType() == 'N') {
-                            $tcost += 20000;
-                        } else {
-                            $tcost += 30000;
-                        }
-                    }
-                }
-
-                if ($player->getAchMa() > 0) {
-                    $tcost += 30000;
-                }
-
-                if ($player->getAchSt() > 0) {
-                    $tcost += 50000;
-                }
-
-                if ($player->getAchAg() > 0) {
-                    $tcost += 40000;
-                }
-
-                if ($player->getAchAv() > 0) {
-                    $tcost += 30000;
-                }
-
-                $tv = $team->getTv() - $tcost;
-
-                $team->setTv($tv);
-
-                $encoders = array(new XmlEncoder(), new JsonEncoder());
-                $normalizers = array(new ObjectNormalizer());
-
-                $serializer = new Serializer($normalizers, $encoders);
-
-                $treasury = $team->getTreasury();
-
-                $response = array(
-                    "tv" => $tv,
-                    "ptv" => ($tv / 1000),
-                    "tresor" => $treasury,
-                    "playercost" => $tcost,
-                    "reponse" => $effect,
-                );
-
-                if ($effect == "rm") {
-                    $entityManager->remove($player);
-                } else {
-                    $player->setStatus(7);
-
-                    $entityManager->persist($player);
-                }
-
-                $entityManager->flush();
-
-
-                $jsonContent = $serializer->serialize($response, 'json');
-
-                return new JsonResponse($jsonContent);
-            }
+        if ($joueur) {
+            $resultat = $playerService->renvoisOuSuppressionJoueur($joueur);
         }
+
         $encoders = array(new XmlEncoder(), new JsonEncoder());
         $normalizers = array(new ObjectNormalizer());
-
         $serializer = new Serializer($normalizers, $encoders);
-        $jsonContent = $serializer->serialize(["rien"=>''], 'json');
 
-        return new JsonResponse($jsonContent);
+        $response = array(
+            "tv" => $resultat['tv'],
+            "ptv" => ($resultat['tv'] / 1000),
+            "tresor" => $resultat['tresor'],
+            "playercost" => $resultat['playercost'],
+            "reponse" => $resultat['reponse']
+        );
+
+        return new JsonResponse($serializer->serialize($response, 'json'));
     }
 
     /**

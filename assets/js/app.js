@@ -534,6 +534,9 @@ $(document).ready(function () {
 
     Routing.setRoutingData(routes);
 
+    /**
+     * table classement général
+     */
     $('#classgen').DataTable({
         "lengthChange": false,
         "pageLength": 20,
@@ -541,47 +544,20 @@ $(document).ready(function () {
 
     });
 
+    /**
+     * bouton qui montre tout les joueurs/équipes
+     */
+
     $('#showall_btn').click(function () {
 
         $("tr.danger").toggleClass("hidden");
         $("tr.info").toggleClass("hidden");
     });
 
-    $("[id^='selectedTeam']").change(function () {
-
-        $("#valideteam" + $(this).attr("side")).attr("teamId", $(this).val())
-    });
-
-
-    $("[id^='valideteam']").click(function () {
-
-        let clicked = $(this);
-
-        addLine(clicked, $(".form-group #action").length)
-
-
-    });
 
     /**
-     * ajout de ligne dans feuille de match
-     * @param clicked
-     * @param side
+     * selection de race/création d'équipe
      */
-    function addLine(clicked, side) {
-
-        //$.getJSON("./dropdownPlayer/"+clicked.attr('teamId')+"/"+side,
-        $.getJSON(Routing.generate('dropdownPlayer', {teamId: clicked.attr('teamId'), nbr: side}),
-            {},
-            function (result) {
-
-                result = JSON.parse(result);
-
-                clicked.parent().after(result.html);
-
-            })
-    }
-
-
     $("#selectedPos li a").click(function () {
         $("#pos_table").remove();
         let label = $('#dLabel');
@@ -590,8 +566,6 @@ $(document).ready(function () {
         label.val($(this).data('value'));
         $('#btn_addplayer').attr('posId', $(this).attr('posId'));
         $("#teamdrop").after('<div id="loader"><img src="/build/images/ajax-loader.gif"></div>');
-
-        //$.post("http://statbrutedebowl.url.ph/statb/getposstat/"+$(this).attr('posId'),
         $.post(Routing.generate('getposstat', {posId: $(this).attr('posId')}),
             {},
             function (result) {
@@ -602,10 +576,11 @@ $(document).ready(function () {
 
     });
 
+    /**
+     * Ajout d'un joueur
+     */
     $("#btn_addplayer").click(function () {
         $("#teamsheet").after('<div id="loader"><img src="/build/images/ajax-loader.gif"></div>');
-
-        //$.getJSON("http://statbrutedebowl.url.ph/statb/add_player/"+$(this).attr('posId')+"/"+$(this).attr('teamId'),
         $.getJSON(Routing.generate('addPlayer', {posId: $(this).attr('posId'), teamId: $(this).attr('teamId')}),
             {},
             function (result) {
@@ -634,12 +609,13 @@ $(document).ready(function () {
 
     });
 
+    /**
+     * suppression/renvois d'un joueur
+     */
     $("[id^='remove_pl']").click(function () {
-
-        let test = $(this).parent().parent();
+        let line = $(this).parent().parent();
         let totalPV = $("#totalPV");
 
-        //$.post("./remPlayer/"+$(this).attr("playerId"),
         $.post(Routing.generate('remPlayer', {playerId: $(this).attr("playerId")}),
             {},
             function (result) {
@@ -647,11 +623,10 @@ $(document).ready(function () {
 
                 switch (result.reponse) {
                     case "rm":
-                        test.remove();
+                        line.remove();
                         break;
-
                     case "sld":
-                        test.addClass("info hidden");
+                        line.addClass("info hidden");
                         break;
                 }
 
@@ -659,10 +634,43 @@ $(document).ready(function () {
                 $("#pTv").text(result.ptv);
                 totalPV.text(Number(totalPV.text()) - result.playercost);
                 $("#tresor").text(result.tresor);
-
             });
+    });
+
+
+    $("[id^='selectedTeam']").change(function () {
+
+        $("#valideteam" + $(this).attr("side")).attr("teamId", $(this).val())
+    });
+
+
+    $("[id^='valideteam']").click(function () {
+
+        let clicked = $(this);
+
+        addLine(clicked, $(".form-group #action").length)
+
 
     });
+
+    /**
+     * ajout de ligne dans feuille de match
+     */
+    function addLine(clicked, side) {
+
+        //$.getJSON("./dropdownPlayer/"+clicked.attr('teamId')+"/"+side,
+        $.getJSON(Routing.generate('dropdownPlayer', {teamId: clicked.attr('teamId'), nbr: side}),
+            {},
+            function (result) {
+
+                result = JSON.parse(result);
+
+                clicked.parent().after(result.html);
+
+            })
+    }
+
+
 
     $("[id^='add_']").click(function () {
 

@@ -3,6 +3,7 @@
 
 namespace App\Service;
 
+use App\Entity\GameDataPlayers;
 use App\Entity\MatchData;
 
 use App\Entity\Teams;
@@ -10,6 +11,7 @@ use App\Entity\Teams;
 use App\Entity\Players;
 use App\Entity\PlayersSkills;
 use App\Entity\GameDataSkills;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 
 class PlayerService
@@ -57,24 +59,25 @@ class PlayerService
     }
 
     /**
-     * @param Players|null $joueur
+     * @param Players $joueur
      * @return array
      */
-    public function statsDuJoueur(Players $joueur = null)
+    public function statsDuJoueur($joueur)
     {
-        $coutTotal = 0;
+        $toutesLesCompsDuJoueur = $this->toutesLesCompsdUnJoueur($joueur);
 
-        if ($joueur) {
-            $toutesLesCompsDuJoueur = $this->toutesLesCompsdUnJoueur($joueur);
+        $actions = $this->actionsDuJoueur($joueur);
 
-            $actions = $this->actionsDuJoueur($joueur);
+        $toutesLesCompsDuJoueur = substr($toutesLesCompsDuJoueur, 0, strlen($toutesLesCompsDuJoueur) - 2);
 
-            return ['comp'=>$toutesLesCompsDuJoueur, 'cout'=>$coutTotal, 'actions'=>$actions];
-        }
-        return [];
+        return ['comp'=>$toutesLesCompsDuJoueur, 'actions'=>$actions];
     }
 
-    public function toutesLesCompsdUnJoueur(Players $joueur)
+    /**
+     * @param Players $joueur
+     * @return string
+     */
+    public function toutesLesCompsdUnJoueur($joueur)
     {
         $toutesLesCompsDuJoueur = $this->listeDesCompdDeBasedUnJoueur($joueur);
         $compsupp = $this->listeDesCompEtSurcoutGagnedUnJoueur($joueur);
@@ -98,30 +101,37 @@ class PlayerService
      */
     public function listeDesCompdDeBasedUnJoueur(Players $joueur)
     {
-        $positionJoueur  = $joueur->getFPos();
+        $position  = $joueur->getFPos();
 
-        if ($positionJoueur) {
-            $idcompCollection = explode(",", (string) $positionJoueur->getSkills());
+        if ($position) {
+            return $this->listeDesCompdUnePosition($position);
+        }
+        return '';
+    }
 
-            $listeCompDeBase = '';
+    /**
+     * @param GameDataPlayers $position
+     * @return string
+     */
+    public function listeDesCompdUnePosition(GameDataPlayers $position)
+    {
+        $idcompCollection = explode(",", (string) $position->getSkills());
 
-            foreach ($idcompCollection as $idComp) {
-                $comp = $this->doctrineEntityManager->getRepository(GameDataSkills::class)->findOneBy(
-                    ['skillId' => $idComp]
-                );
+        $listeCompDeBase = '';
 
-                $listeCompDeBase .= '<text class="test-primary">'.$comp->getName().'</text>, ';
-            }
+        foreach ($idcompCollection as $idComp) {
+            $comp = $this->doctrineEntityManager->getRepository(GameDataSkills::class)->findOneBy(
+                ['skillId' => $idComp]
+            );
 
-            if ($listeCompDeBase == '<text class="test-primary"></text>, ') {
-                $listeCompDeBase = '';
-            }
-
-
-            return $listeCompDeBase;
+            $listeCompDeBase .= '<text class="test-primary">'.$comp->getName().'</text>, ';
         }
 
-        return 'Error';
+        if ($listeCompDeBase == '<text class="test-primary"></text>, ') {
+            $listeCompDeBase = '';
+        }
+
+        return $listeCompDeBase;
     }
 
     /**
@@ -334,5 +344,138 @@ class PlayerService
         }
 
         return $numero;
+    }
+
+    /**
+     * @param int $positionId
+     * @param int $teamId
+     * @return array
+     */
+    public function ajoutJoueur($positionId, $teamId)
+    {
+        $position = $this->doctrineEntityManager->getRepository(
+            GameDataPlayers::class
+        )->findOneBy(['posId' => $positionId]);
+
+        $equipe = $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
+
+        $tv = 0;
+        $tresors = '';
+        $joueur = new Players();
+
+        $count = 0;
+
+        $joueursParPositionCollection = $this->doctrineEntityManager->getRepository(Players::class)->findBy(
+            ['fPos' => $position, 'ownedByTeam' => $equipe]
+        );
+
+        foreach ($joueursParPositionCollection as $joueurParPosition) {
+            if ($joueurParPosition->getStatus()!=7 && $joueurParPosition->getStatus()!=8) {
+                $count++;
+            }
+        }
+
+        if ($equipe && $position) {
+            if ($equipe->getTreasury() >= $position->getCost()) {
+                if ($count < $position->getQty()) {
+                    $tresors = $equipe->getTreasury() - $position->getCost();
+                    $equipe->setTreasury($tresors);
+
+                    $tv = $equipe->getTv() + $position->getCost();
+                    $equipe->setTv($tv);
+
+                    $joueur->setNr($this->numeroLibreDelEquipe($equipe));
+
+                    $coach = $equipe->getOwnedByCoach();
+                    $race = $position->getFRace();
+
+                    if ($coach) {
+                        $joueur->setFCid($coach);
+                    }
+
+                    if ($race) {
+                        $joueur->setFRid($race);
+                    }
+
+                    $dateBoughtFormat = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
+
+                    if ($dateBoughtFormat) {
+                        $joueur->setDateBought($dateBoughtFormat);
+                    }
+
+                    $joueur->setFPos($position);
+                    $joueur->setOwnedByTeam($equipe);
+                    $joueur->setValue((int)$position->getCost());
+                    $joueur->setStatus(1);
+
+                    $this->doctrineEntityManager->persist($joueur);
+
+                    $this->doctrineEntityManager->persist($equipe);
+
+                    $this->doctrineEntityManager->flush();
+
+                    return['resultat'=>'ok','joueur'=>$joueur];
+                }
+                return ['resultat'=>"Plus de place"];
+            }
+            return ['resultat'=>"Pas assez d'argent"];
+        }
+        return ['resultat'=>'erreur'];
+    }
+
+    /**
+     * @param Players $joueur
+     * @return array
+     */
+    public function renvoisOuSuppressionJoueur(Players $joueur)
+    {
+        $equipe = $joueur->getOwnedByTeam();
+        $position = $joueur->getFPos();
+        $effect="nope";
+
+        if ($equipe  && $position) {
+            $matchjoues = $this->doctrineEntityManager->getRepository(MatchData::class)->findBy(['fPlayer'=>$joueur]);
+            if (!$matchjoues) {
+                $effect = "rm";
+                $equipe->setTreasury($equipe->getTreasury() + $position->getCost());
+                $this->doctrineEntityManager->remove($joueur);
+                $this->doctrineEntityManager->persist($joueur);
+            } else {
+                $equipe->setTv($equipe->getTv() - $this->valeurDunJoueur($joueur));
+                $this->doctrineEntityManager->persist($equipe);
+                $joueur->setStatus(7);
+                $dateSoldFormat = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
+                if ($dateSoldFormat) {
+                    $joueur->setDateSold($dateSoldFormat);
+                }
+                $this->doctrineEntityManager->persist($joueur);
+                $effect = "sld";
+            }
+            $this->doctrineEntityManager->flush();
+
+            return [
+                'reponse' => $effect,
+                'tv' => $equipe->getTv(),
+                'tresor' => $equipe->getTreasury(),
+                'playercost' => $this->valeurDunJoueur($joueur),
+            ];
+        }
+
+        return['error'];
+    }
+
+    /**
+     * @param Players $joueur
+     * @return int|mixed|null
+     */
+    public function valeurDunJoueur(Players $joueur)
+    {
+        $position = $joueur->getFPos();
+        if ($position) {
+            $coutCompetencesGagnee = $this->listeDesCompEtSurcoutGagnedUnJoueur($joueur);
+            $coutNiveauSpeciaux = $this->listenivSpeciauxEtSurcout($joueur);
+            return $position->getCost() +  $coutCompetencesGagnee['cout'] + $coutNiveauSpeciaux['cout'];
+        }
+        return 0;
     }
 }
