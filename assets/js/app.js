@@ -11,7 +11,7 @@ import './jquery.dataTables.min.js'
 import Routing from './router.min.js';
 
 //json route prod
-/*
+
 const routes = {
     "base_url": "http://statbrutedebowl.url.ph/statb/public",
     "routes": {
@@ -269,9 +269,9 @@ const routes = {
     "port": "",
     "scheme": "http"
 }
-*/
-//json route dev
 
+//json route dev
+/*
 const routes = {
     "base_url": "",
     "routes": {
@@ -529,7 +529,7 @@ const routes = {
     "port": "",
     "scheme": "http"
 }
-
+*/
 $(document).ready(function () {
 
     Routing.setRoutingData(routes);

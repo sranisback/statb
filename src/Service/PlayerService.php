@@ -140,7 +140,6 @@ class PlayerService
      */
     public function listeDesCompEtSurcoutGagnedUnJoueur(Players $joueur)
     {
-
         $compSupplementaire = $this->doctrineEntityManager->getRepository(PlayersSkills::class)->findBy(
             ['fPid' => $joueur->getPlayerId()]
         );
