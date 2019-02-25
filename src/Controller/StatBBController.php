@@ -45,6 +45,22 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 class StatBBController extends AbstractController
 {
     /**
+     * @param  mixed $response
+     * @return JsonResponse
+     */
+    public static function transformInJson($response): JsonResponse
+    {
+        $encoders = array(new XmlEncoder(), new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $serializer = new Serializer($normalizers, $encoders);
+
+        $jsonContent = $serializer->serialize($response, 'json');
+
+        return new JsonResponse($jsonContent);
+    }
+
+    /**
      * @Route("/showteams", name="showteams", options = { "expose" = true })
      * @param EquipeService $equipeService
      * @param SettingsService $settingsService
@@ -78,10 +94,9 @@ class StatBBController extends AbstractController
         $countEquipe = 0;
 
         foreach ($equipesCollection as $equipe) {
-            $tdata[$countEquipe]['tId'] = $equipe->getTeamId();
-
             $resultats = $equipeService->resultatsDelEquipe($equipe, $equipeService->listeDesMatchs($equipe));
 
+            $tdata[$countEquipe]['tId'] = $equipe->getTeamId();
             $tdata[$countEquipe]['win'] = $resultats['win'];
             $tdata[$countEquipe]['loss'] = $resultats['loss'];
             $tdata[$countEquipe]['draw'] = $resultats['draw'];
@@ -94,12 +109,13 @@ class StatBBController extends AbstractController
 
     /**
      * @Route("/team/{teamid}/{type}", name="team", options = { "expose" = true })
+     * @param PlayerService $playerService
+     * @param EquipeService $equipeService
      * @param int $teamid
      * @param string $type
-     * @param PlayerService $playerService
      * @return Response
      */
-    public function showTeam($teamid, $type, PlayerService $playerService)
+    public function showTeam(PlayerService $playerService, EquipeService $equipeService, $teamid, $type)
     {
         $pdata = [];
 
@@ -109,8 +125,6 @@ class StatBBController extends AbstractController
             $players = $playerService->listeDesJoueursDelEquipe($equipe);
 
             $count = 0;
-
-            $coutTotalJoueur = 0;
 
             foreach ($players as $joueur) {
                 $ficheJoueur = $playerService->statsDuJoueur($joueur);
@@ -132,33 +146,18 @@ class StatBBController extends AbstractController
                     $joueur->setName('Inconnu');
                 }
 
-                switch ($joueur->getStatus()) {
-                    case 7:
-                    case 8:
-                        break;
-
-                    default:
-                        ($joueur->getInjRpm() != 0) ?/*rien faire*/ : $coutTotalJoueur += $joueur->getValue();
-                        break;
-                }
-
-
                 $count++;
             }
 
-            $equipeRace = $equipe->getFRace();
+            $inducement = $equipeService->valeurInducementDelEquipe($equipe);
 
-            if ($equipeRace) {
-                $tdata['rerolls'] = $equipe->getRerolls() * $equipeRace->getCostRr();
-            }
-
-            $tdata['playersCost'] = $coutTotalJoueur;
-            $tdata['pop'] = ($equipe->getFf() + $equipe->getFfBought()) * 10000;
-            $tdata['asscoaches'] = $equipe->getAssCoaches() * 10000;
-            $tdata['cheerleader'] = $equipe->getCheerleaders() * 10000;
-            $tdata['apo'] = $equipe->getApothecary() * 50000;
-            $tdata['tv'] = $coutTotalJoueur + $tdata['rerolls'] + $tdata['pop']
-                + $tdata['asscoaches'] + $tdata['cheerleader'] + $tdata['apo'];
+            $tdata['playersCost'] = $equipeService->coutTotalJoueurs($equipe, $playerService);
+            $tdata['rerolls'] = $inducement['rerolls'];
+            $tdata['pop'] =  $inducement['pop'];
+            $tdata['asscoaches'] =  $inducement['asscoaches'];
+            $tdata['cheerleader'] =  $inducement['cheerleader'];
+            $tdata['apo'] =  $inducement['apo'];
+            $tdata['tv'] = $equipeService->tvDelEquipe($equipe, $playerService);
 
             if ($type == "modal") {
                 return $this->render(
@@ -190,7 +189,6 @@ class StatBBController extends AbstractController
      */
     public function showPlayer($playerid, $type, PlayerService $playerService)
     {
-
         $msdata= [];
         $pdata = [];
         $mdata = '';
@@ -294,7 +292,6 @@ class StatBBController extends AbstractController
      */
     public function login()
     {
-
         return $this->render('statbb/front.html.twig');
     }
 
@@ -348,8 +345,6 @@ class StatBBController extends AbstractController
 
         return $this->render('statbb/listeCoaches.html.twig');
     }
-
-
     /**
      * @Route("/classement/general/{limit}", name="classementgen", options = { "expose" = true })
      * @param int $limit
@@ -516,7 +511,6 @@ class StatBBController extends AbstractController
      */
     public function lastfive($teamId = null)
     {
-
         $setting = $this->getDoctrine()->getRepository(Setting::class)->findOneBy(['name' => 'year']);
 
         $matches = $this->getDoctrine()->getRepository(Matches::class)->findBy(array(), array('dateCreated' => 'DESC'));
@@ -552,7 +546,6 @@ class StatBBController extends AbstractController
             }
             return $this->render('statbb/lastfivesmatches.html.twig', array('games' => $games));
         }
-
         return $this->render('statbb/base.html.twig');
     }
 
@@ -572,6 +565,7 @@ class StatBBController extends AbstractController
 
     /**
      * @Route("/getposstat/{posId}", name="getposstat", options = { "expose" = true })
+     * @param PlayerService $playerService
      * @param int $posId
      * @return Response
      */
@@ -620,10 +614,9 @@ class StatBBController extends AbstractController
 
     /**
      * @Route("/raceSelector", options = { "expose" = true })
-     * @param Request $request
      * @return Response
      */
-    public function raceSelector(Request $request)
+    public function raceSelector()
     {
         $team = new Teams();
 
@@ -724,10 +717,6 @@ class StatBBController extends AbstractController
             $html = $resultat['resultat'];
         }
 
-        $encoders = [new XmlEncoder(), new JsonEncoder()];
-        $normalizers = [new ObjectNormalizer()];
-        $serializer = new Serializer($normalizers, $encoders);
-
         $response = [
             "html" => $html,
             "tv" => $tv,
@@ -737,11 +726,12 @@ class StatBBController extends AbstractController
             "reponse" => $reponse
         ];
 
-        return new JsonResponse($serializer->serialize($response, 'json'));
+        return self::transformInJson($response);
     }
 
     /**
      * @Route("/remPlayer/{playerId}", options = { "expose" = true })
+     * @param PlayerService $playerService
      * @param int $playerId
      * @return JsonResponse
      */
@@ -753,11 +743,6 @@ class StatBBController extends AbstractController
         if ($joueur) {
             $resultat = $playerService->renvoisOuSuppressionJoueur($joueur);
         }
-
-        $encoders = array(new XmlEncoder(), new JsonEncoder());
-        $normalizers = array(new ObjectNormalizer());
-        $serializer = new Serializer($normalizers, $encoders);
-
         $response = array(
             "tv" => $resultat['tv'],
             "ptv" => ($resultat['tv'] / 1000),
@@ -766,351 +751,45 @@ class StatBBController extends AbstractController
             "reponse" => $resultat['reponse']
         );
 
-        return new JsonResponse($serializer->serialize($response, 'json'));
+        return self::transformInJson($response);
     }
 
     /**
-     * @Route("/addInducement/{teamId}/{type}", options = { "expose" = true })
+     * @Route("/gestionInducement/{action}/{teamId}/{type}", options = { "expose" = true })
+     * @param EquipeService $equipeService
+     * @param PlayerService $playerService
      * @param int $teamId
      * @param string $type
+     * @param string $action
      * @return JsonResponse
      */
-    public function addInducement($teamId, $type)
-    {
-        $nbr = 0;
-        $inducost = 0;
-        $tv = 0;
-
-        $team = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
-
-        if ($team) {
-            $entityManager = $this->getDoctrine()->getManager();
-
-            $race = $team->getFRace();
-
-            if ($race) {
-                $costRr = $race->getCostRr();
+    public function gestionInducement(
+        EquipeService $equipeService,
+        PlayerService $playerService,
+        $action,
+        $teamId,
+        $type
+    ) {
+        $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
+        if ($equipe) {
+            if ($action == 'add') {
+                $coutEtnbr = $equipeService->ajoutInducement($playerService, $equipe, $type);
             } else {
-                $costRr = 0;
+                $coutEtnbr = $equipeService->supprInducement($playerService, $equipe, $type);
             }
-
-            switch ($type) {
-                case "rr":
-                    $inducost = $costRr;
-
-                    $matchest1 = $this->getDoctrine()->getRepository(Matches::class)->findBy(
-                        ['team1' => $team->getTeamId()]
-                    );
-
-                    $matchest2 = $this->getDoctrine()->getRepository(Matches::class)->findBy(
-                        ['team2' => $team->getTeamId()]
-                    );
-
-                    if (count($matchest1) > 0 || count($matchest2) > 0) {
-                        $inducost = $inducost * 2;
-                    }
-
-                    if ($team->getTreasury() >= $inducost) {
-                        $nbr = $team->getRerolls() + 1;
-
-                        $team->setRerolls($nbr);
-
-                        $treasury = $team->getTreasury() - $inducost;
-
-                        $team->setTreasury($treasury);
-
-                        $tv = $team->getTv() + $costRr;
-
-                        $team->setTv($tv);
-
-                        $inducost = $costRr;
-                    }
-
-                    break;
-
-                case "pop":
-                    if ($team->getTreasury() >= 10000) {
-                        $matchest1 = $this->getDoctrine()->getRepository(Matches::class)->findBy(
-                            ['team1' => $team->getTeamId()]
-                        );
-
-                        $matchest2 = $this->getDoctrine()->getRepository(Matches::class)->findBy(
-                            ['team2' => $team->getTeamId()]
-                        );
-
-                        if (count($matchest1) == 0 || count($matchest2) == 0) {
-                            $nbr = $team->getFfBought() + 1;
-
-                            $team->setFfBought($nbr);
-
-                            $tv = $team->getTv() + 10000;
-
-                            $team->setTv($tv);
-
-                            $inducost = 10000;
-
-                            $treasury = $team->getTreasury() - 10000;
-
-                            $team->setTreasury($treasury);
-                        }
-                    }
-
-                    break;
-
-                case "ac":
-                    if ($team->getTreasury() >= 10000) {
-                        $nbr = $team->getAssCoaches() + 1;
-
-                        $team->setAssCoaches($nbr);
-
-                        $tv = $team->getTv() + 10000;
-
-                        $team->setTv($tv);
-
-                        $inducost = 10000;
-
-                        $treasury = $team->getTreasury() - 10000;
-
-                        $team->setTreasury($treasury);
-                    }
-
-                    break;
-
-                case "chl":
-                    if ($team->getTreasury() >= 10000) {
-                        $nbr = $team->getCheerleaders() + 1;
-
-                        $team->setCheerleaders($nbr);
-
-                        $tv = $team->getTv() + 10000;
-
-                        $team->setTv($tv);
-
-                        $inducost = 10000;
-
-                        $treasury = $team->getTreasury() - 10000;
-
-                        $team->setTreasury($treasury);
-                    }
-
-                    break;
-
-                case "apo":
-                    if ($team->getTreasury() >= 50000 && $team->getApothecary() < 1) {
-                        $nbr = $team->getApothecary() + 1;
-
-                        $team->setApothecary($nbr);
-
-                        $tv = $team->getTv() + 50000;
-
-                        $team->setTv($tv);
-
-                        $inducost = 50000;
-
-                        $treasury = $team->getTreasury() - 50000;
-
-                        $team->setTreasury($treasury);
-                    }
-
-                    break;
-            }
-
-            $encoders = array(new XmlEncoder(), new JsonEncoder());
-            $normalizers = array(new ObjectNormalizer());
-
-            $serializer = new Serializer($normalizers, $encoders);
-
-            $response = array(
-                "tv" => $tv,
-                "ptv" => ($tv / 1000),
-                "tresor" => $team->getTreasury(),
-                "inducost" => $inducost,
-                "type" => $type,
-                "nbr" => $nbr,
-            );
-
-            $entityManager->persist($team);
-
-            $entityManager->flush();
-
-            $jsonContent = $serializer->serialize($response, 'json');
-
-            return new JsonResponse($jsonContent);
-        }
-        $encoders = array(new XmlEncoder(), new JsonEncoder());
-        $normalizers = array(new ObjectNormalizer());
-
-        $serializer = new Serializer($normalizers, $encoders);
-        $jsonContent = $serializer->serialize(["rien"=>''], 'json');
-
-        return new JsonResponse($jsonContent);
-    }
-
-    /**
-     * @Route("/remInducement/{teamId}/{type}", options = { "expose" = true })
-     * @param int $teamId
-     * @param string $type
-     * @return JsonResponse
-     */
-    public function remInducement($teamId, $type)
-    {
-        $team = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
-
-        $nbr = 0;
-        $inducost = 0;
-        $tv = 0;
-
-        if ($team) {
-            $entityManager = $this->getDoctrine()->getManager();
-
-            $matchest1 = $this->getDoctrine()->getRepository(Matches::class)->findBy(['team1' => $team->getTeamId()]);
-
-            $matchest2 = $this->getDoctrine()->getRepository(Matches::class)->findBy(['team2' => $team->getTeamId()]);
-
-            switch ($type) {
-                case "rr":
-                    if ($team->getRerolls() > 0) {
-                        $race = $team->getFRace();
-
-                        if ($race) {
-                            $costRr = $race->getCostRr();
-                        } else {
-                            $costRr = 0;
-                        }
-
-                        $inducost = $costRr;
-
-                        $nbr = $team->getRerolls() - 1;
-
-                        $team->setRerolls($nbr);
-
-                        if (count($matchest1) == 0 || count($matchest2) == 0) {
-                            $treasury = $team->getTreasury() + $inducost;
-
-                            $team->setTreasury($treasury);
-                        }
-
-                        $tv = $team->getTv() - $costRr;
-
-                        $team->setTv($tv);
-                    }
-
-                    break;
-
-                case "pop":
-                    if ((count($matchest1) == 0 || count($matchest2) == 0) && $team->getFfBought() > 0) {
-                        $nbr = $team->getFfBought() - 1;
-
-                        $team->setFfBought($nbr);
-
-                        $tv = $team->getTv() - 10000;
-
-                        $team->setTv($tv);
-
-                        $inducost = 10000;
-
-                        if (count($matchest1) == 0 || count($matchest2) == 0) {
-                            $treasury = $team->getTreasury() + 10000;
-
-                            $team->setTreasury($treasury);
-                        }
-                    }
-
-
-                    break;
-
-                case "ac":
-                    if ($team->getAssCoaches() > 0) {
-                        $nbr = $team->getAssCoaches() - 1;
-
-                        $team->setAssCoaches($nbr);
-
-                        $tv = $team->getTv() - 10000;
-
-                        $team->setTv($tv);
-
-                        $inducost = 10000;
-
-                        if (count($matchest1) == 0 || count($matchest2) == 0) {
-                            $treasury = $team->getTreasury() + 10000;
-
-                            $team->setTreasury($treasury);
-                        }
-                    }
-
-                    break;
-
-                case "chl":
-                    if ($team->getCheerleaders() > 0) {
-                        $nbr = $team->getCheerleaders() - 1;
-
-                        $team->setCheerleaders($nbr);
-
-                        $tv = $team->getTv() - 10000;
-
-                        $team->setTv($tv);
-
-                        $inducost = 10000;
-
-                        if (count($matchest1) == 0 || count($matchest2) == 0) {
-                            $treasury = $team->getTreasury() + 10000;
-
-                            $team->setTreasury($treasury);
-                        }
-                    }
-
-                    break;
-
-                case "apo":
-                    if ($team->getApothecary() > 0) {
-                        $nbr = $team->getApothecary() - 1;
-
-                        $team->setApothecary($nbr);
-
-                        $tv = $team->getTv() - 50000;
-
-                        $team->setTv($tv);
-
-                        $inducost = 50000;
-
-                        if (count($matchest1) == 0 || count($matchest2) == 0) {
-                            $treasury = $team->getTreasury() + 50000;
-
-                            $team->setTreasury($treasury);
-                        }
-                    }
-                    break;
-            }
-
-            $encoders = array(new XmlEncoder(), new JsonEncoder());
-            $normalizers = array(new ObjectNormalizer());
-
-            $serializer = new Serializer($normalizers, $encoders);
-
             $response = [
-                "tv" => $tv,
-                "ptv" => ($tv / 1000),
-                "tresor" => $team->getTreasury(),
-                "inducost" => $inducost,
+                "tv" => $equipe->getTv(),
+                "ptv" => ($equipe->getTv() / 1000),
+                "tresor" => $equipe->getTreasury(),
+                "inducost" => $coutEtnbr['inducost'],
                 "type" => $type,
-                "nbr" => $nbr,
+                "nbr" => $coutEtnbr['nbr'],
             ];
 
-            $entityManager->persist($team);
-
-            $entityManager->flush();
-
-            $jsonContent = $serializer->serialize($response, 'json');
-
-            return new JsonResponse($jsonContent);
+            return self::transformInJson($response);
         }
-        $encoders = array(new XmlEncoder(), new JsonEncoder());
-        $normalizers = array(new ObjectNormalizer());
 
-        $serializer = new Serializer($normalizers, $encoders);
-        $jsonContent = $serializer->serialize(["rien"=>''], 'json');
-
-        return new JsonResponse($jsonContent);
+        return self::transformInJson(["rien" => '']);
     }
 
     /**
@@ -1127,86 +806,60 @@ class StatBBController extends AbstractController
 
             $team->setRetired(true);
 
-            $encoders = array(new XmlEncoder(), new JsonEncoder());
-            $normalizers = array(new ObjectNormalizer());
-
-            $serializer = new Serializer($normalizers, $encoders);
-
             $response = array();
 
             $entityManager->persist($team);
-
             $entityManager->flush();
 
-            $jsonContent = $serializer->serialize($response, 'json');
-
-            return new JsonResponse($jsonContent);
+            return self::transformInJson($response);
         }
-        $encoders = array(new XmlEncoder(), new JsonEncoder());
-        $normalizers = array(new ObjectNormalizer());
-
-        $serializer = new Serializer($normalizers, $encoders);
-        $jsonContent = $serializer->serialize(["rien"=>''], 'json');
-
-        return new JsonResponse($jsonContent);
+        return self::transformInJson(["rien"=>'']);
     }
 
     /**
      * @Route("/dropdownTeams/{nbr}")
+     * @param EquipeService $equipeService
+     * @param SettingsService $settingsService
      * @param int $nbr
      * @return Response
      */
 
-    public function dropdownTeams($nbr)
+    public function dropdownTeams(EquipeService $equipeService, SettingsService $settingsService, $nbr)
     {
-        $setting = $this->getDoctrine()->getRepository(Setting::class)->findOneBy(['name' => 'year']);
-
-        if ($setting) {
-            $teams = $this->getDoctrine()->getRepository(Teams::class)->findBy(
-                ['retired' => 0, 'year' => $setting->getValue()],
-                ['name' => 'ASC']
-            );
-
-            return $this->render('statbb/dropdownteams.html.twig', ['teams' => $teams, 'nbr' => $nbr]);
-        }
-        return $this->render('statbb/base.html.twig');
+        return $this->render(
+            'statbb/dropdownteams.html.twig',
+            ['teams' => $equipeService->toutesLesTeamsParAnnee($settingsService->anneeCourante()), 'nbr' => $nbr]
+        );
     }
 
     /**
      * @Route("/dropdownPlayer/{teamId}/{nbr}", options = { "expose" = true })
+     * @param PlayerService $playerService
      * @param int $teamId
      * @param int $nbr
      * @return JsonResponse
      */
 
-    public function dropdownPlayer($teamId, $nbr)
+    public function dropdownPlayer(PlayerService $playerService, $teamId, $nbr)
     {
-        $players = $this->getDoctrine()->getRepository(Players::class)->findBy(
-            ['ownedByTeam' => $teamId],
-            ['nr' => 'ASC']
-        );
+        $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
 
-        foreach ($players as $number => $player) {
-            if ($player->getStatus() == 7 || $player->getStatus() == 8 || $player->getInjRpm() == 1) {
-                unset($players[$number]);
-            }
+        if ($equipe) {
+            $response = [
+                'html' => $this->renderView(
+                    'statbb/dropdownplayers.html.twig',
+                    [
+                        'players' => $playerService->listeDesJoueursActifsDelEquipe($equipe),
+                        'teamId' => $teamId,
+                        'nbr' => $nbr,
+                    ]
+                ),
+            ];
+
+            return self::transformInJson($response);
+        } else {
+            return new JsonResponse(['error']);
         }
-
-        $response = [
-            'html' => $this->renderView(
-                'statbb/dropdownplayers.html.twig',
-                ['players' => $players, 'teamId' => $teamId, 'nbr' => $nbr]
-            ),
-        ];
-
-        $encoders = array(new XmlEncoder(), new JsonEncoder());
-        $normalizers = array(new ObjectNormalizer());
-
-        $serializer = new Serializer($normalizers, $encoders);
-
-        $jsonContent = $serializer->serialize($response, 'json');
-
-        return new JsonResponse($jsonContent);
     }
 
     /**

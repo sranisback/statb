@@ -89,7 +89,7 @@ class EquipeService
      * @param Matches $match
      * @return array
      */
-    public function resultatDuMatch(Teams $equipe, $match): array
+    public function resultatDuMatch(Teams $equipe, Matches $match): array
     {
         $win = 0;
         $loss = 0;
@@ -152,5 +152,236 @@ class EquipeService
         }
 
         return $teamid;
+    }
+
+    /**
+     * @param Teams $equipe
+     * @return array
+     */
+    public function valeurInducementDelEquipe(Teams $equipe)
+    {
+        $equipeRace = $equipe->getFRace();
+
+        if ($equipeRace) {
+            $inducement['rerolls'] = $equipe->getRerolls() * $equipeRace->getCostRr();
+        }
+
+        $inducement['pop'] = ($equipe->getFf() + $equipe->getFfBought()) * 10000;
+        $inducement['asscoaches'] = $equipe->getAssCoaches() * 10000;
+        $inducement['cheerleader'] = $equipe->getCheerleaders() * 10000;
+        $inducement['apo'] = $equipe->getApothecary() * 50000;
+        $inducement['total']= $inducement['rerolls'] + $inducement['pop']
+            + $inducement['asscoaches'] + $inducement['cheerleader'] + $inducement['apo'];
+
+        return $inducement;
+    }
+
+    /**
+     * @param Teams $equipe
+     * @param PlayerService $playerService
+     * @return int
+     */
+    public function coutTotalJoueurs(Teams $equipe, PlayerService $playerService)
+    {
+        $players = $playerService->listeDesJoueursDelEquipe($equipe);
+
+        $coutTotalJoueur = 0;
+
+        foreach ($players as $joueur) {
+            switch ($joueur->getStatus()) {
+                case 7:
+                case 8:
+                    break;
+                default:
+                    if ($joueur->getInjRpm() == 0) {
+                        $coutTotalJoueur += $playerService->valeurDunJoueur($joueur);
+                    }
+                    break;
+            }
+        }
+
+        return (int)$coutTotalJoueur;
+    }
+
+    /**
+     * @param Teams $equipe
+     * @param PlayerService $playerService
+     * @return int
+     */
+    public function tvDelEquipe(Teams $equipe, PlayerService $playerService)
+    {
+        $coutTotalJoueur = $this->coutTotalJoueurs($equipe, $playerService);
+
+        $inducement = $this->valeurInducementDelEquipe($equipe);
+
+        return $coutTotalJoueur + $inducement['total'];
+    }
+
+    /**
+     * @param PlayerService $playerService
+     * @param Teams $equipe
+     * @param string $type
+     * @return array
+     */
+    public function ajoutInducement(PlayerService $playerService, Teams $equipe, $type)
+    {
+        $nbr = 0;
+        $inducost = 0;
+        $coutpop = 10000;
+        $coutAssistant = 10000;
+        $coutCheer = 10000;
+        $coutApo = 50000;
+
+        $nbrmatch = $this->listeDesMatchs($equipe);
+
+        switch ($type) {
+            case "rr":
+                $race = $equipe->getFRace();
+
+                if ($race) {
+                    $coutRR = $race->getCostRr();
+                    $nbr = $equipe->getRerolls();
+
+                    if (count($nbrmatch) > 0) {
+                        $coutRR = $coutRR * 2;
+                    }
+                    if ($equipe->getTreasury() >= $coutRR) {
+                        $inducost = $coutRR;
+                        $nbr = $nbr + 1;
+                        $equipe->setRerolls($nbr);
+                    }
+                }
+                break;
+            case "pop":
+                if (count($nbrmatch) == 0) {
+                    $nbr = $equipe->getFfBought();
+
+                    if ($equipe->getTreasury() >= $coutpop) {
+                        $nbr = $nbr + 1;
+                        $equipe->setFfBought($nbr);
+                        $inducost = $coutpop;
+                    }
+                }
+                break;
+            case "ac":
+                $nbr = $equipe->getAssCoaches();
+
+                if ($equipe->getTreasury() >= $coutAssistant) {
+                    $nbr = $nbr + 1;
+                    $equipe->setAssCoaches($nbr);
+                    $inducost = $coutAssistant;
+                }
+                break;
+            case "chl":
+                $nbr = $equipe->getCheerleaders();
+
+                if ($equipe->getTreasury() >= $coutCheer) {
+                    $nbr = $nbr + 1;
+                    $equipe->setCheerleaders($nbr);
+                    $inducost = $coutCheer;
+                }
+                break;
+            case "apo":
+                $equipe->getApothecary() == true ? $nbr = 1 : $nbr = 0;
+                if ($equipe->getTreasury() >= $coutApo && $equipe->getApothecary() == false) {
+                    $nbr = 1;
+                    $equipe->setApothecary(1);
+                    $inducost = $coutApo;
+                }
+                break;
+        }
+
+        $nouveauTresor = $equipe->getTreasury() - $inducost;
+        $equipe->setTreasury($nouveauTresor);
+        $equipe->setTv($this->tvDelEquipe($equipe, $playerService));
+
+        $this->doctrineEntityManager->persist($equipe);
+        $this->doctrineEntityManager->flush();
+        $this->doctrineEntityManager->refresh($equipe);
+
+        return ['inducost'=>$inducost, 'nbr'=>$nbr];
+    }
+
+    /**
+     * @param PlayerService $playerService
+     * @param Teams $equipe
+     * @param string $type
+     * @return array
+     */
+    public function supprInducement(PlayerService $playerService, Teams $equipe, $type)
+    {
+        $nbr = 0;
+        $inducost = 0;
+        $coutpop = 10000;
+        $coutAssistant = 10000;
+        $coutCheer = 10000;
+        $coutApo = 50000;
+
+        $nbrmatch = $this->listeDesMatchs($equipe);
+
+        switch ($type) {
+            case "rr":
+                $race = $equipe->getFRace();
+
+                if ($race) {
+                    $inducost = $race->getCostRr();
+
+                    if ($equipe->getRerolls()>0) {
+                        $nbr = $equipe->getRerolls()-1;
+                        $equipe->setRerolls($nbr);
+                    }
+                }
+                break;
+            case "pop":
+                if (count($nbrmatch) == 0) {
+                    $nbr = $equipe->getFfBought();
+                    $inducost = $coutpop;
+
+                    if ($nbr > 0) {
+                        $nbr = $nbr - 1;
+                        $equipe->setFfBought($nbr);
+                    }
+                }
+                break;
+            case "ac":
+                $nbr = $equipe->getAssCoaches();
+                $inducost = $coutAssistant;
+
+                if ($nbr > 0) {
+                    $nbr = $nbr - 1;
+                    $equipe->setAssCoaches($nbr);
+                }
+                break;
+            case "chl":
+                $nbr = $equipe->getCheerleaders();
+                $inducost = $coutCheer;
+
+                if ($nbr > 0) {
+                    $nbr = $nbr - 1;
+                    $equipe->setCheerleaders($nbr);
+                }
+                break;
+            case "apo":
+                $equipe->getApothecary() == true ? $nbr = 1 : $nbr = 0;
+                $inducost = $coutApo;
+                if ($equipe->getApothecary() == true) {
+                    $nbr = 0;
+                    $equipe->setApothecary(0);
+                }
+                break;
+        }
+
+        if (count($nbrmatch)==0 && $nbr>0) {
+            $nouveauTresor = $equipe->getTreasury() + $inducost;
+            $equipe->setTreasury($nouveauTresor);
+        }
+
+        $equipe->setTv($this->tvDelEquipe($equipe, $playerService));
+
+        $this->doctrineEntityManager->persist($equipe);
+        $this->doctrineEntityManager->flush();
+        $this->doctrineEntityManager->refresh($equipe);
+
+        return ['inducost'=>$inducost, 'nbr'=>$nbr];
     }
 }

@@ -175,16 +175,8 @@ const routes = {
             "methods": [],
             "schemes": []
         },
-        "add_inducement": {
-            "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "teamId"], ["text", "\/add_inducement"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "rem_inducement": {
-            "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "teamId"], ["text", "\/rem_inducement"]],
+        "gestionInducement": {
+            "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "teamId"], ["variable", "\/", "[^\/]++", "action"], ["text", "\/gestionInducement"]],
             "defaults": [],
             "requirements": [],
             "hosttokens": [],
@@ -435,16 +427,8 @@ const routes = {
             "methods": [],
             "schemes": []
         },
-        "add_inducement": {
-            "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "teamId"], ["text", "\/add_inducement"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "rem_inducement": {
-            "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "teamId"], ["text", "\/rem_inducement"]],
+        "gestionInducement": {
+            "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "teamId"], ["variable", "\/", "[^\/]++", "action"], ["text", "\/gestionInducement"]],
             "defaults": [],
             "requirements": [],
             "hosttokens": [],
@@ -549,11 +533,9 @@ $(document).ready(function () {
      */
 
     $('#showall_btn').click(function () {
-
         $("tr.danger").toggleClass("hidden");
         $("tr.info").toggleClass("hidden");
     });
-
 
     /**
      * selection de race/création d'équipe
@@ -593,14 +575,22 @@ $(document).ready(function () {
 
                 res.remove();
 
-                if(result.reponse =="ok"){
+                if (result.reponse == "ok") {
                     $("#teamsheet").append(result.html);
 
                     $("#caseTv").text(result.tv);
                     $("#pTv").text(result.ptv);
                     totalltv.text(Number(totalltv.text()) + result.playercost);
                     $("#tresor").text(result.tresor);
-                } else{
+
+                    /**
+                     * remove player en cas de besoin
+                     */
+                    $("[id^='remove_pl']").click(function () {
+                        removePlayer($(this));
+                    });
+
+                } else {
                     res.remove();
                     $("#teamdrop").before('<div id="res" class="alert alert-danger" role="alert">' + result.html + '</div>');
 
@@ -613,10 +603,18 @@ $(document).ready(function () {
      * suppression/renvois d'un joueur
      */
     $("[id^='remove_pl']").click(function () {
-        let line = $(this).parent().parent();
+        removePlayer($(this));
+    });
+
+    /*
+    * Fonction pour enlever un joueur d'une équipe
+     */
+        function removePlayer(origin) {
+
+        let line = origin.parent().parent();
         let totalPV = $("#totalPV");
 
-        $.post(Routing.generate('remPlayer', {playerId: $(this).attr("playerId")}),
+        $.post(Routing.generate('remPlayer', {playerId: origin.attr("playerId")}),
             {},
             function (result) {
                 result = JSON.parse(result);
@@ -635,8 +633,49 @@ $(document).ready(function () {
                 totalPV.text(Number(totalPV.text()) - result.playercost);
                 $("#tresor").text(result.tresor);
             });
+    }
+
+    /**
+     * Ajout d'inducement
+     */
+    $("[id^='add_']").click(function () {
+        actionInducement($(this),'add');
     });
 
+    /**
+     * suppr 'inducement
+     */
+    $("[id^='rem_']").click(function () {
+        actionInducement($(this),'rem');
+    });
+
+    /**
+     * Function gestion des inducements
+     * @param origin
+     * @param mvt
+     */
+    function actionInducement(origin,mvt){
+        origin.before('<div id="loader"><img src="/build/images/ajax-loader.gif"></div>');
+        $.post(Routing.generate('gestionInducement', {
+                teamId: origin.attr("teamId"),
+                type: origin.attr("type"),
+                action: mvt
+            }),
+            {},
+            function (result) {
+                $("#loader").remove();
+                result = JSON.parse(result);
+
+                $("#" + result.type).text(result.nbr);
+                if(result.inducost>0){
+                    $("#t" + result.type).text(result.inducost * result.nbr);
+                }
+                $("#caseTv").text(result.tv);
+                $("#pTv").text(result.ptv);
+
+                $("#tresor").text(result.tresor)
+            });
+    }
 
     $("[id^='selectedTeam']").change(function () {
 
@@ -669,43 +708,6 @@ $(document).ready(function () {
 
             })
     }
-
-
-
-    $("[id^='add_']").click(function () {
-
-        //$.post("./add_inducement/" + $(this).attr("teamId") + '/' +$(this).attr("type"),
-        $.post(Routing.generate('add_inducement', {teamId: $(this).attr("teamId"), type: $(this).attr("type")}),
-            {},
-            function (result) {
-                result = JSON.parse(result);
-                $("#" + result.type).text(result.nbr);
-
-                $("#t" + result.type).text(result.inducost * result.nbr);
-                $("#caseTv").text(result.tv);
-                $("#pTv").text(result.ptv);
-                $("#tresor").text(result.tresor)
-            });
-
-    });
-
-    $("[id^='rem_']").click(function () {
-
-        //$.post("./rem_inducement/" + $(this).attr("teamId") + '/' +$(this).attr("type"),
-        $.post(Routing.generate('rem_inducement', {teamId: $(this).attr("teamId"), type: $(this).attr("type")}),
-            {},
-            function (result) {
-                result = JSON.parse(result);
-
-                $("#" + result.type).text(result.nbr);
-
-                $("#t" + result.type).text(result.inducost * result.nbr);
-                $("#caseTv").text(result.tv);
-                $("#pTv").text(result.ptv);
-                $("#tresor").text(result.tresor);
-            });
-
-    });
 
     $("[id^='retire_']").click(function () {
 
@@ -807,16 +809,22 @@ $(document).ready(function () {
         });
 
     });
+    /*
+        $(".modal").on('show.bs.modal', function () {
 
-    $(".modal").on('show.bs.modal', function () {
+            $(this).draggable();
 
-        $(this).draggable();
+        });*/
+
+    $("#addplayer").on('hide.bs.modal', function () {
+
+        window.location.reload();
 
     });
 
-    $("#addplayer").on('hide.bs.modal',function(){
-
-        window.location.reload();
+    $("#addplayer").on('show.bs.modal', function () {
+        $(this).draggable();
+        $('.modal-backdrop').remove();
 
     });
 

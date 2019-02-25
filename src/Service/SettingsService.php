@@ -21,7 +21,6 @@ class SettingsService
      */
     public function anneeCourante()
     {
-
         try {
             return $this->doctrineEntityManager->getRepository(Setting::class)->findOneBy(['name' => 'year'])->getValue(
             );

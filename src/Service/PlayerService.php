@@ -434,7 +434,7 @@ class PlayerService
 
         if ($equipe  && $position) {
             $matchjoues = $this->doctrineEntityManager->getRepository(MatchData::class)->findBy(['fPlayer'=>$joueur]);
-            if (!$matchjoues) {
+            if (!$matchjoues && $joueur->getType()==1) {
                 $effect = "rm";
                 $equipe->setTreasury($equipe->getTreasury() + $position->getCost());
                 $this->doctrineEntityManager->remove($joueur);
