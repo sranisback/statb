@@ -151,13 +151,13 @@ class StatBBController extends AbstractController
 
             $inducement = $equipeService->valeurInducementDelEquipe($equipe);
 
-            $tdata['playersCost'] = $equipeService->coutTotalJoueurs($equipe, $playerService);
+            $tdata['playersCost'] = $equipeService->coutTotalJoueurs($equipe);
             $tdata['rerolls'] = $inducement['rerolls'];
             $tdata['pop'] =  $inducement['pop'];
             $tdata['asscoaches'] =  $inducement['asscoaches'];
             $tdata['cheerleader'] =  $inducement['cheerleader'];
             $tdata['apo'] =  $inducement['apo'];
-            $tdata['tv'] = $equipeService->tvDelEquipe($equipe, $playerService);
+            $tdata['tv'] = $equipeService->tvDelEquipe($equipe);
 
             if ($type == "modal") {
                 return $this->render(
@@ -757,7 +757,6 @@ class StatBBController extends AbstractController
     /**
      * @Route("/gestionInducement/{action}/{teamId}/{type}", options = { "expose" = true })
      * @param EquipeService $equipeService
-     * @param PlayerService $playerService
      * @param int $teamId
      * @param string $type
      * @param string $action
@@ -765,7 +764,6 @@ class StatBBController extends AbstractController
      */
     public function gestionInducement(
         EquipeService $equipeService,
-        PlayerService $playerService,
         $action,
         $teamId,
         $type
@@ -773,9 +771,9 @@ class StatBBController extends AbstractController
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
         if ($equipe) {
             if ($action == 'add') {
-                $coutEtnbr = $equipeService->ajoutInducement($playerService, $equipe, $type);
+                $coutEtnbr = $equipeService->ajoutInducement($equipe, $type);
             } else {
-                $coutEtnbr = $equipeService->supprInducement($playerService, $equipe, $type);
+                $coutEtnbr = $equipeService->supprInducement($equipe, $type);
             }
             $response = [
                 "tv" => $equipe->getTv(),
@@ -1621,171 +1619,53 @@ class StatBBController extends AbstractController
     }
 
     /**
-     * @Route("/pdfteam/{id}", name="pdfteam", options = { "expose" = true })
+     * @Route("/pdfTeam/{id}", name="pdfTeam", options = { "expose" = true })
+     * @param PlayerService $playerService
+     * @param EquipeService $equipeService
      * @param int $id
      */
-    public function pdfteam($id)
+    public function pdfTeam(PlayerService $playerService, EquipeService $equipeService, $id)
     {
-        $players = $this->getDoctrine()->getRepository(Players::class)->findBy(
-            ['ownedByTeam' => $id],
-            ['nr' => 'ASC']
-        );
-
-        $team = $this->getDoctrine()->getRepository(Teams::class)->find($id);
-
-        $allskills = $this->getDoctrine()->getRepository(GameDataSkills::class)->findAll();
+        $equipe = $this->getDoctrine()->getRepository(Teams::class)->find($id);
 
         $count = 0;
-        $tdata['playersCost'] = 0;
+        $html = '';
 
         $pdata = [];
         $pdata[]=[];
 
-        if ($players) {
-            foreach ($players as $number => $player) {
-                $tcost = 0;
+        if ($equipe) {
+            $joueurCollection = $playerService->listeDesJoueursActifsDelEquipe($equipe);
 
-                $playerListSkills = '';
-                $playerPosition = $player->getFPos();
+            foreach ($joueurCollection as $joueur) {
+                $listeCompetence = $playerService->toutesLesCompsdUnJoueur($joueur);
+                $actionJoueur = $playerService->actionsDuJoueur($joueur);
 
-                if ($playerPosition) {
-                    $playerListSkills = $playerPosition->getSkills();
+                if (!$joueur->getName()) {
+                    $joueur->setName('Inconnu');
                 }
 
-                $playerskills = explode(",", (string)$playerListSkills);
-
-                $listskill = '';
-
-                foreach ($playerskills as $playerskill) {
-                    foreach ($allskills as $baseskill) {
-                        if ($baseskill->getSkillId() == $playerskill) {
-                            $listskill .= '<text class="test-primary">'.$baseskill->getName().'</text>, ';
-                        }
-                    }
+                $pdata[$count]['pid'] = $joueur->getPlayerId();
+                $pdata[$count]['nbrm'] = $actionJoueur['NbrMatch'];
+                $pdata[$count]['cp'] = $actionJoueur['cp'];
+                $pdata[$count]['td'] = $actionJoueur['td'];
+                $pdata[$count]['int'] = $actionJoueur['int'];
+                $pdata[$count]['cas'] = $actionJoueur['cas'];
+                $pdata[$count]['mvp'] = $actionJoueur['mvp'];
+                $pdata[$count]['agg'] = $actionJoueur['agg'];
+                $pdata[$count]['skill'] = substr($listeCompetence, 0, strlen($listeCompetence) - 2);
+                $pdata[$count]['spp'] = $playerService->xpDuJoueur($joueur);
+                if ($joueur->getInjRpm() != 0) {
+                    $pdata[$count]['cost'] = '<s>'.$playerService->valeurDunJoueur($joueur).'</s>';
+                } else {
+                    $pdata[$count]['cost'] = $playerService->valeurDunJoueur($joueur);
                 }
-
-                if ($listskill == '<text class="test-primary"></text>, ') {
-                    $listskill = '';
-                }
-
-                $supcomp = $this->getDoctrine()->getRepository(PlayersSkills::class)->findBy(
-                    ['fPid' => $player->getPlayerId()]
-                );
-
-                if ($supcomp) {
-                    foreach ($supcomp as $comps) {
-                        $compsDet = $comps->getFSkill();
-                        $compsName = '';
-
-                        if ($compsDet) {
-                            $compsName = $compsDet->getName();
-                        }
-                        if ($comps->getType() == 'N') {
-                            $tcost += 20000;
-                            $listskill .= '<text class="text-success">'.$compsName.'</text>, ';
-                        } else {
-                            $tcost += 30000;
-                            $listskill .= '<text class="text-danger">'.$compsName.'</text>, ';
-                        }
-                    }
-                }
-
-                if ($player->getInjNi() > 0) {
-                    $listskill .= '<text class="text-danger">+1 Ni</text>, ';
-                }
-
-                if ($player->getAchMa() > 0) {
-                    $listskill .= '<text class="text-success">+1 Ma</text>, ';
-
-                    $tcost += 30000;
-                }
-
-                if ($player->getAchSt() > 0) {
-                    $listskill .= '<text class="text-success">+1 St</text>, ';
-
-                    $tcost += 50000;
-                }
-
-                if ($player->getAchAg() > 0) {
-                    $listskill .= '<text class="text-success">+1 Ag</text>, ';
-
-                    $tcost += 40000;
-                }
-
-                if ($player->getAchAv() > 0) {
-                    $listskill .= '<text class="text-success">+1 Av</text>, ';
-
-                    $tcost += 30000;
-                }
-
-                $mdata = $this->getDoctrine()->getRepository(MatchData::class)->findBy(
-                    ['fPlayer' => $player->getPlayerId()]
-                );
-
-                $tcp = 0;
-                $ttd = 0;
-                $tint = 0;
-                $tcas = 0;
-                $tmvp = 0;
-                $tagg = 0;
-
-                foreach ($mdata as $game) {
-                    $tcp += $game->getCp();
-                    $ttd += $game->getTd();
-                    $tint += $game->getIntcpt();
-                    $tcas += ($game->getBh() + $game->getSi() + $game->getKi());
-                    $tmvp += $game->getMvp();
-                    $tagg += $game->getAgg();
-                }
-
-                $playerBaseCost = 0;
-
-                if ($playerPosition) {
-                    $playerBaseCost = $playerPosition->getCost();
-                }
-                $pdata[$count]['pid'] = $player->getPlayerId();
-                $pdata[$count]['nbrm'] = count($mdata);
-                $pdata[$count]['cp'] = $tcp;
-                $pdata[$count]['td'] = $ttd;
-                $pdata[$count]['int'] = $tint;
-                $pdata[$count]['cas'] = $tcas;
-                $pdata[$count]['mvp'] = $tmvp;
-                $pdata[$count]['agg'] = $tagg;
-                $pdata[$count]['skill'] = substr($listskill, 0, strlen($listskill) - 2);
-                $pdata[$count]['spp'] = $tcp + ($ttd * 3) + ($tint * 2) + ($tcas * 2) + ($tmvp * 5);
-                $pdata[$count]['cost'] = $playerBaseCost + $tcost;
-
-                switch ($player->getStatus()) {
-                    case 7:
-                        $pdata[$count]['status'] = 'VENDU';
-                        break;
-                    case 8:
-                        $pdata[$count]['status'] = 'MORT';
-                        break;
-                    case 9:
-                        $pdata[$count]['status'] = 'PX';
-                        $tdata['playersCost'] += $pdata[$count]['cost'];
-                        break;
-                    default:
-                        if ($player->getInjRpm() != 0) {
-                            $pdata[$count]['status'] = 'RPM';
-                            $pdata[$count]['cost'] = '<s>'.$pdata[$count]['cost'].'</s>';
-                        } else {
-                            $pdata[$count]['status'] = '';
-                            $tdata['playersCost'] += $pdata[$count]['cost'];
-                        }
-                        break;
-                }
-
-                if (!$player->getName()) {
-                    $player->setName('Inconnu');
-                }
+                $pdata[$count]['status'] = $playerService->statutDuJoueur($joueur);
 
                 $count++;
             }
-        }
-        if ($team) {
-            $race = $team->getFRace();
+
+            $race = $equipe->getFRace();
 
             if ($race) {
                 $costRr = $race->getCostRr();
@@ -1793,13 +1673,23 @@ class StatBBController extends AbstractController
                 $costRr = 0;
             }
 
-            $tdata['rerolls'] = $team->getRerolls() * $costRr;
-            $tdata['pop'] = ($team->getFf() + $team->getFfBought()) * 10000;
-            $tdata['asscoaches'] = $team->getAssCoaches() * 10000;
-            $tdata['cheerleader'] = $team->getCheerleaders() * 10000;
-            $tdata['apo'] = $team->getApothecary() * 50000;
-            $tdata['tv'] = $tdata['playersCost'] + $tdata['rerolls']
-                + $tdata['pop'] + $tdata['asscoaches'] + $tdata['cheerleader'] + $tdata['apo'];
+            $tdata['playersCost'] = $equipeService->coutTotalJoueurs($equipe);
+            $tdata['rerolls'] = $equipe->getRerolls() * $costRr;
+            $tdata['pop'] = ($equipe->getFf() + $equipe->getFfBought()) * 10000;
+            $tdata['asscoaches'] = $equipe->getAssCoaches() * 10000;
+            $tdata['cheerleader'] = $equipe->getCheerleaders() * 10000;
+            $tdata['apo'] = $equipe->getApothecary() * 50000;
+            $tdata['tv'] = $equipeService->tvDelEquipe($equipe);
+
+            $html = $this->renderView(
+                'statbb/pdfteam.html.twig',
+                [
+                    'players' => $joueurCollection,
+                    'team' => $equipe,
+                    'pdata' => $pdata,
+                    'tdata' => $tdata,
+                ]
+            );
         }
 
         // Configure Dompdf according to your needs
@@ -1810,16 +1700,6 @@ class StatBBController extends AbstractController
 
         $dompdf = new Dompdf($pdfOptions);
 
-        $html = $this->renderView(
-            'statbb/pdfteam.html.twig',
-            [
-                'players' => $players,
-                'team' => $team,
-                'pdata' => $pdata,
-                'tdata' => $tdata,
-            ]
-        );
-
         // Load HTML to Dompdf
         $dompdf->loadHtml($html);
 
@@ -1829,8 +1709,8 @@ class StatBBController extends AbstractController
         // Render the HTML as PDF
         $dompdf->render();
 
-        if ($team) {
-            $dompdf->stream($team->getName(). '.pdf', ["Attachment" => true]);
+        if ($equipe) {
+            $dompdf->stream($equipe->getName(). '.pdf', ["Attachment" => true]);
         } else {
             $dompdf->stream('error.pdf', ["Attachment" => true]);
         }

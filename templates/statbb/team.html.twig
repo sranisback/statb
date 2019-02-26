@@ -138,7 +138,7 @@
                         {{ render(controller('App\\Controller\\StatBBController::playerAdder',{'raceId':team.fRace.raceId,'teamId':team.teamId} )) }}
                         <a type="button" class="btn btn-primary" href="{{ path('Chkteam', {'teamId': team.teamId} ) }}">Check
                             Equipe</a>
-                        <a type="button" class="btn btn-primary" href="{{ path('pdfteam', {'id': team.teamId} ) }}">Exporter
+                        <a type="button" class="btn btn-primary" href="{{ path('pdfTeam', {'id': team.teamId} ) }}">Exporter
                             en PDF</a>
                     {% endif %}
                     <table class="table">

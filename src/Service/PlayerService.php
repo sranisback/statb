@@ -206,7 +206,6 @@ class PlayerService
      */
     public function actionsDuJoueur(Players $joueur)
     {
-
         $mdata = $this->doctrineEntityManager->getRepository(MatchData::class)->findBy(
             ['fPlayer' => $joueur->getPlayerId()]
         );
@@ -476,5 +475,21 @@ class PlayerService
             return $position->getCost() +  $coutCompetencesGagnee['cout'] + $coutNiveauSpeciaux['cout'];
         }
         return 0;
+    }
+
+    /**
+     * @param Players $joueur
+     * @return array
+     */
+    public function listeDesMatchsdUnJoueur(Players $joueur)
+    {
+        $dataMatchjoues = $this->doctrineEntityManager->getRepository(MatchData::class)->findBy(['fPlayer'=>$joueur]);
+        $matchJoue = [];
+
+        foreach ($dataMatchjoues as $dataMatches) {
+            $matchJoue[] =  $dataMatches->getFMatch();
+        }
+
+        return $matchJoue;
     }
 }

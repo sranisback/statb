@@ -20,9 +20,12 @@ class EquipeService
 
     private $baseElo = 150;
 
-    public function __construct(EntityManagerInterface $doctrineEntityManager)
+    private $playerService;
+
+    public function __construct(EntityManagerInterface $doctrineEntityManager, PlayerService $playerService)
     {
         $this->doctrineEntityManager = $doctrineEntityManager;
+        $this->playerService = $playerService;
     }
 
     /**
@@ -178,12 +181,11 @@ class EquipeService
 
     /**
      * @param Teams $equipe
-     * @param PlayerService $playerService
      * @return int
      */
-    public function coutTotalJoueurs(Teams $equipe, PlayerService $playerService)
+    public function coutTotalJoueurs(Teams $equipe)
     {
-        $players = $playerService->listeDesJoueursDelEquipe($equipe);
+        $players = $this->playerService ->listeDesJoueursDelEquipe($equipe);
 
         $coutTotalJoueur = 0;
 
@@ -194,7 +196,7 @@ class EquipeService
                     break;
                 default:
                     if ($joueur->getInjRpm() == 0) {
-                        $coutTotalJoueur += $playerService->valeurDunJoueur($joueur);
+                        $coutTotalJoueur += $this->playerService->valeurDunJoueur($joueur);
                     }
                     break;
             }
@@ -205,12 +207,11 @@ class EquipeService
 
     /**
      * @param Teams $equipe
-     * @param PlayerService $playerService
      * @return int
      */
-    public function tvDelEquipe(Teams $equipe, PlayerService $playerService)
+    public function tvDelEquipe(Teams $equipe)
     {
-        $coutTotalJoueur = $this->coutTotalJoueurs($equipe, $playerService);
+        $coutTotalJoueur = $this->coutTotalJoueurs($equipe);
 
         $inducement = $this->valeurInducementDelEquipe($equipe);
 
@@ -218,12 +219,11 @@ class EquipeService
     }
 
     /**
-     * @param PlayerService $playerService
      * @param Teams $equipe
      * @param string $type
      * @return array
      */
-    public function ajoutInducement(PlayerService $playerService, Teams $equipe, $type)
+    public function ajoutInducement(Teams $equipe, $type)
     {
         $nbr = 0;
         $inducost = 0;
@@ -293,7 +293,7 @@ class EquipeService
 
         $nouveauTresor = $equipe->getTreasury() - $inducost;
         $equipe->setTreasury($nouveauTresor);
-        $equipe->setTv($this->tvDelEquipe($equipe, $playerService));
+        $equipe->setTv($this->tvDelEquipe($equipe));
 
         $this->doctrineEntityManager->persist($equipe);
         $this->doctrineEntityManager->flush();
@@ -303,12 +303,11 @@ class EquipeService
     }
 
     /**
-     * @param PlayerService $playerService
      * @param Teams $equipe
      * @param string $type
      * @return array
      */
-    public function supprInducement(PlayerService $playerService, Teams $equipe, $type)
+    public function supprInducement(Teams $equipe, $type)
     {
         $nbr = 0;
         $inducost = 0;
@@ -377,7 +376,7 @@ class EquipeService
             $equipe->setTreasury($nouveauTresor);
         }
 
-        $equipe->setTv($this->tvDelEquipe($equipe, $playerService));
+        $equipe->setTv($this->tvDelEquipe($equipe));
 
         $this->doctrineEntityManager->persist($equipe);
         $this->doctrineEntityManager->flush();
