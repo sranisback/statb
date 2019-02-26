@@ -655,7 +655,7 @@ $(document).ready(function () {
      * @param mvt
      */
     function actionInducement(origin,mvt){
-        origin.before('<div id="loader"><img src="/build/images/ajax-loader.gif"></div>');
+        $("#" + origin.attr("type")).before('<span id="loader"><img src="/build/images/ajax-loader.gif"></span>');
         $.post(Routing.generate('gestionInducement', {
                 teamId: origin.attr("teamId"),
                 type: origin.attr("type"),
