@@ -253,12 +253,12 @@ class EquipeService
                 }
                 break;
             case "pop":
-                if (count($nbrmatch) == 0) {
-                    $nbr = $equipe->getFfBought();
+                    $nbr = $equipe->getFfBought()+$equipe->getFf();
 
+                if (count($nbrmatch) == 0) {
                     if ($equipe->getTreasury() >= $coutpop) {
                         $nbr = $nbr + 1;
-                        $equipe->setFfBought($nbr);
+                        $equipe->setFfBought($equipe->getFfBought()+1);
                         $inducost = $coutpop;
                     }
                 }
@@ -333,13 +333,14 @@ class EquipeService
                 }
                 break;
             case "pop":
+                $nbr = $equipe->getFfBought()+$equipe->getFf();
+
                 if (count($nbrmatch) == 0) {
-                    $nbr = $equipe->getFfBought();
                     $inducost = $coutpop;
 
-                    if ($nbr > 0) {
+                    if ($equipe->getFfBought() > 0) {
                         $nbr = $nbr - 1;
-                        $equipe->setFfBought($nbr);
+                        $equipe->setFfBought($equipe->getFfBought()-1);
                     }
                 }
                 break;

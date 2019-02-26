@@ -693,6 +693,21 @@ $(document).ready(function () {
     });
 
     /**
+     * cpt modal ajout de joueur
+     */
+    $("#addplayer").on('hide.bs.modal', function () {
+
+        window.location.reload();
+
+    });
+
+    $("#addplayer").on('show.bs.modal', function () {
+        $(this).draggable();
+        $('.modal-backdrop').remove();
+
+    });
+
+    /**
      * ajout de ligne dans feuille de match
      */
     function addLine(clicked, side) {
@@ -712,8 +727,6 @@ $(document).ready(function () {
     $("[id^='retire_']").click(function () {
 
         let clicked = $(this).parent().parent();
-
-        //$.post("/retTeam/" + $(this).attr("teamId"),
         $.post(Routing.generate('retTeam', {teamId: $(this).attr("teamId")}),
             {},
             function () {
@@ -722,11 +735,6 @@ $(document).ready(function () {
     });
 
     $("#recMatch").click(function () {
-
-
-        //console.log(JSON.stringify($("#formMatch").serializeToJSON()))
-
-        //$.post("/addGame",JSON.stringify($("#formMatch").serializeToJSON()),
         $.post(Routing.generate('addGame'), JSON.stringify($("#formMatch").serializeToJSON()),
             function () {
                 // console.log(result)
@@ -736,8 +744,6 @@ $(document).ready(function () {
     });
 
     $("#comp").click(function () {
-
-        // $.post("./addComp/"+$('#skill option:selected').val()+"/"+ $(this).attr('playerid'),
         $.post(Routing.generate('addComp', {
                 skillid: $('#skill option:selected').val(),
                 playerid: $(this).attr('playerid')
@@ -807,24 +813,6 @@ $(document).ready(function () {
             }
 
         });
-
-    });
-    /*
-        $(".modal").on('show.bs.modal', function () {
-
-            $(this).draggable();
-
-        });*/
-
-    $("#addplayer").on('hide.bs.modal', function () {
-
-        window.location.reload();
-
-    });
-
-    $("#addplayer").on('show.bs.modal', function () {
-        $(this).draggable();
-        $('.modal-backdrop').remove();
 
     });
 
