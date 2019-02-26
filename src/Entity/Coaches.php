@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -25,14 +24,15 @@ class Coaches implements UserInterface
     private $coachId;
 
     /**
-     * @var string|null
+     * @var string
+     * @Assert\NotBlank
      *
      * @ORM\Column(name="name", type="string", length=60, nullable=true)
      */
     private $name;
 
     /**
-     * @var string|null
+     * @var string
      *
      * @ORM\Column(name="passwd", type="string", length=64, nullable=true)
      */
@@ -54,7 +54,7 @@ class Coaches implements UserInterface
         return $this->name;
     }
 
-    public function setName(?string $name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -66,40 +66,35 @@ class Coaches implements UserInterface
         return $this->passwd;
     }
 
-    public function setPasswd(?string $passwd): self
+    public function setPasswd(string $passwd): self
     {
         $this->passwd = $passwd;
 
         return $this;
     }
-	
-	public function getRoles()
+
+    public function getRoles()
     {
-		
-		$roles = $this->roles;
-		
-		return $roles;
-        //return array('ROLE_ADMIN');
+        $roles = $this->roles;
+
+        return $roles;
     }
-	
-	public function getPassword()
+
+    public function getPassword()
     {
         return $this->passwd;
     }
 
-	
     public function getSalt()
     {
-        // you *may* need a real salt depending on your encoder
-        // see section on salt below
         return null;
     }
-	
+
     public function getUsername()
     {
         return $this->name;
     }
-	
+
     public function eraseCredentials()
     {
     }
@@ -114,7 +109,9 @@ class Coaches implements UserInterface
         ));
     }
 
-    /** @see \Serializable::unserialize() */
+    /** @see \Serializable::unserialize()
+     * @param string $serialized
+     */
     public function unserialize($serialized)
     {
         list (
@@ -122,10 +119,10 @@ class Coaches implements UserInterface
             $this->name,
             $this->passwd,
         ) = unserialize($serialized, ['allowed_classes' => false]);
-    }	
-	
+    }
+
     public function setRoles(array $roles)
     {
         $this->roles = $roles;
-	}
+    }
 }

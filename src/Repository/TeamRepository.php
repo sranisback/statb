@@ -3,6 +3,7 @@ namespace App\Repository;
 
 use App\Entity\Teams;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\DBALException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class TeamRepository extends ServiceEntityRepository
@@ -11,13 +12,18 @@ class TeamRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Teams::class);
     }
-	
-	
-	public function classement($year,$limit): array
-	{
-		$conn = $this->getEntityManager()->getConnection();
 
-		$sql = '
+
+    /**
+     * @param int $year
+     * @param int $limit
+     * @return array
+     */
+    public function classement($year, $limit): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
 SELECT team_id,ra.icon,t.name as "team_name" ,ra.name as "race",co.name,
 	
 				SUM(IF(team_id = a.team1_id AND a.team1_score>a.team2_score,1,0)+ 
@@ -41,9 +47,11 @@ SELECT team_id,ra.icon,t.name as "team_name" ,ra.name as "race",co.name,
                 SUM(IF(team_id = a.team1_id AND a.team1_score > 2,1,0)+ 
                     IF(team_id = a.team2_id AND a.team2_score > 2,1,0))  +
                 SUM(IF(team_id = a.team1_id AND a.team1_score>a.team2_score AND a.tv2 - a.tv1 >= 250000,1,0)+ 
-                    IF(team_id = a.team2_id AND a.team1_score<a.team2_score AND a.tv1 - a.tv2 >= 250000,1,0))  +                    
+                    IF(team_id = a.team2_id AND a.team1_score<a.team2_score
+                     AND a.tv1 - a.tv2 >= 250000,1,0))  +                    
                 SUM(IF(team_id = a.team1_id AND a.team1_score<a.team2_score AND a.team2_score - a.team1_score = 1,1,0)+ 
-                    IF(team_id = a.team2_id AND a.team1_score>a.team2_score AND a.team1_score - a.team2_score = 1,1,0)) +
+                    IF(team_id = a.team2_id AND a.team1_score>a.team2_score 
+                    AND a.team1_score - a.team2_score = 1,1,0)) +
                     
                 SUM(
                     IF( team_id = a.team1_id AND (
@@ -85,18 +93,19 @@ SELECT team_id,ra.icon,t.name as "team_name" ,ra.name as "race",co.name,
 
 				GROUP BY t.name
 				ORDER BY pts DESC,nbrg DESC,tv DESC';
-				
-				
-				if($limit > 0)
-				{
-					$sql .= ' LIMIT '.$limit;
-				}
-				
-				
-		$stmt = $conn->prepare($sql);
-		$stmt->execute();
+                
+                
+        if ($limit > 0) {
+            $sql .= ' LIMIT '.$limit;
+        }
 
-		// returns an array of arrays (i.e. a raw data set)
-		return $stmt->fetchAll();
-	}
+
+        try {
+            $stmt = $conn->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (DBALException $e) {
+        }
+        return [];
+    }
 }

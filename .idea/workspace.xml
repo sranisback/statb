@@ -1,0 +1,1154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="FILTER_RESOLVED_ITEMS" value="false" />
+    <option name="SCOPE_TYPE" value="3" />
+  </component>
+  <component name="ChangeListManager">
+    <list id="c3976c2a-a704-469d-97ce-8d7d42ac22f9" name="tentative corrections glyphicons en prod 3" comment="" />
+    <list id="93d7809f-21f2-44bb-ac75-31fb03a6cee4" name="tentative corrections glyphicons en prod 3b" comment="" />
+    <list default="true" id="847151cb-c508-4c4e-9aa8-f19098c7acb6" name="Default" comment="Correction MEP" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/assets/js/app.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="588">
+              <caret line="636" selection-start-line="636" selection-end-line="636" />
+              <folding>
+                <element signature="e#57#80#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Rebase.Settings">
+    <option name="ONTO" value="refs/heads/cleaned" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="v0.33" />
+      </map>
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/templates/statbb/player.html.twig" />
+        <option value="$PROJECT_DIR$/templates/statbb/classement.html.twig" />
+        <option value="$PROJECT_DIR$/assets/css/app.scss" />
+        <option value="$PROJECT_DIR$/templates/statbb/dropdownplayers.html.twig" />
+        <option value="$PROJECT_DIR$/templates/statbb/dropdownteams.html.twig" />
+        <option value="$PROJECT_DIR$/templates/statbb/ajoutMatch.html.twig" />
+        <option value="$PROJECT_DIR$/config/packages/twig.yaml" />
+        <option value="$PROJECT_DIR$/src/Service/settingsService.php" />
+        <option value="$PROJECT_DIR$/src/Service/playerService.php" />
+        <option value="$PROJECT_DIR$/src/Service/equipeService.php" />
+        <option value="$PROJECT_DIR$/src/Entity/PlayersSkills.php" />
+        <option value="$PROJECT_DIR$/phpcs.log" />
+        <option value="$PROJECT_DIR$/src/Entity/Teams.php" />
+        <option value="$PROJECT_DIR$/src/Entity/GameDataPlayers.php" />
+        <option value="$PROJECT_DIR$/src/Entity/GameDataSkills.php" />
+        <option value="$PROJECT_DIR$/phpstan.log" />
+        <option value="$PROJECT_DIR$/phpstan.neon" />
+        <option value="$PROJECT_DIR$/src/Service/coachService.php" />
+        <option value="$PROJECT_DIR$/src/Entity/Players.php" />
+        <option value="$PROJECT_DIR$/src/Entity/MatchData.php" />
+        <option value="$PROJECT_DIR$/src/Entity/Matches.php" />
+        <option value="$PROJECT_DIR$/src/Repository/MatchDataRepository.php" />
+        <option value="$PROJECT_DIR$/src/Repository/TeamRepository.php" />
+        <option value="$PROJECT_DIR$/src/Entity/Coaches.php" />
+        <option value="$PROJECT_DIR$/tests/src/Service/EquipeService/toutesLesTeamsParAnne.php" />
+        <option value="$PROJECT_DIR$/tests/src/Service/EquipeService/listeDesMatches.php" />
+        <option value="$PROJECT_DIR$/templates/statbb/user_teams.html.twig" />
+        <option value="$PROJECT_DIR$/templates/statbb/user.html.twig" />
+        <option value="$PROJECT_DIR$/templates/statbb/admin.html.twig" />
+        <option value="$PROJECT_DIR$/src/Service/CoachService.php" />
+        <option value="$PROJECT_DIR$/templates/statbb/addteam.html.twig" />
+        <option value="$PROJECT_DIR$/templates/statbb/listeCoaches.html.twig" />
+        <option value="$PROJECT_DIR$/tests/src/Service/PlayerService/listeDesJoueursActifsDelEquipe.php" />
+        <option value="$PROJECT_DIR$/tests/src/Service/PlayerService/numeroLibreDelEquipe.php" />
+        <option value="$PROJECT_DIR$/assets/js/player.js" />
+        <option value="$PROJECT_DIR$/composer.json" />
+        <option value="$PROJECT_DIR$/tests/src/Service/PlayerService/renvoisOuSuppressionJoueur.php" />
+        <option value="$PROJECT_DIR$/templates/statbb/base.html.twig" />
+        <option value="$PROJECT_DIR$/templates/statbb/team.html.twig" />
+        <option value="$PROJECT_DIR$/templates/statbb/showteams.html.twig" />
+        <option value="$PROJECT_DIR$/src/Service/SettingsService.php" />
+        <option value="$PROJECT_DIR$/templates/statbb/Spclassement.html.twig" />
+        <option value="$PROJECT_DIR$/templates/statbb/team_modal.html.twig" />
+        <option value="$PROJECT_DIR$/templates/statbb/playeradder.html.twig" />
+        <option value="$PROJECT_DIR$/tests/src/Service/EquipeService/AjoutInducement.php" />
+        <option value="$PROJECT_DIR$/src/Service/EquipeService.php" />
+        <option value="$PROJECT_DIR$/src/Service/PlayerService.php" />
+        <option value="$PROJECT_DIR$/templates/statbb/pdfteam.html.twig" />
+        <option value="$PROJECT_DIR$/src/Controller/StatBBController.php" />
+        <option value="$PROJECT_DIR$/assets/js/app.js" />
+        <option value="$PROJECT_DIR$/webpack.config.js" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/node_modules" />
+  </component>
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths>
+      <path value="$PROJECT_DIR$/package.json" />
+    </packageJsonPaths>
+  </component>
+  <component name="PHPCodeSnifferBlackList">
+    <option name="filePaths">
+      <list>
+        <option value="$PROJECT_DIR$/src/Controller/StatBBController.php" />
+      </list>
+    </option>
+  </component>
+  <component name="PhpServers">
+    <servers>
+      <server host="127.0.0.1" id="ade1788e-bdff-4aa7-93ea-1ab0bb61b39e" name="Symfony Webserver" port="8000" />
+      <server host="127.0.0.1" id="cc1051ed-05d2-4f19-bc60-f01adf4a75fd" name="127.0.0.1" port="8001" />
+    </servers>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP 7.1">
+    <include_path>
+      <path value="$PROJECT_DIR$/vendor/symfony/filesystem" />
+      <path value="$PROJECT_DIR$/vendor/symfony/finder" />
+      <path value="$PROJECT_DIR$/vendor/symfony/dependency-injection" />
+      <path value="$PROJECT_DIR$/vendor/symfony/http-kernel" />
+      <path value="$PROJECT_DIR$/vendor/symfony/framework-bundle" />
+      <path value="$PROJECT_DIR$/vendor/symfony/debug" />
+      <path value="$PROJECT_DIR$/vendor/symfony/console" />
+      <path value="$PROJECT_DIR$/vendor/symfony/cache" />
+      <path value="$PROJECT_DIR$/vendor/psr/simple-cache" />
+      <path value="$PROJECT_DIR$/vendor/psr/cache" />
+      <path value="$PROJECT_DIR$/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/vendor/psr/container" />
+      <path value="$PROJECT_DIR$/vendor/composer" />
+      <path value="$PROJECT_DIR$/vendor/symfony/http-foundation" />
+      <path value="$PROJECT_DIR$/vendor/symfony/yaml" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/vendor/symfony/config" />
+      <path value="$PROJECT_DIR$/vendor/symfony/event-dispatcher" />
+      <path value="$PROJECT_DIR$/vendor/symfony/flex" />
+      <path value="$PROJECT_DIR$/vendor/symfony/routing" />
+      <path value="$PROJECT_DIR$/vendor/symfony/dotenv" />
+      <path value="$PROJECT_DIR$/vendor/symfony/process" />
+      <path value="$PROJECT_DIR$/vendor/symfony/web-server-bundle" />
+      <path value="$PROJECT_DIR$/vendor/symfony/asset" />
+      <path value="$PROJECT_DIR$/vendor/symfony/webpack-encore-pack" />
+      <path value="$PROJECT_DIR$/vendor/symfony/inflector" />
+      <path value="$PROJECT_DIR$/vendor/symfony/security" />
+      <path value="$PROJECT_DIR$/vendor/symfony/property-access" />
+      <path value="$PROJECT_DIR$/vendor/symfony/security-bundle" />
+      <path value="$PROJECT_DIR$/vendor/zendframework/zend-eventmanager" />
+      <path value="$PROJECT_DIR$/vendor/zendframework/zend-code" />
+      <path value="$PROJECT_DIR$/vendor/ocramius/proxy-manager" />
+      <path value="$PROJECT_DIR$/vendor/ocramius/package-versions" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/persistence" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/inflector" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/doctrine-migrations-bundle" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/instantiator" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/migrations" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/collections" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/common" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/doctrine-bundle" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/lexer" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/orm" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/annotations" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/event-manager" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/dbal" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/reflection" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/cache" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/doctrine-cache-bundle" />
+      <path value="$PROJECT_DIR$/vendor/jdorn/sql-formatter" />
+      <path value="$PROJECT_DIR$/vendor/symfony/doctrine-bridge" />
+      <path value="$PROJECT_DIR$/vendor/symfony/orm-pack" />
+      <path value="$PROJECT_DIR$/vendor/twig/twig" />
+      <path value="$PROJECT_DIR$/vendor/symfony/twig-bridge" />
+      <path value="$PROJECT_DIR$/vendor/symfony/twig-bundle" />
+      <path value="$PROJECT_DIR$/vendor/symfony/stopwatch" />
+      <path value="$PROJECT_DIR$/vendor/symfony/var-dumper" />
+      <path value="$PROJECT_DIR$/vendor/symfony/profiler-pack" />
+      <path value="$PROJECT_DIR$/vendor/symfony/web-profiler-bundle" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php72" />
+      <path value="$PROJECT_DIR$/vendor/friendsofsymfony/jsrouting-bundle" />
+      <path value="$PROJECT_DIR$/vendor/willdurand/jsonp-callback-validator" />
+      <path value="$PROJECT_DIR$/vendor/symfony/serializer" />
+      <path value="$PROJECT_DIR$/vendor/symfony/maker-bundle" />
+      <path value="$PROJECT_DIR$/vendor/nikic/php-parser" />
+      <path value="$PROJECT_DIR$/vendor/sabberworm/php-css-parser" />
+      <path value="$PROJECT_DIR$/vendor/dompdf/dompdf" />
+      <path value="$PROJECT_DIR$/vendor/phenx/php-font-lib" />
+      <path value="$PROJECT_DIR$/vendor/phenx/php-svg-lib" />
+    </include_path>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="-94" />
+    <option name="y" value="26" />
+    <option name="width" value="1121" />
+    <option name="height" value="571" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="statb" type="b2602c69:ProjectViewProjectNode" />
+              <item name="statb" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="statb" type="b2602c69:ProjectViewProjectNode" />
+              <item name="statb" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="statb" type="b2602c69:ProjectViewProjectNode" />
+              <item name="statb" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="statb" type="b2602c69:ProjectViewProjectNode" />
+              <item name="statb" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="statb" type="b2602c69:ProjectViewProjectNode" />
+              <item name="statb" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="statbb" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="listeDesJoueursActifsDelEquipe" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="App\Tests\src\Service\PlayerService\listeDesJoueursActifsDelEquipe" file="$PROJECT_DIR$/tests/src/Service/PlayerService/listeDesJoueursActifsDelEquipe.php" scope="Class" />
+    </configuration>
+    <configuration name="listeDesJoueursActifsDelEquipe.Est_ce_qu_une_liste_de_joueur_actif_est_renvoyee" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="App\Tests\src\Service\PlayerService\listeDesJoueursActifsDelEquipe" file="$PROJECT_DIR$/tests/src/Service/PlayerService/listeDesJoueursActifsDelEquipe.php" method="Est_ce_qu_une_liste_de_joueur_actif_est_renvoyee" scope="Method" />
+    </configuration>
+    <configuration name="listeDesMatches.test" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="App\Tests\src\Service\EquipeService\listeDesMatches" file="$PROJECT_DIR$/tests/src/Service/EquipeService/listeDesMatches.php" method="test" scope="Method" />
+    </configuration>
+    <configuration name="numeroLibreDelEquipe" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="App\Tests\src\Service\PlayerService\numeroLibreDelEquipe" file="$PROJECT_DIR$/tests/src/Service/PlayerService/numeroLibreDelEquipe.php" scope="Class" />
+    </configuration>
+    <configuration name="numeroLibreDelEquipe.est_ce_que_le_numero_du_joueur_est_bien_renvoye" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="App\Tests\src\Service\PlayerService\numeroLibreDelEquipe" file="$PROJECT_DIR$/tests/src/Service/PlayerService/numeroLibreDelEquipe.php" method="est_ce_que_le_numero_du_joueur_est_bien_renvoye" scope="Method" />
+    </configuration>
+    <list>
+      <item itemvalue="PHPUnit.listeDesMatches.test" />
+      <item itemvalue="PHPUnit.listeDesJoueursActifsDelEquipe.Est_ce_qu_une_liste_de_joueur_actif_est_renvoyee" />
+      <item itemvalue="PHPUnit.listeDesJoueursActifsDelEquipe" />
+      <item itemvalue="PHPUnit.numeroLibreDelEquipe.est_ce_que_le_numero_du_joueur_est_bien_renvoye" />
+      <item itemvalue="PHPUnit.numeroLibreDelEquipe" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="PHPUnit.numeroLibreDelEquipe" />
+        <item itemvalue="PHPUnit.numeroLibreDelEquipe.est_ce_que_le_numero_du_joueur_est_bien_renvoye" />
+        <item itemvalue="PHPUnit.listeDesJoueursActifsDelEquipe" />
+        <item itemvalue="PHPUnit.listeDesJoueursActifsDelEquipe.Est_ce_qu_une_liste_de_joueur_actif_est_renvoyee" />
+        <item itemvalue="PHPUnit.listeDesMatches.test" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="StructureViewFactory">
+    <option name="ACTIVE_ACTIONS" value=",ALPHA_COMPARATOR" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="847151cb-c508-4c4e-9aa8-f19098c7acb6" name="Default" comment="" />
+      <changelist id="c3976c2a-a704-469d-97ce-8d7d42ac22f9" name="tentative corrections glyphicons en prod 3" comment="" />
+      <changelist id="93d7809f-21f2-44bb-ac75-31fb03a6cee4" name="tentative corrections glyphicons en prod 3b" comment="" />
+      <created>1538319559015</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1538319559015</updated>
+      <workItem from="1538319560369" duration="3868000" />
+      <workItem from="1538567213291" duration="11102000" />
+      <workItem from="1538644103824" duration="6601000" />
+      <workItem from="1538654423907" duration="15189000" />
+      <workItem from="1540984404034" duration="2616000" />
+      <workItem from="1542705167330" duration="34244000" />
+      <workItem from="1545763819452" duration="8970000" />
+      <workItem from="1546210913714" duration="45064000" />
+      <workItem from="1547055157440" duration="25796000" />
+      <workItem from="1548338172946" duration="66083000" />
+      <workItem from="1549381026629" duration="50940000" />
+      <workItem from="1550070221320" duration="8408000" />
+      <workItem from="1550125264746" duration="19627000" />
+      <workItem from="1550246233999" duration="1224000" />
+      <workItem from="1550492507449" duration="87911000" />
+      <workItem from="1550867916899" duration="45205000" />
+    </task>
+    <task id="LOCAL-00027" summary="Ajout bundle maker, correction fichiers entity, et corrections mineures diverses">
+      <created>1546456605092</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1546456605092</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Corrections mineures pour MEP, ajout des Nigglings, corrections d'ajout des matchs et correction d'un bug sur les compétences">
+      <created>1546473914156</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1546473914156</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Corrections d'un bug sur les nigglings">
+      <created>1546474078787</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1546474078787</updated>
+    </task>
+    <task id="LOCAL-00030" summary="traductions front, modification de la vue sur mobile, refacto du code selon normes et corrections de bug divers. Debut edition pdf">
+      <created>1548343939464</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1548343939464</updated>
+    </task>
+    <task id="LOCAL-00031" summary="fin edition pdf + correction bug status quand achat joueur">
+      <created>1548419529019</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1548419529019</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Ajout des matchs sur fiche d'équipes">
+      <created>1548676826584</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1548676826584</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Ajout des matchs sur fiche d'équipes">
+      <created>1548691801041</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1548691801041</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Ajout des matchs sur fiche d'équipes">
+      <created>1548790639972</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1548790639972</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Début de refacto du control + ajout des services">
+      <created>1548885702873</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1548885702873</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Suite refacto">
+      <created>1548921121768</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1548921121768</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Trad/corrections mineures">
+      <created>1549381218285</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1549381218285</updated>
+    </task>
+    <task id="LOCAL-00038" summary="corrections mineures">
+      <created>1549381965549</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1549381965549</updated>
+    </task>
+    <task id="LOCAL-00039" summary="maj symfony">
+      <created>1549382889393</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1549382889393</updated>
+    </task>
+    <task id="LOCAL-00040" summary="Refacto code + ajout des icones dans la navbar + epuration de certain fichiers en trop">
+      <created>1549435673435</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1549435673435</updated>
+    </task>
+    <task id="LOCAL-00041" summary="correction d'affichage + nav bar corrigées sur mobile">
+      <created>1549524391837</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1549524391849</updated>
+    </task>
+    <task id="LOCAL-00042" summary="Ajout reload après match entré">
+      <created>1549525452194</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1549525452194</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Corrections composer.json">
+      <created>1549532249506</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1549532249506</updated>
+    </task>
+    <task id="LOCAL-00044" summary="Modifications pour vu sur mobile">
+      <created>1549534958210</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1549534958210</updated>
+    </task>
+    <task id="LOCAL-00045" summary="correction mep 0.3">
+      <created>1549535148701</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1549535148701</updated>
+    </task>
+    <task id="LOCAL-00046" summary="Correction bug PDF, modif obsi sur le login avec coin du coach, refacto du tab ajout match">
+      <created>1549628882611</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1549628882611</updated>
+    </task>
+    <task id="LOCAL-00047" summary="Amélioration saisie de match">
+      <created>1549632491788</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1549632491788</updated>
+    </task>
+    <task id="LOCAL-00048" summary="correction refacto">
+      <created>1549634451437</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1549634451437</updated>
+    </task>
+    <task id="LOCAL-00049" summary="correction MEP 0.31">
+      <created>1550007680529</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1550007680529</updated>
+    </task>
+    <task id="LOCAL-00050" summary="correction MEP 0.31">
+      <created>1550007728479</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1550007728479</updated>
+    </task>
+    <task id="LOCAL-00051" summary="correction MEP 0.31">
+      <created>1550008287806</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1550008287806</updated>
+    </task>
+    <task id="LOCAL-00052" summary="correction MEP 0.31">
+      <created>1550008367949</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1550008367949</updated>
+    </task>
+    <task id="LOCAL-00053" summary="correction MEP 0.31">
+      <created>1550012658894</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1550012658894</updated>
+    </task>
+    <task id="LOCAL-00054" summary="Continu refacto + ajout phpstan et phpcs">
+      <created>1550246515431</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1550246515431</updated>
+    </task>
+    <task id="LOCAL-00055" summary="Ajout Phpstan Doctrine + corrections PHPstan">
+      <created>1550508312190</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1550508312191</updated>
+    </task>
+    <task id="LOCAL-00056" summary="Fin Phpstan">
+      <created>1550658415067</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1550658415067</updated>
+    </task>
+    <task id="LOCAL-00057" summary="Fin Phpstan">
+      <created>1550658649676</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1550658649676</updated>
+    </task>
+    <task id="LOCAL-00058" summary="Fin Phpstan">
+      <created>1550658741439</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1550658741439</updated>
+    </task>
+    <task id="LOCAL-00059" summary="Correction bug achat joueur">
+      <created>1550665735703</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1550665735703</updated>
+    </task>
+    <task id="LOCAL-00060" summary="correction MEP 0.32">
+      <created>1550668018463</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1550668018463</updated>
+    </task>
+    <task id="LOCAL-00061" summary="correction MEP 0.32">
+      <created>1550668526067</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1550668526067</updated>
+    </task>
+    <task id="LOCAL-00062" summary="Intégration phpunit">
+      <created>1550679074857</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1550679074857</updated>
+    </task>
+    <task id="LOCAL-00063" summary="essais de tests">
+      <created>1550700588105</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1550700588105</updated>
+    </task>
+    <task id="LOCAL-00064" summary="Refection du selecteur de roster + corrections de bug">
+      <created>1550841731808</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1550841731809</updated>
+    </task>
+    <task id="LOCAL-00065" summary="Refacto ajout de joueur">
+      <created>1550870027072</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1550870027072</updated>
+    </task>
+    <task id="LOCAL-00066" summary="Refacto renvois/suppression joueur">
+      <created>1550904427083</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1550904427083</updated>
+    </task>
+    <task id="LOCAL-00067" summary="Maj Bootstrap/yarn">
+      <created>1550906599104</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1550906599104</updated>
+    </task>
+    <task id="LOCAL-00068" summary="Corrections">
+      <created>1550906653576</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1550906653576</updated>
+    </task>
+    <task id="LOCAL-00069" summary="Refection de la gestion d'inducements">
+      <created>1551138684941</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1551138684941</updated>
+    </task>
+    <task id="LOCAL-00070" summary="Modif loader inducement">
+      <created>1551162345706</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1551162345706</updated>
+    </task>
+    <task id="LOCAL-00071" summary="Correction bug Pop">
+      <created>1551163022732</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1551163022732</updated>
+    </task>
+    <task id="LOCAL-00072" summary="Refacto controller PDF">
+      <created>1551190858659</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1551190858659</updated>
+    </task>
+    <task id="LOCAL-00073" summary="Correction Merge">
+      <created>1551207803174</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1551207803174</updated>
+    </task>
+    <task id="LOCAL-00074" summary="Correction Merge">
+      <created>1551207849582</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1551207849583</updated>
+    </task>
+    <task id="LOCAL-00075" summary="Correction MEP">
+      <created>1551210767049</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1551210767049</updated>
+    </task>
+    <option name="localTasksCounter" value="76" />
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="432848000" />
+  </component>
+  <component name="TodoView" selected-index="3">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1696" height="1066" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32976446" />
+      <window_info anchor="bottom" id="Messages" order="14" sideWeight="0.4987775" weight="0.32869378" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.502445" side_tool="true" weight="0.30406854" />
+      <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="12" sideWeight="0.49755502" weight="0.4197002" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49816626" weight="0.31798714" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49755502" visible="true" weight="0.30406854" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.5123077" visible="true" weight="0.26772615" />
+      <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Inspection Results" order="13" weight="0.32976446" />
+      <window_info anchor="right" id="Database" order="3" weight="0.3294621" />
+      <window_info anchor="bottom" id="Find" order="4" weight="0.6038544" />
+      <window_info id="Structure" order="1" sideWeight="0.4876923" side_tool="true" visible="true" weight="0.26772615" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49816626" weight="0.42505354" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="7" weight="0.4" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info active="true" anchor="bottom" id="Command Line Tools Console" order="0" weight="0.3291536" />
+      <window_info anchor="bottom" id="Message" order="1" />
+      <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.log" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="SHOW_UNVERSIONED_FILES_WHILE_COMMIT" value="false" />
+    <MESSAGE value="Corrections composer.json" />
+    <MESSAGE value="Modifications pour vu sur mobile" />
+    <MESSAGE value="correction mep 0.3" />
+    <MESSAGE value="Correction bug PDF, modif obsi sur le login avec coin du coach, refacto du tab ajout match" />
+    <MESSAGE value="Amélioration saisie de match" />
+    <MESSAGE value="correction refacto" />
+    <MESSAGE value="correction MEP 0.31" />
+    <MESSAGE value="Continu refacto + ajout phpstan et phpcs" />
+    <MESSAGE value="Ajout Phpstan Doctrine + corrections PHPstan" />
+    <MESSAGE value="Fin Phpstan" />
+    <MESSAGE value="Correction bug achat joueur" />
+    <MESSAGE value="correction MEP 0.32" />
+    <MESSAGE value="Intégration phpunit" />
+    <MESSAGE value="essais de tests" />
+    <MESSAGE value="Refection du selecteur de roster + corrections de bug" />
+    <MESSAGE value="Refacto ajout de joueur" />
+    <MESSAGE value="Refacto renvois/suppression joueur" />
+    <MESSAGE value="Maj Bootstrap/yarn" />
+    <MESSAGE value="Corrections" />
+    <MESSAGE value="Refection de la gestion d'inducements" />
+    <MESSAGE value="Modif loader inducement" />
+    <MESSAGE value="Correction bug Pop" />
+    <MESSAGE value="Refacto controller PDF" />
+    <MESSAGE value="Correction Merge" />
+    <MESSAGE value="Correction MEP" />
+    <option name="LAST_COMMIT_MESSAGE" value="Correction MEP" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="71" />
+    </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/bin/.phpunit/phpunit-6.5/src/Framework/TestCase.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="1928" column="27" selection-start-line="1928" selection-start-column="27" selection-end-line="1928" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/symfony/http-kernel/HttpKernel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="169">
+          <caret line="68" selection-start-line="68" selection-end-line="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/statbb/login.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#12#33#0#Twig" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/statbb/user_teams.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="545">
+          <caret line="51" column="76" selection-start-line="51" selection-start-column="76" selection-end-line="51" selection-end-column="76" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/statbb/admin.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/doctrine/persistence/lib/Doctrine/Common/Persistence/ObjectManager.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="302">
+          <caret line="36" column="20" selection-start-line="36" selection-start-column="20" selection-end-line="36" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Coaches.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="46" column="30" selection-start-line="46" selection-start-column="20" selection-end-line="46" selection-end-column="30" />
+          <folding>
+            <element signature="e#30#62#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/src/Service/PlayerService/listeDesJoueursActifsDelEquipe.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-173">
+          <caret line="24" column="48" selection-start-line="24" selection-start-column="48" selection-end-line="25" selection-end-column="5" />
+          <folding>
+            <element signature="e#144#167#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/statbb/lineteamsheet.html.twig">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Races.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-306">
+          <caret line="12" column="6" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/js/player.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Kernel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="241">
+          <caret line="46" column="8" selection-start-line="46" selection-start-column="8" selection-end-line="46" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/GameDataPlayers.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="200" column="33" selection-start-line="200" selection-start-column="33" selection-end-line="200" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/var/cache/prod/doctrine/orm/Proxies/__CG__AppEntityPlayers.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="302">
+          <caret line="440" column="23" selection-start-line="440" selection-start-column="23" selection-end-line="440" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Players.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="217">
+          <caret line="337" column="23" selection-start-line="337" selection-start-column="23" selection-end-line="337" selection-end-column="23" />
+          <folding>
+            <element signature="e#30#43#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://PHP/\App\Tests\src\Service\PlayerService\renvoisOuSuppressionJoueur">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>PHP</ID>
+          <OriginalElement>\App\Tests\src\Service\PlayerService\renvoisOuSuppressionJoueur</OriginalElement>
+          <nodes>
+            <node x="" y="">\PHPUnit\Framework\TestCase</node>
+            <node x="" y="">\PHPUnit\Framework\Assert</node>
+            <node x="" y="">\PHPUnit\Framework\Test</node>
+            <node x="" y="">\App\Tests\src\Service\PlayerService\renvoisOuSuppressionJoueur</node>
+            <node x="" y="">\PHPUnit\Framework\SelfDescribing</node>
+          </nodes>
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="1.0" x="132.5" y="95.0" />
+          <SelectedNodes />
+          <Categories />
+          <VISIBILITY>private</VISIBILITY>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/src/Service/PlayerService/renvoisOuSuppressionJoueur.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="26" column="51" selection-start-line="26" selection-start-column="51" selection-end-line="26" selection-end-column="51" />
+          <folding>
+            <element signature="e#144#167#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/src/Service/PlayerService/numeroLibreDelEquipe.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="460">
+          <caret line="57" column="31" selection-start-line="57" selection-start-column="31" selection-end-line="57" selection-end-column="31" />
+          <folding>
+            <element signature="e#144#167#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/statbb/user.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="20" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/statbb/showteams.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="49" selection-start-line="19" selection-start-column="49" selection-end-line="19" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Repository/TeamRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="8" column="6" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Teams.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="13" column="6" selection-start-line="13" selection-start-column="6" selection-end-line="13" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/statbb/dropdownplayers.html.twig">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/statbb/Spclassement.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="28" column="52" selection-start-line="28" selection-start-column="52" selection-end-line="28" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/statbb/team_modal.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="161" column="56" selection-start-line="161" selection-start-column="56" selection-end-line="161" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/statbb/addteam.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" column="12" selection-start-line="23" selection-start-column="12" selection-end-line="23" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/statbb/player_modal.html.twig">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/statbb/playeradder.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="68" selection-start-line="13" selection-start-column="61" selection-end-line="13" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/src/Service/EquipeService/listeDesMatches.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="20" selection-start-line="20" selection-end-line="30" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/src/Service/EquipeService/toutesLesTeamsParAnne.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1173">
+          <caret line="73" column="1" selection-start-line="73" selection-start-column="1" selection-end-line="73" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/src/Service/EquipeService/AjoutInducement.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="24" column="1" selection-start-line="24" selection-start-column="1" selection-end-line="24" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.env.test">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/MatchData.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="236" column="29" selection-start-line="236" selection-start-column="20" selection-end-line="236" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/statbb/pdfteam.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2283">
+          <caret line="143" column="26" lean-forward="true" selection-start-line="143" selection-start-column="26" selection-end-line="143" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/phpstan.log">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/phpcbf.log">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/phpcs.log">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="65" lean-forward="true" selection-start-line="11" selection-start-column="65" selection-end-line="11" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/statbb/team.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="241" column="16" selection-start-line="241" selection-start-column="16" selection-end-line="241" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/css/app.scss">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/statbb/listeCoaches.html.twig">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Service/SettingsService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="18" selection-start-line="18" selection-end-line="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Service/CoachService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="24" column="1" selection-start-line="24" selection-start-column="1" selection-end-line="24" selection-end-column="1" />
+          <folding>
+            <element signature="e#32#53#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Service/EquipeService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2414">
+          <caret line="149" column="41" selection-start-line="149" selection-start-column="41" selection-end-line="149" selection-end-column="41" />
+          <folding>
+            <element signature="e#31#54#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Service/PlayerService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6392">
+          <caret line="385" selection-start-line="385" selection-end-line="385" />
+          <folding>
+            <element signature="e#32#63#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/composer.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="37" selection-start-line="18" selection-start-column="37" selection-end-line="18" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/StatBBController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="13056">
+          <caret line="768" column="13" selection-start-line="768" selection-start-column="13" selection-end-line="768" selection-end-column="13" />
+          <folding>
+            <element signature="e#84#105#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/base.html.twig">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/statbb/base.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="367">
+          <caret line="79" column="11" selection-start-line="79" selection-start-column="11" selection-end-line="79" selection-end-column="11" />
+          <folding>
+            <element signature="n#style#0;n#a#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webpack.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="29" selection-start-line="29" selection-end-line="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/js/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="588">
+          <caret line="636" selection-start-line="636" selection-end-line="636" />
+          <folding>
+            <element signature="e#57#80#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

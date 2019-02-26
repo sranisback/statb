@@ -1,142 +1,175 @@
-
-
 <div class="container-fluid">
-	<div class="panel">
-		<div class="panel-heading">
-			<div class="row"><div class="col-md-1 col-xs-1"><img src="{{ asset('build/images/race_icons/'~team.fRace.icon~'.png') }}" ></div><div class="col-md-11 col-xs-11"><h1>{{team.name}}</h1></div>		
-			</div>
+    <div class="panel">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-2 col-xs-1"><img
+                            src="{{ asset('build/images/race_icons/'~team.fRace.icon~'.png') }}"  class="img-responsive"></div>
+                <div class="col-md-8 col-xs-10"><h1 class="text-center">{{ team.name }}</h1></div>
+                <div class="col-md-2 col-xs-1">
+                    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
 
-		</div>	
-		<div class="panel-body table-responsive">
-			<table class="table">
-				<thead>
-					<tr>
-						<th>Nr</th>
-						<th>Name</th>
-						<th>Position</th>
-						<th>MA</th>
-						<th>ST</th>
-						<th>AG</th>
-						<th>AV</th>
-						<th>Skill</th>
-						<th>NbrG</th>
-						<th>Stat</th>
-						<th>Cp</th>
-						<th>Td</th>
-						<th>Int</th>
-						<th>Cas</th>
-						<th>Mvp</th>
-						<th>Agg</th>
-						<th>Spp</th>
-						<th>Cost</th>
-					</tr>
-				</thead>
-				<tbody>
-				{% for player in players %}
+        </div>
+        <div class="panel-body ">
+            <div class="table-responsive">
+                <table id="modal_team_{{ team.name }}" class="table">
+                    <thead>
+                    <tr>
+                        <th>Nr</th>
+                        <th>Nom</th>
+                        <th>Position</th>
+                        <th>MA</th>
+                        <th>ST</th>
+                        <th>AG</th>
+                        <th>AV</th>
+                        <th>Skill</th>
+                        <th>NbrM</th>
+                        <th>Stat</th>
+                        <th>Cp</th>
+                        <th>Td</th>
+                        <th>Int</th>
+                        <th>Cas</th>
+                        <th>Mvp</th>
+                        <th>Agg</th>
+                        <th>Spp</th>
+                        <th class="text-right">Coût</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for player in players %}
 
-					{% if (player.status == 8)  %}
-					<tr class="danger hidden" >
-					{% elseif player.status == 7 %}
-					<tr class="info hidden">
-					{% elseif (player.injrpm == 1  or player.status ==9)  %}
-					<tr class="warning">
-					{% else %}
-					<tr>		
-					{% endif %}
-						<td>{{player.nr}}</td>
-						<td><a data-toggle="modal" data-target="#player" href="{{ path('Player', {'id': player.playerId,'type':'modal' }) }}">{{player.name}}</a>
-						{% if player.type == 2 %}
-						<p class="glyphicon glyphicon-euro" />
-						{% endif %}		
-						{% if player.status == 9 %} 
-						<p class="glyphicon glyphicon-arrow-up" />
-						{% endif %}
-						</td>
-						<td><img src="{{ asset('build/images/player_icons/'~player.fpos.icon~'.gif') }}" class=".img-responsive">{{player.fpos.pos}}</td>	
-						
-						{% if player.achMa>0 %}
-						<td class="success">{{player.fpos.ma + player.achMa - player.injMa}}</td>
-						{% elseif  player.injMa>0%}
-						<td class="danger">{{player.fpos.ma + player.achMa - player.injMa}}</td>
-						{% else %}
-						<td>{{player.fpos.ma + player.achMa - player.injMa}}</td>
-						{% endif %}
-						
-						{% if player.achSt>0 %}
-						<td class="success">{{player.fpos.st + player.achSt - player.injSt}}</td>
-						{% elseif  player.injSt>0%}
-						<td class="danger">{{player.fpos.st + player.achSt - player.injSt}}</td>
-						{% else %}
-						<td>{{player.fpos.st + player.achSt - player.injSt}}</td>
-						{% endif %}
+                    {% if (player.status == 8) %}
+                    <tr class="danger hidden">
+                        {% elseif player.status == 7 %}
+                    <tr class="info hidden">
+                        {% elseif (player.injrpm == 1  or player.status ==9) %}
+                    <tr class="warning">
+                        {% else %}
+                    <tr>
+                        {% endif %}
+                        <td>{{ player.nr }}</td>
+                        <td>{{ player.name }}
+                            {% if player.type == 2 %}
+                                <p class="glyphicon glyphicon-euro"/>
+                            {% endif %}
+                            {% if player.status == 9 %}
+                                <p class="glyphicon glyphicon-arrow-up"/>
+                            {% endif %}
+                        </td>
+                        <td><img src="{{ asset('build/images/player_icons/'~player.fpos.icon~'.gif') }}"
+                                 class="img-responsive">{{ player.fpos.pos }}</td>
 
-						{% if player.achAg>0 %}
-						<td class="success">{{player.fpos.ag + player.achAg - player.injAg}}</td>
-						{% elseif  player.injAg>0%}
-						<td class="danger">{{player.fpos.ag + player.achAg - player.injAg}}</td>
-						{% else %}
-						<td>{{player.fpos.ag + player.achAg - player.injAg}}</td>
-						{% endif %}
+                        {% if player.achMa>0 %}
+                            <td class="success">{{ player.fpos.ma + player.achMa - player.injMa }}</td>
+                        {% elseif  player.injMa>0 %}
+                            <td class="danger">{{ player.fpos.ma + player.achMa - player.injMa }}</td>
+                        {% else %}
+                            <td>{{ player.fpos.ma + player.achMa - player.injMa }}</td>
+                        {% endif %}
 
-						{% if player.achAv>0 %}
-						<td class="success">{{player.fpos.av + player.achAv - player.injAv}}</td>
-						{% elseif  player.injAv>0%}
-						<td class="danger">{{player.fpos.av + player.achAv - player.injAv}}</td>
-						{% else %}
-						<td>{{player.fpos.av + player.achAv - player.injAv}}</td>
-						{% endif %}
-						
-						{% for data in pdata %}
-							{%if data.pid == player.playerId %}				
-						<td>{{data.skill|raw}}</td>
-						<td>{{data.nbrm}}</td>
-						<td>{{data.status}}</td>
-						<td>{{data.cp}}</td>
-						<td>{{data.td}}</td>
-						<td>{{data.int}}</td>
-						<td>{{data.cas}}</td>
-						<td>{{data.mvp}}</td>
-						<td>{{data.agg}}</td>
-						<td>{{data.spp}}</td>
-						<td class="text-right">{{data.cost}}</td>
-							{% endif%}
-						{% endfor %}
+                        {% if player.achSt>0 %}
+                            <td class="success">{{ player.fpos.st + player.achSt - player.injSt }}</td>
+                        {% elseif  player.injSt>0 %}
+                            <td class="danger">{{ player.fpos.st + player.achSt - player.injSt }}</td>
+                        {% else %}
+                            <td>{{ player.fpos.st + player.achSt - player.injSt }}</td>
+                        {% endif %}
 
-					</tr>
-				{%endfor%}
-				<tr>
-					<td colspan =7 rowspan=7 ></td><td rowspan=7 ><img src="{{ asset('build/images/race_icons/'~team.fRace.icon~'.png') }}" ></td><td colspan =4 >Coach : {{team.ownedByCoach.name}}</td><td colspan =5 class="text-right">Valeur totale des joueurs :</td><td class="text-right">{{tdata.playersCost}}</td>
-				</tr>
-				<tr>
-					<td colspan =4 >Races : {{team.fRace.name}}</td><td colspan =3 class="text-right"> Relance : </td><td colspan =2>{{team.rerolls}} x {{team.fRace.costRr}}</td> <td class="text-right">{{tdata.rerolls}}</td>
-				</tr>
-				<tr>
-					<td colspan =4 >Trésor : {{team.treasury}}</td><td colspan =3 class="text-right"> Popularité : </td><td colspan =2>{{team.ff + team.ffBought}} x 10000</td> <td class="text-right">{{tdata.pop}}</td>
-				</tr>
-				<tr>
-					<td colspan =4 >TV : {{tdata.tv/1000}}</td><td colspan =3 class="text-right"> Ass. Coach : </td><td colspan =2>{{team.assCoaches}} x 10000</td> <td class="text-right">{{tdata.asscoaches}}</td>
-				</tr>
-				<tr>
-					<td colspan =4 >ELO : {{team.elo}}</td><td colspan =3 class="text-right"> Cheerleaders : </td><td colspan =2>{{team.cheerleaders}} x 10000</td> <td class="text-right">{{tdata.cheerleader}}</td>
-				</tr>
-				<tr>
-					<td colspan =4 >Stadium : {{team.stadiumName}}</td><td colspan =3 class="text-right"> Apothicaire : </td><td colspan =2>{{team.apothecary}} x 50000</td> <td class="text-right">{{tdata.apo}}</td>
-				</tr>
-				<tr>
-					<td colspan =4 rowspan=1></td><td colspan =5 class="text-right">Total : </td><td class="text-right">{{tdata.tv}}</td>
-				</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
+                        {% if player.achAg>0 %}
+                            <td class="success">{{ player.fpos.ag + player.achAg - player.injAg }}</td>
+                        {% elseif  player.injAg>0 %}
+                            <td class="danger">{{ player.fpos.ag + player.achAg - player.injAg }}</td>
+                        {% else %}
+                            <td>{{ player.fpos.ag + player.achAg - player.injAg }}</td>
+                        {% endif %}
+
+                        {% if player.achAv>0 %}
+                            <td class="success">{{ player.fpos.av + player.achAv - player.injAv }}</td>
+                        {% elseif  player.injAv>0 %}
+                            <td class="danger">{{ player.fpos.av + player.achAv - player.injAv }}</td>
+                        {% else %}
+                            <td>{{ player.fpos.av + player.achAv - player.injAv }}</td>
+                        {% endif %}
+
+                        {% for data in pdata %}
+                            {% if data.pid == player.playerId %}
+                                <td>{{ data.skill|raw }}</td>
+                                <td>{{ data.nbrm }}</td>
+                                <td>{{ data.status }}</td>
+                                <td>{{ data.cp }}</td>
+                                <td>{{ data.td }}</td>
+                                <td>{{ data.int }}</td>
+                                <td>{{ data.cas }}</td>
+                                <td>{{ data.mvp }}</td>
+                                <td>{{ data.agg }}</td>
+                                <td>{{ data.spp }}</td>
+                                <td class="text-right">{{ data.cost }}</td>
+                            {% endif %}
+                        {% endfor %}
+
+                        </td>
+                        {% endfor %}
+                    <tr>
+                        <td colspan=7 rowspan=7></td>
+                        <td rowspan=7><img src="{{ asset('build/images/race_icons/'~team.fRace.icon~'.png') }}"></td>
+                        <td colspan=4>Coach : {{ team.ownedByCoach.name }}</td>
+                        <td colspan=5 class="text-right">Valeur totale des joueurs :</td>
+                        <td class="text-right">{{ tdata.playersCost }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan=4>Races : {{ team.fRace.name }}</td>
+                        <td colspan=3 class="text-right"> Relance :</td>
+                        <td colspan=2>{{ team.rerolls }} x {{ team.fRace.costRr }}</td>
+                        <td class="text-right">{{ tdata.rerolls }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan=4>Trésor : {{ team.treasury }}</td>
+                        <td colspan=3 class="text-right"> Popularité :</td>
+                        <td colspan=2>{{ team.ff + team.ffBought }} x 10000</td>
+                        <td class="text-right">{{ tdata.pop }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan=4>TV : {{ tdata.tv/1000 }}</td>
+                        <td colspan=3 class="text-right"> Ass. Coach :</td>
+                        <td colspan=2>{{ team.assCoaches }} x 10000</td>
+                        <td class="text-right">{{ tdata.asscoaches }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan=4>ELO : {{ team.elo }}</td>
+                        <td colspan=3 class="text-right"> Cheerleaders :</td>
+                        <td colspan=2>{{ team.cheerleaders }} x 10000</td>
+                        <td class="text-right">{{ tdata.cheerleader }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan=4>Stadium : {{ team.stadiumName }}</td>
+                        <td colspan=3 class="text-right"> Apothicaire :</td>
+                        <td colspan=2>{{ team.apothecary }} x 50000</td>
+                        <td class="text-right">{{ tdata.apo }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan=4 rowspan=1></td>
+                        <td colspan=5 class="text-right">Total :</td>
+                        <td class="text-right">{{ tdata.tv }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>
+        </div>
+    </div>
 </div>
 
 <div class="modal fade" id="player">
-  <div class="modal-dialog">
-	<div class="modal-content">
-
-	</div>
-  </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <img src="{{ asset('build/images/big-loader.gif') }}" class="img-responsive center-block">
+        </div>
+    </div>
 </div>
 
 

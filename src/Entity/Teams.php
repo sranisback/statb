@@ -4,15 +4,11 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-use App\Entity\Races;
-
-use Doctrine\Common\Collections\Collection,
-Doctrine\Common\Collections\ArrayCollection;
-
 /**
  * Teams
  *
- * @ORM\Table(name="teams", indexes={@ORM\Index(name="idx_owned_by_coach_id", columns={"owned_by_coach_id"}), @ORM\Index(name="fk_teams_races_idx", columns={"f_race_id"})})
+ * @ORM\Table(name="teams", indexes={@ORM\Index(name="idx_owned_by_coach_id", columns={"owned_by_coach_id"}),
+ * @ORM\Index(name="fk_teams_races_idx", columns={"f_race_id"})})
  * @ORM\Entity(repositoryClass="App\Repository\TeamRepository")
  */
 class Teams
@@ -45,56 +41,56 @@ class Teams
      *
      * @ORM\Column(name="apothecary", type="integer", nullable=true)
      */
-    private $apothecary = '0';
+    private $apothecary = 0;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="rerolls", type="integer", nullable=true, options={"unsigned"=true})
      */
-    private $rerolls = '0';
+    private $rerolls = 0;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="ff_bought", type="integer", nullable=true)
      */
-    private $ffBought = '0';
+    private $ffBought = 0;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="ass_coaches", type="integer", nullable=true, options={"unsigned"=true})
      */
-    private $assCoaches = '0';
+    private $assCoaches = 0;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="cheerleaders", type="integer", nullable=true, options={"unsigned"=true})
      */
-    private $cheerleaders = '0';
+    private $cheerleaders = 0;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="rdy", type="boolean", nullable=false, options={"default"="1"})
      */
-    private $rdy = '1';
+    private $rdy = true;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="retired", type="boolean", nullable=false)
      */
-    private $retired = '0';
+    private $retired = false;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="ff", type="integer", nullable=true)
      */
-    private $ff = '0';
+    private $ff = 0;
 
     /**
      * @var int|null
@@ -122,7 +118,7 @@ class Teams
      *
      * @ORM\Column(name="stadium", type="integer", nullable=false, options={"default"="99"})
      */
-    private $stadium = '99';
+    private $stadium = 99;
 
     /**
      * @var string
@@ -132,7 +128,7 @@ class Teams
     private $stadiumName = 'green meadow';
 
     /**
-     * @var \Coaches
+     * @var Coaches
      *
      * @ORM\ManyToOne(targetEntity="Coaches", fetch="EAGER")
      *   @ORM\JoinColumn(name="owned_by_coach_id", referencedColumnName="coach_id")
@@ -140,13 +136,14 @@ class Teams
     private $ownedByCoach;
 
     /**
-     * @var \Races
+     * @var Races
      *
      * @ORM\ManyToOne(targetEntity="Races", fetch="EAGER")
      * @ORM\JoinColumn(name="f_race_id", referencedColumnName="race_id", nullable=false)
      */
+
     private $fRace;
-	
+
     public function getTeamId(): ?int
     {
         return $this->teamId;
@@ -265,7 +262,7 @@ class Teams
         return $this->ff;
     }
 
-    public function setFf(?int $ff): self
+    public function setFf(int $ff): self
     {
         $this->ff = $ff;
 
@@ -277,7 +274,7 @@ class Teams
         return $this->tv;
     }
 
-    public function setTv(?int $tv): self
+    public function setTv(int $tv): self
     {
         $this->tv = $tv;
 
@@ -289,7 +286,7 @@ class Teams
         return $this->elo;
     }
 
-    public function setElo(?float $elo): self
+    public function setElo(float $elo): self
     {
         $this->elo = $elo;
 
@@ -313,6 +310,10 @@ class Teams
         return $this->stadium;
     }
 
+    /**
+     * @param int $stadium
+     * @return Teams
+     */
     public function setStadium(int $stadium): self
     {
         $this->stadium = $stadium;
@@ -320,11 +321,15 @@ class Teams
         return $this;
     }
 
-    public function getStadiumName(): ?string
+    public function getStadiumName(): string
     {
         return $this->stadiumName;
     }
 
+    /**
+     * @param string $stadiumName
+     * @return Teams
+     */
     public function setStadiumName(string $stadiumName): self
     {
         $this->stadiumName = $stadiumName;
@@ -337,7 +342,11 @@ class Teams
         return $this->ownedByCoach;
     }
 
-    public function setOwnedByCoach(?Coaches $ownedByCoach): self
+    /**
+     * @param Coaches $ownedByCoach
+     * @return Teams
+     */
+    public function setOwnedByCoach(Coaches $ownedByCoach): self
     {
         $this->ownedByCoach = $ownedByCoach;
 
@@ -349,12 +358,14 @@ class Teams
         return $this->fRace;
     }
 
-    public function setFRace(?Races $fRace): self
+    /**
+     * @param Races $fRace
+     * @return Teams
+     */
+    public function setFRace(Races $fRace): self
     {
         $this->fRace = $fRace;
 
         return $this;
     }
-
-
 }

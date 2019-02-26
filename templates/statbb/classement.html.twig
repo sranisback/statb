@@ -1,45 +1,50 @@
-{% if limit == 0 %}
-<div class="modal-body">
-{% endif %}
-<span class="text-center"><h1>Team Ranking</h1></span>
+<h1 class="text-center">Classement Général</h1>
 <div class="table-responsive">
-<table class="table  table-striped" id="classgen" >
-	<thead>
-		<tr>
-			<th>#</th><th>Team Name</th><th></th><th>Race</th><th>Coach</th><th>W</th><th>D</th><th>L</th><th>Pts</th><th>NbrG</th><th>TV</th>
-		</tr>
-	</thead>
-	<tbody>
-		{% for team in classement %}
-		<tr>
-			<td class="pos">{{loop.index}}</td><td><a  data-toggle="modal" data-target="#team" href="{{ path('team', {'id': team.team_id,'type':'modal' }) }}">{{team.team_name}}</a></td><td><img src="{{ asset('build/images/race_icons/'~team.icon~'.png') }}" class="img-responsive"></td><td>{{team.race}}</td><td>{{team.name}}</td><td>{{team.Win}}</td><td>{{team.Draw}}</td><td>{{team.Lost}}</td><td>{{team.pts}}</td><td>{{team.nbrg}}</td><td>{{team.tv}}</td>
-		</tr>
-		{% endfor %}
-	</tbody>
-</table>
+    <table class="table  table-striped" id="classgen">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Equipe</th>
+            <th></th>
+            <th>Race</th>
+            <th>Coach</th>
+            <th>G</th>
+            <th>N</th>
+            <th>P</th>
+            <th>Pts</th>
+            <th>NbrM</th>
+            <th>TV</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for team in classement %}
+            <tr>
+                <td class="pos">{{ loop.index }}</td>
+                <td><a data-toggle="modal" data-target="#team_{{ team.team_id }}"
+                       href="{{ path('team', {'teamid': team.team_id,'type':'modal' }) }}">{{ team.team_name }}</a>
+                    <div class="modal fade" id="team_{{ team.team_id }}">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <img src="{{ asset('build/images/big-loader.gif') }}"
+                                     class="img-responsive center-block">
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td><img src="{{ asset('build/images/race_icons/'~team.icon~'.png') }}" class="img-responsive"></td>
+                <td>{{ team.race }}</td>
+                <td>{{ team.name }}</td>
+                <td>{{ team.Win }}</td>
+                <td>{{ team.Draw }}</td>
+                <td>{{ team.Lost }}</td>
+                <td>{{ team.pts }}</td>
+                <td>{{ team.nbrg }}</td>
+                <td>{{ team.tv }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 </div>
 
-{% if limit == 0%}
-</div>
-{% endif %}
-{% if limit > 0%}
 
-<a type="button" class="btn btn-primary" data-toggle="modal" href="{{ path('classementgen',{'limit':0}) }}" data-target="#cltgen">Toutes les équipes</a>
-
-{% endif %}
-<div class="modal fade" id="cltgen">
-  <div class="modal-dialog modal-lg">
-	<div class="modal-content">
-
-	</div>
-  </div>
-</div>
-
-<div class="modal fade" id="team">
-  <div class="modal-dialog modal-lg" style="width:1250px;">
-	<div class="modal-content">
-
-	</div>
-  </div>
-</div>
 

@@ -1,0 +1,162 @@
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" media="print" href="{{ asset('build/css/app.css') }}">
+
+</head>
+<body>
+<div class="container">
+    <div class="table-responsive">
+    <table class="table table-condensed">
+        <tr>
+            <td colspan="2" style="width: 100%; text-align: center; border: 3px solid rgb(215,229,208);">
+                <h5>{{ team.name }}</h5></td>
+        </tr>
+        <tr style="font-size: 9px;">
+            <td style="text-align: center;">Race : {{ team.fRace.name }}</td>
+            <td style="text-align: center;">Coach : {{ team.ownedByCoach.name }}</td>
+        </tr>
+        <tr style="font-size: 9px;">
+            <td style="text-align: center;">Trésors : {{ team.treasury }}</td>
+            <td style="text-align: center;">Stade : {{ team.stadiumName }}</td>
+        </tr>
+    </table>
+    </div>
+    <div class="table-responsive">
+    <table id="team_sheet" class="table table-striped table-bordered table-condensed" style="font-size: 9px;">
+        <thead>
+        <tr id="title">
+            <td>#</td>
+            <td>Nom</td>
+            <td>Position</td>
+            <td>Ma</td>
+            <td>St</td>
+            <td>Ag</td>
+            <td>Av</td>
+            <td>Compétences</td>
+            <td>Status</td>
+            <td>Cp</td>
+            <td>Td</td>
+            <td>Int</td>
+            <td>Cas</td>
+            <td>Mvp</td>
+            <td>Agg</td>
+            <td>Spp</td>
+            <td class="text-right">Coût</td>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for player in players %}
+
+        {% if (player.status ==1 or player.status==9) %}
+            <tr>
+                <td>{{ player.nr }}</td>
+                <td>{{ player.name }}
+                    {% if player.type == 2 %}
+                        <p class="glyphicon glyphicon-euro"/>
+                    {% endif %}
+                    {% if player.status == 9 %}
+                        <p class="glyphicon glyphicon-arrow-up"/>
+                    {% endif %}
+                </td>
+                <td>{{ player.fpos.pos }}</td>
+
+                {% if player.achMa>0 %}
+                    <td class="success">{{ player.fpos.ma + player.achMa - player.injMa }}</td>
+                {% elseif  player.injMa>0 %}
+                    <td class="danger">{{ player.fpos.ma + player.achMa - player.injMa }}</td>
+                {% else %}
+                    <td>{{ player.fpos.ma + player.achMa - player.injMa }}</td>
+                {% endif %}
+
+                {% if player.achSt>0 %}
+                    <td class="success">{{ player.fpos.st + player.achSt - player.injSt }}</td>
+                {% elseif  player.injSt>0 %}
+                    <td class="danger">{{ player.fpos.st + player.achSt - player.injSt }}</td>
+                {% else %}
+                    <td>{{ player.fpos.st + player.achSt - player.injSt }}</td>
+                {% endif %}
+
+                {% if player.achAg>0 %}
+                    <td class="success">{{ player.fpos.ag + player.achAg - player.injAg }}</td>
+                {% elseif  player.injAg>0 %}
+                    <td class="danger">{{ player.fpos.ag + player.achAg - player.injAg }}</td>
+                {% else %}
+                    <td>{{ player.fpos.ag + player.achAg - player.injAg }}</td>
+                {% endif %}
+
+                {% if player.achAv>0 %}
+                    <td class="success">{{ player.fpos.av + player.achAv - player.injAv }}</td>
+                {% elseif  player.injAv>0 %}
+                    <td class="danger">{{ player.fpos.av + player.achAv - player.injAv }}</td>
+                {% else %}
+                    <td>{{ player.fpos.av + player.achAv - player.injAv }}</td>
+                {% endif %}
+
+                {% for data in pdata %}
+                    {% if data.pid == player.playerId %}
+                        <td>{{ data.skill|raw }}</td>
+                        <td>{{ data.status }}</td>
+                        <td>{{ data.cp }}</td>
+                        <td>{{ data.td }}</td>
+                        <td>{{ data.int }}</td>
+                        <td>{{ data.cas }}</td>
+                        <td>{{ data.mvp }}</td>
+                        <td>{{ data.agg }}</td>
+                        <td>{{ data.spp }}</td>
+                        <td class="text-right">{{ data.cost|raw }}</td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+
+        {% endif %}
+        {% endfor %}
+        <tr>
+            <td colspan=16 style="text-align:right;">Total joueurs :</td>
+            <td style="text-align:right;">{{ tdata.playersCost }}</td>
+        </tr>
+        <tr>
+            <td colspan=13 style="text-align:right;">Popularité :</td>
+            <td>{{ team.ff + team.ffBought }}</td>
+            <td>X</td>
+            <td>10000</td>
+            <td style="text-align:right;">{{ tdata.pop }} </td>
+        </tr>
+        <tr>
+            <td colspan=13 style="text-align:right;">Relances :</td>
+            <td>{{ team.rerolls }}</td>
+            <td>X</td>
+            <td>{{ team.fRace.costRr }}</td>
+            <td style="text-align:right;">{{ tdata.rerolls }}</td>
+        </tr>
+        <tr>
+            <td colspan=13 style="text-align:right;">Assistants :</td>
+            <td>{{ team.assCoaches }}</td>
+            <td>X</td>
+            <td>10000</td>
+            <td style="text-align:right;">{{ tdata.asscoaches }}</td>
+        </tr>
+        <tr>
+            <td colspan=13 style="text-align:right;">Pompom girls :</td>
+            <td>{{ team.cheerleaders }}</td>
+            <td>X</td>
+            <td>10000</td>
+            <td style="text-align:right;">{{ tdata.cheerleader }}</td>
+        </tr>
+        <tr>
+            <td colspan=13 style="text-align:right;">Apoticaire :</td>
+            <td>{{ team.apothecary }}</td>
+            <td>X</td>
+            <td>50000</td>
+            <td style="text-align:right;">{{ tdata.apo }}</td>
+        </tr>
+        <tr>
+            <td colspan=16 style="text-align:right;">Tv Totale :</td>
+            <td style="text-align:right;">{{  tdata.tv }}</td>
+        </tr>
+
+    </table>
+</div>
+</div>
+</body>

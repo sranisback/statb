@@ -63,6 +63,4 @@ class Citations
 
         return $this;
     }
-
-
 }
