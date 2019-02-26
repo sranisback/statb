@@ -547,11 +547,11 @@ $(document).ready(function () {
         label.html($(this).text() + ' <span class="caret"></span>');
         label.val($(this).data('value'));
         $('#btn_addplayer').attr('posId', $(this).attr('posId'));
-        $("#teamdrop").after('<div id="loader"><img src="/build/images/ajax-loader.gif"></div>');
+        $("#teamdrop").after($('#loadingmessage'));
         $.post(Routing.generate('getposstat', {posId: $(this).attr('posId')}),
             {},
             function (result) {
-                $("#loader").remove();
+                $("#loadingmessage").remove();
                 $("#pos_table").remove();
                 $("#teamdrop").after(result);
             })
@@ -562,11 +562,12 @@ $(document).ready(function () {
      * Ajout d'un joueur
      */
     $("#btn_addplayer").click(function () {
-        $("#teamsheet").after('<div id="loader"><img src="/build/images/ajax-loader.gif"></div>');
+        $("#teamsheet").after($('#loadingmessage'));
+        $('#loadingmessage').show();
         $.getJSON(Routing.generate('addPlayer', {posId: $(this).attr('posId'), teamId: $(this).attr('teamId')}),
             {},
             function (result) {
-                $("#loader").remove();
+                $("#loadingmessage").remove();
                 result = JSON.parse(result);
 
                 let totalltv = $("#totalPV");
@@ -655,7 +656,8 @@ $(document).ready(function () {
      * @param mvt
      */
     function actionInducement(origin,mvt){
-        $("#" + origin.attr("type")).before('<span id="loader"><img src="/build/images/ajax-loader.gif"></span>');
+        $("#" + origin.attr("type")).before($('#loadingmessage'));
+        $('#loadingmessage').show();
         $.post(Routing.generate('gestionInducement', {
                 teamId: origin.attr("teamId"),
                 type: origin.attr("type"),
@@ -663,7 +665,7 @@ $(document).ready(function () {
             }),
             {},
             function (result) {
-                $("#loader").remove();
+                $("#loadingmessage").remove();
                 result = JSON.parse(result);
 
                 $("#" + result.type).text(result.nbr);
