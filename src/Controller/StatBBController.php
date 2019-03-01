@@ -278,13 +278,13 @@ class StatBBController extends AbstractController
         return $this->render('statbb/front.html.twig');
     }
 
-    /**
+/*    /**
      * @Route("/admin")
      */
-    public function admin()
+   /* public function admin()
     {
         return $this->render('statbb/admin.html.twig');
-    }
+    }*/
 
     /**
      * @Route("/login", name="login", options = { "expose" = true })
