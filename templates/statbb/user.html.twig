@@ -21,7 +21,7 @@
                 </div>
                 <div id="allteam" class="tab-pane fade">
                     <h3>Toute les équipes</h3>
-                    {{ render(controller('App\\Controller\\StatBBController::showTeams' )) }}
+                    {{ render(controller('App\\Controller\\StatBBController::montreLesEquipes' )) }}
                 </div>
                 <div id="classement" class="tab-pane fade">
                     {{ render(controller('App\\Controller\\StatBBController::classGen',{'limit':0} )) }}

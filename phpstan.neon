@@ -8,3 +8,5 @@ parameters:
 	    - '#.+totalcas.+#'
 	    - '#.+SClassement.+#'
 	    - '#.+classement.+#'
+	autoload_directories:
+		- %rootDir%/../../../src/Migrations
