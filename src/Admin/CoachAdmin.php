@@ -13,36 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 final class CoachAdmin extends AbstractAdmin
 {
-    protected function configureFormFields(FormMapper $formMapper)
-    {
-        /** @var Coaches $coach */
-        $coach = $this->getSubject();
-
-        $formMapper
-            ->add('name', TextType::class)
-            ->add(
-                'roles',
-                ChoiceType::class,
-                [
-                    'choices' => ['User' => 'USER', 'Admin' => 'ADMIN'],
-                    'mapped' => false
-                ]
-            )
-            ->add('passwd', PasswordType::class, ['empty_data'=>$coach->getPasswd(),'required'=>false]);
-    }
-
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
-    {
-        $datagridMapper->add('name');
-        $datagridMapper->add('roles');
-      //  $datagridMapper->add('passwd');
-    }
-
-    protected function configureListFields(ListMapper $listMapper)
-    {
-        $listMapper->addIdentifier('name');
-        $listMapper->addIdentifier('roles');
-    }
+    protected $datagridValues = ['_sort_by' => 'name'];
 
     public function preValidate($object)
     {
@@ -51,7 +22,7 @@ final class CoachAdmin extends AbstractAdmin
 
         $role = $this->getForm()->get('roles')->getData();
 
-        $coach->setRoles(['role'=>'ROLE_'.$role]);
+        $coach->setRoles(['role' => 'ROLE_'.$role]);
 
         $plainPassword = $object->getPasswd();
         $container = $this->getConfigurationPool()->getContainer();
@@ -60,5 +31,48 @@ final class CoachAdmin extends AbstractAdmin
             $encoded = $encoder->encodePassword($object, $plainPassword);
             $object->setPasswd($encoded);
         }
+    }
+
+    protected function configureFormFields(FormMapper $formMapper)
+    {
+        /** @var Coaches $coach */
+        $coach = $this->getSubject();
+
+        $formMapper
+            ->add('name', TextType::class, ['label' => 'Nom'])
+            ->add(
+                'roles',
+                ChoiceType::class,
+                [
+                    'choices' => ['Utilisateur' => 'USER', 'Admin' => 'ADMIN'],
+                    'mapped' => false,
+                    'label' => 'Role',
+                ]
+            )
+            ->add(
+                'passwd',
+                PasswordType::class,
+                ['empty_data' => $coach->getPasswd(), 'required' => false, 'label' => 'Mot de passe']
+            );
+    }
+
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    {
+        $datagridMapper->add('name', null, ['label' => 'Nom']);
+    }
+
+    protected function configureListFields(ListMapper $listMapper)
+    {
+        $listMapper->addIdentifier('name', null, ['label' => 'Nom'])
+            ->add(
+                '_action',
+                null,
+                [
+                    'actions' => [
+                        'edit' => [],
+                        'delete' => [],
+                    ],
+                ]
+            );
     }
 }
