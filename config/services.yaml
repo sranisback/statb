@@ -49,4 +49,8 @@ services:
         arguments: [~,App\Entity\PlayersSkills,~]
         tags:
             - {name: sonata.admin, manager_type: orm, label: Skills}
-
+    admin.matches:
+        class: App\Admin\MatchAdmin
+        arguments: [~,App\Entity\Matches,~]
+        tags:
+            - {name: sonata.admin, manager_type: orm, label: Matches}
