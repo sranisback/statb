@@ -48,7 +48,7 @@ class StatBBController extends AbstractController
      * @param  mixed $response
      * @return JsonResponse
      */
-    public static function transformInJson($response): JsonResponse
+    public static function transformeEnJson($response): JsonResponse
     {
         $encoders = array(new XmlEncoder(), new JsonEncoder());
         $normalizers = array(new ObjectNormalizer());
@@ -61,12 +61,12 @@ class StatBBController extends AbstractController
     }
 
     /**
-     * @Route("/showteams", name="showteams", options = { "expose" = true })
+     * @Route("/montreLesEquipes", name="showteams", options = { "expose" = true })
      * @param EquipeService $equipeService
      * @param SettingsService $settingsService
      * @return response
      */
-    public function showTeams(EquipeService $equipeService, SettingsService $settingsService)
+    public function montreLesEquipes(EquipeService $equipeService, SettingsService $settingsService)
     {
         return $this->render(
             'statbb/showteams.html.twig',
@@ -278,13 +278,13 @@ class StatBBController extends AbstractController
         return $this->render('statbb/front.html.twig');
     }
 
-    /**
+/*    /**
      * @Route("/admin")
      */
-    public function admin()
+   /* public function admin()
     {
         return $this->render('statbb/admin.html.twig');
-    }
+    }*/
 
     /**
      * @Route("/login", name="login", options = { "expose" = true })
@@ -316,35 +316,6 @@ class StatBBController extends AbstractController
         return $this->render('statbb/citation.html.twig', array('citation' => $citations[$nbr]));
     }
 
-    /**
-     * @Route("/touslescoaches", options = { "expose" = true })
-     * @param Request $request
-     * @return Response
-     */
-    public function tousLesCoaches(Request $request)
-    {
-        $coach = new coaches();
-        $coach->setName('test');
-        $coach->setPasswd('test');
-
-        $form = $this->createFormBuilder($coach)->add('name', null)->add('passwd', null)->add(
-            'save',
-            SubmitType::class,
-            ['label' => 'go']
-        )->getForm();
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->addFlash('success', 'Genus created!');
-
-            //    return $this->redirectToRoute('frontUser');
-        } else {
-            $this->addFlash('success', 'Genus created!');
-        }
-
-        return $this->render('statbb/listeCoaches.html.twig');
-    }
     /**
      * @Route("/classement/general/{limit}", name="classementgen", options = { "expose" = true })
      * @param int $limit
@@ -613,10 +584,10 @@ class StatBBController extends AbstractController
     }
 
     /**
-     * @Route("/raceSelector", options = { "expose" = true })
+     * @Route("/choixRace", options = { "expose" = true })
      * @return Response
      */
-    public function raceSelector()
+    public function choixRace()
     {
         $team = new Teams();
 
@@ -726,7 +697,7 @@ class StatBBController extends AbstractController
             "reponse" => $reponse
         ];
 
-        return self::transformInJson($response);
+        return self::transformeEnJson($response);
     }
 
     /**
@@ -751,7 +722,7 @@ class StatBBController extends AbstractController
             "reponse" => $resultat['reponse']
         );
 
-        return self::transformInJson($response);
+        return self::transformeEnJson($response);
     }
 
     /**
@@ -784,10 +755,10 @@ class StatBBController extends AbstractController
                 "nbr" => $coutEtnbr['nbr'],
             ];
 
-            return self::transformInJson($response);
+            return self::transformeEnJson($response);
         }
 
-        return self::transformInJson(["rien" => '']);
+        return self::transformeEnJson(["rien" => '']);
     }
 
     /**
@@ -809,9 +780,9 @@ class StatBBController extends AbstractController
             $entityManager->persist($team);
             $entityManager->flush();
 
-            return self::transformInJson($response);
+            return self::transformeEnJson($response);
         }
-        return self::transformInJson(["rien"=>'']);
+        return self::transformeEnJson(["rien"=>'']);
     }
 
     /**
@@ -854,7 +825,7 @@ class StatBBController extends AbstractController
                 ),
             ];
 
-            return self::transformInJson($response);
+            return self::transformeEnJson($response);
         } else {
             return new JsonResponse(['error']);
         }

@@ -97,7 +97,7 @@ class Players
     private $extraSpp;
 
     /**
-     * @var int
+     * @var int|null
      *
      * @ORM\Column(name="extra_val", type="integer", nullable=false)
      */

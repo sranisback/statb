@@ -4,6 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    locale: 'en'
 
 services:
     # default configuration for services in *this* file
@@ -28,3 +29,28 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    admin.coach:
+        class: App\Admin\CoachAdmin
+        arguments: [~,App\Entity\Coaches,~]
+        tags:
+            - {name: sonata.admin, manager_type: orm, label: Coaches}
+    admin.team:
+        class: App\Admin\TeamAdmin
+        arguments: [~,App\Entity\Teams,~]
+        tags:
+            - {name: sonata.admin, manager_type: orm, label: Teams}
+    admin.player:
+        class: App\Admin\PlayersAdmin
+        arguments: [~,App\Entity\Players,~]
+        tags:
+            - {name: sonata.admin, manager_type: orm, label: Players}
+    admin.skills:
+        class: App\Admin\SkillAdmin
+        arguments: [~,App\Entity\PlayersSkills,~]
+        tags:
+            - {name: sonata.admin, manager_type: orm, label: Skills}
+    admin.matches:
+        class: App\Admin\MatchAdmin
+        arguments: [~,App\Entity\Matches,~]
+        tags:
+            - {name: sonata.admin, manager_type: orm, label: Matches}

@@ -15,8 +15,8 @@ import Routing from './router.min.js';
 const routes = {
     "base_url": "http://statbrutedebowl.url.ph/statb/public",
     "routes": {
-        "showteams": {
-            "tokens": [["text", "\/showteams"]],
+        "montreLesEquipes": {
+            "tokens": [["text", "\/montreLesEquipes"]],
             "defaults": [],
             "requirements": [],
             "hosttokens": [],
@@ -136,7 +136,7 @@ const routes = {
             "schemes": []
         },
         "raceselector": {
-            "tokens": [["text", "\/raceSelector"]],
+            "tokens": [["text", "\/choixRace"]],
             "defaults": [],
             "requirements": [],
             "hosttokens": [],
@@ -267,8 +267,8 @@ const routes = {
 const routes = {
     "base_url": "",
     "routes": {
-        "showteams": {
-            "tokens": [["text", "\/showteams"]],
+        "montreLesEquipes": {
+            "tokens": [["text", "\/montreLesEquipes"]],
             "defaults": [],
             "requirements": [],
             "hosttokens": [],
@@ -388,7 +388,7 @@ const routes = {
             "schemes": []
         },
         "raceselector": {
-            "tokens": [["text", "\/raceSelector"]],
+            "tokens": [["text", "\/choixRace"]],
             "defaults": [],
             "requirements": [],
             "hosttokens": [],
