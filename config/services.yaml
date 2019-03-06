@@ -54,3 +54,8 @@ services:
         arguments: [~,App\Entity\Matches,~]
         tags:
             - {name: sonata.admin, manager_type: orm, label: Matches}
+    admin.matchesdata:
+        class: App\Admin\MatchDataAdmin
+        arguments: [~,App\Entity\MatchData,~]
+        tags:
+            - {name: sonata.admin, manager_type: orm, label: MatchData}
