@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Admin;
+
 use App\Entity\Teams;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -13,43 +14,51 @@ class MatchAdmin extends AbstractAdmin
 {
     protected $datagridValues = [
         '_sort_order' => 'DESC',
-        '_sort_by' => 'dateCreated'
+        '_sort_by' => 'dateCreated',
     ];
+
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('team1',entityType::class, ['class' => Teams::class, 'choice_label' => 'name', 'label' => 'Equipe 1'])
-            ->add('team1Score',null, ['label' => 'Score Equipe 1'])
-            ->add('team2Score',null, ['label' => 'Score Equipe 2'])
-            ->add('fans',null, ['label' => 'Affluence'])
-            ->add('ffactor1',null, ['label' => 'Mv pop équipe 1'])
-            ->add('ffactor2',null, ['label' => 'Mv pop équipe 2'])
-            ->add('tv1',null, ['label' => 'Tv équipe 1'])
-            ->add('tv2',null, ['label' => 'Tv équipe 2'])
-            ->add('Income1',textType::class, ['label' => 'Gains équipe 1'])
-            ->add('Income2',textType::class, ['label' => 'Gains équipe 2'])
-            ->add('team2',entityType::class, ['class' => Teams::class, 'choice_label' => 'name', 'label' => 'Equipe 2'])
-            ;
+            ->add(
+                'team1',
+                entityType::class,
+                ['class' => Teams::class, 'choice_label' => 'name', 'label' => 'Equipe 1']
+            )
+            ->add('team1Score', null, ['label' => 'Score Equipe 1'])
+            ->add('team2Score', null, ['label' => 'Score Equipe 2'])
+            ->add('fans', null, ['label' => 'Affluence'])
+            ->add('ffactor1', null, ['label' => 'Mv pop équipe 1'])
+            ->add('ffactor2', null, ['label' => 'Mv pop équipe 2'])
+            ->add('tv1', null, ['label' => 'Tv équipe 1'])
+            ->add('tv2', null, ['label' => 'Tv équipe 2'])
+            ->add('Income1', textType::class, ['label' => 'Gains équipe 1'])
+            ->add('Income2', textType::class, ['label' => 'Gains équipe 2'])
+            ->add(
+                'team2',
+                entityType::class,
+                ['class' => Teams::class, 'choice_label' => 'name', 'label' => 'Equipe 2']
+            );
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
             ->add('matchId')
-            ->add('team1.name',null, ['label' => 'Equipe 1'])
-            ->add('team1Score',null, ['label' => 'Score Equipe 1'])
-            ->add('team2Score',null, ['label' => 'Score Equipe 2'])
-            ->add('team2.name', null,['label' => 'Equipe 2']);
+            ->add('team1.name', null, ['label' => 'Equipe 1'])
+            ->add('team1Score', null, ['label' => 'Score Equipe 1'])
+            ->add('team2Score', null, ['label' => 'Score Equipe 2'])
+            ->add('team2.name', null, ['label' => 'Equipe 2']);
     }
 
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
             ->addIdentifier('matchId')
-            ->add('team1.name',null, ['label' => 'Equipe 1'])
-            ->add('team1Score',null, ['label' => 'Score Equipe 1'])
-            ->add('team2Score',null, ['label' => 'Score Equipe 2'])
-            ->add('team2.name', null,['label' => 'Equipe 2'])
+            ->add('team1.name', null, ['label' => 'Equipe 1'])
+            ->add('team1Score', null, ['label' => 'Score Equipe 1'])
+            ->add('team2Score', null, ['label' => 'Score Equipe 2'])
+            ->add('team2.name', null, ['label' => 'Equipe 2'])
             ->add(
                 '_action',
                 null,
@@ -61,6 +70,4 @@ class MatchAdmin extends AbstractAdmin
                 ]
             );
     }
-
-
 }
