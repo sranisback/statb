@@ -278,14 +278,6 @@ class StatBBController extends AbstractController
         return $this->render('statbb/front.html.twig');
     }
 
-/*    /**
-     * @Route("/admin")
-     */
-   /* public function admin()
-    {
-        return $this->render('statbb/admin.html.twig');
-    }*/
-
     /**
      * @Route("/login", name="login", options = { "expose" = true })
      * @return Response
@@ -306,14 +298,12 @@ class StatBBController extends AbstractController
 
     /**
      * @Route("/citation", options = { "expose" = true })
+     * @param SettingsService $settingsService
+     * @return Response
      */
-    public function citation()
+    public function citation(SettingsService $settingsService)
     {
-        $citations = $this->getDoctrine()->getRepository(Citations::class)->findAll();
-
-        $nbr = rand(1, count($citations) - 1);
-
-        return $this->render('statbb/citation.html.twig', array('citation' => $citations[$nbr]));
+        return $this->render('statbb/citation.html.twig', ['citation' => $settingsService->tirerCitationAuHasard() ]);
     }
 
     /**
@@ -522,16 +512,12 @@ class StatBBController extends AbstractController
 
     /**
      * @Route("/dyk", name="dyk", options = { "expose" = true })
+     * @param SettingsService $settingsService
+     * @return Response
      */
-    public function dyk()
+    public function dyk(SettingsService $settingsService)
     {
-        $dyk = $this->getDoctrine()->getRepository(Dyk::class)->findAll();
-
-        $nbr = rand(1, count($dyk) - 1);
-
-        return new Response(
-            '<b>Did you know ?</b> <i>'.$dyk[$nbr]->getDykText().'</i>'
-        );
+        return new Response($settingsService->tirerDYKauHasard() );
     }
 
     /**
