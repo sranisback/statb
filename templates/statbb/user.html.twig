@@ -24,7 +24,7 @@
                     {{ render(controller('App\\Controller\\StatBBController::montreLesEquipes' )) }}
                 </div>
                 <div id="classement" class="tab-pane fade">
-                    {{ render(controller('App\\Controller\\StatBBController::classGen',{'limit':0} )) }}
+                    {{ render(controller('App\\Controller\\StatBBController::classGen')) }}
                 </div>
                 {% if app.user.roles["role"] == 'ROLE_ADMIN' %}
                 <div id="match" class="tab-pane fade">

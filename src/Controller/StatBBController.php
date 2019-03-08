@@ -307,20 +307,12 @@ class StatBBController extends AbstractController
     }
 
     /**
-     * @Route("/classement/general/{limit}", name="classementgen", options = { "expose" = true })
-     * @param int $limit
+     * @Route("/classement/general/", name="classementgen", options = { "expose" = true })
      * @return Response
      */
-    public function classGen($limit)
+    public function classGen(EquipeService $equipeService)
     {
-        $setting = $this->getDoctrine()->getRepository(Setting::class)->findOneBy(['name' => 'year']);
-
-        if ($setting) {
-            $classement = $this->getDoctrine()->getRepository(Teams::class)->classement($setting->getValue(), $limit);
-
-            return $this->render('statbb/classement.html.twig', ['classement' => $classement, 'limit' => $limit]);
-        }
-        return $this->render('stabb/base.html.twig');
+        return $this->render('statbb/classement.html.twig', ['classement' => $equipeService->classementGeneral()]);
     }
 
     /**
@@ -344,7 +336,6 @@ class StatBBController extends AbstractController
                 $teamorplayer,
                 $limit
             );
-
 
             if ($teamorplayer == 'player') {
                 switch ($type) {
@@ -517,7 +508,7 @@ class StatBBController extends AbstractController
      */
     public function dyk(SettingsService $settingsService)
     {
-        return new Response($settingsService->tirerDYKauHasard() );
+        return new Response($settingsService->tirerDYKauHasard());
     }
 
     /**
@@ -1673,7 +1664,6 @@ class StatBBController extends AbstractController
         }
     }
 
-
     /**
      * @Route("/frontUser", name="frontUser", options = { "expose" = true })
      */
@@ -1681,7 +1671,6 @@ class StatBBController extends AbstractController
     {
         return $this->render('statbb/user.html.twig');
     }
-
 
     /**
      * @Route("/ajoutMatch", name="ajoutMatch", options = { "expose" = true })

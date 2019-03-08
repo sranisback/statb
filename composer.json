@@ -17,6 +17,7 @@
         "symfony/monolog-bundle": "*",
         "symfony/orm-pack": "^1.0",
         "symfony/security-bundle": "*",
+        "symfony/test-pack": "^1.0",
         "symfony/twig-bundle": "*",
         "symfony/validator": "4.2.*",
         "symfony/web-server-bundle": "*",
@@ -31,7 +32,6 @@
         "symfony/debug-pack": "^1.0",
         "symfony/dotenv": "*",
         "symfony/maker-bundle": "^1.11",
-        "symfony/phpunit-bridge": "*",
         "symfony/profiler-pack": "^1.0",
         "thecodingmachine/phpstan-strict-rules": "^0.11.0"
     },
