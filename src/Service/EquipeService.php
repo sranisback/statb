@@ -466,6 +466,8 @@ class EquipeService
                     }
                 }
             }
+
+
         }
 
         return $ptsBonus;

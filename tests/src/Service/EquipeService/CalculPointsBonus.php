@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Tests\src\Service\EquipeService;
 
+namespace App\Tests\src\Service\EquipeService;
 
 use App\Entity\Teams;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use App\Service\EquipeService;
 
-class ClassementGeneral extends KernelTestCase
+class CalculPointsBonus extends KernelTestCase
 {
 
     private $entityManager;
@@ -27,16 +27,13 @@ class ClassementGeneral extends KernelTestCase
     /**
      * @test
      */
-    public function classement_general_est_correcte()
+    public function les_pts_bonus_sont_biens_calcules()
     {
-        /** @var EquipeService $service */
         $equipeService = self::$container->get('App\Service\EquipeService');
 
-        $classGen = $this->entityManager
-            ->getRepository(Teams::class)->classement(3,0);
+        $EquipePourTest = $this->entityManager
+            ->getRepository(Teams::class)->findOneBy(['name'=>'Les Ratgwents']);
 
-        $this->assertEquals($classGen,$equipeService->classementGeneral());
-
+        $this->assertEquals(1,$equipeService->calculPointsBonus($EquipePourTest));
     }
-
 }
