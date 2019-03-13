@@ -27,16 +27,20 @@ class ClassementGeneral extends KernelTestCase
     /**
      * @test
      */
-    public function classement_general_est_correcte()
+    public function classementGeneralEstCorrecte()
     {
         /** @var EquipeService $service */
         $equipeService = self::$container->get('App\Service\EquipeService');
 
         $classGen = $this->entityManager
-            ->getRepository(Teams::class)->classement(3,0);
+            ->getRepository(Teams::class)->classement(3, 0);
 
-        $this->assertEquals($classGen,$equipeService->classementGeneral());
+        foreach ($classGen as $line) {
+            $equipeTest = $this->entityManager->getRepository(Teams::class)->findOneBy(['teamId' => $line['team_id']]);
+            $line['tv'] = $equipeService->tvDelEquipe($equipeTest);
+        }
 
+        $this->assertEquals($classGen, $equipeService->classementGeneral());
     }
 
 }

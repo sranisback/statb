@@ -387,89 +387,14 @@ class EquipeService
 
     public function classementGeneral()
     {
-        $classementGeneral = [];
-        $compte = 0;
+        $setting = $this->doctrineEntityManager->getRepository(Setting::class)->findOneBy(['name' => 'year']);
+        $classGen = $this->doctrineEntityManager->getRepository(Teams::class)->classement($setting->getValue(),0);
 
-        $toutesLesEquipes = $this->toutesLesTeamsParAnnee(3);
-
-        foreach ($toutesLesEquipes as $equipe) {
-            $compte++;
-
-            /** @var Teams $equipe */
-            /** @var Races $raceDelEquipe */
-            /** @var Coaches $coachDelEquipe */
-            $matchCollection = $this->listeDesMatchs($equipe);
-            $resultatsEquipe = $this->resultatsDelEquipe($equipe, $matchCollection);
-            $raceDelEquipe = $equipe->getFRace();
-            $coachDelEquipe = $equipe->getOwnedByCoach();
-            $classementGeneral[$compte]['team_id'] = $equipe->getTeamId();
-            $classementGeneral[$compte]['icon'] = $raceDelEquipe->getIcon();
-            $classementGeneral[$compte]['team_name'] = $equipe->getName();
-            $classementGeneral[$compte]['race'] = $raceDelEquipe->getName();
-            $classementGeneral[$compte]['name'] = $coachDelEquipe->getName();
-            $classementGeneral[$compte]['Win'] = $resultatsEquipe['win'];
-            $classementGeneral[$compte]['Draw'] = $resultatsEquipe['draw'];
-            $classementGeneral[$compte]['Lost'] = $resultatsEquipe['loss'];
-            $classementGeneral[$compte]['pts'] = $resultatsEquipe['win'] *10
-            + $resultatsEquipe['draw'] * 4 + $resultatsEquipe['loss'] * -5 + $this->calculPointsBonus($equipe);
-            $classementGeneral[$compte]['nbrg'] = count($matchCollection);
-            $classementGeneral[$compte]['tv'] = $this->tvDelEquipe($equipe)/1000;
+        foreach ($classGen as $line) {
+            $equipe = $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(['teamId' => $line['team_id']]);
+            $line['tv'] = $this->tvDelEquipe($equipe);
         }
-
-        usort($classementGeneral, function ($a, $b) {
-            return $b['pts'] - $a['pts'];
-        });
-
-        return $classementGeneral;
+        return $classGen;
     }
 
-    /**
-     * @param Teams $equipe
-     */
-    public function calculPointsBonus($equipe)
-    {
-        $matchCollection = $this->listeDesMatchs($equipe);
-        $ptsBonus = 0;
-
-        foreach ($matchCollection as $match) {
-            $resultat = $this->resultatDuMatch($equipe, $match);
-            if ($resultat['win']==1) {
-                /** @var Matches $match */
-                if ($match->getTeam1() == $equipe) {
-                    if ($match->getTeam1Score() > 2) {
-                        $ptsBonus++;
-                    }
-
-                    if (($match->getTv2() - $match->getTv1())>=250000) {
-                        $ptsBonus++;
-                    }
-                }
-                if ($match->getTeam2() == $equipe) {
-                    if ($match->getTeam2Score() > 2) {
-                        $ptsBonus++;
-                    }
-
-                    if (($match->getTv1() - $match->getTv2())>=250000) {
-                        $ptsBonus++;
-                    }
-                }
-            }
-            if ($resultat['loss']==1) {
-                if ($match->getTeam1() == $equipe) {
-                    if (($match->getTeam2Score() - $match->getTeam1Score()) == 1) {
-                        $ptsBonus++;
-                    }
-                }
-                if ($match->getTeam2() == $equipe) {
-                    if (($match->getTeam1Score() - $match->getTeam2Score()) == 1) {
-                        $ptsBonus++;
-                    }
-                }
-            }
-
-
-        }
-
-        return $ptsBonus;
-    }
 }
