@@ -22,7 +22,7 @@ class Stades
     private $nom;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\GameDataStades")
+     * @ORM\ManyToOne(targetEntity="GameDataStades", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
     private $fTypeStade;

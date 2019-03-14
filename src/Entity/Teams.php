@@ -317,23 +317,6 @@ class Teams
         return $this;
     }
 
-
-    public function getStadiumName(): string
-    {
-        return $this->stadiumName;
-    }
-
-    /**
-     * @param string $stadiumName
-     * @return Teams
-     */
-    public function setStadiumName(string $stadiumName): self
-    {
-        $this->stadiumName = $stadiumName;
-
-        return $this;
-    }
-
     public function getOwnedByCoach(): ?Coaches
     {
         return $this->ownedByCoach;
