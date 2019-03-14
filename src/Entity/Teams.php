@@ -114,20 +114,6 @@ class Teams
     private $year;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="stadium", type="integer", nullable=false, options={"default"="99"})
-     */
-    private $stadium = 99;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="stadium_name", type="string", length=60, nullable=false, options={"default"="green meadow"})
-     */
-    private $stadiumName = 'green meadow';
-
-    /**
      * @var Coaches
      *
      * @ORM\ManyToOne(targetEntity="Coaches", fetch="EAGER")
@@ -143,6 +129,32 @@ class Teams
      */
 
     private $fRace;
+
+    /**
+     * @var Stades
+     *
+     * @ORM\ManyToOne(targetEntity="Stades", fetch="EAGER")
+     * @ORM\JoinColumn(name="f_stade_id", referencedColumnName="id", nullable=false)
+     */
+    private $fStades;
+
+    /**
+     * @return Stades
+     */
+    public function getFStades(): Stades
+    {
+        return $this->fStades;
+    }
+
+    /**
+     * @param Stades $fStades
+     */
+    public function setFStades(Stades $fStades): self
+    {
+        $this->fStades = $fStades;
+
+        return $this;
+    }
 
     public function getTeamId(): ?int
     {
@@ -305,21 +317,6 @@ class Teams
         return $this;
     }
 
-    public function getStadium(): ?int
-    {
-        return $this->stadium;
-    }
-
-    /**
-     * @param int $stadium
-     * @return Teams
-     */
-    public function setStadium(int $stadium): self
-    {
-        $this->stadium = $stadium;
-
-        return $this;
-    }
 
     public function getStadiumName(): string
     {
