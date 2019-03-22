@@ -2,7 +2,6 @@
 
 namespace App\Admin;
 
-use App\Entity\MatchData;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;

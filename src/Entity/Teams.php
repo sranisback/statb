@@ -148,6 +148,7 @@ class Teams
 
     /**
      * @param Stades $fStades
+     * @return Teams
      */
     public function setFStades(Stades $fStades): self
     {

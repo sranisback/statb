@@ -214,7 +214,21 @@
                             <td class="text-right" id="tchl">{{ tdata.cheerleader }}</td>
                         </tr>
                         <tr>
-                            <td colspan=4>Stade : {{ team.fStades.nom }}</td>
+                            <td colspan=4>Stade : <span id="stade_name"  teamId="{{ team.teamId }}"><strong>{{ team.fStades.nom }}</strong></span>, Type: {{ team.fStades.FtypeStade.type }},
+                                payement en cours :
+                                {% if app.user and team.retired == 0 %}
+                                <span class="glyphicon glyphicon-plus text-success" id="add_pay" type="pay"
+                                      teamId="{{ team.teamId }}"></span>
+                                {% endif %}
+                                <span id="pay">{{ team.fStades.TotalPayement }}</span>
+                                {% if app.user and team.retired == 0 %}
+                                    <span class="glyphicon glyphicon-minus text-danger" id="rem_pay" type="pay"
+                                          teamId="{{ team.teamId }}"></span>
+                                {% endif %}
+                                {% if team.fStades.TotalPayement == 150000 %}
+                                    {{ render(controller('App\\Controller\\StatBBController::ajoutStadeModal',{'equipeId':team.teamId} )) }}
+                                {% endif %}
+                            </td>
                             <td colspan=5 class="text-right"> Apothicaire :
                                 {% if app.user and team.retired == 0 %}
                                     <span class="glyphicon glyphicon-plus text-success" id="add_apo" type="apo"

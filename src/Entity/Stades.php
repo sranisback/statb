@@ -22,8 +22,10 @@ class Stades
     private $nom;
 
     /**
-     * @ORM\ManyToOne(targetEntity="GameDataStades", fetch="EAGER")
-     * @ORM\JoinColumn(nullable=false)
+     * @var GameDataStadium
+     *
+     * @ORM\ManyToOne(targetEntity="GameDataStadium")
+     * @ORM\JoinColumn(name="f_type_stade_id", referencedColumnName="id", nullable=false)
      */
     private $fTypeStade;
 
@@ -49,12 +51,12 @@ class Stades
         return $this;
     }
 
-    public function getFTypeStade(): ?GameDataStades
+    public function getFTypeStade(): GameDataStadium
     {
         return $this->fTypeStade;
     }
 
-    public function setFTypeStade(?GameDataStades $fTypeStade): self
+    public function setFTypeStade(GameDataStadium $fTypeStade): self
     {
         $this->fTypeStade = $fTypeStade;
 

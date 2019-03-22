@@ -1,24 +1,22 @@
-<?php /** @noinspection PhpUndefinedMethodInspection */
-
+<?php
 namespace App\Controller;
 
+use App\Entity\GameDataStadium;
 use App\Entity\Teams;
 use App\Entity\Races;
 use App\Entity\Players;
 use App\Entity\PlayersSkills;
 use App\Entity\GameDataSkills;
 use App\Entity\GameDataPlayers;
-use App\Entity\Citations;
 use App\Entity\Matches;
 use App\Entity\MatchData;
 use App\Entity\Setting;
-use App\Entity\Dyk;
-use App\Entity\Coaches;
 
 use App\Service\CoachService;
 use App\Service\EquipeService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
+use App\Service\StadeService;
 
 use DateTime;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -308,6 +306,7 @@ class StatBBController extends AbstractController
 
     /**
      * @Route("/classement/general/", name="classementgen", options = { "expose" = true })
+     * @param EquipeService $equipeService
      * @return Response
      */
     public function classGen(EquipeService $equipeService)
@@ -1566,6 +1565,35 @@ class StatBBController extends AbstractController
         return $response;
     }
 
+
+    /**
+     * @Route("/changeNomStade/{equipeId}/{nouveauNomStade}", name="changeNomStade", options = { "expose" = true })
+     * @param StadeService $stadeService
+     * @param int $equipeId
+     * @param string $nouveauNomStade
+     * @return Response
+     */
+    public function changeNomStade(StadeService $stadeService, $equipeId, $nouveauNomStade)
+    {
+        $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
+
+        if ($equipe) {
+            $stadeService->renommerStade($equipe, $nouveauNomStade);
+
+            $response = new Response();
+            $response->setContent($equipeId);
+            $response->setStatusCode(200);
+
+            return $response;
+        }
+
+        $response = new Response();
+        $response->setContent('');
+        $response->setStatusCode(500);
+
+        return $response;
+    }
+
     /**
      * @Route("/pdfTeam/{id}", name="pdfTeam", options = { "expose" = true })
      * @param PlayerService $playerService
@@ -1615,11 +1643,7 @@ class StatBBController extends AbstractController
 
             $race = $equipe->getFRace();
 
-            if ($race) {
-                $costRr = $race->getCostRr();
-            } else {
-                $costRr = 0;
-            }
+            $costRr = $race ? $race->getCostRr() : 0;
 
             $tdata['playersCost'] = $equipeService->coutTotalJoueurs($equipe);
             $tdata['rerolls'] = $equipe->getRerolls() * $costRr;
@@ -1678,5 +1702,71 @@ class StatBBController extends AbstractController
     public function ajoutMatch()
     {
         return $this->render('statbb/ajoutMatch.html.twig');
+    }
+
+    /**
+     * @Route("/ajoutStadeModal/{equipeId}", name="ajoutStadeModal", options = { "expose" = true })
+     * @param int $equipeId
+     * @return Response
+     */
+    public function ajoutStadeModal($equipeId)
+    {
+        $equipe =  $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
+
+        if ($equipe) {
+            /** @var Teams $equipe */
+            $stade = $equipe->getFStades();
+
+            $form = $this->createFormBuilder($stade)
+                ->add("nom", TextType::class, ['label'=>"Nom du stade", 'required' => 'true'])
+                ->add(
+                    'fTypeStade',
+                    EntityType::class,
+                    [
+                        'class' => GameDataStadium::class,
+                        'choice_label' => 'type',
+                        'group_by' => 'famille',
+                        'label' => 'Choisir un type',
+                    ]
+                )
+                ->add('submit', SubmitType::class, ['label' => 'Construire'])
+                ->add('cancel', ButtonType::class, ['label'=>'Annuler','attr'=>['data-dismiss'=>'modal']])
+                ->setAction($this->generateUrl('ajoutStade', ['equipeId' => $equipe->getTeamId()]))
+                ->getForm();
+
+            return $this->render('statbb/ajoutStade.html.twig', ['form' => $form->createView()]);
+        }
+
+        $response = new Response();
+        $response->setContent('');
+        $response->setStatusCode(500);
+
+        return $response;
+    }
+
+    /**
+     * @Route("/ajoutStade/{equipeId}", name="ajoutStade", options = { "expose" = true })
+     * @param Request $request
+     * @param StadeService $stadeService
+     * @param int $equipeId
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function ajoutStade(Request $request, StadeService $stadeService, $equipeId)
+    {
+        $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
+
+        $form = $request->request->get('form');
+
+        if ($equipe) {
+            $typeStade = $this->getDoctrine()->getRepository(GameDataStadium::class)->findOneBy(
+                ['id' => $form['fTypeStade']]
+            );
+
+            if ($typeStade) {
+                $stadeService->construireStade($equipe, $form['nom'], $typeStade);
+            }
+        }
+
+        return $this->redirectToRoute('team', ['teamid'=>$equipeId,'type'=>'n']);
     }
 }

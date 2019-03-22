@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\GameDataStades;
+use App\Entity\GameDataStadium;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method GameDataStades|null find($id, $lockMode = null, $lockVersion = null)
- * @method GameDataStades|null findOneBy(array $criteria, array $orderBy = null)
- * @method GameDataStades[]    findAll()
- * @method GameDataStades[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method GameDataStadium|null find($id, $lockMode = null, $lockVersion = null)
+ * @method GameDataStadium|null findOneBy(array $criteria, array $orderBy = null)
+ * @method GameDataStadium[]    findAll()
+ * @method GameDataStadium[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class GameDataStadesRepository extends ServiceEntityRepository
+class GameDataStadiumRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, GameDataStades::class);
+        parent::__construct($registry, GameDataStadium::class);
     }
 
     // /**
-    //  * @return GameDataStades[] Returns an array of GameDataStades objects
+    //  * @return GameDataStadium[] Returns an array of GameDataStadium objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class GameDataStadesRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?GameDataStades
+    public function findOneBySomeField($value): ?GameDataStadium
     {
         return $this->createQueryBuilder('s')
             ->andWhere('s.exampleField = :val')

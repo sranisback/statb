@@ -324,8 +324,8 @@ class PlayerService
         return ['cp'=> $tcp, 'td'=>$ttd,'int'=> $tint,'cas'=> $tcas,'mvp' => $tmvp,'agg'=> $tagg,'rec'=>$rec];
     }
 
-    public function totalActionsdUnMatch(){
-
+    public function totalActionsdUnMatch()
+    {
     }
 
     /**
@@ -338,6 +338,8 @@ class PlayerService
         $mDataCollection = $this->doctrineEntityManager->getRepository(MatchData::class)->findBy(
             ['fMatch' => $match->getMatchId()]
         );
+
+        $joueurCollection = [];
 
         foreach ($mDataCollection as $mData) {
             /** @var MatchData $mdata */
