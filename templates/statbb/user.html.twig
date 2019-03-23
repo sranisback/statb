@@ -10,7 +10,6 @@
                 <li><a data-toggle="tab" href="#classement">Classement général</a></li>
                 {% if app.user.roles["role"] == 'ROLE_ADMIN' %}
                     <li><a data-toggle="tab" href="#match">Ajouter un match</a></li>
-                    <li><a data-toggle="tab" href="#Admin">Admin</a></li>
                 {% endif %}
             </ul>
 
@@ -24,7 +23,7 @@
                     {{ render(controller('App\\Controller\\StatBBController::montreLesEquipes' )) }}
                 </div>
                 <div id="classement" class="tab-pane fade">
-                    {{ render(controller('App\\Controller\\StatBBController::classGen',{'limit':0} )) }}
+                    {{ render(controller('App\\Controller\\StatBBController::classGen')) }}
                 </div>
                 {% if app.user.roles["role"] == 'ROLE_ADMIN' %}
                 <div id="match" class="tab-pane fade">

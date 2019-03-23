@@ -254,6 +254,22 @@ const routes = {
             "hosttokens": [],
             "methods": [],
             "schemes": []
+        },
+        "changeNomStade": {
+            "tokens": [["variable", "\/", "[^\/]++", "nouveauNomStade"], ["variable", "\/", "[^\/]++", "equipeId"], ["text", "\/changeNomStade"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "ajoutStadeModal": {
+            "tokens": [["variable", "\/", "[^\/]++", "teamId"],["text", "\/ajoutStadeModal"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
         }
     },
     "prefix": "",
@@ -506,6 +522,22 @@ const routes = {
             "hosttokens": [],
             "methods": [],
             "schemes": []
+        },
+        "changeNomStade": {
+            "tokens": [["variable", "\/", "[^\/]++", "nouveauNomStade"], ["variable", "\/", "[^\/]++", "equipeId"], ["text", "\/changeNomStade"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "ajoutStadeModal": {
+            "tokens": [["variable", "\/", "[^\/]++", "teamId"],["text", "\/ajoutStadeModal"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
         }
     },
     "prefix": "",
@@ -551,7 +583,7 @@ $(document).ready(function () {
         $.post(Routing.generate('getposstat', {posId: $(this).attr('posId')}),
             {},
             function (result) {
-                $("#loadingmessage").remove();
+                $("#loadingmessage").hide();
                 $("#pos_table").remove();
                 $("#teamdrop").after(result);
             })
@@ -567,7 +599,7 @@ $(document).ready(function () {
         $.getJSON(Routing.generate('addPlayer', {posId: $(this).attr('posId'), teamId: $(this).attr('teamId')}),
             {},
             function (result) {
-                $("#loadingmessage").remove();
+                $("#loadingmessage").hide();
                 result = JSON.parse(result);
 
                 let totalltv = $("#totalPV");
@@ -597,7 +629,6 @@ $(document).ready(function () {
 
                 }
             });
-
     });
 
     /**
@@ -665,7 +696,7 @@ $(document).ready(function () {
             }),
             {},
             function (result) {
-                $("#loadingmessage").remove();
+                $("#loadingmessage").hide();
                 result = JSON.parse(result);
 
                 $("#" + result.type).text(result.nbr);
@@ -676,22 +707,25 @@ $(document).ready(function () {
                 $("#pTv").text(result.ptv);
 
                 $("#tresor").text(result.tresor)
+
+                /**
+                 * check pour paiement stade
+                 */
+                if($("#pay").text() == 150000 && result.type == "pay"){
+                    $.post(Routing.generate('ajoutStadeModal',{teamId: origin.attr("teamId")}),{},function(result){$('#rem_pay').after(' ' + result)});
+                }
             });
     }
 
     $("[id^='selectedTeam']").change(function () {
-
         $("#valideteam" + $(this).attr("side")).attr("teamId", $(this).val())
     });
 
 
     $("[id^='valideteam']").click(function () {
-
         let clicked = $(this);
 
         addLine(clicked, $(".form-group #action").length)
-
-
     });
 
     /**
@@ -713,8 +747,6 @@ $(document).ready(function () {
      * ajout de ligne dans feuille de match
      */
     function addLine(clicked, side) {
-
-        //$.getJSON("./dropdownPlayer/"+clicked.attr('teamId')+"/"+side,
         $.getJSON(Routing.generate('dropdownPlayer', {teamId: clicked.attr('teamId'), nbr: side}),
             {},
             function (result) {
@@ -727,7 +759,6 @@ $(document).ready(function () {
     }
 
     $("[id^='retire_']").click(function () {
-
         let clicked = $(this).parent().parent();
         $.post(Routing.generate('retTeam', {teamId: $(this).attr("teamId")}),
             {},
@@ -757,46 +788,57 @@ $(document).ready(function () {
 
     });
 
-    $("[id^='number_']").click(function () {
+    /**
+     * renommer le stade
+     */
 
+    $("#stade_name").click(function () {
+        let id = $(this).attr("teamId");
+
+        $(this).replaceWith('<input type="text" id="teamId_' + id + '" placeholder="' + $(this).text() + '" teamId="' + id + '" value="' + $(this).text() + '" data-toggle="tooltip" title="Appuyez sur enter pour valider">').focus();
+
+        $('#teamId_'+id).keypress(function(e){
+            if (e.which == 13) {
+                $('#teamId_' + id).after($('#loadingmessage'));
+                $('#loadingmessage').show();
+                $.post(Routing.generate('changeNomStade', {nouveauNomStade: $(this).val(), equipeId: $(this).attr('teamId')}),
+                    {},
+                    function () {
+                        $('#teamId_'+id).replaceWith('<div id="#stade_name" playerid="' + $('#teamId_'+ id).attr('teamId') + '">' + $('#teamId_'+ id).val() + '</div>');
+
+                        window.location.reload();
+                    });
+            }
+
+        });
+    })
+
+    $("[id^='number_']").click(function () {
         let id = $(this).attr('id').substring($(this).attr('id').indexOf('_') + 1, $(this).attr('id').length);
 
         $(this).replaceWith('<input type="text" id="inp_' + id + '" placeholder="' + $(this).text() + '" playerid="' + $(this).attr('playerid') + '" value="' + $(this).text() + '" data-toggle="tooltip" title="Appuyez sur enter pour valider">').focus();
 
         $('#inp_' + id).keypress(function (e) {
-
             if (e.which == 13) {
-
                 $('#inp_' + id).after($('#loadingmessage'));
                 $('#loadingmessage').show();
-
-                //$.post("./changeNr/"+$(this).val()+"/"+ $(this).attr('playerid'),
                 $.post(Routing.generate('changeNr', {newnr: $(this).val(), playerid: $(this).attr('playerid')}),
                     {},
                     function () {
                         $('#inp_' + id).replaceWith('<div id="number_' + $('#inp_' + id).val() + '" playerid="' + $('#inp_' + id).attr('playerid') + '">' + $('#inp_' + id).val() + '</div>');
 
                         window.location.reload();
-
                     });
-
-
             }
-
         });
-
     });
 
     $("[id^='name_']").click(function () {
-
-
         let id = $(this).attr('id').substring($(this).attr('id').indexOf('_') + 1, $(this).attr('id').length);
 
         $(this).replaceWith('<input type="text" id="inp_name_' + id + '" placeholder="' + $(this).text() + '" playerid="' + $(this).attr('playerid') + '" value="' + $(this).text() + '" data-toggle="tooltip" title="Appuyez sur enter pour valider" >').focus();
 
         $('#inp_name_' + id).keypress(function (e) {
-
-
             if (e.which == 13) {
 
                 $('#inp_name_' + id).after($('#loadingmessage'));
@@ -809,13 +851,9 @@ $(document).ready(function () {
 
                         $('#inp_name_' + id).replaceWith('<div id="name_' + $('#inp_name_' + id).val() + '" playerid="' + $('#inp_name_' + id).attr('playerid') + '">' + $('#inp_name_' + id).val() + '</div>')
                         window.location.reload();
-
-                    });
-
+                });
             }
-
         });
-
     });
 
 });

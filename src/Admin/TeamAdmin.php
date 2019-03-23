@@ -4,6 +4,7 @@ namespace App\Admin;
 
 use App\Entity\Coaches;
 use App\Entity\Races;
+use App\Entity\Stades;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -23,6 +24,11 @@ final class TeamAdmin extends AbstractAdmin
                 'ownedByCoach',
                 EntityType::class,
                 ['class' => Coaches::class, 'choice_label' => 'name', 'label' => 'Coach']
+            )
+            ->add(
+                'FStades',
+                EntityType::class,
+                ['class' => Stades::class, 'choice_label' => 'nom', 'label' => 'Stades']
             )
             ->add('fRace', EntityType::class, ['class' => Races::class, 'choice_label' => 'name', 'label' => 'Race'])
             ->add('treasury', null, ['label' => 'Trésor'])
@@ -64,6 +70,7 @@ final class TeamAdmin extends AbstractAdmin
             ->add('tv')
             ->add('apothecary', 'boolean', ['label' => 'Apothicaire'])
             ->add('rdy', 'boolean', ['label' => 'Prêt?'])
-            ->add('retired', 'boolean', ['label' => 'Retiré']);
+            ->add('retired', 'boolean', ['label' => 'Retiré'])
+            ->add('fStades.nom', null, ['label' => 'Stade']);
     }
 }

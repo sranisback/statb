@@ -93,8 +93,8 @@ SELECT team_id,ra.icon,t.name as "team_name" ,ra.name as "race",co.name,
 
 				GROUP BY t.name
 				ORDER BY pts DESC,nbrg DESC,tv DESC';
-                
-                
+
+
         if ($limit > 0) {
             $sql .= ' LIMIT '.$limit;
         }

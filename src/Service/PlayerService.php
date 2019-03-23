@@ -6,6 +6,7 @@ namespace App\Service;
 use App\Entity\GameDataPlayers;
 use App\Entity\MatchData;
 
+use App\Entity\Matches;
 use App\Entity\Teams;
 
 use App\Entity\Players;
@@ -321,6 +322,34 @@ class PlayerService
         }
 
         return ['cp'=> $tcp, 'td'=>$ttd,'int'=> $tint,'cas'=> $tcas,'mvp' => $tmvp,'agg'=> $tagg,'rec'=>$rec];
+    }
+
+    public function totalActionsdUnMatch()
+    {
+    }
+
+    /**
+     * @param Matches $match
+     * @param Teams $equipe
+     * @return array
+     */
+    public function listeDesJoueursdUnMatch(Matches $match, Teams $equipe)
+    {
+        $mDataCollection = $this->doctrineEntityManager->getRepository(MatchData::class)->findBy(
+            ['fMatch' => $match->getMatchId()]
+        );
+
+        $joueurCollection = [];
+
+        foreach ($mDataCollection as $mData) {
+            /** @var MatchData $mdata */
+            $joueur = $mData->getFPlayer();
+            if ($joueur->getOwnedByTeam() === $equipe) {
+                $joueurCollection[] = $joueur;
+            }
+        }
+
+        return $joueurCollection;
     }
 
     /**

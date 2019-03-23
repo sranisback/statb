@@ -3,8 +3,10 @@
 namespace App\Service;
 
 use App\Entity\Coaches;
+use App\Entity\GameDataStadium;
 use App\Entity\Races;
 use App\Entity\Setting;
+use App\Entity\Stades;
 use App\Entity\Teams;
 use App\Entity\Matches;
 
@@ -21,6 +23,12 @@ class EquipeService
     private $baseElo = 150;
 
     private $playerService;
+
+    private $coutpop = 10000;
+    private $coutAssistant = 10000;
+    private $coutCheer = 10000;
+    private $coutApo = 50000;
+    private $payementStade = 70000;
 
     public function __construct(EntityManagerInterface $doctrineEntityManager, PlayerService $playerService)
     {
@@ -227,10 +235,6 @@ class EquipeService
     {
         $nbr = 0;
         $inducost = 0;
-        $coutpop = 10000;
-        $coutAssistant = 10000;
-        $coutCheer = 10000;
-        $coutApo = 50000;
 
         $nbrmatch = $this->listeDesMatchs($equipe);
 
@@ -256,39 +260,62 @@ class EquipeService
                     $nbr = $equipe->getFfBought()+$equipe->getFf();
 
                 if (count($nbrmatch) == 0) {
-                    if ($equipe->getTreasury() >= $coutpop) {
+                    if ($equipe->getTreasury() >= $this->coutpop) {
                         $nbr = $nbr + 1;
                         $equipe->setFfBought($equipe->getFfBought()+1);
-                        $inducost = $coutpop;
+                        $inducost = $this->coutpop;
                     }
                 }
                 break;
             case "ac":
                 $nbr = $equipe->getAssCoaches();
 
-                if ($equipe->getTreasury() >= $coutAssistant) {
+                if ($equipe->getTreasury() >= $this->coutAssistant) {
                     $nbr = $nbr + 1;
                     $equipe->setAssCoaches($nbr);
-                    $inducost = $coutAssistant;
+                    $inducost = $this->coutAssistant;
                 }
                 break;
             case "chl":
                 $nbr = $equipe->getCheerleaders();
 
-                if ($equipe->getTreasury() >= $coutCheer) {
+                if ($equipe->getTreasury() >= $this->coutCheer) {
                     $nbr = $nbr + 1;
                     $equipe->setCheerleaders($nbr);
-                    $inducost = $coutCheer;
+                    $inducost = $this->coutCheer;
                 }
                 break;
             case "apo":
                 $equipe->getApothecary() == true ? $nbr = 1 : $nbr = 0;
-                if ($equipe->getTreasury() >= $coutApo && $equipe->getApothecary() == false) {
+                if ($equipe->getTreasury() >= $this->coutApo && $equipe->getApothecary() == false) {
                     $nbr = 1;
                     $equipe->setApothecary(1);
-                    $inducost = $coutApo;
+                    $inducost = $this->coutApo;
                 }
                 break;
+            case "pay":
+                $stadeDelEquipe = $equipe->getFStades();
+
+                if ($stadeDelEquipe->getId() == 0) {
+                    $stadeDelEquipe = new Stades();
+                    $typeStade = $this->doctrineEntityManager->getRepository(GameDataStadium::class)->findOneBy(
+                        ['id' => 0]
+                    );
+
+                    $stadeDelEquipe->setNom('La prairie verte ');
+                    $stadeDelEquipe->setFTypeStade($typeStade);
+                    $stadeDelEquipe->setTotalPayement(0);
+                    $this->doctrineEntityManager->persist($stadeDelEquipe);
+                    $equipe->setFStades($stadeDelEquipe);
+                }
+
+                $nbr = $stadeDelEquipe->getTotalPayement();
+
+                if ($equipe->getTreasury() >= $this->payementStade) {
+                    $nbr += 50000;
+                    $stadeDelEquipe->setTotalPayement($nbr);
+                    $inducost = 70000;
+                }
         }
 
         $nouveauTresor = $equipe->getTreasury() - $inducost;
@@ -311,10 +338,6 @@ class EquipeService
     {
         $nbr = 0;
         $inducost = 0;
-        $coutpop = 10000;
-        $coutAssistant = 10000;
-        $coutCheer = 10000;
-        $coutApo = 50000;
 
         $nbrmatch = $this->listeDesMatchs($equipe);
 
@@ -323,9 +346,8 @@ class EquipeService
                 $race = $equipe->getFRace();
 
                 if ($race) {
-                    $inducost = $race->getCostRr();
-
                     if ($equipe->getRerolls()>0) {
+                        $inducost = $race->getCostRr();
                         $nbr = $equipe->getRerolls()-1;
                         $equipe->setRerolls($nbr);
                     }
@@ -333,11 +355,9 @@ class EquipeService
                 break;
             case "pop":
                 $nbr = $equipe->getFfBought()+$equipe->getFf();
-
                 if (count($nbrmatch) == 0) {
-                    $inducost = $coutpop;
-
                     if ($equipe->getFfBought() > 0) {
+                        $inducost = $this->coutpop;
                         $nbr = $nbr - 1;
                         $equipe->setFfBought($equipe->getFfBought()-1);
                     }
@@ -345,33 +365,40 @@ class EquipeService
                 break;
             case "ac":
                 $nbr = $equipe->getAssCoaches();
-                $inducost = $coutAssistant;
-
                 if ($nbr > 0) {
+                    $inducost = $this->coutAssistant;
                     $nbr = $nbr - 1;
                     $equipe->setAssCoaches($nbr);
                 }
                 break;
             case "chl":
                 $nbr = $equipe->getCheerleaders();
-                $inducost = $coutCheer;
-
                 if ($nbr > 0) {
+                    $inducost = $this->coutCheer;
                     $nbr = $nbr - 1;
                     $equipe->setCheerleaders($nbr);
                 }
                 break;
             case "apo":
                 $equipe->getApothecary() == true ? $nbr = 1 : $nbr = 0;
-                $inducost = $coutApo;
                 if ($equipe->getApothecary() == true) {
+                    $inducost = $this->coutApo;
                     $nbr = 0;
                     $equipe->setApothecary(0);
                 }
                 break;
+            case "pay":
+                $stadeDelEquipe = $equipe->getFStades();
+                $nbr = $stadeDelEquipe->getTotalPayement();
+                if ($nbr > 0) {
+                    $nbr = $nbr - 50000;
+                    $stadeDelEquipe->setTotalPayement($nbr);
+                    $inducost = $this->payementStade;
+                }
+                break;
         }
 
-        if (count($nbrmatch)==0 && $nbr>0) {
+        if (count($nbrmatch)==0) {
             $nouveauTresor = $equipe->getTreasury() + $inducost;
             $equipe->setTreasury($nouveauTresor);
         }
@@ -383,5 +410,19 @@ class EquipeService
         $this->doctrineEntityManager->refresh($equipe);
 
         return ['inducost'=>$inducost, 'nbr'=>$nbr];
+    }
+
+    public function classementGeneral()
+    {
+        $setting = $this->doctrineEntityManager->getRepository(Setting::class)->findOneBy(['name' => 'year']);
+        $classGen = $this->doctrineEntityManager->getRepository(Teams::class)->classement($setting->getValue(), 0);
+
+        foreach ($classGen as $line) {
+            $equipe = $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(
+                ['teamId' => $line['team_id']]
+            );
+            $line['tv'] = $this->tvDelEquipe($equipe);
+        }
+        return $classGen;
     }
 }
