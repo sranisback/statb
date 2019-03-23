@@ -5,32 +5,14 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="847151cb-c508-4c4e-9aa8-f19098c7acb6" name="Default" comment="Fin refacto clss gen">
-      <change afterPath="$PROJECT_DIR$/src/Service/StadeService.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/statbb/ajoutStade.html.twig" afterDir="false" />
+    <list id="c3976c2a-a704-469d-97ce-8d7d42ac22f9" name="tentative corrections glyphicons en prod 3" comment="" />
+    <list default="true" id="847151cb-c508-4c4e-9aa8-f19098c7acb6" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Admin/StadesAdmin.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Admin/CoachAdmin.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Admin/CoachAdmin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Admin/MatchAdmin.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Admin/MatchAdmin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Admin/MatchDataAdmin.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Admin/MatchDataAdmin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Admin/PlayersAdmin.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Admin/PlayersAdmin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Admin/SkillAdmin.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Admin/SkillAdmin.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/services.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/services.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Admin/TeamAdmin.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Admin/TeamAdmin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/StatBBController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/StatBBController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/GameDataStades.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/GameDataStadium.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Stades.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Stades.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Teams.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Teams.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/GameDataStadesRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/GameDataStadiumRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/TeamRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/TeamRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/EquipeService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/EquipeService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/MatchDataService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/MatchDataService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/PlayerService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/PlayerService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/SettingsService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/SettingsService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/statbb/team.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/statbb/team.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/statbb/team_modal.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/statbb/team_modal.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/statbb/user.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/statbb/user.html.twig" afterDir="false" />
     </list>
-    <list id="c3976c2a-a704-469d-97ce-8d7d42ac22f9" name="tentative corrections glyphicons en prod 3" comment="" />
     <list id="93d7809f-21f2-44bb-ac75-31fb03a6cee4" name="tentative corrections glyphicons en prod 3b" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -48,137 +30,35 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="EquipeService.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Service/EquipeService.php">
+      <file leaf-file-name="StadesAdmin.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Admin/StadesAdmin.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="311">
-              <caret line="150" column="35" lean-forward="true" selection-start-line="150" selection-start-column="35" selection-end-line="150" selection-end-column="35" />
+            <state relative-caret-position="427">
+              <caret line="32" column="66" selection-start-line="32" selection-start-column="66" selection-end-line="32" selection-end-column="66" />
               <folding>
-                <element signature="e#31#54#0#PHP" expanded="true" />
+                <element signature="e#30#61#0#PHP" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="StadeService.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Service/StadeService.php">
+      <file leaf-file-name="TeamAdmin.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Admin/TeamAdmin.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="44" column="21" selection-start-line="44" selection-start-column="21" selection-end-line="44" selection-end-column="21" />
+            <state relative-caret-position="444">
+              <caret line="73" column="61" selection-start-line="73" selection-start-column="61" selection-end-line="73" selection-end-column="61" />
               <folding>
-                <element signature="e#31#62#0#PHP" expanded="true" />
+                <element signature="e#29#52#0#PHP" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="StatBBController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Controller/StatBBController.php">
+      <file leaf-file-name="services.yaml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/config/services.yaml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="311" column="37" selection-start-line="311" selection-start-column="37" selection-end-line="311" selection-end-column="37" />
-              <folding>
-                <element signature="e#33#64#0#PHP" expanded="true" />
-                <element signature="e#2131#2159#0#PHP" expanded="true" />
-                <element signature="e#3345#3374#0#PHP" expanded="true" />
-                <element signature="e#5809#5838#0#PHP" expanded="true" />
-                <element signature="e#6039#6062#0#PHP" expanded="true" />
-                <element signature="e#6357#6380#1#PHP" expanded="true" />
-                <element signature="e#8822#8853#0#PHP" expanded="true" />
-                <element signature="e#9136#9161#0#PHP" expanded="true" />
-                <element signature="e#9562#9586#1#PHP" expanded="true" />
-                <element signature="e#9768#9792#1#PHP" expanded="true" />
-                <element signature="e#9997#10004#1#PHP" expanded="true" />
-                <element signature="e#10257#10284#0#PHP" expanded="true" />
-                <element signature="e#10579#10608#0#PHP" expanded="true" />
-                <element signature="e#12393#12424#0#PHP" expanded="true" />
-                <element signature="e#13569#13600#0#PHP" expanded="true" />
-                <element signature="e#14001#14023#1#PHP" expanded="true" />
-                <element signature="e#16703#16738#0#PHP" expanded="true" />
-                <element signature="e#16806#16829#1#PHP" expanded="true" />
-                <element signature="e#20046#20058#1#PHP" expanded="true" />
-                <element signature="e#20116#20142#0#PHP" expanded="true" />
-                <element signature="e#20745#20751#0#PHP" expanded="true" />
-                <element signature="e#21301#21331#0#PHP" expanded="true" />
-                <element signature="e#22202#22234#0#PHP" expanded="true" />
-                <element signature="e#26062#26094#0#PHP" expanded="true" />
-                <element signature="e#26748#26782#0#PHP" expanded="true" />
-                <element signature="e#48376#48382#0#PHP" expanded="true" />
-                <element signature="e#48487#48494#1#PHP" expanded="true" />
-                <element signature="e#48989#49018#0#PHP" expanded="true" />
-                <element signature="e#56884#56910#0#PHP" expanded="true" />
-                <element signature="e#58049#58072#1#PHP" expanded="true" />
-                <element signature="e#58245#58274#1#PHP" expanded="true" />
-                <element signature="e#59340#59352#0#PHP" expanded="true" />
-                <element signature="e#59456#59485#0#PHP" expanded="true" />
-                <element signature="e#60416#60422#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Teams.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Entity/Teams.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="148" column="4" selection-start-line="148" selection-start-column="4" selection-end-line="148" selection-end-column="4" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SettingsService.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Service/SettingsService.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="311">
-              <caret line="28" column="17" selection-start-line="28" selection-start-column="17" selection-end-line="28" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SkillAdmin.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Admin/SkillAdmin.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="23" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="23" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="team.html.twig" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/statbb/team.html.twig">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3621">
-              <caret line="213" column="87" selection-start-line="213" selection-start-column="87" selection-end-line="213" selection-end-column="87" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="user.html.twig" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/statbb/user.html.twig">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="372">
-              <caret line="30" column="22" selection-start-line="30" selection-start-column="22" selection-end-line="30" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="team_modal.html.twig" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/templates/statbb/team_modal.html.twig">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="14" lean-forward="true" selection-start-line="14" selection-start-column="14" selection-end-line="14" selection-end-column="14" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MatchDataAdmin.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Admin/MatchDataAdmin.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" selection-start-line="3" selection-end-line="3" />
-              <folding>
-                <element signature="e#29#72#0#PHP" expanded="true" />
-              </folding>
+            <state relative-caret-position="1037">
+              <caret line="61" column="11" selection-start-line="61" selection-start-column="11" selection-end-line="61" selection-end-column="11" />
             </state>
           </provider>
         </entry>
@@ -211,7 +91,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/templates/statbb/Spclassement.html.twig" />
         <option value="$PROJECT_DIR$/templates/statbb/playeradder.html.twig" />
         <option value="$PROJECT_DIR$/webpack.config.js" />
         <option value="$PROJECT_DIR$/config/packages/framework.yaml" />
@@ -223,10 +102,8 @@
         <option value="$PROJECT_DIR$/src/Entity/Players.php" />
         <option value="$PROJECT_DIR$/src/Admin/CoachAdmin.php" />
         <option value="$PROJECT_DIR$/src/Admin/PlayersAdmin.php" />
-        <option value="$PROJECT_DIR$/src/Admin/TeamAdmin.php" />
         <option value="$PROJECT_DIR$/src/Migrations/Version20190302224105.php" />
         <option value="$PROJECT_DIR$/src/Migrations/Version20190302223913.php" />
-        <option value="$PROJECT_DIR$/config/services.yaml" />
         <option value="$PROJECT_DIR$/src/Admin/MatchAdmin.php" />
         <option value="$PROJECT_DIR$/src/Service/CoachService.php" />
         <option value="$PROJECT_DIR$/src/Service/SettingService.php" />
@@ -262,6 +139,9 @@
         <option value="$PROJECT_DIR$/src/Controller/StatBBController.php" />
         <option value="$PROJECT_DIR$/src/Service/StadeService.php" />
         <option value="$PROJECT_DIR$/templates/statbb/team_modal.html.twig" />
+        <option value="$PROJECT_DIR$/src/Admin/TeamAdmin.php" />
+        <option value="$PROJECT_DIR$/config/services.yaml" />
+        <option value="$PROJECT_DIR$/src/Admin/StadesAdmin.php" />
       </list>
     </option>
   </component>
@@ -428,7 +308,7 @@
       <path value="$PROJECT_DIR$/vendor/symfony/css-selector" />
     </include_path>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="1121" />
@@ -450,13 +330,30 @@
             <path>
               <item name="statb" type="b2602c69:ProjectViewProjectNode" />
               <item name="statb" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="statb" type="b2602c69:ProjectViewProjectNode" />
               <item name="statb" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="statbb" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+              <item name="packages" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="statb" type="b2602c69:ProjectViewProjectNode" />
+              <item name="statb" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="statb" type="b2602c69:ProjectViewProjectNode" />
+              <item name="statb" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Admin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="statb" type="b2602c69:ProjectViewProjectNode" />
+              <item name="statb" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Controller" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -552,14 +449,7 @@
       <workItem from="1551443748551" duration="40156000" />
       <workItem from="1551703000840" duration="2528000" />
       <workItem from="1552490225978" duration="29514000" />
-      <workItem from="1553118419912" duration="23298000" />
-    </task>
-    <task id="LOCAL-00041" summary="correction d'affichage + nav bar corrigées sur mobile">
-      <created>1549524391837</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1549524391849</updated>
+      <workItem from="1553118419912" duration="26389000" />
     </task>
     <task id="LOCAL-00042" summary="Ajout reload après match entré">
       <created>1549525452194</created>
@@ -897,7 +787,14 @@
       <option name="project" value="LOCAL" />
       <updated>1552571850001</updated>
     </task>
-    <option name="localTasksCounter" value="90" />
+    <task id="LOCAL-00090" summary="Gestion des stades">
+      <created>1553291673919</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1553291673919</updated>
+    </task>
+    <option name="localTasksCounter" value="91" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -933,7 +830,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="556535000" />
+    <option name="totallyTimeSpent" value="559626000" />
   </component>
   <component name="TodoView" selected-index="3">
     <todo-panel id="selected-file">
@@ -945,22 +842,22 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1680" height="1050" extended-state="6" />
+    <frame x="-8" y="-8" width="1696" height="1066" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32976446" />
-      <window_info anchor="bottom" id="Messages" order="14" sideWeight="0.4987775" weight="0.32869378" />
+      <window_info anchor="bottom" id="Messages" order="14" sideWeight="0.4987775" weight="0.3436831" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.502445" side_tool="true" weight="0.4828694" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="12" sideWeight="0.49755502" weight="0.4197002" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49816626" weight="0.31798714" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49755502" visible="true" weight="0.33094996" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.50992364" visible="true" weight="0.16320294" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49755502" visible="true" weight="0.3308351" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.5088" visible="true" weight="0.16320294" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Inspection Results" order="13" weight="0.32890704" />
       <window_info anchor="right" id="Database" order="3" weight="0.3294621" />
       <window_info anchor="bottom" id="Find" order="4" weight="0.4678801" />
-      <window_info id="Structure" order="1" sideWeight="0.49007633" side_tool="true" visible="true" weight="0.16320294" />
+      <window_info id="Structure" order="1" sideWeight="0.4912" side_tool="true" visible="true" weight="0.16320294" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49755502" weight="0.48212463" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -1034,7 +931,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="SHOW_UNVERSIONED_FILES_WHILE_COMMIT" value="false" />
-    <MESSAGE value="Refection du selecteur de roster + corrections de bug" />
     <MESSAGE value="Refacto ajout de joueur" />
     <MESSAGE value="Refacto renvois/suppression joueur" />
     <MESSAGE value="Maj Bootstrap/yarn" />
@@ -1059,11 +955,12 @@
     <MESSAGE value="Ajout entite stades" />
     <MESSAGE value="Ajout stades repo" />
     <MESSAGE value="Intégration des entités stades" />
-    <option name="LAST_COMMIT_MESSAGE" value="Intégration des entités stades" />
+    <MESSAGE value="Gestion des stades" />
+    <option name="LAST_COMMIT_MESSAGE" value="Gestion des stades" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="114" />
+      <option name="time" value="115" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="router.php">
@@ -1072,39 +969,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Entity/MatchData.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="109" column="19" selection-start-line="109" selection-start-column="12" selection-end-line="109" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/src/Service/EquipeService/CalculPointsBonus.php" />
-    <entry file="file://$PROJECT_DIR$/tests/src/Service/EquipeService/ClassementGeneral.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="5" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/services.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Migrations/Version20190313161421.php" />
-    <entry file="file://$PROJECT_DIR$/src/Repository/TeamRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="515">
-          <caret line="61" column="39" selection-start-line="61" selection-start-column="39" selection-end-line="61" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Migrations/Version20190314094305.php" />
-    <entry file="file://$PROJECT_DIR$/src/Migrations/Version20190314095012.php" />
-    <entry file="file://$PROJECT_DIR$/src/Migrations/Version20190314123320.php" />
     <entry file="file://$PROJECT_DIR$/src/Migrations/Version20190314094124.php" />
     <entry file="file://$PROJECT_DIR$/src/Migrations/Version20190314123525.php" />
     <entry file="file://$PROJECT_DIR$/src/Migrations/Version20190314125255.php" />
@@ -1245,60 +1109,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Stades.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="53" column="37" selection-start-line="53" selection-start-column="37" selection-end-line="53" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Service/PlayerService.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-4">
           <caret line="324" column="5" lean-forward="true" selection-start-line="324" selection-start-column="5" selection-end-line="324" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/StatBBController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="311" column="37" selection-start-line="311" selection-start-column="37" selection-end-line="311" selection-end-column="37" />
-          <folding>
-            <element signature="e#33#64#0#PHP" expanded="true" />
-            <element signature="e#2131#2159#0#PHP" expanded="true" />
-            <element signature="e#3345#3374#0#PHP" expanded="true" />
-            <element signature="e#5809#5838#0#PHP" expanded="true" />
-            <element signature="e#6039#6062#0#PHP" expanded="true" />
-            <element signature="e#6357#6380#1#PHP" expanded="true" />
-            <element signature="e#8822#8853#0#PHP" expanded="true" />
-            <element signature="e#9136#9161#0#PHP" expanded="true" />
-            <element signature="e#9562#9586#1#PHP" expanded="true" />
-            <element signature="e#9768#9792#1#PHP" expanded="true" />
-            <element signature="e#9997#10004#1#PHP" expanded="true" />
-            <element signature="e#10257#10284#0#PHP" expanded="true" />
-            <element signature="e#10579#10608#0#PHP" expanded="true" />
-            <element signature="e#12393#12424#0#PHP" expanded="true" />
-            <element signature="e#13569#13600#0#PHP" expanded="true" />
-            <element signature="e#14001#14023#1#PHP" expanded="true" />
-            <element signature="e#16703#16738#0#PHP" expanded="true" />
-            <element signature="e#16806#16829#1#PHP" expanded="true" />
-            <element signature="e#20046#20058#1#PHP" expanded="true" />
-            <element signature="e#20116#20142#0#PHP" expanded="true" />
-            <element signature="e#20745#20751#0#PHP" expanded="true" />
-            <element signature="e#21301#21331#0#PHP" expanded="true" />
-            <element signature="e#22202#22234#0#PHP" expanded="true" />
-            <element signature="e#26062#26094#0#PHP" expanded="true" />
-            <element signature="e#26748#26782#0#PHP" expanded="true" />
-            <element signature="e#48376#48382#0#PHP" expanded="true" />
-            <element signature="e#48487#48494#1#PHP" expanded="true" />
-            <element signature="e#48989#49018#0#PHP" expanded="true" />
-            <element signature="e#56884#56910#0#PHP" expanded="true" />
-            <element signature="e#58049#58072#1#PHP" expanded="true" />
-            <element signature="e#58245#58274#1#PHP" expanded="true" />
-            <element signature="e#59340#59352#0#PHP" expanded="true" />
-            <element signature="e#59456#59485#0#PHP" expanded="true" />
-            <element signature="e#60416#60422#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1309,13 +1123,6 @@
           <folding>
             <element signature="e#31#62#0#PHP" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Teams.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="148" column="4" selection-start-line="148" selection-start-column="4" selection-end-line="148" selection-end-column="4" />
         </state>
       </provider>
     </entry>
@@ -1341,16 +1148,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/phpcbf.log">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Admin/MatchDataAdmin.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-          <folding>
-            <element signature="e#29#72#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Admin/SkillAdmin.php">
       <provider selected="true" editor-type-id="text-editor">
@@ -1382,8 +1179,92 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/statbb/team_modal.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="14" lean-forward="true" selection-start-line="14" selection-start-column="14" selection-end-line="14" selection-end-column="14" />
+        <state relative-caret-position="142">
+          <caret line="91" column="102" lean-forward="true" selection-start-line="91" selection-start-column="102" selection-end-line="91" selection-end-column="102" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Admin/MatchDataAdmin.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/bootstrap.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/routes.yaml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/packages/sonata_core.yaml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/packages/sonata_admin.yaml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Admin/CoachAdmin.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-134">
+          <caret line="41" column="26" lean-forward="true" selection-start-line="41" selection-start-column="26" selection-end-line="41" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Teams.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="447">
+          <caret line="138" column="20" selection-start-line="138" selection-start-column="12" selection-end-line="138" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Admin/MatchAdmin.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2">
+          <caret line="29" column="33" selection-start-line="29" selection-start-column="33" selection-end-line="29" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Admin/TeamAdmin.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="444">
+          <caret line="73" column="61" selection-start-line="73" selection-start-column="61" selection-end-line="73" selection-end-column="61" />
+          <folding>
+            <element signature="e#29#52#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/StatBBController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="1727" column="24" selection-start-line="1727" selection-start-column="24" selection-end-line="1727" selection-end-column="48" />
+          <folding>
+            <element signature="e#33#64#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Admin/StadesAdmin.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="427">
+          <caret line="32" column="66" selection-start-line="32" selection-start-column="66" selection-end-line="32" selection-end-column="66" />
+          <folding>
+            <element signature="e#30#61#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Stades.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="29" column="23" selection-start-line="29" selection-start-column="12" selection-end-line="29" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/services.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1037">
+          <caret line="61" column="11" selection-start-line="61" selection-start-column="11" selection-end-line="61" selection-end-column="11" />
         </state>
       </provider>
     </entry>

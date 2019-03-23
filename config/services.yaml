@@ -59,3 +59,8 @@ services:
         arguments: [~,App\Entity\MatchData,~]
         tags:
             - {name: sonata.admin, manager_type: orm, label: MatchData}
+    admin.stades:
+        class: App\Admin\StadesAdmin
+        arguments: [~,App\Entity\Stades,~]
+        tags:
+            - {name: sonata.admin, manager_type: orm, label: Stades}
