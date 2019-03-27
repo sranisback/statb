@@ -116,23 +116,23 @@ class PlayerService
      */
     public function listeDesCompdUnePosition(GameDataPlayers $position)
     {
-        $idcompCollection = explode(",", (string) $position->getSkills());
+        if ($position->getSkills() != '') {
+            $idcompCollection = explode(",", (string) $position->getSkills());
+        }
 
         $listeCompDeBase = '';
 
-        foreach ($idcompCollection as $idComp) {
-            $comp = $this->doctrineEntityManager->getRepository(GameDataSkills::class)->findOneBy(
-                ['skillId' => $idComp]
-            );
+        if (!empty($idcompCollection)) {
+            foreach ($idcompCollection as $idComp) {
+                $comp = $this->doctrineEntityManager->getRepository(GameDataSkills::class)->findOneBy(
+                    ['skillId' => $idComp]
+                );
 
-            $listeCompDeBase .= '<text class="test-primary">'.$comp->getName().'</text>, ';
+                $listeCompDeBase .= '<text class="test-primary">'.$comp->getName().'</text>, ';
+            }
+            return $listeCompDeBase;
         }
-
-        if ($listeCompDeBase == '<text class="test-primary"></text>, ') {
-            $listeCompDeBase = '';
-        }
-
-        return $listeCompDeBase;
+        return '';
     }
 
     /**
@@ -322,10 +322,6 @@ class PlayerService
         }
 
         return ['cp'=> $tcp, 'td'=>$ttd,'int'=> $tint,'cas'=> $tcas,'mvp' => $tmvp,'agg'=> $tagg,'rec'=>$rec];
-    }
-
-    public function totalActionsdUnMatch()
-    {
     }
 
     /**
@@ -520,5 +516,67 @@ class PlayerService
         }
 
         return $matchJoue;
+    }
+
+    /**
+     * @param Players $joueur
+     * @param GameDataSkills $competenceGagnee
+     */
+    public function ajoutCompetence(Players $joueur, GameDataSkills $competenceGagnee)
+    {
+        $competenceGagneeParLeJoueur = new PlayersSkills();
+
+        $competenceGagneeParLeJoueur->setFPid($joueur);
+
+        $competenceGagneeParLeJoueur->setFSkill($competenceGagnee);
+
+        if ($competenceGagnee->getCat() == 'C') {
+            switch ($competenceGagnee->getSkillId()) {
+                case 117:
+                    $joueur->setAchMa($joueur->getAchMa()+1);
+                    break;
+                case 118:
+                    $joueur->setAchSt($joueur->getAchSt()+1);
+                    break;
+                case 119:
+                    $joueur->setAchAg($joueur->getAchAg()+1);
+                    break;
+                case 120:
+                    $joueur->setAchAv($joueur->getAchAv()+1);
+                    break;
+            }
+        } else {
+            $positionDuJoueur = $joueur->getFPos();
+
+            $normale ='';
+            $double = '';
+
+            if ($positionDuJoueur) {
+                $double = $positionDuJoueur->getDoub();
+                $normale = $positionDuJoueur->getNorm();
+            }
+
+            $pos = stripos((string)$normale, (string) $competenceGagnee->getCat());
+
+            if ($pos === false) {
+            } else {
+                $competenceGagneeParLeJoueur->setType('N');
+            }
+
+            $pos = stripos((string)$double, (string)$competenceGagnee->getCat());
+
+            if ($pos === false) {
+            } else {
+                $competenceGagneeParLeJoueur->setType('D');
+            }
+
+            $this->doctrineEntityManager->persist($competenceGagneeParLeJoueur);
+            $this->doctrineEntityManager->flush();
+        }
+
+        $joueur->setStatus(1);
+
+        $this->doctrineEntityManager->persist($joueur);
+        $this->doctrineEntityManager->flush();
     }
 }

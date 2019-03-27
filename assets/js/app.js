@@ -770,24 +770,11 @@ $(document).ready(function () {
     $("#recMatch").click(function () {
         $.post(Routing.generate('addGame'), JSON.stringify($("#formMatch").serializeToJSON()),
             function () {
-                // console.log(result)
                 window.location.reload();
             }, "json");
 
     });
-
-    $("#comp").click(function () {
-        $.post(Routing.generate('addComp', {
-                skillid: $('#skill option:selected').val(),
-                playerid: $(this).attr('playerid')
-            }),
-            {},
-            function () {
-                window.location.reload();
-            })
-
-    });
-
+    
     /**
      * renommer le stade
      */

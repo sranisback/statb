@@ -1400,95 +1400,6 @@ class StatBBController extends AbstractController
     }
 
     /**
-     * @Route("/skillmodal/{playerid}", name="skillmodal", options = { "expose" = true })
-     * @param int $playerid
-     * @return Response
-     */
-    public function skillmodal($playerid)
-    {
-        $listskill = $this->getDoctrine()->getRepository(GameDataSkills::class)->findAll();
-
-        foreach ($listskill as $key => $skill) {
-            if ($skill->getCat() == 'E') {
-                unset($listskill[$key]);
-            }
-        }
-        return $this->render('statbb/skillmodal.html.twig', ['listskill' => $listskill, 'playerId' => $playerid]);
-    }
-
-    /**
-     * @Route("/addComp/{skillid}/{playerid}", name="addComp", options = { "expose" = true })
-     * @param int $skillid
-     * @param int $playerid
-     * @return Response
-     */
-    public function addComp($skillid, $playerid)
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-
-        $skill = $this->getDoctrine()->getRepository(GameDataSkills::class)->findOneBy(['skillId' => $skillid]);
-
-        $player = $this->getDoctrine()->getRepository(players::class)->findOneBy(['playerId' => $playerid]);
-
-        if ($player && $skill) {
-            $toadd = new PlayersSkills();
-
-            $toadd->setFPid($player);
-
-            $toadd->setFSkill($skill);
-
-            $playerPosition = $player->getFPos();
-
-            $norm ='';
-            $double = '';
-
-            if ($playerPosition) {
-                $double = $playerPosition->getDoub();
-                $norm = $playerPosition->getNorm();
-            }
-
-            $pos = stripos((string)$norm, (string) $skill->getCat());
-
-            if ($pos === false) {
-            } else {
-                $toadd->setType('N');
-            }
-
-            $pos = stripos((string)$double, (string)$skill->getCat());
-
-            if ($pos === false) {
-            } else {
-                $toadd->setType('D');
-            }
-            $entityManager->persist($toadd);
-            $entityManager->flush();
-
-            $player->setStatus(1);
-
-            $entityManager->persist($player);
-            $entityManager->flush();
-
-            $playerTeamId = 0;
-
-            $playerTeam = $player->getOwnedByTeam();
-
-            if ($playerTeam) {
-                $playerTeamId = $playerTeam->getTeamId();
-            }
-            $response = new Response();
-            $response->setContent($playerTeamId);
-            $response->setStatusCode(200);
-
-            return $response;
-        }
-        $response = new Response();
-        $response->setContent('');
-        $response->setStatusCode(500);
-
-        return $response;
-    }
-
-    /**
      * @Route("/changeNr/{newnr}/{playerid}", name="changeNr", options = { "expose" = true })
      * @param int $newnr
      * @param int $playerid
@@ -1768,5 +1679,57 @@ class StatBBController extends AbstractController
         }
 
         return $this->redirectToRoute('team', ['teamid'=>$equipeId,'type'=>'n']);
+    }
+
+    /**
+     * @Route("/skillmodal/{playerid}", name="skillmodal", options = { "expose" = true })
+     * @param int $playerid
+     * @return Response
+     */
+    public function skillmodal($playerid)
+    {
+        $competence = new PlayersSkills();
+
+        $form = $this->createFormBuilder($competence)
+            ->add(
+                'fSkill',
+                EntityType::class,
+                [
+                    'class' => GameDataSkills::class,
+                    'choice_label' => 'name',
+                    'group_by' => function(GameDataSkills $comp){
+                        $listeCategoriesCompetences =
+                            [''=>'','G'=>'Générale','A'=>'Agilité','P'=>'Passe','S'=>'Force','M'=>'Mutations','E'=>'Exceptionnelles','C'=>'Statistiques'];
+                        return $listeCategoriesCompetences[$comp->getCat()];
+                    },
+                    'label' => 'Compétence'
+                ]
+            )
+            ->add('submit', SubmitType::class, ['label' => 'Ajouter'])
+            ->add('cancel', ButtonType::class, ['label'=>'Annuler','attr'=>['data-dismiss'=>'modal']])
+            ->setAction($this->generateUrl('ajoutComp', ['playerid' => $playerid]))
+            ->getForm();
+
+        return $this->render('statbb/skillmodal.html.twig', ['playerId'=> $playerid,'form'=>$form->createView()]);
+    }
+
+    /**
+     * @Route("/ajoutComp/{playerid}", name="ajoutComp", options = { "expose" = true })
+     * @param Request $request
+     * @param PlayerService $playerService
+     * @param int $playerid
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function ajoutComp(Request $request, PlayerService $playerService, $playerid)
+    {
+        $form = $request->request->get('form');
+
+        $joueur = $this->getDoctrine()->getRepository(players::class)->findOneBy(['playerId' => $playerid]);
+
+        $competence = $this->getDoctrine()->getRepository(GameDataSkills::class)->findOneBy(['skillId' => $form['fSkill']]);
+
+        $playerService->ajoutCompetence($joueur,$competence);
+
+        return $this->redirectToRoute('team', ['teamid'=>$joueur->getOwnedByTeam()->getTeamId(),'type'=>'n']);
     }
 }

@@ -1,12 +1,12 @@
 
 
 
-<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#xp" >
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#xp_{{ playerId }}" >
 <p class="glyphicon glyphicon-arrow-up" />PX
 </button>
 
 
-<div class="modal fade" id="xp">
+<div class="modal fade" id="xp_{{ playerId }}">
   <div class="modal-dialog">
     <div class="modal-content">
 
@@ -16,70 +16,15 @@
       </div>
 
       <div class="modal-body">
-
-        <select id="skill">
-
-            {% set cat = '' %}
-            {% for skill in listskill %}
-
-            {% if skill.cat != cat%}
-            {% set cat = skill.cat %}
-            {% if skill.cat=='G' %}
-          <optgroup label="Générale">
-              <option value="{{skill.skillId}}">{{skill.name}}</option>
-              {% endif %}
-
-              {% if skill.cat=='A' %}
-          </optgroup>
-            <optgroup label="Agilité">
-                <option value="{{skill.skillId}}">{{skill.name}}</option>
-                {% endif %}
-
-                {% if skill.cat=='P' %}
-            </optgroup>
-              <optgroup label="Passe">
-                  <option value="{{skill.skillId}}">{{skill.name}}</option>
-                  {% endif %}
-
-                  {% if skill.cat=='S' %}
-              </optgroup>
-                <optgroup label="Force">
-                    <option value="{{skill.skillId}}">{{skill.name}}</option>
-                    {% endif %}
-
-                    {% if skill.cat=='M' %}
-                </optgroup>
-                  <optgroup label="Mutation">
-                      <option value="{{skill.skillId}}">{{skill.name}}</option>
-                      {% endif %}
-
-                      {% if skill.cat=='E' %}
-                  </optgroup>
-                    <optgroup label="Extraordinaire">
-                        <option value="{{skill.skillId}}">{{skill.name}}</option>
-                        {% endif %}
-
-                        {% else %}
-                            {% set cat = skill.cat %}
-                          <option value="{{skill.skillId}}">{{skill.name}}</option>
-                        {% endif %}
-                        {%endfor%}
-                    </optgroup>
-                      <optgroup label="Carac">
-                        <option value="9">+1 Mv</option>
-                        <option value="99">+1 Fo</option>
-                        <option value="999">+1 Ag</option>
-                        <option value="9999">+1 Ar</option>
-                      </optgroup>
-
-        </select>
-
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="comp" playerid="{{ playerId }}">Valider</button>
-
+        <div class="modal-body">
+            {{ form_start(form) }}
+            {{ form_errors(form) }}
+            {{ form_row(form.fSkill) }}
+        </div>
+        <div class="modal-footer">
+            {{ form_widget(form.submit) }}{{ form_widget(form.cancel) }}
+            {{ form_end(form) }}
+        </div>
 
       </div>
     </div>

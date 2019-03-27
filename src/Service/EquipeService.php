@@ -139,6 +139,14 @@ class EquipeService
         $team->setTreasury($this->tresorDepart);
         $team->setName($teamname);
         $team->setElo($this->baseElo);
+        $stade = new Stades();
+        $typeStade = $this->doctrineEntityManager->getRepository(GameDataStadium::class)->findOneBy(['id'=>0]);
+
+        $stade->setFTypeStade($typeStade);
+        $stade->setTotalPayement(0);
+        $this->doctrineEntityManager->persist($stade);
+        $team->setFStades($stade);
+
         if ($setting) {
             try {
                 $currentYear = $setting->getValue();
