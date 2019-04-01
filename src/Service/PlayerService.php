@@ -17,7 +17,6 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class PlayerService
 {
-
     private $doctrineEntityManager;
 
     public function __construct(EntityManagerInterface $doctrineEntityManager)
@@ -382,7 +381,6 @@ class PlayerService
 
         $equipe = $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
 
-        $tv = 0;
         $tresors = '';
         $joueur = new Players();
 
@@ -403,9 +401,6 @@ class PlayerService
                 if ($count < $position->getQty()) {
                     $tresors = $equipe->getTreasury() - $position->getCost();
                     $equipe->setTreasury($tresors);
-
-                    $tv = $equipe->getTv() + $position->getCost();
-                    $equipe->setTv($tv);
 
                     $joueur->setNr($this->numeroLibreDelEquipe($equipe));
 
@@ -448,9 +443,10 @@ class PlayerService
 
     /**
      * @param Players $joueur
+     * @param EquipeService $equipeService
      * @return array
      */
-    public function renvoisOuSuppressionJoueur(Players $joueur)
+    public function renvoisOuSuppressionJoueur(Players $joueur, EquipeService $equipeService)
     {
         $equipe = $joueur->getOwnedByTeam();
         $position = $joueur->getFPos();
@@ -464,7 +460,6 @@ class PlayerService
                 $this->doctrineEntityManager->remove($joueur);
                 $this->doctrineEntityManager->persist($joueur);
             } else {
-                $equipe->setTv($equipe->getTv() - $this->valeurDunJoueur($joueur));
                 $this->doctrineEntityManager->persist($equipe);
                 $joueur->setStatus(7);
                 $dateSoldFormat = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
@@ -478,7 +473,7 @@ class PlayerService
 
             return [
                 'reponse' => $effect,
-                'tv' => $equipe->getTv(),
+                'tv' => $equipeService->tvDelEquipe($equipe),
                 'tresor' => $equipe->getTreasury(),
                 'playercost' => $this->valeurDunJoueur($joueur),
             ];

@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Entity\Coaches;
 use App\Entity\GameDataStadium;
-use App\Entity\Players;
 use App\Entity\Races;
 use App\Entity\Setting;
 use App\Entity\Stades;
@@ -329,7 +328,6 @@ class EquipeService
 
         $nouveauTresor = $equipe->getTreasury() - $inducost;
         $equipe->setTreasury($nouveauTresor);
-        $equipe->setTv($this->tvDelEquipe($equipe));
 
         $this->doctrineEntityManager->persist($equipe);
         $this->doctrineEntityManager->flush();
@@ -412,8 +410,6 @@ class EquipeService
             $equipe->setTreasury($nouveauTresor);
         }
 
-        $equipe->setTv($this->tvDelEquipe($equipe));
-
         $this->doctrineEntityManager->persist($equipe);
         $this->doctrineEntityManager->flush();
         $this->doctrineEntityManager->refresh($equipe);
@@ -487,7 +483,7 @@ class EquipeService
 
         foreach ($equipeCollection as $equipe) {
             if ($r[$equipe->getTeamId()] != null) {
-                $equipe->setElo($r[$equipe->getTeamId()]);
+                $equipe->setElo(round($r[$equipe->getTeamId()],2));
             } else {
                 $equipe->setElo(150);
             }

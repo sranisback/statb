@@ -628,10 +628,9 @@ class StatBBController extends AbstractController
      * @param int $teamId
      * @return JsonResponse
      */
-    public function addPlayer(PlayerService $playerService, $posId, $teamId)
+    public function addPlayer(PlayerService $playerService,EquipeService $equipeService, $posId, $teamId)
     {
         $resultat = $playerService->ajoutJoueur($posId, $teamId);
-        $tv = 0;
         $tresors = 0;
         $html = '';
         $coutjoueur = 0;
@@ -654,7 +653,7 @@ class StatBBController extends AbstractController
                 $coutjoueur = $joueur->getValue();
 
                 if ($equipe) {
-                    $tv = $equipe->getTv();
+                    $tv = $equipeService->tvDelEquipe($equipe);
                     $tresors = $equipe->getTreasury();
                 }
 
@@ -682,13 +681,13 @@ class StatBBController extends AbstractController
      * @param int $playerId
      * @return JsonResponse
      */
-    public function remPlayer(PlayerService $playerService, $playerId)
+    public function remPlayer(PlayerService $playerService, EquipeService $equipeService, $playerId)
     {
         $resultat['']= '';
         $joueur  = $this->getDoctrine()->getRepository(Players::class)->findOneBy(['playerId' => $playerId]);
 
         if ($joueur) {
-            $resultat = $playerService->renvoisOuSuppressionJoueur($joueur);
+            $resultat = $playerService->renvoisOuSuppressionJoueur($joueur, $equipeService);
         }
         $response = array(
             "tv" => $resultat['tv'],
@@ -722,9 +721,11 @@ class StatBBController extends AbstractController
             } else {
                 $coutEtnbr = $equipeService->supprInducement($equipe, $type);
             }
+            $tv  = $equipeService->tvDelEquipe($equipe);
+
             $response = [
-                "tv" => $equipe->getTv(),
-                "ptv" => ($equipe->getTv() / 1000),
+                "tv" => $tv,
+                "ptv" => $tv / 1000,
                 "tresor" => $equipe->getTreasury(),
                 "inducost" => $coutEtnbr['inducost'],
                 "type" => $type,
@@ -815,7 +816,6 @@ class StatBBController extends AbstractController
 
     public function addGame(EquipeService $equipeService, SettingsService $settingsService, Request $request)
     {
-
         $parametersAsArray = [];
 
         if ($content = $request->getContent()) {
@@ -847,8 +847,8 @@ class StatBBController extends AbstractController
             $match->setTeam2Score($parametersAsArray['score2']);
             $match->setTeam1($team1);
             $match->setTeam2($team2);
-            $match->setTv1((int)$team1->getTv());
-            $match->setTv2((int)$team2->getTv());
+            $match->setTv1($equipeService->tvDelEquipe($team1));
+            $match->setTv2($equipeService->tvDelEquipe($team2));
 
             $entityManager->persist($match);
 
@@ -1089,12 +1089,6 @@ class StatBBController extends AbstractController
                     $entityManager->persist($playerstat);
                 }
             }
-
-            $team1->setTv((int)$this->calculateTV($team1) * 1000);
-            $team2->setTv((int)$this->calculateTV($team2) * 1000);
-
-            $team1->setRdy(false);
-            $team2->setRdy(false);
 
             $entityManager->persist($team1);
             $entityManager->persist($team2);
@@ -1389,9 +1383,6 @@ class StatBBController extends AbstractController
                     }
                 }
             }
-
-            $team->setTv((int)$this->calculateTV($team) * 1000);
-            $team->setRdy(true);
 
             $entityManager->persist($team);
             $entityManager->flush();

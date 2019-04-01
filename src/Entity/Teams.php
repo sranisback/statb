@@ -74,13 +74,6 @@ class Teams
     /**
      * @var bool
      *
-     * @ORM\Column(name="rdy", type="boolean", nullable=false, options={"default"="1"})
-     */
-    private $rdy = true;
-
-    /**
-     * @var bool
-     *
      * @ORM\Column(name="retired", type="boolean", nullable=false)
      */
     private $retired = false;
@@ -91,13 +84,6 @@ class Teams
      * @ORM\Column(name="ff", type="integer", nullable=true)
      */
     private $ff = 0;
-
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="tv", type="integer", nullable=true, options={"unsigned"=true})
-     */
-    private $tv;
 
     /**
      * @var float|null
@@ -246,18 +232,6 @@ class Teams
         return $this;
     }
 
-    public function getRdy(): ?bool
-    {
-        return $this->rdy;
-    }
-
-    public function setRdy(bool $rdy): self
-    {
-        $this->rdy = $rdy;
-
-        return $this;
-    }
-
     public function getRetired(): ?bool
     {
         return $this->retired;
@@ -278,18 +252,6 @@ class Teams
     public function setFf(int $ff): self
     {
         $this->ff = $ff;
-
-        return $this;
-    }
-
-    public function getTv(): ?int
-    {
-        return $this->tv;
-    }
-
-    public function setTv(int $tv): self
-    {
-        $this->tv = $tv;
 
         return $this;
     }
