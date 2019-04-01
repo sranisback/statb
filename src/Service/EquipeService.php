@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Coaches;
 use App\Entity\GameDataStadium;
+use App\Entity\Players;
 use App\Entity\Races;
 use App\Entity\Setting;
 use App\Entity\Stades;
@@ -432,5 +433,70 @@ class EquipeService
             $line['tv'] = $this->tvDelEquipe($equipe);
         }
         return $classGen;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function eloDesEquipes($year)
+    {
+        $equipeCollection = $this->doctrineEntityManager->getRepository(Teams::class)->findBy(['year' => $year]);
+
+        $nbrDeCoachesActifsDivParDeux = $this->doctrineEntityManager->getRepository(
+            Teams::class
+        )->nbrCoachAyantUneEquipelAnneeEnCours(3);
+
+        $r = [];
+
+        foreach ($equipeCollection as $equipe) {
+            $r[$equipe->getTeamId()] = 150;
+        }
+
+        $matchDelAnneeEnCour = $this->doctrineEntityManager->getRepository(Matches::class)->tousLesMatchDuneAnne(3);
+
+        /** @var Matches $match */
+        foreach ($matchDelAnneeEnCour as $match) {
+            if ($match->getTeam1Score() > $match->getTeam2Score()) {
+                $resultat1 = 1;
+                $resultat2 = 0;
+            } elseif ($match->getTeam1Score() > $match->getTeam2Score()) {
+                $resultat1 = 0;
+                $resultat2 = 1;
+            } else {
+                $resultat1 = 0.5;
+                $resultat2 = 0.5;
+            }
+
+            $d = 231;
+            $equipe1 = $match->getTeam1();
+            $equipe2 = $match->getTeam2();
+
+            $pourcentageVictoireEquipe1 = 1 / ( pow(
+                10,
+                ($r[$equipe2->getTeamId()] - $r[$equipe1->getTeamId()]) / $d
+            ) + 1);
+            $pourcentageVictoireEquipe2 = 1 / ( pow(
+                10,
+                ($r[$equipe1->getTeamId()] - $r[$equipe2->getTeamId()]) / $d
+            ) + 1);
+            $r[$equipe1->getTeamId()] = $r[$equipe1->getTeamId()]
+                + ($nbrDeCoachesActifsDivParDeux * ($resultat1 - $pourcentageVictoireEquipe1));
+            $r[$equipe2->getTeamId()] = $r[$equipe2->getTeamId()]
+                + ($nbrDeCoachesActifsDivParDeux * ($resultat2 - $pourcentageVictoireEquipe2));
+        }
+
+        foreach ($equipeCollection as $equipe) {
+            if ($r[$equipe->getTeamId()] != null) {
+                $equipe->setElo($r[$equipe->getTeamId()]);
+            } else {
+                $equipe->setElo(150);
+            }
+        }
+
+        $this->doctrineEntityManager->persist($equipe);
+        $this->doctrineEntityManager->flush();
+        $this->doctrineEntityManager->refresh($equipe);
+
+        return $r;
     }
 }

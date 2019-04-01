@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     @ORM\Index(name="fk_players_game_data_players1_idx", columns={"f_pos_id"}),
  *      *     @ORM\Index(name="fk_players_races1_idx", columns={"f_rid"}),
  *     @ORM\Index(name="fk_players_coaches1_idx", columns={"f_cid"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\PlayersRepository")
  */
 class Players
 {

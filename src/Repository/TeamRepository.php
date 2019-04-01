@@ -108,4 +108,15 @@ SELECT team_id,ra.icon,t.name as "team_name" ,ra.name as "race",co.name,
         }
         return [];
     }
+
+    public function nbrCoachAyantUneEquipelAnneeEnCours($annee)
+    {
+        return count($this->createQueryBuilder('t')
+            ->select('c.name')
+            ->join('t.ownedByCoach','c')
+            ->where('t.year = 3')
+            ->groupBy('c.name')
+            ->getQuery()
+            ->getResult())/2;
+    }
 }

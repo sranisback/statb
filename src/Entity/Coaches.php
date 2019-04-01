@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * Coaches
  *
  * @ORM\Table(name="coaches")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\CoachesRepository")
  */
 class Coaches implements UserInterface
 {

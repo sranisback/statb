@@ -813,7 +813,7 @@ class StatBBController extends AbstractController
      * @return JsonResponse
      */
 
-    public function addGame(Request $request)
+    public function addGame(EquipeService $equipeService, SettingsService $settingsService, Request $request)
     {
 
         $parametersAsArray = [];
@@ -1102,6 +1102,8 @@ class StatBBController extends AbstractController
             $entityManager->flush();
 
             $tt = 'ok';
+
+            $equipeService->eloDesEquipes($settingsService->anneeCourante());
 
             $encoders = array(new XmlEncoder(), new JsonEncoder());
             $normalizers = array(new ObjectNormalizer());

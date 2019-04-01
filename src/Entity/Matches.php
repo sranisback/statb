@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="matches", indexes={@ORM\Index(name="idx_team1_id_team2_id", columns={"team1_id", "team2_id"}),
  *     @ORM\Index(name="idx_team2_id", columns={"team2_id"}),
  *     @ORM\Index(name="IDX_62615BAE72BCFA4", columns={"team1_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\MatchesRepository")
  */
 class Matches
 {
