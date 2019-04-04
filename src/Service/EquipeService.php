@@ -42,14 +42,18 @@ class EquipeService
      */
     public function toutesLesTeamsParAnnee($annee = 1)
     {
-        if (!empty($this->doctrineEntityManager)) {
-            return $this->doctrineEntityManager->getRepository(Teams::class)->findBy(
-                ['year' => $annee, 'retired' => false],
-                ['name' => 'ASC']
+        $equipeCollection  = $this->doctrineEntityManager->getRepository(Teams::class)->toutesLesEquipesActivesDuneAnnee($annee);
+
+        foreach ($equipeCollection as $number => $line){
+            $equipe = $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(
+                ['teamId' => $line['teamId']]
             );
+            $line['tv'] = $this->tvDelEquipe($equipe);
+            //var_dump($line);
+            $equipeCollection[$number] = $line;
         }
 
-        return [];
+        return $equipeCollection;
     }
 
     /**
@@ -139,6 +143,7 @@ class EquipeService
         $team->setTreasury($this->tresorDepart);
         $team->setName($teamname);
         $team->setElo($this->baseElo);
+
         $stade = new Stades();
         $typeStade = $this->doctrineEntityManager->getRepository(GameDataStadium::class)->findOneBy(['id'=>0]);
 
@@ -422,11 +427,12 @@ class EquipeService
         $setting = $this->doctrineEntityManager->getRepository(Setting::class)->findOneBy(['name' => 'year']);
         $classGen = $this->doctrineEntityManager->getRepository(Teams::class)->classement($setting->getValue(), 0);
 
-        foreach ($classGen as $line) {
+        foreach ($classGen as $number => $line) {
             $equipe = $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(
                 ['teamId' => $line['team_id']]
             );
             $line['tv'] = $this->tvDelEquipe($equipe);
+            $classGen[$number] = $line;
         }
         return $classGen;
     }

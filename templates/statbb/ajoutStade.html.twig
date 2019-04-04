@@ -10,7 +10,7 @@
                 <h4 class="modal-title" id="myModalLabel">Type de stade</h4>
             </div>
             <div class="modal-body">
-                {{ form_start(form) }}
+                {{ form_start(form, {'action': path('ajoutStade',{'equipeId':teamId})}) }}
                     {{ form_errors(form) }}
                     {{ form_row(form.nom) }}
                     {{ form_row(form.fTypeStade) }}

@@ -12,6 +12,9 @@ use App\Entity\Matches;
 use App\Entity\MatchData;
 use App\Entity\Setting;
 
+use App\form\AjoutCompetenceType;
+use App\form\CreerEquipeType;
+use App\form\CreerStade;
 use App\Service\CoachService;
 use App\Service\EquipeService;
 use App\Service\PlayerService;
@@ -19,9 +22,8 @@ use App\Service\SettingsService;
 use App\Service\StadeService;
 
 use DateTime;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\ButtonType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,7 +36,6 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Dompdf\Dompdf;
 use Dompdf\Options;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 /**
  * Class StatBBController
@@ -68,7 +69,7 @@ class StatBBController extends AbstractController
     {
         return $this->render(
             'statbb/showteams.html.twig',
-            ['teams' => $equipeService->toutesLesTeamsParAnnee($settingsService->anneeCourante())]
+            ['teams' => $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['year' => $settingsService->anneeCourante()])]
         );
     }
 
@@ -91,13 +92,13 @@ class StatBBController extends AbstractController
 
         $countEquipe = 0;
 
-        foreach ($equipesCollection as $equipe) {
+        foreach ($equipesCollection as $number => $equipe) {
             $resultats = $equipeService->resultatsDelEquipe($equipe, $equipeService->listeDesMatchs($equipe));
-
             $tdata[$countEquipe]['tId'] = $equipe->getTeamId();
             $tdata[$countEquipe]['win'] = $resultats['win'];
             $tdata[$countEquipe]['loss'] = $resultats['loss'];
             $tdata[$countEquipe]['draw'] = $resultats['draw'];
+            $tdata[$countEquipe]['tv'] = $equipeService->tvDelEquipe($equipe);
 
             $countEquipe++;
         }
@@ -565,20 +566,9 @@ class StatBBController extends AbstractController
      */
     public function choixRace()
     {
-        $team = new Teams();
+       $equipe = new Teams();
 
-        $form = $this->createFormBuilder($team)
-            ->add("Name", TextType::class, ['label'=>"Nom de l'équipe", 'required' => 'true'])
-            ->add(
-                'fRace',
-                EntityType::class,
-                ['class'=> Races::class,'choice_label' =>'name','label'=>'Choisir une Race']
-            )
-            ->add('submit', SubmitType::class, ['label' => 'Créer'])
-            ->add('cancel', ButtonType::class, ['label'=>'Annuler','attr'=>['data-dismiss'=>'modal']])
-            ->setAction($this->generateUrl('createTeam'))
-            ->getForm();
-
+       $form = $this->createForm(CreerEquipeType::class,$equipe);
         return $this->render('statbb/addteam.html.twig', ['form' => $form->createView()]);
     }
 
@@ -592,7 +582,7 @@ class StatBBController extends AbstractController
     {
         $coach = $this->getUser();
 
-        $form = $request->request->get('form');
+        $form = $request->request->get('creer_equipe');
 
         $teamid = 0;
 
@@ -774,7 +764,7 @@ class StatBBController extends AbstractController
     {
         return $this->render(
             'statbb/dropdownteams.html.twig',
-            ['teams' => $equipeService->toutesLesTeamsParAnnee($settingsService->anneeCourante()), 'nbr' => $nbr]
+            ['teams' => $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['year' => $settingsService->anneeCourante(),'nbr'=>$nbr])]
         );
     }
 
@@ -1125,83 +1115,9 @@ class StatBBController extends AbstractController
      * @param Teams $team
      * @return float|int
      */
-    public function calculateTV($team) //TODO passer ça dans un service....
+    public function calculateTV($team)
     {
-        $tcost = 0;
-
-        $team = $this->getDoctrine()->getRepository(Teams::class)->find($team->getTeamId());
-
-        if ($team) {
-            $players = $this->getDoctrine()->getRepository(Players::class)->findBy(
-                ['ownedByTeam' => $team->getTeamId()],
-                ['nr' => 'ASC']
-            );
-
-            if ($players) {
-                foreach ($players as $player) {
-                    if ($player->getStatus() != 7 && $player->getStatus() != 8) {
-                        $playerPosition = $player->getFPos();
-
-                        $pcost = 0;
-
-                        if ($playerPosition) {
-                            $pcost += $playerPosition->getCost();
-                        }
-
-                        $supcomp = $this->getDoctrine()->getRepository(PlayersSkills::class)->findBy(
-                            ['fPid' => $player->getPlayerId()]
-                        );
-
-                        foreach ($supcomp as $comps) {
-                            if ($comps->getType() == 'N') {
-                                $pcost += 20000;
-                            } else {
-                                $pcost += 30000;
-                            }
-                        }
-
-                        if ($player->getAchMa() > 0) {
-                            $pcost += 30000;
-                        }
-
-                        if ($player->getAchSt() > 0) {
-                            $pcost += 50000;
-                        }
-
-                        if ($player->getAchAg() > 0) {
-                            $pcost += 40000;
-                        }
-
-                        if ($player->getAchAv() > 0) {
-                            $pcost += 30000;
-                        }
-
-                        $tcost += $pcost;
-                    }
-                }
-            }
-
-            $race = $team->getFRace();
-
-            if ($race) {
-                $costRr = $race->getCostRr();
-            } else {
-                $costRr = 0;
-            }
-
-            $tcost += $team->getRerolls() * $costRr;
-            $tcost += ($team->getFf() + $team->getFfBought()) * 10000;
-            $tcost += $team->getAssCoaches() * 10000;
-            $tcost += $team->getCheerleaders() * 10000;
-            $tcost += $team->getApothecary() * 50000;
-
-
-            $tv = $tcost / 1000;
-
-            return $tv;
-        } else {
-            return 9999;
-        }
+        return 0;
     }
 
     /**
@@ -1603,9 +1519,38 @@ class StatBBController extends AbstractController
     /**
      * @Route("/ajoutMatch", name="ajoutMatch", options = { "expose" = true })
      */
-    public function ajoutMatch()
+    public function ajoutMatch(SettingsService $settingsService, EquipeService $equipeService)
     {
-        return $this->render('statbb/ajoutMatch.html.twig');
+        $match = new Matches();
+
+        $form = $this->createFormBuilder($match)
+            ->add('income1',null,['label'=>'gain Equipe 1','empty_data'=>0,'data'=>'0','attr'=>['step'=>10000,'min'=>0]])
+            ->add('income2',null,['label'=>'gain Equipe 2','empty_data'=>0,'data'=>'0','attr'=>['step'=>10000,'min'=>0]])
+            ->add('team1_score',null,['label'=>'Score Equipe 1','empty_data'=>0,'data'=>'0','attr'=>['min'=>0]])
+            ->add('team2_score',null,['label'=>'Score Equipe 2','empty_data'=>0,'data'=>'0','attr'=>['min'=>0]])
+            ->add('team1',EntityType::class,[
+                'class' => Teams::class,
+                'query_builder'=>function(EntityRepository $entityRepository)  use ($settingsService) {
+                    return $entityRepository->createQueryBuilder('t')
+                        ->where('t.year =' . $settingsService->anneeCourante())
+                        ->orderBy('t.name');
+                },
+                'choice_label'=>function($equipe) use ($settingsService, $equipeService) {
+                    $coach = $equipe->getOwnedByCoach();
+                    $race = $equipe->getFRace();
+                    return $equipe->getName().' ('.$race->getName().') '.($equipeService->tvDelEquipe($equipe)/1000).' de '.$coach->getName();
+                }
+
+            ]);
+
+//            $form->get('team1')->addEventListener(FormEvents::PRE_SET_DATA,function (FormEvent $event){
+//                $form = $event->getForm();
+//                $form->add('ffactor1', null,['label'=>'test']);
+//            });
+
+        $form = $form->getForm();
+
+        return $this->render('statbb/ajoutMatch.html.twig',['form'=>$form->createView()]);
     }
 
     /**
@@ -1621,24 +1566,9 @@ class StatBBController extends AbstractController
             /** @var Teams $equipe */
             $stade = $equipe->getFStades();
 
-            $form = $this->createFormBuilder($stade)
-                ->add("nom", TextType::class, ['label'=>"Nom du stade", 'required' => 'true'])
-                ->add(
-                    'fTypeStade',
-                    EntityType::class,
-                    [
-                        'class' => GameDataStadium::class,
-                        'choice_label' => 'type',
-                        'group_by' => 'famille',
-                        'label' => 'Choisir un type',
-                    ]
-                )
-                ->add('submit', SubmitType::class, ['label' => 'Construire'])
-                ->add('cancel', ButtonType::class, ['label'=>'Annuler','attr'=>['data-dismiss'=>'modal']])
-                ->setAction($this->generateUrl('ajoutStade', ['equipeId' => $equipe->getTeamId()]))
-                ->getForm();
+            $form = $this->createForm(CreerStade::class, $stade);
 
-            return $this->render('statbb/ajoutStade.html.twig', ['form' => $form->createView()]);
+            return $this->render('statbb/ajoutStade.html.twig', ['form' => $form->createView(),'teamId'=>$equipe->getTeamId()]);
         }
 
         $response = new Response();
@@ -1659,7 +1589,7 @@ class StatBBController extends AbstractController
     {
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
 
-        $form = $request->request->get('form');
+        $form = $request->request->get('creer_stade');
 
         if ($equipe) {
             $typeStade = $this->getDoctrine()->getRepository(GameDataStadium::class)->findOneBy(
@@ -1683,25 +1613,7 @@ class StatBBController extends AbstractController
     {
         $competence = new PlayersSkills();
 
-        $form = $this->createFormBuilder($competence)
-            ->add(
-                'fSkill',
-                EntityType::class,
-                [
-                    'class' => GameDataSkills::class,
-                    'choice_label' => 'name',
-                    'group_by' => function(GameDataSkills $comp){
-                        $listeCategoriesCompetences =
-                            [''=>'','G'=>'Générale','A'=>'Agilité','P'=>'Passe','S'=>'Force','M'=>'Mutations','E'=>'Exceptionnelles','C'=>'Statistiques'];
-                        return $listeCategoriesCompetences[$comp->getCat()];
-                    },
-                    'label' => 'Compétence'
-                ]
-            )
-            ->add('submit', SubmitType::class, ['label' => 'Ajouter'])
-            ->add('cancel', ButtonType::class, ['label'=>'Annuler','attr'=>['data-dismiss'=>'modal']])
-            ->setAction($this->generateUrl('ajoutComp', ['playerid' => $playerid]))
-            ->getForm();
+        $form = $this->createForm(AjoutCompetenceType::class,$competence);
 
         return $this->render('statbb/skillmodal.html.twig', ['playerId'=> $playerid,'form'=>$form->createView()]);
     }
@@ -1715,7 +1627,7 @@ class StatBBController extends AbstractController
      */
     public function ajoutComp(Request $request, PlayerService $playerService, $playerid)
     {
-        $form = $request->request->get('form');
+        $form = $request->request->get('ajout_competence');
 
         $joueur = $this->getDoctrine()->getRepository(players::class)->findOneBy(['playerId' => $playerid]);
 
@@ -1725,4 +1637,5 @@ class StatBBController extends AbstractController
 
         return $this->redirectToRoute('team', ['teamid'=>$joueur->getOwnedByTeam()->getTeamId(),'type'=>'n']);
     }
+
 }

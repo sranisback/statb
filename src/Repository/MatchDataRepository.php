@@ -126,7 +126,7 @@ class MatchDataRepository extends ServiceEntityRepository
 							 JOIN game_data_players c ON a.f_pos_id = c.pos_id
 				WHERE retired = 0 AND year = '.$year.'
 				 HAVING score >0
-				ORDER BY score DESC, tv DESC';
+				ORDER BY score DESC';
 
         try {
             $stmt = $conn->prepare($sql);

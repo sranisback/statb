@@ -12,7 +12,7 @@
       </div>
       <div class="modal-body">
         <div>
-          {{ form_start(form) }}
+          {{ form_start(form, {'action': path('createTeam')}) }}
                 {{ form_errors(form) }}
                 {{ form_row(form.Name) }}
                 {{ form_row(form.fRace) }}

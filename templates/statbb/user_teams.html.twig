@@ -21,9 +21,9 @@
 		{% endif %}
 			<td><a href="{{ path('team', {'teamid': team.teamId,'type':'n' }) }}">{{team.name}}</a></td>
 			<td>{{team.frace.name}}</td>
-			<td>{{team.tv/1000}}</td>
 			{% for data in tdata %}
 				{% if data.tId == team.teamId %}
+			<td>{{data.tv/1000}}</td>
 			<td>{{data.win}}</td>
 			<td>{{data.draw}}</td>
 			<td>{{data.loss}}</td>

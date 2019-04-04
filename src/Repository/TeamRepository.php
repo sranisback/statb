@@ -80,9 +80,7 @@ SELECT team_id,ra.icon,t.name as "team_name" ,ra.name as "race",co.name,
                     
                     ))AS pts,
 					
-				SUM(IF(team_id = a.team1_id OR team_id = a.team2_id,1,0)) AS nbrg,
-
-				FLOOR(tv/1000) AS tv
+				SUM(IF(team_id = a.team1_id OR team_id = a.team2_id,1,0)) AS nbrg
 
 				FROM teams t
 
@@ -92,7 +90,7 @@ SELECT team_id,ra.icon,t.name as "team_name" ,ra.name as "race",co.name,
 				WHERE retired = 0 AND year = '.$year.'
 
 				GROUP BY t.name
-				ORDER BY pts DESC,nbrg DESC,tv DESC';
+				ORDER BY pts DESC,nbrg DESC';
 
 
         if ($limit > 0) {
@@ -114,9 +112,19 @@ SELECT team_id,ra.icon,t.name as "team_name" ,ra.name as "race",co.name,
         return count($this->createQueryBuilder('t')
             ->select('c.name')
             ->join('t.ownedByCoach','c')
-            ->where('t.year = 3')
+            ->where('t.year = '.$annee)
             ->groupBy('c.name')
             ->getQuery()
             ->getResult())/2;
+    }
+
+    public function toutesLesEquipesActivesDuneAnnee($anne)
+    {
+        return $this->createQueryBuilder('t')
+        ->where('t.year ='.$anne)
+        ->andWhere('t.retired = false')
+        ->orderBy('t.name','ASC')
+        ->getQuery()
+        ->getArrayResult();
     }
 }

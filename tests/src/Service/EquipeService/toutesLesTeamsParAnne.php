@@ -2,74 +2,32 @@
 
 namespace App\Tests\src\Service\EquipeService;
 
-use App\Service\EquipeService;
-use PHPUnit\Framework\TestCase;
 use App\Entity\Teams;
-use Doctrine\Common\Persistence\ObjectRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class toutesLesTeamsParAnne extends TestCase
+class toutesLesTeamsParAnne extends KernelTestCase
 {
-    /**
-     * @test
-     */
-    public function Est_Ce_Qu_on_Recoit_Une_Equipe()
+    private $entityManager;
+
+    protected function setUp()
     {
-        $team = new Teams();
-        $team->setYear(3);
+        self::bootKernel();
 
-        $teamRepo = $this->createMock(ObjectRepository::class);
+        $container = self::$container;
 
-        $teamRepo->expects($this->any())->method('findBy')->willReturn($team);
-
-        $registryManager = $this->createMock(ManagerRegistry::class);
-
-        $registryManager->expects($this->any())->method('getRepository')->willReturn($teamRepo);
-
-//        $testing = new EquipeService($registryManager);
-
- //       $this->assertEquals(1, count($testing->toutesLesTeamsParAnnee(3)));
+        $this->entityManager = $container
+            ->get('doctrine')
+            ->getManager();
     }
 
     /**
-     * @test
+     * /*@test
      */
-    public function Il_n_y_a_pas_d_equipes()
+    public function liste_des_equipe_de_l_anne_en_table()
     {
-        $teamRepo = $this->createMock(ObjectRepository::class);
+        $equipeService = self::$container->get('App\Service\EquipeService');
 
-        $teamRepo->expects($this->any())->method('findBy')->willReturn(NULL);
-
-        $registryManager = $this->createMock(ManagerRegistry::class);
-
-        $registryManager->expects($this->any())->method('getRepository')->willReturn($teamRepo);
-
-        $testing = new EquipeService($registryManager);
-
-        $this->assertEquals(0, count($testing->toutesLesTeamsParAnnee(3)));
-    }
-
-    /**
-     * @test
-     */
-    public function il_y_a_plein_d_equipes()
-    {
-        for($x=0;$x<10;$x++){
-            $team[$x] = new Teams();
-            $team[$x]->setYear(3);
-        }
-
-        $teamRepo = $this->createMock(ObjectRepository::class);
-
-        $teamRepo->expects($this->any())->method('findBy')->willReturn($team);
-
-        $registryManager = $this->createMock(ManagerRegistry::class);
-
-        $registryManager->expects($this->any())->method('getRepository')->willReturn($teamRepo);
-
-        $testing = new EquipeService($registryManager);
-
-        $this->assertEquals(10, count($testing->toutesLesTeamsParAnnee(3)));
+        var_dump($equipeService->toutesLesTeamsParAnnee(3));
     }
 }
 
