@@ -13,6 +13,7 @@ use App\Entity\MatchData;
 use App\Entity\Setting;
 
 use App\form\AjoutCompetenceType;
+use App\form\AjoutMatchType;
 use App\form\CreerEquipeType;
 use App\form\CreerStade;
 use App\Service\CoachService;
@@ -22,8 +23,6 @@ use App\Service\SettingsService;
 use App\Service\StadeService;
 
 use DateTime;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -69,7 +68,7 @@ class StatBBController extends AbstractController
     {
         return $this->render(
             'statbb/showteams.html.twig',
-            ['teams' => $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['year' => $settingsService->anneeCourante()])]
+            ['teams' => $this->getDoctrine()->getRepository(Teams::class)->findBy(['year' => $settingsService->anneeCourante()])]
         );
     }
 
@@ -78,12 +77,14 @@ class StatBBController extends AbstractController
      * @param SettingsService $settingsService
      * @param CoachService $coachService
      * @param EquipeService $equipeService
+     * @param PlayerService $playerService
      * @return response
      */
     public function showUserTeams(
         SettingsService $settingsService,
         CoachService $coachService,
-        EquipeService $equipeService
+        EquipeService $equipeService,
+        PlayerService $playerService
     ) {
 
         $tdata = [];
@@ -98,7 +99,7 @@ class StatBBController extends AbstractController
             $tdata[$countEquipe]['win'] = $resultats['win'];
             $tdata[$countEquipe]['loss'] = $resultats['loss'];
             $tdata[$countEquipe]['draw'] = $resultats['draw'];
-            $tdata[$countEquipe]['tv'] = $equipeService->tvDelEquipe($equipe);
+            $tdata[$countEquipe]['tv'] = $equipeService->tvDelEquipe($equipe,$playerService);
 
             $countEquipe++;
         }
@@ -150,13 +151,13 @@ class StatBBController extends AbstractController
 
             $inducement = $equipeService->valeurInducementDelEquipe($equipe);
 
-            $tdata['playersCost'] = $equipeService->coutTotalJoueurs($equipe);
+            $tdata['playersCost'] = $playerService->coutTotalJoueurs($equipe);
             $tdata['rerolls'] = $inducement['rerolls'];
             $tdata['pop'] =  $inducement['pop'];
             $tdata['asscoaches'] =  $inducement['asscoaches'];
             $tdata['cheerleader'] =  $inducement['cheerleader'];
             $tdata['apo'] =  $inducement['apo'];
-            $tdata['tv'] = $equipeService->tvDelEquipe($equipe);
+            $tdata['tv'] = $equipeService->tvDelEquipe($equipe, $playerService);
 
             if ($type == "modal") {
                 return $this->render(
@@ -643,7 +644,7 @@ class StatBBController extends AbstractController
                 $coutjoueur = $joueur->getValue();
 
                 if ($equipe) {
-                    $tv = $equipeService->tvDelEquipe($equipe);
+                    $tv = $equipeService->tvDelEquipe($equipe, $playerService);
                     $tresors = $equipe->getTreasury();
                 }
 
@@ -693,13 +694,15 @@ class StatBBController extends AbstractController
     /**
      * @Route("/gestionInducement/{action}/{teamId}/{type}", options = { "expose" = true })
      * @param EquipeService $equipeService
+     * @param PlayerService $playerService
+     * @param string $action
      * @param int $teamId
      * @param string $type
-     * @param string $action
      * @return JsonResponse
      */
     public function gestionInducement(
         EquipeService $equipeService,
+        PlayerService $playerService,
         $action,
         $teamId,
         $type
@@ -711,7 +714,7 @@ class StatBBController extends AbstractController
             } else {
                 $coutEtnbr = $equipeService->supprInducement($equipe, $type);
             }
-            $tv  = $equipeService->tvDelEquipe($equipe);
+            $tv  = $equipeService->tvDelEquipe($equipe, $playerService);
 
             $response = [
                 "tv" => $tv,
@@ -804,7 +807,7 @@ class StatBBController extends AbstractController
      * @return JsonResponse
      */
 
-    public function addGame(EquipeService $equipeService, SettingsService $settingsService, Request $request)
+    public function addGame(EquipeService $equipeService, SettingsService $settingsService, PlayerService $playerService, Request $request)
     {
         $parametersAsArray = [];
 
@@ -837,8 +840,8 @@ class StatBBController extends AbstractController
             $match->setTeam2Score($parametersAsArray['score2']);
             $match->setTeam1($team1);
             $match->setTeam2($team2);
-            $match->setTv1($equipeService->tvDelEquipe($team1));
-            $match->setTv2($equipeService->tvDelEquipe($team2));
+            $match->setTv1($equipeService->tvDelEquipe($team1, $playerService));
+            $match->setTv2($equipeService->tvDelEquipe($team2, $playerService));
 
             $entityManager->persist($match);
 
@@ -1465,13 +1468,13 @@ class StatBBController extends AbstractController
 
             $costRr = $race ? $race->getCostRr() : 0;
 
-            $tdata['playersCost'] = $equipeService->coutTotalJoueurs($equipe);
+            $tdata['playersCost'] = $playerService->coutTotalJoueurs($equipe);
             $tdata['rerolls'] = $equipe->getRerolls() * $costRr;
             $tdata['pop'] = ($equipe->getFf() + $equipe->getFfBought()) * 10000;
             $tdata['asscoaches'] = $equipe->getAssCoaches() * 10000;
             $tdata['cheerleader'] = $equipe->getCheerleaders() * 10000;
             $tdata['apo'] = $equipe->getApothecary() * 50000;
-            $tdata['tv'] = $equipeService->tvDelEquipe($equipe);
+            $tdata['tv'] = $equipeService->tvDelEquipe($equipe,$playerService);
 
             $html = $this->renderView(
                 'statbb/pdfteam.html.twig',
@@ -1519,36 +1522,11 @@ class StatBBController extends AbstractController
     /**
      * @Route("/ajoutMatch", name="ajoutMatch", options = { "expose" = true })
      */
-    public function ajoutMatch(SettingsService $settingsService, EquipeService $equipeService)
+    public function ajoutMatch()
     {
         $match = new Matches();
 
-        $form = $this->createFormBuilder($match)
-            ->add('income1',null,['label'=>'gain Equipe 1','empty_data'=>0,'data'=>'0','attr'=>['step'=>10000,'min'=>0]])
-            ->add('income2',null,['label'=>'gain Equipe 2','empty_data'=>0,'data'=>'0','attr'=>['step'=>10000,'min'=>0]])
-            ->add('team1_score',null,['label'=>'Score Equipe 1','empty_data'=>0,'data'=>'0','attr'=>['min'=>0]])
-            ->add('team2_score',null,['label'=>'Score Equipe 2','empty_data'=>0,'data'=>'0','attr'=>['min'=>0]])
-            ->add('team1',EntityType::class,[
-                'class' => Teams::class,
-                'query_builder'=>function(EntityRepository $entityRepository)  use ($settingsService) {
-                    return $entityRepository->createQueryBuilder('t')
-                        ->where('t.year =' . $settingsService->anneeCourante())
-                        ->orderBy('t.name');
-                },
-                'choice_label'=>function($equipe) use ($settingsService, $equipeService) {
-                    $coach = $equipe->getOwnedByCoach();
-                    $race = $equipe->getFRace();
-                    return $equipe->getName().' ('.$race->getName().') '.($equipeService->tvDelEquipe($equipe)/1000).' de '.$coach->getName();
-                }
-
-            ]);
-
-//            $form->get('team1')->addEventListener(FormEvents::PRE_SET_DATA,function (FormEvent $event){
-//                $form = $event->getForm();
-//                $form->add('ffactor1', null,['label'=>'test']);
-//            });
-
-        $form = $form->getForm();
+        $form = $this->createForm(AjoutMatchType::class,$match);
 
         return $this->render('statbb/ajoutMatch.html.twig',['form'=>$form->createView()]);
     }
@@ -1636,6 +1614,23 @@ class StatBBController extends AbstractController
         $playerService->ajoutCompetence($joueur,$competence);
 
         return $this->redirectToRoute('team', ['teamid'=>$joueur->getOwnedByTeam()->getTeamId(),'type'=>'n']);
+    }
+
+    /**
+     * @Route("/calculTv", name="calculTv", options = { "expose" = true })
+     * @param EquipeService $equipeService
+     * @param Teams $equipe
+     * @return int
+     */
+    public function tvPourAffichage(EquipeService $equipeService, PlayerService $playerService)
+    {
+        foreach ($this->getDoctrine()->getRepository(Teams::class)->equipeSansTv() as $equipe){
+            $equipe->setTv($equipeService->tvDelEquipe($equipe, $playerService));
+
+            $this->getDoctrine()->getManager()->persist($equipe);
+            $this->getDoctrine()->getManager()->flush();
+        }
+        return new Response ('ok');
     }
 
 }

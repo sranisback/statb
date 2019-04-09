@@ -18,10 +18,12 @@ use Doctrine\ORM\EntityManagerInterface;
 class PlayerService
 {
     private $doctrineEntityManager;
+    private $equipeService;
 
-    public function __construct(EntityManagerInterface $doctrineEntityManager)
+    public function __construct(EntityManagerInterface $doctrineEntityManager, EquipeService $equipeService)
     {
         $this->doctrineEntityManager = $doctrineEntityManager;
+        $this->equipeService = $equipeService;
     }
 
     /**
@@ -428,6 +430,8 @@ class PlayerService
 
                     $this->doctrineEntityManager->persist($joueur);
 
+                    $equipe->setTv($this->equipeService->tvDelEquipe($equipe,$this));
+
                     $this->doctrineEntityManager->persist($equipe);
 
                     $this->doctrineEntityManager->flush();
@@ -446,7 +450,7 @@ class PlayerService
      * @param EquipeService $equipeService
      * @return array
      */
-    public function renvoisOuSuppressionJoueur(Players $joueur, EquipeService $equipeService)
+    public function renvoisOuSuppressionJoueur(Players $joueur, EquipeService $equipeService, PlayerService $playerService)
     {
         $equipe = $joueur->getOwnedByTeam();
         $position = $joueur->getFPos();
@@ -471,9 +475,15 @@ class PlayerService
             }
             $this->doctrineEntityManager->flush();
 
+            $equipe->setTv($this->equipeService->tvDelEquipe($equipe, $playerService));
+
+            $this->doctrineEntityManager->persist($equipe);
+            $this->doctrineEntityManager->flush();
+            $this->doctrineEntityManager->refresh($equipe);
+
             return [
                 'reponse' => $effect,
-                'tv' => $equipeService->tvDelEquipe($equipe),
+                'tv' => $equipeService->tvDelEquipe($equipe, $playerService),
                 'tresor' => $equipe->getTreasury(),
                 'playercost' => $this->valeurDunJoueur($joueur),
             ];
@@ -573,5 +583,31 @@ class PlayerService
 
         $this->doctrineEntityManager->persist($joueur);
         $this->doctrineEntityManager->flush();
+    }
+
+    /**
+     * @param Teams $equipe
+     * @return int
+     */
+    public function coutTotalJoueurs(Teams $equipe)
+    {
+        $players = $this->listeDesJoueursDelEquipe($equipe);
+
+        $coutTotalJoueur = 0;
+
+        foreach ($players as $joueur) {
+            switch ($joueur->getStatus()) {
+                case 7:
+                case 8:
+                    break;
+                default:
+                    if ($joueur->getInjRpm() == 0) {
+                        $coutTotalJoueur += $this->valeurDunJoueur($joueur);
+                    }
+                    break;
+            }
+        }
+
+        return (int)$coutTotalJoueur;
     }
 }

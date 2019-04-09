@@ -22,18 +22,15 @@ class EquipeService
 
     private $baseElo = 150;
 
-    private $playerService;
-
     private $coutpop = 10000;
     private $coutAssistant = 10000;
     private $coutCheer = 10000;
     private $coutApo = 50000;
     private $payementStade = 70000;
 
-    public function __construct(EntityManagerInterface $doctrineEntityManager, PlayerService $playerService)
+    public function __construct(EntityManagerInterface $doctrineEntityManager)
     {
         $this->doctrineEntityManager = $doctrineEntityManager;
-        $this->playerService = $playerService;
     }
 
     /**
@@ -143,6 +140,7 @@ class EquipeService
         $team->setTreasury($this->tresorDepart);
         $team->setName($teamname);
         $team->setElo($this->baseElo);
+        $team->setTv(0);
 
         $stade = new Stades();
         $typeStade = $this->doctrineEntityManager->getRepository(GameDataStadium::class)->findOneBy(['id'=>0]);
@@ -202,37 +200,12 @@ class EquipeService
 
     /**
      * @param Teams $equipe
+     * @param PlayerService $playerService
      * @return int
      */
-    public function coutTotalJoueurs(Teams $equipe)
+    public function tvDelEquipe(Teams $equipe, PlayerService $playerService)
     {
-        $players = $this->playerService ->listeDesJoueursDelEquipe($equipe);
-
-        $coutTotalJoueur = 0;
-
-        foreach ($players as $joueur) {
-            switch ($joueur->getStatus()) {
-                case 7:
-                case 8:
-                    break;
-                default:
-                    if ($joueur->getInjRpm() == 0) {
-                        $coutTotalJoueur += $this->playerService->valeurDunJoueur($joueur);
-                    }
-                    break;
-            }
-        }
-
-        return (int)$coutTotalJoueur;
-    }
-
-    /**
-     * @param Teams $equipe
-     * @return int
-     */
-    public function tvDelEquipe(Teams $equipe)
-    {
-        $coutTotalJoueur = $this->coutTotalJoueurs($equipe);
+        $coutTotalJoueur = $playerService->coutTotalJoueurs($equipe);
 
         $inducement = $this->valeurInducementDelEquipe($equipe);
 
@@ -244,7 +217,7 @@ class EquipeService
      * @param string $type
      * @return array
      */
-    public function ajoutInducement(Teams $equipe, $type)
+    public function ajoutInducement(Teams $equipe, $type, PlayerService $playerService)
     {
         $nbr = 0;
         $inducost = 0;
@@ -338,6 +311,12 @@ class EquipeService
         $this->doctrineEntityManager->flush();
         $this->doctrineEntityManager->refresh($equipe);
 
+        $this->tvDelEquipe($equipe, $playerService);
+
+        $this->doctrineEntityManager->persist($equipe);
+        $this->doctrineEntityManager->flush();
+        $this->doctrineEntityManager->refresh($equipe);
+
         return ['inducost'=>$inducost, 'nbr'=>$nbr];
     }
 
@@ -346,7 +325,7 @@ class EquipeService
      * @param string $type
      * @return array
      */
-    public function supprInducement(Teams $equipe, $type)
+    public function supprInducement(Teams $equipe, $type, PlayerService $playerService)
     {
         $nbr = 0;
         $inducost = 0;
@@ -419,22 +398,20 @@ class EquipeService
         $this->doctrineEntityManager->flush();
         $this->doctrineEntityManager->refresh($equipe);
 
+        $this->tvDelEquipe($equipe, $playerService);
+
+        $this->doctrineEntityManager->persist($equipe);
+        $this->doctrineEntityManager->flush();
+        $this->doctrineEntityManager->refresh($equipe);
+
         return ['inducost'=>$inducost, 'nbr'=>$nbr];
     }
 
     public function classementGeneral()
     {
         $setting = $this->doctrineEntityManager->getRepository(Setting::class)->findOneBy(['name' => 'year']);
-        $classGen = $this->doctrineEntityManager->getRepository(Teams::class)->classement($setting->getValue(), 0);
 
-        foreach ($classGen as $number => $line) {
-            $equipe = $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(
-                ['teamId' => $line['team_id']]
-            );
-            $line['tv'] = $this->tvDelEquipe($equipe);
-            $classGen[$number] = $line;
-        }
-        return $classGen;
+        return $this->doctrineEntityManager->getRepository(Teams::class)->classement( $setting->getValue(),0);
     }
 
     /**

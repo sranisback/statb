@@ -92,6 +92,14 @@ class Teams
      */
     private $elo;
 
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="tv", type="integer", nullable=true)
+     */
+    private $tv;
+
     /**
      * @var int
      *
@@ -308,6 +316,18 @@ class Teams
     public function setFRace(Races $fRace): self
     {
         $this->fRace = $fRace;
+
+        return $this;
+    }
+
+    public function getTv(): ?float
+    {
+        return $this->tv;
+    }
+
+    public function setTv($tv): self
+    {
+        $this->tv = $tv;
 
         return $this;
     }

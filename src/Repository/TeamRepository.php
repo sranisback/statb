@@ -24,7 +24,7 @@ class TeamRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = '
-SELECT team_id,ra.icon,t.name as "team_name" ,ra.name as "race",co.name,
+SELECT team_id,ra.icon,t.name as "team_name" ,ra.name as "race",co.name,t.tv as "tv",
 	
 				SUM(IF(team_id = a.team1_id AND a.team1_score>a.team2_score,1,0)+ 
 					IF(team_id = a.team2_id AND a.team1_score<a.team2_score,1,0)) AS Win,
@@ -126,5 +126,14 @@ SELECT team_id,ra.icon,t.name as "team_name" ,ra.name as "race",co.name,
         ->orderBy('t.name','ASC')
         ->getQuery()
         ->getArrayResult();
+    }
+
+    public function equipeSansTv()
+    {
+        return $this->createQueryBuilder('t')
+            ->where('t.tv IS NULL')
+            ->orWhere('t.tv = 0')
+            ->getQuery()
+            ->getResult();
     }
 }
