@@ -279,7 +279,7 @@ const routes = {
 }
 
 //json route dev
-/*
+
 const routes = {
     "base_url": "",
     "routes": {
@@ -545,7 +545,7 @@ const routes = {
     "port": "",
     "scheme": "http"
 }
-*/
+
 $(document).ready(function () {
 
     Routing.setRoutingData(routes);

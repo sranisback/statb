@@ -756,18 +756,17 @@ class StatBBController extends AbstractController
     }
 
     /**
-     * @Route("/dropdownTeams/{nbr}")
-     * @param EquipeService $equipeService
+     * @Route("/dropdownTeams/{nbr}", name="dropdownTeams")
      * @param SettingsService $settingsService
      * @param int $nbr
      * @return Response
      */
 
-    public function dropdownTeams(EquipeService $equipeService, SettingsService $settingsService, $nbr)
+    public function dropdownTeams(SettingsService $settingsService, $nbr)
     {
         return $this->render(
             'statbb/dropdownteams.html.twig',
-            ['teams' => $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['year' => $settingsService->anneeCourante(),'nbr'=>$nbr])]
+            ['teams' => $this->getDoctrine()->getRepository(Teams::class)->findBy(['year' => $settingsService->anneeCourante()]),'nbr'=>$nbr]
         );
     }
 
@@ -1524,11 +1523,7 @@ class StatBBController extends AbstractController
      */
     public function ajoutMatch()
     {
-        $match = new Matches();
-
-        $form = $this->createForm(AjoutMatchType::class,$match);
-
-        return $this->render('statbb/ajoutMatch.html.twig',['form'=>$form->createView()]);
+        return $this->render('statbb/ajoutMatch.html.twig');
     }
 
     /**
