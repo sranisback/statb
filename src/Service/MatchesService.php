@@ -67,7 +67,7 @@ class MatchesService
         $this->playerService->annulerRPMtousLesJoueursDeLequipe($match->getTeam1());
         $this->playerService->annulerRPMtousLesJoueursDeLequipe($match->getTeam2());
 
-        $this->enregistrementDesActionsDesJoueurs($donnneesMatch['action'], $match);
+        $this->enregistrementDesActionsDesJoueurs($donnneesMatch['player'], $match);
 
         $this->playerService->controleNiveauDuJoueur($match->getTeam1());
         $this->playerService->controleNiveauDuJoueur($match->getTeam2());
@@ -102,7 +102,7 @@ class MatchesService
             $ligneMatchData = $this->doctrineEntityManager->getRepository(MatchData::class)->findOneBy(
                 ['fPlayer' => $action['id'], 'fMatch' => $match->getMatchId()]);
 
-            $joueur = $this->doctrineEntityManager->getRepository(Players::class)->findOneBy(['player_id'=>$action['id']]);
+            $joueur = $this->doctrineEntityManager->getRepository(Players::class)->findOneBy(['playerId'=>$action['id']]);
 
             switch ($action['action']) {
                 case 'COMP':
