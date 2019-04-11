@@ -1,45 +1,34 @@
-<div class="container-fluid">
-     <div class="row">
-        <div class="col-sm-9 col-lg-9 col-md-9">
-            <label>Joueur</label>
-        </div>
-        <div class="col-sm-3 col-lg-3 col-md-3">
-            <label>Action</label>
-        </div>
+<div class="form-group">
+    <label for="selected_player_{{ teamId }}_{{ nbr }}" class="control-label col-sm-2 col-lg-2 col-md-2">Joueur</label>
+    <div class="col-sm-8 col-lg-8 col-md-8">
+        <select class="form-control" id="selected_player_{{ teamId }}_{{ nbr }}" name="player[{{ nbr }}].id">
+            <option selected></option>
+            {% for player in players %}
+                <option value="{{ player.playerId }}">{{ player.nr }}.{{ player.name }}({{ player.fRid.name }}
+                    , {{ player.fPos.pos }})
+                </option>
+            {% endfor %}
+        </select>
     </div>
-    <div class="row">
-        <div class="form-group">
-            <div class="col-sm-9 col-lg-9 col-md-9">
-                <select class="form-control" id="selected_player_{{ teamId }}_{{ nbr }}" name="player[{{ nbr }}].id">
-                    <option selected></option>
-                    {% for player in players %}
-                        <option value="{{ player.playerId }}">{{ player.nr }}.{{ player.name }}({{ player.fRid.name }}
-                            , {{ player.fPos.pos }})
-                        </option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-sm-3 col-lg-3 col-md-3">
-                <select class="form-control" id="action" name="player[{{ nbr }}].action">
-                    <option selected></option>
-                    <option>COMP</option>
-                    <option>TD</option>
-                    <option>INT</option>
-                    <option>CAS - BH</option>
-                    <option>CAS - SI</option>
-                    <option>CAS - KI</option>
-                    <option>MVP</option>
-                    <option>AGG</option>
-                    <option>-1 Ma</option>
-                    <option>-1 St</option>
-                    <option>-1 Ag</option>
-                    <option>-1 Av</option>
-                    <option>Ni</option>
-                    <option>RPM</option>
-                    <option>Tué</option>
-                </select>
-            </div>
-        </div>
+    <div class="col-sm-2 col-lg-2 col-md-2">
+        <select class="form-control" id="action" name="player[{{ nbr }}].action">
+            <option selected></option>
+            <option>COMP</option>
+            <option>TD</option>
+            <option>INT</option>
+            <option>CAS - BH</option>
+            <option>CAS - SI</option>
+            <option>CAS - KI</option>
+            <option>MVP</option>
+            <option>AGG</option>
+            <option>-1 Ma</option>
+            <option>-1 St</option>
+            <option>-1 Ag</option>
+            <option>-1 Av</option>
+            <option>Ni</option>
+            <option>RPM</option>
+            <option>Tué</option>
+        </select>
     </div>
 </div>
 

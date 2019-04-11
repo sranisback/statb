@@ -19,11 +19,13 @@ class PlayerService
 {
     private $doctrineEntityManager;
     private $equipeService;
+    private $matchDataService;
 
-    public function __construct(EntityManagerInterface $doctrineEntityManager, EquipeService $equipeService)
+    public function __construct(EntityManagerInterface $doctrineEntityManager, EquipeService $equipeService, MatchDataService $matchDataService)
     {
         $this->doctrineEntityManager = $doctrineEntityManager;
         $this->equipeService = $equipeService;
+        $this->matchDataService = $matchDataService;
     }
 
     /**
@@ -58,6 +60,13 @@ class PlayerService
         }
 
         return $joueurActifCollection;
+    }
+
+    public function remplirMatchDataDeLigneAzero(Teams $equipe, Matches $match)
+    {
+        foreach($this->listeDesJoueursActifsDelEquipe($equipe) as $joueur) {
+            $this->matchDataService->creationLigneVideDonneeMatch($joueur,$match);
+        }
     }
 
     /**
@@ -609,5 +618,72 @@ class PlayerService
         }
 
         return (int)$coutTotalJoueur;
+    }
+
+    public function annulerRPMunJoueur(Players $joueur)
+    {
+        $joueur->setStatus(1);
+        $joueur->setInjRpm(0);
+
+        $this->doctrineEntityManager->persist($joueur);
+
+        $this->doctrineEntityManager->flush();
+    }
+
+    public function annulerRPMtousLesJoueursDeLequipe($equipe)
+    {
+        foreach ($this->listeDesJoueursActifsDelEquipe($equipe) as $joueur){
+            if($joueur->getInjRpm() == 1){
+              $this->annulerRPMunJoueur($joueur);
+            }
+        }
+    }
+
+    public function controleNiveauDuJoueur($equipe)
+    {
+        foreach ($this->listeDesJoueursActifsDelEquipe($equipe) as $joueur){
+            $xpJoueur = $this->xpDuJoueur($joueur);
+
+            $nbrskill = $this->doctrineEntityManager->getRepository(PlayersSkills::class)->findBy(
+                ['fPid' => $joueur->getPlayerId()]
+            );
+
+            $nbrskill = count($nbrskill)+ $joueur->getAchMa() + $joueur->getAchSt() + $joueur->getAchAv() + $joueur->getAchAg();
+
+            switch ($nbrskill) {
+                case 0:
+                    if ($xpJoueur > 5) {
+                        $joueur->setStatus(9);
+                    }
+                    break;
+                case 1:
+                    if ($xpJoueur > 15) {
+                        $joueur->setStatus(9);
+                    }
+                    break;
+                case 2:
+                    if ($xpJoueur > 30) {
+                        $joueur->setStatus(9);
+                    }
+                    break;
+                case 3:
+                    if ($xpJoueur > 50) {
+                        $joueur->setStatus(9);
+                    }
+                    break;
+                case 4:
+                    if ($xpJoueur > 75) {
+                        $joueur->setStatus(9);
+                    }
+                    break;
+                case 5:
+                    if ($xpJoueur > 175) {
+                        $joueur->setStatus(9);
+                    }
+                    break;
+            }
+
+            $this->doctrineEntityManager->persist($joueur);
+        }
     }
 }

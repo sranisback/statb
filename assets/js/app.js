@@ -717,17 +717,6 @@ $(document).ready(function () {
             });
     }
 
-    $("[id^='selectedTeam']").change(function () {
-        $("#valideteam" + $(this).attr("side")).attr("teamId", $(this).val())
-    });
-
-
-    $("[id^='valideteam']").click(function () {
-        let clicked = $(this);
-
-        addLine(clicked, $(".form-group #action").length)
-    });
-
     /**
      * cpt modal ajout de joueur
      */
@@ -743,21 +732,6 @@ $(document).ready(function () {
 
     });
 
-    /**
-     * ajout de ligne dans feuille de match
-     */
-    function addLine(clicked, side) {
-        $.getJSON(Routing.generate('dropdownPlayer', {teamId: clicked.attr('teamId'), nbr: side}),
-            {},
-            function (result) {
-
-                result = JSON.parse(result);
-
-                clicked.parent().after(result.html);
-
-            })
-    }
-
     $("[id^='retire_']").click(function () {
         let clicked = $(this).parent().parent();
         $.post(Routing.generate('retTeam', {teamId: $(this).attr("teamId")}),
@@ -767,12 +741,47 @@ $(document).ready(function () {
             });
     });
 
+    /*
+    * gestion du form match dynamique
+     */
+
+    $("[id^='selectedTeam']").change(function () {
+        let boutonAmodifier = $("#valideteam" + $(this).attr("side"))
+
+        boutonAmodifier.attr("teamId", $(this).val())
+        boutonAmodifier.attr("side", $(this).attr("side"))
+    });
+
+
+    $("[id^='valideteam']").click(function () {
+        let clicked = $(this);
+
+        addLine(clicked, $(".form-group #action").length)
+    });
+
+    /**
+     * ajout de ligne dans feuille de match
+     */
+    function addLine(clicked, number) {
+        $.getJSON(Routing.generate('dropdownPlayer', {teamId: clicked.attr('teamId'), nbr: number}),
+            {},
+            function (result) {
+
+                result = JSON.parse(result);
+
+                $("#team"+clicked.attr('side')+"_select_container").after(result.html);
+
+            })
+    }
+
+    /*
+    * Ajouter le match
+     */
     $("#recMatch").click(function () {
         $.post(Routing.generate('addGame'), JSON.stringify($("#formMatch").serializeToJSON()),
             function () {
                 window.location.reload();
             }, "json");
-
     });
     
     /**

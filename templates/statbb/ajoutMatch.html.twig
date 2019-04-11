@@ -1,125 +1,107 @@
 <h3>Ajouter un match</h3>
-<form id="formMatch">
-    <div class="container-fluid">
-        <div class="form-group">
-            <div class="row">
-                <div class="col-sm-5 col-lg-5 col-md-5">
-                    <div class="row">
-                        <div class="col-sm-6 col-lg-6 col-md-6">
-                            <div class="form-group">
-                                <label>Gain</label>
-                                <input type="text" side="1" name="gain1" value="0">
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-6 col-md-6">
-                            <div class="form-group">
-                                <label>Score</label>
-                                <input type="text" side="1" name="score1" value="0">
-                            </div>
-                        </div>
-                    </div>
-                    {{ render(controller('App\\Controller\\StatBBController::dropdownTeams',{'nbr':1} )) }}
-                    <label>Variation de popularité</label>
-                    <div class="row">
-                        <div class="form-group">
-                            <div class="col-sm-2 col-lg-2 col-md-2">
-                            </div>
-                            <div class="col-sm-2 col-lg-2 col-md-2">
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="varpop_team1" id="optionsRadios2"
-                                               value="-1">
-                                        -1
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-2 col-lg-2 col-md-2">
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="varpop_team1" id="optionsRadios2"
-                                               value="0" checked>
-                                        0
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-2 col-lg-2 col-md-2">
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="varpop_team1" id="optionsRadios1"
-                                               value="1">
-                                        1
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-2 col-lg-2 col-md-2">
-                            </div>
-
-                        </div>
-                    </div>
+<form class="form-horizontal" id="formMatch">
+    <div class="form-row">
+        <div class="col-sm-6 col-lg-6 col-md-6">
+            <h1 class="text-center">Equipe 1</h1>
+            <div class="form-group">
+                <label for="gain1" class="control-label col-sm-2 col-lg-2 col-md-2">Gain</label>
+                <div class="col-sm-10 col-lg-10 col-md-10">
+                    <input id="gain1" class="form-control" type="text" side="1" name="gain1" placeholder="Gain">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="score1" class="control-label col-sm-2 col-lg-2 col-md-2">Score</label>
+                <div class="col-sm-10 col-lg-10 col-md-10">
+                    <input id="score1" class="form-control"  type="text" side="1" name="score1" placeholder="Score">
+                </div>
+            </div>
+            <div class="form-group" id="team1_select_container">
+                <label for="selectedTeam_1" class="control-label col-sm-2 col-lg-2 col-md-2">Equipe 1</label>
+                <div class="col-sm-8 col-lg-8 col-md-8" >
+                    <select class="form-control" id="selectedTeam_1" name="team_1"
+                            side="1">
+                        <option value="" selected>Choisir une équipe</option>
+                        {% for team in teams %}
+                            <option value="{{ team.teamId }}">{{ team.name }}({{ team.fRace.name }}),{{ team.tv/1000 }}
+                                de {{ team.ownedByCoach.name }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <div class="col-sm-2 col-lg-2 col-md-2">
-                    vs
-                </div>
-                <div class="col-sm-5 col-lg-5 col-md-5">
-                    <div class="row">
-                        <div class="col-sm-6 col-lg-6 col-md-6">
-                            <div class="form-group">
-                                <label>Score</label>
-                                <input type="text" side="2" name="score2" value="0">
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-6 col-md-6">
-                            <div class="form-group">
-                                <label>Gain</label>
-                                <input type="text" side="2" name="gain2" value="0">
-                            </div>
-                        </div>
-                    </div>
-                    {{ render(controller('App\\Controller\\StatBBController::dropdownTeams',{'nbr':2} )) }}
-                    <label>Variation de popularité</label>
-                    <div class="row">
-                        <div class="form-group">
-                            <div class="col-sm-2 col-lg-2 col-md-2">
-                            </div>
-                            <div class="col-sm-2 col-lg-2 col-md-2">
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="varpop_team2" id="optionsRadios2"
-                                               value="-1">
-                                        -1
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-2 col-lg-2 col-md-2">
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="varpop_team2" id="optionsRadios2"
-                                               value="0" checked>
-                                        0
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-2 col-lg-2 col-md-2">
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="varpop_team2" id="optionsRadios1"
-                                               value="1">
-                                        1
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-2 col-lg-2 col-md-2">
-                            </div>
-
-                        </div>
-                    </div>
+                    <button type="button" class="btn btn-primary form-control" side="1" id="valideteam1">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
                 </div>
             </div>
-            <div clas="form-group">
-                <label>Total popularité</label>
-                <input type="text" name="totalpop" value="0">
+            <div class="form-group">
+                <label class="control-label col-sm-4 col-lg-4 col-md-4">Variation de popularité</label>
+                <div class="col-sm-8 col-lg-8 col-md-8">
+                    <label class="radio" for="optionsRadios3">
+                        <input type="radio" name="varpop_team1" id="optionsRadios3" value="-1">-1</label>
+                    </label>
+                    <label class="radio" for="optionsRadios2">
+                        <input type="radio" name="varpop_team1" id="optionsRadios2" value="0">0</label>
+                    </label>
+                    <label class="radio" for="optionsRadios1">
+                        <input type="radio" name="varpop_team1" id="optionsRadios1" value="1">1</label>
+                    </label>
+                </div>
+           </div>
+       </div>
+
+        <div class="col-sm-6 col-lg-6 col-md-6">
+            <h1 class="text-center">Equipe 2</h1>
+            <div class="form-group">
+                <label for="gain2" class="control-label col-sm-2 col-lg-2 col-md-2">Gain</label>
+                <div class="col-sm-10 col-lg-10 col-md-10">
+                    <input id="gain2" class="form-control" type="text" side="2" name="gain2" placeholder="Gain">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="score2" class="control-label col-sm-2 col-lg-2 col-md-2">Score</label>
+                <div class="col-sm-10 col-lg-10 col-md-10">
+                    <input id="score2" class="form-control"  type="text" side="2" name="score2" placeholder="Score">
+                </div>
+            </div>
+            <div class="form-group" id="team2_select_container">
+                <label for="selectedTeam_2" class="control-label col-sm-2 col-lg-2 col-md-2">Equipe 2</label>
+                <div class="col-sm-8 col-lg-8 col-md-8" >
+                    <select class="form-control" id="selectedTeam_2" name="team_2"
+                            side="2">
+                        <option value="" selected>Choisir une équipe</option>
+                        {% for team in teams %}
+                            <option value="{{ team.teamId }}">{{ team.name }}({{ team.fRace.name }}),{{ team.tv/1000 }}
+                                de {{ team.ownedByCoach.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-sm-2 col-lg-2 col-md-2">
+                    <button type="button" class="btn btn-primary form-control" side="2" id="valideteam2">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-4 col-lg-4 col-md-4">Variation de popularité</label>
+                <div class="col-sm-8 col-lg-8 col-md-8">
+                    <label class="radio" for="optionsRadios3">
+                        <input type="radio" name="varpop_team2" id="optionsRadios3" value="-1">-1</label>
+                    </label>
+                    <label class="radio" for="optionsRadios2">
+                        <input type="radio" name="varpop_team2" id="optionsRadios2" value="0">0</label>
+                    </label>
+                    <label class="radio" for="optionsRadios1">
+                        <input type="radio" name="varpop_team2" id="optionsRadios1" value="1">1</label>
+                    </label>
+                </div>
             </div>
         </div>
-        <button id="recMatch" type="button" class="btn btn-default"> Valider</button>
     </div>
+    <div class="form-row">
+        <div clas="form-group">
+            <label for="totalpop">Total popularité</label>
+            <input type="text" name="totalpop" value="0" id="totalpop" class="form-control" >
+        </div>
+    </div>
+    <button id="recMatch" type="button" class="btn btn-default">Valider</button>
 </form>

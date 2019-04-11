@@ -18,6 +18,8 @@ use App\form\CreerEquipeType;
 use App\form\CreerStade;
 use App\Service\CoachService;
 use App\Service\EquipeService;
+use App\Service\MatchDataService;
+use App\Service\MatchesService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
 use App\Service\StadeService;
@@ -669,6 +671,7 @@ class StatBBController extends AbstractController
     /**
      * @Route("/remPlayer/{playerId}", options = { "expose" = true })
      * @param PlayerService $playerService
+     * @param EquipeService $equipeService
      * @param int $playerId
      * @return JsonResponse
      */
@@ -756,21 +759,6 @@ class StatBBController extends AbstractController
     }
 
     /**
-     * @Route("/dropdownTeams/{nbr}", name="dropdownTeams")
-     * @param SettingsService $settingsService
-     * @param int $nbr
-     * @return Response
-     */
-
-    public function dropdownTeams(SettingsService $settingsService, $nbr)
-    {
-        return $this->render(
-            'statbb/dropdownteams.html.twig',
-            ['teams' => $this->getDoctrine()->getRepository(Teams::class)->findBy(['year' => $settingsService->anneeCourante()]),'nbr'=>$nbr]
-        );
-    }
-
-    /**
      * @Route("/dropdownPlayer/{teamId}/{nbr}", options = { "expose" = true })
      * @param PlayerService $playerService
      * @param int $teamId
@@ -806,321 +794,19 @@ class StatBBController extends AbstractController
      * @return JsonResponse
      */
 
-    public function addGame(EquipeService $equipeService, SettingsService $settingsService, PlayerService $playerService, Request $request)
+    public function addGame(EquipeService $equipeService, SettingsService $settingsService, PlayerService $playerService,MatchesService $matchesService,MatchDataService $matchDataService, Request $request)
     {
-        $parametersAsArray = [];
+        $recuperationDonneeForm = [];
 
-        if ($content = $request->getContent()) {
-            $parametersAsArray = json_decode($content, true);
+        if ($contenu = $request->getContent()) {
+            $recuperationDonneeForm = json_decode($contenu, true);
         }
 
-        $entityManager = $this->getDoctrine()->getManager();
+        $matchesService->enregistrerMatch($recuperationDonneeForm);
 
-        $match = new Matches();
-
-        $team1 = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(
-            ['teamId' => $parametersAsArray['team_1']]
-        );
-        $team2 = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(
-            ['teamId' => $parametersAsArray['team_2']]
-        );
-
-        if ($team1 && $team2) {
-            $dateCreatedFormat = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
-            if ($dateCreatedFormat) {
-                $match->setDateCreated($dateCreatedFormat);
-            }
-            $match->setFans($parametersAsArray['totalpop']);
-            $match->setFfactor1($parametersAsArray['varpop_team1']);
-            $match->setFfactor2($parametersAsArray['varpop_team2']);
-            $match->setIncome1($parametersAsArray['gain1']);
-            $match->setIncome2($parametersAsArray['gain2']);
-            $match->setTeam1Score($parametersAsArray['score1']);
-            $match->setTeam2Score($parametersAsArray['score2']);
-            $match->setTeam1($team1);
-            $match->setTeam2($team2);
-            $match->setTv1($equipeService->tvDelEquipe($team1, $playerService));
-            $match->setTv2($equipeService->tvDelEquipe($team2, $playerService));
-
-            $entityManager->persist($match);
-
-            $players = $this->getDoctrine()->getRepository(Players::class)->findBy(
-                ['ownedByTeam' => $team1->getTeamId()]
-            );
-
-            foreach ($players as $player) {
-                if ($player->getStatus() == 7 || $player->getStatus() == 8 || $player->getInjRpm() == 1) {
-                } else {
-                    $matchdata = new MatchData();
-
-                    $matchdata->setAgg(0);
-                    $matchdata->setBh(0);
-                    $matchdata->setCp(0);
-                    $matchdata->setFMatch($match);
-                    $matchdata->setFPlayer($player);
-                    $matchdata->setInj(0);
-                    $matchdata->setIntcpt(0);
-                    $matchdata->setKi(0);
-                    $matchdata->setMvp(0);
-                    $matchdata->setSi(0);
-                    $matchdata->setTd(0);
-
-                    $player->setInjRpm(0);
-
-                    $entityManager->persist($matchdata);
-
-                    $entityManager->flush();
-                }
-            }
-
-            foreach ($players as $player) {
-                if ($player->getStatus() == 7 || $player->getStatus() == 8) {
-                } elseif ($player->getInjRpm() == 1) {
-                    $matchdata = new MatchData();
-
-                    $player->setInjRpm(0);
-
-                    $entityManager->persist($matchdata);
-
-                    $entityManager->flush();
-                }
-            }
-
-            $players = $this->getDoctrine()->getRepository(Players::class)->findBy(
-                ['ownedByTeam' => $team2->getTeamId()]
-            );
-
-            foreach ($players as $player) {
-                if ($player->getStatus() == 7 || $player->getStatus() == 8 || $player->getInjRpm() == 1) {
-                } else {
-                    $matchdata = new MatchData();
-
-                    $matchdata->setAgg(0);
-                    $matchdata->setBh(0);
-                    $matchdata->setCp(0);
-                    $matchdata->setFMatch($match);
-                    $matchdata->setFPlayer($player);
-                    $matchdata->setInj(0);
-                    $matchdata->setIntcpt(0);
-                    $matchdata->setKi(0);
-                    $matchdata->setMvp(0);
-                    $matchdata->setSi(0);
-                    $matchdata->setTd(0);
-
-                    $player->setInjRpm(0);
-
-                    $entityManager->persist($matchdata);
-
-                    $entityManager->flush();
-                }
-            }
-
-            foreach ($players as $player) {
-                if ($player->getStatus() == 7 || $player->getStatus() == 8) {
-                } elseif ($player->getInjRpm() == 1) {
-                    $matchdata = new MatchData();
-
-                    $player->setInjRpm(0);
-
-                    $entityManager->persist($matchdata);
-
-                    $entityManager->flush();
-                }
-            }
-
-            $team1->setTreasury($team1->getTreasury() + $parametersAsArray['gain1']);
-            $team2->setTreasury($team2->getTreasury() + $parametersAsArray['gain2']);
-
-            if ($team1->getFf() + $parametersAsArray['varpop_team1'] < 0) {
-                $team1->setFf(0);
-            } else {
-                $team1->setFf($team1->getFf() + $parametersAsArray['varpop_team1']);
-            }
-
-            if ($team2->getFf() + $parametersAsArray['varpop_team2'] < 0) {
-                $team2->setFf(0);
-            } else {
-                $team2->setFf($team2->getFf() + $parametersAsArray['varpop_team2']);
-            }
-
-            $entityManager->persist($team1);
-            $entityManager->persist($team2);
-
-            $entityManager->flush();
-
-            /*$tt = $this->getDoctrine()->getRepository(MatchData::class)->findOneBy(
-                ['fPlayer' => $parametersAsArray['player']['0']['id'], 'fMatch' => $match->getMatchId()]
-            );*/
-
-            foreach ($parametersAsArray['player'] as $action) {
-                $mdplayer = $this->getDoctrine()->getRepository(MatchData::class)->findOneBy(
-                    ['fPlayer' => $action['id'], 'fMatch' => $match->getMatchId()]
-                );
-                $playerstat = $this->getDoctrine()->getRepository(Players::class)->findOneBy(
-                    ['playerId' => $action['id']]
-                );
-
-                if ($mdplayer && $playerstat) {
-                    switch ($action['action']) {
-                        case 'COMP':
-                            $mdplayer->setCp(1);
-                            break;
-                        case 'TD':
-                            $mdplayer->setTd(1);
-                            break;
-                        case 'INT':
-                            $mdplayer->setIntcpt(1);
-                            break;
-                        case 'CAS - BH':
-                            $mdplayer->setBh(1);
-                            break;
-                        case 'CAS - SI':
-                            $mdplayer->setSi(1);
-                            break;
-                        case 'CAS - KI':
-                            $mdplayer->setKi(1);
-                            break;
-                        case 'MVP':
-                            $mdplayer->setMvp(1);
-                            break;
-                        case 'AGG':
-                            $mdplayer->setAgg(1);
-                            break;
-                        case '-1 Ma':
-                            $playerstat->setInjMa($playerstat->getInjMa() + 1);
-                            $playerstat->setInjRpm(1);
-                            break;
-                        case '-1 St':
-                            $playerstat->setInjSt($playerstat->getInjSt() + 1);
-                            $playerstat->setInjRpm(1);
-                            break;
-                        case '-1 Ag':
-                            $playerstat->setInjAg($playerstat->getInjAg() + 1);
-                            $playerstat->setInjRpm(1);
-                            break;
-                        case '-1 Av':
-                            $playerstat->setInjAv($playerstat->getInjAv() + 1);
-                            $playerstat->setInjRpm(1);
-                            break;
-                        case 'Ni':
-                            $playerstat->setInjNi($playerstat->getInjNi() + 1);
-                            $playerstat->setInjRpm(1);
-                            break;
-                        case 'RPM':
-                            $playerstat->setInjRpm(1);
-                            break;
-                        case 'Tué':
-                            $dateDiedFormat = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
-                            if ($dateDiedFormat) {
-                                $playerstat->setDateDied($dateDiedFormat);
-                            }
-                            $playerstat->setStatus(8);
-                            break;
-                    }
-
-                    $entityManager->persist($mdplayer);
-
-                    $mdata = $this->getDoctrine()->getRepository(MatchData::class)->findBy(
-                        ['fPlayer' => $playerstat->getPlayerId()]
-                    );
-
-                    $tcp = 0;
-                    $ttd = 0;
-                    $tint = 0;
-                    $tcas = 0;
-                    $tmvp = 0;
-                    $tagg = 0;
-
-                    foreach ($mdata as $game) {
-                        $tcp += $game->getCp();
-                        $ttd += $game->getTd();
-                        $tint += $game->getIntcpt();
-                        $tcas += ($game->getBh() + $game->getSi() + $game->getKi());
-                        $tmvp += $game->getMvp();
-                        $tagg += $game->getAgg();
-                    }
-
-                    $spp = $tcp + ($ttd * 3) + ($tint * 2) + ($tcas * 2) + ($tmvp * 5);
-
-                    $nbrskill = $this->getDoctrine()->getRepository(PlayersSkills::class)->findBy(
-                        ['fPid' => $playerstat->getPlayerId()]
-                    );
-
-                    switch (count($nbrskill)) {
-                        case 0:
-                            if ($spp > 5) {
-                                $playerstat->setStatus(9);
-                            }
-                            break;
-                        case 1:
-                            if ($spp > 15) {
-                                $playerstat->setStatus(9);
-                            }
-                            break;
-                        case 2:
-                            if ($spp > 30) {
-                                $playerstat->setStatus(9);
-                            }
-                            break;
-                        case 3:
-                            if ($spp > 50) {
-                                $playerstat->setStatus(9);
-                            }
-                            break;
-                        case 4:
-                            if ($spp > 75) {
-                                $playerstat->setStatus(9);
-                            }
-                            break;
-                        case 5:
-                            if ($spp > 175) {
-                                $playerstat->setStatus(9);
-                            }
-                            break;
-                    }
-                    $entityManager->persist($playerstat);
-                }
-            }
-
-            $entityManager->persist($team1);
-            $entityManager->persist($team2);
-
-            $entityManager->flush();
-
-            $tt = 'ok';
-
-            $equipeService->eloDesEquipes($settingsService->anneeCourante());
-
-            $encoders = array(new XmlEncoder(), new JsonEncoder());
-            $normalizers = array(new ObjectNormalizer());
-
-            $serializer = new Serializer($normalizers, $encoders);
-
-            $jsonContent = $serializer->serialize($tt, 'json');
-
-            return new JsonResponse($jsonContent);
-        } else {
-            $tt = 'error';
-
-            $encoders = array(new XmlEncoder(), new JsonEncoder());
-            $normalizers = array(new ObjectNormalizer());
-
-            $serializer = new Serializer($normalizers, $encoders);
-
-            $jsonContent = $serializer->serialize($tt, 'json');
-
-            return new JsonResponse($jsonContent);
-        }
+        return self::transformeEnJson('ok');
     }
 
-    /**
-     * @param Teams $team
-     * @return float|int
-     */
-    public function calculateTV($team)
-    {
-        return 0;
-    }
 
     /**
      * @Route("/chkteam/{teamId}", name="Chkteam", options = { "expose" = true })
@@ -1521,9 +1207,9 @@ class StatBBController extends AbstractController
     /**
      * @Route("/ajoutMatch", name="ajoutMatch", options = { "expose" = true })
      */
-    public function ajoutMatch()
+    public function ajoutMatch(SettingsService $settingsService)
     {
-        return $this->render('statbb/ajoutMatch.html.twig');
+        return $this->render('statbb/ajoutMatch.html.twig',['teams' => $this->getDoctrine()->getRepository(Teams::class)->findBy(['year' => $settingsService->anneeCourante()])]);
     }
 
     /**
@@ -1610,22 +1296,4 @@ class StatBBController extends AbstractController
 
         return $this->redirectToRoute('team', ['teamid'=>$joueur->getOwnedByTeam()->getTeamId(),'type'=>'n']);
     }
-
-    /**
-     * @Route("/calculTv", name="calculTv", options = { "expose" = true })
-     * @param EquipeService $equipeService
-     * @param Teams $equipe
-     * @return int
-     */
-    public function tvPourAffichage(EquipeService $equipeService, PlayerService $playerService)
-    {
-        foreach ($this->getDoctrine()->getRepository(Teams::class)->equipeSansTv() as $equipe){
-            $equipe->setTv($equipeService->tvDelEquipe($equipe, $playerService));
-
-            $this->getDoctrine()->getManager()->persist($equipe);
-            $this->getDoctrine()->getManager()->flush();
-        }
-        return new Response ('ok');
-    }
-
 }
