@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\Coaches;
 use App\Entity\GameDataStadium;
 use App\Entity\Teams;
 use App\Entity\Races;
@@ -1305,5 +1306,15 @@ class StatBBController extends AbstractController
     public function montreLeCimetierre(SettingsService $settingsService)
     {
         return $this->render('statbb/cimetierre.html.twig',['joueurCollection' => $this->getDoctrine()->getRepository(players::class)->mortPourlAnnee($settingsService->anneeCourante())]);
+    }
+
+    /**
+     * @Route("/montreClassementELO}", name="montreClassementELO", options = { "expose" = true })
+     * @param SettingsService $settingsService
+     * @return Response
+     */
+    public function montreClassementELO(SettingsService $settingsService)
+    {
+        return $this->render('statbb/classementELO.html.twig',['equipeCollection' => $this->getDoctrine()->getRepository(Teams::class)->findBy(['year' => $settingsService->anneeCourante()])]);
     }
 }

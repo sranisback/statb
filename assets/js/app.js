@@ -559,12 +559,25 @@ $(document).ready(function () {
         "info": false
 
     });
+    /*
+     * table cimetierre
+     */
 
     $('#TableCimetierre').DataTable({
         "lengthChange": false,
-        "pageLength": 200,
+        "pageLength": 20,
+        "info": false
+    });
+
+
+    /*
+     * table ELO
+     */
+    $('#TableElo').DataTable({
+        "lengthChange": false,
+        "pageLength": 20,
         "info": false,
-        "paging": false
+        "order": [[ 4, "desc" ]]
     });
 
     /**

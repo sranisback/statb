@@ -1,0 +1,24 @@
+<div class="table-responsive">
+    <table class="table" id="TableElo" style="width: 100%">
+        <thead>
+        <tr>
+            <td>Nom Du Coach</td>
+            <td>Equipe</td>
+            <td>Race</td>
+            <td>Tv</td>
+            <td>Elo</td>
+        </tr>
+        </thead>
+        <tbody>
+        {%  for equipe in equipeCollection %}
+            <tr>
+                <td>{{ equipe.ownedByCoach.name }}</td>
+                <td>{{ equipe.name }}</td>
+                <td>{{ equipe.fRace.name }}</td>
+                <td>{{ equipe.tv/1000 }}</td>
+                <td>{{ equipe.elo}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

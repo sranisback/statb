@@ -57,7 +57,7 @@ class EquipeService
      * @param Teams $equipe
      * @return array
      */
-    public function listeDesMatchs(Teams $equipe)
+    public function listeDesMatchs(Teams $equipe) :array
     {
         $matches1 = $this->doctrineEntityManager->getRepository(Matches::class)->findBy(
             ['team1' => $equipe->getTeamId()],
