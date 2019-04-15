@@ -1296,4 +1296,14 @@ class StatBBController extends AbstractController
 
         return $this->redirectToRoute('team', ['teamid'=>$joueur->getOwnedByTeam()->getTeamId(),'type'=>'n']);
     }
+
+    /**
+     * @Route("/montreLeCimetierre}", name="montreLeCimetierre", options = { "expose" = true })
+     * @param SettingsService $settingsService
+     * @return Response
+     */
+    public function montreLeCimetierre(SettingsService $settingsService)
+    {
+        return $this->render('statbb/cimetierre.html.twig',['joueurCollection' => $this->getDoctrine()->getRepository(players::class)->mortPourlAnnee($settingsService->anneeCourante())]);
+    }
 }

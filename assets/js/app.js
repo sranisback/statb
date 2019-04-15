@@ -560,6 +560,13 @@ $(document).ready(function () {
 
     });
 
+    $('#TableCimetierre').DataTable({
+        "lengthChange": false,
+        "pageLength": 200,
+        "info": false,
+        "paging": false
+    });
+
     /**
      * bouton qui montre tout les joueurs/équipes
      */
@@ -778,6 +785,7 @@ $(document).ready(function () {
     * Ajouter le match
      */
     $("#recMatch").click(function () {
+        //alert(JSON.stringify($("#formMatch").serializeToJSON()));
         $.post(Routing.generate('addGame'), JSON.stringify($("#formMatch").serializeToJSON()),
             function () {
                 window.location.reload();
