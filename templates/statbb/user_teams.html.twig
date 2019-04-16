@@ -45,3 +45,4 @@
 	Montrer les équipes retirées
 </button>
 {{ render(controller('App\\Controller\\StatBBController::choixRace' )) }}
+{{ render(controller('App\\Controller\\StatBBController::ajoutPrimeForm',{'coachId':app.user.coachId} )) }}

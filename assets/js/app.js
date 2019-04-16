@@ -279,7 +279,7 @@ const routes = {
 }
 
 //json route dev
-
+/*
 const routes = {
     "base_url": "",
     "routes": {
@@ -545,7 +545,7 @@ const routes = {
     "port": "",
     "scheme": "http"
 }
-
+*/
 $(document).ready(function () {
 
     Routing.setRoutingData(routes);
@@ -566,7 +566,8 @@ $(document).ready(function () {
     $('#TableCimetierre').DataTable({
         "lengthChange": false,
         "pageLength": 20,
-        "info": false
+        "info": false,
+        "order": [[ 3, "desc" ]]
     });
 
 

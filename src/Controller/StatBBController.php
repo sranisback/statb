@@ -1,8 +1,8 @@
 <?php
 namespace App\Controller;
 
-use App\Entity\Coaches;
 use App\Entity\GameDataStadium;
+use App\Entity\Primes;
 use App\Entity\Teams;
 use App\Entity\Races;
 use App\Entity\Players;
@@ -14,14 +14,15 @@ use App\Entity\MatchData;
 use App\Entity\Setting;
 
 use App\form\AjoutCompetenceType;
-use App\form\AjoutMatchType;
 use App\form\CreerEquipeType;
-use App\form\CreerStade;
+use App\form\CreerStadeType;
+use App\form\PrimeType;
 use App\Service\CoachService;
 use App\Service\EquipeService;
 use App\Service\MatchDataService;
 use App\Service\MatchesService;
 use App\Service\PlayerService;
+use App\Service\PrimeService;
 use App\Service\SettingsService;
 use App\Service\StadeService;
 
@@ -1226,7 +1227,7 @@ class StatBBController extends AbstractController
             /** @var Teams $equipe */
             $stade = $equipe->getFStades();
 
-            $form = $this->createForm(CreerStade::class, $stade);
+            $form = $this->createForm(CreerStadeType::class, $stade);
 
             return $this->render('statbb/ajoutStade.html.twig', ['form' => $form->createView(),'teamId'=>$equipe->getTeamId()]);
         }
@@ -1299,22 +1300,52 @@ class StatBBController extends AbstractController
     }
 
     /**
-     * @Route("/montreLeCimetierre}", name="montreLeCimetierre", options = { "expose" = true })
+     * @Route("/montreLeCimetierre", name="montreLeCimetierre", options = { "expose" = true })
      * @param SettingsService $settingsService
      * @return Response
      */
-    public function montreLeCimetierre(SettingsService $settingsService)
+    public function montreLeCimetiere(SettingsService $settingsService)
     {
-        return $this->render('statbb/cimetierre.html.twig',['joueurCollection' => $this->getDoctrine()->getRepository(players::class)->mortPourlAnnee($settingsService->anneeCourante())]);
+        return $this->render('statbb/cimetiere.html.twig',['joueurCollection' => $this->getDoctrine()->getRepository(players::class)->mortPourlAnnee($settingsService->anneeCourante())]);
     }
 
     /**
-     * @Route("/montreClassementELO}", name="montreClassementELO", options = { "expose" = true })
+     * @Route("/montreClassementELO", name="montreClassementELO", options = { "expose" = true })
      * @param SettingsService $settingsService
      * @return Response
      */
     public function montreClassementELO(SettingsService $settingsService)
     {
         return $this->render('statbb/classementELO.html.twig',['equipeCollection' => $this->getDoctrine()->getRepository(Teams::class)->findBy(['year' => $settingsService->anneeCourante()])]);
+    }
+
+    /**
+     * @Route("/ajoutPrimeForm/{coachId}", name="ajoutPrimeForm", options = { "expose" = true })
+     * @param int $coachId
+     * @return Response
+     */
+    public function ajoutPrimeForm($coachId)
+    {
+        $prime = new Primes();
+
+        $form = $this->createForm(PrimeType::class,$prime,['coach' => $coachId]);
+
+        return $this->render('statbb/ajoutPrime.html.twig', ['form'=>$form->createView(),'coachId' => $coachId]);
+    }
+
+    /**
+     * @Route("/ajoutPrime/{coachId}", name="ajoutPrime", options = { "expose" = true })
+     * @param Request $request
+     * @param PrimeService $primeService
+     * @param $coachId
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function ajoutPrime(Request $request,PrimeService $primeService, $coachId)
+    {
+        $form = $request->request->get('prime');
+
+        $primeService->creationPrime($coachId,$form);
+
+        return $this->redirectToRoute('frontUser');
     }
 }
