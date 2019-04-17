@@ -2,7 +2,6 @@
 
 namespace App\Admin;
 
-
 use App\Entity\Coaches;
 use App\Entity\Players;
 use App\Entity\Teams;
@@ -21,23 +20,38 @@ class PrimeAdmin extends AbstractAdmin
             ->add(
                 'players',
                 entityType::class,
-                ['class' => Players::class, 'choice_label' => 'name', 'label' => 'Victime','group_by' => 'ownedByTeam.name']
+                [
+                    'class' => Players::class,
+                    'choice_label' => 'name',
+                    'label' => 'Victime',
+                    'group_by' => 'ownedByTeam.name',
+                ]
             )
-            ->add('coaches',
-            entityType::class,
-            ['class' => Coaches::class,'choice_label' => 'name', 'label' => 'Coache source'])
-            ->add('teams',entityType::class, ['class' => Teams::class,'choice_label' => 'name', 'label' => 'Equipe Source', 'group_by' =>'ownedByCoach.name'])
-            ->add('actif', null,['label' => 'Active']);
-
+            ->add(
+                'coaches',
+                entityType::class,
+                ['class' => Coaches::class, 'choice_label' => 'name', 'label' => 'Coache source']
+            )
+            ->add(
+                'teams',
+                entityType::class,
+                [
+                    'class' => Teams::class,
+                    'choice_label' => 'name',
+                    'label' => 'Equipe Source',
+                    'group_by' => 'ownedByCoach.name',
+                ]
+            )
+            ->add('actif', null, ['label' => 'Active']);
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('teams.name',null, ['label' => 'De (Equipe Source)'])
-            ->add('players.name',null, ['label' => 'Victime'])
-            ->add('players.ownedByTeam.name',null, ['label' => 'Equipe victime'])
-            ->add('actif', null,['label' => 'Active']);
+            ->add('teams.name', null, ['label' => 'De (Equipe Source)'])
+            ->add('players.name', null, ['label' => 'Victime'])
+            ->add('players.ownedByTeam.name', null, ['label' => 'Equipe victime'])
+            ->add('actif', null, ['label' => 'Active']);
     }
 
     protected function configureListFields(ListMapper $listMapper)
@@ -45,10 +59,10 @@ class PrimeAdmin extends AbstractAdmin
         $listMapper
             ->addIdentifier('id', null, ['label' => 'id'])
             ->add('montant')
-            ->add('teams.name',null, ['label' => 'De (Equipe Source)'])
-            ->add('players.name',null, ['label' => 'Victime'])
-            ->add('players.ownedByTeam.name',null, ['label' => 'Equipe victime'])
-            ->add('actif', null,['label' => 'Active'])
+            ->add('teams.name', null, ['label' => 'De (Equipe Source)'])
+            ->add('players.name', null, ['label' => 'Victime'])
+            ->add('players.ownedByTeam.name', null, ['label' => 'Equipe victime'])
+            ->add('actif', null, ['label' => 'Active'])
             ->add(
                 '_action',
                 null,
@@ -58,6 +72,7 @@ class PrimeAdmin extends AbstractAdmin
                         'delete' => [],
                     ],
                 ]
-            );;
+            );
+        ;
     }
 }

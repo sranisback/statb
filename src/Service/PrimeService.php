@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-
 use App\Entity\Coaches;
 use App\Entity\Players;
 use App\Entity\Primes;
@@ -23,13 +22,16 @@ class PrimeService
     {
         $equipe = $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(['teamId' => $data['teams']]);
 
-        if($equipe->getTreasury()>$data['montant']){
+        if ($equipe->getTreasury()>$data['montant']) {
             $prime = new Primes();
 
             $prime->setCoaches(
                 $this->doctrineEntityManager->getRepository(Coaches::class)->findOneBy(['coachId' => $coach])
             );
-            $prime->setDateAjoutee(DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s")));
+            $dateAjoutee = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
+            if ($dateAjoutee) {
+                $prime->setDateAjoutee($dateAjoutee);
+            }
             $prime->setMontant($data['montant']);
             $prime->setPlayers(
                 $this->doctrineEntityManager->getRepository(Players::class)->findOneBy(['playerId' => $data['players']])

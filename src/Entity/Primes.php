@@ -66,12 +66,12 @@ class Primes
         return $this;
     }
 
-    public function getCoaches(): ?coaches
+    public function getCoaches(): ?Coaches
     {
         return $this->Coaches;
     }
 
-    public function setCoaches(?coaches $Coaches): self
+    public function setCoaches(?Coaches $Coaches): self
     {
         $this->Coaches = $Coaches;
 

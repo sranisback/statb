@@ -34,7 +34,7 @@ class Players
     private $type = 1;
 
     /**
-     * @var string|null
+     * @var string
      *
      * @ORM\Column(name="name", type="string", length=60, nullable=true)
      */
@@ -215,7 +215,7 @@ class Players
         return $this;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }

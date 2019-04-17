@@ -7,6 +7,7 @@ parameters:
 	ignoreErrors:
 	    - '#.+totalcas.+#'
 	    - '#.+SClassement.+#'
-	    - '#.+classement.+#'
+	    - '#.+listePrimeEnCours.+#'
+	    - '#.+mortPourlAnnee.+#'
 	autoload_directories:
 		- %rootDir%/../../../src/Migrations

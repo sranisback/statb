@@ -2,7 +2,6 @@
 
 namespace App\Admin;
 
-
 use App\Entity\GameDataStadium;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -17,13 +16,19 @@ class StadesAdmin extends AbstractAdmin
     {
         $formMapper
             ->add('nom', null, ['label' => 'Nom'])
-            ->add('total_payement',TextType::class, ['label' => 'Payement total'])
+            ->add('total_payement', TextType::class, ['label' => 'Payement total'])
             ->add(
                 'fTypeStade',
                 entityType::class,
-                ['class' => GameDataStadium::class, 'choice_label' => 'type', 'label' => 'Type','group_by' => 'famille',]
+                [
+                    'class' => GameDataStadium::class,
+                    'choice_label' => 'type',
+                    'label' => 'Type',
+                    'group_by' => 'famille',
+                ]
             );
     }
+
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
@@ -35,8 +40,8 @@ class StadesAdmin extends AbstractAdmin
         $listMapper
             ->addIdentifier('id', null, ['label' => 'id'])
             ->add('nom')
-            ->add('total_payement',null, ['label' => 'Payement total'])
-            ->add('fTypeStade.type',null, ['label' => 'Type'])
-            ->add('_action',null,['actions'=>['edit' => [],'delete' => []]]);
+            ->add('total_payement', null, ['label' => 'Payement total'])
+            ->add('fTypeStade.type', null, ['label' => 'Type'])
+            ->add('_action', null, ['actions' => ['edit' => [], 'delete' => []]]);
     }
 }

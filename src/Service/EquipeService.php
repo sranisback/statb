@@ -33,45 +33,40 @@ class EquipeService
         $this->doctrineEntityManager = $doctrineEntityManager;
     }
 
-    /**
-     * @param int $annee
-     * @return array
+     /**
+     * @param Teams $equipe
+     * @param PlayerService $playerService
+     * @return int
      */
-    public function toutesLesTeamsParAnnee($annee = 1)
+    public function tvDelEquipe(Teams $equipe, PlayerService $playerService)
     {
-        $equipeCollection  = $this->doctrineEntityManager->getRepository(Teams::class)->toutesLesEquipesActivesDuneAnnee($annee);
+        $coutTotalJoueur = $playerService->coutTotalJoueurs($equipe);
 
-        foreach ($equipeCollection as $number => $line){
-            $equipe = $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(
-                ['teamId' => $line['teamId']]
-            );
-            $line['tv'] = $this->tvDelEquipe($equipe);
-            //var_dump($line);
-            $equipeCollection[$number] = $line;
-        }
+        $inducement = $this->valeurInducementDelEquipe($equipe);
 
-        return $equipeCollection;
+        return $coutTotalJoueur + $inducement['total'];
     }
 
     /**
      * @param Teams $equipe
      * @return array
      */
-    public function listeDesMatchs(Teams $equipe) :array
+    public function valeurInducementDelEquipe(Teams $equipe)
     {
-        $matches1 = $this->doctrineEntityManager->getRepository(Matches::class)->findBy(
-            ['team1' => $equipe->getTeamId()],
-            ['dateCreated' => 'DESC']
-        );
+        $equipeRace = $equipe->getFRace();
 
-        $matches2 = $this->doctrineEntityManager->getRepository(Matches::class)->findBy(
-            ['team2' => $equipe->getTeamId()],
-            ['dateCreated' => 'DESC']
-        );
+        if ($equipeRace) {
+            $inducement['rerolls'] = $equipe->getRerolls() * $equipeRace->getCostRr();
+        }
 
-        $matches = array_merge($matches1, $matches2);
+        $inducement['pop'] = ($equipe->getFf() + $equipe->getFfBought()) * 10000;
+        $inducement['asscoaches'] = $equipe->getAssCoaches() * 10000;
+        $inducement['cheerleader'] = $equipe->getCheerleaders() * 10000;
+        $inducement['apo'] = $equipe->getApothecary() * 50000;
+        $inducement['total'] = $inducement['rerolls'] + $inducement['pop']
+            + $inducement['asscoaches'] + $inducement['cheerleader'] + $inducement['apo'];
 
-        return $matches;
+        return $inducement;
     }
 
     /**
@@ -93,7 +88,7 @@ class EquipeService
             $Totalloss += $results['loss'];
         }
 
-        return ['win'=>$TotalWin,'draw'=> $Totaldraw,'loss'=> $Totalloss];
+        return ['win' => $TotalWin, 'draw' => $Totaldraw, 'loss' => $Totalloss];
     }
 
     /**
@@ -118,7 +113,7 @@ class EquipeService
             $draw++;
         }
 
-        return ['win'=>$win, 'loss'=>$loss,'draw'=> $draw];
+        return ['win' => $win, 'loss' => $loss, 'draw' => $draw];
     }
 
     /**
@@ -143,7 +138,7 @@ class EquipeService
         $team->setTv(0);
 
         $stade = new Stades();
-        $typeStade = $this->doctrineEntityManager->getRepository(GameDataStadium::class)->findOneBy(['id'=>0]);
+        $typeStade = $this->doctrineEntityManager->getRepository(GameDataStadium::class)->findOneBy(['id' => 0]);
 
         $stade->setFTypeStade($typeStade);
         $stade->setTotalPayement(0);
@@ -178,42 +173,6 @@ class EquipeService
 
     /**
      * @param Teams $equipe
-     * @return array
-     */
-    public function valeurInducementDelEquipe(Teams $equipe)
-    {
-        $equipeRace = $equipe->getFRace();
-
-        if ($equipeRace) {
-            $inducement['rerolls'] = $equipe->getRerolls() * $equipeRace->getCostRr();
-        }
-
-        $inducement['pop'] = ($equipe->getFf() + $equipe->getFfBought()) * 10000;
-        $inducement['asscoaches'] = $equipe->getAssCoaches() * 10000;
-        $inducement['cheerleader'] = $equipe->getCheerleaders() * 10000;
-        $inducement['apo'] = $equipe->getApothecary() * 50000;
-        $inducement['total']= $inducement['rerolls'] + $inducement['pop']
-            + $inducement['asscoaches'] + $inducement['cheerleader'] + $inducement['apo'];
-
-        return $inducement;
-    }
-
-    /**
-     * @param Teams $equipe
-     * @param PlayerService $playerService
-     * @return int
-     */
-    public function tvDelEquipe(Teams $equipe, PlayerService $playerService)
-    {
-        $coutTotalJoueur = $playerService->coutTotalJoueurs($equipe);
-
-        $inducement = $this->valeurInducementDelEquipe($equipe);
-
-        return $coutTotalJoueur + $inducement['total'];
-    }
-
-    /**
-     * @param Teams $equipe
      * @param string $type
      * @return array
      */
@@ -243,12 +202,12 @@ class EquipeService
                 }
                 break;
             case "pop":
-                    $nbr = $equipe->getFfBought()+$equipe->getFf();
+                $nbr = $equipe->getFfBought() + $equipe->getFf();
 
                 if (count($nbrmatch) == 0) {
                     if ($equipe->getTreasury() >= $this->coutpop) {
                         $nbr = $nbr + 1;
-                        $equipe->setFfBought($equipe->getFfBought()+1);
+                        $equipe->setFfBought($equipe->getFfBought() + 1);
                         $inducost = $this->coutpop;
                     }
                 }
@@ -317,7 +276,28 @@ class EquipeService
         $this->doctrineEntityManager->flush();
         $this->doctrineEntityManager->refresh($equipe);
 
-        return ['inducost'=>$inducost, 'nbr'=>$nbr];
+        return ['inducost' => $inducost, 'nbr' => $nbr];
+    }
+
+    /**
+     * @param Teams $equipe
+     * @return array
+     */
+    public function listeDesMatchs(Teams $equipe): array
+    {
+        $matches1 = $this->doctrineEntityManager->getRepository(Matches::class)->findBy(
+            ['team1' => $equipe->getTeamId()],
+            ['dateCreated' => 'DESC']
+        );
+
+        $matches2 = $this->doctrineEntityManager->getRepository(Matches::class)->findBy(
+            ['team2' => $equipe->getTeamId()],
+            ['dateCreated' => 'DESC']
+        );
+
+        $matches = array_merge($matches1, $matches2);
+
+        return $matches;
     }
 
     /**
@@ -337,20 +317,20 @@ class EquipeService
                 $race = $equipe->getFRace();
 
                 if ($race) {
-                    if ($equipe->getRerolls()>0) {
+                    if ($equipe->getRerolls() > 0) {
                         $inducost = $race->getCostRr();
-                        $nbr = $equipe->getRerolls()-1;
+                        $nbr = $equipe->getRerolls() - 1;
                         $equipe->setRerolls($nbr);
                     }
                 }
                 break;
             case "pop":
-                $nbr = $equipe->getFfBought()+$equipe->getFf();
+                $nbr = $equipe->getFfBought() + $equipe->getFf();
                 if (count($nbrmatch) == 0) {
                     if ($equipe->getFfBought() > 0) {
                         $inducost = $this->coutpop;
                         $nbr = $nbr - 1;
-                        $equipe->setFfBought($equipe->getFfBought()-1);
+                        $equipe->setFfBought($equipe->getFfBought() - 1);
                     }
                 }
                 break;
@@ -389,7 +369,7 @@ class EquipeService
                 break;
         }
 
-        if (count($nbrmatch)==0) {
+        if (count($nbrmatch) == 0) {
             $nouveauTresor = $equipe->getTreasury() + $inducost;
             $equipe->setTreasury($nouveauTresor);
         }
@@ -404,14 +384,14 @@ class EquipeService
         $this->doctrineEntityManager->flush();
         $this->doctrineEntityManager->refresh($equipe);
 
-        return ['inducost'=>$inducost, 'nbr'=>$nbr];
+        return ['inducost' => $inducost, 'nbr' => $nbr];
     }
 
     public function classementGeneral()
     {
         $setting = $this->doctrineEntityManager->getRepository(Setting::class)->findOneBy(['name' => 'year']);
 
-        return $this->doctrineEntityManager->getRepository(Teams::class)->classement( $setting->getValue(),0);
+        return $this->doctrineEntityManager->getRepository(Teams::class)->classement($setting->getValue(), 0);
     }
 
     /**
@@ -447,34 +427,42 @@ class EquipeService
             }
 
             $d = 231;
+
             $equipe1 = $match->getTeam1();
             $equipe2 = $match->getTeam2();
 
-            $pourcentageVictoireEquipe1 = 1 / ( pow(
-                10,
-                ($r[$equipe2->getTeamId()] - $r[$equipe1->getTeamId()]) / $d
-            ) + 1);
-            $pourcentageVictoireEquipe2 = 1 / ( pow(
-                10,
-                ($r[$equipe1->getTeamId()] - $r[$equipe2->getTeamId()]) / $d
-            ) + 1);
-            $r[$equipe1->getTeamId()] = $r[$equipe1->getTeamId()]
-                + ($nbrDeCoachesActifsDivParDeux * ($resultat1 - $pourcentageVictoireEquipe1));
-            $r[$equipe2->getTeamId()] = $r[$equipe2->getTeamId()]
-                + ($nbrDeCoachesActifsDivParDeux * ($resultat2 - $pourcentageVictoireEquipe2));
+            if (!empty($equipe1) && !empty($equipe2)) {
+                $equipe1Id = $equipe1->getTeamId();
+                $equipe2Id = $equipe2->getTeamId();
+
+                $pourcentageVictoireEquipe1 = 1 / (pow(
+                    10,
+                    ($r[$equipe2Id] - $r[$equipe1Id]) / $d
+                ) + 1);
+                $pourcentageVictoireEquipe2 = 1 / (pow(
+                    10,
+                    ($r[$equipe1Id] - $r[$equipe2Id]) / $d
+                ) + 1);
+                $r[$equipe1Id] = $r[$equipe1Id]
+                    + ($nbrDeCoachesActifsDivParDeux * ($resultat1 - $pourcentageVictoireEquipe1));
+                $r[$equipe2Id] = $r[$equipe2Id]
+                    + ($nbrDeCoachesActifsDivParDeux * ($resultat2 - $pourcentageVictoireEquipe2));
+            }
         }
 
         foreach ($equipeCollection as $equipe) {
             if ($r[$equipe->getTeamId()] != null) {
-                $equipe->setElo(round($r[$equipe->getTeamId()],2));
+                $equipe->setElo(round($r[$equipe->getTeamId()], 2));
             } else {
                 $equipe->setElo(150);
             }
         }
 
-        $this->doctrineEntityManager->persist($equipe);
-        $this->doctrineEntityManager->flush();
-        $this->doctrineEntityManager->refresh($equipe);
+        if (!empty($equipe)) {
+            $this->doctrineEntityManager->persist($equipe);
+            $this->doctrineEntityManager->flush();
+            $this->doctrineEntityManager->refresh($equipe);
+        }
 
         return $r;
     }

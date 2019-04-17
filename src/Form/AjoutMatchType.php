@@ -63,7 +63,7 @@ class AjoutMatchType extends AbstractType
                             ->where('t.year ='.$this->settingsService->anneeCourante())
                             ->orderBy('c.name,t.name');
                     },
-                    'choice_label' => function ($equipe) use ($playerService) {
+                    'choice_label' => function ($equipe) {
                         /** @var Teams $equipe */
                         $coach = $equipe->getOwnedByCoach();
                         $race = $equipe->getFRace();
@@ -76,13 +76,12 @@ class AjoutMatchType extends AbstractType
                     'attr' => ['class' => 'selectedTeam1', 'side' => 1],
                 ]
             )
-            ->add('Players',CollectionType::class,[]);
+            ->add('Players', CollectionType::class, []);
            // ->add('ok',buttonType::class, ['attr' => ['class' => 'valideteam1']])
            // ->add('submit', SubmitType::class, ['label' => 'Ajouter', 'attr' => ['class' => 'test']]);
     }
 
     public function addListeEquipe(Teams $equipe)
     {
-
     }
 }

@@ -42,6 +42,5 @@ class MatchDataService
         $this->doctrineEntityManager->persist($matchdata);
 
         $this->doctrineEntityManager->flush();
-
     }
 }

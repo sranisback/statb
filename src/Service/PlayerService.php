@@ -21,8 +21,11 @@ class PlayerService
     private $equipeService;
     private $matchDataService;
 
-    public function __construct(EntityManagerInterface $doctrineEntityManager, EquipeService $equipeService, MatchDataService $matchDataService)
-    {
+    public function __construct(
+        EntityManagerInterface $doctrineEntityManager,
+        EquipeService $equipeService,
+        MatchDataService $matchDataService
+    ) {
         $this->doctrineEntityManager = $doctrineEntityManager;
         $this->equipeService = $equipeService;
         $this->matchDataService = $matchDataService;
@@ -64,8 +67,8 @@ class PlayerService
 
     public function remplirMatchDataDeLigneAzero(Teams $equipe, Matches $match)
     {
-        foreach($this->listeDesJoueursActifsDelEquipe($equipe) as $joueur) {
-            $this->matchDataService->creationLigneVideDonneeMatch($joueur,$match);
+        foreach ($this->listeDesJoueursActifsDelEquipe($equipe) as $joueur) {
+            $this->matchDataService->creationLigneVideDonneeMatch($joueur, $match);
         }
     }
 
@@ -439,7 +442,7 @@ class PlayerService
 
                     $this->doctrineEntityManager->persist($joueur);
 
-                    $equipe->setTv($this->equipeService->tvDelEquipe($equipe,$this));
+                    $equipe->setTv($this->equipeService->tvDelEquipe($equipe, $this));
 
                     $this->doctrineEntityManager->persist($equipe);
 
@@ -459,7 +462,7 @@ class PlayerService
      * @param EquipeService $equipeService
      * @return array
      */
-    public function renvoisOuSuppressionJoueur(Players $joueur, EquipeService $equipeService, PlayerService $playerService)
+    public function renvoisOuSuppressionJoueur(Players $joueur, EquipeService $equipeService)
     {
         $equipe = $joueur->getOwnedByTeam();
         $position = $joueur->getFPos();
@@ -484,7 +487,7 @@ class PlayerService
             }
             $this->doctrineEntityManager->flush();
 
-            $equipe->setTv($this->equipeService->tvDelEquipe($equipe, $playerService));
+            $equipe->setTv($this->equipeService->tvDelEquipe($equipe, $this));
 
             $this->doctrineEntityManager->persist($equipe);
             $this->doctrineEntityManager->flush();
@@ -492,7 +495,7 @@ class PlayerService
 
             return [
                 'reponse' => $effect,
-                'tv' => $equipeService->tvDelEquipe($equipe, $playerService),
+                'tv' => $equipeService->tvDelEquipe($equipe, $this),
                 'tresor' => $equipe->getTreasury(),
                 'playercost' => $this->valeurDunJoueur($joueur),
             ];
@@ -632,23 +635,24 @@ class PlayerService
 
     public function annulerRPMtousLesJoueursDeLequipe($equipe)
     {
-        foreach ($this->listeDesJoueursActifsDelEquipe($equipe) as $joueur){
-            if($joueur->getInjRpm() == 1){
-              $this->annulerRPMunJoueur($joueur);
+        foreach ($this->listeDesJoueursActifsDelEquipe($equipe) as $joueur) {
+            if ($joueur->getInjRpm() == 1) {
+                $this->annulerRPMunJoueur($joueur);
             }
         }
     }
 
     public function controleNiveauDuJoueur($equipe)
     {
-        foreach ($this->listeDesJoueursActifsDelEquipe($equipe) as $joueur){
+        foreach ($this->listeDesJoueursActifsDelEquipe($equipe) as $joueur) {
             $xpJoueur = $this->xpDuJoueur($joueur);
 
             $nbrskill = $this->doctrineEntityManager->getRepository(PlayersSkills::class)->findBy(
                 ['fPid' => $joueur->getPlayerId()]
             );
 
-            $nbrskill = count($nbrskill)+ $joueur->getAchMa() + $joueur->getAchSt() + $joueur->getAchAv() + $joueur->getAchAg();
+            $nbrskill = count($nbrskill) + $joueur->getAchMa() + $joueur->getAchSt() + $joueur->getAchAv(
+            ) + $joueur->getAchAg();
 
             switch ($nbrskill) {
                 case 0:

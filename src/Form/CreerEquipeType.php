@@ -2,7 +2,6 @@
 
 namespace App\Form;
 
-
 use App\Entity\Races;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -26,5 +25,4 @@ class CreerEquipeType extends AbstractType
             ->add('cancel', ButtonType::class, ['label'=>'Annuler','attr'=>['data-dismiss'=>'modal']])
             ->getForm();
     }
-
 }

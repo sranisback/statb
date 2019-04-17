@@ -111,7 +111,7 @@ SELECT team_id,ra.icon,t.name as "team_name" ,ra.name as "race",co.name,t.tv as 
     {
         return count($this->createQueryBuilder('t')
             ->select('c.name')
-            ->join('t.ownedByCoach','c')
+            ->join('t.ownedByCoach', 'c')
             ->where('t.year = '.$annee)
             ->groupBy('c.name')
             ->getQuery()
@@ -123,7 +123,7 @@ SELECT team_id,ra.icon,t.name as "team_name" ,ra.name as "race",co.name,t.tv as 
         return $this->createQueryBuilder('t')
         ->where('t.year ='.$anne)
         ->andWhere('t.retired = false')
-        ->orderBy('t.name','ASC')
+        ->orderBy('t.name', 'ASC')
         ->getQuery()
         ->getArrayResult();
     }

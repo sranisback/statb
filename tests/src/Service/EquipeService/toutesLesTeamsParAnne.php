@@ -26,8 +26,6 @@ class toutesLesTeamsParAnne extends KernelTestCase
     public function liste_des_equipe_de_l_anne_en_table()
     {
         $equipeService = self::$container->get('App\Service\EquipeService');
-
-        var_dump($equipeService->toutesLesTeamsParAnnee(3));
     }
 }
 

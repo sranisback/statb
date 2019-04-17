@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Entity\Coaches;
@@ -49,22 +50,6 @@ use Dompdf\Options;
 class StatBBController extends AbstractController
 {
     /**
-     * @param  mixed $response
-     * @return JsonResponse
-     */
-    public static function transformeEnJson($response): JsonResponse
-    {
-        $encoders = array(new XmlEncoder(), new JsonEncoder());
-        $normalizers = array(new ObjectNormalizer());
-
-        $serializer = new Serializer($normalizers, $encoders);
-
-        $jsonContent = $serializer->serialize($response, 'json');
-
-        return new JsonResponse($jsonContent);
-    }
-
-    /**
      * @Route("/montreLesEquipes", name="showteams", options = { "expose" = true })
      * @param EquipeService $equipeService
      * @param SettingsService $settingsService
@@ -74,7 +59,11 @@ class StatBBController extends AbstractController
     {
         return $this->render(
             'statbb/showteams.html.twig',
-            ['teams' => $this->getDoctrine()->getRepository(Teams::class)->findBy(['year' => $settingsService->anneeCourante()])]
+            [
+                'teams' => $this->getDoctrine()->getRepository(Teams::class)->findBy(
+                    ['year' => $settingsService->anneeCourante()]
+                ),
+            ]
         );
     }
 
@@ -105,7 +94,7 @@ class StatBBController extends AbstractController
             $tdata[$countEquipe]['win'] = $resultats['win'];
             $tdata[$countEquipe]['loss'] = $resultats['loss'];
             $tdata[$countEquipe]['draw'] = $resultats['draw'];
-            $tdata[$countEquipe]['tv'] = $equipeService->tvDelEquipe($equipe,$playerService);
+            $tdata[$countEquipe]['tv'] = $equipeService->tvDelEquipe($equipe, $playerService);
 
             $countEquipe++;
         }
@@ -159,10 +148,10 @@ class StatBBController extends AbstractController
 
             $tdata['playersCost'] = $playerService->coutTotalJoueurs($equipe);
             $tdata['rerolls'] = $inducement['rerolls'];
-            $tdata['pop'] =  $inducement['pop'];
-            $tdata['asscoaches'] =  $inducement['asscoaches'];
-            $tdata['cheerleader'] =  $inducement['cheerleader'];
-            $tdata['apo'] =  $inducement['apo'];
+            $tdata['pop'] = $inducement['pop'];
+            $tdata['asscoaches'] = $inducement['asscoaches'];
+            $tdata['cheerleader'] = $inducement['cheerleader'];
+            $tdata['apo'] = $inducement['apo'];
             $tdata['tv'] = $equipeService->tvDelEquipe($equipe, $playerService);
 
             if ($type == "modal") {
@@ -195,7 +184,7 @@ class StatBBController extends AbstractController
      */
     public function showPlayer($playerid, $type, PlayerService $playerService)
     {
-        $msdata= [];
+        $msdata = [];
         $pdata = [];
         $mdata = '';
 
@@ -274,7 +263,6 @@ class StatBBController extends AbstractController
         }
     }
 
-
     /**
      * @Route("/", name="index", options = { "expose" = true })
      * @return Response
@@ -309,7 +297,7 @@ class StatBBController extends AbstractController
      */
     public function citation(SettingsService $settingsService)
     {
-        return $this->render('statbb/citation.html.twig', ['citation' => $settingsService->tirerCitationAuHasard() ]);
+        return $this->render('statbb/citation.html.twig', ['citation' => $settingsService->tirerCitationAuHasard()]);
     }
 
     /**
@@ -462,7 +450,6 @@ class StatBBController extends AbstractController
         );
     }
 
-
     /**
      * @Route("/lastfive/{teamId}", options = { "expose" = true })
      * @param int|null $teamId
@@ -503,8 +490,10 @@ class StatBBController extends AbstractController
                     $games[] = $matches[$x];
                 }
             }
+
             return $this->render('statbb/lastfivesmatches.html.twig', array('games' => $games));
         }
+
         return $this->render('statbb/base.html.twig');
     }
 
@@ -573,9 +562,10 @@ class StatBBController extends AbstractController
      */
     public function choixRace()
     {
-       $equipe = new Teams();
+        $equipe = new Teams();
 
-       $form = $this->createForm(CreerEquipeType::class,$equipe);
+        $form = $this->createForm(CreerEquipeType::class, $equipe);
+
         return $this->render('statbb/addteam.html.twig', ['form' => $form->createView()]);
     }
 
@@ -594,18 +584,18 @@ class StatBBController extends AbstractController
         $teamid = 0;
 
         if ($coach) {
-            $teamid =  $equipeService->createTeam($form['Name'], $coach->getCoachId(), $form['fRace']);
+            $teamid = $equipeService->createTeam($form['Name'], $coach->getCoachId(), $form['fRace']);
         }
 
-        return $this->redirectToRoute('team', ['teamid'=>$teamid,'type'=>'n']);
+        return $this->redirectToRoute('team', ['teamid' => $teamid, 'type' => 'n']);
     }
 
-   /**
-    * @Route("/playerAdder/{raceId}/{teamId}", name="playerAdder", options = { "expose" = true })
-    * @param int $raceId
-    * @param int $teamId
-    * @return Response
-    */
+    /**
+     * @Route("/playerAdder/{raceId}/{teamId}", name="playerAdder", options = { "expose" = true })
+     * @param int $raceId
+     * @param int $teamId
+     * @return Response
+     */
     public function playerAdder($raceId, $teamId)
     {
         $race = $this->getDoctrine()->getRepository(races::class)->findOneBy(array('raceId' => $raceId));
@@ -625,13 +615,14 @@ class StatBBController extends AbstractController
      * @param int $teamId
      * @return JsonResponse
      */
-    public function addPlayer(PlayerService $playerService,EquipeService $equipeService, $posId, $teamId)
+    public function addPlayer(PlayerService $playerService, EquipeService $equipeService, $posId, $teamId)
     {
         $resultat = $playerService->ajoutJoueur($posId, $teamId);
         $tresors = 0;
         $html = '';
         $coutjoueur = 0;
         $reponse = '';
+        $tv = 0;
 
         if ($resultat['resultat'] == 'ok') {
             $joueur = $resultat['joueur'];
@@ -666,10 +657,26 @@ class StatBBController extends AbstractController
             "ptv" => ($tv / 1000),
             "tresor" => $tresors,
             "playercost" => $coutjoueur,
-            "reponse" => $reponse
+            "reponse" => $reponse,
         ];
 
         return self::transformeEnJson($response);
+    }
+
+    /**
+     * @param  mixed $response
+     * @return JsonResponse
+     */
+    public static function transformeEnJson($response): JsonResponse
+    {
+        $encoders = array(new XmlEncoder(), new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $serializer = new Serializer($normalizers, $encoders);
+
+        $jsonContent = $serializer->serialize($response, 'json');
+
+        return new JsonResponse($jsonContent);
     }
 
     /**
@@ -681,8 +688,8 @@ class StatBBController extends AbstractController
      */
     public function remPlayer(PlayerService $playerService, EquipeService $equipeService, $playerId)
     {
-        $resultat['']= '';
-        $joueur  = $this->getDoctrine()->getRepository(Players::class)->findOneBy(['playerId' => $playerId]);
+        $resultat[''] = '';
+        $joueur = $this->getDoctrine()->getRepository(Players::class)->findOneBy(['playerId' => $playerId]);
 
         if ($joueur) {
             $resultat = $playerService->renvoisOuSuppressionJoueur($joueur, $equipeService);
@@ -692,7 +699,7 @@ class StatBBController extends AbstractController
             "ptv" => ($resultat['tv'] / 1000),
             "tresor" => $resultat['tresor'],
             "playercost" => $resultat['playercost'],
-            "reponse" => $resultat['reponse']
+            "reponse" => $resultat['reponse'],
         );
 
         return self::transformeEnJson($response);
@@ -717,11 +724,11 @@ class StatBBController extends AbstractController
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
         if ($equipe) {
             if ($action == 'add') {
-                $coutEtnbr = $equipeService->ajoutInducement($equipe, $type);
+                $coutEtnbr = $equipeService->ajoutInducement($equipe, $type, $playerService);
             } else {
-                $coutEtnbr = $equipeService->supprInducement($equipe, $type);
+                $coutEtnbr = $equipeService->supprInducement($equipe, $type, $playerService);
             }
-            $tv  = $equipeService->tvDelEquipe($equipe, $playerService);
+            $tv = $equipeService->tvDelEquipe($equipe, $playerService);
 
             $response = [
                 "tv" => $tv,
@@ -759,7 +766,8 @@ class StatBBController extends AbstractController
 
             return self::transformeEnJson($response);
         }
-        return self::transformeEnJson(["rien"=>'']);
+
+        return self::transformeEnJson(["rien" => '']);
     }
 
     /**
@@ -798,8 +806,14 @@ class StatBBController extends AbstractController
      * @return JsonResponse
      */
 
-    public function addGame(EquipeService $equipeService, SettingsService $settingsService, PlayerService $playerService,MatchesService $matchesService,MatchDataService $matchDataService, Request $request)
-    {
+    public function addGame(
+        EquipeService $equipeService,
+        SettingsService $settingsService,
+        PlayerService $playerService,
+        MatchesService $matchesService,
+        MatchDataService $matchDataService,
+        Request $request
+    ) {
         $recuperationDonneeForm = [];
 
         if ($contenu = $request->getContent()) {
@@ -997,6 +1011,7 @@ class StatBBController extends AbstractController
 
             return $this->redirectToRoute('team', ['teamid' => $team->getTeamId(), 'type' => 'n'], 302);
         }
+
         return $this->redirectToRoute('index');
     }
 
@@ -1120,7 +1135,7 @@ class StatBBController extends AbstractController
         $html = '';
 
         $pdata = [];
-        $pdata[]=[];
+        $pdata[] = [];
 
         if ($equipe) {
             $joueurCollection = $playerService->listeDesJoueursActifsDelEquipe($equipe);
@@ -1163,7 +1178,7 @@ class StatBBController extends AbstractController
             $tdata['asscoaches'] = $equipe->getAssCoaches() * 10000;
             $tdata['cheerleader'] = $equipe->getCheerleaders() * 10000;
             $tdata['apo'] = $equipe->getApothecary() * 50000;
-            $tdata['tv'] = $equipeService->tvDelEquipe($equipe,$playerService);
+            $tdata['tv'] = $equipeService->tvDelEquipe($equipe, $playerService);
 
             $html = $this->renderView(
                 'statbb/pdfteam.html.twig',
@@ -1194,7 +1209,7 @@ class StatBBController extends AbstractController
         $dompdf->render();
 
         if ($equipe) {
-            $dompdf->stream($equipe->getName(). '.pdf', ["Attachment" => true]);
+            $dompdf->stream($equipe->getName().'.pdf', ["Attachment" => true]);
         } else {
             $dompdf->stream('error.pdf', ["Attachment" => true]);
         }
@@ -1213,7 +1228,14 @@ class StatBBController extends AbstractController
      */
     public function ajoutMatch(SettingsService $settingsService)
     {
-        return $this->render('statbb/ajoutMatch.html.twig',['teams' => $this->getDoctrine()->getRepository(Teams::class)->findBy(['year' => $settingsService->anneeCourante()])]);
+        return $this->render(
+            'statbb/ajoutMatch.html.twig',
+            [
+                'teams' => $this->getDoctrine()->getRepository(Teams::class)->findBy(
+                    ['year' => $settingsService->anneeCourante()]
+                ),
+            ]
+        );
     }
 
     /**
@@ -1223,7 +1245,7 @@ class StatBBController extends AbstractController
      */
     public function ajoutStadeModal($equipeId)
     {
-        $equipe =  $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
+        $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
 
         if ($equipe) {
             /** @var Teams $equipe */
@@ -1231,7 +1253,10 @@ class StatBBController extends AbstractController
 
             $form = $this->createForm(CreerStadeType::class, $stade);
 
-            return $this->render('statbb/ajoutStade.html.twig', ['form' => $form->createView(),'teamId'=>$equipe->getTeamId()]);
+            return $this->render(
+                'statbb/ajoutStade.html.twig',
+                ['form' => $form->createView(), 'teamId' => $equipe->getTeamId()]
+            );
         }
 
         $response = new Response();
@@ -1264,7 +1289,7 @@ class StatBBController extends AbstractController
             }
         }
 
-        return $this->redirectToRoute('team', ['teamid'=>$equipeId,'type'=>'n']);
+        return $this->redirectToRoute('team', ['teamid' => $equipeId, 'type' => 'n']);
     }
 
     /**
@@ -1276,9 +1301,9 @@ class StatBBController extends AbstractController
     {
         $competence = new PlayersSkills();
 
-        $form = $this->createForm(AjoutCompetenceType::class,$competence);
+        $form = $this->createForm(AjoutCompetenceType::class, $competence);
 
-        return $this->render('statbb/skillmodal.html.twig', ['playerId'=> $playerid,'form'=>$form->createView()]);
+        return $this->render('statbb/skillmodal.html.twig', ['playerId' => $playerid, 'form' => $form->createView()]);
     }
 
     /**
@@ -1294,11 +1319,21 @@ class StatBBController extends AbstractController
 
         $joueur = $this->getDoctrine()->getRepository(players::class)->findOneBy(['playerId' => $playerid]);
 
-        $competence = $this->getDoctrine()->getRepository(GameDataSkills::class)->findOneBy(['skillId' => $form['fSkill']]);
+        $competence = $this->getDoctrine()->getRepository(GameDataSkills::class)->findOneBy(
+            ['skillId' => $form['fSkill']]
+        );
 
-        $playerService->ajoutCompetence($joueur,$competence);
+        if (!empty($competence) && !empty($joueur)) {
+            $playerService->ajoutCompetence($joueur, $competence);
+        }
 
-        return $this->redirectToRoute('team', ['teamid'=>$joueur->getOwnedByTeam()->getTeamId(),'type'=>'n']);
+        if (!empty($joueur)) {
+            $equipe = $joueur->getOwnedByTeam();
+        }
+
+        if (!empty($equipe)) {
+            return $this->redirectToRoute('team', ['teamid' => $equipe->getTeamId(), 'type' => 'n']);
+        }
     }
 
     /**
@@ -1308,7 +1343,14 @@ class StatBBController extends AbstractController
      */
     public function montreLeCimetiere(SettingsService $settingsService)
     {
-        return $this->render('statbb/cimetiere.html.twig',['joueurCollection' => $this->getDoctrine()->getRepository(players::class)->mortPourlAnnee($settingsService->anneeCourante())]);
+        return $this->render(
+            'statbb/cimetiere.html.twig',
+            [
+                'joueurCollection' => $this->getDoctrine()->getRepository(players::class)->mortPourlAnnee(
+                    $settingsService->anneeCourante()
+                ),
+            ]
+        );
     }
 
     /**
@@ -1318,40 +1360,46 @@ class StatBBController extends AbstractController
      */
     public function montreClassementELO(SettingsService $settingsService)
     {
-        return $this->render('statbb/classementELO.html.twig',['equipeCollection' => $this->getDoctrine()->getRepository(Teams::class)->findBy(['year' => $settingsService->anneeCourante()])]);
+        return $this->render(
+            'statbb/classementELO.html.twig',
+            [
+                'equipeCollection' => $this->getDoctrine()->getRepository(Teams::class)->findBy(
+                    ['year' => $settingsService->anneeCourante()]
+                ),
+            ]
+        );
     }
 
     /**
      * @Route("/ajoutPrimeForm/{coachId}/{primeId}", name="ajoutPrimeForm", options = { "expose" = true })
      * @param int $coachId
-     * @param Primes $prime
      * @return Response
      */
-    public function ajoutPrimeForm($coachId,$primeId = null)
+    public function ajoutPrimeForm($coachId, $primeId = null)
     {
         $prime = new Primes();
 
-        if($primeId){
+        if ($primeId) {
             $prime = $this->getDoctrine()->getRepository(Primes::class)->findOneBy(['id' => $primeId]);
         }
 
-        $form = $this->createForm(PrimeType::class,$prime,['coach' => $coachId]);
+        $form = $this->createForm(PrimeType::class, $prime, ['coach' => $coachId]);
 
-        return $this->render('statbb/ajoutPrime.html.twig', ['form'=>$form->createView(),'coachId' => $coachId]);
+        return $this->render('statbb/ajoutPrime.html.twig', ['form' => $form->createView(), 'coachId' => $coachId]);
     }
 
     /**
      * @Route("/ajoutPrime/{coachId}", name="ajoutPrime", options = { "expose" = true })
      * @param Request $request
      * @param PrimeService $primeService
-     * @param $coachId
+     * @param int $coachId
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function ajoutPrime(Request $request,PrimeService $primeService, $coachId)
+    public function ajoutPrime(Request $request, PrimeService $primeService, $coachId)
     {
         $form = $request->request->get('prime');
 
-        $primeService->creationPrime($coachId,$form);
+        $primeService->creationPrime($coachId, $form);
 
         return $this->redirectToRoute('frontUser');
     }
@@ -1363,12 +1411,21 @@ class StatBBController extends AbstractController
      */
     public function montrePrimesEnCours(SettingsService $settingsService)
     {
-        return $this->render('statbb/affichagePrimes.html.twig',['primeCollection' =>  $this->getDoctrine()->getRepository(Primes::class)->listePrimeEnCours($settingsService->anneeCourante())]);
+        return $this->render(
+            'statbb/affichagePrimes.html.twig',
+            [
+                'primeCollection' => $this->getDoctrine()->getRepository(Primes::class)->listePrimeEnCours(
+                    $settingsService->anneeCourante()
+                ),
+            ]
+        );
     }
 
     /**
      * @Route("/supprimerPrime/{primeId}", name="supprimerPrime", options = { "expose" = true })
-     * @param $primeId
+     * @param PrimeService $primeService
+     * @param int $primeId
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function supprimerPrime(PrimeService $primeService, $primeId)
     {
@@ -1386,8 +1443,7 @@ class StatBBController extends AbstractController
 
         $form = $this->createForm(RealiserPrimeType::class, $prime, ['year' => $settingsService->anneeCourante()]);
 
-        return $this->render('statbb/realisationPrime.html.twig', ['form'=>$form->createView()]);
-
+        return $this->render('statbb/realisationPrime.html.twig', ['form' => $form->createView()]);
     }
 
     /**

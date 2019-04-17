@@ -2,7 +2,6 @@
 
 namespace App\Form;
 
-
 use App\Entity\GameDataSkills;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -21,16 +20,26 @@ class AjoutCompetenceType extends AbstractType
                 [
                     'class' => GameDataSkills::class,
                     'choice_label' => 'name',
-                    'group_by' => function(GameDataSkills $comp){
+                    'group_by' => function (GameDataSkills $comp) {
                         $listeCategoriesCompetences =
-                            [''=>'','G'=>'Générale','A'=>'Agilité','P'=>'Passe','S'=>'Force','M'=>'Mutations','E'=>'Exceptionnelles','C'=>'Statistiques'];
+                            [
+                                '' => '',
+                                'G' => 'Générale',
+                                'A' => 'Agilité',
+                                'P' => 'Passe',
+                                'S' => 'Force',
+                                'M' => 'Mutations',
+                                'E' => 'Exceptionnelles',
+                                'C' => 'Statistiques',
+                            ];
+
                         return $listeCategoriesCompetences[$comp->getCat()];
                     },
-                    'label' => 'Compétence'
+                    'label' => 'Compétence',
                 ]
             )
             ->add('submit', SubmitType::class, ['label' => 'Ajouter'])
-            ->add('cancel', ButtonType::class, ['label'=>'Annuler','attr'=>['data-dismiss'=>'modal']])
+            ->add('cancel', ButtonType::class, ['label' => 'Annuler', 'attr' => ['data-dismiss' => 'modal']])
             ->getForm();
     }
 }

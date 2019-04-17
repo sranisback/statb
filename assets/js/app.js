@@ -574,6 +574,7 @@ $(document).ready(function () {
         "info": false
 
     });
+
     /*
      * table cimetierre
      */

@@ -41,7 +41,12 @@ class PrimeType extends AbstractType
                             $nomDuJoueur = $joueur->getName();
                         }
 
-                        return $joueur->getNr().'. '.$nomDuJoueur.', '.$joueur->getFPos()->getPos();
+                        if (!empty($joueur)) {
+                            $position = $joueur->getFPos();
+                            if (!empty($position)) {
+                                return $joueur->getNr().'. '.$nomDuJoueur.', '.$position->getPos();
+                            }
+                        }
                     },
                     'label' => 'Choisir un joueur',
                     'query_builder' => function (EntityRepository $entityRepository) use ($options) {
@@ -54,14 +59,26 @@ class PrimeType extends AbstractType
                             ->orderBy('players.nr');
                     },
                     'group_by' => function (Players $joueur) {
-                        return $joueur->getOwnedByTeam()->getName().', '.$joueur->getOwnedByTeam()->getFRace()->getName(
-                        ).', '.$joueur->getOwnedByTeam()->getOwnedByCoach()->getName();
+                        $equipe = $joueur->getOwnedByTeam();
+                        if (!empty($equipe)) {
+                            $raceEquipe = $equipe->getFRace();
+                            $coach = $equipe->getOwnedByCoach();
+                        }
+
+                        if (!empty($joueur) && !empty($raceEquipe) && !empty($equipe) && !empty($coach)) {
+                            return $equipe->getName().', '.$raceEquipe->getName().', '.$coach->getName();
+                        }
                     },
-                    'placeholder' => 'Choisir un joueur'
+                    'placeholder' => 'Choisir un joueur',
                 ]
             )
-            ->add('montant', IntegerType::class, ['label' => 'Montant de la prime', 'data' => '0', 'attr' => ['step' => 10000, 'min' => 0]])
-            ->add('teams',
+            ->add(
+                'montant',
+                IntegerType::class,
+                ['label' => 'Montant de la prime', 'data' => '0', 'attr' => ['step' => 10000, 'min' => 0]]
+            )
+            ->add(
+                'teams',
                 EntityType::class,
                 [
                     'class' => Teams::class,
@@ -75,7 +92,7 @@ class PrimeType extends AbstractType
                             ->andWhere('teams.ownedByCoach ='.$options['coach'])
                             ->orderBy('teams.name');
                     },
-                    'placeholder' => 'Choisir une équipe'
+                    'placeholder' => 'Choisir une équipe',
                 ]
             )
             ->add('submit', SubmitType::class, ['label' => 'Ajouter'])
@@ -85,8 +102,10 @@ class PrimeType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'coach' => 0
-        ]);
+        $resolver->setDefaults(
+            [
+                'coach' => 0,
+            ]
+        );
     }
 }

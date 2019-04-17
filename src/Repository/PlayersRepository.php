@@ -19,7 +19,8 @@ class PlayersRepository extends ServiceEntityRepository
         parent::__construct($registry, Players::class);
     }
 
-    public function mortPourlAnnee($annee){
+    public function mortPourlAnnee($annee)
+    {
         return $this->createQueryBuilder('players')
             ->join('players.ownedByTeam', 'teams')
             ->where('teams.year = '.$annee)

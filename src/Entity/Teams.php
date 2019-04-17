@@ -320,7 +320,7 @@ class Teams
         return $this;
     }
 
-    public function getTv(): ?float
+    public function getTv(): ?int
     {
         return $this->tv;
     }
