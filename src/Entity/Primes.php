@@ -44,6 +44,11 @@ class Primes
      */
     private $dateAjoutee;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $actif=1;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -107,5 +112,15 @@ class Primes
         $this->teams = $teams;
 
         return $this;
+    }
+
+    public function getActif()
+    {
+        return $this->actif;
+    }
+
+    public function setActif($actif): void
+    {
+        $this->actif = $actif;
     }
 }

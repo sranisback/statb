@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\Coaches;
 use App\Entity\GameDataStadium;
 use App\Entity\Primes;
 use App\Entity\Teams;
@@ -13,10 +14,11 @@ use App\Entity\Matches;
 use App\Entity\MatchData;
 use App\Entity\Setting;
 
-use App\form\AjoutCompetenceType;
-use App\form\CreerEquipeType;
-use App\form\CreerStadeType;
-use App\form\PrimeType;
+use App\Form\AjoutCompetenceType;
+use App\Form\CreerEquipeType;
+use App\Form\CreerStadeType;
+use App\Form\PrimeType;
+use App\Form\RealiserPrimeType;
 use App\Service\CoachService;
 use App\Service\EquipeService;
 use App\Service\MatchDataService;
@@ -1320,13 +1322,18 @@ class StatBBController extends AbstractController
     }
 
     /**
-     * @Route("/ajoutPrimeForm/{coachId}", name="ajoutPrimeForm", options = { "expose" = true })
+     * @Route("/ajoutPrimeForm/{coachId}/{primeId}", name="ajoutPrimeForm", options = { "expose" = true })
      * @param int $coachId
+     * @param Primes $prime
      * @return Response
      */
-    public function ajoutPrimeForm($coachId)
+    public function ajoutPrimeForm($coachId,$primeId = null)
     {
         $prime = new Primes();
+
+        if($primeId){
+            $prime = $this->getDoctrine()->getRepository(Primes::class)->findOneBy(['id' => $primeId]);
+        }
 
         $form = $this->createForm(PrimeType::class,$prime,['coach' => $coachId]);
 
@@ -1345,6 +1352,53 @@ class StatBBController extends AbstractController
         $form = $request->request->get('prime');
 
         $primeService->creationPrime($coachId,$form);
+
+        return $this->redirectToRoute('frontUser');
+    }
+
+    /**
+     * @Route("/montrePrimesEnCours", name="montrePrimesEnCours", options = { "expose" = true })
+     * @param SettingsService $settingsService
+     * @return Response
+     */
+    public function montrePrimesEnCours(SettingsService $settingsService)
+    {
+        return $this->render('statbb/affichagePrimes.html.twig',['primeCollection' =>  $this->getDoctrine()->getRepository(Primes::class)->listePrimeEnCours($settingsService->anneeCourante())]);
+    }
+
+    /**
+     * @Route("/supprimerPrime/{primeId}", name="supprimerPrime", options = { "expose" = true })
+     * @param $primeId
+     */
+    public function supprimerPrime(PrimeService $primeService, $primeId)
+    {
+        $primeService->supprimerPrime($primeId);
+
+        return $this->redirectToRoute('frontUser');
+    }
+
+    /**
+     * @Route("/realiserPrimeForm", name="realiserPrimeForm", options = { "expose" = true })
+     */
+    public function realiserPrimeForm(SettingsService $settingsService)
+    {
+        $prime = new Primes();
+
+        $form = $this->createForm(RealiserPrimeType::class, $prime, ['year' => $settingsService->anneeCourante()]);
+
+        return $this->render('statbb/realisationPrime.html.twig', ['form'=>$form->createView()]);
+
+    }
+
+    /**
+     * @Route("/realiserPrime", name="realiserPrime", options = { "expose" = true })
+     * @param Request $request
+     */
+    public function realiserPrime(Request $request, PrimeService $primeService)
+    {
+        $form = $request->request->get('realiser_prime');
+
+        $primeService->realiserPrime($form);
 
         return $this->redirectToRoute('frontUser');
     }

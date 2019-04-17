@@ -12,15 +12,15 @@
         <tbody>
         {%  for joueur in joueurCollection %}
             <tr>
+                <td>
                 {% if(joueur.name|length == 2) %}
-                    <td>Inconnu<a
-                                class="glyphicon glyphicon-search"
-                                href="{{ path('Player', {'playerid': joueur.playerId,'type':'n' }) }}"></a></td>
+                    Inconnu
                 {% else %}
-                <td>{{ joueur.name }}<a
+                {{ joueur.name }}
+                {% endif %}
+                    <a
                             class="glyphicon glyphicon-search"
                             href="{{ path('Player', {'playerid': joueur.playerId,'type':'n' }) }}"></a></td>
-                {% endif %}
                 <td>{{ joueur.fPos.pos }}</td>
                 <td>{{ joueur.ownedByTeam.name }}</td>
                 <td>{{ joueur.dateDied|date("d/m/y") }}</td>

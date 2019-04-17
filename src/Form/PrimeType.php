@@ -1,9 +1,7 @@
 <?php
 
-namespace App\form;
+namespace App\Form;
 
-
-use App\Entity\Coaches;
 use App\Entity\Players;
 use App\Entity\Teams;
 use App\Service\SettingsService;

@@ -270,7 +270,14 @@ const routes = {
             "hosttokens": [],
             "methods": [],
             "schemes": []
-        }
+        },
+        "supprimerPrime": {
+            "tokens": [["variable", "\/", "[^\/]++", "primeId"],["text", "\/supprimerPrime"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
     },
     "prefix": "",
     "host": "localhost",
@@ -538,6 +545,14 @@ const routes = {
             "hosttokens": [],
             "methods": [],
             "schemes": []
+        },
+        "supprimerPrime": {
+            "tokens": [["variable", "\/", "[^\/]++", "primeId"],["text", "\/supprimerPrime"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
         }
     },
     "prefix": "",
@@ -562,14 +577,12 @@ $(document).ready(function () {
     /*
      * table cimetierre
      */
-
     $('#TableCimetierre').DataTable({
         "lengthChange": false,
         "pageLength": 20,
         "info": false,
         "order": [[ 3, "desc" ]]
     });
-
 
     /*
      * table ELO
@@ -580,6 +593,28 @@ $(document).ready(function () {
         "info": false,
         "order": [[ 4, "desc" ]]
     });
+
+    /*
+     * table Primes
+     */
+    $('#TablePrimes').DataTable({
+        "lengthChange": false,
+        "pageLength": 20,
+        "info": false
+    });
+
+    /*
+     * retirer prime
+     */
+    $("[id^='enleve_prime_']").click(function () {
+        $(this).after($('#loadingmessage'));
+        $.post(Routing.generate('supprimerPrime', {primeId: $(this).attr("primeId")}),
+            {},
+            function (result) {
+                window.location.reload();
+            });
+    });
+
 
     /**
      * bouton qui montre tout les joueurs/équipes

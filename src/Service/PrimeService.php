@@ -19,33 +19,60 @@ class PrimeService
         $this->doctrineEntityManager = $doctrineEntityManager;
     }
 
-    /**
-     * @param int $coach
-     * @param array $data
-     */
     public function creationPrime($coach, $data)
     {
-        $prime = new Primes();
-
         $equipe = $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(['teamId' => $data['teams']]);
 
-        $prime->setCoaches(
-            $this->doctrineEntityManager->getRepository(Coaches::class)->findOneBy(['coachId' => $coach])
-        );
-        $prime->setDateAjoutee(DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s")));
-        $prime->setMontant($data['montant']);
-        $prime->setPlayers(
-            $this->doctrineEntityManager->getRepository(Players::class)->findOneBy(['playerId' => $data['players']])
-        );
-        $prime->setTeams($equipe);
+        if($equipe->getTreasury()>$data['montant']){
+            $prime = new Primes();
 
-       // $this->doctrineEntityManager->refresh($prime);
+            $prime->setCoaches(
+                $this->doctrineEntityManager->getRepository(Coaches::class)->findOneBy(['coachId' => $coach])
+            );
+            $prime->setDateAjoutee(DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s")));
+            $prime->setMontant($data['montant']);
+            $prime->setPlayers(
+                $this->doctrineEntityManager->getRepository(Players::class)->findOneBy(['playerId' => $data['players']])
+            );
+            $prime->setActif(1);
+            $prime->setTeams($equipe);
 
-        if (($equipe->getTreasury() - $prime->getMontant()) > 0) {
-            $equipe->setTreasury($equipe->getTreasury() - $prime->getMontant());
-        } else {
-            $equipe->setTreasury(0);
+            if (($equipe->getTreasury() - $prime->getMontant()) > 0) {
+                $equipe->setTreasury($equipe->getTreasury() - $prime->getMontant());
+            } else {
+                $equipe->setTreasury(0);
+            }
+
+            $this->doctrineEntityManager->persist($prime);
+            $this->doctrineEntityManager->persist($equipe);
+            $this->doctrineEntityManager->flush();
         }
+    }
+
+    public function supprimerPrime($primeId)
+    {
+        $prime = $this->doctrineEntityManager->getRepository(Primes::class)->findOneBy(['id' => $primeId]);
+
+        /** @var Teams $equipe */
+        $equipe = $prime->getTeams();
+
+        $equipe->setTreasury($prime->getMontant() + $equipe->getTreasury());
+
+        $this->doctrineEntityManager->remove($prime);
+
+        $this->doctrineEntityManager->persist($equipe);
+        $this->doctrineEntityManager->flush();
+    }
+
+    public function realiserPrime($data)
+    {
+        $prime = $this->doctrineEntityManager->getRepository(Primes::class)->findOneBy(['id' => $data['Primes']]);
+
+        $equipe = $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(['teamId' => $data['Teams']]);
+
+        $prime->setActif(0);
+
+        $equipe->setTreasury($equipe->getTreasury()+$prime->getMontant());
 
         $this->doctrineEntityManager->persist($prime);
         $this->doctrineEntityManager->persist($equipe);
