@@ -1,0 +1,291 @@
+﻿Amazones :
+	Guerrières Koka-Kalim :
+		amblitzer1, amblizer2, amblitzer3
+	Coureuses-Piranha :
+		amcatcher1, amcatcher2
+	Passeuses-Aigles :
+		amthrower1, amthrower2
+	Trois-Quarts Tribales :
+		amlinewoman1, amlinewoman2, amlinewoman3
+		
+Bas-Fonds :
+	Trolls :
+		troll1
+	Vermines de Choc :
+		skblitzer1, skblitzer2
+	Passeurs Skavens :
+		skthrower1, skthrower2
+	Trois-Quarts Skavens :
+		sklineman3, sklineman4
+	Gobelins :
+		goblin1, goblin2, goblin3, goblin4, goblin5
+		
+Bretonniens :
+	Chevaliers :
+		bknight1, bknight2, bknight3
+	Sergents :
+		byeoman1, byeoman2, byeoman3
+	Paysans :
+		bpeasant1, bpeasant2, bpeasant3, bpeasant4
+		
+Chaos :
+	Minotaure :
+		minotaur1
+	Guerriers du Chaos :
+		cwarrior1, cwarrior2, cwarrior3, cwarrior4
+	Hommes-Bêtes :
+		cbeastman1, cbeastman2, cbeastman3, cbeastman4
+		
+Elfes Noirs :
+	Furies :
+		dewitchelf1, dewitchelf2
+	Assassins :
+		deassassin1
+	Blitzeurs :
+		deblitzer1, deblitzer2
+	Coureurs :
+		derunner1, derunner2
+	Trois-Quarts :
+		delineman1, delineman2, delineman3
+		
+Elfes Pros :
+	Blitzeurs :
+		eblitzer1, eblitzer2
+	Attrapeurs :
+		hecatcher1, hecatcher2, hecatcher3
+	Lanceurs :
+		wethrower1
+	Trois-Quarts :
+		helineman3, helineman4, welineman2, welineman3
+		
+Elfes Sylvains :
+	Hommes-Arbres :
+		treeman1, treeman2
+	Danseurs de Guerre :
+		weblitzer1, weblitzer2
+	Attrapeurs :
+		wecatcher1, wecatcher2, wecatcher3
+	Lanceurs :
+		wethrower1
+	Trois-Quarts :
+		welineman1, welineman2, welineman3
+		
+Gobelins :
+	Trolls :
+		troll1, troll2
+	Fanatiques :
+		goball1
+	Barjots :
+		gloony1
+	Planeurs de la Mort :
+		gglider1
+	Bâton-Sauteurs :
+		gpogoer1
+	Bombardier :
+		gbomber1
+	Hooligan :
+		ghooligan1
+	Trois-Quarts :
+		goblin1, goblin2, goblin3, goblin4, goblin5
+		
+Hauts-Elfes :
+	Chevaliers-Dragons :
+		heblitzer1, heblitzer2
+	Guerriers-Lions :
+		hecatcher1, hecatcher2, hecatcher3
+	Gardes-Phénix :
+		hethrower1, hethrower2
+	Trois-Quarts :
+		helineman1, helineman2, helineman3, helineman4
+
+Hobbits :
+	Hommes-Arbres :
+		treeman1, treeman2
+	Trois-Quarts :
+		halfling1, halfling2, halfling3, halfling4, halfling5
+		
+Hommes-Lézards :
+	Kroxigors :
+		kroxigor1
+	Saurus :
+		lmsaurus1, lmsaurus2, lmsaurus3, lmsaurus4
+	Skinks :
+		lmskink1, lmskink2, lmskink3, lmskink4, lmskink5
+		
+Horreurs Nécromantiques :
+	Golems de Chair :
+		ngolem1, ngolem2
+	Revenants :
+		uwight1, uwight2
+	Loups-Garous Nécromantiques :
+		nwerewolf1, nwerewolf2
+	Goules :
+		ughoul1, ughoul2, ughoul3
+	Zombies :
+		uzombie1, uzombie2, uzombie3, uzombie4
+		
+Humains :
+	Ogres :
+		ogre1, ogre3
+	Blitzeurs :
+		hblitzer1, hblitzer2, hblitzer3
+	Attrapeurs :
+		hcatcher1, hcatcher2
+	Lanceurs :
+		hthrower1
+	Trois-Quarts :
+		hlineman1, hlineman2, hlineman3
+		
+Khemris :
+	Gardiens des Tombes :
+		kmmummy1, kmmummy2, kmmummy3
+	Blitz-Râs :
+		kmblitzer1, kmblitzer2
+	Thro-Râs :
+		kmthrower1, kmthrower2
+	Squelettes :
+		kmskeleton1, kmskeleton2, kmskeleton3, kmskeleton4
+		
+Khorne :
+	Buveurs de Sang :
+		kdeamon1
+	Hérauts :
+		kdherault1, kdherault2
+	Sanguinaires :
+		kdbloodletter1, kdbloodletter2
+	Gladiateurs Possédés :
+		cmarauder1, cmarauder2, cmarauder3, cmarauder4
+		
+Morts-Vivants :
+	Momies :
+		kmmummy1, kmmummy2, kmmummy3
+	Revenants :
+		uwight1, uwight2
+	Goules :
+		ughoul1, ughoul2, ughoul3
+	Zombies :
+		uzombie1, uzombie2, uzombie3, uzombie4
+	Squelettes :
+		kmskeleton1, kmskeleton2, kmskeleton3, kmskeleton4
+
+Nains :
+	Roulemorts :
+		ddeathroller1
+	Tueurs de Trolls :
+		dslayer1, dslayer2
+	Blitzeurs :
+		dblitzer1, dblitzer2
+	Coureurs de Tunnels :
+		drunner1, drunner2, drunner3
+	Longues-Barbes :
+		dlongbeard1, dlongbeard2, dlongbeard3, dlongbeard4, dlongbeard5
+		
+Nains du Chaos :
+		Minotaure :
+			minotaur1
+		Centaures-Taureaux :
+			centaur1, centaur2
+		Bloqueurs Nains du Chaos :
+			cddwarf1, cddwarf2, cddwarf3
+		Hobgobelins :
+			cdhobgoblin1, cdhobgoblin2, cdhobgoblin3, cdhobgoblin4
+		
+Nordiques :
+	Yétis :
+		nyehtee1
+	Loups-Garous Nordiques :
+		nwerewolf1, nwerewolf2
+	Berzerkers :
+		nblitzer1, nblitzer2
+	Coureurs :
+		ncatcher1, ncatcher2
+	Lanceurs :
+		nthrower1, nthrower2
+	Trois-Quarts :
+		nlineman1, nlineman2, nlineman3
+		
+Nurgle :
+	Bêtes de Nurgle :
+		unclean1
+	Guerriers de Nurgle :
+		nwarrior1, nwarrior2, nwarrior3, nwarrior4
+	Pestigors :
+		npestigor1, npestigor2
+	Pourris :
+		uzombie1, uzombie2, uzombie3
+		
+Ogres :
+	Ogres :
+		ogre1, ogre2, ogre3, ogre4, ogre5
+	Snotlings :
+		goblin1, goblin2, goblin3, goblin4, goblin5
+		
+Orcs :
+	Trolls :
+		troll2
+	Orques Noirs :
+		oblackorc1, oblackorc2, oblackorc3
+	Blitzeurs :
+		oblitzer1, oblitzer2, oblitzer3
+	Gobelins :
+		goblin1, goblin2, goblin3, goblin4, goblin5
+	Lanceurs :
+		othrower1, othrower2
+	Trois-Quarts :
+		olineman1, olineman2, olineman3
+		
+Pacte du Chaos :
+	Minotaures :
+		minotaur1
+	Troll du Chaos :
+		troll1
+	Ogre du Chaos :
+		ogre2, ogre5
+	Gobelin Renégat :
+		goblin1, goblin4
+	Skaven Renégat :
+		sklineman1, sklineman2
+	Elfe Noir Renégat :
+		delineman1, delineman3
+	Maraudeurs du Chaos :
+		cmarauder1, cmarauder2, cmarauder3, cmarauder4
+
+Simyins :
+	Silverbacks :
+		silverbak1
+	Gorilles :
+		sgorilla1, sgorilla2
+	Chimpanzés :
+		schimp1, schimp2
+	Orangs-Outans :
+		sorang1, sorang2
+	Bonobos :
+		sbonobo1, sbonobo2
+		
+Skavens :
+	Rats-Ogres :
+		ratogre1
+	Vermines de Choc :
+		skstorm1, skstorm2
+	Coureurs d'Egouts :
+		skrunner1, skrunner2, skrunner3
+	Lanceurs des Clans :
+		skthrower1, skthrower2
+	Trois-Quarts :
+		sklineman1, sklineman2, sklineman3, sklineman4
+
+Slanns :
+	Kroxigors :
+		kroxigor1
+	Blitzeurs :
+		slblitzer1, slblitzer2, slblitzer3
+	Coureurs :
+		slrunner1, slrunner2, slrunner3
+	Trois-Quarts :
+		sllineman1, sllineman2, sllineman3
+		
+Vampires :
+	Vampires :
+		vampire1, vampire2, vampire3, vampire4
+	Serviteurs :
+		bpeasant1, bpeasant2, bpeasant3, bpeasant4

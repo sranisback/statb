@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Repository;
+
+use App\Entity\Players;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Symfony\Bridge\Doctrine\RegistryInterface;
+
+/**
+ * @method Players|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Players|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Players[]    findAll()
+ * @method Players[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
+class PlayersRepository extends ServiceEntityRepository
+{
+    public function __construct(RegistryInterface $registry)
+    {
+        parent::__construct($registry, Players::class);
+    }
+
+    public function mortPourlAnnee($annee)
+    {
+        return $this->createQueryBuilder('players')
+            ->join('players.ownedByTeam', 'teams')
+            ->where('teams.year = '.$annee)
+            ->andWhere('players.status = 8')
+            ->getQuery()
+            ->getResult();
+    }
+}
