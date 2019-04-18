@@ -16,10 +16,4 @@ class CoachService
         $this->doctrineEntityManager = $doctrineEntityManager;
     }
 
-    public function listeDesEquipeDuCoach($coach, $annee)
-    {
-        return $this->doctrineEntityManager->getRepository(Teams::class)->findBy(
-            ['ownedByCoach' => $coach, 'year' =>$annee]
-        );
-    }
 }

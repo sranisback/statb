@@ -181,7 +181,7 @@ class EquipeService
         $nbr = 0;
         $inducost = 0;
 
-        $nbrmatch = $this->listeDesMatchs($equipe);
+        $nbrmatch = $this->doctrineEntityManager->getRepository(Matches::class)->listeDesMatchs($equipe);
 
         switch ($type) {
             case "rr":
@@ -281,27 +281,6 @@ class EquipeService
 
     /**
      * @param Teams $equipe
-     * @return array
-     */
-    public function listeDesMatchs(Teams $equipe): array
-    {
-        $matches1 = $this->doctrineEntityManager->getRepository(Matches::class)->findBy(
-            ['team1' => $equipe->getTeamId()],
-            ['dateCreated' => 'DESC']
-        );
-
-        $matches2 = $this->doctrineEntityManager->getRepository(Matches::class)->findBy(
-            ['team2' => $equipe->getTeamId()],
-            ['dateCreated' => 'DESC']
-        );
-
-        $matches = array_merge($matches1, $matches2);
-
-        return $matches;
-    }
-
-    /**
-     * @param Teams $equipe
      * @param string $type
      * @return array
      */
@@ -310,7 +289,7 @@ class EquipeService
         $nbr = 0;
         $inducost = 0;
 
-        $nbrmatch = $this->listeDesMatchs($equipe);
+        $nbrmatch = $this->doctrineEntityManager->getRepository(Matches::class)->listeDesMatchs($equipe);
 
         switch ($type) {
             case "rr":

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Matches;
+use App\Entity\Teams;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -22,5 +23,22 @@ class MatchesRepository extends ServiceEntityRepository
             ->andWhere('t2.year ='.$annee)
             ->getQuery()
             ->getResult();
+    }
+
+    public function listeDesMatchs(Teams $equipe)
+    {
+        $matches1 = $this->getEntityManager()->getRepository(Matches::class)->findBy(
+            ['team1' => $equipe->getTeamId()],
+            ['dateCreated' => 'DESC']
+        );
+
+        $matches2 = $this->getEntityManager()->getRepository(Matches::class)->findBy(
+            ['team2' => $equipe->getTeamId()],
+            ['dateCreated' => 'DESC']
+        );
+
+        $matches = array_merge($matches1, $matches2);
+
+        return $matches;
     }
 }

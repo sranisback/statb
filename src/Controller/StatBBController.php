@@ -70,26 +70,28 @@ class StatBBController extends AbstractController
     /**
      * @Route("/showuserteams", name="showuserteams", options = { "expose" = true })
      * @param SettingsService $settingsService
-     * @param CoachService $coachService
      * @param EquipeService $equipeService
      * @param PlayerService $playerService
      * @return response
      */
     public function showUserTeams(
         SettingsService $settingsService,
-        CoachService $coachService,
         EquipeService $equipeService,
         PlayerService $playerService
     ) {
-
         $tdata = [];
 
-        $equipesCollection = $coachService->listeDesEquipeDuCoach($this->getUser(), $settingsService->anneeCourante());
+        $equipesCollection = $this->getDoctrine()->getRepository(Teams::class)->findBy(
+            ['ownedByCoach' => $this->getUser(), 'year' => $settingsService->anneeCourante()]
+        );
 
         $countEquipe = 0;
 
         foreach ($equipesCollection as $number => $equipe) {
-            $resultats = $equipeService->resultatsDelEquipe($equipe, $equipeService->listeDesMatchs($equipe));
+            $resultats = $equipeService->resultatsDelEquipe(
+                $equipe,
+                $this->getDoctrine()->getRepository(Matches::class)->listeDesMatchs($equipe)
+            );
             $tdata[$countEquipe]['tId'] = $equipe->getTeamId();
             $tdata[$countEquipe]['win'] = $resultats['win'];
             $tdata[$countEquipe]['loss'] = $resultats['loss'];
@@ -828,7 +830,7 @@ class StatBBController extends AbstractController
      * @param EquipeService $equipeService
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function chkteam($teamId,EquipeService $equipeService, PlayerService $playerService)
+    public function chkteam($teamId, EquipeService $equipeService, PlayerService $playerService)
     {
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -1003,7 +1005,7 @@ class StatBBController extends AbstractController
                 }
             }
 
-            $team->setTv($equipeService->tvDelEquipe($team,$playerService));
+            $team->setTv($equipeService->tvDelEquipe($team, $playerService));
 
             $entityManager->persist($team);
             $entityManager->flush();
@@ -1465,8 +1467,8 @@ class StatBBController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
 
-        foreach ($this->getDoctrine()->getRepository(Teams::class)->findAll() as $equipe ){
-            $equipe->setTv($equipeService->tvDelEquipe($equipe,$playerService));
+        foreach ($this->getDoctrine()->getRepository(Teams::class)->findAll() as $equipe) {
+            $equipe->setTv($equipeService->tvDelEquipe($equipe, $playerService));
 
             $entityManager->persist($equipe);
             $entityManager->flush();

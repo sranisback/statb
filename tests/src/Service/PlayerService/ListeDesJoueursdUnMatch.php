@@ -35,7 +35,7 @@ class ListeDesJoueursdUnMatch extends KernelTestCase
         $equipePourTest = $this->entityManager
             ->getRepository(Teams::class)->findOneBy(['name'=>'Les Ratgwents']);
 
-        $MatchCollectionTest = $equipeService->listeDesMatchs($equipePourTest);
+        $MatchCollectionTest = $this->entityManager->getRepository(Matches::class)->listeDesMatchs($equipePourTest);
 
         foreach ( $MatchCollectionTest as $matchTest) {
             $listeDesJoueurs[] = $playerService->listeDesJoueursdUnMatch($matchTest,$equipePourTest);
