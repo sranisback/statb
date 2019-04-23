@@ -366,13 +366,6 @@ class EquipeService
         return ['inducost' => $inducost, 'nbr' => $nbr];
     }
 
-    public function classementGeneral()
-    {
-        $setting = $this->doctrineEntityManager->getRepository(Setting::class)->findOneBy(['name' => 'year']);
-
-        return $this->doctrineEntityManager->getRepository(Teams::class)->classement($setting->getValue(), 0);
-    }
-
     /**
      * @return mixed
      */

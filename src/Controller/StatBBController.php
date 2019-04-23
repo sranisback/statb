@@ -119,7 +119,7 @@ class StatBBController extends AbstractController
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamid]);
 
         if ($equipe) {
-            $players = $playerService->listeDesJoueursDelEquipe($equipe);
+            $players = $this->getDoctrine()->getRepository(Players::class)->listeDesJoueursPourlEquipe($equipe);
 
             $count = 0;
 
@@ -304,12 +304,20 @@ class StatBBController extends AbstractController
 
     /**
      * @Route("/classement/general/", name="classementgen", options = { "expose" = true })
-     * @param EquipeService $equipeService
+     * @param SettingsService $settingsService
      * @return Response
      */
-    public function classGen(EquipeService $equipeService)
+    public function classGen(SettingsService $settingsService)
     {
-        return $this->render('statbb/classement.html.twig', ['classement' => $equipeService->classementGeneral()]);
+        return $this->render(
+            'statbb/classement.html.twig',
+            [
+                'classement' => $this->getDoctrine()->getRepository(Teams::class)->classement(
+                    $settingsService->anneeCourante(),
+                    0
+                ),
+            ]
+        );
     }
 
     /**
@@ -789,7 +797,9 @@ class StatBBController extends AbstractController
                 'html' => $this->renderView(
                     'statbb/dropdownplayers.html.twig',
                     [
-                        'players' => $playerService->listeDesJoueursActifsDelEquipe($equipe),
+                        'players' => $this->getDoctrine()->getRepository(
+                            Players::class
+                        )->listeDesJoueursActifsPourlEquipe($equipe),
                         'teamId' => $teamId,
                         'nbr' => $nbr,
                     ]
@@ -1139,7 +1149,8 @@ class StatBBController extends AbstractController
         $pdata[] = [];
 
         if ($equipe) {
-            $joueurCollection = $playerService->listeDesJoueursActifsDelEquipe($equipe);
+
+            $joueurCollection = $this->getDoctrine()->getRepository(Players::class)->listeDesJoueursActifsPourlEquipe($equipe);
 
             foreach ($joueurCollection as $joueur) {
                 $listeCompetence = $playerService->toutesLesCompsdUnJoueur($joueur);

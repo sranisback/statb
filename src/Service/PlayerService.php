@@ -31,43 +31,12 @@ class PlayerService
         $this->matchDataService = $matchDataService;
     }
 
-    /**
-     * @param Teams $equipe
-     * @return array
-     */
-    public function listeDesJoueursDelEquipe($equipe)
-    {
-        return $this->doctrineEntityManager->getRepository(Players::class)->findBy(
-            ['ownedByTeam' => $equipe->getTeamId()],
-            ['nr' => 'ASC']
-        );
-    }
-
-    /**
-     * @param Teams $equipe
-     * @return array
-     */
-    public function listeDesJoueursActifsDelEquipe(Teams $equipe)
-    {
-        $joueurActifCollection = [];
-
-        $playerCollection = $this->doctrineEntityManager->getRepository(Players::class)->findBy(
-            ['ownedByTeam' => $equipe->getTeamId()],
-            ['nr' => 'ASC']
-        );
-
-        foreach ($playerCollection as $player) {
-            if ($player->getStatus()!=7 && $player->getStatus()!=8) {
-                $joueurActifCollection[] = $player;
-            }
-        }
-
-        return $joueurActifCollection;
-    }
-
     public function remplirMatchDataDeLigneAzero(Teams $equipe, Matches $match)
     {
-        foreach ($this->listeDesJoueursActifsDelEquipe($equipe) as $joueur) {
+
+        foreach ($this->doctrineEntityManager->getRepository(Players::class)->listeDesJoueursActifsPourlEquipe(
+            $equipe
+        ) as $joueur) {
             $this->matchDataService->creationLigneVideDonneeMatch($joueur, $match);
         }
     }
@@ -76,7 +45,7 @@ class PlayerService
      * @param Players $joueur
      * @return array
      */
-    public function statsDuJoueur($joueur)
+    public function statsDuJoueur(Players $joueur)
     {
         $toutesLesCompsDuJoueur = $this->toutesLesCompsdUnJoueur($joueur);
 
@@ -84,14 +53,14 @@ class PlayerService
 
         $toutesLesCompsDuJoueur = substr($toutesLesCompsDuJoueur, 0, strlen($toutesLesCompsDuJoueur) - 2);
 
-        return ['comp'=>$toutesLesCompsDuJoueur, 'actions'=>$actions];
+        return ['comp' => $toutesLesCompsDuJoueur, 'actions' => $actions];
     }
 
     /**
      * @param Players $joueur
      * @return string
      */
-    public function toutesLesCompsdUnJoueur($joueur)
+    public function toutesLesCompsdUnJoueur(Players $joueur)
     {
         $toutesLesCompsDuJoueur = $this->listeDesCompdDeBasedUnJoueur($joueur);
         $compsupp = $this->listeDesCompEtSurcoutGagnedUnJoueur($joueur);
@@ -102,7 +71,7 @@ class PlayerService
 
         $toutesLesCompsDuJoueur .= $statpec['nivspec'];
 
-        if ($joueur->getType()!= 1) {
+        if ($joueur->getType() != 1) {
             $toutesLesCompsDuJoueur .= '<text class="text-danger">Loner</text>, ';
         }
 
@@ -115,11 +84,12 @@ class PlayerService
      */
     public function listeDesCompdDeBasedUnJoueur(Players $joueur)
     {
-        $position  = $joueur->getFPos();
+        $position = $joueur->getFPos();
 
         if ($position) {
             return $this->listeDesCompdUnePosition($position);
         }
+
         return '';
     }
 
@@ -130,7 +100,7 @@ class PlayerService
     public function listeDesCompdUnePosition(GameDataPlayers $position)
     {
         if ($position->getSkills() != '') {
-            $idcompCollection = explode(",", (string) $position->getSkills());
+            $idcompCollection = explode(",", (string)$position->getSkills());
         }
 
         $listeCompDeBase = '';
@@ -143,8 +113,10 @@ class PlayerService
 
                 $listeCompDeBase .= '<text class="test-primary">'.$comp->getName().'</text>, ';
             }
+
             return $listeCompDeBase;
         }
+
         return '';
     }
 
@@ -172,7 +144,8 @@ class PlayerService
                 }
             }
         }
-        return ['compgagnee'=>$listCompGagnee,'cout'=> $coutTotal];
+
+        return ['compgagnee' => $listCompGagnee, 'cout' => $coutTotal];
     }
 
     /**
@@ -211,11 +184,11 @@ class PlayerService
             $cout += 30000;
         }
 
-        return ['nivspec'=>$listSupp,'cout'=> $cout];
+        return ['nivspec' => $listSupp, 'cout' => $cout];
     }
 
     /**
-     * @param Players  $joueur
+     * @param Players $joueur
      * @return array
      */
     public function actionsDuJoueur(Players $joueur)
@@ -242,20 +215,15 @@ class PlayerService
             $tMatch++;
         }
 
-        return ['NbrMatch'=>$tMatch, 'cp'=> $tcp, 'td'=>$ttd,'int'=> $tint,'cas'=> $tcas,'mvp' => $tmvp,'agg'=> $tagg];
-    }
-
-    /**
-     * @param Players $joueur
-     * @return float|int
-     */
-    public function xpDuJoueur(Players $joueur)
-    {
-
-        $actions = $this->actionsDuJoueur($joueur);
-
-        return $actions['cp'] + ($actions['td'] * 3)
-            + ($actions['int'] * 2) + ($actions['cas'] * 2) + ($actions['mvp'] * 5);
+        return [
+            'NbrMatch' => $tMatch,
+            'cp' => $tcp,
+            'td' => $ttd,
+            'int' => $tint,
+            'cas' => $tcas,
+            'mvp' => $tmvp,
+            'agg' => $tagg,
+        ];
     }
 
     /**
@@ -334,52 +302,15 @@ class PlayerService
             }
         }
 
-        return ['cp'=> $tcp, 'td'=>$ttd,'int'=> $tint,'cas'=> $tcas,'mvp' => $tmvp,'agg'=> $tagg,'rec'=>$rec];
-    }
-
-    /**
-     * @param Matches $match
-     * @param Teams $equipe
-     * @return array
-     */
-    public function listeDesJoueursdUnMatch(Matches $match, Teams $equipe)
-    {
-        $mDataCollection = $this->doctrineEntityManager->getRepository(MatchData::class)->findBy(
-            ['fMatch' => $match->getMatchId()]
-        );
-
-        $joueurCollection = [];
-
-        foreach ($mDataCollection as $mData) {
-            /** @var MatchData $mdata */
-            $joueur = $mData->getFPlayer();
-            if ($joueur->getOwnedByTeam() === $equipe) {
-                $joueurCollection[] = $joueur;
-            }
-        }
-
-        return $joueurCollection;
-    }
-
-    /**
-     * @param Teams $equipe
-     * @return int
-     */
-    public function numeroLibreDelEquipe($equipe)
-    {
-        $joueurCollection = $this->listeDesJoueursActifsDelEquipe($equipe);
-
-        $numero = 1;
-
-        foreach ($joueurCollection as $joueur) {
-            if ($numero == $joueur->getNr()) {
-                $numero++;
-            } else {
-                break;
-            }
-        }
-
-        return $numero;
+        return [
+            'cp' => $tcp,
+            'td' => $ttd,
+            'int' => $tint,
+            'cas' => $tcas,
+            'mvp' => $tmvp,
+            'agg' => $tagg,
+            'rec' => $rec,
+        ];
     }
 
     /**
@@ -405,7 +336,7 @@ class PlayerService
         );
 
         foreach ($joueursParPositionCollection as $joueurParPosition) {
-            if ($joueurParPosition->getStatus()!=7 && $joueurParPosition->getStatus()!=8) {
+            if ($joueurParPosition->getStatus() != 7 && $joueurParPosition->getStatus() != 8) {
                 $count++;
             }
         }
@@ -448,13 +379,39 @@ class PlayerService
 
                     $this->doctrineEntityManager->flush();
 
-                    return['resultat'=>'ok','joueur'=>$joueur];
+                    return ['resultat' => 'ok', 'joueur' => $joueur];
                 }
-                return ['resultat'=>"Plus de place"];
+
+                return ['resultat' => "Plus de place"];
             }
-            return ['resultat'=>"Pas assez d'argent"];
+
+            return ['resultat' => "Pas assez d'argent"];
         }
-        return ['resultat'=>'erreur'];
+
+        return ['resultat' => 'erreur'];
+    }
+
+    /**
+     * @param Teams $equipe
+     * @return int
+     */
+    public function numeroLibreDelEquipe($equipe)
+    {
+        $joueurCollection = $this->doctrineEntityManager->getRepository(
+            Players::class
+        )->listeDesJoueursActifsPourlEquipe($equipe);
+
+        $numero = 1;
+
+        foreach ($joueurCollection as $joueur) {
+            if ($numero == $joueur->getNr()) {
+                $numero++;
+            } else {
+                break;
+            }
+        }
+
+        return $numero;
     }
 
     /**
@@ -466,11 +423,11 @@ class PlayerService
     {
         $equipe = $joueur->getOwnedByTeam();
         $position = $joueur->getFPos();
-        $effect="nope";
+        $effect = "nope";
 
-        if ($equipe  && $position) {
-            $matchjoues = $this->doctrineEntityManager->getRepository(MatchData::class)->findBy(['fPlayer'=>$joueur]);
-            if (!$matchjoues && $joueur->getType()==1) {
+        if ($equipe && $position) {
+            $matchjoues = $this->doctrineEntityManager->getRepository(MatchData::class)->findBy(['fPlayer' => $joueur]);
+            if (!$matchjoues && $joueur->getType() == 1) {
                 $effect = "rm";
                 $equipe->setTreasury($equipe->getTreasury() + $position->getCost());
                 $this->doctrineEntityManager->remove($joueur);
@@ -501,7 +458,7 @@ class PlayerService
             ];
         }
 
-        return['error'];
+        return ['error'];
     }
 
     /**
@@ -514,8 +471,10 @@ class PlayerService
         if ($position) {
             $coutCompetencesGagnee = $this->listeDesCompEtSurcoutGagnedUnJoueur($joueur);
             $coutNiveauSpeciaux = $this->listenivSpeciauxEtSurcout($joueur);
-            return $position->getCost() +  $coutCompetencesGagnee['cout'] + $coutNiveauSpeciaux['cout'];
+
+            return $position->getCost() + $coutCompetencesGagnee['cout'] + $coutNiveauSpeciaux['cout'];
         }
+
         return 0;
     }
 
@@ -525,11 +484,11 @@ class PlayerService
      */
     public function listeDesMatchsdUnJoueur(Players $joueur)
     {
-        $dataMatchjoues = $this->doctrineEntityManager->getRepository(MatchData::class)->findBy(['fPlayer'=>$joueur]);
+        $dataMatchjoues = $this->doctrineEntityManager->getRepository(MatchData::class)->findBy(['fPlayer' => $joueur]);
         $matchJoue = [];
 
         foreach ($dataMatchjoues as $dataMatches) {
-            $matchJoue[] =  $dataMatches->getFMatch();
+            $matchJoue[] = $dataMatches->getFMatch();
         }
 
         return $matchJoue;
@@ -550,22 +509,22 @@ class PlayerService
         if ($competenceGagnee->getCat() == 'C') {
             switch ($competenceGagnee->getSkillId()) {
                 case 117:
-                    $joueur->setAchMa($joueur->getAchMa()+1);
+                    $joueur->setAchMa($joueur->getAchMa() + 1);
                     break;
                 case 118:
-                    $joueur->setAchSt($joueur->getAchSt()+1);
+                    $joueur->setAchSt($joueur->getAchSt() + 1);
                     break;
                 case 119:
-                    $joueur->setAchAg($joueur->getAchAg()+1);
+                    $joueur->setAchAg($joueur->getAchAg() + 1);
                     break;
                 case 120:
-                    $joueur->setAchAv($joueur->getAchAv()+1);
+                    $joueur->setAchAv($joueur->getAchAv() + 1);
                     break;
             }
         } else {
             $positionDuJoueur = $joueur->getFPos();
 
-            $normale ='';
+            $normale = '';
             $double = '';
 
             if ($positionDuJoueur) {
@@ -573,7 +532,7 @@ class PlayerService
                 $normale = $positionDuJoueur->getNorm();
             }
 
-            $pos = stripos((string)$normale, (string) $competenceGagnee->getCat());
+            $pos = stripos((string)$normale, (string)$competenceGagnee->getCat());
 
             if ($pos === false) {
             } else {
@@ -603,7 +562,7 @@ class PlayerService
      */
     public function coutTotalJoueurs(Teams $equipe)
     {
-        $players = $this->listeDesJoueursDelEquipe($equipe);
+        $players = $this->doctrineEntityManager->getRepository(Players::class)->listeDesJoueursPourlEquipe($equipe);
 
         $coutTotalJoueur = 0;
 
@@ -623,6 +582,17 @@ class PlayerService
         return (int)$coutTotalJoueur;
     }
 
+    public function annulerRPMtousLesJoueursDeLequipe($equipe)
+    {
+        foreach ($this->doctrineEntityManager->getRepository(Players::class)->listeDesJoueursActifsPourlEquipe(
+            $equipe
+        ) as $joueur) {
+            if ($joueur->getInjRpm() == 1) {
+                $this->annulerRPMunJoueur($joueur);
+            }
+        }
+    }
+
     public function annulerRPMunJoueur(Players $joueur)
     {
         $joueur->setStatus(1);
@@ -633,18 +603,11 @@ class PlayerService
         $this->doctrineEntityManager->flush();
     }
 
-    public function annulerRPMtousLesJoueursDeLequipe($equipe)
-    {
-        foreach ($this->listeDesJoueursActifsDelEquipe($equipe) as $joueur) {
-            if ($joueur->getInjRpm() == 1) {
-                $this->annulerRPMunJoueur($joueur);
-            }
-        }
-    }
-
     public function controleNiveauDuJoueur($equipe)
     {
-        foreach ($this->listeDesJoueursActifsDelEquipe($equipe) as $joueur) {
+        foreach ($this->doctrineEntityManager->getRepository(Players::class)->listeDesJoueursActifsPourlEquipe(
+            $equipe
+        ) as $joueur) {
             $xpJoueur = $this->xpDuJoueur($joueur);
 
             $nbrskill = $this->doctrineEntityManager->getRepository(PlayersSkills::class)->findBy(
@@ -652,7 +615,7 @@ class PlayerService
             );
 
             $nbrskill = count($nbrskill) + $joueur->getAchMa() + $joueur->getAchSt() + $joueur->getAchAv(
-            ) + $joueur->getAchAg();
+                ) + $joueur->getAchAg();
 
             switch ($nbrskill) {
                 case 0:
@@ -689,5 +652,18 @@ class PlayerService
 
             $this->doctrineEntityManager->persist($joueur);
         }
+    }
+
+    /**
+     * @param Players $joueur
+     * @return float|int
+     */
+    public function xpDuJoueur(Players $joueur)
+    {
+
+        $actions = $this->actionsDuJoueur($joueur);
+
+        return $actions['cp'] + ($actions['td'] * 3)
+            + ($actions['int'] * 2) + ($actions['cas'] * 2) + ($actions['mvp'] * 5);
     }
 }

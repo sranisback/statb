@@ -6,7 +6,7 @@ namespace App\Tests\src\Service\MatchesService;
 use App\Entity\Matches;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class creationEnteteMatch extends KernelTestCase
+class creationEnteteMatchTest extends KernelTestCase
 {
     private $entityManager;
 

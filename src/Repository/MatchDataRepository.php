@@ -2,6 +2,8 @@
 namespace App\Repository;
 
 use App\Entity\MatchData;
+use App\Entity\Matches;
+use App\Entity\Teams;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\DBALException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -136,5 +138,14 @@ class MatchDataRepository extends ServiceEntityRepository
         }
 
         return [];
+    }
+
+    public function listeDesJoueursdUnMatch(Matches $match, Teams $equipe)
+    {
+        return $this->createQueryBuilder('Matchdata')
+            ->join('Matchdata.fMatch', 'Matches')
+            ->join('Matchdata.fPlayer', 'Players')
+            ->where('Matches.matchId ='.$match->getMatchId())
+            ->andWhere('Players.ownedByTeam.teamId ='.$equipe->getTeamId());
     }
 }
