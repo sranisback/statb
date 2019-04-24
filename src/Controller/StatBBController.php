@@ -184,7 +184,7 @@ class StatBBController extends AbstractController
      * @param PlayerService $playerService
      * @return Response
      */
-    public function showPlayer($playerid, $type, PlayerService $playerService)
+    public function showPlayer($playerid, $type, PlayerService $playerService, MatchDataService $matchDataService)
     {
         $msdata = [];
         $pdata = [];
@@ -209,37 +209,23 @@ class StatBBController extends AbstractController
             if (!$joueur->getName()) {
                 $joueur->setName('Inconnu');
             }
-
-            $mdata = $this->getDoctrine()->getRepository(MatchData::class)
-                ->findBy(['fPlayer' => $joueur->getPlayerId()]);
         }
 
+        $listeMatches = $playerService->listeDesMatchsdUnJoueur($joueur);
         $count = 0;
-        $parties = [];
 
-        if ($mdata) {
-            foreach ($mdata as $matchData) {
-                $actionsDuMatch = $playerService->actionDuJoueurDansUnMatch($matchData);
+        /** @var Matches $match */
+        foreach ($listeMatches as $match){
+            $msdata[$count]["mId"] = $match->getMatchId();
+            $actions = $playerService->actionDuJoueurDansUnMatch($match, $joueur, $matchDataService);
+            $msdata[$count]["data"] = substr($actions, 0, strlen($actions) - 2);;
 
-                $match = $matchData->getFMatch();
-
-                if ($match) {
-                    $parties[] = $match->getMatchId();
-
-                    $msdata[$count]["mId"] = $match->getMatchId();
-                    $msdata[$count]["data"] = substr($actionsDuMatch['rec'], 0, strlen($actionsDuMatch['rec']) - 2);
-                }
-                $count++;
-            }
+            $count++;
         }
 
-        $matches = $this->getDoctrine()->getRepository(Matches::class)->findBy(['matchId' => $parties]);
-
-        if ($matches) {
-            if ($count == 0) {
-                $msdata[$count]["mId"] = 0;
-                $msdata[$count]["data"] = '';
-            }
+        if ($count == 0) {
+            $msdata[$count]["mId"] = 0;
+            $msdata[$count]["data"] = '';
         }
 
         if ($type == "modal") {
@@ -248,7 +234,7 @@ class StatBBController extends AbstractController
                 [
                     'player' => $joueur,
                     'pdata' => $pdata,
-                    'matches' => $matches,
+                    'matches' => $listeMatches,
                     'mdata' => $msdata,
                 ]
             );
@@ -258,7 +244,7 @@ class StatBBController extends AbstractController
                 [
                     'player' => $joueur,
                     'pdata' => $pdata,
-                    'matches' => $matches,
+                    'matches' => $listeMatches,
                     'mdata' => $msdata,
                 ]
             );

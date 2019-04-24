@@ -2,12 +2,10 @@
 
 namespace App\Tests\src\Service\PlayerService;
 
-
-use App\Entity\GameDataPlayers;
-use App\Entity\GameDataSkills;
+use App\Entity\Players;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class listeDesCompdUnePositionTest extends KernelTestCase
+class statutDuJoueurTest extends KernelTestCase
 {
     private $entityManager;
 
@@ -19,20 +17,28 @@ class listeDesCompdUnePositionTest extends KernelTestCase
         $this->entityManager = $container
             ->get('doctrine')
             ->getManager();
+
+        $joueur = new Players;
+
+        $joueur->setName('joueur test');
+
+        $joueur->setStatus(9);
+
+        $this->entityManager->persist($joueur);
+
+        $this->entityManager->flush();
     }
 
     /**
      * @test
      */
-    public function toutes_les_comps_sont_retournees()
+    public function le_statut_est_bien_retourne()
     {
         $playerService = self::$container->get('App\Service\PlayerService');
 
-        $position = $this->entityManager->getRepository(GameDataPlayers::class)->findOneBy(['pos' => 'Witch Elf']);
+        $joueur = $this->entityManager->getRepository(Players::class)->findOneBy(['name' => 'joueur test']);
 
-        $retour = '<text class="test-primary">Frenzy</text>, <text class="test-primary">Dodge</text>, <text class="test-primary">Jump Up</text>, ';
-
-        $this->assertEquals($playerService->listeDesCompdUnePosition($position),$retour);
+        $this->assertEquals('XP',$playerService->statutDuJoueur($joueur));
     }
 
     protected function tearDown()
@@ -43,5 +49,9 @@ class listeDesCompdUnePositionTest extends KernelTestCase
         $this->entityManager = $container
             ->get('doctrine')
             ->getManager();
+
+        $this->entityManager->remove($this->entityManager->getRepository(Players::class)->findOneBy(['name' => 'joueur test']));
+
+        $this->entityManager->flush();
     }
 }

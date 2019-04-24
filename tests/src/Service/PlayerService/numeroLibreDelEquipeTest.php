@@ -2,18 +2,13 @@
 
 namespace App\Tests\src\Service\PlayerService;
 
-
 use App\Entity\Players;
 use App\Entity\Races;
 use App\Entity\Stades;
 use App\Entity\Teams;
-use App\Service\PlayerService;
-use Doctrine\Common\Persistence\ObjectRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class listeDesJoueursActifsDelEquipeTest extends KernelTestCase
+class numeroLibreDelEquipeTest extends KernelTestCase
 {
     private $entityManager;
 
@@ -35,23 +30,28 @@ class listeDesJoueursActifsDelEquipeTest extends KernelTestCase
         $this->entityManager->persist($equipe);
 
         $joueur0 = new Players;
+        $joueur0->setNr(1);
         $joueur0->setStatus(1);
         $joueur0->setOwnedByTeam($equipe);
 
         $joueur1 = new Players;
+        $joueur1->setNr(2);
         $joueur1->setStatus(1);
         $joueur1->setOwnedByTeam($equipe);
 
         $joueur2 = new Players;
-        $joueur2->setStatus(9);
+        $joueur2->setNr(4);
+        $joueur2->setStatus(1);
         $joueur2->setOwnedByTeam($equipe);
 
         $joueur3 = new Players;
-        $joueur3->setStatus(7);
+        $joueur3->setNr(5);
+        $joueur3->setStatus(1);
         $joueur3->setOwnedByTeam($equipe);
 
         $joueur4 = new Players;
-        $joueur4->setStatus(8);
+        $joueur4->setNr(6);
+        $joueur4->setStatus(1);
         $joueur4->setOwnedByTeam($equipe);
 
 
@@ -63,20 +63,14 @@ class listeDesJoueursActifsDelEquipeTest extends KernelTestCase
 
         $this->entityManager->flush();
     }
-
     /**
      * @test
      */
-    public function Le_compte_du_joueur_est_bon()
+    public function le_numero_manquant_du_joueur_est_bien_renvoye()
     {
-        $this->assertEquals(
-            3,
-            count(
-                $this->entityManager->getRepository(Players::class)->listeDesJoueursActifsPourlEquipe(
-                    $this->entityManager->getRepository(Teams::class)->findOneBy(['name' => 'test EquipeListeActif'])
-                )
-            )
-        );
+        $playerService = self::$container->get('App\Service\PlayerService');
+
+        $this->assertEquals(3,$playerService->numeroLibreDelEquipe($this->entityManager->getRepository(Teams::class)->findOneBy(['name' => 'test EquipeListeActif'])));
     }
 
     public function tearDown()

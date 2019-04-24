@@ -230,7 +230,7 @@ class PlayerService
      * @param Players $joueur
      * @return string
      */
-    public function statutDuJoueur(Players $joueur)
+    public function statutDuJoueur(Players $joueur) //TODO a remplacer par une enum
     {
         switch ($joueur->getStatus()) {
             case 7:
@@ -252,65 +252,19 @@ class PlayerService
     }
 
     /**
-     * @param MatchData $matchData
-     * @return array
+     * @param Matches $match
+     * @param Players $joueur
+     * @param MatchDataService $matchDataService
      */
-    public function actionDuJoueurDansUnMatch(MatchData $matchData)
+    public function actionDuJoueurDansUnMatch(Matches $match, Players $joueur, MatchDataService $matchDataService)
     {
-        $tcp = 0;
-        $ttd = 0;
-        $tint = 0;
-        $tcas = 0;
-        $tmvp = 0;
-        $tagg = 0;
+        $actions = '';
 
-
-        $tcp += $matchData->getCp();
-        $ttd += $matchData->getTd();
-        $tint += $matchData->getIntcpt();
-        $tcas += ($matchData->getBh() + $matchData->getSi() + $matchData->getKi());
-        $tmvp += $matchData->getMvp();
-        $tagg += $matchData->getAgg();
-
-        $rec = '';
-
-        if ($matchData->getCp() > 0 || $matchData->getTd() > 0 || $matchData->getIntcpt() > 0
-            || ($matchData->getBh() + $matchData->getSi() + $matchData->getKi()) > 0 || $matchData->getMvp() > 0
-            || $matchData->getAgg() > 0) {
-            if ($matchData->getCp() > 0) {
-                $rec .= 'CP: '.$matchData->getCp().', ';
-            }
-
-            if ($matchData->getTd() > 0) {
-                $rec .= 'TD: '.$matchData->getTd().', ';
-            }
-
-            if ($matchData->getIntcpt() > 0) {
-                $rec .= 'INT: '.$matchData->getIntcpt().',';
-            }
-
-            if (($matchData->getBh() + $matchData->getSi() + $matchData->getKi()) > 0) {
-                $rec .= 'CAS: '.($matchData->getBh() + $matchData->getSi() + $matchData->getKi()).', ';
-            }
-
-            if ($matchData->getMvp() > 0) {
-                $rec .= 'MVP: '.$matchData->getMvp().', ';
-            }
-
-            if ($matchData->getAgg() > 0) {
-                $rec .= 'AGG: '.$matchData->getAgg().', ';
-            }
+        foreach ($this->doctrineEntityManager->getRepository(MatchData::class)->findBy(['fPlayer' => $joueur->getPlayerId(),'fMatch' => $match]) as $matchData){
+            $actions .=  $matchDataService->lectureLignedUnMatch($matchData);
         }
 
-        return [
-            'cp' => $tcp,
-            'td' => $ttd,
-            'int' => $tint,
-            'cas' => $tcas,
-            'mvp' => $tmvp,
-            'agg' => $tagg,
-            'rec' => $rec,
-        ];
+        return $actions;
     }
 
     /**
@@ -395,7 +349,7 @@ class PlayerService
      * @param Teams $equipe
      * @return int
      */
-    public function numeroLibreDelEquipe($equipe)
+    public function numeroLibreDelEquipe(Teams $equipe)
     {
         $joueurCollection = $this->doctrineEntityManager->getRepository(
             Players::class
@@ -407,7 +361,7 @@ class PlayerService
             if ($numero == $joueur->getNr()) {
                 $numero++;
             } else {
-                break;
+                continue;
             }
         }
 
@@ -660,7 +614,6 @@ class PlayerService
      */
     public function xpDuJoueur(Players $joueur)
     {
-
         $actions = $this->actionsDuJoueur($joueur);
 
         return $actions['cp'] + ($actions['td'] * 3)

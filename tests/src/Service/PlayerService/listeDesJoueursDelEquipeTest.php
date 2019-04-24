@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Sran_isback
- * Date: 18/04/2019
- * Time: 17:00
- */
 
 namespace App\Tests\src\Service\PlayerService;
 

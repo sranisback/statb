@@ -43,4 +43,39 @@ class MatchDataService
 
         $this->doctrineEntityManager->flush();
     }
+
+    /**
+     * @param MatchData $matchData
+     * @return string
+     */
+    public function lectureLignedUnMatch(MatchData $matchData)
+    {
+        $ligneDuMatch = '';
+
+            if ($matchData->getCp() > 0) {
+                $ligneDuMatch .= 'CP: '.$matchData->getCp().', ';
+            }
+
+            if ($matchData->getTd() > 0) {
+                $ligneDuMatch .= 'TD: '.$matchData->getTd().', ';
+            }
+
+            if ($matchData->getIntcpt() > 0) {
+                $ligneDuMatch .= 'INT: '.$matchData->getIntcpt().',';
+            }
+
+            if (($matchData->getBh() + $matchData->getSi() + $matchData->getKi()) > 0) {
+                $ligneDuMatch .= 'CAS: '.($matchData->getBh() + $matchData->getSi() + $matchData->getKi()).', ';
+            }
+
+            if ($matchData->getMvp() > 0) {
+                $ligneDuMatch .= 'MVP: '.$matchData->getMvp().', ';
+            }
+
+            if ($matchData->getAgg() > 0) {
+                $ligneDuMatch .= 'AGG: '.$matchData->getAgg().', ';
+            }
+
+        return $ligneDuMatch;
+    }
 }
