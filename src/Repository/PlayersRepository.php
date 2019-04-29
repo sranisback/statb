@@ -47,7 +47,8 @@ class PlayersRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('players')
             ->where('players.ownedByTeam = '.$equipe->getTeamId())
-            ->andWhere('players.status != 7 AND players.status != 9')
+            ->andWhere('players.status != 7')
+            ->andWhere('players.status != 9')
             ->orderBy('players.nr')
             ->getQuery()
             ->getResult();

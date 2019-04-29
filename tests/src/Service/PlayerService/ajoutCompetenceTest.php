@@ -9,7 +9,7 @@ use App\Entity\Players;
 use App\Entity\PlayersSkills;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class listeDesCompEtSurcoutGagnedUnJoueurTest extends KernelTestCase
+class ajoutCompetenceTest extends KernelTestCase
 {
     private $entityManager;
 
@@ -28,16 +28,7 @@ class listeDesCompEtSurcoutGagnedUnJoueurTest extends KernelTestCase
         $joueur->setName('joueur test');
         $joueur->setType(1);
 
-        $dataSkill = $this->entityManager->getRepository(GameDataSkills::class)->findOneBy(['skillId'=>1]);
-
-        $compSupp = new PlayersSkills;
-
-        $compSupp->setFPid($joueur);
-        $compSupp->setType('N');
-        $compSupp->setFSkill($dataSkill);
-
         $this->entityManager->persist($joueur);
-        $this->entityManager->persist($compSupp);
 
         $this->entityManager->flush();
     }
@@ -45,16 +36,15 @@ class listeDesCompEtSurcoutGagnedUnJoueurTest extends KernelTestCase
     /**
      * @test
      */
-    public function toutes_les_comps_gagnees_sont_retournees()
+    public function la_competence_s_ajoute_correctement()
     {
         $playerService = self::$container->get('App\Service\PlayerService');
 
         $joueur = $this->entityManager->getRepository(Players::class)->findOneBy(['name' => 'joueur test']);
 
-        $retour['compgagnee'] = '<text class="text-success">Block</text>, ';
-        $retour['cout'] = 20000;
+        $dataSkill = $this->entityManager->getRepository(GameDataSkills::class)->findOneBy(['skillId'=>1]);
 
-        $this->assertEquals($retour, $playerService->listeDesCompEtSurcoutGagnedUnJoueur($joueur));
+        $this->assertEquals($this->entityManager->getRepository(PlayersSkills::class)->findOneBy(['fPid' => $joueur]), $playerService->ajoutCompetence($joueur,$dataSkill));
     }
 
     protected function tearDown()
@@ -74,5 +64,4 @@ class listeDesCompEtSurcoutGagnedUnJoueurTest extends KernelTestCase
 
         $this->entityManager->flush();
     }
-
 }

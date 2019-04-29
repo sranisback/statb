@@ -148,4 +148,15 @@ class MatchDataRepository extends ServiceEntityRepository
             ->where('Matches.matchId ='.$match->getMatchId())
             ->andWhere('Players.ownedByTeam.teamId ='.$equipe->getTeamId());
     }
+
+    public function listeDesMatchsdUnJoueur($joueur)
+    {
+        $matchJoue = null;
+
+        foreach ($this->getEntityManager()->getRepository(MatchData::class)->findBy(['fPlayer' => $joueur]) as $dataMatches) {
+            $matchJoue[] = $dataMatches->getFMatch();
+        }
+
+        return $matchJoue;
+    }
 }

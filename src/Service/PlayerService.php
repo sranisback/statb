@@ -254,14 +254,13 @@ class PlayerService
     /**
      * @param Matches $match
      * @param Players $joueur
-     * @param MatchDataService $matchDataService
      */
-    public function actionDuJoueurDansUnMatch(Matches $match, Players $joueur, MatchDataService $matchDataService)
+    public function actionDuJoueurDansUnMatch(Matches $match, Players $joueur)
     {
         $actions = '';
 
         foreach ($this->doctrineEntityManager->getRepository(MatchData::class)->findBy(['fPlayer' => $joueur->getPlayerId(),'fMatch' => $match]) as $matchData){
-            $actions .=  $matchDataService->lectureLignedUnMatch($matchData);
+            $actions .=  $this->matchDataService->lectureLignedUnMatch($matchData);
         }
 
         return $actions;
@@ -370,22 +369,21 @@ class PlayerService
 
     /**
      * @param Players $joueur
-     * @param EquipeService $equipeService
      * @return array
      */
-    public function renvoisOuSuppressionJoueur(Players $joueur, EquipeService $equipeService)
+    public function renvoisOuSuppressionJoueur(Players $joueur)
     {
         $equipe = $joueur->getOwnedByTeam();
         $position = $joueur->getFPos();
         $effect = "nope";
 
         if ($equipe && $position) {
-            $matchjoues = $this->doctrineEntityManager->getRepository(MatchData::class)->findBy(['fPlayer' => $joueur]);
-            if (!$matchjoues && $joueur->getType() == 1) {
+            $matchjoues = $this->doctrineEntityManager->getRepository(MatchData::class)->listeDesMatchsdUnJoueur($joueur);
+            if (count($matchjoues)<1 && $joueur->getType() == 1) {
                 $effect = "rm";
                 $equipe->setTreasury($equipe->getTreasury() + $position->getCost());
                 $this->doctrineEntityManager->remove($joueur);
-                $this->doctrineEntityManager->persist($joueur);
+                $this->doctrineEntityManager->flush();
             } else {
                 $this->doctrineEntityManager->persist($equipe);
                 $joueur->setStatus(7);
@@ -406,7 +404,7 @@ class PlayerService
 
             return [
                 'reponse' => $effect,
-                'tv' => $equipeService->tvDelEquipe($equipe, $this),
+                'tv' => $this->equipeService->tvDelEquipe($equipe, $this),
                 'tresor' => $equipe->getTreasury(),
                 'playercost' => $this->valeurDunJoueur($joueur),
             ];
@@ -430,22 +428,6 @@ class PlayerService
         }
 
         return 0;
-    }
-
-    /**
-     * @param Players $joueur
-     * @return array
-     */
-    public function listeDesMatchsdUnJoueur(Players $joueur)
-    {
-        $dataMatchjoues = $this->doctrineEntityManager->getRepository(MatchData::class)->findBy(['fPlayer' => $joueur]);
-        $matchJoue = [];
-
-        foreach ($dataMatchjoues as $dataMatches) {
-            $matchJoue[] = $dataMatches->getFMatch();
-        }
-
-        return $matchJoue;
     }
 
     /**
@@ -543,8 +525,12 @@ class PlayerService
         ) as $joueur) {
             if ($joueur->getInjRpm() == 1) {
                 $this->annulerRPMunJoueur($joueur);
+
+                $this->doctrineEntityManager->persist($joueur);
             }
         }
+
+        $this->doctrineEntityManager->flush();
     }
 
     public function annulerRPMunJoueur(Players $joueur)

@@ -55,7 +55,7 @@ class StatBBController extends AbstractController
      * @param SettingsService $settingsService
      * @return response
      */
-    public function montreLesEquipes(EquipeService $equipeService, SettingsService $settingsService)
+    public function montreLesEquipes( SettingsService $settingsService)
     {
         return $this->render(
             'statbb/showteams.html.twig',
@@ -211,7 +211,7 @@ class StatBBController extends AbstractController
             }
         }
 
-        $listeMatches = $playerService->listeDesMatchsdUnJoueur($joueur);
+        $listeMatches = $this->getDoctrine()->getRepository(MatchData::class)->listeDesMatchsdUnJoueur($joueur);
         $count = 0;
 
         /** @var Matches $match */

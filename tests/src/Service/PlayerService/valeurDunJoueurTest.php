@@ -9,7 +9,7 @@ use App\Entity\Players;
 use App\Entity\PlayersSkills;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class listeDesCompEtSurcoutGagnedUnJoueurTest extends KernelTestCase
+class valeurDunJoueurTest extends KernelTestCase
 {
     private $entityManager;
 
@@ -45,16 +45,13 @@ class listeDesCompEtSurcoutGagnedUnJoueurTest extends KernelTestCase
     /**
      * @test
      */
-    public function toutes_les_comps_gagnees_sont_retournees()
+    public function la_valeur_du_joueur_est_bien_calculee()
     {
         $playerService = self::$container->get('App\Service\PlayerService');
 
         $joueur = $this->entityManager->getRepository(Players::class)->findOneBy(['name' => 'joueur test']);
 
-        $retour['compgagnee'] = '<text class="text-success">Block</text>, ';
-        $retour['cout'] = 20000;
-
-        $this->assertEquals($retour, $playerService->listeDesCompEtSurcoutGagnedUnJoueur($joueur));
+        $this->assertEquals(130000,$playerService->valeurDunJoueur($joueur));
     }
 
     protected function tearDown()
@@ -74,5 +71,4 @@ class listeDesCompEtSurcoutGagnedUnJoueurTest extends KernelTestCase
 
         $this->entityManager->flush();
     }
-
 }
