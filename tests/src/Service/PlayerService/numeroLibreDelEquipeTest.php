@@ -75,12 +75,6 @@ class numeroLibreDelEquipeTest extends KernelTestCase
 
     public function tearDown()
     {
-        $container = self::$container;
-
-        $this->entityManager = $container
-            ->get('doctrine')
-            ->getManager();
-
         $equipe = $this->entityManager->getRepository(Teams::class)->findOneBy(['name' => 'test EquipeListeActif']);
 
         foreach ($this->entityManager->getRepository(Players::class)->findBy(['ownedByTeam' => $equipe]) as $joueur) {

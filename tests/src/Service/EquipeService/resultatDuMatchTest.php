@@ -73,12 +73,6 @@ class resultatDuMatchTest extends KernelTestCase
     }
     public function tearDown()
     {
-        $container = self::$container;
-
-        $this->entityManager = $container
-            ->get('doctrine')
-            ->getManager();
-
         $equipe1 = $this->entityManager->getRepository(Teams::class)->findOneBy(['name' => 'test Equiperm0']);
         $equipe2 = $this->entityManager->getRepository(Teams::class)->findOneBy(['name' => 'test Equiperm1']);
 

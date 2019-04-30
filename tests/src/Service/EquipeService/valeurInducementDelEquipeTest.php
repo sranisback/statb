@@ -58,12 +58,6 @@ class valeurInducementDelEquipeTest extends KernelTestCase
 
     public function tearDown()
     {
-        $container = self::$container;
-
-        $this->entityManager = $container
-            ->get('doctrine')
-            ->getManager();
-
         $equipe = $this->entityManager->getRepository(Teams::class)->findOneBy(['name' => 'test Equipevi']);
 
         $this->entityManager->remove($equipe);

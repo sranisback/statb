@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Tests\src\Service\PlayerService;
+namespace App\Tests\src\Service\MatchDataService;
 
 
-use App\Entity\GameDataPlayers;
 use App\Entity\MatchData;
+use App\Entity\Matches;
 use App\Entity\Players;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class xpDuJoueurTest extends KernelTestCase
+class lectureLignedUnMatchTest extends KernelTestCase
 {
     private $entityManager;
 
@@ -23,16 +23,19 @@ class xpDuJoueurTest extends KernelTestCase
 
         $joueur = new Players;
 
-        $joueur->setFPos($this->entityManager->getRepository(GameDataPlayers::class)->findOneBy(['posId' => 34]));
         $joueur->setName('joueur test');
-        $joueur->setType(1);
 
         $this->entityManager->persist($joueur);
 
+        $match = new Matches;
+
+        $this->entityManager->persist($match);
+
         $matchData = new MatchData;
 
-        $matchData->setMvp(1);
         $matchData->setFPlayer($joueur);
+        $matchData->setFMatch($match);
+        $matchData->setMvp(1);
 
         $this->entityManager->persist($matchData);
 
@@ -40,25 +43,32 @@ class xpDuJoueurTest extends KernelTestCase
     }
 
     /**
-     *@test
+     * @test
      */
-    public function l_xp_est_bien_calculee()
+    public function ligne_lue_matchdata()
     {
-        $playerService = self::$container->get('App\Service\PlayerService');
+        $matchDataService = self::$container->get('App\Service\MatchDataService');
 
         $joueur = $this->entityManager->getRepository(Players::class)->findOneBy(['name' => 'joueur test']);
 
-        $this->assertEquals(5, $playerService->xpDuJoueur($joueur));
+        $matchData = $this->entityManager->getRepository(MatchData::class)->findOneBy(['fPlayer'=>$joueur]);
+
+        $this->assertEquals('MVP: 1, ', $matchDataService->lectureLignedUnMatch($matchData));
     }
 
     protected function tearDown()
     {
         $joueur = $this->entityManager->getRepository(Players::class)->findOneBy(['name' => 'joueur test']);
 
-        $this->entityManager->remove($this->entityManager->getRepository(MatchData::class)->findOneBy(['fPlayer'=>$joueur]));
+        $matchData = $this->entityManager->getRepository(MatchData::class)->findOneBy(['fPlayer'=>$joueur]);
 
+        $match = $this->entityManager->getRepository(Matches::class)->findOneBy(['matchId'=>$matchData->getFMatch()->getMatchId()]);
+
+        $this->entityManager->remove($matchData);
+        $this->entityManager->remove($match);
         $this->entityManager->remove($joueur);
 
         $this->entityManager->flush();
     }
+
 }

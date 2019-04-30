@@ -68,12 +68,6 @@ class coutTotalJoueursTest extends KernelTestCase
 
     protected function tearDown()
     {
-        self::bootKernel();
-        $container = self::$container;
-
-        $this->entityManager = $container
-            ->get('doctrine')
-            ->getManager();
 
         $equipe = $this->entityManager->getRepository(Teams::class)->findOneBy(['name' => 'test EquipeListeActif']);
 

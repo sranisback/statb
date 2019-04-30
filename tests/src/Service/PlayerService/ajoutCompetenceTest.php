@@ -49,13 +49,6 @@ class ajoutCompetenceTest extends KernelTestCase
 
     protected function tearDown()
     {
-        self::bootKernel();
-        $container = self::$container;
-
-        $this->entityManager = $container
-            ->get('doctrine')
-            ->getManager();
-
         $joueur = $this->entityManager->getRepository(Players::class)->findOneBy(['name' => 'joueur test']);
 
         $this->entityManager->remove($this->entityManager->getRepository(PlayersSkills::class)->findOneBy(['fPid' => $joueur]));

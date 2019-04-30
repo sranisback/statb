@@ -32,12 +32,6 @@ class createTeamTest extends KernelTestCase
 
     public function tearDown()
     {
-        $container = self::$container;
-
-        $this->entityManager = $container
-            ->get('doctrine')
-            ->getManager();
-
         $equipe = $this->entityManager->getRepository(Teams::class)->findOneBy(['name' => 'equipe Creation Test']);
         $this->entityManager->remove($equipe);
 

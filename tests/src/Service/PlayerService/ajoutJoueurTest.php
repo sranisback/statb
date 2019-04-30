@@ -62,13 +62,6 @@ class ajoutJoueurTest extends KernelTestCase
 
     protected function tearDown()
     {
-        self::bootKernel();
-        $container = self::$container;
-
-        $this->entityManager = $container
-            ->get('doctrine')
-            ->getManager();
-
         $equipe = $this->entityManager->getRepository(Teams::class)->findOneBy(['name' => 'equipe test']);
 
         $this->entityManager->remove($this->entityManager->getRepository(Players::class)->findOneBy(['ownedByTeam'=>$equipe]));
