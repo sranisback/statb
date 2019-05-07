@@ -145,8 +145,11 @@ class MatchDataRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('Matchdata')
             ->join('Matchdata.fMatch', 'Matches')
             ->join('Matchdata.fPlayer', 'Players')
+            ->join('Players.ownedByTeam', 'Teams')
             ->where('Matches.matchId ='.$match->getMatchId())
-            ->andWhere('Players.ownedByTeam.teamId ='.$equipe->getTeamId());
+            ->andWhere('Teams.teamId ='.$equipe->getTeamId())
+            ->getQuery()
+            ->execute();
     }
 
     public function listeDesMatchsdUnJoueur($joueur)

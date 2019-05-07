@@ -3,8 +3,10 @@
 namespace App\Tests\src\Service\PlayerService;
 
 
+use App\Entity\GameDataStadium;
 use App\Entity\MatchData;
 use App\Entity\Matches;
+use App\Entity\Meteo;
 use App\Entity\Players;
 use App\Entity\Races;
 use App\Entity\Stades;
@@ -64,6 +66,8 @@ class remplirMatchDataDeLigneAzeroTest extends KernelTestCase
         $match->setTeam2($equipe2);
         $match->setTeam1Score(1);
         $match->setTeam2Score(0);
+        $match->setFMeteo($this->entityManager->getRepository(Meteo::class)->findOneBy(['id'=> 0]));
+        $match->setFStade($this->entityManager->getRepository(GameDataStadium::class)->findOneBy(['id'=> 0]));
 
         $this->entityManager->persist($equipe1);
         $this->entityManager->persist($equipe2);

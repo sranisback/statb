@@ -3,8 +3,10 @@
 namespace App\Tests\src\Service\PlayerService;
 
 
+use App\Entity\GameDataStadium;
 use App\Entity\MatchData;
 use App\Entity\Matches;
+use App\Entity\Meteo;
 use App\Entity\Players;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -30,6 +32,8 @@ class actionDuJoueurDansUnMatchTest extends KernelTestCase
         $match = new Matches;
 
         $this->entityManager->persist($match);
+        $match->setFMeteo($this->entityManager->getRepository(Meteo::class)->findOneBy(['id'=> 0]));
+        $match->setFStade($this->entityManager->getRepository(GameDataStadium::class)->findOneBy(['id'=> 0]));
 
         $matchData = new MatchData;
 

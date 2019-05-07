@@ -4,7 +4,9 @@
 namespace App\Tests\src\Service\EquipeService;
 
 
+use App\Entity\GameDataStadium;
 use App\Entity\Matches;
+use App\Entity\Meteo;
 use App\Entity\Races;
 use App\Entity\Stades;
 use App\Entity\Teams;
@@ -48,6 +50,8 @@ class resultatsDelEquipeTest extends KernelTestCase
         $match1->setTeam2($equipe2);
         $match1->setTeam1Score(1);
         $match1->setTeam2Score(0);
+        $match1->setFMeteo($this->entityManager->getRepository(Meteo::class)->findOneBy(['id'=> 0]));
+        $match1->setFStade($this->entityManager->getRepository(GameDataStadium::class)->findOneBy(['id'=> 0]));
 
         $this->entityManager->persist($match1);
 
@@ -57,6 +61,8 @@ class resultatsDelEquipeTest extends KernelTestCase
         $match2->setTeam2($equipe2);
         $match2->setTeam1Score(1);
         $match2->setTeam2Score(1);
+        $match2->setFMeteo($this->entityManager->getRepository(Meteo::class)->findOneBy(['id'=> 0]));
+        $match2->setFStade($this->entityManager->getRepository(GameDataStadium::class)->findOneBy(['id'=> 0]));
 
         $this->entityManager->persist($match2);
 
@@ -66,6 +72,8 @@ class resultatsDelEquipeTest extends KernelTestCase
         $match3->setTeam2($equipe2);
         $match3->setTeam1Score(0);
         $match3->setTeam2Score(1);
+        $match3->setFMeteo($this->entityManager->getRepository(Meteo::class)->findOneBy(['id'=> 0]));
+        $match3->setFStade($this->entityManager->getRepository(GameDataStadium::class)->findOneBy(['id'=> 0]));
 
         $this->entityManager->persist($match3);
 

@@ -3,7 +3,9 @@
 namespace App\Tests\src\Service\EquipeService;
 
 
+use App\Entity\GameDataStadium;
 use App\Entity\Matches;
+use App\Entity\Meteo;
 use App\Entity\Races;
 use App\Entity\Stades;
 use App\Entity\Teams;
@@ -85,6 +87,8 @@ class supprInducementTest extends KernelTestCase
         $match->setTeam2($equipe2);
         $match->setTeam1Score(1);
         $match->setTeam2Score(0);
+        $match->setFMeteo($this->entityManager->getRepository(Meteo::class)->findOneBy(['id'=> 0]));
+        $match->setFStade($this->entityManager->getRepository(GameDataStadium::class)->findOneBy(['id'=> 0]));
 
         $this->entityManager->persist($match);
 

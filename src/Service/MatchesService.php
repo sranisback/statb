@@ -2,8 +2,10 @@
 
 namespace App\Service;
 
+use App\Entity\GameDataStadium;
 use App\Entity\MatchData;
 use App\Entity\Matches;
+use App\Entity\Meteo;
 use App\Entity\Players;
 use App\Entity\Teams;
 use DateTime;
@@ -49,28 +51,33 @@ class MatchesService
         $this->equipeService->eloDesEquipes($this->settingService->anneeCourante());
     }
 
-    public function creationEnteteMatch($donnneesMatch)
+    public function creationEnteteMatch($donneesMatch)
     {
         $match = new Matches();
 
         $team1 = $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(
-            ['teamId' => $donnneesMatch['team_1']]
+            ['teamId' => $donneesMatch['team_1']]
         );
         $team2 = $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(
-            ['teamId' => $donnneesMatch['team_2']]
+            ['teamId' => $donneesMatch['team_2']]
         );
 
-        $match->setFans($donnneesMatch['totalpop']);
-        $match->setFfactor1($donnneesMatch['varpop_team1']);
-        $match->setFfactor2($donnneesMatch['varpop_team2']);
-        $match->setIncome1($donnneesMatch['gain1']);
-        $match->setIncome2($donnneesMatch['gain2']);
-        $match->setTeam1Score($donnneesMatch['score1']);
-        $match->setTeam2Score($donnneesMatch['score2']);
+        $match->setFans($donneesMatch['totalpop']);
+        $match->setFfactor1($donneesMatch['varpop_team1']);
+        $match->setFfactor2($donneesMatch['varpop_team2']);
+        $match->setIncome1($donneesMatch['gain1']);
+        $match->setIncome2($donneesMatch['gain2']);
+        $match->setTeam1Score($donneesMatch['score1']);
+        $match->setTeam2Score($donneesMatch['score2']);
         $match->setTeam1($team1);
         $match->setTeam2($team2);
         $match->setTv1($this->equipeService->tvDelEquipe($team1, $this->playerService));
         $match->setTv2($this->equipeService->tvDelEquipe($team2, $this->playerService));
+        $match->setFMeteo($this->doctrineEntityManager->getRepository(Meteo::class)->findOneBy(
+            ['id' => $donneesMatch['meteo']]
+        ));
+        $match->setFStade($this->doctrineEntityManager->getRepository(GameDataStadium::class)->findOneBy(
+            ['id' => $donneesMatch['stade']]));
 
         $dateMatch = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
         if ($dateMatch) {

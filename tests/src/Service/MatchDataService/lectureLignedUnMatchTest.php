@@ -3,8 +3,10 @@
 namespace App\Tests\src\Service\MatchDataService;
 
 
+use App\Entity\GameDataStadium;
 use App\Entity\MatchData;
 use App\Entity\Matches;
+use App\Entity\Meteo;
 use App\Entity\Players;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -28,7 +30,8 @@ class lectureLignedUnMatchTest extends KernelTestCase
         $this->entityManager->persist($joueur);
 
         $match = new Matches;
-
+        $match->setFMeteo($this->entityManager->getRepository(Meteo::class)->findOneBy(['id'=> 0]));
+        $match->setFStade($this->entityManager->getRepository(GameDataStadium::class)->findOneBy(['id'=> 0]));
         $this->entityManager->persist($match);
 
         $matchData = new MatchData;

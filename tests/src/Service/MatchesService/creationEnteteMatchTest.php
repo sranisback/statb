@@ -38,8 +38,8 @@ class creationEnteteMatchTest extends KernelTestCase
         $data['gain2'] = 100000;
         $data['score1'] = 2;
         $data['score2'] = 0;
-
-        $matchService->creationEnteteMatch($data);
+        $data['meteo'] = 5;
+        $data['stade'] = 0;
 
        $this->assertInstanceOf(Matches::class,$matchService->creationEnteteMatch($data));
 

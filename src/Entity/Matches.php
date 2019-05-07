@@ -114,6 +114,18 @@ class Matches
      */
     private $team2;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Meteo")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $fMeteo = 0;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\GameDataStadium")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $fStade = 0;
+
     public function getMatchId(): ?int
     {
         return $this->matchId;
@@ -259,6 +271,30 @@ class Matches
     public function setTeam2(Teams $team2): self
     {
         $this->team2 = $team2;
+
+        return $this;
+    }
+
+    public function getFMeteo(): ?Meteo
+    {
+        return $this->fMeteo;
+    }
+
+    public function setFMeteo(?Meteo $fMeteo): self
+    {
+        $this->fMeteo = $fMeteo;
+
+        return $this;
+    }
+
+    public function getFStade(): ?GameDataStadium
+    {
+        return $this->fStade;
+    }
+
+    public function setFStade(?GameDataStadium $fStade): self
+    {
+        $this->fStade = $fStade;
 
         return $this;
     }

@@ -5,8 +5,10 @@ namespace App\Tests\src\Service\MatchDataService;
 
 
 use App\Entity\GameDataPlayers;
+use App\Entity\GameDataStadium;
 use App\Entity\MatchData;
 use App\Entity\Matches;
+use App\Entity\Meteo;
 use App\Entity\Players;
 use App\Entity\Races;
 use App\Entity\Stades;
@@ -48,6 +50,8 @@ class creationLigneVideDonneeMatchTest extends KernelTestCase
 
         $match = new Matches;
         $match->setTeam1($equipe1);
+        $match->setFMeteo($this->entityManager->getRepository(Meteo::class)->findOneBy(['id'=> 0]));
+        $match->setFStade($this->entityManager->getRepository(GameDataStadium::class)->findOneBy(['id'=> 0]));
 
         $this->entityManager->persist($match);
 

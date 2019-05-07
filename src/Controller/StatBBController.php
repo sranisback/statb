@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Coaches;
 use App\Entity\GameDataStadium;
+use App\Entity\Meteo;
 use App\Entity\Primes;
 use App\Entity\Teams;
 use App\Entity\Races;
@@ -20,7 +21,6 @@ use App\Form\CreerEquipeType;
 use App\Form\CreerStadeType;
 use App\Form\PrimeType;
 use App\Form\RealiserPrimeType;
-use App\Service\CoachService;
 use App\Service\EquipeService;
 use App\Service\MatchDataService;
 use App\Service\MatchesService;
@@ -1232,6 +1232,8 @@ class StatBBController extends AbstractController
                 'teams' => $this->getDoctrine()->getRepository(Teams::class)->findBy(
                     ['year' => $settingsService->anneeCourante()]
                 ),
+                'meteos' => $this->getDoctrine()->getRepository(Meteo::class)->findAll(),
+                'stades' => $this->getDoctrine()->getRepository(GameDataStadium::class)->findAll()
             ]
         );
     }
@@ -1472,5 +1474,22 @@ class StatBBController extends AbstractController
         }
 
         return $this->redirectToRoute('frontUser');
+    }
+
+    /**
+     * @Route("/match/{matchId}", name="match", options ={"expose"= true})
+     */
+    public function visualiseurDeMatch(PlayerService $playerService, $matchId)
+    {
+        $match = $this->getDoctrine()->getRepository(Matches::class)->findOneBy(['matchId'=>$matchId]);
+
+        return $this->render(
+            'statbb/matchviewer.html.twig',
+            [
+                'match' => $match,
+                'actionEquipe1' => $playerService->toutesLesActionsDeLequipeDansUnMatch($match, $match->getTeam1()),
+                'actionEquipe2' => $playerService->toutesLesActionsDeLequipeDansUnMatch($match, $match->getTeam2())
+            ]
+        );
     }
 }

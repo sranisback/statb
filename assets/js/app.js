@@ -732,7 +732,7 @@ $(document).ready(function () {
     });
 
     /**
-     * suppr 'inducement
+     * suppr d'inducement
      */
     $("[id^='rem_']").click(function () {
         actionInducement($(this),'rem');

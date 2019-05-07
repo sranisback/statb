@@ -98,10 +98,31 @@
         </div>
     </div>
     <div class="form-row">
-        <div clas="form-group">
-            <label for="totalpop">Total popularité</label>
-            <input type="text" name="totalpop" value="0" id="totalpop" class="form-control" >
+        <div class="form-group">
+            <div class="col-sm-4 col-lg-4 col-md-4">
+                <label for="totalpop">Total popularité</label>
+                <input type="text" name="totalpop" value="0" id="totalpop" class="form-control" >
+            </div>
+            <div class="col-sm-4 col-lg-4 col-md-4">
+                <label for="meteo">Météo</label>
+                <select class="form-control" id="meteo" name="meteo">
+                    <option value="" selected>Choisir une Météo</option>
+                    {% for meteo in meteos %}
+                        <option value="{{ meteo.id }}">{{ meteo.nom }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div id="stade_select" class="col-sm-4 col-lg-4 col-md-4">
+                <label for="stade">Stade</label>
+                <select class="form-control" id="meteo" name="meteo">
+                    <option value="" selected>Choisir un stade</option>
+                    {% for stade in stades %}
+                        <option value="{{ stade.id }}">{{ stade.type }}</option>
+                    {% endfor %}
+                </select>
+            </div>
         </div>
     </div>
     <button id="recMatch" type="button" class="btn btn-default">Valider</button>
 </form>
+

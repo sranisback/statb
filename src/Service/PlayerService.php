@@ -605,4 +605,34 @@ class PlayerService
         return $actions['cp'] + ($actions['td'] * 3)
             + ($actions['int'] * 2) + ($actions['cas'] * 2) + ($actions['mvp'] * 5);
     }
+
+    /**
+     * @param Matches $match
+     * @param Teams $equipe
+     */
+    public function toutesLesActionsDeLequipeDansUnMatch(Matches $match, Teams $equipe)
+    {
+        $textAction = '<ul>';
+
+        foreach ($this->doctrineEntityManager->getRepository(MatchData::class)->listeDesJoueursdUnMatch($match, $equipe) as $listeActionsDunJoueur) {
+
+            $actions = $this->actionDuJoueurDansUnMatch($match,$listeActionsDunJoueur->getFPlayer());
+
+            /** @var MatchData $listeActionsDunJoueur */
+            $name = $listeActionsDunJoueur->getFPlayer()->getName();
+
+            if($actions != ''){
+                if (strlen($name)< 2)
+                {
+                    $name = 'Inconnu';
+                }
+
+                $actions = $this->actionDuJoueurDansUnMatch($match,$listeActionsDunJoueur->getFPlayer());
+
+                $textAction .= '<li>'.$name.', '.$listeActionsDunJoueur->getFPlayer()->getFPos()->getPos().'('.$listeActionsDunJoueur->getFPlayer()->getNr().'): '.substr($actions,0,strlen($actions)-2).'</li>';
+            }
+        }
+
+        return $textAction.'</ul>';
+    }
 }
