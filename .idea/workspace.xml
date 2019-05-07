@@ -4,31 +4,13 @@
     <option name="FILTER_RESOLVED_ITEMS" value="false" />
   </component>
   <component name="ChangeListManager">
-    <list id="93d7809f-21f2-44bb-ac75-31fb03a6cee4" name="tentative corrections glyphicons en prod 3b" comment="" />
-    <list default="true" id="847151cb-c508-4c4e-9aa8-f19098c7acb6" name="Default" comment="Ajout TU">
-      <change afterPath="$PROJECT_DIR$/src/Entity/Meteo.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Repository/MeteoRepository.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/statbb/matchviewer.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/src/Service/PlayerService/toutesLesActionsDeLequipeDansUnMatchTest.php" afterDir="false" />
+    <list default="true" id="847151cb-c508-4c4e-9aa8-f19098c7acb6" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/StatBBController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/StatBBController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Matches.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Matches.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/MatchDataRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/MatchDataRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/MatchesService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/MatchesService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/PlayerService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/PlayerService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/statbb/ajoutMatch.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/statbb/ajoutMatch.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/statbb/team.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/statbb/team.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/src/Service/EquipeService/AjoutInducementTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/src/Service/EquipeService/AjoutInducementTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/src/Service/EquipeService/resultatDuMatchTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/src/Service/EquipeService/resultatDuMatchTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/src/Service/EquipeService/resultatsDelEquipeTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/src/Service/EquipeService/resultatsDelEquipeTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/src/Service/EquipeService/supprInducementTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/src/Service/EquipeService/supprInducementTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/src/Service/MatchDataService/creationLigneVideDonneeMatchTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/src/Service/MatchDataService/creationLigneVideDonneeMatchTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/src/Service/MatchDataService/lectureLignedUnMatchTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/src/Service/MatchDataService/lectureLignedUnMatchTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/src/Service/MatchesService/creationEnteteMatchTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/src/Service/MatchesService/creationEnteteMatchTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/src/Service/PlayerService/actionDuJoueurDansUnMatchTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/src/Service/PlayerService/actionDuJoueurDansUnMatchTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/src/Service/PlayerService/remplirMatchDataDeLigneAzeroTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/src/Service/PlayerService/remplirMatchDataDeLigneAzeroTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Admin/MatchAdmin.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Admin/MatchAdmin.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Admin/MatchDataAdmin.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Admin/MatchDataAdmin.php" afterDir="false" />
     </list>
+    <list id="93d7809f-21f2-44bb-ac75-31fb03a6cee4" name="tentative corrections glyphicons en prod 3b" comment="" />
     <list id="c3976c2a-a704-469d-97ce-8d7d42ac22f9" name="tentative corrections glyphicons en prod 3" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -71,6 +53,13 @@
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="bb_symf: schema" type="c314c289:MysqlImplModel$Schema" />
       </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="bb_symf@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="bb_symf: schema" type="c314c289:MysqlImplModel$Schema" />
+        <item name="meteo: table" type="98d5ac3d:MysqlImplModel$Table" />
+      </path>
     </expand>
     <select />
   </component>
@@ -79,37 +68,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="matchviewer.html.twig" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/statbb/matchviewer.html.twig">
+      <file leaf-file-name="MatchAdmin.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Admin/MatchAdmin.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="362">
-              <caret line="113" column="26" selection-start-line="113" selection-start-column="26" selection-end-line="113" selection-end-column="26" />
+            <state relative-caret-position="561">
+              <caret line="51" column="84" selection-start-line="51" selection-start-column="84" selection-end-line="51" selection-end-column="84" />
               <folding>
-                <element signature="e#12#33#0#Twig" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="e#29#60#0#PHP" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PlayerService.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Service/PlayerService.php">
+      <file leaf-file-name="MatchDataAdmin.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Admin/MatchDataAdmin.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="461">
-              <caret line="638" selection-start-line="638" selection-end-line="638" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="toutesLesActionsDeLequipeDansUnMatchTest.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/tests/src/Service/PlayerService/toutesLesActionsDeLequipeDansUnMatchTest.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="119" lean-forward="true" selection-start-line="119" selection-end-line="119" />
-              <folding>
-                <element signature="e#56#87#0#PHP" expanded="true" />
-              </folding>
+            <state relative-caret-position="533">
+              <caret line="48" column="30" lean-forward="true" selection-start-line="48" selection-start-column="30" selection-end-line="48" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -172,8 +147,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/templates/statbb/user.html.twig" />
-        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/3bf97b1d-8ae8-428e-a685-41636d366b25/console.sql" />
         <option value="$PROJECT_DIR$/tests/src/Service/PlayerService/numeroLibreDelEquipe.php" />
         <option value="$PROJECT_DIR$/src/Repository/MatchesRepository.php" />
         <option value="$PROJECT_DIR$/src/Repository/PlayersRepository.php" />
@@ -223,6 +196,8 @@
         <option value="$PROJECT_DIR$/src/Service/PlayerService.php" />
         <option value="$PROJECT_DIR$/templates/statbb/matchviewer.html.twig" />
         <option value="$PROJECT_DIR$/tests/src/Service/PlayerService/toutesLesActionsDeLequipeDansUnMatchTest.php" />
+        <option value="$PROJECT_DIR$/src/Admin/MatchAdmin.php" />
+        <option value="$PROJECT_DIR$/src/Admin/MatchDataAdmin.php" />
       </list>
     </option>
   </component>
@@ -417,79 +392,13 @@
             <path>
               <item name="statb" type="b2602c69:ProjectViewProjectNode" />
               <item name="statb" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="statb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="statb" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="statb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="statb" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="statb" type="b2602c69:ProjectViewProjectNode" />
               <item name="statb" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Controller" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="statb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="statb" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Entity" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="statb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="statb" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Migrations" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="statb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="statb" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Service" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="statb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="statb" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="statb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="statb" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="statbb" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="statb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="statb" type="462c0819:PsiDirectoryNode" />
-              <item name="tests" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="statb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="statb" type="462c0819:PsiDirectoryNode" />
-              <item name="tests" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="statb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="statb" type="462c0819:PsiDirectoryNode" />
-              <item name="tests" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Service" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="statb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="statb" type="462c0819:PsiDirectoryNode" />
-              <item name="tests" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Service" type="462c0819:PsiDirectoryNode" />
-              <item name="MatchesService" type="462c0819:PsiDirectoryNode" />
+              <item name="Admin" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -602,14 +511,7 @@
       <workItem from="1554145007334" duration="27616000" />
       <workItem from="1554901325365" duration="83864000" />
       <workItem from="1556019009964" duration="40134000" />
-      <workItem from="1556519350233" duration="40286000" />
-    </task>
-    <task id="LOCAL-00060" summary="correction MEP 0.32">
-      <created>1550668018463</created>
-      <option name="number" value="00060" />
-      <option name="presentableId" value="LOCAL-00060" />
-      <option name="project" value="LOCAL" />
-      <updated>1550668018463</updated>
+      <workItem from="1556519350233" duration="40813000" />
     </task>
     <task id="LOCAL-00061" summary="correction MEP 0.32">
       <created>1550668526067</created>
@@ -947,13 +849,17 @@
       <option name="project" value="LOCAL" />
       <updated>1556627830464</updated>
     </task>
-    <option name="localTasksCounter" value="109" />
+    <task id="LOCAL-00109" summary="Ajout Matchviewer">
+      <created>1557260993502</created>
+      <option name="number" value="00109" />
+      <option name="presentableId" value="LOCAL-00109" />
+      <option name="project" value="LOCAL" />
+      <updated>1557260993502</updated>
+    </task>
+    <option name="localTasksCounter" value="110" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="tests - 2019.05.07 at 21h 52m 54s.xml">
-      <configuration name="tests" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
     <history-entry file="tests - 2019.05.07 at 21h 55m 17s.xml">
       <configuration name="tests" configurationId="PHPUnitRunConfigurationType" />
     </history-entry>
@@ -981,9 +887,12 @@
     <history-entry file="tests - 2019.05.07 at 22h 24m 58s.xml">
       <configuration name="tests" configurationId="PHPUnitRunConfigurationType" />
     </history-entry>
+    <history-entry file="tests - 2019.05.07 at 22h 26m 59s.xml">
+      <configuration name="tests" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="826168000" />
+    <option name="totallyTimeSpent" value="826695000" />
   </component>
   <component name="TodoView" selected-index="3">
     <todo-panel id="selected-file">
@@ -1003,9 +912,9 @@
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.502445" side_tool="true" weight="0.4828694" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="12" sideWeight="0.49755502" weight="0.4197002" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49816626" visible="true" weight="0.3672377" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49755502" weight="0.21734476" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49134198" visible="true" weight="0.21149144" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49816626" weight="0.3672377" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49755502" visible="true" weight="0.21734476" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49134198" visible="true" weight="0.21149144" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" visible="true" weight="0.13080685" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.46708465" />
@@ -1099,7 +1008,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="SHOW_UNVERSIONED_FILES_WHILE_COMMIT" value="false" />
-    <MESSAGE value="Fin refacto clss gen" />
     <MESSAGE value="Ajout table gamedatastadium" />
     <MESSAGE value="Ajout entités stades" />
     <MESSAGE value="Ajout entite stades" />
@@ -1124,7 +1032,8 @@
     <MESSAGE value="Ajout TU supp" />
     <MESSAGE value="Ajout TU 2" />
     <MESSAGE value="Ajout TU suite" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ajout TU suite" />
+    <MESSAGE value="Ajout Matchviewer" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ajout Matchviewer" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1139,16 +1048,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tests/src/Service/PlayerService/listeDesJoueursActifsDelEquipeTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="76" column="17" lean-forward="true" selection-start-line="76" selection-start-column="17" selection-end-line="76" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/statbb/team_modal.html.twig">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/statbb/team.html.twig">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -1493,9 +1392,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/tests/src/Service/PlayerService/toutesLesActionsDeLequipeDansUnMatchTest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="117" lean-forward="true" selection-start-line="117" selection-end-line="117" />
+          <folding>
+            <element signature="e#56#87#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Service/PlayerService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="790">
+          <caret line="638" lean-forward="true" selection-start-line="638" selection-end-line="638" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/templates/statbb/matchviewer.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="362">
+        <state relative-caret-position="1921">
           <caret line="113" column="26" selection-start-line="113" selection-start-column="26" selection-end-line="113" selection-end-column="26" />
           <folding>
             <element signature="e#12#33#0#Twig" expanded="true" />
@@ -1505,20 +1421,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Service/PlayerService.php">
+    <entry file="file://$PROJECT_DIR$/src/Admin/MatchAdmin.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="461">
-          <caret line="638" selection-start-line="638" selection-end-line="638" />
+        <state relative-caret-position="561">
+          <caret line="51" column="84" selection-start-line="51" selection-start-column="84" selection-end-line="51" selection-end-column="84" />
+          <folding>
+            <element signature="e#29#60#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/src/Service/PlayerService/toutesLesActionsDeLequipeDansUnMatchTest.php">
+    <entry file="file://$PROJECT_DIR$/src/Admin/MatchDataAdmin.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="119" lean-forward="true" selection-start-line="119" selection-end-line="119" />
-          <folding>
-            <element signature="e#56#87#0#PHP" expanded="true" />
-          </folding>
+        <state relative-caret-position="533">
+          <caret line="48" column="30" lean-forward="true" selection-start-line="48" selection-start-column="30" selection-end-line="48" selection-end-column="30" />
         </state>
       </provider>
     </entry>

@@ -2,6 +2,8 @@
 
 namespace App\Admin;
 
+use App\Entity\GameDataStadium;
+use App\Entity\Meteo;
 use App\Entity\Teams;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -38,7 +40,18 @@ class MatchAdmin extends AbstractAdmin
                 'team2',
                 entityType::class,
                 ['class' => Teams::class, 'choice_label' => 'name', 'label' => 'Equipe 2']
-            );
+            )
+            ->add(
+                'fStade',
+                entityType::class,
+                ['class' => GameDataStadium::class, 'choice_label' => 'type', 'label' => 'Stade']
+            )
+            ->add(
+                'fMeteo',
+                entityType::class,
+                ['class' => Meteo::class, 'choice_label' => 'nom', 'label' => 'Meteo']
+            )
+        ;
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)

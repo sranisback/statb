@@ -37,7 +37,17 @@ class MatchDataAdmin extends AbstractAdmin
         $listMapper
             ->addIdentifier('fMatch.matchId', null, ['label' => 'Match'])
             ->add('fPlayer.name', null, ['label' => 'Joueur'])
+            ->add('fPlayer.fPos.pos', null, ['label' => 'Position'])
             ->add('fPlayer.ownedByTeam.name', null, ['label' => 'Equipe'])
+            ->add('mvp', null)
+            ->add('cp', null)
+            ->add('td', null)
+            ->add('intcpt', null)
+            ->add('bh', null)
+            ->add('si', null)
+            ->add('ki', null)
+            ->add('inj', null)
+            ->add('agg', null)
             ->add(
                 '_action',
                 null,
