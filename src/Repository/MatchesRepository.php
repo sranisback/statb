@@ -41,4 +41,12 @@ class MatchesRepository extends ServiceEntityRepository
 
         return $matches;
     }
+
+    public function numeroDeMatch()
+    {
+        return $this->createQueryBuilder('m')
+            ->select('MAX(m.matchId)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

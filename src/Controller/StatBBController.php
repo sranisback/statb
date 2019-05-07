@@ -1233,7 +1233,8 @@ class StatBBController extends AbstractController
                     ['year' => $settingsService->anneeCourante()]
                 ),
                 'meteos' => $this->getDoctrine()->getRepository(Meteo::class)->findAll(),
-                'stades' => $this->getDoctrine()->getRepository(GameDataStadium::class)->findAll()
+                'stades' => $this->getDoctrine()->getRepository(GameDataStadium::class)->findAll(),
+                'numero' => $this->getDoctrine()->getRepository(Matches::class)->numeroDeMatch()
             ]
         );
     }
