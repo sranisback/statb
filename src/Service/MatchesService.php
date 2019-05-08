@@ -77,7 +77,8 @@ class MatchesService
             ['id' => $donneesMatch['meteo']]
         ));
         $match->setFStade($this->doctrineEntityManager->getRepository(GameDataStadium::class)->findOneBy(
-            ['id' => $donneesMatch['stade']]));
+            ['id' => $donneesMatch['stade']]
+        ));
 
         $dateMatch = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
         if ($dateMatch) {

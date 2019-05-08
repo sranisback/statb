@@ -9,5 +9,11 @@ parameters:
 	    - '#.+SClassement.+#'
 	    - '#.+listePrimeEnCours.+#'
 	    - '#.+mortPourlAnnee.+#'
+	    - '#.+listeDesJoueursActifsPourlEquipe.+#'
+	    - '#.+numeroDeMatch.+#'
+	    - '#.+classement.+#'
+	    - '#.+listeDesMatchsdUnJoueur.+#'
+	    - '#.+listeDesJoueursPourlEquipe.+#'
+	    - '#.+listeDesMatchs.+#'
 	autoload_directories:
 		- %rootDir%/../../../src/Migrations

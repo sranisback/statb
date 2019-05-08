@@ -11,7 +11,6 @@ use App\Entity\Teams;
 use App\Entity\Matches;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\ORMException;
 
 class EquipeService
 {
@@ -128,8 +127,6 @@ class EquipeService
         $race = $this->doctrineEntityManager->getRepository(Races::class)->findOneBy(['raceId' => $raceid]);
         $coach = $this->doctrineEntityManager->getRepository(Coaches::class)->findOneBy(array('coachId' => $coachid));
 
-        $currentYear = 0;
-        $teamid = 0;
         $team = new Teams();
 
         $team->setTreasury($this->tresorDepart);
@@ -146,12 +143,11 @@ class EquipeService
         $team->setFStades($stade);
 
         if ($setting) {
-            try {
-                $currentYear = $setting->getValue();
-            } catch (ORMException $e) {
-            }
+            $currentYear = $setting->getValue();
 
-            $team->setYear((int)$currentYear);
+            if (!empty($currentYear)) {
+                $team->setYear((int)$currentYear);
+            }
         }
         if ($race) {
             $team->setFRace($race);
@@ -160,20 +156,22 @@ class EquipeService
             $team->setOwnedByCoach($coach);
         }
 
-        try {
-            $this->doctrineEntityManager->persist($team);
-            $this->doctrineEntityManager->flush();
-            $this->doctrineEntityManager->refresh($team);
-            $teamid = $team->getTeamId();
-        } catch (ORMException $e) {
+        $this->doctrineEntityManager->persist($team);
+        $this->doctrineEntityManager->flush();
+        $this->doctrineEntityManager->refresh($team);
+        $teamid = $team->getTeamId();
+
+        if (!empty($teamid)) {
+            return $teamid;
         }
 
-        return $teamid;
+        return 0;
     }
 
     /**
      * @param Teams $equipe
      * @param string $type
+     * @param PlayerService $playerService
      * @return array
      */
     public function ajoutInducement(Teams $equipe, $type, PlayerService $playerService)
@@ -282,6 +280,7 @@ class EquipeService
     /**
      * @param Teams $equipe
      * @param string $type
+     * @param PlayerService $playerService
      * @return array
      */
     public function supprInducement(Teams $equipe, $type, PlayerService $playerService)
@@ -367,7 +366,8 @@ class EquipeService
     }
 
     /**
-     * @return mixed
+     * @param integer $year
+     * @return array
      */
     public function eloDesEquipes($year)
     {

@@ -36,9 +36,10 @@ class PrimeType extends AbstractType
                     'class' => Players::class,
                     'choice_label' => function (Players $joueur) {
                         $nomDuJoueur = 'Inconnu';
-
-                        if (strlen($joueur->getName()) != 2) {
-                            $nomDuJoueur = $joueur->getName();
+                        if (!empty($joueur->getName())) {
+                            if (strlen($joueur->getName()) != 2) {
+                                $nomDuJoueur = $joueur->getName();
+                            }
                         }
 
                         if (!empty($joueur)) {
@@ -47,6 +48,7 @@ class PrimeType extends AbstractType
                                 return $joueur->getNr().'. '.$nomDuJoueur.', '.$position->getPos();
                             }
                         }
+                        return '';
                     },
                     'label' => 'Choisir un joueur',
                     'query_builder' => function (EntityRepository $entityRepository) use ($options) {
@@ -68,6 +70,7 @@ class PrimeType extends AbstractType
                         if (!empty($joueur) && !empty($raceEquipe) && !empty($equipe) && !empty($coach)) {
                             return $equipe->getName().', '.$raceEquipe->getName().', '.$coach->getName();
                         }
+                        return '';
                     },
                     'placeholder' => 'Choisir un joueur',
                 ]

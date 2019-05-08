@@ -32,16 +32,19 @@ class PlayersRepository extends ServiceEntityRepository
 
     /**
      * @param Teams $equipe
+     * @return array
      */
     public function listeDesJoueursPourlEquipe($equipe)
     {
         return $this->getEntityManager()->getRepository(Players::class)->findBy(
             ['ownedByTeam' => $equipe->getTeamId()],
-            ['nr' => 'ASC'] );
+            ['nr' => 'ASC']
+        );
     }
 
     /**
      * @param Teams $equipe
+     * @return array
      */
     public function listeDesJoueursActifsPourlEquipe($equipe)
     {

@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Matches;
 use App\Entity\Teams;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class MatchesRepository extends ServiceEntityRepository
@@ -44,9 +45,14 @@ class MatchesRepository extends ServiceEntityRepository
 
     public function numeroDeMatch()
     {
-        return $this->createQueryBuilder('m')
-            ->select('MAX(m.matchId)')
-            ->getQuery()
-            ->getSingleScalarResult();
+        try {
+            return $this->createQueryBuilder('m')
+                ->select('MAX(m.matchId)')
+                ->getQuery()
+                ->getSingleScalarResult();
+        } catch (NonUniqueResultException $e) {
+        }
+
+        return 0;
     }
 }

@@ -275,7 +275,7 @@ class Matches
         return $this;
     }
 
-    public function getFMeteo(): ?Meteo
+    public function getFMeteo()
     {
         return $this->fMeteo;
     }
@@ -287,7 +287,7 @@ class Matches
         return $this;
     }
 
-    public function getFStade(): ?GameDataStadium
+    public function getFStade()
     {
         return $this->fStade;
     }

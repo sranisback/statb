@@ -3,8 +3,6 @@
 
 namespace App\Service;
 
-use App\Entity\Teams;
-
 use Doctrine\ORM\EntityManagerInterface;
 
 class CoachService
@@ -15,5 +13,4 @@ class CoachService
     {
         $this->doctrineEntityManager = $doctrineEntityManager;
     }
-
 }

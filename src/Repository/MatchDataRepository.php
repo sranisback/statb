@@ -6,6 +6,7 @@ use App\Entity\Matches;
 use App\Entity\Teams;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\DBALException;
+use Doctrine\ORM\ORMException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class MatchDataRepository extends ServiceEntityRepository
@@ -156,8 +157,13 @@ class MatchDataRepository extends ServiceEntityRepository
     {
         $matchJoue = null;
 
-        foreach ($this->getEntityManager()->getRepository(MatchData::class)->findBy(['fPlayer' => $joueur]) as $dataMatches) {
-            $matchJoue[] = $dataMatches->getFMatch();
+        foreach ($this->getEntityManager()->getRepository(MatchData::class)->findBy(
+            ['fPlayer' => $joueur]
+        ) as $dataMatches) {
+            try {
+                $matchJoue[] = $dataMatches->getFMatch();
+            } catch (ORMException $e) {
+            }
         }
 
         return $matchJoue;

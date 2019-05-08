@@ -34,6 +34,7 @@ class RealiserPrimeType extends AbstractType
                                 return $prime->getMontant().'PO  de '.$equipe->getName();
                             }
                         }
+                        return '';
                     },
                     'group_by' => function (Primes $prime) {
                         $nomDuJoueur = 'Inconnu';
@@ -42,8 +43,10 @@ class RealiserPrimeType extends AbstractType
                         if (!empty($joueur)) {
                             $positionJoueur = $joueur->getFPos();
                             $equipe = $joueur->getOwnedByTeam();
-                            if (strlen($joueur->getName()) != 2) {
-                                $nomDuJoueur = $joueur->getName();
+                            if (!empty($joueur->getName())) {
+                                if (strlen($joueur->getName()) != 2) {
+                                    $nomDuJoueur = $joueur->getName();
+                                }
                             }
                         }
 
@@ -51,6 +54,7 @@ class RealiserPrimeType extends AbstractType
                             return $joueur->getNr().'. '.$nomDuJoueur.', '.$positionJoueur->getPos(
                             ).' de '.$equipe->getName();
                         }
+                        return '';
                     },
                     'label' => 'Choisir une Prime',
                     'mapped' => false,
@@ -71,6 +75,7 @@ class RealiserPrimeType extends AbstractType
                         if (!empty($coach)) {
                             return $coach->getName();
                         }
+                        return '';
                     },
                 ]
             )

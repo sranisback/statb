@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Coaches;
 use App\Entity\GameDataStadium;
 use App\Entity\Meteo;
 use App\Entity\Primes;
@@ -51,11 +50,10 @@ class StatBBController extends AbstractController
 {
     /**
      * @Route("/montreLesEquipes", name="showteams", options = { "expose" = true })
-     * @param EquipeService $equipeService
      * @param SettingsService $settingsService
      * @return response
      */
-    public function montreLesEquipes( SettingsService $settingsService)
+    public function montreLesEquipes(SettingsService $settingsService)
     {
         return $this->render(
             'statbb/showteams.html.twig',
@@ -184,7 +182,7 @@ class StatBBController extends AbstractController
      * @param PlayerService $playerService
      * @return Response
      */
-    public function showPlayer($playerid, $type, PlayerService $playerService, MatchDataService $matchDataService)
+    public function showPlayer($playerid, $type, PlayerService $playerService)
     {
         $msdata = [];
         $pdata = [];
@@ -215,10 +213,14 @@ class StatBBController extends AbstractController
         $count = 0;
 
         /** @var Matches $match */
-        foreach ($listeMatches as $match){
+        foreach ($listeMatches as $match) {
             $msdata[$count]["mId"] = $match->getMatchId();
-            $actions = $playerService->actionDuJoueurDansUnMatch($match, $joueur, $matchDataService);
-            $msdata[$count]["data"] = substr($actions, 0, strlen($actions) - 2);;
+            if (!empty($joueur)) {
+                $actions = $playerService->actionDuJoueurDansUnMatch($match, $joueur);
+            }
+            if (!empty($actions)) {
+                $msdata[$count]["data"] = substr($actions, 0, strlen($actions) - 2);
+            };
 
             $count++;
         }
@@ -607,6 +609,7 @@ class StatBBController extends AbstractController
     /**
      * @Route("/addPlayer/{posId}/{teamId}", options = { "expose" = true })
      * @param PlayerService $playerService
+     * @param EquipeService $equipeService
      * @param int $posId
      * @param int $teamId
      * @return JsonResponse
@@ -678,17 +681,16 @@ class StatBBController extends AbstractController
     /**
      * @Route("/remPlayer/{playerId}", options = { "expose" = true })
      * @param PlayerService $playerService
-     * @param EquipeService $equipeService
      * @param int $playerId
      * @return JsonResponse
      */
-    public function remPlayer(PlayerService $playerService, EquipeService $equipeService, $playerId)
+    public function remPlayer(PlayerService $playerService, $playerId)
     {
         $resultat[''] = '';
         $joueur = $this->getDoctrine()->getRepository(Players::class)->findOneBy(['playerId' => $playerId]);
 
         if ($joueur) {
-            $resultat = $playerService->renvoisOuSuppressionJoueur($joueur, $equipeService);
+            $resultat = $playerService->renvoisOuSuppressionJoueur($joueur);
         }
         $response = array(
             "tv" => $resultat['tv'],
@@ -768,13 +770,12 @@ class StatBBController extends AbstractController
 
     /**
      * @Route("/dropdownPlayer/{teamId}/{nbr}", options = { "expose" = true })
-     * @param PlayerService $playerService
      * @param int $teamId
      * @param int $nbr
      * @return JsonResponse
      */
 
-    public function dropdownPlayer(PlayerService $playerService, $teamId, $nbr)
+    public function dropdownPlayer($teamId, $nbr)
     {
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
 
@@ -800,6 +801,7 @@ class StatBBController extends AbstractController
 
     /**
      * @Route("/addGame", options = { "expose" = true })
+     * @param MatchesService $matchesService
      * @param Request $request
      * @return JsonResponse
      */
@@ -824,6 +826,7 @@ class StatBBController extends AbstractController
      * @Route("/chkteam/{teamId}", name="Chkteam", options = { "expose" = true })
      * @param int $teamId
      * @param EquipeService $equipeService
+     * @param PlayerService $playerService
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function chkteam($teamId, EquipeService $equipeService, PlayerService $playerService)
@@ -1135,8 +1138,9 @@ class StatBBController extends AbstractController
         $pdata[] = [];
 
         if ($equipe) {
-
-            $joueurCollection = $this->getDoctrine()->getRepository(Players::class)->listeDesJoueursActifsPourlEquipe($equipe);
+            $joueurCollection = $this->getDoctrine()->getRepository(Players::class)->listeDesJoueursActifsPourlEquipe(
+                $equipe
+            );
 
             foreach ($joueurCollection as $joueur) {
                 $listeCompetence = $playerService->toutesLesCompsdUnJoueur($joueur);
@@ -1223,6 +1227,8 @@ class StatBBController extends AbstractController
 
     /**
      * @Route("/ajoutMatch", name="ajoutMatch", options = { "expose" = true })
+     * @param SettingsService $settingsService
+     * @return Response
      */
     public function ajoutMatch(SettingsService $settingsService)
     {
@@ -1312,7 +1318,7 @@ class StatBBController extends AbstractController
      * @param Request $request
      * @param PlayerService $playerService
      * @param int $playerid
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return string
      */
     public function ajoutComp(Request $request, PlayerService $playerService, $playerid)
     {
@@ -1335,6 +1341,8 @@ class StatBBController extends AbstractController
         if (!empty($equipe)) {
             return $this->redirectToRoute('team', ['teamid' => $equipe->getTeamId(), 'type' => 'n']);
         }
+
+        return 'erreur';
     }
 
     /**
@@ -1374,13 +1382,14 @@ class StatBBController extends AbstractController
     /**
      * @Route("/ajoutPrimeForm/{coachId}/{primeId}", name="ajoutPrimeForm", options = { "expose" = true })
      * @param int $coachId
+     * @param null $primeId
      * @return Response
      */
     public function ajoutPrimeForm($coachId, $primeId = null)
     {
         $prime = new Primes();
 
-        if ($primeId) {
+        if ($primeId == null) {
             $prime = $this->getDoctrine()->getRepository(Primes::class)->findOneBy(['id' => $primeId]);
         }
 
@@ -1437,6 +1446,8 @@ class StatBBController extends AbstractController
 
     /**
      * @Route("/realiserPrimeForm", name="realiserPrimeForm", options = { "expose" = true })
+     * @param SettingsService $settingsService
+     * @return Response
      */
     public function realiserPrimeForm(SettingsService $settingsService)
     {
@@ -1450,6 +1461,8 @@ class StatBBController extends AbstractController
     /**
      * @Route("/realiserPrime", name="realiserPrime", options = { "expose" = true })
      * @param Request $request
+     * @param PrimeService $primeService
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function realiserPrime(Request $request, PrimeService $primeService)
     {
@@ -1462,6 +1475,9 @@ class StatBBController extends AbstractController
 
     /**
      * @Route("/recalculerTV", name="recalculerTV", options = { "expose" = true })
+     * @param EquipeService $equipeService
+     * @param PlayerService $playerService
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function recalculerTV(EquipeService $equipeService, PlayerService $playerService)
     {
@@ -1479,18 +1495,32 @@ class StatBBController extends AbstractController
 
     /**
      * @Route("/match/{matchId}", name="match", options ={"expose"= true})
+     * @param PlayerService $playerService
+     * @param integer $matchId
+     * @return string|Response
      */
     public function visualiseurDeMatch(PlayerService $playerService, $matchId)
     {
         $match = $this->getDoctrine()->getRepository(Matches::class)->findOneBy(['matchId'=>$matchId]);
+        if (!empty($match)) {
+            $team1 = $match->getTeam1();
+            $team2 = $match->getTeam2();
+            if (!empty($team1) && !empty($team2)) {
+                $actionEquipe1 = $playerService->toutesLesActionsDeLequipeDansUnMatch($match, $team1);
+                $actionEquipe2 = $playerService->toutesLesActionsDeLequipeDansUnMatch($match, $team2);
+                if (!empty($actionEquipe1) && !empty($actionEquipe1)) {
+                    return $this->render(
+                        'statbb/matchviewer.html.twig',
+                        [
+                            'match' => $match,
+                            'actionEquipe1' => $actionEquipe1,
+                            'actionEquipe2' => $actionEquipe2
+                        ]
+                    );
+                }
+            }
+        }
 
-        return $this->render(
-            'statbb/matchviewer.html.twig',
-            [
-                'match' => $match,
-                'actionEquipe1' => $playerService->toutesLesActionsDeLequipeDansUnMatch($match, $match->getTeam1()),
-                'actionEquipe2' => $playerService->toutesLesActionsDeLequipeDansUnMatch($match, $match->getTeam2())
-            ]
-        );
+        return 'erreur';
     }
 }

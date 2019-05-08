@@ -254,12 +254,15 @@ class PlayerService
     /**
      * @param Matches $match
      * @param Players $joueur
+     * @return string
      */
     public function actionDuJoueurDansUnMatch(Matches $match, Players $joueur)
     {
         $actions = '';
 
-        foreach ($this->doctrineEntityManager->getRepository(MatchData::class)->findBy(['fPlayer' => $joueur->getPlayerId(),'fMatch' => $match]) as $matchData){
+        foreach ($this->doctrineEntityManager->getRepository(MatchData::class)->findBy(
+            ['fPlayer' => $joueur->getPlayerId(), 'fMatch' => $match]
+        ) as $matchData) {
             $actions .=  $this->matchDataService->lectureLignedUnMatch($matchData);
         }
 
@@ -279,7 +282,6 @@ class PlayerService
 
         $equipe = $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
 
-        $tresors = '';
         $joueur = new Players();
 
         $count = 0;
@@ -378,7 +380,9 @@ class PlayerService
         $effect = "nope";
 
         if ($equipe && $position) {
-            $matchjoues = $this->doctrineEntityManager->getRepository(MatchData::class)->listeDesMatchsdUnJoueur($joueur);
+            $matchjoues = $this->doctrineEntityManager->getRepository(MatchData::class)->listeDesMatchsdUnJoueur(
+                $joueur
+            );
             if (count($matchjoues)<1 && $joueur->getType() == 1) {
                 $effect = "rm";
                 $equipe->setTreasury($equipe->getTreasury() + $position->getCost());
@@ -555,7 +559,7 @@ class PlayerService
             );
 
             $nbrskill = count($nbrskill) + $joueur->getAchMa() + $joueur->getAchSt() + $joueur->getAchAv(
-                ) + $joueur->getAchAg();
+            ) + $joueur->getAchAg();
 
             switch ($nbrskill) {
                 case 0:
@@ -609,27 +613,34 @@ class PlayerService
     /**
      * @param Matches $match
      * @param Teams $equipe
+     * @return string
      */
     public function toutesLesActionsDeLequipeDansUnMatch(Matches $match, Teams $equipe)
     {
         $textAction = '<ul>';
 
-        foreach ($this->doctrineEntityManager->getRepository(MatchData::class)->listeDesJoueursdUnMatch($match, $equipe) as $listeActionsDunJoueur) {
-
-            $actions = $this->actionDuJoueurDansUnMatch($match,$listeActionsDunJoueur->getFPlayer());
+        foreach ($this->doctrineEntityManager->getRepository(MatchData::class)->listeDesJoueursdUnMatch(
+            $match,
+            $equipe
+        ) as $listeActionsDunJoueur) {
+            $actions = $this->actionDuJoueurDansUnMatch($match, $listeActionsDunJoueur->getFPlayer());
 
             /** @var MatchData $listeActionsDunJoueur */
             $name = $listeActionsDunJoueur->getFPlayer()->getName();
 
-            if($actions != ''){
-                if (strlen($name)< 2)
-                {
+            if ($actions != '') {
+                if (strlen($name)< 2) {
                     $name = 'Inconnu';
                 }
 
-                $actions = $this->actionDuJoueurDansUnMatch($match,$listeActionsDunJoueur->getFPlayer());
+                $actions = $this->actionDuJoueurDansUnMatch($match, $listeActionsDunJoueur->getFPlayer());
 
-                $textAction .= '<li>'.$name.', '.$listeActionsDunJoueur->getFPlayer()->getFPos()->getPos().'('.$listeActionsDunJoueur->getFPlayer()->getNr().'): '.substr($actions,0,strlen($actions)-2).'</li>';
+                $textAction .= '<li>'.$name.', '.$listeActionsDunJoueur->getFPlayer()->getFPos()->getPos(
+                ).'('.$listeActionsDunJoueur->getFPlayer()->getNr().'): '.substr(
+                    $actions,
+                    0,
+                    strlen($actions) - 2
+                ).'</li>';
             }
         }
 

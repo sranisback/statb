@@ -7,7 +7,6 @@ use App\Entity\Dyk;
 use App\Entity\Setting;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\ORMException;
 
 class SettingsService
 {
@@ -23,11 +22,12 @@ class SettingsService
      */
     public function anneeCourante()
     {
-        try {
-            return $this->doctrineEntityManager->getRepository(Setting::class)->findOneBy(['name' => 'year'])->getValue(
-            );
-        } catch (ORMException $e) {
+        $anneeCourante = $this->doctrineEntityManager->getRepository(Setting::class)->findOneBy(['name' => 'year']);
+
+        if (!empty($anneeCourante)) {
+            return $anneeCourante->getValue();
         }
+
         return 0;
     }
 
