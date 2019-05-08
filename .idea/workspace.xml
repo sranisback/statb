@@ -5,51 +5,13 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
+    <list id="c3976c2a-a704-469d-97ce-8d7d42ac22f9" name="tentative corrections glyphicons en prod 3" comment="" />
+    <list id="93d7809f-21f2-44bb-ac75-31fb03a6cee4" name="tentative corrections glyphicons en prod 3b" comment="" />
     <list default="true" id="847151cb-c508-4c4e-9aa8-f19098c7acb6" name="Default" comment="Corrections + intégration viewer">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/phpstan.neon" beforeDir="false" afterPath="$PROJECT_DIR$/phpstan.neon" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Admin/MatchAdmin.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Admin/MatchAdmin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Admin/MatchDataAdmin.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Admin/MatchDataAdmin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Admin/PrimeAdmin.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Admin/PrimeAdmin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Admin/SkillAdmin.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Admin/SkillAdmin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Admin/StadesAdmin.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Admin/StadesAdmin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Admin/TeamAdmin.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Admin/TeamAdmin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/StatBBController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/StatBBController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Coaches.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Coaches.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Dyk.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Dyk.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/GameDataStadium.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/GameDataStadium.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Matches.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Matches.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Players.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Players.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Primes.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Primes.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Stades.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Stades.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Teams.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Teams.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/AjoutCompetenceType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/AjoutCompetenceType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/AjoutMatchType.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/CreerEquipeType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/CreerEquipeType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/CreerStadeType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/CreerStadeType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/PrimeType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/PrimeType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/RealiserPrimeType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/RealiserPrimeType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Kernel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/CoachesRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/CoachesRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/GameDataStadiumRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/GameDataStadiumRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/MatchDataRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/MatchDataRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/MatchesRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/MatchesRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/PlayersRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/PlayersRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/PrimesRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/PrimesRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/StadesRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/StadesRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/TeamRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/TeamRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/CoachService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/CoachService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/EquipeService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/EquipeService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/MatchDataService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/MatchDataService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/MatchesService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/MatchesService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/PlayerService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/PlayerService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/PrimeService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/PrimeService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/SettingsService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/SettingsService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/StadeService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/StadeService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
     </list>
-    <list id="c3976c2a-a704-469d-97ce-8d7d42ac22f9" name="tentative corrections glyphicons en prod 3" comment="" />
-    <list id="93d7809f-21f2-44bb-ac75-31fb03a6cee4" name="tentative corrections glyphicons en prod 3b" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -441,7 +403,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="PHPUnit.tests">
+  <component name="RunManager" selected="PHP Script.Symphony Dev Serfv">
     <configuration name="AjoutInducementTest.le_cout_des_rr_change_quand_l_equipe_a_un_match" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
       <TestRunner class="App\src\Service\EquipeService\AjoutInducementTest" file="$PROJECT_DIR$/tests/src/Service/EquipeService/AjoutInducementTest.php" method="le_cout_des_rr_change_quand_l_equipe_a_un_match" scope="Method" />
     </configuration>
@@ -518,14 +480,7 @@
       <workItem from="1556019009964" duration="40134000" />
       <workItem from="1556519350233" duration="44284000" />
       <workItem from="1557329543776" duration="122000" />
-      <workItem from="1557329686342" duration="3108000" />
-    </task>
-    <task id="LOCAL-00063" summary="essais de tests">
-      <created>1550700588105</created>
-      <option name="number" value="00063" />
-      <option name="presentableId" value="LOCAL-00063" />
-      <option name="project" value="LOCAL" />
-      <updated>1550700588105</updated>
+      <workItem from="1557329686342" duration="3638000" />
     </task>
     <task id="LOCAL-00064" summary="Refection du selecteur de roster + corrections de bug">
       <created>1550841731808</created>
@@ -863,13 +818,17 @@
       <option name="project" value="LOCAL" />
       <updated>1557264070947</updated>
     </task>
-    <option name="localTasksCounter" value="112" />
+    <task id="LOCAL-00112" summary="Corrections style">
+      <created>1557332862336</created>
+      <option name="number" value="00112" />
+      <option name="presentableId" value="LOCAL-00112" />
+      <option name="project" value="LOCAL" />
+      <updated>1557332862337</updated>
+    </task>
+    <option name="localTasksCounter" value="113" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="tests - 2019.05.07 at 21h 55m 39s.xml">
-      <configuration name="tests" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
     <history-entry file="toutesLesActionsDeLequipeDansUnMatchTest_les_actions_des_joueurs_sont_retournees - 2019.05.07 at 21h 56m 18s.xml">
       <configuration name="toutesLesActionsDeLequipeDansUnMatchTest.les_actions_des_joueurs_sont_retournees" configurationId="PHPUnitRunConfigurationType" />
     </history-entry>
@@ -897,9 +856,12 @@
     <history-entry file="tests - 2019.05.08 at 18h 18m 22s.xml">
       <configuration name="tests" configurationId="PHPUnitRunConfigurationType" />
     </history-entry>
+    <history-entry file="tests - 2019.05.08 at 18h 26m 09s.xml">
+      <configuration name="tests" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="833396000" />
+    <option name="totallyTimeSpent" value="833926000" />
   </component>
   <component name="TodoView" selected-index="3">
     <todo-panel id="selected-file">
@@ -915,11 +877,11 @@
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32976446" />
       <window_info anchor="bottom" id="Messages" order="14" sideWeight="0.4987775" weight="0.3436831" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.502445" side_tool="true" weight="0.4828694" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.502445" side_tool="true" weight="0.3672377" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="12" sideWeight="0.49755502" weight="0.4197002" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49816626" weight="0.3672377" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49755502" weight="0.23019272" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49755502" weight="0.3672377" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49755502" weight="0.72912204" />
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.48878923" visible="true" weight="0.21638142" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Inspection Results" order="13" weight="0.5417559" />
@@ -1014,7 +976,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="SHOW_UNVERSIONED_FILES_WHILE_COMMIT" value="false" />
-    <MESSAGE value="Ajout entite stades" />
     <MESSAGE value="Ajout stades repo" />
     <MESSAGE value="Intégration des entités stades" />
     <MESSAGE value="Gestion des stades" />
@@ -1039,7 +1000,8 @@
     <MESSAGE value="Ajout Matchviewer" />
     <MESSAGE value="Corrections Admin" />
     <MESSAGE value="Corrections + intégration viewer" />
-    <option name="LAST_COMMIT_MESSAGE" value="Corrections + intégration viewer" />
+    <MESSAGE value="Corrections style" />
+    <option name="LAST_COMMIT_MESSAGE" value="Corrections style" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
