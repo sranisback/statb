@@ -7,7 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * GameDataPlayers
  *
- * @ORM\Table(name="game_data_players", indexes={@ORM\Index(name="fk_game_data_players_races1_idx", columns={"f_race_id"})})
+ * @ORM\Table(name="game_data_players", indexes={
+ *     @ORM\Index(name="fk_game_data_players_races1_idx", columns={"f_race_id"})})
  * @ORM\Entity
  */
 class GameDataPlayers
@@ -99,7 +100,7 @@ class GameDataPlayers
     private $icon;
 
     /**
-     * @var \Races
+     * @var Races
      *
      * @ORM\ManyToOne(targetEntity="Races")
      * @ORM\JoinColumns({
@@ -250,12 +251,10 @@ class GameDataPlayers
         return $this->fRace;
     }
 
-    public function setFRace(?Races $fRace): self
+    public function setFRace(Races $fRace): self
     {
         $this->fRace = $fRace;
 
         return $this;
     }
-
-
 }
