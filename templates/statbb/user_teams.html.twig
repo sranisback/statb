@@ -1,3 +1,4 @@
+<div class="table-responsive">
 <table class="table">
 	<thead>
 		<tr>
@@ -8,7 +9,6 @@
 			<th>E</th>
 			<th>P</th>
 			<th>ELO</th>
-			<th>Statut</th>
 			<th>Retirer ?</th>
 		</tr>
 	</thead>
@@ -19,11 +19,11 @@
 		{% else %}
 		<tr>
 		{% endif %}
-			<td><a href="{{ path('team', {'id': team.teamId,'type':'n' }) }}">{{team.name}}</a></td>
+			<td><a href="{{ path('team', {'teamid': team.teamId,'type':'n' }) }}">{{team.name}}</a></td>
 			<td>{{team.frace.name}}</td>
-			<td>{{team.tv/1000}}</td>
 			{% for data in tdata %}
 				{% if data.tId == team.teamId %}
+			<td>{{data.tv/1000}}</td>
 			<td>{{data.win}}</td>
 			<td>{{data.draw}}</td>
 			<td>{{data.loss}}</td>
@@ -32,17 +32,16 @@
 			<td>{{team.elo}}</td>
 			{% if team.retired == 1 %}
 			<td> Retirée</td>
-			{% elseif team.rdy == 0 %}
-			<td>Pas prête</td>
 			{% else %}
-			<td>Prête</td>
-			{% endif %}
-			
-			<td><span class="glyphicon glyphicon-remove text-danger" teamId="{{team.teamId}}" id="retire_{{team.teamId}}" ></span></a></td>
+			<td><span class="glyphicon glyphicon-remove text-danger" teamId="{{team.teamId}}" id="retire_{{team.teamId}}" ></span></td>
+            {% endif %}
 		</tr>
 		{% endfor %}
 	</tbody>
 </table>
+
+</div>
 <button type="button" id="showall_btn" class="btn btn-primary">
-  Montrer les équipes retirées
-</button>	
+	Montrer les équipes retirées
+</button>
+{{ render(controller('App\\Controller\\EquipeController::choixRace' )) }}

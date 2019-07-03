@@ -1,0 +1,48 @@
+
+PHPCBF RESULT SUMMARY
+----------------------------------------------------------------------
+FILE                                                  FIXED  REMAINING
+----------------------------------------------------------------------
+...erver-16.1\eds-www\statb\src\Admin\DefisAdmin.php  5      0
+...erver-16.1\eds-www\statb\src\Admin\MatchAdmin.php  1      0
+...r-16.1\eds-www\statb\src\Admin\MatchDataAdmin.php  1      0
+...www\statb\src\Controller\ClassementController.php  2      0
+...\eds-www\statb\src\Controller\DefisController.php  3      0
+...eds-www\statb\src\Controller\EquipeController.php  3      0
+...eds-www\statb\src\Controller\ExportController.php  2      0
+...eds-www\statb\src\Controller\JoueurController.php  3      0
+...\eds-www\statb\src\Controller\MatchController.php  4      0
+...\eds-www\statb\src\Controller\PrimeController.php  9      0
+...eds-www\statb\src\Controller\StatBBController.php  5      0
+...ww\statb\src\Controller\UtilisateurController.php  4      0
+...erver-16.1\eds-www\statb\src\Entity\Citations.php  1      0
+...vserver-16.1\eds-www\statb\src\Entity\Coaches.php  1      0
+...Devserver-16.1\eds-www\statb\src\Entity\Defis.php  1      0
+...vserver-16.1\eds-www\statb\src\Entity\Matches.php  1      0
+...Devserver-16.1\eds-www\statb\src\Entity\Meteo.php  1      0
+...16.1\eds-www\statb\src\Form\AjoutCitationType.php  5      0
+...er-16.1\eds-www\statb\src\Form\AjoutDefisType.php  3      0
+...vserver-16.1\eds-www\statb\src\Form\PrimeType.php  1      0
+...16.1\eds-www\statb\src\Form\RealiserPrimeType.php  1      0
+...syPHP-Devserver-16.1\eds-www\statb\src\Kernel.php  1      0
+...\eds-www\statb\src\Repository\DefisRepository.php  1      1
+...-www\statb\src\Repository\MatchDataRepository.php  1      0
+...ds-www\statb\src\Repository\MatchesRepository.php  1      0
+...\eds-www\statb\src\Repository\MeteoRepository.php  1      0
+...ds-www\statb\src\Repository\PlayersRepository.php  1      0
+...1\eds-www\statb\src\Repository\TeamRepository.php  1      0
+...6.1\eds-www\statb\src\Service\CitationService.php  3      0
+...r-16.1\eds-www\statb\src\Service\CoachService.php  1      0
+...r-16.1\eds-www\statb\src\Service\DefisService.php  2      0
+...-16.1\eds-www\statb\src\Service\EquipeService.php  1      0
+....1\eds-www\statb\src\Service\MatchDataService.php  1      0
+...16.1\eds-www\statb\src\Service\MatchesService.php  1      0
+...-16.1\eds-www\statb\src\Service\PlayerService.php  1      0
+...6.1\eds-www\statb\src\Service\SettingsService.php  1      0
+----------------------------------------------------------------------
+A TOTAL OF 75 ERRORS WERE FIXED IN 36 FILES
+----------------------------------------------------------------------
+
+Time: 21.25 secs; Memory: 12MB
+
+
