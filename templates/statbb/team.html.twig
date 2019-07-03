@@ -2,7 +2,6 @@
 
 
 {% block body %}
-
     <div class="container-fluid">
         <div class="panel">
             <div class="panel-heading">
@@ -116,7 +115,7 @@
                                     <td>{{ data.skill|raw }}</td>
                                     <td>{{ data.nbrm }}</td>
                                     {% if data.status=='XP' %}
-                                        <td>{{ render(controller('App\\Controller\\StatBBController::skillmodal',{'playerid':player.playerId} )) }}</td>
+                                        <td>{{ render(controller('App\\Controller\\JoueurController::skillmodal',{'playerid':player.playerId} )) }}</td>
                                     {% else %}
                                         <td>{{ data.status }}</td>
                                     {% endif %}
@@ -135,7 +134,7 @@
                         {% endfor %}
                     </table>
                     {% if app.user and team.retired == 0 %}
-                        {{ render(controller('App\\Controller\\StatBBController::playerAdder',{'raceId':team.fRace.raceId,'teamId':team.teamId} )) }}
+                        {{ render(controller('App\\Controller\\JoueurController::playerAdder',{'raceId':team.fRace.raceId,'teamId':team.teamId} )) }}
                         <a type="button" class="btn btn-primary" href="{{ path('Chkteam', {'teamId': team.teamId} ) }}">Check
                             Equipe</a>
                         <a type="button" class="btn btn-primary" href="{{ path('pdfTeam', {'id': team.teamId} ) }}">Exporter
@@ -260,7 +259,7 @@
                 <div class="col-md-2 col-xs-2"></div>
                 <div class="col-md-8 col-xs-8">
                     <div class="panel">
-                        <div class="panel-body ">{{ render(controller('App\\Controller\\StatBBController::lastfive',{ 'teamId':team.teamId } )) }}</div>
+                        <div class="panel-body ">{{ render(controller('App\\Controller\\ClassementController::lastfive',{ 'teamId':team.teamId } )) }}</div>
                     </div>
                 </div>
                 <div class="col-md-2 col-xs-2"></div>

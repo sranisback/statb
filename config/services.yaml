@@ -64,8 +64,13 @@ services:
         arguments: [~,App\Entity\Stades,~]
         tags:
             - {name: sonata.admin, manager_type: orm, label: Stades}
-    prime.stades:
+    admin.prime:
         class: App\Admin\PrimeAdmin
         arguments: [~,App\Entity\Primes,~]
         tags:
             - {name: sonata.admin, manager_type: orm, label: Primes}
+    admin.defis:
+        class: App\Admin\DefisAdmin
+        arguments: [~, App\Entity\Defis,~]
+        tags:
+            - {name: sonata.admin, manager_type: orm, label: Defis}

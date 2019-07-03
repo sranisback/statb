@@ -18,17 +18,20 @@ class MatchesService
     private $equipeService;
     private $playerService;
     private $settingService;
+    private $defisService;
 
     public function __construct(
         EntityManagerInterface $doctrineEntityManager,
         EquipeService $equipeService,
         PlayerService $playerService,
-        SettingsService $settingService
+        SettingsService $settingService,
+        DefisService $defisService
     ) {
         $this->doctrineEntityManager = $doctrineEntityManager;
         $this->equipeService = $equipeService;
         $this->playerService = $playerService;
         $this->settingService = $settingService;
+        $this->defisService  = $defisService;
     }
 
     public function enregistrerMatch($donnneesMatch)
@@ -49,6 +52,8 @@ class MatchesService
         $this->playerService->controleNiveauDuJoueur($match->getTeam2());
 
         $this->equipeService->eloDesEquipes($this->settingService->anneeCourante());
+
+        return ['enregistrement' => true, 'defis' => $this->defisService->verificationDefis($match)];
     }
 
     public function creationEnteteMatch($donneesMatch)

@@ -279,6 +279,14 @@ const routes = {
             "methods": [],
             "schemes": []
         },
+        "supprimerDefis": {
+            "tokens": [["variable", "\/", "[^\/]++", "defisId"],["text", "\/supprimerDefis"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        }
         "prefix": "",
         "host": "localhost",
         "port": "",
@@ -553,6 +561,14 @@ const routes = {
             "hosttokens": [],
             "methods": [],
             "schemes": []
+        },
+        "supprimerDefis": {
+            "tokens": [["variable", "\/", "[^\/]++", "defisId"],["text", "\/supprimerDefis"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
         }
     },
     "prefix": "",
@@ -605,6 +621,15 @@ $(document).ready(function () {
     });
 
     /*
+     * table Defis
+     */
+    $('#TableDefis').DataTable({
+        "lengthChange": false,
+        "pageLength": 20,
+        "info": false
+    });
+
+    /*
      * retirer prime
      */
     $("[id^='enleve_prime_']").click(function () {
@@ -616,6 +641,17 @@ $(document).ready(function () {
             });
     });
 
+    /*
+     * retirer defis
+     */
+    $("[id^='enleve_defis_']").click(function () {
+        $(this).after($('#loadingmessage'));
+        $.post(Routing.generate('supprimerDefis', {defisId: $(this).attr("defisId")}),
+            {},
+            function (result) {
+                window.location.reload();
+            });
+    });
 
     /**
      * bouton qui montre tout les joueurs/équipes

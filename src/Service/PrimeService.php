@@ -48,6 +48,8 @@ class PrimeService
             $this->doctrineEntityManager->persist($prime);
             $this->doctrineEntityManager->persist($equipe);
             $this->doctrineEntityManager->flush();
+
+            return 'ok';
         }
     }
 
@@ -64,6 +66,8 @@ class PrimeService
 
         $this->doctrineEntityManager->persist($equipe);
         $this->doctrineEntityManager->flush();
+
+        return 'ok';
     }
 
     public function realiserPrime($data)
@@ -79,5 +83,7 @@ class PrimeService
         $this->doctrineEntityManager->persist($prime);
         $this->doctrineEntityManager->persist($equipe);
         $this->doctrineEntityManager->flush();
+
+        return 'ok';
     }
 }

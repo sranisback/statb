@@ -74,6 +74,32 @@
 {% endblock %}
 
 <!-- content -->
+{% for message in app.flashes('success') %}
+    <div class="container-fluid">
+        <div class="alert alert-success alert-dismissible fade in">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            {{ message }}
+        </div>
+    </div>
+{% endfor %}
+{% for message in app.flashes('fail') %}
+    <div class="container-fluid">
+        <div class="alert alert-danger alert-dismissible fade in">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            {{ message }}
+        </div>
+    </div>
+{% endfor %}
+{% if app.user and app.user.roles["role"] == 'ROLE_ADMIN' %}
+    {% for message in app.flashes('admin') %}
+        <div class="container-fluid">
+            <div class="alert alert-success alert-dismissible fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                {{ message }}
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}
 {% block body %}
 {% endblock %}
 <!-- footer -->

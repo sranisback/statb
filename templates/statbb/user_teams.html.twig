@@ -32,9 +32,9 @@
 			<td>{{team.elo}}</td>
 			{% if team.retired == 1 %}
 			<td> Retirée</td>
-			{% endif %}
-			
+			{% else %}
 			<td><span class="glyphicon glyphicon-remove text-danger" teamId="{{team.teamId}}" id="retire_{{team.teamId}}" ></span></td>
+            {% endif %}
 		</tr>
 		{% endfor %}
 	</tbody>
@@ -44,4 +44,4 @@
 <button type="button" id="showall_btn" class="btn btn-primary">
 	Montrer les équipes retirées
 </button>
-{{ render(controller('App\\Controller\\StatBBController::choixRace' )) }}
+{{ render(controller('App\\Controller\\EquipeController::choixRace' )) }}

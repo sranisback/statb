@@ -2,55 +2,35 @@
 
 namespace App\Tests\src\Service\PlayerService;
 
-
-use App\Entity\GameDataPlayers;
 use App\Entity\Players;
+use App\Service\EquipeService;
+use App\Service\MatchDataService;
+use App\Service\PlayerService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class listenivSpeciauxEtSurcoutTest extends KernelTestCase
 {
-    private $entityManager;
-
-    protected function setUp()
-    {
-        self::bootKernel();
-        $container = self::$container;
-
-        $this->entityManager = $container
-            ->get('doctrine')
-            ->getManager();
-
-        $joueur = new Players;
-
-        $joueur->setFPos($this->entityManager->getRepository(GameDataPlayers::class)->findOneBy(['posId' => 34]));
-        $joueur->setName('joueur test');
-        $joueur->setType(1);
-        $joueur->setAchSt(1);
-
-        $this->entityManager->persist($joueur);
-
-        $this->entityManager->flush();
-    }
-
     /**
      * @test
      */
     public function tous_les_niv_spec_sont_retournes()
     {
-        $playerService = self::$container->get('App\Service\PlayerService');
+        $joueurMock = $this->createMock(Players::class);
+        $joueurMock->method('getAchSt')->willReturn(1);
 
-        $joueur = $this->entityManager->getRepository(Players::class)->findOneBy(['name' => 'joueur test']);
+        $objectManager = $this->createMock(EntityManagerInterface::class);
 
-        $retour['nivspec'] = '<text class="text-success">+1 St</text>, ';
-        $retour['cout'] = 50000;
+        $matchDataService = new MatchDataService($objectManager);
 
-        $this->assertEquals($playerService->listenivSpeciauxEtSurcout($joueur),$retour);
-    }
+        $playerService = new PlayerService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $matchDataService
+        );
 
-    protected function tearDown()
-    {
-        $this->entityManager->remove($this->entityManager->getRepository(Players::class)->findOneBy(['name' => 'joueur test']));
+        $retour = ['nivspec' => '<text class="text-success">+1 St</text>, ', 'cout' => 50000];
 
-        $this->entityManager->flush();
+        $this->assertEquals($retour, $playerService->listenivSpeciauxEtSurcout($joueurMock));
     }
 }

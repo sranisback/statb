@@ -37,7 +37,7 @@
         </tbody>
     </table>
 </div>
-{{ render(controller('App\\Controller\\StatBBController::ajoutPrimeForm',{'coachId':app.user.coachId} )) }}
+{{ render(controller('App\\Controller\\PrimeController::ajoutPrimeForm',{'coachId':app.user.coachId} )) }}
 {% if app.user.roles["role"] == 'ROLE_ADMIN' %}
-{{ render(controller('App\\Controller\\StatBBController::realiserPrimeForm')) }}
+{{ render(controller('App\\Controller\\PrimeController::realiserPrimeForm')) }}
 {% endif %}

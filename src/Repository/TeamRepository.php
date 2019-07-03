@@ -13,7 +13,6 @@ class TeamRepository extends ServiceEntityRepository
         parent::__construct($registry, Teams::class);
     }
 
-
     /**
      * @param int $year
      * @param int $limit
@@ -135,5 +134,19 @@ SELECT team_id,ra.icon,t.name as "team_name" ,ra.name as "race",co.name,t.tv as 
             ->orWhere('t.tv = 0')
             ->getQuery()
             ->getResult();
+    }
+
+    public function toutesLesEquipesActivesDunCoachDuneEquipe($coachId, $annee)
+    {
+        return $this->createQueryBuilder('Teams')
+            ->where('Teams.OwnedByCoach =' . $coachId)
+            ->andWhere('Teams.year =' . $annee);
+    }
+
+    public function toutesLesEquipesDunCoach($coachId, $annee)
+    {
+        return $this->createQueryBuilder('Teams')
+            ->where('Teams.ownedByCoach =' . $coachId)
+            ->andWhere('Teams.year =' . $annee);
     }
 }

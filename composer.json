@@ -10,20 +10,23 @@
         "fzaninotto/faker": "^1.8",
         "sonata-project/admin-bundle": "^3.45",
         "sonata-project/doctrine-orm-admin-bundle": "^3.8",
-        "symfony/console": "*",
+        "symfony/console": "4.3.*",
         "symfony/debug": "*",
         "symfony/flex": "^1.1",
-        "symfony/form": "4.2.*",
+        "symfony/form": "4.3.*",
         "symfony/framework-bundle": "*",
         "symfony/monolog-bundle": "*",
         "symfony/orm-pack": "^1.0",
+        "symfony/profiler-pack": "*",
         "symfony/security-bundle": "*",
         "symfony/test-pack": "^1.0",
         "symfony/twig-bundle": "*",
         "symfony/validator": "4.2.*",
+        "symfony/web-link": "4.2.*",
         "symfony/web-server-bundle": "*",
         "symfony/webpack-encore-pack": "^1.0",
-        "symfony/yaml": "*"
+        "symfony/yaml": "*",
+        "twbs/bootstrap": "^4.3"
     },
     "require-dev": {
         "phpstan/phpstan": "^0.11.2",
@@ -33,7 +36,6 @@
         "symfony/debug-pack": "^1.0",
         "symfony/dotenv": "*",
         "symfony/maker-bundle": "^1.11",
-        "symfony/profiler-pack": "^1.0",
         "thecodingmachine/phpstan-strict-rules": "^0.11.0"
     },
     "config": {
@@ -88,7 +90,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "4.2.*"
+            "require": "4.3.*"
         }
     }
 }

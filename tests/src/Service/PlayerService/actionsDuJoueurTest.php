@@ -1,73 +1,52 @@
 <?php
 namespace App\Tests\src\Service\PlayerService;
 
-
-use App\Entity\GameDataPlayers;
 use App\Entity\MatchData;
 use App\Entity\Players;
+use App\Service\EquipeService;
+use App\Service\MatchDataService;
+use App\Service\PlayerService;
+use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class actionsDuJoueurTest extends KernelTestCase
 {
-    private $entityManager;
-
-    protected function setUp()
-    {
-        self::bootKernel();
-        $container = self::$container;
-
-        $this->entityManager = $container
-            ->get('doctrine')
-            ->getManager();
-
-        $joueur = new Players;
-
-        $joueur->setFPos($this->entityManager->getRepository(GameDataPlayers::class)->findOneBy(['posId' => 34]));
-        $joueur->setName('joueur test');
-        $joueur->setType(1);
-
-        $this->entityManager->persist($joueur);
-
-        $matchData = new MatchData;
-
-        $matchData->setFPlayer($joueur);
-
-        $this->entityManager->persist($matchData);
-
-        $this->entityManager->flush();
-    }
-
-
     /**
      * @test
      */
     public function les_actions_sont_retournees_correctement()
     {
-        $playerService = self::$container->get('App\Service\PlayerService');
-
-        $joueur = $this->entityManager->getRepository(Players::class)->findOneBy(['name' => 'joueur test']);
-
         $retour = [
             'NbrMatch' => 1,
             'cp' => 0,
             'td' => 0,
             'int' => 0,
             'cas' => 0,
-            'mvp' => 0,
+            'mvp' => 1,
             'agg' => 0,
         ];
 
-        $this->assertEquals($retour,$playerService->actionsDuJoueur($joueur));
-    }
+        $playerMock = $this->createMock(Players::class);
+        $playerMock->method('getPlayerId')->willReturn(0);
 
-    protected function tearDown()
-    {
-        $joueur = $this->entityManager->getRepository(Players::class)->findOneBy(['name' => 'joueur test']);
+        $matchDataMock0 = $this->createMock(MatchData::class);
+        $matchDataMock0->method('getMvp')->willReturn(1);
 
-        $this->entityManager->remove($this->entityManager->getRepository(MatchData::class)->findOneBy(['fPlayer'=>$joueur]));
+        $matchDataRepoMock = $this->createMock(ObjectRepository::class);
+        $matchDataRepoMock->method('findBy')->willReturn([$matchDataMock0]);
 
-        $this->entityManager->remove($joueur);
+        $objectManager = $this->createMock(EntityManagerInterface::class);
+        $objectManager->method('getRepository')->willReturn($matchDataRepoMock);
 
-        $this->entityManager->flush();
+        $matchDataService = new MatchDataService($objectManager);
+
+        $playerService = new PlayerService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $matchDataService
+        );
+
+        $this->assertEquals($retour, $playerService->actionsDuJoueur($playerMock));
     }
 }

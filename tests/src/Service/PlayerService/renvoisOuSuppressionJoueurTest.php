@@ -93,8 +93,6 @@ class renvoisOuSuppressionJoueurTest extends KernelTestCase
         $equipe = $this->entityManager->getRepository(Teams::class)->findOneBy(['name' => 'test EquipeListe']);
 
         foreach ($this->entityManager->getRepository(Players::class)->findBy(['ownedByTeam' => $equipe]) as $joueur) {
-            //$matchData = $this->getEntityManager()->getRepository(MatchData::class)->findBy(['fPlayer' => $joueur]);
-            //$this->entityManager->remove($matchData);
             $this->entityManager->remove($joueur);
         }
 

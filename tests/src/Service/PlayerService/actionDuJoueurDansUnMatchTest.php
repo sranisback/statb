@@ -2,81 +2,48 @@
 
 namespace App\Tests\src\Service\PlayerService;
 
-
-use App\Entity\GameDataStadium;
 use App\Entity\MatchData;
 use App\Entity\Matches;
-use App\Entity\Meteo;
 use App\Entity\Players;
+use App\Service\EquipeService;
+use App\Service\MatchDataService;
+use App\Service\PlayerService;
+use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class actionDuJoueurDansUnMatchTest extends KernelTestCase
 {
-    private $entityManager;
-
-    protected function setUp()
-    {
-        self::bootKernel();
-        $container = self::$container;
-
-        $this->entityManager = $container
-            ->get('doctrine')
-            ->getManager();
-
-        $joueur = new Players;
-
-        $joueur->setName('joueur test');
-
-        $this->entityManager->persist($joueur);
-
-        $match = new Matches;
-
-        $this->entityManager->persist($match);
-        $match->setFMeteo($this->entityManager->getRepository(Meteo::class)->findOneBy(['id'=> 0]));
-        $match->setFStade($this->entityManager->getRepository(GameDataStadium::class)->findOneBy(['id'=> 0]));
-
-        $matchData = new MatchData;
-
-        $matchData->setFPlayer($joueur);
-        $matchData->setFMatch($match);
-        $matchData->setMvp(1);
-
-        $this->entityManager->persist($matchData);
-
-        $this->entityManager->flush();
-    }
-
     /**
      * @test
      */
     public function les_actions_du_joueur_pour_un_match_sont_bien_retournees()
     {
-        $playerService = self::$container->get('App\Service\PlayerService');
-        $matchDataService = self::$container->get('App\Service\MatchDataService');
+        $matchDataMock0 = $this->createMock(MatchData::class);
+        $matchDataMock0->method('getMvp')->willReturn(1);
+        $matchDataMock1 = $this->createMock(MatchData::class);
+        $matchDataMock0->method('getTd')->willReturn(1);
+        $matchDataMock2 = $this->createMock(MatchData::class);
 
-        $joueur = $this->entityManager->getRepository(Players::class)->findOneBy(['name' => 'joueur test']);
+        $matchDataRepoMock = $this->createMock(ObjectRepository::class);
+        $matchDataRepoMock->method('findBy')->willReturn([$matchDataMock0, $matchDataMock1, $matchDataMock2]);
 
-        $matchData = $this->entityManager->getRepository(MatchData::class)->findOneBy(['fPlayer'=>$joueur]);
+        $objectManager = $this->createMock(EntityManagerInterface::class);
+        $objectManager->method('getRepository')->willReturn($matchDataRepoMock);
 
-        $match = $this->entityManager->getRepository(Matches::class)->findOneBy(['matchId'=>$matchData->getFMatch()->getMatchId()]);
+        $matchDataService = new MatchDataService($objectManager);
 
-        $this->assertEquals('MVP: 1, ',$playerService->actionDuJoueurDansUnMatch($match, $joueur, $matchDataService));
+        $playerService = new PlayerService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $matchDataService
+        );
+        $this->assertEquals(
+            'TD: 1, MVP: 1, ',
+            $playerService->actionDuJoueurDansUnMatch(
+                $this->createMock(Matches::class),
+                $this->createMock(Players::class)
+            )
+        );
     }
-
-
-    protected function tearDown()
-    {
-        $joueur = $this->entityManager->getRepository(Players::class)->findOneBy(['name' => 'joueur test']);
-
-        $matchData = $this->entityManager->getRepository(MatchData::class)->findOneBy(['fPlayer'=>$joueur]);
-
-        $match = $this->entityManager->getRepository(Matches::class)->findOneBy(['matchId'=>$matchData->getFMatch()->getMatchId()]);
-
-        $this->entityManager->remove($matchData);
-        $this->entityManager->remove($match);
-        $this->entityManager->remove($joueur);
-
-        $this->entityManager->flush();
-    }
-
 }

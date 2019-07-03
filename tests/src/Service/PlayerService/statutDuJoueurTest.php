@@ -3,48 +3,32 @@
 namespace App\Tests\src\Service\PlayerService;
 
 use App\Entity\Players;
+use App\Service\EquipeService;
+use App\Service\MatchDataService;
+use App\Service\PlayerService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class statutDuJoueurTest extends KernelTestCase
 {
-    private $entityManager;
-
-    protected function setUp()
-    {
-        self::bootKernel();
-        $container = self::$container;
-
-        $this->entityManager = $container
-            ->get('doctrine')
-            ->getManager();
-
-        $joueur = new Players;
-
-        $joueur->setName('joueur test');
-
-        $joueur->setStatus(9);
-
-        $this->entityManager->persist($joueur);
-
-        $this->entityManager->flush();
-    }
-
     /**
      * @test
      */
     public function le_statut_est_bien_retourne()
     {
-        $playerService = self::$container->get('App\Service\PlayerService');
+        $joueur = new Players();
+        $joueur->setStatus(9);
 
-        $joueur = $this->entityManager->getRepository(Players::class)->findOneBy(['name' => 'joueur test']);
+        $objectManager = $this->createMock(EntityManagerInterface::class);
 
-        $this->assertEquals('XP',$playerService->statutDuJoueur($joueur));
-    }
+        $matchDataService = new MatchDataService($objectManager);
 
-    protected function tearDown()
-    {
-        $this->entityManager->remove($this->entityManager->getRepository(Players::class)->findOneBy(['name' => 'joueur test']));
+        $playerService = new PlayerService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $matchDataService
+        );
 
-        $this->entityManager->flush();
+        $this->assertEquals('XP', $playerService->statutDuJoueur($joueur));
     }
 }

@@ -11,6 +11,8 @@
                 <li><a data-toggle="tab" href="#cimetiere">Cimetière</a></li>
                 <li><a data-toggle="tab" href="#Elo">Classement ELO</a></li>
                 <li><a data-toggle="tab" href="#Primes">Primes</a></li>
+                <li><a data-toggle="tab" href="#Defis">Défis</a></li>
+                <li><a data-toggle="tab" href="#user">Parametres</a></li>
                 {% if app.user.roles["role"] == 'ROLE_ADMIN' %}
                     <li><a data-toggle="tab" href="#match">Ajouter un match</a></li>
                 {% endif %}
@@ -18,28 +20,33 @@
 
             <div class="tab-content">
                 <div id="home" class="tab-pane fade in active">
-                    <h3>HOME</h3>
-                    {{ render(controller('App\\Controller\\StatBBController::showUserTeams' )) }}
+                    {{ render(controller('App\\Controller\\EquipeController::showUserTeams' )) }}
                 </div>
                 <div id="allteam" class="tab-pane fade">
                     <h3>Toute les équipes</h3>
-                    {{ render(controller('App\\Controller\\StatBBController::montreLesEquipes' )) }}
+                    {{ render(controller('App\\Controller\\EquipeController::montreLesEquipes' )) }}
                 </div>
                 <div id="classement" class="tab-pane fade">
-                    {{ render(controller('App\\Controller\\StatBBController::classGen')) }}
+                    {{ render(controller('App\\Controller\\ClassementController::classGen')) }}
                 </div>
                <div id="cimetiere" class="tab-pane fade">
-                    {{ render(controller('App\\Controller\\StatBBController::montreLeCimetiere')) }}
+                    {{ render(controller('App\\Controller\\ClassementController::montreLeCimetiere')) }}
                 </div>
                 <div id="Elo" class="tab-pane fade">
-                    {{ render(controller('App\\Controller\\StatBBController::montreClassementELO')) }}
+                    {{ render(controller('App\\Controller\\ClassementController::montreClassementELO')) }}
                 </div>
                 <div id="Primes" class="tab-pane fade">
-                    {{ render(controller('App\\Controller\\StatBBController::montrePrimesEnCours')) }}
+                    {{ render(controller('App\\Controller\\PrimeController::montrePrimesEnCours')) }}
+                </div>
+                <div id="Defis" class="tab-pane fade">
+                    {{ render(controller('App\\Controller\\DefisController::afficherLesDefis')) }}
+                </div>
+                <div id="user" class="tab-pane fade">
+                    {{ render(controller('App\\Controller\\UtilisateurController::interfaceUtilisateur')) }}
                 </div>
                 {% if app.user.roles["role"] == 'ROLE_ADMIN' %}
                 <div id="match" class="tab-pane fade">
-                    {{ render(controller('App\\Controller\\StatBBController::ajoutMatch' )) }}
+                    {{ render(controller('App\\Controller\\MatchController::ajoutMatch' )) }}
                 </div>
                 {% endif %}
             </div>

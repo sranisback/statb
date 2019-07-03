@@ -2,76 +2,51 @@
 
 namespace App\Tests\src\Service\PlayerService;
 
-
-use App\Entity\GameDataPlayers;
 use App\Entity\Players;
-use App\Entity\Races;
-use App\Entity\Stades;
 use App\Entity\Teams;
+use App\Service\EquipeService;
+use App\Service\MatchDataService;
+use App\Service\PlayerService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class annulerRPMtousLesJoueursDeLequipeTest extends KernelTestCase
 {
-    private $entityManager;
-
-    protected function setUp()
-    {
-        self::bootKernel();
-        $container = self::$container;
-
-        $this->entityManager = $container
-            ->get('doctrine')
-            ->getManager();
-
-        $equipe = new Teams;
-        $equipe->setYear(3);
-        $equipe->setName('test EquipeListeActif');
-        $equipe->setFRace($this->entityManager->getRepository(Races::class)->findOneBy(['raceId' => 9]));
-        $equipe->setFStades($this->entityManager->getRepository(Stades::class)->findOneBy(['id' => 0]));
-
-        $this->entityManager->persist($equipe);
-
-        $joueur = new Players;
-
-        $joueur->setFPos($this->entityManager->getRepository(GameDataPlayers::class)->findOneBy(['posId' => 34]));
-        $joueur->setName('joueur test');
-        $joueur->setType(1);
-        $joueur->setStatus(1);
-        $joueur->setInjRpm(1);
-        $joueur->setOwnedByTeam($equipe);
-
-        $this->entityManager->persist($joueur);
-
-        $this->entityManager->flush();
-    }
-
     /**
      * @test
      */
     public function les_rpm_de_l_equipe_sont_bien_supprime()
     {
-        $playerService = self::$container->get('App\Service\PlayerService');
+        $equipeMock = $this->createMock(Teams::class);
 
-        $equipe = $this->entityManager->getRepository(Teams::class)->findOneBy(['name' => 'test EquipeListeActif']);
+        $joueur0 = new Players();
+        $joueur0->setInjRpm(1);
+        $joueur1 = new Players();
+        $joueur2 = new Players();
+        $joueur3 = new Players();
+        $joueur3->setInjRpm(1);
+        $joueur4 = new Players();
 
-        $playerService->annulerRPMtousLesJoueursDeLequipe($equipe);
+        $playerRepoMock = $this->getMockBuilder(Players::class)
+            ->setMethods(['listeDesJoueursActifsPourlEquipe'])
+            ->getMock();
+        $playerRepoMock->method('listeDesJoueursActifsPourlEquipe')->willReturn(
+            [$joueur0, $joueur1, $joueur2, $joueur3, $joueur4]
+        );
 
-        /** @var Players $joueur */
-        $joueur = $this->entityManager->getRepository(Players::class)->findOneBy(['name' => 'joueur test']);
+        $objectManager = $this->createMock(EntityManagerInterface::class);
+        $objectManager->method('getRepository')->willReturn($playerRepoMock);
 
-        $this->assertEquals(0,$joueur->getInjRpm());
-    }
+        $matchDataService = new MatchDataService($objectManager);
 
+        $playerService = new PlayerService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $matchDataService
+        );
 
-    protected function tearDown()
-    {
-        $equipe = $this->entityManager->getRepository(Teams::class)->findOneBy(['name' => 'test EquipeListeActif']);
-
-        $joueur = $this->entityManager->getRepository(Players::class)->findOneBy(['name' => 'joueur test']);
-
-        $this->entityManager->remove($joueur);
-        $this->entityManager->remove($equipe);
-
-        $this->entityManager->flush();
+        $playerService->annulerRPMtousLesJoueursDeLequipe($equipeMock);
+        $this->assertEquals(0, $joueur0->getInjRpm());
+        $this->assertEquals(0, $joueur3->getInjRpm());
     }
 }

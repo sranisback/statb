@@ -22,7 +22,7 @@ class Primes
     private $montant;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\coaches")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Coaches")
      * @ORM\JoinColumn(name="coach_id", referencedColumnName="coach_id", nullable=false)
      */
     private $Coaches;
