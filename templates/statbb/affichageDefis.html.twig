@@ -1,0 +1,45 @@
+Période Défis actuelle : {{ render(controller('App\\Controller\\DefisController::afficherPeriodeDefisActuelle')) }}
+<div class="table-responsive">
+    <table class="table" id="TableDefis" style="width: 100%">
+        <thead>
+        <tr>
+            <td>Equipe</td>
+            <td>Cible</td>
+            <td>Match</td>
+            <td>Realisé</td>
+            {% if app.user.roles["role"] == 'ROLE_ADMIN' %}
+                <td>Action</td>
+            {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for defis in defisCollection %}
+            <tr>
+                <td>
+                    {{ defis.equipeOrigine.name }} de {{ defis.equipeOrigine.ownedByCoach.name }}
+                    , {{ defis.equipeOrigine.fRace.name }}
+                <td>{{ defis.equipeDefiee.name }} de {{ defis.equipeDefiee.ownedByCoach.name }}
+                    , {{ defis.equipeDefiee.fRace.name }}
+                </td>
+                {% if(defis.matchDefi != null ) %}
+                    <td>
+                        <a href="{{ path('match', {'matchId': defis.matchDefi.matchId}) }}">Voir</a>
+                    </td>
+                {% else %}
+                    <td></td>
+                {% endif %}
+                <td>
+                    {% if(defis.defieRealise==1) %}
+                        <i class="text-success glyphicon glyphicon-ok"></i> - Le {{ defis.matchDefi.dateCreated|date("d/m/Y") }}
+                    {% endif %}
+                </td>
+                {% if app.user.roles["role"] == 'ROLE_ADMIN' %}
+                    <td><i class="glyphicon glyphicon-remove text-danger" id="enleve_defis_{{ defis.id }}"
+                           defisId="{{ defis.id }}"></i></td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{{ render(controller('App\\Controller\\DefisController::ajoutDefisForm',{'coachId':app.user.coachId} )) }}

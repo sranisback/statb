@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Citations
  *
  * @ORM\Table(name="citations")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\CitationsRepository")
  */
 class Citations
 {
@@ -29,11 +29,11 @@ class Citations
     private $citation;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="auteur", type="string", length=15, nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Coaches")
+     *  @ORM\JoinColumn(name="coach_id", referencedColumnName="coach_id")
      */
-    private $auteur;
+    private $coachId;
+
 
     public function getIdCit(): ?int
     {
@@ -52,17 +52,15 @@ class Citations
         return $this;
     }
 
-    public function getAuteur(): ?string
+    public function getCoachId(): ?Coaches
     {
-        return $this->auteur;
+        return $this->coachId;
     }
 
-    public function setAuteur(string $auteur): self
+    public function setCoachId(?Coaches $coachId): self
     {
-        $this->auteur = $auteur;
+        $this->coachId = $coachId;
 
         return $this;
     }
-
-
 }

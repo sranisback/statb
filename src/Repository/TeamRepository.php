@@ -3,6 +3,7 @@ namespace App\Repository;
 
 use App\Entity\Teams;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\DBALException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class TeamRepository extends ServiceEntityRepository
@@ -11,14 +12,18 @@ class TeamRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Teams::class);
     }
-	
-	
-	public function classement($year,$limit): array
-	{
-		$conn = $this->getEntityManager()->getConnection();
 
-		$sql = '
-SELECT team_id,ra.icon,t.name as "team_name" ,ra.name as "race",co.name,
+    /**
+     * @param int $year
+     * @param int $limit
+     * @return array
+     */
+    public function classement($year, $limit): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+SELECT team_id,ra.icon,t.name as "team_name" ,ra.name as "race",co.name,t.tv as "tv",
 	
 				SUM(IF(team_id = a.team1_id AND a.team1_score>a.team2_score,1,0)+ 
 					IF(team_id = a.team2_id AND a.team1_score<a.team2_score,1,0)) AS Win,
@@ -41,9 +46,11 @@ SELECT team_id,ra.icon,t.name as "team_name" ,ra.name as "race",co.name,
                 SUM(IF(team_id = a.team1_id AND a.team1_score > 2,1,0)+ 
                     IF(team_id = a.team2_id AND a.team2_score > 2,1,0))  +
                 SUM(IF(team_id = a.team1_id AND a.team1_score>a.team2_score AND a.tv2 - a.tv1 >= 250000,1,0)+ 
-                    IF(team_id = a.team2_id AND a.team1_score<a.team2_score AND a.tv1 - a.tv2 >= 250000,1,0))  +                    
+                    IF(team_id = a.team2_id AND a.team1_score<a.team2_score
+                     AND a.tv1 - a.tv2 >= 250000,1,0))  +                    
                 SUM(IF(team_id = a.team1_id AND a.team1_score<a.team2_score AND a.team2_score - a.team1_score = 1,1,0)+ 
-                    IF(team_id = a.team2_id AND a.team1_score>a.team2_score AND a.team1_score - a.team2_score = 1,1,0)) +
+                    IF(team_id = a.team2_id AND a.team1_score>a.team2_score 
+                    AND a.team1_score - a.team2_score = 1,1,0)) +
                     
                 SUM(
                     IF( team_id = a.team1_id AND (
@@ -72,9 +79,7 @@ SELECT team_id,ra.icon,t.name as "team_name" ,ra.name as "race",co.name,
                     
                     ))AS pts,
 					
-				SUM(IF(team_id = a.team1_id OR team_id = a.team2_id,1,0)) AS nbrg,
-
-				FLOOR(tv/1000) AS tv
+				SUM(IF(team_id = a.team1_id OR team_id = a.team2_id,1,0)) AS nbrg
 
 				FROM teams t
 
@@ -84,19 +89,64 @@ SELECT team_id,ra.icon,t.name as "team_name" ,ra.name as "race",co.name,
 				WHERE retired = 0 AND year = '.$year.'
 
 				GROUP BY t.name
-				ORDER BY pts DESC,nbrg DESC,tv DESC';
-				
-				
-				if($limit > 0)
-				{
-					$sql .= ' LIMIT '.$limit;
-				}
-				
-				
-		$stmt = $conn->prepare($sql);
-		$stmt->execute();
+				ORDER BY pts DESC,nbrg DESC';
 
-		// returns an array of arrays (i.e. a raw data set)
-		return $stmt->fetchAll();
-	}
+
+        if ($limit > 0) {
+            $sql .= ' LIMIT '.$limit;
+        }
+
+
+        try {
+            $stmt = $conn->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (DBALException $e) {
+        }
+        return [];
+    }
+
+    public function nbrCoachAyantUneEquipelAnneeEnCours($annee)
+    {
+        return count($this->createQueryBuilder('t')
+            ->select('c.name')
+            ->join('t.ownedByCoach', 'c')
+            ->where('t.year = '.$annee)
+            ->groupBy('c.name')
+            ->getQuery()
+            ->getResult())/2;
+    }
+
+    public function toutesLesEquipesActivesDuneAnnee($anne)
+    {
+        return $this->createQueryBuilder('t')
+        ->where('t.year ='.$anne)
+        ->andWhere('t.retired = false')
+        ->orderBy('t.name', 'ASC')
+        ->getQuery()
+        ->getArrayResult();
+    }
+
+    public function equipeSansTv()
+    {
+        return $this->createQueryBuilder('t')
+            ->where('t.tv IS NULL')
+            ->orWhere('t.tv = 0')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function toutesLesEquipesActivesDunCoachDuneEquipe($coachId, $annee)
+    {
+        return $this->createQueryBuilder('Teams')
+            ->where('Teams.OwnedByCoach =' . $coachId)
+            ->andWhere('Teams.year =' . $annee);
+    }
+
+    public function toutesLesEquipesDunCoach($coachId, $annee)
+    {
+        return $this->createQueryBuilder('Teams')
+            ->where('Teams.ownedByCoach =' . $coachId)
+            ->andWhere('Teams.year =' . $annee);
+    }
 }

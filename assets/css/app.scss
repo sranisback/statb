@@ -1,229 +1,194 @@
-@import "../../../statbb/statbb/node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
-
-@import "jquery.paginate.css";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+@import url("https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css");
 
 @-moz-document url-prefix() {
-  fieldset { display: table-cell; }
-}
-
-body
-{
-	
-	padding-top : 65px;
-	background-image:url("bg.jpg");
-	background-attachment: fixed;
-	background-size : 100%;
-	
-}
-
-.badge-pill 
-{
-	border-radius:1em;
-	margin:0 0.25em;
-}
-
-//navbar css
-
-.navbar-default {
-  background-color: #ffffff;
-  border-color: #e4e3e3;
-  background: rgba(255,255,255,0.5);
-}
-.navbar-default .navbar-brand {
-  color: #000000;
-}
-.navbar-default .navbar-brand:hover,
-.navbar-default .navbar-brand:focus {
-  color: #000000;
-}
-.navbar-default .navbar-text {
-  color: #000000;
-}
-.navbar-default .navbar-nav > li > a {
-  color: #000000;
-}
-.navbar-default .navbar-nav > li > a:hover,
-.navbar-default .navbar-nav > li > a:focus {
-  color: #000000;
-}
-.navbar-default .navbar-nav > li > .dropdown-menu {
-  background-color: #ffffff;
-}
-.navbar-default .navbar-nav > li > .dropdown-menu > li > a {
-  color: #000000;
-}
-.navbar-default .navbar-nav > li > .dropdown-menu > li > a:hover,
-.navbar-default .navbar-nav > li > .dropdown-menu > li > a:focus {
-  color: #000000;
-  background-color: #e4e3e3;
-}
-.navbar-default .navbar-nav > li > .dropdown-menu > li.divider {
-  background-color: #e4e3e3;
-}
-.navbar-default .navbar-nav .open .dropdown-menu > .active > a,
-.navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
-.navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
-  color: #000000;
-  background-color: #e4e3e3;
-}
-.navbar-default .navbar-nav > .active > a,
-.navbar-default .navbar-nav > .active > a:hover,
-.navbar-default .navbar-nav > .active > a:focus {
-  color: #000000;
-  background-color: #e4e3e3;
-}
-.navbar-default .navbar-nav > .open > a,
-.navbar-default .navbar-nav > .open > a:hover,
-.navbar-default .navbar-nav > .open > a:focus {
-  color: #000000;
-  background-color: #e4e3e3;
-}
-.navbar-default .navbar-toggle {
-  border-color: #e4e3e3;
-}
-.navbar-default .navbar-toggle:hover,
-.navbar-default .navbar-toggle:focus {
-  background-color: #e4e3e3;
-}
-.navbar-default .navbar-toggle .icon-bar {
-  background-color: #000000;
-}
-.navbar-default .navbar-collapse,
-.navbar-default .navbar-form {
-  border-color: #000000;
-}
-.navbar-default .navbar-link {
-  color: #000000;
-}
-.navbar-default .navbar-link:hover {
-  color: #000000;
-}
-
-@media (max-width: 767px) {
-  .navbar-default .navbar-nav .open .dropdown-menu > li > a {
-    color: #000000;
-  }
-  .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
-  .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
-    color: #000000;
-  }
-  .navbar-default .navbar-nav .open .dropdown-menu > .active > a,
-  .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
-  .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
-    color: #000000;
-    background-color: #e4e3e3;
+  fieldset {
+    display: table-cell;
   }
 }
 
-//navbar login form
+$font-size-base: 0.99em;
+$font-size-base2: 0.95em;
 
-#login-dp{
+
+
+
+@media print {
+
+  table{
+    font-size: $font-size-base2;
+  }
+
+  body {
+
+    background-color: red;
+
+  }
+
+}
+
+@media  screen and (max-width: 768px) {
+
+
+  body {
+
+    padding-top: 125px;
+    background-image: url("bg.jpg");
+    background-attachment: fixed;
+    background-size: 100%;
+
+  }
+
+
+  div{
+
+    font-size: $font-size-base2;
+
+  }
+
+  .bg-white {
+
+    background-color: white;
+
+  }
+
+  #login-dp {
     min-width: 250px;
     padding: 14px 14px 0;
-    overflow:hidden;
-    background-color:rgba(255,255,255,.8);
-}
-#login-dp .help-block{
-    font-size:12px    
-}
-#login-dp .bottom{
-    background-color:rgba(255,255,255,.8);
-    border-top:1px solid #ddd;
-    clear:both;
-    padding:14px;
-}
-#login-dp .social-buttons{
-    margin:12px 0    
-}
-#login-dp .social-buttons a{
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, .8);
+  }
+
+  #login-dp .help-block {
+    font-size: 12px
+  }
+
+  #login-dp .bottom {
+    background-color: rgba(255, 255, 255, .8);
+    border-top: 1px solid #ddd;
+    clear: both;
+    padding: 14px;
+  }
+
+  #login-dp .social-buttons {
+    margin: 12px 0
+  }
+
+  #login-dp .social-buttons a {
     width: 49%;
-}
-#login-dp .form-group {
+  }
+
+  #login-dp .form-group {
     margin-bottom: 10px;
-}
-.btn-fb{
+  }
+
+  .btn-fb {
     color: #fff;
-    background-color:#3b5998;
-}
-.btn-fb:hover{
+    background-color: #3b5998;
+  }
+
+  .btn-fb:hover {
     color: #fff;
-    background-color:#496ebc 
-}
-.btn-tw{
+    background-color: #496ebc
+  }
+
+  .btn-tw {
     color: #fff;
-    background-color:#55acee;
-}
-.btn-tw:hover{
+    background-color: #55acee;
+  }
+
+  .btn-tw:hover {
     color: #fff;
-    background-color:#59b5fa;
-}
-@media(max-width:768px){
-    #login-dp{
-        background-color: inherit;
-        color: #fff;
-    }
-    #login-dp .bottom{
-        background-color: inherit;
-        border-top:0 none;
-    }
-}
+    background-color: #59b5fa;
+  }
 
-.bg-white
-{
-	
-	background-color: white;
-	
-}
 
-.footer-custom
-{
-	
-	padding:20px;
-	
-}
 
-  
-			 
-/*a méditer*/
-@media 
-only screen and (max-width: 760px),
-(min-device-width: 768px) and (max-device-width: 1024px)  {
-
-	/* Force table to not be like tables anymore */
-	table, thead, tbody, th, td, tr { 
-		display: block; 
-	}
-	
-	/* Hide table headers (but not display: none;, for accessibility) */
-	thead tr { 
-		position: absolute;
-		top: -9999px;
-		left: -9999px;
-	}
-	
-	tr { border: 1px solid #ccc; }
-	
-	td { 
-		/* Behave  like a "row" */
-		border: none;
-		border-bottom: 1px solid #eee; 
-		position: relative;
-		padding-left: 50%; 
-	}
-	
-	td:before { 
-		/* Now like a table header */
-		position: absolute;
-		/* Top/left values mimic padding */
-		top: 6px;
-		left: 6px;
-		width: 45%; 
-		padding-right: 10px; 
-		white-space: nowrap;
-	}
-	
 
 }
 
 
- 
+
+@media  (min-width: 768px) {
+
+  body {
+
+    padding-top: 65px;
+    background-image: url("bg.jpg");
+    background-attachment: fixed;
+    background-size: 100%;
+
+  }
+
+  div{
+
+    font-size: $font-size-base;
+  }
+
+  //navbar login form
+
+
+  #login-dp {
+    min-width: 250px;
+    padding: 14px 14px 0;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, .8);
+  }
+
+  #login-dp .help-block {
+    font-size: 12px
+  }
+
+  #login-dp .bottom {
+    background-color: rgba(255, 255, 255, .8);
+    border-top: 1px solid #ddd;
+    clear: both;
+    padding: 14px;
+  }
+
+  #login-dp .social-buttons {
+    margin: 12px 0
+  }
+
+  #login-dp .social-buttons a {
+    width: 49%;
+  }
+
+  #login-dp .form-group {
+    margin-bottom: 10px;
+  }
+
+  .btn-fb {
+    color: #fff;
+    background-color: #3b5998;
+  }
+
+  .btn-fb:hover {
+    color: #fff;
+    background-color: #496ebc
+  }
+
+  .btn-tw {
+    color: #fff;
+    background-color: #55acee;
+  }
+
+  .btn-tw:hover {
+    color: #fff;
+    background-color: #59b5fa;
+  }
+
+
+  .bg-white {
+
+    background-color: white;
+
+  }
+
+  .footer-custom {
+
+    padding: 20px;
+
+  }
+
+}
