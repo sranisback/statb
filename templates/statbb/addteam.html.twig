@@ -11,25 +11,16 @@
         <h4 class="modal-title" id="myModalLabel">Nouvelle équipe</h4>
       </div>
       <div class="modal-body">
-
-		Nom de l'équipe :
-		<input type="text" id="nTeamName">
-
-		<div class="dropdown">
-			<button id="dLabel" type="button" class="btn btn-default" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				Choisir une Race
-				<span class="caret"></span>
-			</button>
-			<ul id="selectedRace" class="dropdown-menu" aria-labelledby="dLabel">
-			{% for race in races %}
-				<li><a href=# coachId="{{app.user.coachId}}" raceId="{{race.raceId}}">{{race.name}}</a></li>
-			{% endfor %}
-			</ul>
-		</div>  
+        <div>
+          {{ form_start(form, {'action': path('createTeam')}) }}
+                {{ form_errors(form) }}
+                {{ form_row(form.Name) }}
+                {{ form_row(form.fRace) }}
+        </div>
 	  </div>
       <div class="modal-footer">
-		<button id="addteam" type="button" class="btn btn-default" coachId="{{app.user.coachId}}" data-dismiss="modal">Ok</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+         {{ form_widget(form.submit) }}{{ form_widget(form.cancel) }}
+          {{ form_end(form) }}
       </div>
     </div>
   </div>
