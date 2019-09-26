@@ -96,4 +96,17 @@ class SettingsService
         }
         return false;
     }
+
+    public function recupererTresorDepart()
+    {
+        $tresorDepart = $this->doctrineEntityManager->getRepository(Setting::class)->findOneBy(
+            ['name' => 'departTresor']
+        );
+
+        if (!empty($tresorDepart)) {
+            return $tresorDepart->getValue();
+        }
+
+        return 0;
+    }
 }

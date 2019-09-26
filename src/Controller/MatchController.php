@@ -88,7 +88,8 @@ class MatchController extends AbstractController
         $resultat = $matchesService->enregistrerMatch($recuperationDonneeForm);
 
         if ($resultat['enregistrement']) {
-            $this->addFlash('admin', 'Match enregistré');
+            $url = $this->generateUrl('match', ['matchId' => $resultat['enregistrement']]);
+            $this->addFlash('admin', 'Match enregistré, <a href= "'.$url.'"> Voir </a>');
         }
         if ($resultat['defis']) {
             $this->addFlash('admin', 'Un defis a été réalisé');

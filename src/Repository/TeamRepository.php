@@ -117,36 +117,12 @@ SELECT team_id,ra.icon,t.name as "team_name" ,ra.name as "race",co.name,t.tv as 
             ->getResult())/2;
     }
 
-    public function toutesLesEquipesActivesDuneAnnee($anne)
-    {
-        return $this->createQueryBuilder('t')
-        ->where('t.year ='.$anne)
-        ->andWhere('t.retired = false')
-        ->orderBy('t.name', 'ASC')
-        ->getQuery()
-        ->getArrayResult();
-    }
-
-    public function equipeSansTv()
-    {
-        return $this->createQueryBuilder('t')
-            ->where('t.tv IS NULL')
-            ->orWhere('t.tv = 0')
-            ->getQuery()
-            ->getResult();
-    }
-
-    public function toutesLesEquipesActivesDunCoachDuneEquipe($coachId, $annee)
-    {
-        return $this->createQueryBuilder('Teams')
-            ->where('Teams.OwnedByCoach =' . $coachId)
-            ->andWhere('Teams.year =' . $annee);
-    }
-
-    public function toutesLesEquipesDunCoach($coachId, $annee)
+    public function toutesLesEquipesDunCoachParAnnee($coachId, $annee)
     {
         return $this->createQueryBuilder('Teams')
             ->where('Teams.ownedByCoach =' . $coachId)
-            ->andWhere('Teams.year =' . $annee);
+            ->andWhere('Teams.year =' . $annee)
+            ->getQuery()
+            ->getResult();
     }
 }

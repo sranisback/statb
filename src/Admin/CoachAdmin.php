@@ -24,6 +24,7 @@ final class CoachAdmin extends AbstractAdmin
 
         $coach->setRoles(['role' => 'ROLE_'.$role]);
 
+        /** @var Coaches $object */
         $plainPassword = $object->getPasswd();
         $container = $this->getConfigurationPool()->getContainer();
         if ($container) {

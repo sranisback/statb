@@ -118,23 +118,29 @@ class MatchDataRepository extends ServiceEntityRepository
      * @param int $year
      * @return array
      */
-    public function totalcas($year): array
+    public function totalcas($year)
     {
         $conn = $this->getEntityManager()->getConnection();
         
         $sql = 'SELECT SUM(bh+si+ki) AS score
 				FROM match_data
 				JOIN players a ON f_player_id = a.player_id
-							 JOIN teams b ON a.owned_by_team_id = b.team_id	
-							 JOIN game_data_players c ON a.f_pos_id = c.pos_id
+				JOIN teams b ON a.owned_by_team_id = b.team_id	
+				JOIN game_data_players c ON a.f_pos_id = c.pos_id
 				WHERE retired = 0 AND year = '.$year.'
-				 HAVING score >0
+				HAVING score >0
 				ORDER BY score DESC';
 
         try {
             $stmt = $conn->prepare($sql);
             $stmt->execute();
-            return $stmt->fetchAll();
+
+            $tab = $stmt->fetchAll();
+            if ($tab === []) {
+                return 0;
+            } else {
+                return $tab[0]['score'];
+            }
         } catch (DBALException $e) {
         }
 

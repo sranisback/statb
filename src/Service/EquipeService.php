@@ -16,8 +16,7 @@ class EquipeService
 {
 
     private $doctrineEntityManager;
-
-    private $tresorDepart = 1000000;
+    private $settingsService;
 
     private $baseElo = 150;
 
@@ -27,9 +26,10 @@ class EquipeService
     private $coutApo = 50000;
     private $payementStade = 70000;
 
-    public function __construct(EntityManagerInterface $doctrineEntityManager)
+    public function __construct(EntityManagerInterface $doctrineEntityManager, SettingsService $settingsService)
     {
         $this->doctrineEntityManager = $doctrineEntityManager;
+        $this->settingsService = $settingsService;
     }
 
      /**
@@ -123,13 +123,13 @@ class EquipeService
      */
     public function createTeam($teamname, $coachid, $raceid)
     {
-        $setting = $this->doctrineEntityManager->getRepository(Setting::class)->findOneBy(['name' => 'year']);
+        $setting = $this->settingsService->anneeCourante();
         $race = $this->doctrineEntityManager->getRepository(Races::class)->findOneBy(['raceId' => $raceid]);
         $coach = $this->doctrineEntityManager->getRepository(Coaches::class)->findOneBy(array('coachId' => $coachid));
 
         $team = new Teams();
 
-        $team->setTreasury($this->tresorDepart);
+        $team->setTreasury($this->settingsService->recupererTresorDepart());
         $team->setName($teamname);
         $team->setElo($this->baseElo);
         $team->setTv(0);
@@ -143,7 +143,7 @@ class EquipeService
         $team->setFStades($stade);
 
         if ($setting) {
-            $currentYear = $setting->getValue();
+            $currentYear = $this->settingsService->anneeCourante();
 
             if (!empty($currentYear)) {
                 $team->setYear((int)$currentYear);
@@ -375,7 +375,7 @@ class EquipeService
 
         $nbrDeCoachesActifsDivParDeux = $this->doctrineEntityManager->getRepository(
             Teams::class
-        )->nbrCoachAyantUneEquipelAnneeEnCours(3);
+        )->nbrCoachAyantUneEquipelAnneeEnCours($year);
 
         $r = [];
 
@@ -383,7 +383,7 @@ class EquipeService
             $r[$equipe->getTeamId()] = 150;
         }
 
-        $matchDelAnneeEnCour = $this->doctrineEntityManager->getRepository(Matches::class)->tousLesMatchDuneAnne(3);
+        $matchDelAnneeEnCour = $this->doctrineEntityManager->getRepository(Matches::class)->tousLesMatchDuneAnne($year);
 
         /** @var Matches $match */
         foreach ($matchDelAnneeEnCour as $match) {
@@ -437,5 +437,31 @@ class EquipeService
         }
 
         return $r;
+    }
+
+    /**
+     * @param int $coachActif
+     * @param int $annee
+     * @return array|null
+     */
+    public function listeDesAnciennesEquipes($coachActif, $annee)
+    {
+        $anciennesEquipes = null;
+
+        for ($anneeAjoutee = 0; $anneeAjoutee < $annee; $anneeAjoutee++) {
+            $retourRequete =
+                $this->doctrineEntityManager->getRepository(Teams::class)->toutesLesEquipesDunCoachParAnnee(
+                    $coachActif,
+                    $anneeAjoutee
+                );
+
+            if (!empty($retourRequete)) {
+                foreach ($retourRequete as $equipe) {
+                    $anciennesEquipes[] = $equipe;
+                }
+            }
+        }
+
+        return $anciennesEquipes;
     }
 }

@@ -6,27 +6,27 @@
             <div class="col-sm-3 col-lg-3 col-md-3">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        {{ render(controller('App\\Controller\\ClassementController::sClass',{'type':'bash','teamorplayer':'player','limit':5} )) }}
+                        {{ render(controller('App\\Controller\\ClassementController::afficheSousClassements',{'type':'bash','teamorplayer':'player','limit':5} )) }}
                     </div>
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        {{ render(controller('App\\Controller\\ClassementController::sClass',{'type':'xp','teamorplayer':'player','limit':5} )) }}
+                        {{ render(controller('App\\Controller\\ClassementController::afficheSousClassements',{'type':'xp','teamorplayer':'player','limit':5} )) }}
                     </div>
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        {{ render(controller('App\\Controller\\ClassementController::sClass',{'type':'foul','teamorplayer':'player','limit':5} )) }}
+                        {{ render(controller('App\\Controller\\ClassementController::afficheSousClassements',{'type':'foul','teamorplayer':'player','limit':5} )) }}
                     </div>
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        {{ render(controller('App\\Controller\\ClassementController::sClass',{'type':'td','teamorplayer':'team','limit':5} )) }}
+                        {{ render(controller('App\\Controller\\ClassementController::afficheSousClassements',{'type':'td','teamorplayer':'team','limit':5} )) }}
                     </div>
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        {{ render(controller('App\\Controller\\ClassementController::sClass',{'type':'foul','teamorplayer':'team','limit':5} )) }}
+                        {{ render(controller('App\\Controller\\ClassementController::afficheSousClassements',{'type':'foul','teamorplayer':'team','limit':5} )) }}
                     </div>
                 </div>
             </div>
@@ -38,29 +38,29 @@
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        {{ render(controller('App\\Controller\\ClassementController::lastfive')) }}
+                        {{ render(controller('App\\Controller\\ClassementController::cinqDernierMatch')) }}
                     </div>
                 </div>
             </div>
             <div class="col-sm-3 col-lg-3 col-md-3">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        {{ render(controller('App\\Controller\\ClassementController::sClass',{'type':'td','teamorplayer':'player','limit':5} )) }}
+                        {{ render(controller('App\\Controller\\ClassementController::afficheSousClassements',{'type':'td','teamorplayer':'player','limit':5} )) }}
                     </div>
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        {{ render(controller('App\\Controller\\ClassementController::sClass',{'type':'pass','teamorplayer':'player','limit':5} )) }}
+                        {{ render(controller('App\\Controller\\ClassementController::afficheSousClassements',{'type':'pass','teamorplayer':'player','limit':5} )) }}
                     </div>
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        {{ render(controller('App\\Controller\\ClassementController::sClass',{'type':'bash','teamorplayer':'team','limit':5} )) }}
+                        {{ render(controller('App\\Controller\\ClassementController::afficheSousClassements',{'type':'bash','teamorplayer':'team','limit':5} )) }}
                     </div>
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        {{ render(controller('App\\Controller\\ClassementController::sClass',{'type':'dead','teamorplayer':'team','limit':5} )) }}
+                        {{ render(controller('App\\Controller\\ClassementController::afficheSousClassements',{'type':'dead','teamorplayer':'team','limit':5} )) }}
                     </div>
                 </div>
             </div>

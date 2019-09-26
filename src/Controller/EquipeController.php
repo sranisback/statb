@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Coaches;
 use App\Entity\GameDataPlayers;
 use App\Entity\GameDataStadium;
 use App\Entity\MatchData;
@@ -9,6 +10,7 @@ use App\Entity\Matches;
 use App\Entity\Players;
 use App\Entity\PlayersSkills;
 use App\Entity\Teams;
+use App\Enum\AnneeEnum;
 use App\Form\CreerStadeType;
 use App\Service\EquipeService;
 use App\Service\PlayerService;
@@ -62,16 +64,52 @@ class EquipeController extends AbstractController
     }
 
     /**
+     * @Route("/montreLesAnciennesEquipes/{coachActif}", name="showOldTeams", options = { "expose" = true})
+     * @param SettingsService $settingsService
+     * @param EquipeService $equipeService
+     * @param integer $coachActif
+     * @return response
+     */
+    public function montreLesAnciennesEquipes(
+        SettingsService $settingsService,
+        EquipeService $equipeService,
+        $coachActif
+    ) {
+        $annee = $settingsService->anneeCourante();
+
+        $etiquetteAnne = (new AnneeEnum)->numeroToAnnee();
+
+        $compilEquipes = [];
+
+        /** @var Teams $equipe */
+        foreach ($equipeService->listeDesAnciennesEquipes($coachActif, $annee) as $equipe) {
+            $compilEquipes[] = [
+                'equipe' => $equipe,
+                'resultats' => $equipeService->resultatsDelEquipe(
+                    $equipe,
+                    $this->getDoctrine()->getRepository(Matches::class)->listeDesMatchs($equipe)
+                ),
+                'annee' => $etiquetteAnne[$equipe->getYear()]
+            ];
+        }
+
+        return $this->render(
+            'statbb/anciennesEquipes.html.twig',
+            ['listeEquipe' => $compilEquipes ]
+        );
+    }
+
+    /**
      * @Route("/showuserteams", name="showuserteams", options = { "expose" = true })
      * @param SettingsService $settingsService
      * @param EquipeService $equipeService
      * @param PlayerService $playerService
      * @return response
      */
+    //@todo : a refaire comme montreLesAnciennesEquipes
     public function showUserTeams(
         SettingsService $settingsService,
-        EquipeService $equipeService,
-        PlayerService $playerService
+        EquipeService $equipeService
     ) {
         $tdata = [];
 
@@ -81,7 +119,7 @@ class EquipeController extends AbstractController
 
         $countEquipe = 0;
 
-        foreach ($equipesCollection as $number => $equipe) {
+        foreach ($equipesCollection as $equipe) {
             $resultats = $equipeService->resultatsDelEquipe(
                 $equipe,
                 $this->getDoctrine()->getRepository(Matches::class)->listeDesMatchs($equipe)
@@ -90,7 +128,6 @@ class EquipeController extends AbstractController
             $tdata[$countEquipe]['win'] = $resultats['win'];
             $tdata[$countEquipe]['loss'] = $resultats['loss'];
             $tdata[$countEquipe]['draw'] = $resultats['draw'];
-            $tdata[$countEquipe]['tv'] = $equipeService->tvDelEquipe($equipe, $playerService);
 
             $countEquipe++;
         }
@@ -186,6 +223,7 @@ class EquipeController extends AbstractController
         $teamid = 0;
 
         if ($coach) {
+            /** @var Coaches $coach */
             $teamid = $equipeService->createTeam($form['Name'], $coach->getCoachId(), $form['fRace']);
         }
 

@@ -20,8 +20,20 @@ class MatchesRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('m')
             ->join('m.team1', 't1')
             ->join('m.team2', 't2')
-            ->where('t1.year = 3')
-            ->andWhere('t2.year ='.$annee)
+            ->where('t1.year =' . $annee)
+            ->andWhere('t2.year =' . $annee)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function tousLesMatchDuneAnneClassementChrono($annee)
+    {
+        return $this->createQueryBuilder('m')
+            ->join('m.team1', 't1')
+            ->join('m.team2', 't2')
+            ->where('t1.year =' . $annee)
+            ->andWhere('t2.year =' . $annee)
+            ->orderBy('m.dateCreated', 'DESC')
             ->getQuery()
             ->getResult();
     }
@@ -39,6 +51,20 @@ class MatchesRepository extends ServiceEntityRepository
         );
 
         $matches = array_merge($matches1, $matches2);
+
+        usort(
+            $matches,
+            function ($a, $b) {
+                $ad = $a->getDateCreated();
+                $bd = $b->getDateCreated();
+
+                if ($ad == $bd) {
+                    return 0;
+                }
+
+                return $ad > $bd ? -1 : 1;
+            }
+        );
 
         return $matches;
     }

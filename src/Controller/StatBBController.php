@@ -46,9 +46,10 @@ class StatBBController extends AbstractController
      */
     public function index(SettingsService $settingsService, DefisService $defisService)
     {
+        /** @var Coaches $coach */
         $coach = $this->getUser();
 
-        if ($coach) {
+        if ($coach != null) {
             $role = $coach->getRoles();
 
             if ($role['role'] == 'ROLE_ADMIN') {

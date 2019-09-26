@@ -5,11 +5,22 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
-    <list id="c3976c2a-a704-469d-97ce-8d7d42ac22f9" name="tentative corrections glyphicons en prod 3" comment="" />
-    <list default="true" id="847151cb-c508-4c4e-9aa8-f19098c7acb6" name="Default" comment="Corrections pour mep">
-      <change beforePath="$PROJECT_DIR$/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/app.js" afterDir="false" />
-    </list>
     <list id="93d7809f-21f2-44bb-ac75-31fb03a6cee4" name="tentative corrections glyphicons en prod 3b" comment="" />
+    <list id="c3976c2a-a704-469d-97ce-8d7d42ac22f9" name="tentative corrections glyphicons en prod 3" comment="" />
+    <list default="true" id="847151cb-c508-4c4e-9aa8-f19098c7acb6" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/phpcs.log" beforeDir="false" afterPath="$PROJECT_DIR$/phpcs.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/phpstan.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/phpstan.neon" beforeDir="false" afterPath="$PROJECT_DIR$/phpstan.neon" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Admin/CoachAdmin.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Admin/CoachAdmin.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/ClassementController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ClassementController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/EquipeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/EquipeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/StatBBController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/StatBBController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/ClassementService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/ClassementService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/EquipeService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/EquipeService.php" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -52,6 +63,13 @@
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="bb_symf: schema" type="c314c289:MysqlImplModel$Schema" />
       </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="bb_symf@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="bb_symf: schema" type="c314c289:MysqlImplModel$Schema" />
+        <item name="setting: table" type="98d5ac3d:MysqlImplModel$Table" />
+      </path>
     </expand>
     <select />
   </component>
@@ -60,102 +78,15 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/assets/js/app.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="29">
-              <caret line="579" selection-start-line="579" selection-end-line="579" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="webpack.config.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/webpack.config.js">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
       <file leaf-file-name="phpcs.log" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/phpcs.log">
           <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file leaf-file-name="DefisAdmin.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Admin/DefisAdmin.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1">
-              <caret line="77" column="34" lean-forward="true" selection-start-line="77" selection-start-column="34" selection-end-line="77" selection-end-column="34" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="composer.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/composer.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="19" column="35" selection-start-line="19" selection-start-column="35" selection-end-line="19" selection-end-column="35" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EquipeService.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Service/EquipeService.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="14" column="6" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EquipeController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Controller/EquipeController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="42" column="37" selection-start-line="42" selection-start-column="37" selection-end-line="42" selection-end-column="37" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DefisController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Controller/DefisController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" selection-start-line="3" selection-end-line="3" />
-              <folding>
-                <element signature="e#35#56#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DefisRepository.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Repository/DefisRepository.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="646">
-              <caret line="40" column="5" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
-            </state>
-          </provider>
         </entry>
       </file>
     </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>nbr</find>
-      <find>transformeEnJson</find>
-      <find>findOneBy</find>
-      <find>elo</find>
-      <find>\n        \$plainPassword \= \$object\-\&gt;getPasswd\(\)\;</find>
-      <find>$equipe1-&gt;getTeamId()</find>
-      <find>$equipe2-&gt;getTeamId()</find>
-      <find>tvDelEquipe</find>
-      <find>$team</find>
-      <find>nr</find>
-      <find>matchdata</find>
-      <find>$rec</find>
-      <find>matchD</find>
-      <find>matches</find>
-      <find>ajoutm</find>
-      <find>last</find>
       <find>$playerService</find>
       <find>nulla</find>
       <find>dump(</find>
@@ -167,17 +98,37 @@
       <find>GameDataSkills</find>
       <find>playersS</find>
       <find>playersSkillsM</find>
-      <find>getMock</find>
       <find>listeDesJoueursdUnMatch</find>
       <find>apa</find>
+      <find>coach_id_id</find>
+      <find>player_id_id</find>
+      <find>(id</find>
+      <find>ELO</find>
+      <find>tea</find>
+      <find>loadingmessage</find>
+      <find>toutesLesEquipesActivesDuneAnnee</find>
+      <find>render(controller</find>
+      <find>anneeenum</find>
+      <find>toutes</find>
+      <find>getMock</find>
+      <find>lastfive</find>
+      <find>matchdatarepo</find>
+      <find>le_classement_foul_est_retournee()</find>
+      <find>service</find>
+      <find>Teams::</find>
+      <find>$objectManager</find>
     </findStrings>
     <replaceStrings>
       <replace>$equipe1Id</replace>
       <replace>$equipe2Id</replace>
       <replace>$equipe</replace>
+      <replace>coach_id</replace>
+      <replace>player_id</replace>
+      <replace>(player_id</replace>
     </replaceStrings>
     <dirStrings>
       <dir>C:\Program Files (x86)\EasyPHP-Devserver-16.1\eds-www\statb\tests</dir>
+      <dir>C:\Program Files (x86)\EasyPHP-Devserver-16.1\eds-www\statb\src</dir>
     </dirStrings>
   </component>
   <component name="Git.Rebase.Settings">
@@ -194,57 +145,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/3bf97b1d-8ae8-428e-a685-41636d366b25/console_5.sql" />
-        <option value="$PROJECT_DIR$/src/Repository/TeamRepository.php" />
-        <option value="$PROJECT_DIR$/tests/src/Service/DefisService/defiAutoriseTest.php" />
-        <option value="$PROJECT_DIR$/templates/statbb/base.html.twig" />
-        <option value="$PROJECT_DIR$/config/services.yaml" />
-        <option value="$PROJECT_DIR$/config/packages/twig.yaml" />
-        <option value="$PROJECT_DIR$/templates/statbb/affichageDefis.html.twig" />
-        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/3bf97b1d-8ae8-428e-a685-41636d366b25/console_6.sql" />
-        <option value="$PROJECT_DIR$/src/Repository/PlayersRepository.php" />
-        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/3bf97b1d-8ae8-428e-a685-41636d366b25/console_7.sql" />
-        <option value="$PROJECT_DIR$/tests/src/Service/DefisService/verificationDefisTest.php" />
-        <option value="$PROJECT_DIR$/src/Controller/MatchController.php" />
-        <option value="$PROJECT_DIR$/tests/src/Service/DefisService/lesDefisEnCoursContreLeCoachTest.php" />
-        <option value="$PROJECT_DIR$/src/Controller/StatBBController.php" />
-        <option value="$PROJECT_DIR$/src/Entity/Setting.php" />
-        <option value="$PROJECT_DIR$/src/Service/SettingsService.php" />
-        <option value="$PROJECT_DIR$/src/Service/MatchesService.php" />
-        <option value="$PROJECT_DIR$/src/Entity/Defis.php" />
-        <option value="$PROJECT_DIR$/src/Service/DefisService.php" />
-        <option value="$PROJECT_DIR$/src/Form/AjoutDefisType.php" />
-        <option value="$PROJECT_DIR$/src/Entity/Citations.php" />
-        <option value="$PROJECT_DIR$/src/Service/CitationService.php" />
-        <option value="$PROJECT_DIR$/tests/src/Service/CitationService/enregistrerCitationTest.php" />
-        <option value="$PROJECT_DIR$/src/Controller/UtilisateurController.php" />
-        <option value="$PROJECT_DIR$/phpstan.neon" />
-        <option value="$PROJECT_DIR$/tests/src/Service/PlayerService/actionDuJoueurDansUnMatchTest.php" />
-        <option value="$PROJECT_DIR$/tests/src/Service/PlayerService/ajoutCompetenceTest.php" />
-        <option value="$PROJECT_DIR$/tests/src/Service/PlayerService/ajoutJoueurTest.php" />
-        <option value="$PROJECT_DIR$/tests/src/Service/PlayerService/annulerRPMtousLesJoueursDeLequipeTest.php" />
-        <option value="$PROJECT_DIR$/tests/src/Service/PlayerService/annulerRPMunJoueurTest.php" />
-        <option value="$PROJECT_DIR$/tests/src/Service/PlayerService/controleNiveauDuJoueurTest.php" />
-        <option value="$PROJECT_DIR$/tests/src/Service/PlayerService/listeDesCompdDeBasedUnJoueurTest.php" />
-        <option value="$PROJECT_DIR$/tests/src/Service/PlayerService/listeDesCompdUnePositionTest.php" />
-        <option value="$PROJECT_DIR$/src/Service/PlayerService.php" />
-        <option value="$PROJECT_DIR$/tests/src/Service/PlayerService/listeDesCompEtSurcoutGagnedUnJoueurTest.php" />
-        <option value="$PROJECT_DIR$/tests/src/Service/PlayerService/listeDesJoueursActifsDelEquipeTest.php" />
-        <option value="$PROJECT_DIR$/tests/src/Service/PlayerService/listenivSpeciauxEtSurcoutTest.php" />
-        <option value="$PROJECT_DIR$/tests/src/Service/PlayerService/numeroLibreDelEquipeTest.php" />
-        <option value="$PROJECT_DIR$/tests/src/Service/PlayerService/renvoisOuSuppressionJoueurTest.php" />
-        <option value="$PROJECT_DIR$/tests/src/Service/PlayerService/coutTotalJoueursTest.php" />
-        <option value="$PROJECT_DIR$/tests/src/Service/PlayerService/actionsDuJoueurTest.php" />
-        <option value="$PROJECT_DIR$/tests/src/Service/PlayerService/statsDuJoueurTest.php" />
         <option value="$PROJECT_DIR$/tests/src/Service/PlayerService/statutDuJoueurTest.php" />
         <option value="$PROJECT_DIR$/tests/src/Service/PlayerService/toutesLesActionsDeLequipeDansUnMatchTest.php" />
         <option value="$PROJECT_DIR$/infection.json.dist" />
         <option value="$PROJECT_DIR$/tests/src/Service/DefisService/creerDefisTest.php" />
         <option value="$PROJECT_DIR$/src/Repository/DefisRepository.php" />
         <option value="$PROJECT_DIR$/src/Admin/DefisAdmin.php" />
-        <option value="$PROJECT_DIR$/assets/js/app.js" />
-        <option value="$PROJECT_DIR$/composer.json" />
         <option value="$PROJECT_DIR$/src/Controller/DefisController.php" />
+        <option value="$USER_HOME$/Desktop/savetable/bb_symf_citations.sql" />
+        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/3bf97b1d-8ae8-428e-a685-41636d366b25/console_8.sql" />
+        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/3bf97b1d-8ae8-428e-a685-41636d366b25/console_6.sql" />
+        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/3bf97b1d-8ae8-428e-a685-41636d366b25/console_7.sql" />
+        <option value="$PROJECT_DIR$/tests/src/Service/PlayerService/ajoutJoueurTest.php" />
+        <option value="$PROJECT_DIR$/templates/statbb/ajoutMatch.html.twig" />
+        <option value="$PROJECT_DIR$/src/Service/MatchesService.php" />
+        <option value="$PROJECT_DIR$/src/Controller/MatchController.php" />
+        <option value="$PROJECT_DIR$/templates/statbb/base.html.twig" />
+        <option value="$PROJECT_DIR$/templates/statbb/matchviewer.html.twig" />
+        <option value="$PROJECT_DIR$/src/Repository/TeamRepository.php" />
+        <option value="$PROJECT_DIR$/templates/statbb/ancienneEquipe.html.twig" />
+        <option value="$PROJECT_DIR$/templates/statbb/user.html.twig" />
+        <option value="$PROJECT_DIR$/webpack.config.js" />
+        <option value="$PROJECT_DIR$/templates/statbb/user_teams.html.twig" />
+        <option value="$PROJECT_DIR$/src/AnneeEnum.php" />
+        <option value="$PROJECT_DIR$/src/Service/AnneeEnum.php" />
+        <option value="$PROJECT_DIR$/src/Service/ParamEnum.php" />
+        <option value="$PROJECT_DIR$/src/Service/SettingsService.php" />
+        <option value="$PROJECT_DIR$/src/Enum/AnneeEnum.php" />
+        <option value="$PROJECT_DIR$/assets/js/app.js" />
+        <option value="$PROJECT_DIR$/templates/statbb/anciennesEquipes.html.twig" />
+        <option value="$PROJECT_DIR$/templates/statbb/classementELO.html.twig" />
+        <option value="$PROJECT_DIR$/templates/statbb/cimetiere.html.twig" />
+        <option value="$PROJECT_DIR$/tests/src/Service/ClassementService/cinqDernierMatchesTest.php" />
+        <option value="$PROJECT_DIR$/templates/statbb/front.html.twig" />
+        <option value="$PROJECT_DIR$/tests/src/Service/ClassementService/sousClassementsTest.php" />
+        <option value="$PROJECT_DIR$/tests/src/Service/EquipeService/listeDesAnciennesEquipesTest.php" />
+        <option value="$PROJECT_DIR$/tests/src/Service/ClassementService/cinqDernoerMatchesTest.php" />
+        <option value="$PROJECT_DIR$/tests/src/Service/ClassementService/cinqDernierMatchesPourEquipesTest.php" />
+        <option value="$PROJECT_DIR$/templates/statbb/team.html.twig" />
+        <option value="$PROJECT_DIR$/src/Repository/MatchesRepository.php" />
+        <option value="$PROJECT_DIR$/templates/statbb/Stclassement.html.twig" />
+        <option value="$PROJECT_DIR$/tests/src/Service/ClassementService/totalCasTest.php" />
+        <option value="$PROJECT_DIR$/src/Repository/MatchDataRepository.php" />
+        <option value="$PROJECT_DIR$/src/Admin/CoachAdmin.php" />
+        <option value="$PROJECT_DIR$/composer.json" />
+        <option value="$PROJECT_DIR$/src/Controller/ClassementController.php" />
+        <option value="$PROJECT_DIR$/src/Controller/EquipeController.php" />
+        <option value="$PROJECT_DIR$/phpstan.log" />
+        <option value="$PROJECT_DIR$/src/Controller/StatBBController.php" />
+        <option value="$PROJECT_DIR$/src/Service/ClassementService.php" />
+        <option value="$PROJECT_DIR$/src/Service/EquipeService.php" />
+        <option value="$PROJECT_DIR$/phpstan.neon" />
       </list>
     </option>
   </component>
@@ -420,19 +371,24 @@
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php73" />
       <path value="$PROJECT_DIR$/vendor/symfony/mime" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-intl-idn" />
+      <path value="$PROJECT_DIR$/vendor/symfony/service-contracts" />
+      <path value="$PROJECT_DIR$/vendor/symfony/cache-contracts" />
+      <path value="$PROJECT_DIR$/vendor/symfony/translation-contracts" />
+      <path value="$PROJECT_DIR$/vendor/symfony/event-dispatcher-contracts" />
     </include_path>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="676" />
-    <option name="width" value="697" />
-    <option name="height" value="735" />
+    <option name="x" value="2044" />
+    <option name="y" value="-8" />
+    <option name="width" value="1121" />
+    <option name="height" value="539" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectReloadState">
     <option name="STATE" value="1" />
   </component>
   <component name="ProjectView">
-    <navigator proportions="" version="1">
+    <navigator currentView="Scope" currentSubView="Project Files" proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
@@ -445,7 +401,8 @@
             </path>
             <path>
               <item name="statb" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+              <item name="statb" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -520,7 +477,24 @@
             <path>
               <item name="Root" type="cbb8eebc:String" user="Root" />
               <item name="statb" type="cbb8eebc:String" user="statb" />
-              <item name=".idea" type="cbb8eebc:String" user=".idea" />
+              <item name="src" type="cbb8eebc:String" user="src" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="statb" type="cbb8eebc:String" user="statb" />
+              <item name="src" type="cbb8eebc:String" user="src" />
+              <item name="Controller" type="cbb8eebc:String" user="Controller" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="statb" type="cbb8eebc:String" user="statb" />
+              <item name="src" type="cbb8eebc:String" user="src" />
+              <item name="Service" type="cbb8eebc:String" user="Service" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="statb" type="cbb8eebc:String" user="statb" />
+              <item name="vendor" type="cbb8eebc:String" user="vendor" />
             </path>
           </expand>
           <select />
@@ -534,16 +508,18 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="MySQL" />
     <property name="database.console.LAST_STATE" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/savetable/bb_symf_citations.sql" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.General" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Program Files (x86)\EasyPHP-Devserver-16.1\eds-www\statb\src\Enum" />
+      <recent name="C:\Program Files (x86)\EasyPHP-Devserver-16.1\eds-www\statb\src\Service" />
+      <recent name="C:\Program Files (x86)\EasyPHP-Devserver-16.1\eds-www\statb\assets\images" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Program Files (x86)\EasyPHP-Devserver-16.1\eds-www\statb\public\build\images" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Program Files (x86)\EasyPHP-Devserver-16.1\eds-www\statb\assets\images" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -558,38 +534,38 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="PHPUnit.tests">
-    <configuration name="creerDefisTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner class="App\Tests\src\Service\DefisService\creerDefisTest" file="$PROJECT_DIR$/tests/src/Service/DefisService/creerDefisTest.php" scope="Class" />
+  <component name="RunManager" selected="PHPUnit.totalCasTest">
+    <configuration name="cinqDernierMatchesPourEquipesTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="App\Tests\src\Service\ClassementService\cinqDernierMatchesPourEquipesTest" file="$PROJECT_DIR$/tests/src/Service/ClassementService/cinqDernierMatchesPourEquipesTest.php" scope="Class" />
     </configuration>
-    <configuration name="creerDefisTest.dateTime_foire_test_exception_1" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner class="App\Tests\src\Service\DefisService\creerDefisTest" file="$PROJECT_DIR$/tests/src/Service/DefisService/creerDefisTest.php" method="dateTime_foire_test_exception_1" scope="Method" />
+    <configuration name="cinqDernierMatchesTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="App\Tests\src\Service\ClassementService\cinqDernierMatchesTest" file="$PROJECT_DIR$/tests/src/Service/ClassementService/cinqDernierMatchesTest.php" scope="Class" />
     </configuration>
-    <configuration name="tests" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner directory="$PROJECT_DIR$/tests" />
+    <configuration name="totalCasTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="App\Tests\src\Service\ClassementService\totalCasTest" file="$PROJECT_DIR$/tests/src/Service/ClassementService/totalCasTest.php" scope="Class" />
     </configuration>
-    <configuration name="toutesLesActionsDeLequipeDansUnMatchTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner class="App\Tests\src\Service\PlayerService\toutesLesActionsDeLequipeDansUnMatchTest" file="$PROJECT_DIR$/tests/src/Service/PlayerService/toutesLesActionsDeLequipeDansUnMatchTest.php" scope="Class" />
+    <configuration name="totalCasTest.compte_les_cas_total_par_match" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="App\Tests\src\Service\ClassementService\totalCasTest" file="$PROJECT_DIR$/tests/src/Service/ClassementService/totalCasTest.php" method="compte_les_cas_total_par_match" scope="Method" />
     </configuration>
-    <configuration name="toutesLesActionsDeLequipeDansUnMatchTest.le_joueur_n_est_pas_retourne_s_il_n_a_rien_fait" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner class="App\Tests\src\Service\PlayerService\toutesLesActionsDeLequipeDansUnMatchTest" file="$PROJECT_DIR$/tests/src/Service/PlayerService/toutesLesActionsDeLequipeDansUnMatchTest.php" method="le_joueur_n_est_pas_retourne_s_il_n_a_rien_fait" scope="Method" />
+    <configuration name="totalCasTest.il_n_y_a_pas_de_donnees" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="App\Tests\src\Service\ClassementService\totalCasTest" file="$PROJECT_DIR$/tests/src/Service/ClassementService/totalCasTest.php" method="il_n_y_a_pas_de_donnees" scope="Method" />
     </configuration>
     <configuration name="Symphony Dev Serfv" type="PhpLocalRunConfigurationType" factoryName="PHP Console" path="$PROJECT_DIR$/bin/console" scriptParameters="server:run" />
     <list>
       <item itemvalue="PHP Script.Symphony Dev Serfv" />
-      <item itemvalue="PHPUnit.toutesLesActionsDeLequipeDansUnMatchTest.le_joueur_n_est_pas_retourne_s_il_n_a_rien_fait" />
-      <item itemvalue="PHPUnit.toutesLesActionsDeLequipeDansUnMatchTest" />
-      <item itemvalue="PHPUnit.tests" />
-      <item itemvalue="PHPUnit.creerDefisTest.dateTime_foire_test_exception_1" />
-      <item itemvalue="PHPUnit.creerDefisTest" />
+      <item itemvalue="PHPUnit.cinqDernierMatchesPourEquipesTest" />
+      <item itemvalue="PHPUnit.cinqDernierMatchesTest" />
+      <item itemvalue="PHPUnit.totalCasTest.compte_les_cas_total_par_match" />
+      <item itemvalue="PHPUnit.totalCasTest.il_n_y_a_pas_de_donnees" />
+      <item itemvalue="PHPUnit.totalCasTest" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="PHPUnit.tests" />
-        <item itemvalue="PHPUnit.creerDefisTest" />
-        <item itemvalue="PHPUnit.creerDefisTest.dateTime_foire_test_exception_1" />
-        <item itemvalue="PHPUnit.toutesLesActionsDeLequipeDansUnMatchTest" />
-        <item itemvalue="PHPUnit.toutesLesActionsDeLequipeDansUnMatchTest.le_joueur_n_est_pas_retourne_s_il_n_a_rien_fait" />
+        <item itemvalue="PHPUnit.totalCasTest" />
+        <item itemvalue="PHPUnit.totalCasTest.il_n_y_a_pas_de_donnees" />
+        <item itemvalue="PHPUnit.totalCasTest.compte_les_cas_total_par_match" />
+        <item itemvalue="PHPUnit.cinqDernierMatchesTest" />
+        <item itemvalue="PHPUnit.cinqDernierMatchesPourEquipesTest" />
       </list>
     </recent_temporary>
   </component>
@@ -637,55 +613,8 @@
       <workItem from="1557329543776" duration="122000" />
       <workItem from="1557329686342" duration="3638000" />
       <workItem from="1560934745624" duration="89619000" />
-    </task>
-    <task id="LOCAL-00077" summary="Ajout gestion team, joueurs et comp et corrections">
-      <created>1551615127870</created>
-      <option name="number" value="00077" />
-      <option name="presentableId" value="LOCAL-00077" />
-      <option name="project" value="LOCAL" />
-      <updated>1551615127870</updated>
-    </task>
-    <task id="LOCAL-00078" summary="commit v0.34">
-      <created>1551852546651</created>
-      <option name="number" value="00078" />
-      <option name="presentableId" value="LOCAL-00078" />
-      <option name="project" value="LOCAL" />
-      <updated>1551852546651</updated>
-    </task>
-    <task id="LOCAL-00079" summary="Maj Symfony v4.3.4">
-      <created>1551853945775</created>
-      <option name="number" value="00079" />
-      <option name="presentableId" value="LOCAL-00079" />
-      <option name="project" value="LOCAL" />
-      <updated>1551853945775</updated>
-    </task>
-    <task id="LOCAL-00080" summary="Ajout admin Matchdata">
-      <created>1551904908131</created>
-      <option name="number" value="00080" />
-      <option name="presentableId" value="LOCAL-00080" />
-      <option name="project" value="LOCAL" />
-      <updated>1551904908132</updated>
-    </task>
-    <task id="LOCAL-00081" summary="corrections style">
-      <created>1551961807691</created>
-      <option name="number" value="00081" />
-      <option name="presentableId" value="LOCAL-00081" />
-      <option name="project" value="LOCAL" />
-      <updated>1551961807691</updated>
-    </task>
-    <task id="LOCAL-00082" summary="Refacto dyk et citations">
-      <created>1551963355335</created>
-      <option name="number" value="00082" />
-      <option name="presentableId" value="LOCAL-00082" />
-      <option name="project" value="LOCAL" />
-      <updated>1551963355335</updated>
-    </task>
-    <task id="LOCAL-00083" summary="Refacto classGen">
-      <created>1552007757879</created>
-      <option name="number" value="00083" />
-      <option name="presentableId" value="LOCAL-00083" />
-      <option name="project" value="LOCAL" />
-      <updated>1552007757879</updated>
+      <workItem from="1566892950186" duration="9747000" />
+      <workItem from="1568197707863" duration="58995000" />
     </task>
     <task id="LOCAL-00084" summary="Fin refacto clss gen">
       <created>1552490926495</created>
@@ -981,43 +910,92 @@
       <option name="project" value="LOCAL" />
       <updated>1562185317236</updated>
     </task>
-    <option name="localTasksCounter" value="126" />
+    <task id="LOCAL-00126" summary="Corrections pour mep">
+      <created>1566935336974</created>
+      <option name="number" value="00126" />
+      <option name="presentableId" value="LOCAL-00126" />
+      <option name="project" value="LOCAL" />
+      <updated>1566935336975</updated>
+    </task>
+    <task id="LOCAL-00127" summary="Corrections pour reprise">
+      <created>1568151814102</created>
+      <option name="number" value="00127" />
+      <option name="presentableId" value="LOCAL-00127" />
+      <option name="project" value="LOCAL" />
+      <updated>1568151814102</updated>
+    </task>
+    <task id="LOCAL-00128" summary="Composer update">
+      <created>1568201528899</created>
+      <option name="number" value="00128" />
+      <option name="presentableId" value="LOCAL-00128" />
+      <option name="project" value="LOCAL" />
+      <updated>1568201528900</updated>
+    </task>
+    <task id="LOCAL-00129" summary="Correction bug année 3, ajout sur IHM d'entrée de match le popup de chargement, modif du message flash pour liens vers le match">
+      <created>1568727452100</created>
+      <option name="number" value="00129" />
+      <option name="presentableId" value="LOCAL-00129" />
+      <option name="project" value="LOCAL" />
+      <updated>1568727452100</updated>
+    </task>
+    <task id="LOCAL-00130" summary="Correction matchviewer : tv de l'équipe au moment du match affichée.">
+      <created>1568730082550</created>
+      <option name="number" value="00130" />
+      <option name="presentableId" value="LOCAL-00130" />
+      <option name="project" value="LOCAL" />
+      <updated>1568730082550</updated>
+    </task>
+    <task id="LOCAL-00131" summary="Ajout vu des anciennes teams">
+      <created>1568813922252</created>
+      <option name="number" value="00131" />
+      <option name="presentableId" value="LOCAL-00131" />
+      <option name="project" value="LOCAL" />
+      <updated>1568813922252</updated>
+    </task>
+    <task id="LOCAL-00132" summary="Correction bug retour nbr de cas">
+      <created>1569482084025</created>
+      <option name="number" value="00132" />
+      <option name="presentableId" value="LOCAL-00132" />
+      <option name="project" value="LOCAL" />
+      <updated>1569482084025</updated>
+    </task>
+    <option name="localTasksCounter" value="133" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="tests - 2019.06.26 at 15h 41m 43s.xml">
-      <configuration name="tests" configurationId="PHPUnitRunConfigurationType" />
+    <history-entry file="totalCasTest_compte_les_cas_total_par_match - 2019.09.21 at 01h 03m 44s.xml">
+      <configuration name="totalCasTest.compte_les_cas_total_par_match" configurationId="PHPUnitRunConfigurationType" />
     </history-entry>
-    <history-entry file="tests - 2019.06.26 at 15h 46m 53s.xml">
-      <configuration name="tests" configurationId="PHPUnitRunConfigurationType" />
+    <history-entry file="totalCasTest_compte_les_cas_total_par_match - 2019.09.21 at 01h 07m 01s.xml">
+      <configuration name="totalCasTest.compte_les_cas_total_par_match" configurationId="PHPUnitRunConfigurationType" />
     </history-entry>
-    <history-entry file="tests - 2019.06.26 at 16h 57m 58s.xml">
-      <configuration name="tests" configurationId="PHPUnitRunConfigurationType" />
+    <history-entry file="totalCasTest_compte_les_cas_total_par_match - 2019.09.21 at 01h 12m 40s.xml">
+      <configuration name="totalCasTest.compte_les_cas_total_par_match" configurationId="PHPUnitRunConfigurationType" />
     </history-entry>
-    <history-entry file="tests - 2019.06.26 at 17h 04m 51s.xml">
-      <configuration name="tests" configurationId="PHPUnitRunConfigurationType" />
+    <history-entry file="totalCasTest_compte_les_cas_total_par_match - 2019.09.21 at 01h 13m 19s.xml">
+      <configuration name="totalCasTest.compte_les_cas_total_par_match" configurationId="PHPUnitRunConfigurationType" />
     </history-entry>
-    <history-entry file="tests - 2019.06.26 at 17h 05m 31s.xml">
-      <configuration name="tests" configurationId="PHPUnitRunConfigurationType" />
+    <history-entry file="totalCasTest_compte_les_cas_total_par_match - 2019.09.21 at 01h 19m 44s.xml">
+      <configuration name="totalCasTest.compte_les_cas_total_par_match" configurationId="PHPUnitRunConfigurationType" />
     </history-entry>
-    <history-entry file="creerDefisTest_dateTime_foire_test_exception_1 - 2019.06.26 at 22h 16m 30s.xml">
-      <configuration name="creerDefisTest.dateTime_foire_test_exception_1" configurationId="PHPUnitRunConfigurationType" />
+    <history-entry file="totalCasTest_compte_les_cas_total_par_match - 2019.09.21 at 01h 20m 25s.xml">
+      <configuration name="totalCasTest.compte_les_cas_total_par_match" configurationId="PHPUnitRunConfigurationType" />
     </history-entry>
-    <history-entry file="creerDefisTest - 2019.06.26 at 22h 16m 45s.xml">
-      <configuration name="creerDefisTest" configurationId="PHPUnitRunConfigurationType" />
+    <history-entry file="totalCasTest_compte_les_cas_total_par_match - 2019.09.21 at 01h 20m 46s.xml">
+      <configuration name="totalCasTest.compte_les_cas_total_par_match" configurationId="PHPUnitRunConfigurationType" />
     </history-entry>
-    <history-entry file="creerDefisTest - 2019.06.26 at 22h 17m 58s.xml">
-      <configuration name="creerDefisTest" configurationId="PHPUnitRunConfigurationType" />
+    <history-entry file="totalCasTest_il_n_y_a_pas_de_donnees - 2019.09.21 at 01h 23m 19s.xml">
+      <configuration name="totalCasTest.il_n_y_a_pas_de_donnees" configurationId="PHPUnitRunConfigurationType" />
     </history-entry>
-    <history-entry file="tests - 2019.06.26 at 22h 19m 18s.xml">
-      <configuration name="tests" configurationId="PHPUnitRunConfigurationType" />
+    <history-entry file="totalCasTest_il_n_y_a_pas_de_donnees - 2019.09.21 at 01h 24m 39s.xml">
+      <configuration name="totalCasTest.il_n_y_a_pas_de_donnees" configurationId="PHPUnitRunConfigurationType" />
     </history-entry>
-    <history-entry file="tests - 2019.06.26 at 22h 29m 34s.xml">
-      <configuration name="tests" configurationId="PHPUnitRunConfigurationType" />
+    <history-entry file="totalCasTest - 2019.09.21 at 01h 24m 46s.xml">
+      <configuration name="totalCasTest" configurationId="PHPUnitRunConfigurationType" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="923550000" />
+    <option name="totallyTimeSpent" value="999051000" />
   </component>
   <component name="TodoView" selected-index="3">
     <todo-panel id="selected-file">
@@ -1029,59 +1007,72 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1696" height="1066" extended-state="6" />
+    <frame x="1672" y="-8" width="1382" height="754" extended-state="6" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32976446" />
       <window_info anchor="bottom" id="Messages" order="14" sideWeight="0.4987775" weight="0.3436831" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.502445" side_tool="true" weight="0.3672377" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5030257" side_tool="true" weight="0.3697749" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="12" sideWeight="0.49755502" weight="0.4197002" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49755502" weight="0.36402568" />
-      <window_info anchor="right" id="Coverage" order="4" sideWeight="0.4040404" side_tool="true" weight="0.28239608" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.49755502" visible="true" weight="0.5620985" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.48364487" visible="true" weight="0.2720049" />
+      <window_info anchor="bottom" id="Version Control" order="12" sideWeight="0.49755502" weight="0.41924778" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49755502" weight="0.36172566" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.4969743" visible="true" weight="0.36495176" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4817987" visible="true" weight="0.21860817" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
-      <window_info anchor="right" id="Database" order="3" sideWeight="0.5959596" weight="0.21638142" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.46680942" />
-      <window_info id="Structure" order="1" sideWeight="0.51635516" side_tool="true" weight="0.2720049" />
+      <window_info anchor="right" id="Database" order="3" sideWeight="0.5959596" weight="0.18759455" />
+      <window_info id="Structure" order="1" sideWeight="0.5182013" side_tool="true" weight="0.2787286" />
       <window_info id="Favorites" order="2" side_tool="true" weight="0.3294621" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49755502" weight="0.506424" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49755502" weight="0.3971239" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Inspection" order="7" weight="0.4" />
-      <window_info anchor="bottom" id="Inspection Results" order="13" weight="0.5417559" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4817987" visible="true" weight="0.17237164" />
+      <window_info id="Structure" order="1" sideWeight="0.5182013" side_tool="true" weight="0.2787286" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32976446" />
+      <window_info anchor="bottom" id="Version Control" order="12" sideWeight="0.49755502" weight="0.4197002" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49755502" visible="true" weight="0.36172566" />
+      <window_info anchor="bottom" id="Inspection Results" order="13" weight="0.5417559" />
+      <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info active="true" anchor="bottom" id="Command Line Tools Console" order="0" weight="0.3291536" />
       <window_info anchor="right" x="0" y="0" width="374" height="866" id="Documentation" order="4" side_tool="true" weight="0.3294621" />
+      <window_info anchor="right" id="Database" order="3" sideWeight="0.5959596" weight="0.15158924" />
+      <window_info anchor="bottom" id="Messages" order="14" sideWeight="0.4987775" weight="0.3436831" />
       <window_info anchor="bottom" id="Message" order="4" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.502445" side_tool="true" weight="0.3672377" />
       <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
-      <window_info anchor="bottom" id="Database Console" order="13" weight="0.4025696" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49755502" weight="0.3971239" />
+      <window_info anchor="bottom" id="Database Console" order="12" weight="0.4057816" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.46570796" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49755502" weight="0.5652655" />
+      <window_info anchor="right" id="Coverage" order="4" sideWeight="0.4040404" side_tool="true" weight="0.28239608" />
+      <window_info id="Favorites" order="2" side_tool="true" weight="0.3294621" />
     </layout>
     <layout-to-restore>
-      <window_info anchor="bottom" id="Database Console" order="13" weight="0.4025696" />
+      <window_info anchor="bottom" id="Version Control" order="13" sideWeight="0.49755502" weight="0.4197002" />
+      <window_info active="true" anchor="bottom" id="Database Console" order="12" visible="true" weight="0.4057816" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49755502" visible="true" weight="0.3672377" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49755502" weight="0.36402568" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.48364487" visible="true" weight="0.2720049" />
+      <window_info id="Structure" order="1" sideWeight="0.51635516" side_tool="true" weight="0.2720049" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.48878923" visible="true" weight="0.150978" />
-      <window_info id="Structure" order="1" sideWeight="0.51121074" side_tool="true" weight="0.21638142" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32976446" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32976446" />
       <window_info anchor="bottom" id="Inspection Results" order="14" weight="0.5417559" />
-      <window_info anchor="bottom" id="Message" order="4" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.46680942" />
       <window_info active="true" anchor="bottom" id="Command Line Tools Console" order="0" weight="0.3291536" />
       <window_info anchor="right" x="0" y="0" width="374" height="866" id="Documentation" order="4" side_tool="true" weight="0.3294621" />
-      <window_info anchor="right" id="Database" order="3" weight="0.21332519" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49755502" weight="0.46038544" />
+      <window_info anchor="right" id="Database" order="3" sideWeight="0.5959596" weight="0.21638142" />
+      <window_info anchor="bottom" id="Messages" order="15" sideWeight="0.4987775" weight="0.3436831" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.49755502" visible="true" weight="0.5620985" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.502445" side_tool="true" weight="0.3672377" />
       <window_info anchor="bottom" id="Inspection" order="7" weight="0.4" />
-      <window_info anchor="bottom" id="Version Control" order="12" sideWeight="0.49755502" weight="0.4197002" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49755502" weight="0.5074946" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="bottom" id="Messages" order="15" sideWeight="0.4987775" weight="0.3436831" />
-      <window_info anchor="right" id="Coverage" order="5" side_tool="true" weight="0.3294621" />
+      <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="4" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49755502" weight="0.506424" />
+      <window_info anchor="right" id="Coverage" order="5" sideWeight="0.4040404" side_tool="true" weight="0.28239608" />
       <window_info id="Favorites" order="2" side_tool="true" weight="0.3294621" />
     </layout-to-restore>
   </component>
@@ -1132,12 +1123,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="SHOW_UNVERSIONED_FILES_WHILE_COMMIT" value="false" />
-    <MESSAGE value="Correction Form ajout match" />
-    <MESSAGE value="refacto ajout de matchs" />
-    <MESSAGE value="correction refacto ajout de matchs" />
-    <MESSAGE value="Ajout cimetierre" />
-    <MESSAGE value="Ajout classement ELO" />
-    <MESSAGE value="Ajout création de prime" />
     <MESSAGE value="finalisation primes" />
     <MESSAGE value="Ajout TU" />
     <MESSAGE value="Ajout TU + refacto" />
@@ -1157,7 +1142,13 @@
     <MESSAGE value="WIP defis" />
     <MESSAGE value="mise en place coverage et infection" />
     <MESSAGE value="Corrections pour mep" />
-    <option name="LAST_COMMIT_MESSAGE" value="Corrections pour mep" />
+    <MESSAGE value="Corrections pour reprise" />
+    <MESSAGE value="Composer update" />
+    <MESSAGE value="Correction bug année 3, ajout sur IHM d'entrée de match le popup de chargement, modif du message flash pour liens vers le match" />
+    <MESSAGE value="Correction matchviewer : tv de l'équipe au moment du match affichée." />
+    <MESSAGE value="Ajout vu des anciennes teams" />
+    <MESSAGE value="Correction bug retour nbr de cas" />
+    <option name="LAST_COMMIT_MESSAGE" value="Correction bug retour nbr de cas" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1168,344 +1159,368 @@
           <option name="timeStamp" value="75" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="178" />
+      <option name="time" value="197" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tests/src/Service/PlayerService/renvoisOuSuppressionJoueurTest.php">
+    <entry file="file://$PROJECT_DIR$/tests/src/Service/PlayerService/coutTotalJoueursTest.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="940">
-          <caret line="95" selection-start-line="95" selection-end-line="95" />
-          <folding>
-            <element signature="e#56#87#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/src/Service/PlayerService/listenivSpeciauxEtSurcoutTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="7" column="19" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/src/Service/PlayerService/listeDesCompEtSurcoutGagnedUnJoueurTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="141">
-          <caret line="23" selection-start-line="23" selection-end-line="24" selection-end-column="67" />
-          <folding>
-            <element signature="e#55#85#0#PHP" expanded="true" />
-          </folding>
+        <state relative-caret-position="221">
+          <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/src/Service/PlayerService/listeDesCompdDeBasedUnJoueurTest.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="36" column="61" lean-forward="true" selection-start-line="36" selection-start-column="61" selection-end-line="36" selection-end-column="61" />
+        <state relative-caret-position="261">
+          <caret line="46" column="65" selection-start-line="46" selection-start-column="65" selection-end-line="46" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Repository/TeamRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="671">
+          <caret line="119" column="52" selection-start-line="119" selection-start-column="20" selection-end-line="119" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/UtilisateurController.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webpack.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="38" selection-start-line="15" selection-start-column="38" selection-end-line="15" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/statbb/showteams.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="22" lean-forward="true" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/statbb/user_teams.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="22" column="40" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Service/StadeService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-246" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Service/CitationService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="31" column="57" lean-forward="true" selection-start-line="31" selection-start-column="57" selection-end-line="31" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Service/ParamEnum.php" />
+    <entry file="file://$PROJECT_DIR$/src/Service/PlayerService.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Service/SettingsService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1632">
+          <caret line="96" column="21" selection-start-line="96" selection-start-column="21" selection-end-line="96" selection-end-column="21" />
           <folding>
-            <element signature="e#55#86#0#PHP" expanded="true" />
+            <element signature="e#31#56#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/src/Service/PlayerService/coutTotalJoueursTest.php">
+    <entry file="file://$PROJECT_DIR$/src/Enum/AnneeEnum.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
-          <caret line="48" selection-start-line="48" selection-end-line="59" selection-end-column="11" />
-          <folding>
-            <element signature="e#56#87#0#PHP" expanded="true" />
-          </folding>
+          <caret line="20" column="1" selection-start-line="20" selection-start-column="1" selection-end-line="20" selection-end-column="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/src/Service/PlayerService/actionsDuJoueurTest.php">
+    <entry file="file://$PROJECT_DIR$/assets/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="33" column="57" selection-start-line="33" selection-start-column="57" selection-end-line="33" selection-end-column="57" />
+        <state relative-caret-position="406">
+          <caret line="619" column="25" selection-start-line="619" selection-start-column="25" selection-end-line="619" selection-end-column="25" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/src/Service/PlayerService/numeroLibreDelEquipeTest.php">
+    <entry file="file://$PROJECT_DIR$/templates/statbb/anciennesEquipes.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="158">
-          <caret line="34" column="24" lean-forward="true" selection-start-line="34" selection-start-column="24" selection-end-line="34" selection-end-column="24" />
-          <folding>
-            <element signature="e#55#78#0#PHP" expanded="true" />
-          </folding>
+        <state relative-caret-position="17">
+          <caret line="1" column="23" selection-start-line="1" selection-start-column="23" selection-end-line="1" selection-end-column="38" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/src/Service/PlayerService/statutDuJoueurTest.php">
+    <entry file="file://$PROJECT_DIR$/templates/statbb/classementELO.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
+        <state relative-caret-position="17">
+          <caret line="1" column="38" selection-start-line="1" selection-start-column="38" selection-end-line="1" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/statbb/cimetiere.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="40" selection-start-line="7" selection-start-column="40" selection-end-line="7" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Service/CoachService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" selection-start-line="9" selection-end-line="14" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Service/MatchesService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="680">
+          <caret line="47" selection-start-line="47" selection-end-line="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/statbb/lastfivesmatches.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="16" lean-forward="true" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/src/Service/PlayerService/actionDuJoueurDansUnMatchTest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="36" column="12" selection-start-line="36" selection-start-column="12" selection-end-line="36" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://3bf97b1d-8ae8-428e-a685-41636d366b25/schema/bb_symf/table/setting">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/src/Service/EquipeService/listeDesAnciennesEquipesTest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
           <caret line="17" column="5" lean-forward="true" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/src/Service/EquipeService/createTeamTest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="16" column="38" lean-forward="true" selection-start-line="16" selection-start-column="38" selection-end-line="16" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/src/Service/ClassementService/sousClassementsTest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7072">
+          <caret line="443" column="25" selection-start-line="443" selection-start-column="25" selection-end-line="443" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/src/Service/ClassementService/cinqDernierMatchesPourEquipesTest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="787">
+          <caret line="96" column="29" selection-start-line="96" selection-start-column="29" selection-end-line="96" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Matches.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="193" column="34" selection-start-line="193" selection-start-column="20" selection-end-line="193" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/statbb/classement.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-119">
+          <caret line="11" column="22" lean-forward="true" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/statbb/front.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="736">
+          <caret line="57" column="137" selection-start-line="57" selection-start-column="125" selection-end-line="57" selection-end-column="137" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/statbb/Stclassement.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="34" lean-forward="true" selection-start-line="11" selection-start-column="34" selection-end-line="11" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/doctrine/orm/lib/Doctrine/ORM/EntityRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="183">
+          <caret line="262" column="23" selection-start-line="262" selection-start-column="23" selection-end-line="262" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/statbb/team.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="651">
+          <caret line="269" selection-start-line="269" selection-end-line="269" />
           <folding>
-            <element signature="e#55#78#0#PHP" expanded="true" />
+            <element signature="e#12#33#0#Twig" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.php">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/src/Repository/MatchesRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-641">
+          <caret line="17" column="40" selection-start-line="17" selection-start-column="20" selection-end-line="17" selection-end-column="40" />
+        </state>
+      </provider>
     </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/3bf97b1d-8ae8-428e-a685-41636d366b25/console.sql">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Coaches.php">
+    <entry file="file://$PROJECT_DIR$/tests/src/Service/ClassementService/cinqDernierMatchesTest.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
-          <caret line="116" column="14" lean-forward="true" selection-start-line="116" selection-start-column="14" selection-end-line="116" selection-end-column="14" />
+          <caret line="32" selection-start-line="32" selection-end-line="35" selection-end-column="67" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.env">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/src/Service/DefisService/verificationDefisTest.php">
+    <entry file="file://$PROJECT_DIR$/tests/src/Service/ClassementService/totalCasTest.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="34" selection-start-line="34" selection-end-line="37" selection-end-column="81" />
+        <state>
+          <caret column="5" lean-forward="true" selection-start-column="5" selection-end-column="5" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/src/Service/PlayerService/statsDuJoueurTest.php">
+    <entry file="file://$PROJECT_DIR$/templates/statbb/user.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="430">
-          <caret line="63" column="8" selection-start-line="63" selection-start-column="8" selection-end-line="63" selection-end-column="53" />
+        <state relative-caret-position="34">
+          <caret line="2" column="16" selection-start-line="2" selection-start-column="16" selection-end-line="2" selection-end-column="16" />
           <folding>
-            <element signature="e#55#86#0#PHP" expanded="true" />
+            <element signature="e#12#33#0#Twig" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Repository/MatchDataRepository.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="143" column="41" selection-start-line="143" selection-start-column="41" selection-end-line="143" selection-end-column="41" />
+        <state relative-caret-position="61">
+          <caret line="145" column="9" selection-start-line="145" selection-start-column="9" selection-end-line="145" selection-end-column="9" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Service/PlayerService.php">
+    <entry file="file://$PROJECT_DIR$/composer.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-16">
-          <caret line="617" column="20" selection-start-line="617" selection-start-column="20" selection-end-line="617" selection-end-column="20" />
+        <state relative-caret-position="51">
+          <caret line="60" column="35" lean-forward="true" selection-start-line="60" selection-start-column="35" selection-end-line="60" selection-end-column="35" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/src/Service/PlayerService/toutesLesCompsdunJoueurTest.php">
+    <entry file="file://$PROJECT_DIR$/src/Admin/CoachAdmin.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-408" />
+        <state relative-caret-position="-136">
+          <caret line="35" lean-forward="true" selection-start-line="35" selection-end-line="35" />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/src/Service/PlayerService/toutesLesActionsDeLequipeDansUnMatchTest.php">
+    <entry file="file://$PROJECT_DIR$/src/Controller/ClassementController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="23" column="17" selection-start-line="23" selection-start-column="17" selection-end-line="23" selection-end-column="17" />
+        <state relative-caret-position="68">
+          <caret line="91" column="29" selection-start-line="91" selection-start-column="29" selection-end-line="91" selection-end-column="29" />
           <folding>
-            <element signature="e#55#86#0#PHP" expanded="true" />
+            <element signature="e#34#57#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/src/Service/PlayerService/ajoutJoueurTest.php">
+    <entry file="file://$PROJECT_DIR$/src/Entity/Coaches.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="440">
+          <caret line="32" selection-start-line="32" selection-end-line="32" />
+          <folding>
+            <element signature="e#30#62#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/phpstan/phpstan-doctrine/extension.neon">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
-          <caret line="53" column="60" selection-start-line="53" selection-start-column="60" selection-end-line="53" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://3bf97b1d-8ae8-428e-a685-41636d366b25/schema/bb_symf/table/migration_versions">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Defis.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="92" column="20" selection-start-line="92" selection-start-column="20" selection-end-line="92" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://3bf97b1d-8ae8-428e-a685-41636d366b25/schema/bb_symf/table/players_skills">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://3bf97b1d-8ae8-428e-a685-41636d366b25/schema/bb_symf/table/stades">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/infection.log">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="62" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://3bf97b1d-8ae8-428e-a685-41636d366b25/schema/bb_symf/table/matches">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://3bf97b1d-8ae8-428e-a685-41636d366b25/schema/bb_symf/table/players">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://3bf97b1d-8ae8-428e-a685-41636d366b25/schema/bb_symf/table/match_data">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Service/CitationService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-128" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/src/Service/CitationService/enregistrerCitationTest.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/infection.json.dist">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="21" lean-forward="true" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Service/CoachService.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="das://3bf97b1d-8ae8-428e-a685-41636d366b25/schema/bb_symf/table/defis">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://3bf97b1d-8ae8-428e-a685-41636d366b25/schema/bb_symf/table/teams">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/src/Service/DefisService/creerDefisTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="838">
-          <caret line="64" column="40" selection-start-line="64" selection-start-column="40" selection-end-line="64" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/src/Service/EquipeService/AjoutInducementTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-255" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Service/MatchDataService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="48" column="21" selection-start-line="48" selection-start-column="21" selection-end-line="48" selection-end-column="21" />
+          <caret line="2" column="29" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="29" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Service/DefisService.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-51" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/phpcbf.log">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-456" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Repository/DefisRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="40" column="5" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Admin/DefisAdmin.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1">
-          <caret line="77" column="34" lean-forward="true" selection-start-line="77" selection-start-column="34" selection-end-line="77" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/js/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="29">
-          <caret line="579" selection-start-line="579" selection-end-line="579" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/.htaccess">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/var/log/test.log">
-      <provider selected="true" editor-type-id="LargeFileEditor">
-        <state relative-caret-position="-14916" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/var/log/dev.log">
-      <provider selected="true" editor-type-id="LargeFileEditor">
-        <state relative-caret-position="-29000" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/composer.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="19" column="35" selection-start-line="19" selection-start-column="35" selection-end-line="19" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Service/EquipeService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="14" column="6" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/EquipeController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="42" column="37" selection-start-line="42" selection-start-column="37" selection-end-line="42" selection-end-column="37" />
+        <state relative-caret-position="238">
+          <caret line="59" column="21" lean-forward="true" selection-start-line="59" selection-start-column="21" selection-end-line="59" selection-end-column="21" />
+          <folding>
+            <element signature="e#31#54#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/DefisController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        <state relative-caret-position="-510" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/EquipeController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="185">
+          <caret line="226" column="78" selection-start-line="226" selection-start-column="78" selection-end-line="226" selection-end-column="78" />
           <folding>
-            <element signature="e#35#56#0#PHP" expanded="true" />
+            <element signature="e#34#57#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/StatBBController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="47" column="5" lean-forward="true" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
+          <folding>
+            <element signature="e#34#57#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Service/ClassementService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="118">
+          <caret line="73" column="17" lean-forward="true" selection-start-line="73" selection-start-column="17" selection-end-line="73" selection-end-column="17" />
+          <folding>
+            <element signature="e#32#57#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/phpstan.log">
-      <provider selected="true" editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+        </state>
+      </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/webpack.config.js">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/phpstan.neon">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="20" selection-start-line="20" selection-end-line="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Service/EquipeService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="64">
+          <caret line="442" column="29" lean-forward="true" selection-start-line="442" selection-start-column="29" selection-end-line="442" selection-end-column="29" />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/phpcs.log">
       <provider selected="true" editor-type-id="text-editor" />

@@ -53,7 +53,7 @@ class MatchesService
 
         $this->equipeService->eloDesEquipes($this->settingService->anneeCourante());
 
-        return ['enregistrement' => true, 'defis' => $this->defisService->verificationDefis($match)];
+        return ['enregistrement' => $match->getMatchId(), 'defis' => $this->defisService->verificationDefis($match)];
     }
 
     public function creationEnteteMatch($donneesMatch)

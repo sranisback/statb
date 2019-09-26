@@ -581,9 +581,6 @@ $(document).ready(function () {
 
     Routing.setRoutingData(routes);
 
-    /**
-     * table classement général
-     */
     $('#classgen').DataTable({
         "lengthChange": false,
         "pageLength": 20,
@@ -591,9 +588,6 @@ $(document).ready(function () {
 
     });
 
-    /*
-     * table cimetierre
-     */
     $('#TableCimetierre').DataTable({
         "lengthChange": false,
         "pageLength": 20,
@@ -601,9 +595,6 @@ $(document).ready(function () {
         "order": [[ 3, "desc" ]]
     });
 
-    /*
-     * table ELO
-     */
     $('#TableElo').DataTable({
         "lengthChange": false,
         "pageLength": 20,
@@ -611,22 +602,23 @@ $(document).ready(function () {
         "order": [[ 4, "desc" ]]
     });
 
-    /*
-     * table Primes
-     */
     $('#TablePrimes').DataTable({
         "lengthChange": false,
         "pageLength": 20,
         "info": false
     });
 
-    /*
-     * table Defis
-     */
     $('#TableDefis').DataTable({
         "lengthChange": false,
         "pageLength": 20,
         "info": false
+    });
+
+    $('#TableAnciennesEquipes').DataTable({
+        "lengthChange": false,
+        "pageLength": 20,
+        "info": false,
+        "order": [[ 7, "asc" ],[0,"asc"]]
     });
 
     /*

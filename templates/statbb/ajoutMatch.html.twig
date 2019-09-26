@@ -123,6 +123,12 @@
             </div>
         </div>
     </div>
-    <button id="recMatch" type="button" class="btn btn-default">Valider</button>
+    <button id="recMatch" type="button" class="btn btn-default"  data-toggle="modal" data-target="#exampleModal">Valider</button>
 </form>
 
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-body">
+                    <img src="{{ asset('build/images/big-loader.gif') }}"
+                         class="img-responsive center-block" />
+            </div>
+</div>
