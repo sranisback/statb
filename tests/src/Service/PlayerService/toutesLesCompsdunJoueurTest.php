@@ -7,64 +7,69 @@ use App\Entity\GameDataPlayers;
 use App\Entity\GameDataSkills;
 use App\Entity\Players;
 use App\Entity\PlayersSkills;
+use App\Service\EquipeService;
+use App\Service\MatchDataService;
+use App\Service\PlayerService;
+use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class toutesLesCompsdunJoueurTest extends KernelTestCase
 {
-    private $entityManager;
-
-    protected function setUp()
-    {
-        self::bootKernel();
-        $container = self::$container;
-
-        $this->entityManager = $container
-            ->get('doctrine')
-            ->getManager();
-
-        $joueur = new Players;
-
-        $joueur->setFPos($this->entityManager->getRepository(GameDataPlayers::class)->findOneBy(['posId' => 34]));
-        $joueur->setName('joueur test');
-        $joueur->setType(1);
-
-        $dataSkill = $this->entityManager->getRepository(GameDataSkills::class)->findOneBy(['skillId'=>1]);
-
-        $compSupp = new PlayersSkills;
-
-        $compSupp->setFPid($joueur);
-        $compSupp->setType('N');
-        $compSupp->setFSkill($dataSkill);
-
-
-        $this->entityManager->persist($joueur);
-        $this->entityManager->persist($compSupp);
-
-        $this->entityManager->flush();
-    }
 
     /**
      * @test
      */
     public function toutes_les_comps_sont_retournees()
     {
-        $playerService = self::$container->get('App\Service\PlayerService');
+        $gameDataSkillTest0 = new GameDataSkills();
+        $gameDataSkillTest0->setName('Test');
 
-        $joueur = $this->entityManager->getRepository(Players::class)->findOneBy(['name' => 'joueur test']);
+        $gameDataSkillTest1 = new GameDataSkills();
+        $gameDataSkillTest1->setName('Test');
 
-        $retour = '<text class="test-primary">Frenzy</text>, <text class="test-primary">Dodge</text>, <text class="test-primary">Jump Up</text>, <text class="text-success">Block</text>, ';
+        $positionTest = new GameDataPlayers();
+        $positionTest->setSkills('1');
 
-        $this->assertEquals($playerService->toutesLesCompsdUnJoueur($joueur),$retour);
+        $joueurTest = new Players();
+        $joueurTest->setType(1);
+        $joueurTest->setFPos($positionTest);
+
+        $playersSkillsTest = new PlayersSkills();
+        $playersSkillsTest->setFSkill($gameDataSkillTest0);
+
+        $playersSkillsRepoMock = $this->createMock(ObjectRepository::class);
+        $playersSkillsRepoMock->method('findBy')->willReturnOnConsecutiveCalls([$playersSkillsTest]);
+
+        $gameDataSkillRepoMock = $this->createMock(ObjectRepository::class);
+        $gameDataSkillRepoMock->method('findOneBy')->willReturn($gameDataSkillTest1);
+
+        $objectManager = $this->createMock(EntityManagerInterface::class);
+        $objectManager->method('getRepository')->will($this->returnCallback(
+            function ($entityName) use ($playersSkillsRepoMock, $gameDataSkillRepoMock) {
+                if ($entityName === 'App\Entity\GameDataSkills') {
+                    return $gameDataSkillRepoMock;
+                }
+
+                if ($entityName === 'App\Entity\PlayersSkills') {
+                    return $playersSkillsRepoMock;
+                }
+
+                return true;
+            }
+        ));
+
+        $playerService = new PlayerService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class)
+        );
+
+
+
+        $retourAttendu = '<text class="test-primary">Test</text>, <text class="text-danger">Test</text>, ';
+
+        $this->assertEquals($retourAttendu, $playerService->toutesLesCompsdUnJoueur($joueurTest));
     }
 
-    protected function tearDown()
-    {
-        $joueur = $this->entityManager->getRepository(Players::class)->findOneBy(['name' => 'joueur test']);
-
-        $this->entityManager->remove($this->entityManager->getRepository(PlayersSkills::class)->findOneBy(['fPid' => $joueur]));
-
-        $this->entityManager->remove($joueur);
-
-        $this->entityManager->flush();
-    }
 }
