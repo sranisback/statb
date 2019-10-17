@@ -2,7 +2,6 @@
 
 namespace App\Factory;
 
-
 use App\Entity\Coaches;
 use App\Entity\Races;
 use App\Entity\Stades;

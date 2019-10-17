@@ -128,7 +128,10 @@ class EquipeController extends AbstractController
             $countEquipe++;
         }
 
-        return $this->render('statbb/tabs/coach/user_teams.html.twig', ['coachteam' => $equipesCollection, 'tdata' => $tdata]);
+        return $this->render(
+            'statbb/tabs/coach/user_teams.html.twig',
+            ['coachteam' => $equipesCollection, 'tdata' => $tdata]
+        );
     }
 
     /**
@@ -321,9 +324,13 @@ class EquipeController extends AbstractController
 
         $team = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
 
-        $equipeService->checkEquipe($team, $playerService);
+        if (!empty($team)) {
+            $equipeService->checkEquipe($team, $playerService);
 
-        return $this->redirectToRoute('team', ['teamid' => $team->getTeamId(), 'type' => 'n'], 302);
+            return $this->redirectToRoute('team', ['teamid' => $team->getTeamId(), 'type' => 'n'], 302);
+        }
+
+        return $this->redirectToRoute('/');
     }
 
     /**

@@ -58,7 +58,7 @@ class PlayersRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param $equipe
+     * @param Teams $equipe
      * @return mixed
      */
     public function listeDesJournaliersDeLequipe(Teams $equipe)

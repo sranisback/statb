@@ -153,10 +153,10 @@ class MatchController extends AbstractController
 
     /**
      * @Route("/anciensMatchs/{coachActif}", name ="anciensMatchs" )
-     * @param $coachActif
+     * @param int $coachActif
      * @return Response
      */
-    public function matchsDunCoach(MatchesService $matchesService, $coachActif)
+    public function matchsDunCoach(MatchesService $matchesService, int $coachActif)
     {
         return $this->render(
             'statbb/tabs/coach/anciensMatchs.html.twig',

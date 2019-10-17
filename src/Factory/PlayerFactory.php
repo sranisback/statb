@@ -2,7 +2,6 @@
 
 namespace App\Factory;
 
-
 use App\Entity\GameDataPlayers;
 use App\Entity\Players;
 use App\Entity\Teams;
@@ -21,19 +20,30 @@ class PlayerFactory
     {
         $dateBoughtFormat = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
 
+        $coach = $equipe->getOwnedByCoach();
+        $race = $position->getFRace();
+        $cost = $position->getCost();
+
         $joueur = new Players();
 
-        $joueur->setNr($numero);
-        $joueur->setFCid($equipe->getOwnedByCoach());
-        $joueur->setFRid($position->getFRace());
+        if (!empty($coach)) {
+            $joueur->setFCid($coach);
+        }
+        if (!empty($race)) {
+            $joueur->setFRid($race);
+        }
 
         if ($dateBoughtFormat) {
             $joueur->setDateBought($dateBoughtFormat);
         }
 
+        if (!empty($cost)) {
+            $joueur->setValue($cost);
+        }
+
         $joueur->setFPos($position);
         $joueur->setOwnedByTeam($equipe);
-        $joueur->setValue($position->getCost());
+        $joueur->setNr($numero);
         $joueur->setType($type);
         $joueur->setStatus(1);
 

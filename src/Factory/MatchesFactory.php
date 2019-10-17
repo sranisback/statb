@@ -2,7 +2,6 @@
 
 namespace App\Factory;
 
-
 use App\Entity\GameDataStadium;
 use App\Entity\Matches;
 use App\Entity\Meteo;
@@ -34,20 +33,22 @@ class MatchesFactory
 
         $match = new Matches();
 
-        $match->setFans($donnees['totalpop']);
-        $match->setFfactor1($donnees['varpop_team1']);
-        $match->setFfactor2($donnees['varpop_team2']);
-        $match->setIncome1($donnees['gain1']);
-        $match->setIncome2($donnees['gain2']);
-        $match->setTeam1Score($donnees['score1']);
-        $match->setTeam2Score($donnees['score2']);
-        $match->setTeam1($equipe1);
-        $match->setTeam2($equipe2);
-        $match->setTv1($tv1);
-        $match->setTv2($tv2);
-        $match->setFMeteo($meteo);
-        $match->setFStade($stade);
-        $match->setDateCreated($dateMatch);
+        if (!empty($dateMatch)) {
+            $match->setFans($donnees['totalpop']);
+            $match->setFfactor1($donnees['varpop_team1']);
+            $match->setFfactor2($donnees['varpop_team2']);
+            $match->setIncome1($donnees['gain1']);
+            $match->setIncome2($donnees['gain2']);
+            $match->setTeam1Score($donnees['score1']);
+            $match->setTeam2Score($donnees['score2']);
+            $match->setTeam1($equipe1);
+            $match->setTeam2($equipe2);
+            $match->setTv1($tv1);
+            $match->setTv2($tv2);
+            $match->setFMeteo($meteo);
+            $match->setFStade($stade);
+            $match->setDateCreated($dateMatch);
+        }
 
         return $match;
     }

@@ -18,9 +18,12 @@ class DefiFactory
         $dateDefis = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
 
         $defis = new Defis();
-        $defis->setDateDefi($dateDefis);
-        $defis->setEquipeDefiee($equipeDefiee);
-        $defis->setEquipeOrigine($equipeOrigine);
+
+        if (!empty($dateDefis)) {
+            $defis->setDateDefi($dateDefis);
+            $defis->setEquipeDefiee($equipeDefiee);
+            $defis->setEquipeOrigine($equipeOrigine);
+        }
 
         return $defis;
     }

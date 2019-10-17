@@ -493,7 +493,7 @@ class EquipeService
         );
 
         if ($nbrJoueurActifs > 11) {
-            $resultat['vendu'] = $this->suppressionDesJournaliers($nbrJoueurActifs - 11, $equipe, $playerService);
+            $resultat['vendu'] = $this->suppressionDesJournaliers($nbrJoueurActifs - 11, $equipe);
         } elseif ($nbrJoueurActifs < 11) {
             $resultat['ajout'] = $this->ajoutDesJournaliers(
                 11 - $nbrJoueurActifs,
@@ -506,18 +506,17 @@ class EquipeService
     }
 
     /**
-     * @param int $nbrDeJournalier
+     * @param int $nbrDeJournalierAvendre
      * @param Teams $equipe
-     * @param PlayerService $playerService
+     * @return int
      */
-    public function suppressionDesJournaliers(int $nbrDeJournalierAvendre, Teams $equipe, PlayerService $playerService)
+    public function suppressionDesJournaliers(int $nbrDeJournalierAvendre, Teams $equipe)
     {
         $nombreVendu = 0;
 
         foreach ($this->doctrineEntityManager->getRepository(
             Players::class
-        )->listeDesJournaliersDeLequipe($equipe)
-                 as $journalierAVendre) {
+        )->listeDesJournaliersDeLequipe($equipe) as $journalierAVendre) {
             if ($nombreVendu < $nbrDeJournalierAvendre) {
                 /** @var Players $journalierAVendre */
                 if ($journalierAVendre->getStatus() != 9) {

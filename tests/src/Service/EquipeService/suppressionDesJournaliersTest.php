@@ -40,8 +40,7 @@ class suppressionDesJournaliersTest extends KernelTestCase
             1,
             $equipeService->suppressionDesJournaliers(
                 1,
-                $this->createMock(Teams::class),
-                $this->createMock(PlayerService::class)
+                $this->createMock(Teams::class)
             )
         );
     }
@@ -76,8 +75,7 @@ class suppressionDesJournaliersTest extends KernelTestCase
             1,
             $equipeService->suppressionDesJournaliers(
                 1,
-                $this->createMock(Teams::class),
-                $this->createMock(PlayerService::class)
+                $this->createMock(Teams::class)
             )
         );
     }
@@ -116,8 +114,7 @@ class suppressionDesJournaliersTest extends KernelTestCase
             4,
             $equipeService->suppressionDesJournaliers(
                 4,
-                $this->createMock(Teams::class),
-                $this->createMock(PlayerService::class)
+                $this->createMock(Teams::class)
             )
         );
     }
@@ -158,8 +155,7 @@ class suppressionDesJournaliersTest extends KernelTestCase
             2,
             $equipeService->suppressionDesJournaliers(
                 4,
-                $this->createMock(Teams::class),
-                $this->createMock(PlayerService::class)
+                $this->createMock(Teams::class)
             )
         );
     }

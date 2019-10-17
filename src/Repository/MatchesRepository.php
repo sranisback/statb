@@ -32,7 +32,7 @@ class MatchesRepository extends ServiceEntityRepository
 
     /**
      * @param int $annee
-     * @param string $order
+     * @param string $ordre
      * @return mixed
      */
     public function tousLesMatchDuneAnneClassementChrono(int $annee, string $ordre = 'DESC')

@@ -559,7 +559,7 @@ class PlayerService
     }
     /**
      * @param Players $joueur
-     * @return int
+     * @return float|int
      */
     public function xpDuJoueur(Players $joueur)
     {

@@ -20,5 +20,6 @@ parameters:
 	    - '#.+object::setPasswd().+#'
 	    - '#.+UserPasswordEncoder::encodePassword().+#'
 	    - '#Argument of an invalid type .+ supplied for foreach.+#'
+	    - '#tousLesMatchDuneAnneClassementChrono.+#'
 	autoload_directories:
 		- %rootDir%/../../../src/Migrations

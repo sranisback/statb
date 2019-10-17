@@ -38,37 +38,43 @@ class MatchesService
     }
 
     /**
-     * @param $donnneesMatch
+     * @param array $donnneesMatch
      * @return array
      * @throws \Exception
      */
-    public function enregistrerMatch(Array $donnneesMatch)
+    public function enregistrerMatch(array $donnneesMatch)
     {
         $match = $this->creationEnteteMatch($donnneesMatch);
 
-        $this->playerService->remplirMatchDataDeLigneAzero($match->getTeam1(), $match);
-        $this->playerService->remplirMatchDataDeLigneAzero($match->getTeam2(), $match);
+        $team1 = $match->getTeam1();
+        $team2 = $match->getTeam2();
 
-        $this->modificationEquipes($match, $match->getTeam1(), $match->getTeam2());
+        if (!empty($team1) && !empty($team2)) {
+            $this->playerService->remplirMatchDataDeLigneAzero($team1, $match);
 
-        $this->playerService->annulerRPMtousLesJoueursDeLequipe($match->getTeam1());
-        $this->playerService->annulerRPMtousLesJoueursDeLequipe($match->getTeam2());
+            $this->playerService->remplirMatchDataDeLigneAzero($team2, $match);
 
-        $this->enregistrementDesActionsDesJoueurs($donnneesMatch['player'], $match);
+            $this->modificationEquipes($match, $team1, $team2);
 
-        $this->playerService->controleNiveauDesJoueursDelEquipe($match->getTeam1());
-        $this->playerService->controleNiveauDesJoueursDelEquipe($match->getTeam2());
+            $this->playerService->annulerRPMtousLesJoueursDeLequipe($team1);
+            $this->playerService->annulerRPMtousLesJoueursDeLequipe($team2);
 
-        $this->equipeService->eloDesEquipes($this->settingService->anneeCourante());
+            $this->enregistrementDesActionsDesJoueurs($donnneesMatch['player'], $match);
+
+            $this->playerService->controleNiveauDesJoueursDelEquipe($team1);
+            $this->playerService->controleNiveauDesJoueursDelEquipe($team2);
+
+            $this->equipeService->eloDesEquipes($this->settingService->anneeCourante());
+        }
 
         return ['enregistrement' => $match->getMatchId(), 'defis' => $this->defisService->verificationDefis($match)];
     }
 
     /**
-     * @param $donneesMatch
+     * @param array $donneesMatch
      * @return Matches
      */
-    public function creationEnteteMatch(Array $donneesMatch)
+    public function creationEnteteMatch(array $donneesMatch)
     {
         $equipe1 = $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(
             ['teamId' => $donneesMatch['team_1']]
@@ -124,10 +130,10 @@ class MatchesService
     }
 
     /**
-     * @param $actionsCollection
+     * @param array $actionsCollection
      * @param Matches $match
      */
-    public function enregistrementDesActionsDesJoueurs(Array $actionsCollection, Matches $match)
+    public function enregistrementDesActionsDesJoueurs(array $actionsCollection, Matches $match)
     {
         foreach ($actionsCollection as $action) {
             $ligneMatchData = $this->doctrineEntityManager->getRepository(MatchData::class)->findOneBy(
@@ -205,6 +211,9 @@ class MatchesService
     {
         $anneeEnCours = $this->settingService->anneeCourante();
         $anneeEtiquette = (new AnneeEnum)->numeroToAnnee();
+
+        $equipesParAnnees = [];
+        $liste = [];
 
         for ($x = 0; $x < $anneeEnCours; $x++) {
             $equipesParAnnees[$x] = $this->doctrineEntityManager->getRepository(

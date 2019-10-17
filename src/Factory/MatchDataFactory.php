@@ -1,7 +1,6 @@
 <?php
 namespace App\Factory;
 
-
 use App\Entity\MatchData;
 use App\Entity\Matches;
 use App\Entity\Players;
