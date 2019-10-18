@@ -181,6 +181,6 @@ class MatchController extends AbstractController
             'ASC'
         );
 
-        return $this->render('statbb/tabs/ligue/matches.twig.html', ['matches' => $matches]);
+        return $this->render('statbb/tabs/ligue/matches.html.twig', ['matches' => $matches]);
     }
 }

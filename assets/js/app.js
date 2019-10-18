@@ -593,16 +593,7 @@ $(document).ready(function () {
         "lengthChange": false,
         "pageLength": 20,
         "info": false,
-        "ordering": false,
-        "columns": [
-            null,
-            {"orderable" : false},
-            null,
-            {"orderable" : false},
-            {"orderable" : false},
-            {"orderable" : false}
-        ]
-
+        "ordering": false
     });
 
     $('#TableCimetierre').DataTable({

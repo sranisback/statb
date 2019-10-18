@@ -11,11 +11,11 @@
         <tbody>
         {% for match in matches %}
         <tr>
-            <td>{{ match.team1.name }} ( {{ match.team1.fRace.name }}, {{ match.team1.tv/1000 }}
+            <td>{{ match.team1.name }} ( {{ match.team1.fRace.name }}, {{ match.tv1/1000 }}
                 de {{ match.team1.ownedByCoach.name }} )
             </td>
             <td> Vs</td>
-            <td>{{ match.team2.name }} ( {{ match.team2.fRace.name }}, {{ match.team2.tv/1000 }}
+            <td>{{ match.team2.name }} ( {{ match.team2.fRace.name }}, {{ match.tv2/1000 }}
                 de {{ match.team2.ownedByCoach.name }} )
             </td>
             <td>{{ match.team1Score }} - {{ match.team2Score }}</td>
