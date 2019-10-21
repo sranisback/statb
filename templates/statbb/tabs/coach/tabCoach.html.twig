@@ -1,0 +1,23 @@
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="col-md-12 col-lg-12">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#equipes">Equipes</a></li>
+                    <li><a data-toggle="tab" href="#AnciensMatchs">Anciens Matchs</a></li>
+                    <li><a data-toggle="tab" href="#AncienneEquipes">Anciennes Equipes</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="equipes" class="tab-pane fade in active">
+                        {{ render(controller('App\\Controller\\EquipeController::showUserTeams' )) }}
+                    </div>
+                    <div id="AnciensMatchs" class="tab-pane fade">
+                        {{ render(controller('App\\Controller\\MatchController::matchsDunCoach',{'coachActif':app.user.coachId})) }}
+                    </div>
+                    <div id="AncienneEquipes" class="tab-pane fade">
+                        {{ render(controller('App\\Controller\\EquipeController::montreLesAnciennesEquipes',{'coachActif':app.user.coachId})) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

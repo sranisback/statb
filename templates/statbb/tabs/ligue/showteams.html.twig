@@ -1,0 +1,49 @@
+<div class="container-fluid">
+    <div class="row">
+        {% for team in teams %}
+
+        <div class="col-md-3">
+            <div class="col-sm-12 col-lg-12 col-md-12 panel panel-default" style="padding:0px;">
+                <div class="panel-heading">
+                    <h4><a data-toggle="modal" data-target="#team_b_{{ team.teamId }}"
+                           href='{{ path("team",{"teamid":team.teamId,"type":"modal"}) }}'>{{ team.name }}</a></h4>
+                </div>
+                <div class="panel-body">
+                    <img src="{{ asset('build/images/race_icons/'~team.fRace.icon~'.png') }}"
+                         class="img-responsive center-block">
+                    <div class="text-center">
+                        {{ team.fRace.name }}
+                    </div>
+                </div>
+                <div class="panel-footer">
+				<span class="pull-left">
+					 {{ team.ownedByCoach.name }}
+				</span>
+                    <span class="pull-right">
+                        {{ team.tv/1000 }}
+				</span>
+                    <div class="clearfix">
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="team_b_{{ team.teamId }}">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <img src="{{ asset('build/images/big-loader.gif') }}" class="img-responsive center-block">
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if loop.index%4==0 %}
+
+    </div>
+    <div class="row">
+
+
+        {% endif %}
+
+        {% endfor %}
+
+    </div>
+</div>
+

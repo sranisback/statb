@@ -3,43 +3,676 @@ let $ = require('jquery');
 
 require('bootstrap-sass');
 
+
 import './jquery-ui.js'
-import './jquery.nameBadges.js'
-import './jquery.tablesorter.js'
-import './jquery.paginate.js'
 import './jquery.serializeToJSON.js'
-
-$(document).ready(function() {
-//	$('.name').nameBadge({size:60,border:{width:0}});
-	
-/*	$("#class_gen").tablesorter({
-		headers: {0: { sorter: false}}
-	});*/
+import './jquery.dataTables.min.js'
 
 
-	$("span[att^='test']").click(function() {
-		
-		let clicked = $(this);
-	
-		$.post("/testajax",
-		{
-		},
-		function(result)
-		{
-			if(result !== 0)
-			{
-				
-				clicked.after("<h1>test</h1>")
-					
-			}
-			else
-			{
-				
-			}		
-		
-		})
-	
-	});
+import Routing from './router.min.js';
+
+//json route prod
+
+const routes = {
+    "base_url": "http://statbrutedebowl.url.ph/statb/public",
+    "routes": {
+        "montreLesEquipes": {
+            "tokens": [["text", "\/montreLesEquipes"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "showuserteams": {
+            "tokens": [["text", "\/showuserteams"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "team": {
+            "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "teamid"], ["text", "\/team"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "Player": {
+            "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "playerid"], ["text", "\/player"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "index": {
+            "tokens": [["text", "\/"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "admin": {
+            "tokens": [["text", "\/admin"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "login": {
+            "tokens": [["text", "\/login"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "logout": {
+            "tokens": [["text", "\/logout"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "citation": {
+            "tokens": [["text", "\/citation"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "classementgen": {
+            "tokens": [["variable", "\/", "[^\/]++", "limit"], ["text", "\/classement\/general"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "classement": {
+            "tokens": [["variable", "\/", "[^\/]++", "limit"], ["variable", "\/", "[^\/]++", "teamorplayer"], ["variable", "\/", "[^\/]++", "type"], ["text", "\/classement"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "totalcas": {
+            "tokens": [["text", "\/totalcas"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "lastfive": {
+            "tokens": [["text", "\/lastfive"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "dyk": {
+            "tokens": [["text", "\/dyk"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "getposstat": {
+            "tokens": [["variable", "\/", "[^\/]++", "posId"], ["text", "\/getposstat"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "raceselector": {
+            "tokens": [["text", "\/choixRace"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "tk": {
+            "tokens": [["text", "\/tk"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "player_adder": {
+            "tokens": [["variable", "\/", "[^\/]++", "teamId"], ["variable", "\/", "[^\/]++", "raceId"], ["text", "\/player_adder"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "addPlayer": {
+            "tokens": [["variable", "\/", "[^\/]++", "teamId"], ["variable", "\/", "[^\/]++", "posId"], ["text", "\/addPlayer"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "remPlayer": {
+            "tokens": [["variable", "\/", "[^\/]++", "playerId"], ["text", "\/remPlayer"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "gestionInducement": {
+            "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "teamId"], ["variable", "\/", "[^\/]++", "action"], ["text", "\/gestionInducement"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "retTeam": {
+            "tokens": [["variable", "\/", "[^\/]++", "teamId"], ["text", "\/retTeam"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "dropdownteams": {
+            "tokens": [["variable", "\/", "[^\/]++", "nbr"], ["text", "\/dropdownTeams"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "dropdownPlayer": {
+            "tokens": [["variable", "\/", "[^\/]++", "nbr"], ["variable", "\/", "[^\/]++", "teamId"], ["text", "\/dropdownPlayer"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "addGame": {
+            "tokens": [["text", "\/addGame"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "Chkteam": {
+            "tokens": [["variable", "\/", "[^\/]++", "teamId"], ["text", "\/chkteam"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "skillmodal": {
+            "tokens": [["variable", "\/", "[^\/]++", "playerid"], ["text", "\/skillmodal"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "addComp": {
+            "tokens": [["variable", "\/", "[^\/]++", "playerid"], ["variable", "\/", "[^\/]++", "skillid"], ["text", "\/addComp"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "changeNr": {
+            "tokens": [["variable", "\/", "[^\/]++", "playerid"], ["variable", "\/", "[^\/]++", "newnr"], ["text", "\/changeNr"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "changeName": {
+            "tokens": [["variable", "\/", "[^\/]++", "playerid"], ["variable", "\/", "[^\/]++", "newname"], ["text", "\/changeName"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "changeNomStade": {
+            "tokens": [["variable", "\/", "[^\/]++", "nouveauNomStade"], ["variable", "\/", "[^\/]++", "equipeId"], ["text", "\/changeNomStade"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "ajoutStadeModal": {
+            "tokens": [["variable", "\/", "[^\/]++", "teamId"], ["text", "\/ajoutStadeModal"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "supprimerPrime": {
+            "tokens": [["variable", "\/", "[^\/]++", "primeId"], ["text", "\/supprimerPrime"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "supprimerDefis": {
+            "tokens": [["variable", "\/", "[^\/]++", "defisId"],["text", "\/supprimerDefis"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "prefix": "",
+        "host": "localhost",
+        "port": "",
+        "scheme": "http"
+    }
+}
+//json route dev
+/*
+const routes = {
+    "base_url": "",
+    "routes": {
+        "montreLesEquipes": {
+            "tokens": [["text", "\/montreLesEquipes"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "showuserteams": {
+            "tokens": [["text", "\/showuserteams"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "team": {
+            "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "teamid"], ["text", "\/team"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "Player": {
+            "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "playerid"], ["text", "\/player"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "index": {
+            "tokens": [["text", "\/"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "admin": {
+            "tokens": [["text", "\/admin"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "login": {
+            "tokens": [["text", "\/login"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "logout": {
+            "tokens": [["text", "\/logout"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "citation": {
+            "tokens": [["text", "\/citation"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "classementgen": {
+            "tokens": [["variable", "\/", "[^\/]++", "limit"], ["text", "\/classement\/general"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "classement": {
+            "tokens": [["variable", "\/", "[^\/]++", "limit"], ["variable", "\/", "[^\/]++", "teamorplayer"], ["variable", "\/", "[^\/]++", "type"], ["text", "\/classement"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "totalcas": {
+            "tokens": [["text", "\/totalcas"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "lastfive": {
+            "tokens": [["text", "\/lastfive"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "dyk": {
+            "tokens": [["text", "\/dyk"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "getposstat": {
+            "tokens": [["variable", "\/", "[^\/]++", "posId"], ["text", "\/getposstat"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "raceselector": {
+            "tokens": [["text", "\/choixRace"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "tk": {
+            "tokens": [["text", "\/tk"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "player_adder": {
+            "tokens": [["variable", "\/", "[^\/]++", "teamId"], ["variable", "\/", "[^\/]++", "raceId"], ["text", "\/player_adder"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "addPlayer": {
+            "tokens": [["variable", "\/", "[^\/]++", "teamId"], ["variable", "\/", "[^\/]++", "posId"], ["text", "\/addPlayer"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "remPlayer": {
+            "tokens": [["variable", "\/", "[^\/]++", "playerId"], ["text", "\/remPlayer"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "gestionInducement": {
+            "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "teamId"], ["variable", "\/", "[^\/]++", "action"], ["text", "\/gestionInducement"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "retTeam": {
+            "tokens": [["variable", "\/", "[^\/]++", "teamId"], ["text", "\/retTeam"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "dropdownteams": {
+            "tokens": [["variable", "\/", "[^\/]++", "nbr"], ["text", "\/dropdownTeams"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "dropdownPlayer": {
+            "tokens": [["variable", "\/", "[^\/]++", "nbr"], ["variable", "\/", "[^\/]++", "teamId"], ["text", "\/dropdownPlayer"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "addGame": {
+            "tokens": [["text", "\/addGame"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "Chkteam": {
+            "tokens": [["variable", "\/", "[^\/]++", "teamId"], ["text", "\/chkteam"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "skillmodal": {
+            "tokens": [["variable", "\/", "[^\/]++", "playerid"], ["text", "\/skillmodal"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "addComp": {
+            "tokens": [["variable", "\/", "[^\/]++", "playerid"], ["variable", "\/", "[^\/]++", "skillid"], ["text", "\/addComp"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "changeNr": {
+            "tokens": [["variable", "\/", "[^\/]++", "playerid"], ["variable", "\/", "[^\/]++", "newnr"], ["text", "\/changeNr"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "changeName": {
+            "tokens": [["variable", "\/", "[^\/]++", "playerid"], ["variable", "\/", "[^\/]++", "newname"], ["text", "\/changeName"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "changeNomStade": {
+            "tokens": [["variable", "\/", "[^\/]++", "nouveauNomStade"], ["variable", "\/", "[^\/]++", "equipeId"], ["text", "\/changeNomStade"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "ajoutStadeModal": {
+            "tokens": [["variable", "\/", "[^\/]++", "teamId"],["text", "\/ajoutStadeModal"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "supprimerPrime": {
+            "tokens": [["variable", "\/", "[^\/]++", "primeId"],["text", "\/supprimerPrime"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "supprimerDefis": {
+            "tokens": [["variable", "\/", "[^\/]++", "defisId"],["text", "\/supprimerDefis"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        }
+    },
+    "prefix": "",
+    "host": "localhost",
+    "port": "",
+    "scheme": "http"
+}
+*/
+$(document).ready(function () {
+
+    Routing.setRoutingData(routes);
+
+    $('#classgen').DataTable({
+        "lengthChange": false,
+        "pageLength": 20,
+        "info": false
+
+    });
+
+    $('#equipesEnCours').DataTable({
+        "lengthChange": false,
+        "pageLength": 20,
+        "info": false,
+        "searching": false,
+        "paging": false,
+        "columns": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            {
+                "orderable": false
+            }
+        ]
+    });
+
+    $('#listeMatchs').DataTable({
+        "lengthChange": false,
+        "pageLength": 20,
+        "info": false,
+        "ordering": false
+    });
+
+    $('#TableCimetierre').DataTable({
+        "lengthChange": false,
+        "pageLength": 20,
+        "info": false,
+        "order": [[ 3, "desc" ]]
+    });
+
+    $('#TableElo').DataTable({
+        "lengthChange": false,
+        "pageLength": 20,
+        "info": false,
+        "order": [[ 4, "desc" ]]
+    });
+
+    $('#TablePrimes').DataTable({
+        "lengthChange": false,
+        "pageLength": 20,
+        "info": false
+    });
+
+    $('#TableDefis').DataTable({
+        "lengthChange": false,
+        "pageLength": 20,
+        "info": false
+    });
+
+    $('#TableAnciennesEquipes').DataTable({
+        "lengthChange": false,
+        "pageLength": 20,
+        "info": false,
+        "order": [[ 7, "asc" ],[0,"asc"]]
+    });
+
+    /*
+     * retirer prime
+     */
+    $("[id^='enleve_prime_']").click(function () {
+        $(this).after($('#loadingmessage'));
+        $.post(Routing.generate('supprimerPrime', {primeId: $(this).attr("primeId")}),
+            {},
+            function (result) {
+                window.location.reload();
+            });
+    });
+
+    /*
+     * retirer defis
+     */
+    $("[id^='enleve_defis_']").click(function () {
+        $(this).after($('#loadingmessage'));
+        $.post(Routing.generate('supprimerDefis', {defisId: $(this).attr("defisId")}),
+            {},
+            function (result) {
+                window.location.reload();
+            });
+    });
 
 	
 	$('#showall_btn').click(function () {

@@ -1,0 +1,13 @@
+
+FILE: ...syPHP-Devserver-16.1\eds-www\statb\src\Service\EquipeService.php
+----------------------------------------------------------------------
+FOUND 1 ERROR AFFECTING 1 LINE
+----------------------------------------------------------------------
+ 1 | ERROR | [x] End of line character is invalid; expected "\n" but
+   |       |     found "\r\n"
+----------------------------------------------------------------------
+PHPCBF CAN FIX THE 1 MARKED SNIFF VIOLATIONS AUTOMATICALLY
+----------------------------------------------------------------------
+
+Time: 7.97 secs; Memory: 10MB
+

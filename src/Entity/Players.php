@@ -2,14 +2,18 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
-use App\Entity\Teams;
 /**
  * Players
  *
- * @ORM\Table(name="players", indexes={@ORM\Index(name="idx_owned_by_team_id", columns={"owned_by_team_id"}), @ORM\Index(name="fk_players_game_data_players1_idx", columns={"f_pos_id"}), @ORM\Index(name="fk_players_races1_idx", columns={"f_rid"}), @ORM\Index(name="fk_players_coaches1_idx", columns={"f_cid"})})
- * @ORM\Entity
+ * @ORM\Table(name="players", indexes={
+ *     @ORM\Index(name="idx_owned_by_team_id", columns={"owned_by_team_id"}),
+ *     @ORM\Index(name="fk_players_game_data_players1_idx", columns={"f_pos_id"}),
+ *      *     @ORM\Index(name="fk_players_races1_idx", columns={"f_rid"}),
+ *     @ORM\Index(name="fk_players_coaches1_idx", columns={"f_cid"})})
+ * @ORM\Entity(repositoryClass="App\Repository\PlayersRepository")
  */
 class Players
 {
@@ -25,9 +29,9 @@ class Players
     /**
      * @var int|null
      *
-     * @ORM\Column(name="type", type="integer", nullable=true, options={"default"="1"})
+     * @ORM\Column(name="type", type="integer", nullable=true)
      */
-    private $type = '1';
+    private $type;
 
     /**
      * @var string|null
@@ -44,14 +48,14 @@ class Players
     private $nr;
 
     /**
-     * @var \DateTime|null
+     * @var DateTime
      *
      * @ORM\Column(name="date_bought", type="datetime", nullable=true)
      */
     private $dateBought;
 
     /**
-     * @var \DateTime|null
+     * @var DateTime
      *
      * @ORM\Column(name="date_sold", type="datetime", nullable=true)
      */
@@ -62,28 +66,28 @@ class Players
      *
      * @ORM\Column(name="ach_ma", type="integer", nullable=true)
      */
-    private $achMa = '0';
+    private $achMa = 0;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="ach_st", type="integer", nullable=true)
      */
-    private $achSt = '0';
+    private $achSt = 0;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="ach_ag", type="integer", nullable=true)
      */
-    private $achAg = '0';
+    private $achAg = 0;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="ach_av", type="integer", nullable=true)
      */
-    private $achAv = '0';
+    private $achAv = 0;
 
     /**
      * @var int|null
@@ -93,11 +97,11 @@ class Players
     private $extraSpp;
 
     /**
-     * @var int
+     * @var int|null
      *
      * @ORM\Column(name="extra_val", type="integer", nullable=false)
      */
-    private $extraVal = '0';
+    private $extraVal = 0;
 
     /**
      * @var int|null
@@ -114,7 +118,7 @@ class Players
     private $status;
 
     /**
-     * @var \DateTime|null
+     * @var DateTime
      *
      * @ORM\Column(name="date_died", type="datetime", nullable=true)
      */
@@ -125,45 +129,45 @@ class Players
      *
      * @ORM\Column(name="inj_ma", type="integer", nullable=true)
      */
-    private $injMa = '0';
+    private $injMa = 0;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="inj_st", type="integer", nullable=true)
      */
-    private $injSt = '0';
+    private $injSt = 0;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="inj_ag", type="integer", nullable=true)
      */
-    private $injAg = '0';
+    private $injAg = 0;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="inj_av", type="integer", nullable=true)
      */
-    private $injAv = '0';
+    private $injAv = 0;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="inj_ni", type="integer", nullable=true)
      */
-    private $injNi = '0';
+    private $injNi = 0;
 
     /**
      * @var int
      *
      * @ORM\Column(name="inj_rpm", type="integer", nullable=false)
      */
-    private $injRpm = '0';
+    private $injRpm = 0;
 
     /**
-     * @var \GameDataPlayers
+     * @var GameDataPlayers
      *
      * @ORM\ManyToOne(targetEntity="GameDataPlayers", fetch="EAGER")
      * @ORM\JoinColumn(name="f_pos_id", referencedColumnName="pos_id")
@@ -171,15 +175,15 @@ class Players
     private $fPos;
 
     /**
-     * @var \Races
+     * @var Races
      *
      * @ORM\ManyToOne(targetEntity="Races", fetch="EAGER")
-	 * @ORM\JoinColumn(name="f_rid", referencedColumnName="race_id")
+     * @ORM\JoinColumn(name="f_rid", referencedColumnName="race_id")
      */
     private $fRid;
 
     /**
-     * @var \Teams
+     * @var Teams
      *
      * @ORM\ManyToOne(targetEntity="Teams", fetch="EAGER")
      *  @ORM\JoinColumn(name="owned_by_team_id", referencedColumnName="team_id")
@@ -187,13 +191,12 @@ class Players
     private $ownedByTeam;
 
     /**
-     * @var \Coaches
+     * @var Coaches
      *
      * @ORM\ManyToOne(targetEntity="Coaches", fetch="EAGER")
      *   @ORM\JoinColumn(name="f_cid", referencedColumnName="coach_id")
      */
     private $fCid;
-	
 
     public function getPlayerId(): ?int
     {
@@ -205,7 +208,7 @@ class Players
         return $this->type;
     }
 
-    public function setType(?int $type): self
+    public function setType(int $type): self
     {
         $this->type = $type;
 
@@ -217,7 +220,7 @@ class Players
         return $this->name;
     }
 
-    public function setName(?string $name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -229,31 +232,31 @@ class Players
         return $this->nr;
     }
 
-    public function setNr(?int $nr): self
+    public function setNr(int $nr): self
     {
         $this->nr = $nr;
 
         return $this;
     }
 
-    public function getDateBought(): ?\DateTimeInterface
+    public function getDateBought(): DateTime
     {
         return $this->dateBought;
     }
 
-    public function setDateBought(?\DateTimeInterface $dateBought): self
+    public function setDateBought(DateTime $dateBought): self
     {
         $this->dateBought = $dateBought;
 
         return $this;
     }
 
-    public function getDateSold(): ?\DateTimeInterface
+    public function getDateSold(): DateTime
     {
         return $this->dateSold;
     }
 
-    public function setDateSold(?\DateTimeInterface $dateSold): self
+    public function setDateSold(DateTime $dateSold): self
     {
         $this->dateSold = $dateSold;
 
@@ -265,7 +268,7 @@ class Players
         return $this->achMa;
     }
 
-    public function setAchMa(?int $achMa): self
+    public function setAchMa(int $achMa): self
     {
         $this->achMa = $achMa;
 
@@ -277,7 +280,7 @@ class Players
         return $this->achSt;
     }
 
-    public function setAchSt(?int $achSt): self
+    public function setAchSt(int $achSt): self
     {
         $this->achSt = $achSt;
 
@@ -289,7 +292,7 @@ class Players
         return $this->achAg;
     }
 
-    public function setAchAg(?int $achAg): self
+    public function setAchAg(int $achAg): self
     {
         $this->achAg = $achAg;
 
@@ -301,7 +304,7 @@ class Players
         return $this->achAv;
     }
 
-    public function setAchAv(?int $achAv): self
+    public function setAchAv(int $achAv): self
     {
         $this->achAv = $achAv;
 
@@ -313,7 +316,7 @@ class Players
         return $this->extraSpp;
     }
 
-    public function setExtraSpp(?int $extraSpp): self
+    public function setExtraSpp(int $extraSpp): self
     {
         $this->extraSpp = $extraSpp;
 
@@ -337,36 +340,40 @@ class Players
         return $this->value;
     }
 
-    public function setValue(?int $value): self
+    public function setValue(int $value): self
     {
         $this->value = $value;
 
         return $this;
     }
-	
-	//1 - ok
-	//7 - vendu
-	//8 - mort 
-	//9 - px
+
+//1 - ok
+//7 - vendu
+//8 - mort
+//9 - px
 
     public function getStatus(): ?int
     {
         return $this->status;
     }
 
-    public function setStatus(?int $status): self
+    public function setStatus(int $status): self
     {
         $this->status = $status;
 
         return $this;
     }
 
-    public function getDateDied(): ?\DateTimeInterface
+    public function getDateDied(): ?DateTime
     {
         return $this->dateDied;
     }
 
-    public function setDateDied(?\DateTimeInterface $dateDied): self
+    /**
+     * @param DateTime $dateDied
+     * @return Players
+     */
+    public function setDateDied(DateTime $dateDied): self
     {
         $this->dateDied = $dateDied;
 
@@ -378,7 +385,7 @@ class Players
         return $this->injMa;
     }
 
-    public function setInjMa(?int $injMa): self
+    public function setInjMa(int $injMa): self
     {
         $this->injMa = $injMa;
 
@@ -390,7 +397,7 @@ class Players
         return $this->injSt;
     }
 
-    public function setInjSt(?int $injSt): self
+    public function setInjSt(int $injSt): self
     {
         $this->injSt = $injSt;
 
@@ -402,7 +409,7 @@ class Players
         return $this->injAg;
     }
 
-    public function setInjAg(?int $injAg): self
+    public function setInjAg(int $injAg): self
     {
         $this->injAg = $injAg;
 
@@ -414,7 +421,7 @@ class Players
         return $this->injAv;
     }
 
-    public function setInjAv(?int $injAv): self
+    public function setInjAv(int $injAv): self
     {
         $this->injAv = $injAv;
 
@@ -426,7 +433,7 @@ class Players
         return $this->injNi;
     }
 
-    public function setInjNi(?int $injNi): self
+    public function setInjNi(int $injNi): self
     {
         $this->injNi = $injNi;
 
@@ -450,7 +457,7 @@ class Players
         return $this->fPos;
     }
 
-    public function setFPos(?GameDataPlayers $fPos): self
+    public function setFPos(GameDataPlayers $fPos): self
     {
         $this->fPos = $fPos;
 
@@ -462,7 +469,7 @@ class Players
         return $this->fRid;
     }
 
-    public function setFRid(?Races $fRid): self
+    public function setFRid(Races $fRid): self
     {
         $this->fRid = $fRid;
 
@@ -474,7 +481,7 @@ class Players
         return $this->ownedByTeam;
     }
 
-    public function setOwnedByTeam(?Teams $ownedByTeam): self
+    public function setOwnedByTeam(Teams $ownedByTeam): self
     {
         $this->ownedByTeam = $ownedByTeam;
 
@@ -486,11 +493,10 @@ class Players
         return $this->fCid;
     }
 
-    public function setFCid(?Coaches $fCid): self
+    public function setFCid(Coaches $fCid): self
     {
         $this->fCid = $fCid;
 
         return $this;
     }
-
 }

@@ -40,6 +40,10 @@ class GameDataSkills
         return $this->skillId;
     }
 
+    /***
+     * @method getName
+     * @return null|string
+     */
     public function getName(): ?string
     {
         return $this->name;
@@ -63,6 +67,4 @@ class GameDataSkills
 
         return $this;
     }
-
-
 }
