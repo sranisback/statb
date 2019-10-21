@@ -8,8 +8,11 @@ use App\Entity\Matches;
 use App\Entity\Meteo;
 use App\Entity\Players;
 use App\Entity\Teams;
+use App\Enum\AnneeEnum;
+use App\Factory\MatchesFactory;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\Integer;
 
 class MatchesService
 {
@@ -31,10 +34,15 @@ class MatchesService
         $this->equipeService = $equipeService;
         $this->playerService = $playerService;
         $this->settingService = $settingService;
-        $this->defisService  = $defisService;
+        $this->defisService = $defisService;
     }
 
-    public function enregistrerMatch($donnneesMatch)
+    /**
+     * @param $donnneesMatch
+     * @return array
+     * @throws \Exception
+     */
+    public function enregistrerMatch(Array $donnneesMatch)
     {
         $match = $this->creationEnteteMatch($donnneesMatch);
 
@@ -48,53 +56,52 @@ class MatchesService
 
         $this->enregistrementDesActionsDesJoueurs($donnneesMatch['player'], $match);
 
-        $this->playerService->controleNiveauDuJoueur($match->getTeam1());
-        $this->playerService->controleNiveauDuJoueur($match->getTeam2());
+        $this->playerService->controleNiveauDesJoueursDelEquipe($match->getTeam1());
+        $this->playerService->controleNiveauDesJoueursDelEquipe($match->getTeam2());
 
         $this->equipeService->eloDesEquipes($this->settingService->anneeCourante());
 
         return ['enregistrement' => $match->getMatchId(), 'defis' => $this->defisService->verificationDefis($match)];
     }
 
-    public function creationEnteteMatch($donneesMatch)
+    /**
+     * @param $donneesMatch
+     * @return Matches
+     */
+    public function creationEnteteMatch(Array $donneesMatch)
     {
-        $match = new Matches();
-
-        $team1 = $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(
+        $equipe1 = $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(
             ['teamId' => $donneesMatch['team_1']]
         );
-        $team2 = $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(
+
+        $equipe2 = $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(
             ['teamId' => $donneesMatch['team_2']]
         );
 
-        $match->setFans($donneesMatch['totalpop']);
-        $match->setFfactor1($donneesMatch['varpop_team1']);
-        $match->setFfactor2($donneesMatch['varpop_team2']);
-        $match->setIncome1($donneesMatch['gain1']);
-        $match->setIncome2($donneesMatch['gain2']);
-        $match->setTeam1Score($donneesMatch['score1']);
-        $match->setTeam2Score($donneesMatch['score2']);
-        $match->setTeam1($team1);
-        $match->setTeam2($team2);
-        $match->setTv1($this->equipeService->tvDelEquipe($team1, $this->playerService));
-        $match->setTv2($this->equipeService->tvDelEquipe($team2, $this->playerService));
-        $match->setFMeteo($this->doctrineEntityManager->getRepository(Meteo::class)->findOneBy(
-            ['id' => $donneesMatch['meteo']]
-        ));
-        $match->setFStade($this->doctrineEntityManager->getRepository(GameDataStadium::class)->findOneBy(
-            ['id' => $donneesMatch['stade']]
-        ));
-
-        $dateMatch = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
-        if ($dateMatch) {
-            $match->setDateCreated($dateMatch);
-        }
+        $match = (new MatchesFactory)->creerUnMatch(
+            $donneesMatch,
+            $equipe1,
+            $equipe2,
+            $this->equipeService->tvDelEquipe($equipe1, $this->playerService),
+            $this->equipeService->tvDelEquipe($equipe2, $this->playerService),
+            $this->doctrineEntityManager->getRepository(Meteo::class)->findOneBy(
+                ['id' => $donneesMatch['meteo']]
+            ),
+            $this->doctrineEntityManager->getRepository(GameDataStadium::class)->findOneBy(
+                ['id' => $donneesMatch['stade']]
+            )
+        );
 
         $this->doctrineEntityManager->persist($match);
 
         return $match;
     }
 
+    /**
+     * @param Matches $match
+     * @param Teams $equipe1
+     * @param Teams $equipe2
+     */
     public function modificationEquipes(Matches $match, Teams $equipe1, Teams $equipe2)
     {
         $equipe1->setTreasury($equipe1->getTreasury() + $match->getIncome1());
@@ -116,7 +123,11 @@ class MatchesService
         $this->doctrineEntityManager->persist($equipe2);
     }
 
-    public function enregistrementDesActionsDesJoueurs($actionsCollection, Matches $match)
+    /**
+     * @param $actionsCollection
+     * @param Matches $match
+     */
+    public function enregistrementDesActionsDesJoueurs(Array $actionsCollection, Matches $match)
     {
         foreach ($actionsCollection as $action) {
             $ligneMatchData = $this->doctrineEntityManager->getRepository(MatchData::class)->findOneBy(
@@ -129,28 +140,28 @@ class MatchesService
 
             switch ($action['action']) {
                 case 'COMP':
-                    $ligneMatchData->setCp(1);
+                    $ligneMatchData->setCp($ligneMatchData->getCp() + 1);
                     break;
                 case 'TD':
-                    $ligneMatchData->setTd(1);
+                    $ligneMatchData->setTd($ligneMatchData->getTd() + 1);
                     break;
                 case 'INT':
-                    $ligneMatchData->setIntcpt(1);
+                    $ligneMatchData->setIntcpt($ligneMatchData->getIntcpt() + 1);
                     break;
                 case 'CAS - BH':
-                    $ligneMatchData->setBh(1);
+                    $ligneMatchData->setBh($ligneMatchData->getBh() + 1);
                     break;
                 case 'CAS - SI':
-                    $ligneMatchData->setSi(1);
+                    $ligneMatchData->setSi($ligneMatchData->getSi() + 1);
                     break;
                 case 'CAS - KI':
-                    $ligneMatchData->setKi(1);
+                    $ligneMatchData->setKi($ligneMatchData->getKi() + 1);
                     break;
                 case 'MVP':
-                    $ligneMatchData->setMvp(1);
+                    $ligneMatchData->setMvp($ligneMatchData->getMvp() + 1);
                     break;
                 case 'AGG':
-                    $ligneMatchData->setAgg(1);
+                    $ligneMatchData->setAgg($ligneMatchData->getAgg() + 1);
                     break;
                 case '-1 Ma':
                     $joueur->setInjMa($joueur->getInjMa() + 1);
@@ -184,5 +195,37 @@ class MatchesService
             $this->doctrineEntityManager->persist($joueur);
             $this->doctrineEntityManager->persist($ligneMatchData);
         }
+    }
+
+    /**
+     * @param int $coachId
+     * @return mixed
+     */
+    public function tousLesMatchesDunCoachParAnnee(int $coachId)
+    {
+        $anneeEnCours = $this->settingService->anneeCourante();
+        $anneeEtiquette = (new AnneeEnum)->numeroToAnnee();
+
+        for ($x = 0; $x < $anneeEnCours; $x++) {
+            $equipesParAnnees[$x] = $this->doctrineEntityManager->getRepository(
+                Teams::class
+            )->toutesLesEquipesDunCoachParAnnee($coachId, $x);
+        }
+
+        foreach ($equipesParAnnees as $nbrAnnee => $listeEquipeDelAnnee) {
+            $liste[$anneeEtiquette[$nbrAnnee]] = [];
+            if (!empty($listeEquipeDelAnnee)) {
+                foreach ($listeEquipeDelAnnee as $equipe) {
+                    $liste[$anneeEtiquette[$nbrAnnee]] = array_merge(
+                        $liste[$anneeEtiquette[$nbrAnnee]],
+                        $this->doctrineEntityManager->getRepository(
+                            Matches::class
+                        )->listeDesMatchs($equipe)
+                    );
+                }
+            }
+        }
+
+        return $liste;
     }
 }

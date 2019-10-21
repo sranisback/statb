@@ -110,4 +110,19 @@ class StatBBController extends AbstractController
     {
         return $this->render('statbb/user.html.twig');
     }
+
+    public function tabCoach()
+    {
+        return $this->render('statbb/tabs/coach/tabCoach.html.twig');
+    }
+
+    public function tabLigue()
+    {
+        return $this->render('statbb/tabs/ligue/tabLigue.html.twig');
+    }
+
+    public function tabParametre()
+    {
+        return $this->render('statbb/tabs/parametres/tabParametre.html.twig');
+    }
 }

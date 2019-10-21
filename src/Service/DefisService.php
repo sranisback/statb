@@ -6,6 +6,7 @@ use App\Entity\Coaches;
 use App\Entity\Defis;
 use App\Entity\Matches;
 use App\Entity\Teams;
+use App\Factory\DefiFactory;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -20,19 +21,10 @@ class DefisService
 
     public function creerDefis($datas)
     {
-        $defis = new Defis();
-        $dateDefis = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
-        if ($dateDefis != false) {
-            $defis->setDateDefi($dateDefis);
-        } else {
-            throw new \Exception('problème Datetime Defis');
-        }
-        $defis->setEquipeDefiee(
+        $defis = (new DefiFactory)->lancerDefis(
             $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(
                 ['teamId' => $datas['equipeDefiee']]
-            )
-        );
-        $defis->setEquipeOrigine(
+            ),
             $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(
                 ['teamId' => $datas['equipeOrigine']]
             )

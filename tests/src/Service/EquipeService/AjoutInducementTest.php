@@ -2,82 +2,56 @@
 
 namespace App\src\Service\EquipeService;
 
-use App\Entity\GameDataStadium;
 use App\Entity\Matches;
-use App\Entity\Meteo;
 use App\Entity\Races;
-use App\Entity\Stades;
 use App\Entity\Teams;
+use App\Service\EquipeService;
+use App\Service\PlayerService;
+use App\Service\SettingsService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class AjoutInducementTest extends KernelTestCase
 {
-    private $entityManager;
-
-    public function setUp()
-    {
-        self::bootKernel();
-        $container = self::$container;
-
-        $this->entityManager = $container
-            ->get('doctrine')
-            ->getManager();
-
-        $equipe1 = new Teams;
-
-        $equipe1->setFRace($this->entityManager->getRepository(Races::class)->findOneBy(['raceId' => 9]));
-        $equipe1->setName('test EquipeAi0');
-        $equipe1->setYear(3);
-        $equipe1->setFStades($this->entityManager->getRepository(Stades::class)->findOneBy(['id' => 0]));
-        $equipe1->setTreasury(500000);
-
-        $this->entityManager->persist($equipe1);
-
-        $equipe2 = new Teams;
-
-        $equipe2->setFRace($this->entityManager->getRepository(Races::class)->findOneBy(['raceId' => 9]));
-        $equipe2->setName('test EquipeAi1');
-        $equipe2->setYear(3);
-        $equipe2->setFStades($this->entityManager->getRepository(Stades::class)->findOneBy(['id' => 0]));
-
-        $this->entityManager->persist($equipe2);
-
-        $this->entityManager->flush();
-    }
-
-    /**
+     /**
      * @test
      */
     public function le_cout_des_rr_change_quand_l_equipe_a_un_match()
     {
-        $equipeService = self::$container->get('App\Service\EquipeService');
-        $playerService = self::$container->get('App\Service\PlayerService');
+        $raceTest = new Races();
+        $raceTest->setCostRr(50000);
 
-        /** @var Teams $equipe1 */
-        $equipe1 = $this->entityManager->getRepository(Teams::class)->findOneBy(['name' => 'test EquipeAi0']);
-        $equipe2 = $this->entityManager->getRepository(Teams::class)->findOneBy(['name' => 'test EquipeAi1']);
+        $equipeTest = new Teams();
+        $equipeTest->setFRace($raceTest);
+        $equipeTest->setTreasury(100000);
+        $equipeTest->setRerolls(0);
 
-        $match = new Matches;
+        $matchTest = new Matches();
 
-        $match->setTeam1($equipe1);
-        $match->setTeam2($equipe2);
-        $match->setTeam1Score(1);
-        $match->setTeam2Score(0);
-        $match->setFMeteo($this->entityManager->getRepository(Meteo::class)->findOneBy(['id'=> 0]));
-        $match->setFStade($this->entityManager->getRepository(GameDataStadium::class)->findOneBy(['id'=> 0]));
+        $matchRepoMock = $this->getMockBuilder(Matches::class)->setMethods(['listeDesMatchs'])->getMock();
+        $matchRepoMock->method('listeDesMatchs')->willReturn([$matchTest]);
 
-        $this->entityManager->persist($match);
+        $objectManager = $this->createMock(EntityManagerInterface::class);
+        $objectManager->method('getRepository')->willReturn($matchRepoMock);
 
-        $this->entityManager->flush();
-
-        $return = $equipeService->ajoutInducement(
-            $this->entityManager->getRepository(Teams::class)->findOneBy(['name' => 'test EquipeAi0']),
-            'rr',
-            $playerService
+        $equipeServiceTest = new EquipeService(
+            $objectManager,
+            $this->createMock(SettingsService::class)
         );
 
-        $this->assertEquals(1, $equipe1->getRerolls());
-        $this->assertEquals(100000, $return['inducost']);
+        $resultatAttendu = [
+            'inducost' => '100000',
+            'nbr' => 1
+        ];
+
+        $this->assertEquals($resultatAttendu, $equipeServiceTest->ajoutInducement(
+            $equipeTest,
+            'rr',
+            $this->createMock(PlayerService::class)
+        ));
+
+        $this->assertEquals(0, $equipeTest->getTreasury());
+        $this->assertEquals(1, $equipeTest->getRerolls());
     }
 
     /**
@@ -85,34 +59,40 @@ class AjoutInducementTest extends KernelTestCase
      */
     public function la_pop_ne_monte_plus_apres_un_match()
     {
-        $equipeService = self::$container->get('App\Service\EquipeService');
-        $playerService = self::$container->get('App\Service\PlayerService');
+        $raceTest = new Races();
+        $raceTest->setCostRr(50000);
 
-        /** @var Teams $equipe1 */
-        $equipe1 = $this->entityManager->getRepository(Teams::class)->findOneBy(['name' => 'test EquipeAi0']);
-        $equipe2 = $this->entityManager->getRepository(Teams::class)->findOneBy(['name' => 'test EquipeAi1']);
+        $equipeTest = new Teams();
+        $equipeTest->setFRace($raceTest);
+        $equipeTest->setTreasury(10000);
+        $equipeTest->setFfBought(2);
 
-        $match = new Matches;
+        $matchTest = new Matches();
 
-        $match->setTeam1($equipe1);
-        $match->setTeam2($equipe2);
-        $match->setTeam1Score(1);
-        $match->setTeam2Score(0);
-        $match->setFMeteo($this->entityManager->getRepository(Meteo::class)->findOneBy(['id'=> 0]));
-        $match->setFStade($this->entityManager->getRepository(GameDataStadium::class)->findOneBy(['id'=> 0]));
+        $matchRepoMock = $this->getMockBuilder(Matches::class)->setMethods(['listeDesMatchs'])->getMock();
+        $matchRepoMock->method('listeDesMatchs')->willReturn([$matchTest]);
 
-        $this->entityManager->persist($match);
+        $objectManager = $this->createMock(EntityManagerInterface::class);
+        $objectManager->method('getRepository')->willReturn($matchRepoMock);
 
-        $this->entityManager->flush();
-
-        $equipeService->ajoutInducement(
-            $this->entityManager->getRepository(Teams::class)->findOneBy(['name' => 'test EquipeAi0']),
-            'pop',
-            $playerService
+        $equipeServiceTest = new EquipeService(
+            $objectManager,
+            $this->createMock(SettingsService::class)
         );
 
-        $this->assertEquals(0, $equipe1->getFfBought());
-        $this->assertEquals(500000, $equipe1->getTreasury());
+        $resultatAttendu = [
+            'inducost' => 0,
+            'nbr' => 2
+        ];
+
+        $this->assertEquals($resultatAttendu, $equipeServiceTest->ajoutInducement(
+            $equipeTest,
+            'pop',
+            $this->createMock(PlayerService::class)
+        ));
+
+        $this->assertEquals(2, $equipeTest->getFfBought());
+        $this->assertEquals(10000, $equipeTest->getTreasury());
     }
 
     /**
@@ -120,34 +100,38 @@ class AjoutInducementTest extends KernelTestCase
      */
     public function le_cout_des_rr_avant_matchs()
     {
-        $equipeService = self::$container->get('App\Service\EquipeService');
-        $playerService = self::$container->get('App\Service\PlayerService');
+        $raceTest = new Races();
+        $raceTest->setCostRr(50000);
 
-        /** @var Teams $equipe1 */
-        $equipe1 = $this->entityManager->getRepository(Teams::class)->findOneBy(['name' => 'test EquipeAi0']);
+        $equipeTest = new Teams();
+        $equipeTest->setFRace($raceTest);
+        $equipeTest->setTreasury(50000);
+        $equipeTest->setRerolls(0);
 
-        $return = $equipeService->ajoutInducement(
-            $this->entityManager->getRepository(Teams::class)->findOneBy(['name' => 'test EquipeAi0']),
-            'rr',
-            $playerService
+        $matchRepoMock = $this->getMockBuilder(Matches::class)->setMethods(['listeDesMatchs'])->getMock();
+        $matchRepoMock->method('listeDesMatchs')->willReturn([]);
+
+        $objectManager = $this->createMock(EntityManagerInterface::class);
+        $objectManager->method('getRepository')->willReturn($matchRepoMock);
+
+        $equipeServiceTest = new EquipeService(
+            $objectManager,
+            $this->createMock(SettingsService::class)
         );
 
-        $this->assertEquals(1, $equipe1->getRerolls());
-        $this->assertEquals(50000,  $return['inducost']);
+        $resultatAttendu = [
+            'inducost' => '50000',
+            'nbr' => 1
+        ];
+
+        $this->assertEquals($resultatAttendu, $equipeServiceTest->ajoutInducement(
+            $equipeTest,
+            'rr',
+            $this->createMock(PlayerService::class)
+        ));
+
+        $this->assertEquals(0, $equipeTest->getTreasury());
+        $this->assertEquals(1, $equipeTest->getRerolls());
     }
 
-    public function tearDown()
-    {
-        $equipe1 = $this->entityManager->getRepository(Teams::class)->findOneBy(['name' => 'test EquipeAi0']);
-        $equipe2 = $this->entityManager->getRepository(Teams::class)->findOneBy(['name' => 'test EquipeAi1']);
-
-        foreach ($this->entityManager->getRepository(Matches::class)->findBy(['team1' => $equipe1]) as $matches) {
-            $this->entityManager->remove($matches);
-        }
-
-        $this->entityManager->remove($equipe1);
-        $this->entityManager->remove($equipe2);
-
-        $this->entityManager->flush();
-    }
 }

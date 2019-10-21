@@ -6,61 +6,47 @@ namespace App\Tests\src\Service\EquipeService;
 use App\Entity\Races;
 use App\Entity\Stades;
 use App\Entity\Teams;
+use App\Service\EquipeService;
+use App\Service\SettingsService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class valeurInducementDelEquipeTest extends KernelTestCase
 {
-    private $entityManager;
-
-    public function setUp()
-    {
-        self::bootKernel();
-        $container = self::$container;
-
-        $this->entityManager = $container
-            ->get('doctrine')
-            ->getManager();
-
-        $equipe = new Teams;
-        $equipe->setRerolls(4);
-        $equipe->setFfBought(6);
-        $equipe->setFf(4);
-        $equipe->setCheerleaders(10);
-        $equipe->setAssCoaches(5);
-        $equipe->setApothecary(1);
-
-        $equipe->setFRace($this->entityManager->getRepository(Races::class)->findOneBy(['raceId' => 9]));
-        $equipe->setName('test Equipevi');
-        $equipe->setYear(3);
-        $equipe->setFStades($this->entityManager->getRepository(Stades::class)->findOneBy(['id' => 0]));
-
-        $this->entityManager->persist($equipe);
-
-        $this->entityManager->flush();
-    }
 
     /**
      * @test
      */
-    public function valider_calcul_total_inducement()
+    public function la_valeur_est_bien_calculee()
     {
-        $equipeService = self::$container->get('App\Service\EquipeService');
+        $raceTest = new Races();
+        $raceTest->setCostRr(50000);
 
-        $inducementTest = $equipeService->valeurInducementDelEquipe(
-            $this->entityManager->getRepository(Teams::class)->findOneBy(['name' => 'test Equipevi'])
+        $equipeTest = new Teams;
+        $equipeTest->setRerolls(4);
+        $equipeTest->setFfBought(6);
+        $equipeTest->setFf(4);
+        $equipeTest->setCheerleaders(10);
+        $equipeTest->setAssCoaches(5);
+        $equipeTest->setApothecary(1);
+        $equipeTest->setFRace($raceTest);
+
+        $objectManager = $this->createMock(EntityManagerInterface::class);
+
+        $equipeService = new EquipeService(
+            $objectManager,
+            $this->createMock(SettingsService::class)
         );
 
-        $this->assertEquals(
-            500000,
-            $inducementTest['total']
-        );
-    }
+        $retour = [
+            'rerolls'=> 200000,
+            'pop'=> 100000,
+            'asscoaches'=> 50000,
+            'cheerleader'=> 100000,
+            'apo'=> 50000,
+            'total'=> 500000
+        ];
 
-    public function tearDown()
-    {
-        $equipe = $this->entityManager->getRepository(Teams::class)->findOneBy(['name' => 'test Equipevi']);
-
-        $this->entityManager->remove($equipe);
-        $this->entityManager->flush();
+        $this->assertEquals($retour,$equipeService->valeurInducementDelEquipe($equipeTest));
     }
 }

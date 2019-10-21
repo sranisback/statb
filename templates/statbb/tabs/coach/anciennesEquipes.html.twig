@@ -1,0 +1,40 @@
+<div class="table-responsive">
+    <table class="table table-striped" id="TableAnciennesEquipes" style="width: 100%">
+        <thead>
+            <tr>
+                <td>Nom De l'équipe</td>
+                <td>Race</td>
+                <td>Tv</td>
+                <td>G</td>
+                <td>E</td>
+                <td>P</td>
+                <td>ELO</td>
+                <td>Saison</td>
+            </tr>
+        </thead>
+        <tbody>
+        {%  for ligne in listeEquipe %}
+            <tr>
+                <td><a data-toggle="modal" data-target="#team_{{ ligne.equipe.teamId }}"
+                       href="{{ path('team', {'teamid': ligne.equipe.teamId,'type':'modal' }) }}">{{ ligne.equipe.name }}</a>
+                    <div class="modal fade" id="team_{{ ligne.equipe.teamId }}">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <img src="{{ asset('build/images/big-loader.gif') }}"
+                                     class="img-responsive center-block">
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>{{ ligne.equipe.fRace.name }}</td>
+                <td>{{ ligne.equipe.tv/1000 }}</td>
+                <td>{{ ligne.resultats.win }}</td>
+                <td>{{ ligne.resultats.draw }}</td>
+                <td>{{ ligne.resultats.loss }}</td>
+                <td>{{ ligne.equipe.elo }}</td>
+                <td>{{ ligne.annee }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

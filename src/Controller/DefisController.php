@@ -65,7 +65,7 @@ class DefisController extends AbstractController
     public function afficherLesDefis(SettingsService $settingsService)
     {
         return $this->render(
-            'statbb/affichageDefis.html.twig',
+            'statbb/tabs/ligue/affichageDefis.html.twig',
             [
                 'defisCollection' => $this->getDoctrine()->getRepository(Defis::class)->listeDefisEnCours(
                     $settingsService->anneeCourante()

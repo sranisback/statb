@@ -26,7 +26,7 @@ class ClassementController extends AbstractController
     public function classGen()
     {
         return $this->render(
-            'statbb/classement.html.twig',
+            'statbb/tabs/ligue/classement.html.twig',
             [
                 'classement' => $this->getDoctrine()->getRepository(Teams::class)->classement(
                     $this->settingsService->anneeCourante(),
@@ -107,7 +107,7 @@ class ClassementController extends AbstractController
     public function montreLeCimetiere()
     {
         return $this->render(
-            'statbb/cimetiere.html.twig',
+            'statbb/tabs/ligue/cimetiere.html.twig',
             [
                 'joueurCollection' => $this->getDoctrine()->getRepository(players::class)->mortPourlAnnee(
                     $this->settingsService->anneeCourante()
@@ -123,7 +123,7 @@ class ClassementController extends AbstractController
     public function montreClassementELO()
     {
         return $this->render(
-            'statbb/classementELO.html.twig',
+            'statbb/tabs/ligue/classementELO.html.twig',
             [
                 'equipeCollection' => $this->getDoctrine()->getRepository(Teams::class)->findBy(
                     ['year' => $this->settingsService->anneeCourante()]

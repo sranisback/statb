@@ -15,7 +15,11 @@ class MatchesRepository extends ServiceEntityRepository
         parent::__construct($registry, Matches::class);
     }
 
-    public function tousLesMatchDuneAnne($annee)
+    /**
+     * @param int $annee
+     * @return mixed
+     */
+    public function tousLesMatchDuneAnne(int $annee)
     {
         return $this->createQueryBuilder('m')
             ->join('m.team1', 't1')
@@ -26,18 +30,27 @@ class MatchesRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function tousLesMatchDuneAnneClassementChrono($annee)
+    /**
+     * @param int $annee
+     * @param string $order
+     * @return mixed
+     */
+    public function tousLesMatchDuneAnneClassementChrono(int $annee, string $ordre = 'DESC')
     {
         return $this->createQueryBuilder('m')
             ->join('m.team1', 't1')
             ->join('m.team2', 't2')
             ->where('t1.year =' . $annee)
             ->andWhere('t2.year =' . $annee)
-            ->orderBy('m.dateCreated', 'DESC')
+            ->orderBy('m.dateCreated', $ordre)
             ->getQuery()
             ->getResult();
     }
 
+    /**
+     * @param Teams $equipe
+     * @return array
+     */
     public function listeDesMatchs(Teams $equipe)
     {
         $matches1 = $this->getEntityManager()->getRepository(Matches::class)->findBy(
@@ -69,6 +82,9 @@ class MatchesRepository extends ServiceEntityRepository
         return $matches;
     }
 
+    /**
+     * @return int|mixed
+     */
     public function numeroDeMatch()
     {
         try {

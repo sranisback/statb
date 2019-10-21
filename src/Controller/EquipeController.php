@@ -3,12 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Coaches;
-use App\Entity\GameDataPlayers;
 use App\Entity\GameDataStadium;
-use App\Entity\MatchData;
 use App\Entity\Matches;
 use App\Entity\Players;
-use App\Entity\PlayersSkills;
 use App\Entity\Teams;
 use App\Enum\AnneeEnum;
 use App\Form\CreerStadeType;
@@ -18,7 +15,6 @@ use App\Service\SettingsService;
 use App\Form\CreerEquipeType;
 
 use App\Service\StadeService;
-use DateTime;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -54,7 +50,7 @@ class EquipeController extends AbstractController
     public function montreLesEquipes(SettingsService $settingsService)
     {
         return $this->render(
-            'statbb/showteams.html.twig',
+            'statbb/tabs/ligue/showteams.html.twig',
             [
                 'teams' => $this->getDoctrine()->getRepository(Teams::class)->findBy(
                     ['year' => $settingsService->anneeCourante()]
@@ -94,7 +90,7 @@ class EquipeController extends AbstractController
         }
 
         return $this->render(
-            'statbb/anciennesEquipes.html.twig',
+            'statbb/tabs/coach/anciennesEquipes.html.twig',
             ['listeEquipe' => $compilEquipes ]
         );
     }
@@ -132,7 +128,7 @@ class EquipeController extends AbstractController
             $countEquipe++;
         }
 
-        return $this->render('statbb/user_teams.html.twig', ['coachteam' => $equipesCollection, 'tdata' => $tdata]);
+        return $this->render('statbb/tabs/coach/user_teams.html.twig', ['coachteam' => $equipesCollection, 'tdata' => $tdata]);
     }
 
     /**
@@ -325,184 +321,9 @@ class EquipeController extends AbstractController
 
         $team = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
 
-        if ($team) {
-            $players = $this->getDoctrine()->getRepository(Players::class)
-                ->findBy(['ownedByTeam' => $team->getTeamId()]);
+        $equipeService->checkEquipe($team, $playerService);
 
-            $positionJr = '';
-
-            $teamRace = $team->getFRace();
-
-            if ($teamRace) {
-                if ($teamRace->getRaceId() == 17) {
-                    $positionJr = $this->getDoctrine()->getRepository(GameDataPlayers::class)
-                        ->findOneBy(['posId' => '171']);
-                } else {
-                    $positionJr = $this->getDoctrine()->getRepository(GameDataPlayers::class)->findOneBy(
-                        ['fRace' => $team->getFRace(), 'qty' => '16']
-                    );
-                }
-            }
-            $number = 0;
-
-            foreach ($players as $player) {
-                if ($player->getStatus() != 7 && $player->getStatus() != 8 && $player->getInjRpm() != 1) {
-                    $number++;
-                }
-
-                $mdata = $this->getDoctrine()->getRepository(MatchData::class)->findBy(
-                    ['fPlayer' => $player->getPlayerId()]
-                );
-
-                $tcp = 0;
-                $ttd = 0;
-                $tint = 0;
-                $tcas = 0;
-                $tmvp = 0;
-                $tagg = 0;
-
-                foreach ($mdata as $game) {
-                    $tcp += $game->getCp();
-                    $ttd += $game->getTd();
-                    $tint += $game->getIntcpt();
-                    $tcas += ($game->getBh() + $game->getSi() + $game->getKi());
-                    $tmvp += $game->getMvp();
-                    $tagg += $game->getAgg();
-                }
-
-                $spp = $tcp + ($ttd * 3) + ($tint * 2) + ($tcas * 2) + ($tmvp * 5);
-
-                $skills = $this->getDoctrine()->getRepository(PlayersSkills::class)->findBy(
-                    ['fPid' => $player->getPlayerId()]
-                );
-
-                $nbrskill = 0;
-
-                $nbrskill += count($skills) + $player->getAchAg() + $player->getAchAv()
-                    + $player->getAchMa() + $player->getAchSt();
-
-                switch ($nbrskill) {
-                    case 0:
-                        if ($spp > 5) {
-                            $player->setStatus(9);
-                        }
-                        break;
-                    case 1:
-                        if ($spp > 15) {
-                            $player->setStatus(9);
-                        }
-                        break;
-                    case 2:
-                        if ($spp > 30) {
-                            $player->setStatus(9);
-                        }
-                        break;
-                    case 3:
-                        if ($spp > 50) {
-                            $player->setStatus(9);
-                        }
-                        break;
-                    case 4:
-                        if ($spp > 75) {
-                            $player->setStatus(9);
-                        }
-                        break;
-                    case 5:
-                        if ($spp > 175) {
-                            $player->setStatus(9);
-                        }
-                        break;
-                }
-                $entityManager->persist($player);
-            }
-
-            if ($number < 11) {
-                $diff = 11 - $number;
-
-                $number = 16;
-
-                for ($x = 1; $x < $diff + 1; $x++) {
-                    $players = $this->getDoctrine()->getRepository(Players::class)->findBy(
-                        ['ownedByTeam' => $team->getTeamId(), 'type' => 2],
-                        ['nr' => 'ASC']
-                    );
-
-                    foreach ($players as $player) {
-                        if ($number == $player->getNr()) {
-                            $number++;
-                        } else {
-                            break;
-                        }
-                    }
-
-                    $jr = new Players();
-
-                    $jr->setNr($number);
-                    $jr->setType(2);
-
-                    $dateBoughtFormat = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
-
-                    if ($dateBoughtFormat) {
-                        $jr->setDateBought($dateBoughtFormat);
-                    }
-
-                    $jr->setOwnedByTeam($team);
-                    $jr->setStatus(1);
-
-                    $teamCoaches = $team->getOwnedByCoach();
-
-                    if ($teamCoaches) {
-                        $jr->setFCid($teamCoaches);
-                    }
-
-                    if ($positionJr) {
-                        $positionRace = $positionJr->getFRace();
-                        if ($positionRace) {
-                            $jr->setFRid($positionRace);
-                        }
-                        $jr->setValue((int)$positionJr->getCost());
-                        $jr->setFPos($positionJr);
-                    }
-
-                    $entityManager->persist($jr);
-                    $entityManager->flush();
-
-                    $number = 16;
-                }
-            } else {
-                $players = $this->getDoctrine()->getRepository(Players::class)->findBy(
-                    ['ownedByTeam' => $team->getTeamId(), 'type' => 2],
-                    ['nr' => 'DESC']
-                );
-
-                foreach ($players as $player) {
-                    $player->setStatus(7);
-
-                    $dateSoldFormat = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
-
-                    if ($dateSoldFormat) {
-                        $player->setDateSold($dateSoldFormat);
-                    }
-
-                    $entityManager->persist($player);
-                    $entityManager->flush();
-
-                    $number--;
-                    if ($number < 11) {
-                        break;
-                    }
-                }
-            }
-
-            $team->setTv($equipeService->tvDelEquipe($team, $playerService));
-
-            $entityManager->persist($team);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('team', ['teamid' => $team->getTeamId(), 'type' => 'n'], 302);
-        }
-
-        return $this->redirectToRoute('index');
+        return $this->redirectToRoute('team', ['teamid' => $team->getTeamId(), 'type' => 'n'], 302);
     }
 
     /**

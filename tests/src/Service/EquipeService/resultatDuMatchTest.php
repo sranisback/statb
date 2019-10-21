@@ -2,92 +2,96 @@
 
 namespace App\Tests\src\Service\EquipeService;
 
-
-use App\Entity\GameDataStadium;
 use App\Entity\Matches;
-use App\Entity\Meteo;
-use App\Entity\Races;
-use App\Entity\Stades;
 use App\Entity\Teams;
+use App\Service\EquipeService;
+use App\Service\SettingsService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class resultatDuMatchTest extends KernelTestCase
 {
-    private $entityManager;
-
-    public function setUp()
+    /**
+     * @test
+     */
+    public function une_victoire()
     {
-        self::bootKernel();
-        $container = self::$container;
+        $equipeTest = new Teams();
 
-        $this->entityManager = $container
-            ->get('doctrine')
-            ->getManager();
+        $matchTest = new Matches();
+        $matchTest->setTeam1($equipeTest);
+        $matchTest->setTeam1Score(2);
+        $matchTest->setTeam2Score(0);
 
-        $equipe1 = new Teams;
+        $objectManager = $this->createMock(EntityManagerInterface::class);
 
-        $equipe1->setFRace($this->entityManager->getRepository(Races::class)->findOneBy(['raceId' => 9]));
-        $equipe1->setName('test Equiperm0');
-        $equipe1->setYear(3);
-        $equipe1->setFStades($this->entityManager->getRepository(Stades::class)->findOneBy(['id' => 0]));
+        $equipeServiceTest = new EquipeService(
+            $objectManager,
+            $this->createMock(SettingsService::class)
+        );
 
-        $this->entityManager->persist($equipe1);
+        $resultatAttendu = [
+            'win' => 1,
+            'loss' => 0,
+            'draw' => 0
+        ];
 
-        $equipe2 = new Teams;
-
-        $equipe2->setFRace($this->entityManager->getRepository(Races::class)->findOneBy(['raceId' => 9]));
-        $equipe2->setName('test Equiperm1');
-        $equipe2->setYear(3);
-        $equipe2->setFStades($this->entityManager->getRepository(Stades::class)->findOneBy(['id' => 0]));
-
-        $this->entityManager->persist($equipe2);
-
-        $match = new Matches;
-
-        $match->setTeam1($equipe1);
-        $match->setTeam2($equipe2);
-        $match->setTeam1Score(1);
-        $match->setTeam2Score(0);
-
-        $match->setFMeteo($this->entityManager->getRepository(Meteo::class)->findOneBy(['id'=> 0]));
-        $match->setFStade($this->entityManager->getRepository(GameDataStadium::class)->findOneBy(['id'=> 0]));
-
-        $this->entityManager->persist($match);
-
-
-        $this->entityManager->flush();
+        $this->assertEquals($resultatAttendu, $equipeServiceTest->resultatDuMatch($equipeTest, $matchTest));
     }
 
     /**
      * @test
      */
-    public function valider_resultat_du_match()
+    public function un_defaite()
     {
-        $equipeService = self::$container->get('App\Service\EquipeService');
+        $equipeTest = new Teams();
 
-        $equipe = $this->entityManager->getRepository(Teams::class)->findOneBy(['name' => 'test Equiperm0']);
+        $matchTest = new Matches();
+        $matchTest->setTeam1($equipeTest);
+        $matchTest->setTeam1Score(0);
+        $matchTest->setTeam2Score(2);
 
-        $match = $this->entityManager->getRepository(Matches::class)->findOneBy(['team1' => $equipe]);
+        $objectManager = $this->createMock(EntityManagerInterface::class);
 
-        $testResultat['win'] = 1;
-        $testResultat['draw'] = 0;
-        $testResultat['loss'] = 0;
+        $equipeServiceTest = new EquipeService(
+            $objectManager,
+            $this->createMock(SettingsService::class)
+        );
 
-        $this->assertEquals($testResultat, $equipeService->resultatDuMatch($equipe, $match));
+        $resultatAttendu = [
+            'win' => 0,
+            'loss' => 1,
+            'draw' => 0
+        ];
 
+        $this->assertEquals($resultatAttendu, $equipeServiceTest->resultatDuMatch($equipeTest, $matchTest));
     }
-    public function tearDown()
+
+    /**
+     * @test
+     */
+    public function une_egalite()
     {
-        $equipe1 = $this->entityManager->getRepository(Teams::class)->findOneBy(['name' => 'test Equiperm0']);
-        $equipe2 = $this->entityManager->getRepository(Teams::class)->findOneBy(['name' => 'test Equiperm1']);
+        $equipeTest = new Teams();
 
-        foreach ($this->entityManager->getRepository(Matches::class)->findBy(['team1' => $equipe1]) as $matches) {
-            $this->entityManager->remove($matches);
-        }
+        $matchTest = new Matches();
+        $matchTest->setTeam1($equipeTest);
+        $matchTest->setTeam1Score(2);
+        $matchTest->setTeam2Score(2);
 
-        $this->entityManager->remove($equipe1);
-        $this->entityManager->remove($equipe2);
+        $objectManager = $this->createMock(EntityManagerInterface::class);
 
-        $this->entityManager->flush();
+        $equipeServiceTest = new EquipeService(
+            $objectManager,
+            $this->createMock(SettingsService::class)
+        );
+
+        $resultatAttendu = [
+            'win' => 0,
+            'loss' => 0,
+            'draw' => 1
+        ];
+
+        $this->assertEquals($resultatAttendu, $equipeServiceTest->resultatDuMatch($equipeTest, $matchTest));
     }
 }

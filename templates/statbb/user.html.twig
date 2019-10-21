@@ -5,48 +5,23 @@
         <div class="panel panel-default">
             <div class="panel-body">
             <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
-                <li><a data-toggle="tab" href="#allteam">Toutes les équipes</a></li>
-                <li><a data-toggle="tab" href="#classement">Classement général</a></li>
-                <li><a data-toggle="tab" href="#cimetiere">Cimetière</a></li>
-                <li><a data-toggle="tab" href="#Elo">Classement ELO</a></li>
-                <li><a data-toggle="tab" href="#Primes">Primes</a></li>
-                <li><a data-toggle="tab" href="#Defis">Défis</a></li>
-                <li><a data-toggle="tab" href="#AncienneEquipes">Anciennes Equipes</a></li>
-                <li><a data-toggle="tab" href="#user">Parametres</a></li>
+                <li class="active"><a data-toggle="tab" href="#coach">Coach</a></li>
+                <li><a data-toggle="tab" href="#ligue">Ligue Open</a></li>
+                <li><a data-toggle="tab" href="#parametre">Parametres</a></li>
                 {% if app.user.roles["role"] == 'ROLE_ADMIN' %}
                     <li><a data-toggle="tab" href="#match">Ajouter un match</a></li>
                 {% endif %}
             </ul>
 
             <div class="tab-content">
-                <div id="home" class="tab-pane fade in active">
-                    {{ render(controller('App\\Controller\\EquipeController::showUserTeams' )) }}
+                <div id="coach" class="tab-pane fade in active">
+                    {{ render(controller('App\\Controller\\StatBBController::tabCoach' )) }}
                 </div>
-                <div id="allteam" class="tab-pane fade">
-                    <h3>Toute les équipes</h3>
-                    {{ render(controller('App\\Controller\\EquipeController::montreLesEquipes' )) }}
+                <div id="ligue" class="tab-pane fade">
+                    {{ render(controller('App\\Controller\\StatBBController::tabLigue')) }}
                 </div>
-                <div id="classement" class="tab-pane fade">
-                    {{ render(controller('App\\Controller\\ClassementController::classGen')) }}
-                </div>
-               <div id="cimetiere" class="tab-pane fade">
-                    {{ render(controller('App\\Controller\\ClassementController::montreLeCimetiere')) }}
-                </div>
-                <div id="Elo" class="tab-pane fade">
-                    {{ render(controller('App\\Controller\\ClassementController::montreClassementELO')) }}
-                </div>
-                <div id="Primes" class="tab-pane fade">
-                    {{ render(controller('App\\Controller\\PrimeController::montrePrimesEnCours')) }}
-                </div>
-                <div id="Defis" class="tab-pane fade">
-                    {{ render(controller('App\\Controller\\DefisController::afficherLesDefis')) }}
-                </div>
-                <div id="user" class="tab-pane fade">
-                    {{ render(controller('App\\Controller\\UtilisateurController::interfaceUtilisateur')) }}
-                </div>
-                <div id="AncienneEquipes" class="tab-pane fade">
-                    {{ render(controller('App\\Controller\\EquipeController::montreLesAnciennesEquipes',{'coachActif':app.user.coachId})) }}
+                <div id="parametre" class="tab-pane fade">
+                    {{ render(controller('App\\Controller\\StatBBController::tabParametre')) }}
                 </div>
                 {% if app.user.roles["role"] == 'ROLE_ADMIN' %}
                 <div id="match" class="tab-pane fade">

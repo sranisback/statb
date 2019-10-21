@@ -24,11 +24,11 @@ class coutTotalJoueursTest extends KernelTestCase
     {
         $equipeMock = $this->createMock(Teams::class);
 
-        $positionmock = $this->createMock(GameDataPlayers::class);
-        $positionmock->method('getCost')->willReturn(110000);
+        $positionMock = $this->createMock(GameDataPlayers::class);
+        $positionMock->method('getCost')->willReturn(110000);
 
         $joueurMock = $this->createMock(Players::class);
-        $joueurMock->method('getFPos')->willReturn($positionmock);
+        $joueurMock->method('getFPos')->willReturn($positionMock);
 
         $gameDataSkillMock = $this->createMock(GameDataSkills::class);
         $gameDataSkillMock->method('getName')->willReturn('block');

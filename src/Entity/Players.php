@@ -29,9 +29,9 @@ class Players
     /**
      * @var int|null
      *
-     * @ORM\Column(name="type", type="integer", nullable=true, options={"default"="1"})
+     * @ORM\Column(name="type", type="integer", nullable=true)
      */
-    private $type = 1;
+    private $type;
 
     /**
      * @var string|null

@@ -57,7 +57,7 @@ class PrimeController extends AbstractController
     public function montrePrimesEnCours(SettingsService $settingsService)
     {
         return $this->render(
-            'statbb/affichagePrimes.html.twig',
+            'statbb/tabs/ligue/affichagePrimes.html.twig',
             [
                 'primeCollection' => $this->getDoctrine()->getRepository(Primes::class)->listePrimeEnCours(
                     $settingsService->anneeCourante()

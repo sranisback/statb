@@ -1,16 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Sran_isback
- * Date: 08/03/2019
- * Time: 11:35
- */
 
 namespace App\Service;
 
 use App\Entity\MatchData;
 use App\Entity\Matches;
 use App\Entity\Players;
+use App\Factory\MatchDataFactory;
 use Doctrine\ORM\EntityManagerInterface;
 
 class MatchDataService
@@ -23,23 +18,9 @@ class MatchDataService
         $this->doctrineEntityManager = $doctrineEntityManager;
     }
 
-    public function creationLigneVideDonneeMatch(Players $player, Matches $match)
+    public function creationLigneVideDonneeMatch(Players $joueur, Matches $match)
     {
-        $matchdata = new MatchData();
-
-        $matchdata->setAgg(0);
-        $matchdata->setBh(0);
-        $matchdata->setCp(0);
-        $matchdata->setFMatch($match);
-        $matchdata->setFPlayer($player);
-        $matchdata->setInj(0);
-        $matchdata->setIntcpt(0);
-        $matchdata->setKi(0);
-        $matchdata->setMvp(0);
-        $matchdata->setSi(0);
-        $matchdata->setTd(0);
-
-        $this->doctrineEntityManager->persist($matchdata);
+        $this->doctrineEntityManager->persist((new MatchDataFactory)->ligneVide($joueur, $match));
 
         $this->doctrineEntityManager->flush();
     }
@@ -53,23 +34,31 @@ class MatchDataService
         $ligneDuMatch = '';
 
         if ($matchData->getCp() > 0) {
-            $ligneDuMatch .= 'CP: '.$matchData->getCp().', ';
+            $ligneDuMatch .= 'CP: '.$matchData->getCp() . ', ';
         }
 
         if ($matchData->getTd() > 0) {
-            $ligneDuMatch .= 'TD: '.$matchData->getTd().', ';
+            $ligneDuMatch .= 'TD: '.$matchData->getTd() . ', ';
         }
 
         if ($matchData->getIntcpt() > 0) {
-            $ligneDuMatch .= 'INT: '.$matchData->getIntcpt().',';
+            $ligneDuMatch .= 'INT: '.$matchData->getIntcpt() . ',';
         }
 
-        if (($matchData->getBh() + $matchData->getSi() + $matchData->getKi()) > 0) {
-            $ligneDuMatch .= 'CAS: '.($matchData->getBh() + $matchData->getSi() + $matchData->getKi()).', ';
+        if ($matchData->getBh() > 0) {
+            $ligneDuMatch .= 'CAS: ' . $matchData->getBh() . ', ';
+        }
+
+        if ($matchData->getSi() > 0) {
+            $ligneDuMatch .= 'Blessure(s) grave(s) : ' . $matchData->getSi() . ', ';
+        }
+
+        if ($matchData->getKi() > 0) {
+            $ligneDuMatch .= 'Tué(s) : ' . $matchData->getKi() . ', ';
         }
 
         if ($matchData->getMvp() > 0) {
-            $ligneDuMatch .= 'MVP: '.$matchData->getMvp().', ';
+            $ligneDuMatch .= 'MVP: '.$matchData->getMvp() . ', ';
         }
 
         if ($matchData->getAgg() > 0) {

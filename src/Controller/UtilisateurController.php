@@ -22,7 +22,7 @@ class UtilisateurController extends AbstractController
 
         $form = $this->createForm(AjoutCitationType::class, $citation);
 
-        return $this->render('statbb/usercontrols.html.twig', ['form' => $form->createView()]);
+        return $this->render('statbb/tabs/parametres/addcitation.html.twig', ['form' => $form->createView()]);
     }
 
     /**

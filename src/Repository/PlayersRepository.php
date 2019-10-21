@@ -46,13 +46,28 @@ class PlayersRepository extends ServiceEntityRepository
      * @param Teams $equipe
      * @return array
      */
-    public function listeDesJoueursActifsPourlEquipe($equipe)
+    public function listeDesJoueursActifsPourlEquipe(Teams $equipe)
     {
         return $this->createQueryBuilder('players')
             ->where('players.ownedByTeam = '.$equipe->getTeamId())
             ->andWhere('players.status != 7')
             ->andWhere('players.status != 8')
             ->orderBy('players.nr')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param $equipe
+     * @return mixed
+     */
+    public function listeDesJournaliersDeLequipe(Teams $equipe)
+    {
+        return $this->createQueryBuilder('players')
+            ->where('players.ownedByTeam = '.$equipe->getTeamId())
+            ->andWhere('players.status != 7')
+            ->andWhere('players.type = 2')
+            ->orderBy('players.nr', 'DESC')
             ->getQuery()
             ->getResult();
     }

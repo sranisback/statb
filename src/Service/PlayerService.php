@@ -12,6 +12,7 @@ use App\Entity\Teams;
 use App\Entity\Players;
 use App\Entity\PlayersSkills;
 use App\Entity\GameDataSkills;
+use App\Factory\PlayerFactory;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -282,8 +283,6 @@ class PlayerService
 
         $equipe = $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
 
-        $joueur = new Players();
-
         $count = 0;
 
         $joueursParPositionCollection = $this->doctrineEntityManager->getRepository(Players::class)->findBy(
@@ -302,29 +301,12 @@ class PlayerService
                     $tresors = $equipe->getTreasury() - $position->getCost();
                     $equipe->setTreasury($tresors);
 
-                    $joueur->setNr($this->numeroLibreDelEquipe($equipe));
-
-                    $coach = $equipe->getOwnedByCoach();
-                    $race = $position->getFRace();
-
-                    if ($coach) {
-                        $joueur->setFCid($coach);
-                    }
-
-                    if ($race) {
-                        $joueur->setFRid($race);
-                    }
-
-                    $dateBoughtFormat = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
-
-                    if ($dateBoughtFormat) {
-                        $joueur->setDateBought($dateBoughtFormat);
-                    }
-
-                    $joueur->setFPos($position);
-                    $joueur->setOwnedByTeam($equipe);
-                    $joueur->setValue((int)$position->getCost());
-                    $joueur->setStatus(1);
+                    $joueur = (new PlayerFactory)->nouveauJoueur(
+                        $position,
+                        $this->numeroLibreDelEquipe($equipe),
+                        $equipe,
+                        1
+                    );
 
                     $this->doctrineEntityManager->persist($joueur);
 
@@ -547,60 +529,37 @@ class PlayerService
         $this->doctrineEntityManager->flush();
     }
 
-    public function controleNiveauDuJoueur($equipe)
+    /**
+     * @param Teams $equipe
+     */
+    public function controleNiveauDesJoueursDelEquipe(Teams $equipe)
     {
+        $tableComp = [
+            0 => 5,
+            1 => 15,
+            2 => 30,
+            3 => 50,
+            4 => 75
+        ];
+
         foreach ($this->doctrineEntityManager->getRepository(Players::class)->listeDesJoueursActifsPourlEquipe(
             $equipe
         ) as $joueur) {
-            $xpJoueur = $this->xpDuJoueur($joueur);
+            /** @var Players $joueur */
+            $spp = $this->xpDuJoueur($joueur);
 
-            $nbrskill = $this->doctrineEntityManager->getRepository(PlayersSkills::class)->findBy(
-                ['fPid' => $joueur->getPlayerId()]
-            );
+            $nbrSkill = $this->nbrCompetencesEtAugmentationsGagnee($joueur);
 
-            $nbrskill = count($nbrskill) + $joueur->getAchMa() + $joueur->getAchSt() + $joueur->getAchAv(
-            ) + $joueur->getAchAg();
-
-            switch ($nbrskill) {
-                case 0:
-                    if ($xpJoueur > 5) {
-                        $joueur->setStatus(9);
-                    }
-                    break;
-                case 1:
-                    if ($xpJoueur > 15) {
-                        $joueur->setStatus(9);
-                    }
-                    break;
-                case 2:
-                    if ($xpJoueur > 30) {
-                        $joueur->setStatus(9);
-                    }
-                    break;
-                case 3:
-                    if ($xpJoueur > 50) {
-                        $joueur->setStatus(9);
-                    }
-                    break;
-                case 4:
-                    if ($xpJoueur > 75) {
-                        $joueur->setStatus(9);
-                    }
-                    break;
-                case 5:
-                    if ($xpJoueur > 175) {
-                        $joueur->setStatus(9);
-                    }
-                    break;
+            if ($spp > $tableComp[$nbrSkill]) {
+                $joueur->setStatus(9);
             }
 
             $this->doctrineEntityManager->persist($joueur);
         }
     }
-
     /**
      * @param Players $joueur
-     * @return float|int
+     * @return int
      */
     public function xpDuJoueur(Players $joueur)
     {
@@ -629,7 +588,7 @@ class PlayerService
             $name = $listeActionsDunJoueur->getFPlayer()->getName();
 
             if ($actions != '') {
-                if (strlen($name)< 2) {
+                if (strlen($name) < 2) {
                     $name = 'Inconnu';
                 }
 
@@ -645,5 +604,19 @@ class PlayerService
         }
 
         return $textAction.'</ul>';
+    }
+
+    /**
+     * @param Players $joueur
+     * @return int
+     */
+    public function nbrCompetencesEtAugmentationsGagnee(Players $joueur)
+    {
+        $skills = $this->doctrineEntityManager->getRepository(PlayersSkills::class)->findBy(
+            ['fPid' => $joueur->getPlayerId()]
+        );
+
+        return count($skills) + $joueur->getAchAg() + $joueur->getAchAv()
+            + $joueur->getAchMa() + $joueur->getAchSt();
     }
 }

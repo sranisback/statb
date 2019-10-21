@@ -8,6 +8,7 @@ use App\Entity\Matches;
 use App\Entity\Meteo;
 use App\Entity\Players;
 use App\Entity\Teams;
+use App\Enum\AnneeEnum;
 use App\Service\MatchesService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
@@ -23,22 +24,6 @@ use Symfony\Component\Serializer\Serializer;
 
 class MatchController extends AbstractController
 {
-    /**
-     * @param  mixed $response
-     * @return JsonResponse
-     */
-    public static function transformeEnJson($response): JsonResponse
-    {
-        $encoders = array(new XmlEncoder(), new JsonEncoder());
-        $normalizers = array(new ObjectNormalizer());
-
-        $serializer = new Serializer($normalizers, $encoders);
-
-        $jsonContent = $serializer->serialize($response, 'json');
-
-        return new JsonResponse($jsonContent);
-    }
-
     /**
      * @Route("/dropdownPlayer/{teamId}/{nbr}", options = { "expose" = true })
      * @param int $teamId
@@ -67,6 +52,22 @@ class MatchController extends AbstractController
         } else {
             return new JsonResponse(['error']);
         }
+    }
+
+    /**
+     * @param  mixed $response
+     * @return JsonResponse
+     */
+    public static function transformeEnJson($response): JsonResponse
+    {
+        $encoders = array(new XmlEncoder(), new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $serializer = new Serializer($normalizers, $encoders);
+
+        $jsonContent = $serializer->serialize($response, 'json');
+
+        return new JsonResponse($jsonContent);
     }
 
     /**
@@ -114,7 +115,7 @@ class MatchController extends AbstractController
                 ),
                 'meteos' => $this->getDoctrine()->getRepository(Meteo::class)->findAll(),
                 'stades' => $this->getDoctrine()->getRepository(GameDataStadium::class)->findAll(),
-                'numero' => $this->getDoctrine()->getRepository(Matches::class)->numeroDeMatch()
+                'numero' => $this->getDoctrine()->getRepository(Matches::class)->numeroDeMatch(),
             ]
         );
     }
@@ -127,7 +128,7 @@ class MatchController extends AbstractController
      */
     public function visualiseurDeMatch(PlayerService $playerService, $matchId)
     {
-        $match = $this->getDoctrine()->getRepository(Matches::class)->findOneBy(['matchId'=>$matchId]);
+        $match = $this->getDoctrine()->getRepository(Matches::class)->findOneBy(['matchId' => $matchId]);
         if (!empty($match)) {
             $team1 = $match->getTeam1();
             $team2 = $match->getTeam2();
@@ -140,7 +141,7 @@ class MatchController extends AbstractController
                         [
                             'match' => $match,
                             'actionEquipe1' => $actionEquipe1,
-                            'actionEquipe2' => $actionEquipe2
+                            'actionEquipe2' => $actionEquipe2,
                         ]
                     );
                 }
@@ -148,5 +149,38 @@ class MatchController extends AbstractController
         }
 
         return 'erreur';
+    }
+
+    /**
+     * @Route("/anciensMatchs/{coachActif}", name ="anciensMatchs" )
+     * @param $coachActif
+     * @return Response
+     */
+    public function matchsDunCoach(MatchesService $matchesService, $coachActif)
+    {
+        return $this->render(
+            'statbb/tabs/coach/anciensMatchs.html.twig',
+            [
+                'listeMatchesParAns' => $matchesService->tousLesMatchesDunCoachParAnnee($coachActif),
+                'EtiquettesAnnees' => (new AnneeEnum)->numeroToAnnee(),
+            ]
+        );
+    }
+
+    /**
+     * @Route("/matchsAnnee", name ="matchsAnnee" )
+     * @param SettingsService $settingsService
+     * @return Response
+     */
+    public function afficherLesMatchs(SettingsService $settingsService)
+    {
+        $annee = $settingsService->anneeCourante();
+
+        $matches = $this->getDoctrine()->getRepository(Matches::class)->tousLesMatchDuneAnneClassementChrono(
+            $annee,
+            'ASC'
+        );
+
+        return $this->render('statbb/tabs/ligue/matches.twig.html', ['matches' => $matches]);
     }
 }
