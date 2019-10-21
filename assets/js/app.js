@@ -589,6 +589,27 @@ $(document).ready(function () {
 
     });
 
+    $('#equipesEnCours').DataTable({
+        "lengthChange": false,
+        "pageLength": 20,
+        "info": false,
+        "searching": false,
+        "paging": false,
+        "columns": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            {
+                "orderable": false
+            }
+        ]
+    });
+
     $('#listeMatchs').DataTable({
         "lengthChange": false,
         "pageLength": 20,

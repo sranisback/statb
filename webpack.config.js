@@ -7,9 +7,9 @@ Encore
     .setOutputPath('public/build/')
     // the public path used by the web server to access the previous directory
 	//dev
-    //.setPublicPath('/build')
+    .setPublicPath('/build')
 	//prod
-   .setPublicPath('/statb/public/build')
+   //.setPublicPath('/statb/public/build')
    // .enableSourceMaps(!Encore.isProduction())
     // uncomment to create hashed filenames (e.g. app.abc123.css)
     // .enableVersioning(Encore.isProduction())

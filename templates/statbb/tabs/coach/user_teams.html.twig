@@ -1,47 +1,49 @@
 <div class="table-responsive">
-<table class="table">
-	<thead>
-		<tr>
-			<th>Equipe</th>
-			<th>Race</th>
-			<th>TV</th>
-			<th>G</th>
-			<th>E</th>
-			<th>P</th>
-			<th>ELO</th>
-			<th>Retirer ?</th>
-		</tr>
-	</thead>
-	<tbody>
-		{% for team in coachteam %}
-		{% if (team.retired == 1)  %}
-		<tr class="danger hidden"> 
-		{% else %}
-		<tr>
-		{% endif %}
-			<td><a href="{{ path('team', {'teamid': team.teamId,'type':'n' }) }}">{{team.name}}</a></td>
-			<td>{{team.frace.name}}</td>
-			{% for data in tdata %}
-				{% if data.tId == team.teamId %}
-			<td>{{team.tv/1000}}</td>
-			<td>{{data.win}}</td>
-			<td>{{data.draw}}</td>
-			<td>{{data.loss}}</td>
-				{% endif %}
-			{% endfor %}
-			<td>{{team.elo}}</td>
-			{% if team.retired == 1 %}
-			<td> Retirée</td>
-			{% else %}
-			<td><span class="glyphicon glyphicon-remove text-danger" teamId="{{team.teamId}}" id="retire_{{team.teamId}}" ></span></td>
+    <table class="table" id="equipesEnCours">
+        <thead>
+        <tr>
+            <th>Equipe</th>
+            <th>Race</th>
+            <th>TV</th>
+            <th>G</th>
+            <th>E</th>
+            <th>P</th>
+            <th>% victoire</th>
+            <th>ELO</th>
+            <th>Retirer ?</th>
+        </tr>
+        </thead>
+        {% for ligne in listeEquipe %}
+            {% if (ligne.equipe.retired == 1) %}
+                <tr class="danger hidden">
+            {% else %}
+                <tr>
             {% endif %}
-		</tr>
-		{% endfor %}
-	</tbody>
-</table>
-
+            <td><a href="{{ path('team', {'teamid': ligne.equipe.teamId,'type':'n' }) }}">{{ ligne.equipe.name }}</a>
+            </td>
+            <td>{{ ligne.equipe.frace.name }}</td>
+            <td>{{ ligne.equipe.tv/1000 }}</td>
+            <td>{{ ligne.resultats.win }}</td>
+            <td>{{ ligne.resultats.draw }}</td>
+            <td>{{ ligne.resultats.loss }}</td>
+            {% if ligne.resultats.loss > 0 or ligne.resultats.win > 0 %}
+                <td>{{ (ligne.resultats.win/(ligne.resultats.loss+ligne.resultats.win) * 100)|round(2,'floor') }}</td>
+            {% else %}
+                <td>0</td>
+            {% endif %}
+            <td>{{ ligne.equipe.elo }}</td>
+            {% if ligne.equipe.retired == 1 %}
+                <td> Retirée</td>
+            {% else %}
+                <td><span class="glyphicon glyphicon-remove text-danger" teamId="{{ ligne.equipe.teamId }}"
+                          id="retire_{{ ligne.equipe.teamId }}"></span></td>
+            {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 </div>
 <button type="button" id="showall_btn" class="btn btn-primary">
-	Montrer les équipes retirées
+    Montrer les équipes retirées
 </button>
 {{ render(controller('App\\Controller\\EquipeController::choixRace' )) }}

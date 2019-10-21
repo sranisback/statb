@@ -2,14 +2,15 @@
     <table class="table table-striped" id="TableAnciennesEquipes" style="width: 100%">
         <thead>
             <tr>
-                <td>Nom De l'équipe</td>
-                <td>Race</td>
-                <td>Tv</td>
-                <td>G</td>
-                <td>E</td>
-                <td>P</td>
-                <td>ELO</td>
-                <td>Saison</td>
+                <th>Nom De l'équipe</th>
+                <th>Race</th>
+                <th>Tv</th>
+                <th>G</th>
+                <th>E</th>
+                <th>P</th>
+                <th>% victoire</th>
+                <th>ELO</th>
+                <th>Saison</th>
             </tr>
         </thead>
         <tbody>
@@ -31,6 +32,11 @@
                 <td>{{ ligne.resultats.win }}</td>
                 <td>{{ ligne.resultats.draw }}</td>
                 <td>{{ ligne.resultats.loss }}</td>
+                {% if ligne.resultats.loss > 0 or ligne.resultats.win > 0 %}
+                <td>{{ (ligne.resultats.win/(ligne.resultats.loss+ligne.resultats.win) * 100)|round(2,'floor') }}</td>
+                {% else %}
+                <td>0</td>
+                {% endif %}
                 <td>{{ ligne.equipe.elo }}</td>
                 <td>{{ ligne.annee }}</td>
             </tr>

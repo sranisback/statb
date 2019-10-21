@@ -85,13 +85,13 @@ class EquipeController extends AbstractController
                     $equipe,
                     $this->getDoctrine()->getRepository(Matches::class)->listeDesMatchs($equipe)
                 ),
-                'annee' => $etiquetteAnne[$equipe->getYear()]
+                'annee' => $etiquetteAnne[$equipe->getYear()],
             ];
         }
 
         return $this->render(
             'statbb/tabs/coach/anciennesEquipes.html.twig',
-            ['listeEquipe' => $compilEquipes ]
+            ['listeEquipe' => $compilEquipes]
         );
     }
 
@@ -102,35 +102,31 @@ class EquipeController extends AbstractController
      * @param PlayerService $playerService
      * @return response
      */
-    //@todo : a refaire comme montreLesAnciennesEquipes
     public function showUserTeams(
         SettingsService $settingsService,
         EquipeService $equipeService
     ) {
-        $tdata = [];
+        $annee = $settingsService->anneeCourante();
+        /** @var Coaches $coach */
+        $coach = $this->getUser();
+        $equipesEtResultatsDuCoach = [];
 
-        $equipesCollection = $this->getDoctrine()->getRepository(Teams::class)->findBy(
-            ['ownedByCoach' => $this->getUser(), 'year' => $settingsService->anneeCourante()]
-        );
-
-        $countEquipe = 0;
-
-        foreach ($equipesCollection as $equipe) {
-            $resultats = $equipeService->resultatsDelEquipe(
-                $equipe,
-                $this->getDoctrine()->getRepository(Matches::class)->listeDesMatchs($equipe)
-            );
-            $tdata[$countEquipe]['tId'] = $equipe->getTeamId();
-            $tdata[$countEquipe]['win'] = $resultats['win'];
-            $tdata[$countEquipe]['loss'] = $resultats['loss'];
-            $tdata[$countEquipe]['draw'] = $resultats['draw'];
-
-            $countEquipe++;
+        foreach ($this->getDoctrine()->getRepository(Teams::class)->toutesLesEquipesDunCoachParAnnee(
+            $coach->getCoachId(),
+            $annee
+        ) as $equipe) {
+            $equipesEtResultatsDuCoach[] = [
+                'equipe' => $equipe,
+                'resultats' => $equipeService->resultatsDelEquipe(
+                    $equipe,
+                    $this->getDoctrine()->getRepository(Matches::class)->listeDesMatchs($equipe)
+                ),
+            ];
         }
 
         return $this->render(
             'statbb/tabs/coach/user_teams.html.twig',
-            ['coachteam' => $equipesCollection, 'tdata' => $tdata]
+            ['listeEquipe' => $equipesEtResultatsDuCoach]
         );
     }
 
