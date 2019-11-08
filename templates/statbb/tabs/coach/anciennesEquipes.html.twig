@@ -1,0 +1,36 @@
+<div class="table-responsive">
+    <table class="table table-striped" id="TableAnciennesEquipes" style="width: 100%">
+        <thead>
+            <tr>
+                <th>Nom De l'équipe</th>
+                <th>Race</th>
+                <th>Tv</th>
+                <th>G</th>
+                <th>E</th>
+                <th>P</th>
+                <th>% victoire</th>
+                <th>ELO</th>
+                <th>Saison</th>
+            </tr>
+        </thead>
+        <tbody>
+        {%  for ligne in listeEquipe %}
+            <tr>
+                <td><a href="{{ path('team', {'teamid': ligne.equipe.teamId }) }}">{{ ligne.equipe.name }}</a></td>
+                <td>{{ ligne.equipe.fRace.name }}</td>
+                <td>{{ ligne.equipe.tv/1000 }}</td>
+                <td>{{ ligne.resultats.win }}</td>
+                <td>{{ ligne.resultats.draw }}</td>
+                <td>{{ ligne.resultats.loss }}</td>
+                {% if ligne.resultats.loss > 0 or ligne.resultats.win > 0 %}
+                <td>{{ (ligne.resultats.win/(ligne.resultats.loss+ligne.resultats.win) * 100)|round(2,'floor') }}</td>
+                {% else %}
+                <td>0</td>
+                {% endif %}
+                <td>{{ ligne.equipe.elo }}</td>
+                <td>{{ ligne.annee }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

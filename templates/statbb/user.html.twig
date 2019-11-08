@@ -1,179 +1,39 @@
-{% extends "statbb/base.html.twig"%}
+{% extends "statbb/base.html.twig" %}
       
-
-{% block nav%}
-<nav class="navbar navbar-fixed-top navbar-default" id="nav_center" role="navigation">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="/">Site de stat Blood bowl</a>
-		</div>
-		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">	
-			<ul class="nav navbar-nav">
-				<li>
-					{% block citation%}
-							{{ render(controller('App\\Controller\\StatBBController::citation' )) }}</a>
-					{%endblock%}
-				</li>
-			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li>
-					<a href="#">{{app.user.name}}</a>
-				</li>
-			</ul>
-		</div>
-	</div>
-</nav>
-{% endblock%}
-
 {% block body %}
-<div class="container-fluid">
-	<div class="jumbotron">
-	  <ul class="nav nav-tabs">
-		<li class="active"><a data-toggle="tab" href="#home">Home</a></li>
-		{%if app.user.roles["role"] == 'ROLE_ADMIN'%}
-		<li><a data-toggle="tab" href="#match">Ajouter un match</a></li>
-		{% endif %}
-		<li><a data-toggle="tab" href="#allteam">Toutes les équipes</a></li>
-	  </ul>
+    <div class="m-2">
+        <div class="card">
+            <div class="card-body">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active"  data-toggle="tab" href="#coach">Coach</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#ligue">Ligue Open</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#parametre">Parametres</a></li>
+                {% if app.user.roles["role"] == 'ROLE_ADMIN' %}
+                    <li class="nav-item"><a  class="nav-link" data-toggle="tab" href="#match">Ajouter un match</a></li>
+                {% endif %}
+            </ul>
 
-	  <div class="tab-content">
-		<div id="home" class="tab-pane fade in active">
-		  <h3>HOME</h3>
-		  {{ render(controller('App\\Controller\\StatBBController::show_user_teams' )) }}
-		  {{ render(controller('App\\Controller\\StatBBController::raceSelector' )) }}
-		</div>
-		<div id="allteam" class="tab-pane fade">
-		  <h3>Toute les équipes</h3>
-		  {{ render(controller('App\\Controller\\StatBBController::show_teams' )) }}
-		</div>
-		<div id="match" class="tab-pane fade">
-		  <h3>Ajouter un match</h3>
-		  	<form id="formMatch">
-			  <div class="container-fluid">
-				<div class="row">
-					<div class="col-sm-5 col-lg-5 col-md-5">
-					<div class="row">
-						<div class="col-sm-6 col-lg-6 col-md-6">
-							 <div class="form-group">
-								<label>Gain</label>
-								<input type="text" side="1" name="gain1" value="0">
-							</div>
-						</div>
-						<div class="col-sm-6 col-lg-6 col-md-6">
-							 <div class="form-group">
-								<label>Score</label>
-								<input type="text" side="1" name="score1" value="0">
-							</div>
-						</div>
-					</div>
-					{{ render(controller('App\\Controller\\StatBBController::dropdownTeams',{'nbr':1} )) }}
-					<label>Variation de popularité</label>		
-					<div class = "row">
-						<div class = "form-group">
-						<div class="col-sm-2 col-lg-2 col-md-2">
-						</div>
-						<div class="col-sm-2 col-lg-2 col-md-2">
-						<div class="radio">
-						  <label>
-							<input type="radio" name="varpop_team1" id="optionsRadios2" value="-1">
-							-1
-						  </label>
-						</div>
-								</div>
-						<div class="col-sm-2 col-lg-2 col-md-2">
-						<div class="radio">
-						  <label>
-							<input type="radio" name="varpop_team1" id="optionsRadios2" value="0" checked>
-							0
-						  </label>
-						</div>
-								</div>
-						<div class="col-sm-2 col-lg-2 col-md-2">
-						<div class="radio">	
-						  <label>
-							<input type="radio" name="varpop_team1" id="optionsRadios1" value="1">
-							1
-						  </label>
-						</div>
-								</div>
-						<div class="col-sm-2 col-lg-2 col-md-2">
-						</div>
+            <div class="tab-content">
+                <div id="coach" class="tab-pane fade show  active">
+                    {{ render(controller('App\\Controller\\StatBBController::tabCoach' )) }}
+                </div>
+                <div id="ligue" class="tab-pane fade">
+                    {{ render(controller('App\\Controller\\StatBBController::tabLigue')) }}
+                </div>
+                <div id="parametre" class="tab-pane fade">
+                    {{ render(controller('App\\Controller\\StatBBController::tabParametre')) }}
+                </div>
+                {% if app.user.roles["role"] == 'ROLE_ADMIN' %}
+                <div id="match" class="tab-pane fade">
+                    {{ render(controller('App\\Controller\\MatchController::ajoutMatch' )) }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        </div>
+    </div>
 
-					</div>
-					</div>	
-					</div>
-					<div class="col-sm-2 col-lg-2 col-md-2">
-					vs
-					</div>
-					<div class="col-sm-5 col-lg-5 col-md-5">
-					<div class="row">
-						<div class="col-sm-6 col-lg-6 col-md-6">
-							 <div class="form-group">
-								<label>Score</label>
-								<input type="text" side="2" name="score2" value="0">
-							</div>
-						</div>
-						<div class="col-sm-6 col-lg-6 col-md-6">
-							 <div class="form-group">
-								<label>Gain</label>
-								<input type="text" side="2" name="gain2" value="0">
-							</div>
-						</div>
-					</div>
-					{{ render(controller('App\\Controller\\StatBBController::dropdownTeams',{'nbr':2} )) }}
-											<label>Variation de popularité</label>
-					<div class = "row">
-						<div class = "form-group">
-						<div class="col-sm-2 col-lg-2 col-md-2">
-						</div>
-						<div class="col-sm-2 col-lg-2 col-md-2">
-						<div class="radio">
-						  <label>
-							<input type="radio" name="varpop_team2" id="optionsRadios2" value="-1">
-							-1
-						  </label>
-						</div>
-								</div>
-						<div class="col-sm-2 col-lg-2 col-md-2">
-						<div class="radio">
-						  <label>
-							<input type="radio" name="varpop_team2" id="optionsRadios2" value="0" checked>
-							0
-						  </label>
-						</div>
-								</div>
-						<div class="col-sm-2 col-lg-2 col-md-2">
-						<div class="radio">	
-						  <label>
-							<input type="radio" name="varpop_team2" id="optionsRadios1" value="1">
-							1
-						  </label>
-						</div>
-								</div>
-						<div class="col-sm-2 col-lg-2 col-md-2">
-						</div>
-
-					</div>
-					</div>					
-					</div>
-				</div>
-				<div clas="form-group">
-				<label>Total popularité</label>
-				<input type="text" name="totalpop" value="0">
-				</div>
-				<button id="recMatch" type="button" class="btn btn-default"> Valider</button>
-		  </div>
-		  </form>
-		</div>
-	  </div>
-	</div>
-</div>
-<div class="modal fade" id="team">
-  <div class="modal-dialog modal-lg" style="width:1250px;">
-	<div class="modal-content">
-
-	</div>
-  </div>
-</div>
 {% endblock %}
 		
