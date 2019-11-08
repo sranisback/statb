@@ -1,33 +1,32 @@
-
-
-
-<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#xp_{{ playerId }}" >
-<p class="glyphicon glyphicon-arrow-up" />PX
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#xp_{{ playerId }}">
+    <p class="glyphicon glyphicon-arrow-up"/>PX
 </button>
 
 
 <div class="modal fade" id="xp_{{ playerId }}">
-  <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-dialog">
+        <div class="modal-content">
 
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Ajout d'une compétence</h4>
-      </div>
+            <div class="modal-header">
+                <h4 class="modal-title">Ajout d'une compétence</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
 
-      <div class="modal-body">
-        <div class="modal-body">
-            {{ form_start(form, {'action': path('ajoutComp',{'playerid':playerId})}) }}
-            {{ form_errors(form) }}
-            {{ form_row(form.fSkill) }}
+            </div>
+
+            <div class="modal-body">
+                <div class="modal-body">
+                    {{ form_start(form, {'action': path('ajoutComp',{'playerid':playerId})}) }}
+                    {{ form_errors(form) }}
+                    {{ form_row(form.fSkill) }}
+                </div>
+                <div class="modal-footer">
+                    {{ form_widget(form.submit) }}{{ form_widget(form.cancel) }}
+                    {{ form_end(form) }}
+                </div>
+
+            </div>
         </div>
-        <div class="modal-footer">
-            {{ form_widget(form.submit) }}{{ form_widget(form.cancel) }}
-            {{ form_end(form) }}
-        </div>
-
-      </div>
     </div>
-  </div>
 </div>
 

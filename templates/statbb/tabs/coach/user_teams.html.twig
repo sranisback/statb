@@ -15,11 +15,11 @@
         </thead>
         {% for ligne in listeEquipe %}
             {% if (ligne.equipe.retired == 1) %}
-                <tr class="danger hidden">
+                <tr class="table-danger" style="display: none;">
             {% else %}
                 <tr>
             {% endif %}
-            <td><a href="{{ path('team', {'teamid': ligne.equipe.teamId,'type':'n' }) }}">{{ ligne.equipe.name }}</a>
+            <td><a href="{{ path('team', {'teamid': ligne.equipe.teamId }) }}">{{ ligne.equipe.name }}</a>
             </td>
             <td>{{ ligne.equipe.frace.name }}</td>
             <td>{{ ligne.equipe.tv/1000 }}</td>
@@ -35,7 +35,7 @@
             {% if ligne.equipe.retired == 1 %}
                 <td> Retirée</td>
             {% else %}
-                <td><span class="glyphicon glyphicon-remove text-danger" teamId="{{ ligne.equipe.teamId }}"
+                <td><span class="fas fa-times text-danger" teamId="{{ ligne.equipe.teamId }}"
                           id="retire_{{ ligne.equipe.teamId }}"></span></td>
             {% endif %}
             </tr>

@@ -1,20 +1,22 @@
 {% extends "statbb/base.html.twig" %}
       
 {% block body %}
-    <div class="container-fluid">
-        <div class="panel panel-default">
-            <div class="panel-body">
+    <div class="m-2">
+        <div class="card">
+            <div class="card-body">
             <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#coach">Coach</a></li>
-                <li><a data-toggle="tab" href="#ligue">Ligue Open</a></li>
-                <li><a data-toggle="tab" href="#parametre">Parametres</a></li>
+                <li class="nav-item">
+                    <a class="nav-link active"  data-toggle="tab" href="#coach">Coach</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#ligue">Ligue Open</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#parametre">Parametres</a></li>
                 {% if app.user.roles["role"] == 'ROLE_ADMIN' %}
-                    <li><a data-toggle="tab" href="#match">Ajouter un match</a></li>
+                    <li class="nav-item"><a  class="nav-link" data-toggle="tab" href="#match">Ajouter un match</a></li>
                 {% endif %}
             </ul>
 
             <div class="tab-content">
-                <div id="coach" class="tab-pane fade in active">
+                <div id="coach" class="tab-pane fade show  active">
                     {{ render(controller('App\\Controller\\StatBBController::tabCoach' )) }}
                 </div>
                 <div id="ligue" class="tab-pane fade">

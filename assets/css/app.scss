@@ -1,5 +1,5 @@
-@import "~bootstrap-sass/assets/stylesheets/bootstrap";
-@import url("https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css");
+@import "~bootstrap/scss/bootstrap.scss";
+@import url("https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js");
 
 @-moz-document url-prefix() {
   fieldset {
@@ -7,103 +7,126 @@
   }
 }
 
-$font-size-base: 0.99em;
-$font-size-base2: 0.95em;
+/*
+$font-size-base: 0.80rem;
+$font-size-base2: 0.75rem;
+*/
+
+$enable-responsive-font-sizes: true;
 
 
-
+$bgDefault      : #ffffff;
+$bgHighlight    : #ffffff;
+$colDefault     : #000000;
+$colHighlight   : #d8d8d8;
+$dropDown       : false;
+.navbar {
+  background-color: $bgDefault;
+  .navbar-brand {
+    color: $colDefault;
+    &:hover, &:focus {
+      color: $colHighlight; }}
+  .navbar-text {
+    color: $colDefault;
+    a {
+      color: $colHighlight;
+      &:hover, &:focus {
+        color: $colHighlight; }}}
+  .navbar-nav {
+    .nav-link {
+      color: $colDefault;
+      border-radius: .25rem;
+      margin: 0 0.25em;
+      &:not(.disabled) {
+        &:hover, &:focus {
+          color: $colHighlight; }}}
+    @if ($dropDown) {
+      .dropdown-menu {
+        background-color: $bgDefault;
+        border-color: $bgHighlight;
+        .dropdown-item {
+          color: $colDefault;
+          &:hover, &:focus, &.active {
+            color: $colHighlight;
+            background-color: $bgHighlight; }}
+        .dropdown-divider {
+          border-top-color: $bgHighlight; }}}
+    .nav-item.active, .nav-item.show {
+      .nav-link, .nav-link:hover, .nav-link:focus {
+        color: $colHighlight;
+        background-color: $bgHighlight; }}}
+  .navbar-toggle {
+    border-color: $bgHighlight;
+    &:hover, &:focus {
+      background-color: $bgHighlight; }
+    .navbar-toggler-icon {
+      color: $colDefault; }}
+  .navbar-collapse,
+  .navbar-form {
+    border-color: $colDefault; }
+  .navbar-link {
+    color: $colDefault;
+    &:hover {
+      color: $colHighlight; }}}
+@media (max-width: 575px) {
+  .navbar-expend-sm .navbar-nav .show .dropdown-menu {
+    .dropdown-item {
+      color: $colDefault;
+      &:hover, &:focus {
+        color: $colHighlight; }}
+    .dropdown-item.active {
+      color: $colHighlight;
+      background-color: $bgHighlight; }}}
+@media (max-width: 767px) {
+  .navbar-expend-md .navbar-nav .show .dropdown-menu {
+    .dropdown-item {
+      color: $colDefault;
+      &:hover, &:focus {
+        color: $colHighlight; }}
+    .dropdown-item.active {
+      color: $colHighlight;
+      background-color: $bgHighlight; }}}
+@media (max-width: 991px) {
+  .navbar-expend-lg .navbar-nav .show .dropdown-menu {
+    .dropdown-item {
+      color: $colDefault;
+      &:hover, &:focus {
+        color: $colHighlight; }}
+    .dropdown-item.active {
+      color: $colHighlight;
+      background-color: $bgHighlight; }}}
+@media (max-width: 1199px) {
+  .navbar-expend-xl .navbar-nav .show .dropdown-menu {
+    .dropdown-item {
+      color: $colDefault;
+      &:hover, &:focus {
+        color: $colHighlight; }}
+    .dropdown-item.active {
+      color: $colHighlight;
+      background-color: $bgHighlight; }}}
+.navbar-expend .navbar-nav .show .dropdown-menu {
+  .dropdown-item {
+    color: $colDefault;
+    &:hover, &:focus {
+      color: $colHighlight; }}
+  .dropdown-item.active {
+    color: $colHighlight;
+    background-color: $bgHighlight; }}
 
 @media print {
-
-  table{
+/*  table{
     font-size: $font-size-base2;
-  }
-
-  body {
-
-    background-color: red;
-
-  }
-
+  }*/
 }
 
 @media  screen and (max-width: 768px) {
 
-
   body {
-
-    padding-top: 125px;
     background-image: url("bg.jpg");
     background-attachment: fixed;
     background-size: 100%;
 
   }
-
-
-  div{
-
-    font-size: $font-size-base2;
-
-  }
-
-  .bg-white {
-
-    background-color: white;
-
-  }
-
-  #login-dp {
-    min-width: 250px;
-    padding: 14px 14px 0;
-    overflow: hidden;
-    background-color: rgba(255, 255, 255, .8);
-  }
-
-  #login-dp .help-block {
-    font-size: 12px
-  }
-
-  #login-dp .bottom {
-    background-color: rgba(255, 255, 255, .8);
-    border-top: 1px solid #ddd;
-    clear: both;
-    padding: 14px;
-  }
-
-  #login-dp .social-buttons {
-    margin: 12px 0
-  }
-
-  #login-dp .social-buttons a {
-    width: 49%;
-  }
-
-  #login-dp .form-group {
-    margin-bottom: 10px;
-  }
-
-  .btn-fb {
-    color: #fff;
-    background-color: #3b5998;
-  }
-
-  .btn-fb:hover {
-    color: #fff;
-    background-color: #496ebc
-  }
-
-  .btn-tw {
-    color: #fff;
-    background-color: #55acee;
-  }
-
-  .btn-tw:hover {
-    color: #fff;
-    background-color: #59b5fa;
-  }
-
-
-
 
 }
 
@@ -112,76 +135,9 @@ $font-size-base2: 0.95em;
 @media  (min-width: 768px) {
 
   body {
-
-    padding-top: 65px;
     background-image: url("bg.jpg");
     background-attachment: fixed;
     background-size: 100%;
-
-  }
-
-  div{
-
-    font-size: $font-size-base;
-  }
-
-  //navbar login form
-
-
-  #login-dp {
-    min-width: 250px;
-    padding: 14px 14px 0;
-    overflow: hidden;
-    background-color: rgba(255, 255, 255, .8);
-  }
-
-  #login-dp .help-block {
-    font-size: 12px
-  }
-
-  #login-dp .bottom {
-    background-color: rgba(255, 255, 255, .8);
-    border-top: 1px solid #ddd;
-    clear: both;
-    padding: 14px;
-  }
-
-  #login-dp .social-buttons {
-    margin: 12px 0
-  }
-
-  #login-dp .social-buttons a {
-    width: 49%;
-  }
-
-  #login-dp .form-group {
-    margin-bottom: 10px;
-  }
-
-  .btn-fb {
-    color: #fff;
-    background-color: #3b5998;
-  }
-
-  .btn-fb:hover {
-    color: #fff;
-    background-color: #496ebc
-  }
-
-  .btn-tw {
-    color: #fff;
-    background-color: #55acee;
-  }
-
-  .btn-tw:hover {
-    color: #fff;
-    background-color: #59b5fa;
-  }
-
-
-  .bg-white {
-
-    background-color: white;
 
   }
 
@@ -190,5 +146,6 @@ $font-size-base2: 0.95em;
     padding: 20px;
 
   }
+
 
 }

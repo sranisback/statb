@@ -52,6 +52,7 @@ class PlayersRepository extends ServiceEntityRepository
             ->where('players.ownedByTeam = '.$equipe->getTeamId())
             ->andWhere('players.status != 7')
             ->andWhere('players.status != 8')
+            ->andWhere('players.injRpm = 0 ')
             ->orderBy('players.nr')
             ->getQuery()
             ->getResult();
@@ -69,6 +70,31 @@ class PlayersRepository extends ServiceEntityRepository
             ->andWhere('players.type = 2')
             ->orderBy('players.nr', 'DESC')
             ->getQuery()
+            ->getResult();
+    }
+
+
+    /**
+     * @param int $year
+     * @param int $limit
+     * @return mixed
+     */
+    public function sousClassementEquipeFournisseurDeCadavre(int $year, $limit = 0)
+    {
+        $query = $this->createQueryBuilder('players')
+            ->select('teams.teamId, teams.name, COUNT(players) AS score')
+            ->join('players.ownedByTeam', 'teams')
+            ->where('players.status =8 AND players.type = 1 AND teams.retired = 0 AND teams.year ='.$year)
+            ->groupBy('teams.name')
+            ->having('score > 0')
+            ->addOrderBy('score', 'DESC')
+            ->addOrderBy('teams.tv', 'DESC');
+
+        if ($limit > 0) {
+            $query->setMaxResults($limit);
+        }
+
+        return $query->getQuery()
             ->getResult();
     }
 }

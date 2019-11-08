@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Coaches;
 use App\Entity\Matches;
 use App\Entity\Teams;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -96,5 +97,26 @@ class MatchesRepository extends ServiceEntityRepository
         }
 
         return 0;
+    }
+
+
+    /**
+     * @param Coaches $coach1
+     * @param Coaches $coach2
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function tousLesMatchsDeDeuxCoach(Coaches $coach1, Coaches $coach2)
+    {
+        return $this->createQueryBuilder('Matches')
+            ->join('Matches.team1', 'team1')
+            ->join('Matches.team2', 'team2')
+            ->join('team1.ownedByCoach', 'coach1')
+            ->join('team2.ownedByCoach', 'coach2')
+            ->where(
+                '(coach1.coachId ='.$coach1->getCoachId().' AND coach2.coachId ='.$coach2->getCoachId().') OR
+               (coach1.coachId ='.$coach2->getCoachId().' AND coach2.coachId ='.$coach1->getCoachId().') '
+            )
+            ->getQuery()
+            ->execute();
     }
 }

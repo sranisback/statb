@@ -336,7 +336,7 @@ class PlayerService
     {
         $joueurCollection = $this->doctrineEntityManager->getRepository(
             Players::class
-        )->listeDesJoueursActifsPourlEquipe($equipe);
+        )->listeDesJoueursPourlEquipe($equipe);
 
         $numero = 1;
 
@@ -504,29 +504,30 @@ class PlayerService
         return (int)$coutTotalJoueur;
     }
 
-    public function annulerRPMtousLesJoueursDeLequipe($equipe)
+    /**
+     * @param Teams $equipe
+     */
+    public function annulerRPMtousLesJoueursDeLequipe(Teams $equipe)
     {
-        foreach ($this->doctrineEntityManager->getRepository(Players::class)->listeDesJoueursActifsPourlEquipe(
+        foreach ($this->doctrineEntityManager->getRepository(Players::class)->listeDesJoueursPourlEquipe(
             $equipe
         ) as $joueur) {
-            if ($joueur->getInjRpm() == 1) {
-                $this->annulerRPMunJoueur($joueur);
+            $this->annulerRPMunJoueur($joueur);
 
-                $this->doctrineEntityManager->persist($joueur);
-            }
+            $this->doctrineEntityManager->persist($joueur);
         }
 
         $this->doctrineEntityManager->flush();
     }
 
+    /**
+     * @param Players $joueur
+     */
     public function annulerRPMunJoueur(Players $joueur)
     {
-        $joueur->setStatus(1);
-        $joueur->setInjRpm(0);
-
-        $this->doctrineEntityManager->persist($joueur);
-
-        $this->doctrineEntityManager->flush();
+        if ($joueur->getInjRpm() > 0) {
+            $joueur->setInjRpm($joueur->getInjRpm() - 1);
+        }
     }
 
     /**
@@ -576,7 +577,7 @@ class PlayerService
      */
     public function toutesLesActionsDeLequipeDansUnMatch(Matches $match, Teams $equipe)
     {
-        $textAction = '<ul>';
+        $textAction = '';
 
         foreach ($this->doctrineEntityManager->getRepository(MatchData::class)->listeDesJoueursdUnMatch(
             $match,
@@ -594,16 +595,16 @@ class PlayerService
 
                 $actions = $this->actionDuJoueurDansUnMatch($match, $listeActionsDunJoueur->getFPlayer());
 
-                $textAction .= '<li>'.$name.', '.$listeActionsDunJoueur->getFPlayer()->getFPos()->getPos(
+                $textAction .= $name.', '.$listeActionsDunJoueur->getFPlayer()->getFPos()->getPos(
                 ).'('.$listeActionsDunJoueur->getFPlayer()->getNr().'): '.substr(
                     $actions,
                     0,
                     strlen($actions) - 2
-                ).'</li>';
+                ).'<br/>';
             }
         }
 
-        return $textAction.'</ul>';
+        return $textAction;
     }
 
     /**

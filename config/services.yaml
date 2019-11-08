@@ -74,3 +74,7 @@ services:
         arguments: [~, App\Entity\Defis,~]
         tags:
             - {name: sonata.admin, manager_type: orm, label: Defis}
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }

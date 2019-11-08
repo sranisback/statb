@@ -138,6 +138,7 @@ class EquipeService
 
         $stade->setFTypeStade($typeStade);
         $stade->setTotalPayement(0);
+        $stade->setNom('La prairie verte');
         $this->doctrineEntityManager->persist($stade);
 
         $equipe = (new TeamsFactory)->lancerEquipe(
@@ -445,9 +446,9 @@ class EquipeService
         for ($anneeAjoutee = 0; $anneeAjoutee < $annee; $anneeAjoutee++) {
             $retourRequete =
                 $this->doctrineEntityManager->getRepository(Teams::class)->toutesLesEquipesDunCoachParAnnee(
-                    $coachActif,
-                    $anneeAjoutee
-                );
+                $coachActif,
+                $anneeAjoutee
+            );
 
             if (!empty($retourRequete)) {
                 foreach ($retourRequete as $equipe) {

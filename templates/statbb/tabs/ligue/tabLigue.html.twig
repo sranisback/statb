@@ -1,40 +1,52 @@
 
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="col-md-12 col-lg-12">
+    <div class="card">
+        <div class="card-body">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#classement">Classement général</a></li>
-                    <li><a data-toggle="tab" href="#matchs">Matchs</a></li>
-                    <li><a data-toggle="tab" href="#Elo">Classement ELO</a></li>
-                    <li><a data-toggle="tab" href="#allteam">Equipes Actives</a></li>
-                    <li><a data-toggle="tab" href="#cimetiere">Cimetière</a></li>
-                    <li><a data-toggle="tab" href="#Primes">Primes</a></li>
-                    <li><a data-toggle="tab" href="#Defis">Défis</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link active"  data-toggle="tab" href="#classement">Classement général</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#matchs">Matchs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#Elo">Classement ELO</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#allteam">Equipes Actives</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#cimetiere">Cimetière</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#Primes">Primes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#Defis">Défis</a>
+                    </li>
                 </ul>
                 <div class="tab-content">
-                    <div id="allteam" class="tab-pane fade">
+                    <div id="allteam" class="tab-pane fade show">
                         <h3>Toute les équipes</h3>
                         {{ render(controller('App\\Controller\\EquipeController::montreLesEquipes' )) }}
                     </div>
-                    <div id="classement" class="tab-pane fade in active">
+                    <div id="classement" class="tab-pane fade show active">
                         {{ render(controller('App\\Controller\\ClassementController::classGen')) }}
                     </div>
-                    <div id="cimetiere" class="tab-pane fade">
+                    <div id="cimetiere" class="tab-pane fade show">
                         {{ render(controller('App\\Controller\\ClassementController::montreLeCimetiere')) }}
                     </div>
-                    <div id="Elo" class="tab-pane fade">
+                    <div id="Elo" class="tab-pane fade show">
                         {{ render(controller('App\\Controller\\ClassementController::montreClassementELO')) }}
                     </div>
-                    <div id="Primes" class="tab-pane fade">
+                    <div id="Primes" class="tab-pane fade show">
                         {{ render(controller('App\\Controller\\PrimeController::montrePrimesEnCours')) }}
                     </div>
-                    <div id="Defis" class="tab-pane fade">
+                    <div id="Defis" class="tab-pane fade show">
                         {{ render(controller('App\\Controller\\DefisController::afficherLesDefis')) }}
                     </div>
-                    <div id="matchs" class="tab-pane fade">
+                    <div id="matchs" class="tab-pane fade show">
                         {{ render(controller('App\\Controller\\MatchController::afficherLesMatchs')) }}
                     </div>
                 </div>
-            </div>
         </div>
     </div>

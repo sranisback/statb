@@ -1,15 +1,17 @@
 
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="col-md-12 col-lg-12">
+    <div class="card">
+        <div class="card-body">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#user">Citations</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link active"  href="#user">Citations</a>
+                    </li>
                 </ul>
+
+
                 <div class="tab-content">
-                    <div id="user" class="tab-pane fade in active" >
+                    <div id="user" class="tab-pane fade show active" >
                         {{ render(controller('App\\Controller\\UtilisateurController::interfaceUtilisateur')) }}
                     </div>
                 </div>
-            </div>
         </div>
     </div>

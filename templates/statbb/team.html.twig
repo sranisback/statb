@@ -2,268 +2,272 @@
 
 
 {% block body %}
-    <div class="container-fluid">
-        <div class="panel">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-md-1 col-xs-1"><img
-                                src="{{ asset('build/images/race_icons/'~team.fRace.icon~'.png') }}"></div>
-                    <div class="col-md-11 col-xs-11"><h1>{{ team.name }}</h1></div>
+    <div class="m-2">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex ">
+                    <div><img class="img-fluid" src="{{ asset('build/images/race_icons/'~team.fRace.icon~'.png') }}">
+                    </div>
+                    <div><h1 class="display-4"><strong>{{ team.name }}</strong></h1></div>
+                </div>
+
+                <div class="d-inline-flex my-2">
+                    <button type="button" id="showall_btn" class="btn btn-primary">
+                        Tous les joueurs
+                    </button>
                 </div>
             </div>
-            <button type="button" id="showall_btn" class="btn btn-primary">
-                Tous les joueurs
-            </button>
-            <div class="panel-body ">
-                <div class="table-responsive">
-                    <table class="table" id="teamsheet">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th>Nr</th>
-                            <th>Nom</th>
-                            <th>Position</th>
-                            <th>MA</th>
-                            <th>ST</th>
-                            <th>AG</th>
-                            <th>AV</th>
-                            <th>Comp</th>
-                            <th>NbrM</th>
-                            <th>Stat</th>
-                            <th>Cp</th>
-                            <th>Td</th>
-                            <th>Int</th>
-                            <th>Cas</th>
-                            <th>Mvp</th>
-                            <th>Agg</th>
-                            <th>Spp</th>
-                            <th class="text-right">Coût</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for player in players %}
 
-                            {% if (player.status == 8) %}
-                                <tr class="danger hidden">
-                            {% elseif player.status == 7 %}
-                                <tr class="info hidden">
-                            {% elseif (player.injrpm == 1  or player.status ==9) %}
-                                <tr class="warning">
-                            {% else %}
-                                <tr>
-                            {% endif %}
+            <div class="card-body">
+                <table class="table table-responsive" id="teamsheet">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Nr</th>
+                        <th>Nom</th>
+                        <th>Position</th>
+                        <th>MA</th>
+                        <th>ST</th>
+                        <th>AG</th>
+                        <th>AV</th>
+                        <th>Comp</th>
+                        <th>NbrM</th>
+                        <th>Stat</th>
+                        <th>Cp</th>
+                        <th>Td</th>
+                        <th>Int</th>
+                        <th>Cas</th>
+                        <th>Mvp</th>
+                        <th>Agg</th>
+                        <th>Spp</th>
+                        <th class="text-right">Coût</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for player in players %}
 
-                            {% if app.user and team.retired == 0 %}
-                                <td><span class="glyphicon glyphicon-remove text-danger"
-                                          playerId="{{ player.playerId }}" id="remove_pl_{{ player.playerId }}"></span>
-                                </td>
-                            {% else %}
-                                <td><span class="glyphicon glyphicon-remove text-danger"></span></td>
-                            {% endif %}
-                            <td>
-                                <div id="number_{{ player.playerId }}"
-                                     playerid="{{ player.playerId }}">{{ player.nr }}</div>
+                        {% if (player.status == 8) %}
+                            <tr class="table-danger" style="display: none;">
+                        {% elseif player.status == 7 %}
+                            <tr class="table-info" style="display: none;">
+                        {% elseif (player.injrpm == 1  or player.status ==9) %}
+                            <tr class="table-warning">
+                        {% else %}
+                            <tr>
+                        {% endif %}
+
+                        {% if app.user == team.ownedByCoach and team.retired == 0 %}
+                            <td><span class="fas fa-times text-danger"
+                                      playerId="{{ player.playerId }}" id="remove_pl_{{ player.playerId }}"></span>
                             </td>
-                            <td><span id="name_{{ player.playerId }}"
-                                      playerid="{{ player.playerId }}">{{ player.name }} </span><a
-                                        class="glyphicon glyphicon-search"
-                                        href="{{ path('Player', {'playerid': player.playerId,'type':'n' }) }}"></a>
-                                {% if player.type == 2 %}
-                                    <p class="glyphicon glyphicon-euro"/>
-                                {% endif %}
-                                {% if player.status == 9 %}
-                                    <p class="glyphicon glyphicon-arrow-up"/>
-                                {% endif %}
-                            </td>
-                            <td><img src="{{ asset('build/images/player_icons/'~player.fpos.icon~'.gif') }}"
-                                     class=".img-responsive">{{ player.fpos.pos }}</td>
-
-                            {% if player.achMa>0 %}
-                                <td class="success">{{ player.fpos.ma + player.achMa - player.injMa }}</td>
-                            {% elseif  player.injMa>0 %}
-                                <td class="danger">{{ player.fpos.ma + player.achMa - player.injMa }}</td>
-                            {% else %}
-                                <td>{{ player.fpos.ma + player.achMa - player.injMa }}</td>
-                            {% endif %}
-
-                            {% if player.achSt>0 %}
-                                <td class="success">{{ player.fpos.st + player.achSt - player.injSt }}</td>
-                            {% elseif  player.injSt>0 %}
-                                <td class="danger">{{ player.fpos.st + player.achSt - player.injSt }}</td>
-                            {% else %}
-                                <td>{{ player.fpos.st + player.achSt - player.injSt }}</td>
-                            {% endif %}
-
-                            {% if player.achAg>0 %}
-                                <td class="success">{{ player.fpos.ag + player.achAg - player.injAg }}</td>
-                            {% elseif  player.injAg>0 %}
-                                <td class="danger">{{ player.fpos.ag + player.achAg - player.injAg }}</td>
-                            {% else %}
-                                <td>{{ player.fpos.ag + player.achAg - player.injAg }}</td>
-                            {% endif %}
-
-                            {% if player.achAv>0 %}
-                                <td class="success">{{ player.fpos.av + player.achAv - player.injAv }}</td>
-                            {% elseif  player.injAv>0 %}
-                                <td class="danger">{{ player.fpos.av + player.achAv - player.injAv }}</td>
-                            {% else %}
-                                <td>{{ player.fpos.av + player.achAv - player.injAv }}</td>
-                            {% endif %}
-
-                            {% for data in pdata %}
-                                {% if data.pid == player.playerId %}
-                                    <td>{{ data.skill|raw }}</td>
-                                    <td>{{ data.nbrm }}</td>
-                                    {% if data.status=='XP' %}
-                                        <td>{{ render(controller('App\\Controller\\JoueurController::skillmodal',{'playerid':player.playerId} )) }}</td>
-                                    {% else %}
-                                        <td>{{ data.status }}</td>
+                        {% else %}
+                            <td><span class="fas fa-times text-danger"></span></td>
+                        {% endif %}
+                        <td>
+                            <div
+                                    {% if app.user == team.ownedByCoach and team.retired == 0 %}
+                                        id="number_{{ player.playerId }}" onClick='changeNr(this)'
                                     {% endif %}
-                                    <td>{{ data.cp }}</td>
-                                    <td>{{ data.td }}</td>
-                                    <td>{{ data.int }}</td>
-                                    <td>{{ data.cas }}</td>
-                                    <td>{{ data.mvp }}</td>
-                                    <td>{{ data.agg }}</td>
-                                    <td>{{ data.spp }}</td>
-                                    <td class="text-right">{{ data.cost }}</td>
-                                {% endif %}
-                            {% endfor %}
+                                    playerid="{{ player.playerId }}">{{ player.nr }}</div>
+                        </td>
+                        <td><span
+                                    {% if app.user == team.ownedByCoach and team.retired == 0 %}
+                                        id="name_{{ player.playerId }}"
+                                    {% endif %}
+                                    playerid="{{ player.playerId }}">{{ player.name }} </span><a
+                                    class="fas fa-search"
+                                    href="{{ path('Player', {'playerid': player.playerId,'type':'n' }) }}"></a>
+                            {% if player.type == 2 %}
+                                <p class="fas fa-euro-sign"/>
+                            {% endif %}
+                            {% if player.status == 9 %}
+                                <p class="fas fa-arrow-up"/>
+                            {% endif %}
+                        </td>
+                        <td><img src="{{ asset('build/images/player_icons/'~player.fpos.icon~'.gif') }}"
+                                 class="img-fluid">{{ player.fpos.pos }}</td>
 
-                            </tr>
+                        {% if player.achMa>0 %}
+                            <td class="table-success">{{ player.fpos.ma + player.achMa - player.injMa }}</td>
+                        {% elseif  player.injMa>0 %}
+                            <td class="table-danger">{{ player.fpos.ma + player.achMa - player.injMa }}</td>
+                        {% else %}
+                            <td>{{ player.fpos.ma + player.achMa - player.injMa }}</td>
+                        {% endif %}
+
+                        {% if player.achSt>0 %}
+                            <td class="table-success">{{ player.fpos.st + player.achSt - player.injSt }}</td>
+                        {% elseif  player.injSt>0 %}
+                            <td class="table-danger">{{ player.fpos.st + player.achSt - player.injSt }}</td>
+                        {% else %}
+                            <td>{{ player.fpos.st + player.achSt - player.injSt }}</td>
+                        {% endif %}
+
+                        {% if player.achAg>0 %}
+                            <td class="table-success">{{ player.fpos.ag + player.achAg - player.injAg }}</td>
+                        {% elseif  player.injAg>0 %}
+                            <td class="table-danger">{{ player.fpos.ag + player.achAg - player.injAg }}</td>
+                        {% else %}
+                            <td>{{ player.fpos.ag + player.achAg - player.injAg }}</td>
+                        {% endif %}
+
+                        {% if player.achAv>0 %}
+                            <td class="table-success">{{ player.fpos.av + player.achAv - player.injAv }}</td>
+                        {% elseif  player.injAv>0 %}
+                            <td class="table-danger">{{ player.fpos.av + player.achAv - player.injAv }}</td>
+                        {% else %}
+                            <td>{{ player.fpos.av + player.achAv - player.injAv }}</td>
+                        {% endif %}
+
+                        {% for data in pdata %}
+                            {% if data.pid == player.playerId %}
+                                <td>{{ data.skill|raw }}</td>
+                                <td>{{ data.nbrm }}</td>
+                                {% if data.status=='XP' and app.user == team.ownedByCoach %}
+                                    <td>{{ render(controller('App\\Controller\\JoueurController::skillmodal',{'playerid':player.playerId} )) }}</td>
+                                {% else %}
+                                    <td>{{ data.status }}</td>
+                                {% endif %}
+                                <td>{{ data.cp }}</td>
+                                <td>{{ data.td }}</td>
+                                <td>{{ data.int }}</td>
+                                <td>{{ data.cas }}</td>
+                                <td>{{ data.mvp }}</td>
+                                <td>{{ data.agg }}</td>
+                                <td>{{ data.spp }}</td>
+                                <td class="text-right">{{ data.cost }}</td>
+                            {% endif %}
                         {% endfor %}
-                    </table>
-                    {% if app.user and team.retired == 0 %}
-                        {{ render(controller('App\\Controller\\JoueurController::playerAdder',{'raceId':team.fRace.raceId,'teamId':team.teamId} )) }}
-                        <a type="button" class="btn btn-primary" href="{{ path('Chkteam', {'teamId': team.teamId} ) }}">Check
-                            Equipe</a>
-                        <a type="button" class="btn btn-primary" href="{{ path('pdfTeam', {'id': team.teamId} ) }}">Exporter
-                            en PDF</a>
-                    {% endif %}
-                    <table class="table">
-                        <tr>
-                            <td colspan=7 rowspan=7></td>
-                            <td rowspan=7><img src="{{ asset('build/images/race_icons/'~team.fRace.icon~'.png') }}">
-                            </td>
-                            <td colspan=4>Coach : {{ team.ownedByCoach.name }}</td>
-                            <td colspan=5 class="text-right">Valeur totale des joueurs :</td>
-                            <td class="text-right" id="totalPV">{{ tdata.playersCost }}</td>
-                        </tr>
-                        <tr>
-                            <td colspan=4>Races : {{ team.fRace.name }}</td>
-                            <td colspan=5 class="text-right"> Relance :
-                                {% if app.user and team.retired == 0 %}
-                                    <span class="glyphicon glyphicon-plus text-success" id="add_rr" type="rr"
-                                          teamId="{{ team.teamId }}"></span>
-                                {% endif %}
-                                <span id="rr">{{ team.rerolls }}</span>
-                                {% if app.user and team.retired == 0 %}
-                                    <span class="glyphicon glyphicon-minus text-danger" id="rem_rr" type="rr"
-                                          teamId="{{ team.teamId }}"></span>
-                                {% endif %}
-                                x {{ team.fRace.costRr }}</td>
-                            <td class="text-right" id="trr">{{ tdata.rerolls }}</td>
-                        </tr>
-                        <tr>
-                            <td colspan=4>Trésor : <span id="tresor">{{ team.treasury }}</span></td>
-                            <td colspan=5 class="text-right"> Popularité :
-                                {% if app.user and team.retired == 0 %}
-                                    <span class="glyphicon glyphicon-plus text-success" id="add_pop" type="pop"
-                                          teamId="{{ team.teamId }}"></span>
-                                {% endif %}
-                                <span id="pop">{{ team.ff + team.ffBought }}</span>
-                                {% if app.user and team.retired == 0 %}
-                                    <span class="glyphicon glyphicon-minus text-danger" id="rem_pop" type="pop"
-                                          teamId="{{ team.teamId }}"></span>
-                                {% endif %}
-                                x 10000
-                            </td>
-                            <td class="text-right" id="tpop">{{ tdata.pop }}</td>
-                        </tr>
-                        <tr>
-                            <td colspan=4>TV : <span id="pTv">{{ tdata.tv/1000 }}</span></td>
-                            <td colspan=5 class="text-right"> Ass. Coach :
-                                {% if app.user and team.retired == 0 %}
-                                    <span class="glyphicon glyphicon-plus text-success" id="add_ac" type="ac"
-                                          teamId="{{ team.teamId }}"></span>
-                                {% endif %}
-                                <span id="ac">{{ team.assCoaches }}</span>
-                                {% if app.user and team.retired == 0 %}
-                                    <span class="glyphicon glyphicon-minus text-danger" id="rem_ac" type="ac"
-                                          teamId="{{ team.teamId }}"></span>
-                                {% endif %}
-                                x 10000
-                            </td>
-                            <td class="text-right" id="tac">{{ tdata.asscoaches }}</td>
-                        </tr>
-                        <tr>
-                            <td colspan=4>ELO : {{ team.elo }}</td>
-                            <td colspan=5 class="text-right"> Cheerleaders :
-                                {% if app.user and team.retired == 0 %}
-                                    <span class="glyphicon glyphicon-plus text-success" id="add_chl" type="chl"
-                                          teamId="{{ team.teamId }}"></span>
-                                {% endif %}
-                                <span id="chl">{{ team.cheerleaders }}</span>
-                                {% if app.user and team.retired == 0 %}
-                                    <span class="glyphicon glyphicon-minus text-danger" id="rem_chl" type="chl"
-                                          teamId="{{ team.teamId }}"></span>
-                                {% endif %}
-                                x 10000
-                            </td>
-                            <td class="text-right" id="tchl">{{ tdata.cheerleader }}</td>
-                        </tr>
-                        <tr>
-                            <td colspan=4>Stade : <span id="stade_name"  teamId="{{ team.teamId }}"><strong>{{ team.fStades.nom }}</strong></span>, Type: {{ team.fStades.FtypeStade.type }},
-                                payement en cours :
-                                {% if app.user and team.retired == 0 %}
-                                <span class="glyphicon glyphicon-plus text-success" id="add_pay" type="pay"
-                                      teamId="{{ team.teamId }}"></span>
-                                {% endif %}
-                                <span id="pay">{{ team.fStades.TotalPayement }}</span>
-                                {% if app.user and team.retired == 0 %}
-                                    <span class="glyphicon glyphicon-minus text-danger" id="rem_pay" type="pay"
-                                          teamId="{{ team.teamId }}"></span>
-                                {% endif %}
-                                {% if team.fStades.TotalPayement == 150000 %}
-                                    {{ render(controller('App\\Controller\\StatBBController::ajoutStadeModal',{'equipeId':team.teamId} )) }}
-                                {% endif %}
-                            </td>
-                            <td colspan=5 class="text-right"> Apothicaire :
-                                {% if app.user and team.retired == 0 %}
-                                    <span class="glyphicon glyphicon-plus text-success" id="add_apo" type="apo"
-                                          teamId="{{ team.teamId }}"></span>
-                                {% endif %}
-                                <span id="apo">{{ team.apothecary }}</span>
-                                {% if app.user and team.retired == 0 %}
-                                    <span class="glyphicon glyphicon-minus text-danger" id="rem_apo" type="apo"
-                                          teamId="{{ team.teamId }}"></span>
-                                {% endif %}
-                                x 50000
-                            </td>
-                            <td class="text-right" id="tapo">{{ tdata.apo }}</td>
-                        </tr>
-                        <tr>
-                            <td colspan=4 rowspan=1></td>
-                            <td colspan=5 class="text-right">Total :</td>
-                            <td class="text-right" id="caseTv">{{ tdata.tv }}</td>
-                        </tr>
 
-                    </table>
-                </div>
+                        </tr>
+                    {% endfor %}
+                </table>
+                {% if app.user == team.ownedByCoach and team.retired == 0 %}
+                    {{ render(controller('App\\Controller\\JoueurController::playerAdder', {'equipe' : team})) }}
+                    <a type="button" class="btn btn-primary" href="{{ path('Chkteam', {'teamId': team.teamId} ) }}">Check
+                        Equipe</a>
+                    <a type="button" class="btn btn-primary" href="{{ path('pdfTeam', {'id': team.teamId} ) }}">Exporter
+                        en PDF</a>
+                {% endif %}
+                <table class="table">
+                    <tr>
+                        <td colspan=7 rowspan=7></td>
+                        <td rowspan=7><img src="{{ asset('build/images/race_icons/'~team.fRace.icon~'.png') }}">
+                        </td>
+                        <td colspan=4>Coach : {{ team.ownedByCoach.name }}</td>
+                        <td colspan=5 class="text-right">Valeur totale des joueurs :</td>
+                        <td class="text-right" id="totalPV">{{ tdata.playersCost }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan=4>Races : {{ team.fRace.name }}</td>
+                        <td colspan=5 class="text-right"> Relance :
+                            {% if app.user == team.ownedByCoach and team.retired == 0 %}
+                                <span class="fas fa-plus text-success" id="add_rr" type="rr"
+                                      teamId="{{ team.teamId }}"></span>
+                            {% endif %}
+                            <span id="rr">{{ team.rerolls }}</span>
+                            {% if app.user == team.ownedByCoach and team.retired == 0 %}
+                                <span class="fas fa-minus text-danger" id="rem_rr" type="rr"
+                                      teamId="{{ team.teamId }}"></span>
+                            {% endif %}
+                            x {{ team.fRace.costRr }}</td>
+                        <td class="text-right" id="trr">{{ tdata.rerolls }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan=4>Trésor : <span id="tresor">{{ team.treasury }}</span></td>
+                        <td colspan=5 class="text-right"> Popularité :
+                            {% if app.user == team.ownedByCoach and team.retired == 0 %}
+                                <span class="fas fa-plus text-success" id="add_pop" type="pop"
+                                      teamId="{{ team.teamId }}"></span>
+                            {% endif %}
+                            <span id="pop">{{ team.ff + team.ffBought }}</span>
+                            {% if app.user == team.ownedByCoach and team.retired == 0 %}
+                                <span class="fas fa-minus text-danger" id="rem_pop" type="pop"
+                                      teamId="{{ team.teamId }}"></span>
+                            {% endif %}
+                            x 10000
+                        </td>
+                        <td class="text-right" id="tpop">{{ tdata.pop }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan=4>TV : <span id="pTv">{{ tdata.tv/1000 }}</span></td>
+                        <td colspan=5 class="text-right"> Ass. Coach :
+                            {% if app.user == team.ownedByCoach and team.retired == 0 %}
+                                <span class="fas fa-plus text-success" id="add_ac" type="ac"
+                                      teamId="{{ team.teamId }}"></span>
+                            {% endif %}
+                            <span id="ac">{{ team.assCoaches }}</span>
+                            {% if app.user == team.ownedByCoach and team.retired == 0 %}
+                                <span class="fas fa-minus text-danger" id="rem_ac" type="ac"
+                                      teamId="{{ team.teamId }}"></span>
+                            {% endif %}
+                            x 10000
+                        </td>
+                        <td class="text-right" id="tac">{{ tdata.asscoaches }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan=4>ELO : {{ team.elo }}</td>
+                        <td colspan=5 class="text-right"> Cheerleaders :
+                            {% if app.user == team.ownedByCoach and team.retired == 0 %}
+                                <span class="fas fa-plus text-success" id="add_chl" type="chl"
+                                      teamId="{{ team.teamId }}"></span>
+                            {% endif %}
+                            <span id="chl">{{ team.cheerleaders }}</span>
+                            {% if app.user == team.ownedByCoach and team.retired == 0 %}
+                                <span class="fas fa-minus text-danger" id="rem_chl" type="chl"
+                                      teamId="{{ team.teamId }}"></span>
+                            {% endif %}
+                            x 10000
+                        </td>
+                        <td class="text-right" id="tchl">{{ tdata.cheerleader }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan=4>Stade : <span
+                                    {% if app.user == team.ownedByCoach and team.retired == 0 %}
+                                        id="stade_name"
+                                    {% endif %}
+                                    teamId="{{ team.teamId }}"><strong>{{ team.fStades.nom }}</strong></span>,
+                            Type: {{ team.fStades.FtypeStade.type }},
+                            payement en cours :
+                            {% if app.user == team.ownedByCoach and team.retired == 0 %}
+                                <span class="fas fa-plus text-success" id="add_pay" type="pay"
+                                      teamId="{{ team.teamId }}"></span>
+                            {% endif %}
+                            <span id="pay">{{ team.fStades.TotalPayement }}</span>
+                            {% if app.user == team.ownedByCoach and team.retired == 0 %}
+                                <span class="fas fa-minus text-danger" id="rem_pay" type="pay"
+                                      teamId="{{ team.teamId }}"></span>
+                            {% endif %}
+                            {% if app.user == team.ownedByCoach and team.retired == 0 and team.fStades.TotalPayement == 150000 %}
+                                {{ render(controller('App\\Controller\\EquipeController::ajoutStadeModal',{'equipeId':team.teamId} )) }}
+                            {% endif %}
+                        </td>
+                        <td colspan=5 class="text-right"> Apothicaire :
+                            {% if app.user == team.ownedByCoach and team.retired == 0 %}
+                                <span class="fas fa-plus text-success" id="add_apo" type="apo"
+                                      teamId="{{ team.teamId }}"></span>
+                            {% endif %}
+                            <span id="apo">{{ team.apothecary }}</span>
+                            {% if app.user == team.ownedByCoach and team.retired == 0 %}
+                                <span class="fas fa-minus text-danger" id="rem_apo" type="apo"
+                                      teamId="{{ team.teamId }}"></span>
+                            {% endif %}
+                            x 50000
+                        </td>
+                        <td class="text-right" id="tapo">{{ tdata.apo }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan=4 rowspan=1></td>
+                        <td colspan=5 class="text-right">Total :</td>
+                        <td class="text-right" id="caseTv">{{ tdata.tv }}</td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="row">
-                <div class="col-md-2 col-xs-2"></div>
-                <div class="col-md-8 col-xs-8">
-                    <div class="panel">
-                        <div class="panel-body ">{{ render(controller('App\\Controller\\ClassementController::cinqDernierMatchPourEquipe',{ 'equipeId':team.teamId } )) }}</div>
-                    </div>
-                </div>
-                <div class="col-md-2 col-xs-2"></div>
-            </div>
+    <div class="d-flex flex-xl-row flex-sm-column m-2 align-content-center justify-content-center">
+        <div class="card">
+            <div class="card-body">{{ render(controller('App\\Controller\\ClassementController::cinqDernierMatchPourEquipe',{ 'equipeId':team.teamId } )) }}</div>
         </div>
     </div>
 {% endblock %}

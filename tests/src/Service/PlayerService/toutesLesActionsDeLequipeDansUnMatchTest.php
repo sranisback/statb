@@ -55,7 +55,7 @@ class toutesLesActionsDeLequipeDansUnMatchTest extends KernelTestCase
         );
 
         $this->assertEquals(
-            '<ul><li>joueur test, Witch Elf(1): MVP: 1</li></ul>',
+            'joueur test, Witch Elf(1): MVP: 1<br/>',
             $playerService->toutesLesActionsDeLequipeDansUnMatch($match, $equipe)
         );
     }
@@ -99,7 +99,7 @@ class toutesLesActionsDeLequipeDansUnMatchTest extends KernelTestCase
         );
 
         $this->assertEquals(
-            '<ul><li>Inconnu, Witch Elf(1): MVP: 1</li></ul>',
+            'Inconnu, Witch Elf(1): MVP: 1<br/>',
             $playerService->toutesLesActionsDeLequipeDansUnMatch($match, $equipe)
         );
     }
@@ -141,6 +141,6 @@ class toutesLesActionsDeLequipeDansUnMatchTest extends KernelTestCase
             $matchDataService
         );
 
-        $this->assertEquals('<ul></ul>', $playerService->toutesLesActionsDeLequipeDansUnMatch($match, $equipe));
+        $this->assertEquals('', $playerService->toutesLesActionsDeLequipeDansUnMatch($match, $equipe));
     }
 }

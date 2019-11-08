@@ -2,102 +2,87 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Site de Stat Blood bowl{% endblock %}</title>
-    <link rel="icon" type="image/x-icon" href="{{ asset('build/images/favicon.ico') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('build/images/favicon.ico') }}"/>
     {% block cssjs %}
         <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
-
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+                integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+                crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+                integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+                crossorigin="anonymous"></script>
+        <script src="https://kit.fontawesome.com/61d30ff0c7.js" crossorigin="anonymous"></script>
         <script src="{{ asset('build/js/app.js') }}"></script>
     {% endblock %}
 </head>
 <body>
 <!-- Navigation -->
 {% block nav %}
-    <nav class="navbar navbar-fixed-top navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="{{ path('index') }}">Site de stat Blood bowl</a>
-            </div>
-
-            <ul class="nav navbar-nav hidden-xs">
-                <li>
+    <nav class="navbar navbar-expand-lg ">
+        <a class="navbar-brand" href="{{ path('index') }}"><img src="{{ asset('build/images/favicon.ico') }}" width="25" height="25" >Site de stat Blood bowl</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarsExample05" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="fas fa-bars"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
                     {% block citation %}
                         {{ render(controller('App\\Controller\\StatBBController::citation' )) }}
                     {% endblock %}
                 </li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-                {% if not app.user %}
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span
-                                    class="caret"></span></a>
-                        <ul id="login-dp" class="dropdown-menu">
-                            <li>
-                                <form class="form" role="form" method="post" action="{{ path('login') }}"
-                                      accept-charset="UTF-8" id="login-nav">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" name="_username"
-                                               placeholder="Nom du coach" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="password" class="form-control" name="_password"
-                                               placeholder="Password" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-primary btn-block">Go</button>
-                                    </div>
-                                </form>
-                            </li>
-                        </ul>
-                    </li>
-                {% else %}
-                    <li class="visible-md visible-lg hidden-xs">
-                        <a href="{{ path('index') }}" class="glyphicon glyphicon-home"></a>
-                    </li>
-                    <li class="visible-md visible-lg hidden-xs">
-                        <a href="{{ path('frontUser') }}">Le coin du coach</a>
-                    </li>
-                    <li class="visible-md visible-lg hidden-xs">
-                        <a href="{{ path('logout') }}" class="glyphicon glyphicon-remove"></a>
-                    </li>
-                {% endif %}
-            </ul>
+
+            <ul class="navbar-nav ml-auto">
             {% if app.user %}
-                <span class="hidden-md hidden-lg visible-xs"><a href="{{ path('index') }}"
-                                                                class="glyphicon glyphicon-home"></a>|<a
-                            href="{{ path('frontUser') }}" class="glyphicon glyphicon-tower"></a>|<a
-                            href="{{ path('logout') }}" class="glyphicon glyphicon-remove"></a></span>
+                <li class="nav-item m-2">
+                    <a href="{{ path('index') }}"><span class="fas fa-home"></span>Home</a>
+                </li>
+
+                <li class="nav-item m-2">
+                    <a href="{{ path('frontUser') }}" ><span class="fas fa-user"></span>Le coin du coach</a>
+                </li>
+                <li class="nav-item m-2">
+                    <a href="{{ path('logout') }}"><span class="fa fa-sign-out-alt"></span> Sortir</a>
+                </li>
+            {% else %}
+                    <li class="nav-item">
+                        <form class="form-inline" method="post" action="{{ path('login') }}">
+                            <div class="d-flex flex-row">
+                                <input type="text" class="form-control mx-1" placeholder="Login" name="_username" required>
+                                <input type="password" class="form-control mx-1" placeholder="Password" name="_password"  required>
+                                <button type="submit" class="btn btn-primary mx-1">Go !</button>
+                            </div>
+                        </form>
+                    </li>
             {% endif %}
+            </ul>
         </div>
     </nav>
 {% endblock %}
 
 <!-- content -->
 {% for message in app.flashes('success') %}
-    <div class="container-fluid">
-        <div class="alert alert-success alert-dismissible fade in">
+        <div class="alert alert-success alert-dismissible fade show mt-2 mx-2">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             {{ message }}
         </div>
-    </div>
 {% endfor %}
 {% for message in app.flashes('fail') %}
-    <div class="container-fluid">
-        <div class="alert alert-danger alert-dismissible fade in">
+        <div class="alert alert-danger alert-dismissible fade show mt-2 mx-2">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             {{ message }}
         </div>
-    </div>
 {% endfor %}
 {% if app.user and app.user.roles["role"] == 'ROLE_ADMIN' %}
     {% for message in app.flashes('admin') %}
-        <div class="container-fluid">
-            <div class="alert alert-success alert-dismissible fade in">
+            <div class="alert alert-success alert-dismissible fade show mt-2 mx-2">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                 {{ message|raw }}
             </div>
-        </div>
     {% endfor %}
 {% endif %}
 {% block body %}

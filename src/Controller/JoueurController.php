@@ -9,7 +9,10 @@ use App\Entity\Matches;
 use App\Entity\Players;
 use App\Entity\PlayersSkills;
 use App\Entity\Races;
+use App\Entity\Teams;
+use App\Factory\PlayerFactory;
 use App\Form\AjoutCompetenceType;
+use App\Form\AjoutJoueurType;
 use App\Service\EquipeService;
 use App\Service\PlayerService;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -170,25 +173,19 @@ class JoueurController extends AbstractController
     }
 
     /**
-     * @Route("/playerAdder/{raceId}/{teamId}", name="playerAdder", options = { "expose" = true })
-     * @param int $raceId
-     * @param int $teamId
+     * @Route("/playerAdder/{equipe}", name="playerAdder")
+     * @param Teams $equipe
      * @return Response
      */
-    public function playerAdder($raceId, $teamId)
+    public function playerAdder(Teams $equipe)
     {
-        $race = $this->getDoctrine()->getRepository(races::class)->findOneBy(array('raceId' => $raceId));
+        $form = $this->createForm(AjoutJoueurType::class, null, ['equipe' => $equipe]);
 
-        $playerpositions = $this->getDoctrine()->getRepository(GameDataPlayers::class)->findBy(['fRace' => $race]);
-
-        return $this->render(
-            'statbb/playeradder.html.twig',
-            ['playerpositions' => $playerpositions, 'teamId' => $teamId]
-        );
+        return $this->render('statbb/playeradder.html.twig', ['form' => $form->createView()]);
     }
 
     /**
-     * @Route("/addPlayer/{posId}/{teamId}", options = { "expose" = true })
+     * @Route("/addPlayer/{posId}/{teamId}", name="addPlayer",options = { "expose" = true })
      * @param PlayerService $playerService
      * @param EquipeService $equipeService
      * @param int $posId
@@ -209,6 +206,8 @@ class JoueurController extends AbstractController
             $position = $joueur->getFPos();
             if ($position) {
                 $competences = $playerService->listeDesCompdDeBasedUnJoueur($joueur);
+
+                $competences = substr($competences, 0, strlen($competences) - 2);
 
                 $html = $this->render(
                     'statbb/lineteamsheet.html.twig',

@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Coaches;
 use App\Entity\Players;
 use App\Entity\Teams;
 use App\Service\ClassementService;
+use App\Service\EquipeService;
 use App\Service\SettingsService;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,28 +39,41 @@ class ClassementController extends AbstractController
     }
 
     /**
-     * @Route("/classement/{type}/{teamorplayer}/{limit}", name="classement", options = { "expose" = true })
+     * @Route("/classementEquipe/{type}/{limit}", defaults={"limit"=0}, name="classementEquipe")
      * @param ClassementService $classementService
      * @param string $type
-     * @param string $teamorplayer
      * @param int $limit
      * @return Response
      */
-    public function afficheSousClassements(ClassementService $classementService, $type, $teamorplayer, $limit)
+    public function afficheSousClassementsEquipe(ClassementService $classementService, string $type, int $limit)
     {
-        $sousClassement = $classementService->sousClassements(
+        $sousClassement = $classementService->genereClassementEquipes(
             $this->settingsService->anneeCourante(),
             $type,
-            $teamorplayer,
             $limit
         );
 
-        if ($teamorplayer == 'player') {
-            return $this->render('statbb/Spclassement.html.twig', $sousClassement);
-        } else {
-            return $this->render('statbb/Stclassement.html.twig', $sousClassement);
-        }
+        return $this->render('statbb/Stclassement.html.twig', $sousClassement);
     }
+
+    /**
+     * @Route("/classementJoueur/{type}/{limit}", defaults={"limit"=0}, name="classementJoueur")
+     * @param ClassementService $classementService
+     * @param string $type
+     * @param int $limit
+     * @return Response
+     */
+    public function afficheSousClassementJoueur(ClassementService $classementService, string $type, int $limit)
+    {
+        $sousClassement = $classementService->genereClassementJoueurs(
+            $this->settingsService->anneeCourante(),
+            $type,
+            $limit
+        );
+
+        return $this->render('statbb/Spclassement.html.twig', $sousClassement);
+    }
+
 
     /**
      * @Route("/totalcas", options = { "expose" = true })
@@ -127,6 +142,28 @@ class ClassementController extends AbstractController
             [
                 'equipeCollection' => $this->getDoctrine()->getRepository(Teams::class)->findBy(
                     ['year' => $this->settingsService->anneeCourante()]
+                ),
+            ]
+        );
+    }
+
+    /**
+     * @Route("/montreConfrontation", name="montreConfrontation", options = { "expose" = true })
+     * @param ClassementService $classementService
+     * @param EquipeService $equipeService
+     * @return Response
+     */
+    public function afficheConfrontation(ClassementService $classementService, EquipeService $equipeService)
+    {
+        /** @var Coaches $coach */
+        $coach = $this->getUser();
+
+        return $this->render(
+            'statbb/tabs/coach/confrontation.html.twig',
+            [
+                'tableauConfrontation' => $classementService->confrontationTousLesCoaches(
+                    $coach,
+                    $equipeService
                 ),
             ]
         );

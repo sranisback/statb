@@ -3,6 +3,7 @@
         "@symfony/webpack-encore": "^0.20.0",
         "bootstrap": "^4.3.1",
         "node-sass": "^4.9.3",
+        "popper.js": "^1.16.0",
         "sass-loader": "^7.1.0",
         "webpack-notifier": "^1.6.0"
     },
@@ -17,6 +18,7 @@
     "dependencies": {
         "bootstrap-sass": "^3.3.7",
         "datatables.net": "^1.10.19",
-        "jquery": "^3.3.1"
+        "jquery": "^3.4.1",
+        "rfs": "^9.0.2"
     }
 }

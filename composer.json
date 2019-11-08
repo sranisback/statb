@@ -26,7 +26,8 @@
         "symfony/web-server-bundle": "*",
         "symfony/webpack-encore-pack": "^1.0",
         "symfony/yaml": "*",
-        "twbs/bootstrap": "^4.3"
+        "twbs/bootstrap": "^4.3",
+        "twig/extensions": "^1.5"
     },
     "require-dev": {
         "phpstan/phpstan": "^0.11.2",

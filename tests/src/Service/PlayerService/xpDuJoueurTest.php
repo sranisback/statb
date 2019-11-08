@@ -2,63 +2,92 @@
 
 namespace App\Tests\src\Service\PlayerService;
 
-
-use App\Entity\GameDataPlayers;
 use App\Entity\MatchData;
 use App\Entity\Players;
+use App\Service\EquipeService;
+use App\Service\MatchDataService;
+use App\Service\PlayerService;
+use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class xpDuJoueurTest extends KernelTestCase
 {
-    private $entityManager;
-
-    protected function setUp()
+    /**
+     * @test
+     */
+    public function l_xp_totale_est_bien_calculee()
     {
-        self::bootKernel();
-        $container = self::$container;
+        $joueurTest = new Players();
 
-        $this->entityManager = $container
-            ->get('doctrine')
-            ->getManager();
+        $matchDataTest0 = new MatchData();
+        $matchDataTest0->setMvp(1);
+        $matchDataTest0->setCp(1);
+        $matchDataTest0->setBh(1);
+        $matchDataTest1 = new MatchData();
+        $matchDataTest1->setTd(1);
+        $matchDataTest1->setIntcpt(1);
 
-        $joueur = new Players;
+        $matchDataRepoMock = $this->createMock(ObjectRepository::class);
+        $matchDataRepoMock->method('findBy')->willReturn([$matchDataTest0, $matchDataTest1]);
 
-        $joueur->setFPos($this->entityManager->getRepository(GameDataPlayers::class)->findOneBy(['posId' => 34]));
-        $joueur->setName('joueur test');
-        $joueur->setType(1);
+        $objectManager = $this->createMock(EntityManagerInterface::class);
+        $objectManager->method('getRepository')->willReturn($matchDataRepoMock);
 
-        $this->entityManager->persist($joueur);
+        $playerServiceTest = new PlayerService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class)
+        );
 
-        $matchData = new MatchData;
-
-        $matchData->setMvp(1);
-        $matchData->setFPlayer($joueur);
-
-        $this->entityManager->persist($matchData);
-
-        $this->entityManager->flush();
+        $this->assertEquals(13, $playerServiceTest->xpDuJoueur($joueurTest));
     }
 
     /**
-     *@test
+     * @test
      */
-    public function l_xp_est_bien_calculee()
+    public function il_n_y_a_pas_de_donnees()
     {
-        $playerService = self::$container->get('App\Service\PlayerService');
+        $joueurTest = new Players();
 
-        $joueur = $this->entityManager->getRepository(Players::class)->findOneBy(['name' => 'joueur test']);
+        $matchDataRepoMock = $this->createMock(ObjectRepository::class);
+        $matchDataRepoMock->method('findBy')->willReturn([]);
 
-        $this->assertEquals(5, $playerService->xpDuJoueur($joueur));
+        $objectManager = $this->createMock(EntityManagerInterface::class);
+        $objectManager->method('getRepository')->willReturn($matchDataRepoMock);
+
+        $playerServiceTest = new PlayerService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class)
+        );
+
+        $this->assertEquals(0, $playerServiceTest->xpDuJoueur($joueurTest));
     }
 
-    protected function tearDown()
+
+    /**
+     * @test
+     */
+    public function le_joueur_n_a_rien_fait_dans_les_matches()
     {
-        $joueur = $this->entityManager->getRepository(Players::class)->findOneBy(['name' => 'joueur test']);
+        $joueurTest = new Players();
 
-        $this->entityManager->remove($this->entityManager->getRepository(MatchData::class)->findOneBy(['fPlayer'=>$joueur]));
+        $matchDataTest0 = new MatchData();
+        $matchDataTest1 = new MatchData();
 
-        $this->entityManager->remove($joueur);
+        $matchDataRepoMock = $this->createMock(ObjectRepository::class);
+        $matchDataRepoMock->method('findBy')->willReturn([$matchDataTest0, $matchDataTest1]);
 
-        $this->entityManager->flush();
+        $objectManager = $this->createMock(EntityManagerInterface::class);
+        $objectManager->method('getRepository')->willReturn($matchDataRepoMock);
+
+        $playerServiceTest = new PlayerService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class)
+        );
+
+        $this->assertEquals(0, $playerServiceTest->xpDuJoueur($joueurTest));
     }
 }

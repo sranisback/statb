@@ -1,0 +1,20 @@
+<table class="table table-striped" id="tableConfrontations">
+    <thead>
+        <tr>
+            <th>adversaire</th>
+            <th>% victoire</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for coach, line in  tableauConfrontation if line[0] != 'N/A' %}
+       <tr data-toggle="tooltip" data-placement="top" title="V: {{ line[1] }}, N: {{ line[2] }}, D: {{ line[3] }} ">
+            <td>
+                {{ coach }}
+            </td>
+            <td >
+                {{ line[0] }}
+            </td>
+        </tr>
+    {% endfor  %}
+    </tbody>
+</table>

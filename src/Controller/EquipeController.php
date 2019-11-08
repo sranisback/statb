@@ -42,6 +42,7 @@ class EquipeController extends AbstractController
 
         return new JsonResponse($jsonContent);
     }
+
     /**
      * @Route("/montreLesEquipes", name="showteams", options = { "expose" = true })
      * @param SettingsService $settingsService
@@ -99,7 +100,6 @@ class EquipeController extends AbstractController
      * @Route("/showuserteams", name="showuserteams", options = { "expose" = true })
      * @param SettingsService $settingsService
      * @param EquipeService $equipeService
-     * @param PlayerService $playerService
      * @return response
      */
     public function showUserTeams(
@@ -138,7 +138,7 @@ class EquipeController extends AbstractController
      * @param string $type
      * @return Response
      */
-    public function showTeam(PlayerService $playerService, EquipeService $equipeService, $teamid, $type)
+    public function showTeam(PlayerService $playerService, EquipeService $equipeService, $teamid, $type = null)
     {
         $pdata = [];
 
@@ -316,8 +316,6 @@ class EquipeController extends AbstractController
      */
     public function chkteam($teamId, EquipeService $equipeService, PlayerService $playerService)
     {
-        $entityManager = $this->getDoctrine()->getManager();
-
         $team = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
 
         if (!empty($team)) {

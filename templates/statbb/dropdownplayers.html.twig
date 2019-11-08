@@ -1,6 +1,6 @@
-<div class="form-group">
-    <label for="selected_player_{{ teamId }}_{{ nbr }}" class="control-label col-sm-2 col-lg-2 col-md-2">Joueur</label>
-    <div class="col-sm-8 col-lg-8 col-md-8">
+<div class="d-flex">
+    <div class="form-group">
+        <label for="selected_player_{{ teamId }}_{{ nbr }}" class="control-label" id="action">Joueur</label>
         <select class="form-control" id="selected_player_{{ teamId }}_{{ nbr }}" name="player[{{ nbr }}].id">
             <option selected></option>
             {% for player in players %}
@@ -10,8 +10,8 @@
             {% endfor %}
         </select>
     </div>
-    <div class="col-sm-2 col-lg-2 col-md-2">
-        <select class="form-control" id="action" name="player[{{ nbr }}].action">
+    <div>
+        <select class="form-control"  name="player[{{ nbr }}].action">
             <option selected></option>
             <option>COMP</option>
             <option>TD</option>
@@ -31,6 +31,3 @@
         </select>
     </div>
 </div>
-
-
-

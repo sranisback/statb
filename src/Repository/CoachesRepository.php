@@ -18,4 +18,16 @@ class CoachesRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Coaches::class);
     }
+
+    /**
+     * @param Coaches $coach
+     * @return mixed
+     */
+    public function tousLesAutresCoaches(Coaches $coach)
+    {
+        return $this->createQueryBuilder('Coaches')
+            ->where('Coaches.coachId !='.$coach->getCoachId())
+            ->orderBy('Coaches.name')
+            ->getQuery()->getResult();
+    }
 }

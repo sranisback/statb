@@ -111,11 +111,17 @@ class StatBBController extends AbstractController
         return $this->render('statbb/user.html.twig');
     }
 
+    /**
+     * @Route("/tabCoach", name="tabCoach")
+     */
     public function tabCoach()
     {
         return $this->render('statbb/tabs/coach/tabCoach.html.twig');
     }
 
+    /**
+     * @Route("/tabLigue", name="tabLigue")
+     */
     public function tabLigue()
     {
         return $this->render('statbb/tabs/ligue/tabLigue.html.twig');

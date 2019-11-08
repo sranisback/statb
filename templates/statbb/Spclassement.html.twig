@@ -1,13 +1,13 @@
 {% if limit == 0 %}
     <div class="modal-header">
+        <h5 class="text-center">{{ title }}</h5>
         <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
         </button>
-        <h3 class="text-center">{{ title }}</h3>
     </div>
 <div class="modal-body">
     {% endif %}
     {% if limit != 0 %}
-        <h3 class="text-center">{{ title }}</h3>
+        <h5 class="text-center">{{ title }}</h5>
     {% endif %}
     <div class="table-responsive">
         <table class="table table-striped" id="{{ class }}">
@@ -16,8 +16,8 @@
                 <tr>
                     <td>{{ loop.index }}</td>
                     <td><img src="{{ asset('build/images/player_icons/'~player.icon~'.gif') }}"
-                             class=".img-responsive">{{ player.nr }}.{{ player.name }}{{ player.sold }}{{ player.dead }}
-                        - {{ player.teams }}</td>
+                             class="img-fluid">{{ player.nr }}.{{ player.name }}{{ player.sold }}{{ player.dead }}
+                        - <a href="{{ path('team', {'teamid': player.equipeId }) }}">{{ player.equipe }}</a></td>
                     <td>{{ player.score }}</td>
                 </tr>
             {% endfor %}
@@ -31,14 +31,14 @@
 </div>
 {% endif %}
 {% if limit > 0 %}
-    <a type="button" class="btn btn-primary" data-toggle="modal"
-       href="{{ path('classement',{'type':type,'teamorplayer':teamorplayer,'limit':0}) }}" data-target="#cl{{ type }}">Tous
-        les joueurs</a>
+    <button class="btn btn-primary" data-toggle="modal" data-target="#cl{{ type }}">
+        Tous les joueurs
+    </button>
 
     <div class="modal fade" id="cl{{ type }}">
         <div class="modal-dialog">
             <div class="modal-content">
-                <img src="{{ asset('build/images/big-loader.gif') }}" class="img-responsive center-block">
+                {{ render(controller('App\\Controller\\ClassementController::afficheSousClassementJoueur', {'type': type,'limit':0} )) }}
             </div>
         </div>
     </div>

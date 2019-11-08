@@ -121,7 +121,7 @@ class Matches
     private $fMeteo = 0;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\GameDataStadium")
+     * @ORM\ManyToOne(targetEntity="App\Entity\GameDataStadium", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
     private $fStade = 0;

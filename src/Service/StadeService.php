@@ -16,20 +16,14 @@ class StadeService
         $this->doctrineEntityManager = $doctrineEntityManager;
     }
 
-    public function renommerStade(Teams $equipe, $nouveauNomStade)
+    /**
+     * @param Teams $equipe
+     * @param string $nouveauNomStade
+     */
+    public function renommerStade(Teams $equipe, string $nouveauNomStade)
     {
         /** @var Stades $stade */
         $stade = $equipe->getFStades();
-
-        if ($stade->getId() == 0) {
-            $stade = new Stades();
-            $typeStade = $this->doctrineEntityManager->getRepository(GameDataStadium::class)->findOneBy(['id'=>0]);
-
-            $stade->setFTypeStade($typeStade);
-            $stade->setTotalPayement(0);
-            $this->doctrineEntityManager->persist($stade);
-            $equipe->setFStades($stade);
-        }
 
         /** @var Stades $stade */
         $stade->setNom($nouveauNomStade);
