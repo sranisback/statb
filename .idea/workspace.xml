@@ -8,14 +8,13 @@
     <bookmark url="file://$PROJECT_DIR$/tests/src/Service/MatchesService/tousLesMatchesDunCoachParAnneeTest.php" line="56" />
   </component>
   <component name="ChangeListManager">
+    <list id="93d7809f-21f2-44bb-ac75-31fb03a6cee4" name="tentative corrections glyphicons en prod 3b" comment="" />
     <list default="true" id="847151cb-c508-4c4e-9aa8-f19098c7acb6" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/MatchController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/MatchController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/statbb/tabs/ligue/matches.twig.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/statbb/tabs/ligue/matches.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
     </list>
-    <list id="93d7809f-21f2-44bb-ac75-31fb03a6cee4" name="tentative corrections glyphicons en prod 3b" comment="" />
     <list id="c3976c2a-a704-469d-97ce-8d7d42ac22f9" name="tentative corrections glyphicons en prod 3" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -71,40 +70,34 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Matches.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Entity/Matches.php">
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/js/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1020" />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tabLigue.html.twig" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/statbb/tabs/ligue/tabLigue.html.twig">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="578">
-              <caret line="34" column="89" selection-start-line="34" selection-start-column="89" selection-end-line="34" selection-end-column="89" />
+            <state relative-caret-position="254">
+              <caret line="72" column="31" selection-start-line="72" selection-start-column="31" selection-end-line="72" selection-end-column="31" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MatchController.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Controller/MatchController.php">
+      <file leaf-file-name="package-lock.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/package-lock.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="570">
-              <caret line="173" column="7" selection-start-line="173" selection-start-column="7" selection-end-line="173" selection-end-column="7" />
-              <folding>
-                <element signature="e#35#66#0#PHP" expanded="true" />
-                <element signature="e#6334#6371#0#PHP" expanded="true" />
-              </folding>
+            <state relative-caret-position="366">
+              <caret line="1405" column="22" selection-start-line="1405" selection-start-column="19" selection-end-line="1405" selection-end-column="22" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="webpack.config.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/webpack.config.js">
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/package.json">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="composer.json" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/composer.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="19" column="54" selection-start-line="19" selection-start-column="54" selection-end-line="19" selection-end-column="54" />
+            <state relative-caret-position="217">
+              <caret line="25" column="41" selection-start-line="25" selection-start-column="41" selection-end-line="25" selection-end-column="41" />
             </state>
           </provider>
         </entry>
@@ -113,9 +106,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>EntityManagerInterface::class</find>
-      <find>'getRepository')-&gt;will</find>
-      <find>if ($entityName === 'App\Entity\Teams'</find>
       <find>new Pla</find>
       <find>chk</find>
       <find>findBy</find>
@@ -143,6 +133,9 @@
       <find>'find</find>
       <find>will</find>
       <find>resultatDuMatch</find>
+      <find>addGame</find>
+      <find>setv</find>
+      <find>set</find>
     </findStrings>
     <replaceStrings>
       <replace>$equipe1Id</replace>
@@ -171,8 +164,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/tests/src/Service/EquipeService/positionDuJournalierTest.php" />
-        <option value="$PROJECT_DIR$/tests/src/Service/EquipeService/nombreDeJournaliersNecessairesTest.php" />
         <option value="$PROJECT_DIR$/tests/src/Service/EquipeService/ajoutDesJournaliersTest.php" />
         <option value="$PROJECT_DIR$/tests/src/Service/EquipeService/GestionDesJournaliersTest.php" />
         <option value="$PROJECT_DIR$/tests/src/Service/EquipeService/checkEquipeTest.php" />
@@ -222,6 +213,8 @@
         <option value="$PROJECT_DIR$/assets/js/app.js" />
         <option value="$PROJECT_DIR$/templates/statbb/tabs/ligue/matches.html.twig" />
         <option value="$PROJECT_DIR$/src/Controller/MatchController.php" />
+        <option value="$PROJECT_DIR$/package-lock.json" />
+        <option value="$PROJECT_DIR$/composer.json" />
       </list>
     </option>
   </component>
@@ -404,8 +397,8 @@
     </include_path>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="19" />
-    <option name="y" value="-8" />
+    <option name="x" value="-61" />
+    <option name="y" value="-13" />
     <option name="width" value="1121" />
     <option name="height" value="539" />
   </component>
@@ -414,10 +407,41 @@
     <option name="STATE" value="1" />
   </component>
   <component name="ProjectView">
-    <navigator proportions="" version="1">
+    <navigator currentView="Scope" currentSubView="Project Files" proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope">
+        <subPane subId="Changed Files">
+          <expand>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="statb" type="cbb8eebc:String" user="statb" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="statb" type="cbb8eebc:String" user="statb" />
+              <item name="src" type="cbb8eebc:String" user="src" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="statb" type="cbb8eebc:String" user="statb" />
+              <item name="src" type="cbb8eebc:String" user="src" />
+              <item name="Service" type="cbb8eebc:String" user="Service" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+        <subPane subId="Project Files">
+          <expand>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="statb" type="cbb8eebc:String" user="statb" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -476,97 +500,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope">
-        <subPane subId="Changed Files">
-          <expand>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="statb" type="cbb8eebc:String" user="statb" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="statb" type="cbb8eebc:String" user="statb" />
-              <item name="src" type="cbb8eebc:String" user="src" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="statb" type="cbb8eebc:String" user="statb" />
-              <item name="src" type="cbb8eebc:String" user="src" />
-              <item name="Service" type="cbb8eebc:String" user="Service" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-        <subPane subId="Project Files">
-          <expand>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="statb" type="cbb8eebc:String" user="statb" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="statb" type="cbb8eebc:String" user="statb" />
-              <item name="src" type="cbb8eebc:String" user="src" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="statb" type="cbb8eebc:String" user="statb" />
-              <item name="src" type="cbb8eebc:String" user="src" />
-              <item name="Controller" type="cbb8eebc:String" user="Controller" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="statb" type="cbb8eebc:String" user="statb" />
-              <item name="src" type="cbb8eebc:String" user="src" />
-              <item name="Enum" type="cbb8eebc:String" user="Enum" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="statb" type="cbb8eebc:String" user="statb" />
-              <item name="src" type="cbb8eebc:String" user="src" />
-              <item name="Repository" type="cbb8eebc:String" user="Repository" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="statb" type="cbb8eebc:String" user="statb" />
-              <item name="src" type="cbb8eebc:String" user="src" />
-              <item name="Service" type="cbb8eebc:String" user="Service" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="statb" type="cbb8eebc:String" user="statb" />
-              <item name="templates" type="cbb8eebc:String" user="templates" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="statb" type="cbb8eebc:String" user="statb" />
-              <item name="tests" type="cbb8eebc:String" user="tests" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="statb" type="cbb8eebc:String" user="statb" />
-              <item name="tests" type="cbb8eebc:String" user="tests" />
-              <item name="src" type="cbb8eebc:String" user="src" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="statb" type="cbb8eebc:String" user="statb" />
-              <item name="tests" type="cbb8eebc:String" user="tests" />
-              <item name="src" type="cbb8eebc:String" user="src" />
-              <item name="Service" type="cbb8eebc:String" user="Service" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="statb" type="cbb8eebc:String" user="statb" />
-              <item name="tests" type="cbb8eebc:String" user="tests" />
-              <item name="src" type="cbb8eebc:String" user="src" />
-              <item name="Service" type="cbb8eebc:String" user="Service" />
-              <item name="MatchesService" type="cbb8eebc:String" user="MatchesService" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -605,7 +538,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="PHPUnit.tests">
+  <component name="RunManager" selected="PHP Script.Symphony Dev Serfv">
     <configuration name="ajoutCompetenceTest.la_competence_s_ajoute_correctement" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
       <TestRunner class="App\Tests\src\Service\PlayerService\ajoutCompetenceTest" file="$PROJECT_DIR$/tests/src/Service/PlayerService/ajoutCompetenceTest.php" method="la_competence_s_ajoute_correctement" scope="Method" />
     </configuration>
@@ -1066,7 +999,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1087420000" />
+    <option name="totallyTimeSpent" value="1091092000" />
   </component>
   <component name="TodoView" selected-index="3">
     <todo-panel id="selected-file">
@@ -1079,23 +1012,21 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1696" height="1036" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32964602" />
-      <window_info anchor="bottom" id="Messages" order="15" sideWeight="0.4987775" weight="0.3436831" />
-      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.502445" side_tool="true" weight="0.3672377" />
-      <window_info anchor="bottom" id="Database Changes" order="10" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="13" sideWeight="0.49755502" weight="0.41924778" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49755502" weight="0.49446902" />
-      <window_info anchor="right" id="Coverage" order="6" sideWeight="0.4040404" side_tool="true" weight="0.28178483" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49755502" weight="0.49557522" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.48230088" visible="true" weight="0.19376528" />
-      <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
-      <window_info anchor="right" id="Database" order="3" sideWeight="0.5959596" weight="0.17420538" />
+      <window_info anchor="bottom" id="TODO" order="14" weight="0.32976446" />
+      <window_info anchor="bottom" id="Messages" order="24" sideWeight="0.4987775" weight="0.3436831" />
+      <window_info anchor="bottom" id="Event Log" order="19" sideWeight="0.5030562" side_tool="true" weight="0.5652655" />
+      <window_info anchor="bottom" id="Database Changes" order="18" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="21" sideWeight="0.49755502" weight="0.41924778" />
+      <window_info anchor="bottom" id="Run" order="4" sideWeight="0.49755502" weight="0.36172566" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="20" sideWeight="0.49694377" visible="true" weight="0.5652655" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4817987" visible="true" weight="0.16564792" />
+      <window_info anchor="bottom" id="Docker" order="17" show_stripe_button="false" />
+      <window_info anchor="right" id="Database" order="4" sideWeight="0.5959596" visible="true" weight="0.12224939" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.46460176" />
-      <window_info id="Structure" order="1" sideWeight="0.5176991" side_tool="true" weight="0.19376528" />
+      <window_info id="Structure" order="1" sideWeight="0.5182013" side_tool="true" weight="0.2787286" />
       <window_info id="Favorites" order="2" side_tool="true" weight="0.3294621" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49755502" weight="0.51106197" />
+      <window_info anchor="bottom" id="Debug" order="5" sideWeight="0.49755502" weight="0.3971239" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4817987" visible="true" weight="0.17237164" />
       <window_info anchor="bottom" id="Docker" order="17" show_stripe_button="false" />
@@ -1118,8 +1049,36 @@
       <window_info anchor="bottom" id="Debug" order="5" sideWeight="0.49755502" weight="0.3971239" />
       <window_info anchor="bottom" id="Database Console" order="22" weight="0.40486726" />
       <window_info anchor="bottom" id="Messages" order="24" sideWeight="0.4987775" weight="0.3436831" />
+      <window_info anchor="right" id="Coverage" order="6" sideWeight="0.4040404" side_tool="true" weight="0.28178483" />
       <window_info id="Favorites" order="2" side_tool="true" weight="0.3294621" />
     </layout>
+    <layout-to-restore>
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49755502" weight="0.36172566" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4817987" visible="true" weight="0.28361857" />
+      <window_info id="Structure" order="1" sideWeight="0.5182013" side_tool="true" weight="0.2787286" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32976446" />
+      <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Inspection Results" order="14" weight="0.5417559" />
+      <window_info anchor="bottom" id="Inspection" order="7" weight="0.4" />
+      <window_info active="true" anchor="bottom" id="Command Line Tools Console" order="0" weight="0.3291536" />
+      <window_info anchor="right" x="0" y="0" width="374" height="866" id="Documentation" order="4" side_tool="true" weight="0.3294621" />
+      <window_info anchor="right" id="Database" order="3" sideWeight="0.5959596" weight="0.15158924" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49694377" weight="0.5652655" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49755502" weight="0.3971239" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.46460176" />
+      <window_info anchor="bottom" id="Version Control" order="12" sideWeight="0.49755502" weight="0.41924778" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5030562" side_tool="true" weight="0.5652655" />
+      <window_info anchor="bottom" id="Database Console" order="13" weight="0.40486726" />
+      <window_info anchor="bottom" id="Message" order="4" />
+      <window_info anchor="bottom" id="Messages" order="15" sideWeight="0.4987775" weight="0.3436831" />
+      <window_info anchor="right" id="Coverage" order="5" sideWeight="0.4040404" side_tool="true" weight="0.28178483" />
+      <window_info id="Favorites" order="2" side_tool="true" weight="0.3294621" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -1213,18 +1172,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Repository/MeteoRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-153" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/statbb/tabs/coach/anciensMatchs.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="23" selection-start-column="23" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/statbb/tabs/ligue/classement.html.twig">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -1232,9 +1179,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="1" column="53" selection-start-line="1" selection-start-column="53" selection-end-line="1" selection-end-column="72" />
-          <folding>
-            <element signature="n#style#0;n#table#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1286,9 +1230,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
           <caret line="28" column="38" selection-start-line="28" selection-start-column="38" selection-end-line="28" selection-end-column="38" />
-          <folding>
-            <element signature="e#56#79#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1296,9 +1237,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="209">
           <caret line="76" column="35" lean-forward="true" selection-start-line="76" selection-start-column="35" selection-end-line="76" selection-end-column="35" />
-          <folding>
-            <element signature="e#55#78#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1306,9 +1244,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="277">
           <caret line="108" column="35" selection-start-line="108" selection-start-column="35" selection-end-line="108" selection-end-column="35" />
-          <folding>
-            <element signature="e#49#72#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1316,9 +1251,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="566">
           <caret line="42" column="22" selection-start-line="42" selection-start-column="21" selection-end-line="42" selection-end-column="22" />
-          <folding>
-            <element signature="e#56#79#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1347,9 +1279,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
           <caret line="36" column="32" lean-forward="true" selection-start-line="36" selection-start-column="32" selection-end-line="36" selection-end-column="32" />
-          <folding>
-            <element signature="e#32#63#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1411,11 +1340,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/infection.log">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-405586" />
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/infection.log" />
     <entry file="file://$PROJECT_DIR$/infection.json.dist">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
@@ -1428,11 +1353,6 @@
         <state relative-caret-position="34">
           <caret line="2" column="62" lean-forward="true" selection-start-line="2" selection-start-column="62" selection-end-line="2" selection-end-column="62" />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/composer.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-816" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/config/packages/security.yaml">
@@ -1461,20 +1381,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/src/Service/PlayerService/remplirMatchDataDeLigneAzeroTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="96" column="43" selection-start-line="96" selection-start-column="43" selection-end-line="96" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/src/Service/PlayerService/remplirMatchDataDeLigneAzeroTest.php" />
     <entry file="file://$PROJECT_DIR$/tests/src/Service/PlayerService/ajoutCompetenceTest.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="430">
           <caret line="31" column="54" selection-start-line="31" selection-start-column="54" selection-end-line="31" selection-end-column="54" />
-          <folding>
-            <element signature="e#56#86#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1517,26 +1428,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="874">
           <caret line="71" column="96" selection-start-line="71" selection-start-column="96" selection-end-line="71" selection-end-column="96" />
-          <folding>
-            <element signature="e#56#87#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/webpack.config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="54" selection-start-line="19" selection-start-column="54" selection-end-line="19" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/js/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="311">
-          <caret line="600" column="22" selection-start-line="600" selection-start-column="22" selection-end-line="600" selection-end-column="22" />
-          <folding>
-            <element signature="e#57#80#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1551,10 +1442,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="493">
           <caret line="29" column="6" selection-start-line="29" selection-start-column="6" selection-end-line="29" selection-end-column="6" />
-          <folding>
-            <element signature="n#style#0;n#table#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="e#950#955#0#Twig" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1571,6 +1458,37 @@
             <element signature="e#35#66#0#PHP" expanded="true" />
             <element signature="e#6334#6371#0#PHP" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webpack.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="263">
+          <caret line="29" selection-start-line="29" selection-end-line="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/js/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="254">
+          <caret line="72" column="31" selection-start-line="72" selection-start-column="31" selection-end-line="72" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package-lock.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="366">
+          <caret line="1405" column="22" selection-start-line="1405" selection-start-column="19" selection-end-line="1405" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/composer.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="217">
+          <caret line="25" column="41" selection-start-line="25" selection-start-column="41" selection-end-line="25" selection-end-column="41" />
         </state>
       </provider>
     </entry>
