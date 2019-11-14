@@ -16,7 +16,7 @@
         "build": "encore production"
     },
     "dependencies": {
-        "bootstrap-sass": "^3.3.7",
+        "bootstrap-sass": "^3.4.1",
         "datatables.net": "^1.10.19",
         "jquery": "^3.4.1",
         "rfs": "^9.0.2"
