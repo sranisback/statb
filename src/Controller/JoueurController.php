@@ -8,13 +8,12 @@ use App\Entity\MatchData;
 use App\Entity\Matches;
 use App\Entity\Players;
 use App\Entity\PlayersSkills;
-use App\Entity\Races;
 use App\Entity\Teams;
-use App\Factory\PlayerFactory;
 use App\Form\AjoutCompetenceType;
 use App\Form\AjoutJoueurType;
 use App\Service\EquipeService;
 use App\Service\PlayerService;
+use App\Tools\randomNameGenerator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -181,20 +180,25 @@ class JoueurController extends AbstractController
     {
         $form = $this->createForm(AjoutJoueurType::class, null, ['equipe' => $equipe]);
 
-        return $this->render('statbb/playeradder.html.twig', ['form' => $form->createView()]);
+        return $this->render('statbb/playeradder.html.twig', ['form' => $form->createView(), 'equipe' => $equipe]);
     }
 
     /**
-     * @Route("/addPlayer/{posId}/{teamId}", name="addPlayer",options = { "expose" = true })
+     * @Route("/addPlayer", name="addPlayer",options = { "expose" = true })
      * @param PlayerService $playerService
      * @param EquipeService $equipeService
-     * @param int $posId
-     * @param int $teamId
+     * @param Request $request
      * @return JsonResponse
      */
-    public function addPlayer(PlayerService $playerService, EquipeService $equipeService, $posId, $teamId)
+    public function addPlayer(PlayerService $playerService, EquipeService $equipeService, Request $request)
     {
-        $resultat = $playerService->ajoutJoueur($posId, $teamId);
+        $donneesPourAjout = $request->request->all();
+        $resultat = $playerService->ajoutJoueur(
+            $donneesPourAjout['idPosition'],
+            $donneesPourAjout['teamId'],
+            $donneesPourAjout['nom'],
+            $donneesPourAjout['nr']
+        );
         $tresors = 0;
         $html = '';
         $coutjoueur = 0;
@@ -202,6 +206,7 @@ class JoueurController extends AbstractController
         $tv = 0;
 
         if ($resultat['resultat'] == 'ok') {
+            /** @var Players $joueur */
             $joueur = $resultat['joueur'];
             $position = $joueur->getFPos();
             if ($position) {
@@ -230,6 +235,14 @@ class JoueurController extends AbstractController
             $html = $resultat['resultat'];
         }
 
+        if (!empty($equipe)) {
+            $equipe->setTv($tv);
+
+            $this->getDoctrine()->getManager()->persist($equipe);
+
+            $this->getDoctrine()->getManager()->flush();
+        }
+
         $response = [
             "html" => $html,
             "tv" => $tv,
@@ -237,6 +250,9 @@ class JoueurController extends AbstractController
             "tresor" => $tresors,
             "playercost" => $coutjoueur,
             "reponse" => $reponse,
+/*            "NomJoueur" => $joueur->getName(),
+            "NrJoueur" => $joueur->getNr(),
+            "PositionJoueur" => $joueur->getFPos()->getPos()*/
         ];
 
         return self::transformeEnJson($response);
@@ -388,5 +404,34 @@ class JoueurController extends AbstractController
         }
 
         return 'erreur';
+    }
+
+    /**
+     * @Route("/genereNom", name="genereNom", options = { "expose" = true })
+     * @return mixed
+     */
+    public function genereNomJoueur()
+    {
+        $generateurDeNom = new randomNameGenerator();
+        $nom = $generateurDeNom->generateNames(1);
+
+        return new Response($nom[0]);
+    }
+
+    /**
+     * @Route("/genereNumero", name="genereNumero", options = { "expose" = true })
+     * @param PlayerService $playerService
+     * @param Request $request
+     * @return mixed
+     */
+    public function genereNumero(PlayerService $playerService, Request $request)
+    {
+        $donnees = $request->request->all();
+        $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $donnees['equipeId']]);
+        if (!empty($equipe)) {
+            return new Response($playerService->numeroLibreDelEquipe($equipe));
+        }
+
+        return new Response(99);
     }
 }

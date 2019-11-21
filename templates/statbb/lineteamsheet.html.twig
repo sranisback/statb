@@ -1,8 +1,8 @@
 <tr>
     <td><span class="glyphicon glyphicon-remove text-danger" playerId="{{player.playerId}}" id="remove_pl_{{player.playerId}}"></span></td>
     <td>{{player.nr}}</td>
-    <td>Inconnu</td>
-    <td><img src="{{ asset('build/images/player_icons/'~position.icon~'.gif') }}" class=".img-responsive">{{position.pos}}</td>
+    <td>{{player.name}}</td>
+    <td><img src="{{ asset('build/images/player_icons/'~player.icon.iconName~'.gif') }}" class=".img-responsive">{{position.pos}}</td>
     <td>{{position.ma}}</td>
     <td>{{position.st}}</td>
     <td>{{position.ag}}</td>

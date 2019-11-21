@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -91,13 +93,6 @@ class GameDataPlayers
      * @ORM\Column(name="doub", type="string", length=6, nullable=true)
      */
     private $doub;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="icon", type="string", length=25, nullable=false)
-     */
-    private $icon;
 
     /**
      * @var Races
@@ -230,18 +225,6 @@ class GameDataPlayers
     public function setDoub(?string $doub): self
     {
         $this->doub = $doub;
-
-        return $this;
-    }
-
-    public function getIcon(): ?string
-    {
-        return $this->icon;
-    }
-
-    public function setIcon(string $icon): self
-    {
-        $this->icon = $icon;
 
         return $this;
     }

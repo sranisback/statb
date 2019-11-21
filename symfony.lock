@@ -241,9 +241,6 @@
     "symfony/cache": {
         "version": "v4.1.5"
     },
-    "symfony/cache-contracts": {
-        "version": "v1.1.5"
-    },
     "symfony/config": {
         "version": "v4.1.5"
     },
@@ -255,9 +252,6 @@
             "version": "3.3",
             "ref": "e3868d2f4a5104f19f844fe551099a00c6562527"
         }
-    },
-    "symfony/contracts": {
-        "version": "v1.0.2"
     },
     "symfony/css-selector": {
         "version": "v4.2.4"
@@ -289,11 +283,11 @@
     "symfony/dotenv": {
         "version": "v4.1.5"
     },
+    "symfony/error-handler": {
+        "version": "v4.4.0"
+    },
     "symfony/event-dispatcher": {
         "version": "v4.1.5"
-    },
-    "symfony/event-dispatcher-contracts": {
-        "version": "v1.1.5"
     },
     "symfony/expression-language": {
         "version": "v4.2.3"
@@ -468,9 +462,6 @@
             "./translations/.gitignore"
         ]
     },
-    "symfony/translation-contracts": {
-        "version": "v1.1.6"
-    },
     "symfony/twig-bridge": {
         "version": "v4.1.5"
     },
@@ -517,15 +508,6 @@
             "branch": "master",
             "version": "3.3",
             "ref": "dae9b39fd6717970be7601101ce5aa960bf53d9a"
-        }
-    },
-    "symfony/webpack-encore-pack": {
-        "version": "1.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "1.0",
-            "ref": "8e81b0743207474b384548d9bc73fb03b218a9bf"
         }
     },
     "symfony/yaml": {

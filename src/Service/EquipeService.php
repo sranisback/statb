@@ -446,9 +446,9 @@ class EquipeService
         for ($anneeAjoutee = 0; $anneeAjoutee < $annee; $anneeAjoutee++) {
             $retourRequete =
                 $this->doctrineEntityManager->getRepository(Teams::class)->toutesLesEquipesDunCoachParAnnee(
-                $coachActif,
-                $anneeAjoutee
-            );
+                    $coachActif,
+                    $anneeAjoutee
+                );
 
             if (!empty($retourRequete)) {
                 foreach ($retourRequete as $equipe) {
@@ -559,7 +559,9 @@ class EquipeService
                 $positionJournalier,
                 $playerService->numeroLibreDelEquipe($equipe),
                 $equipe,
-                2
+                2,
+                null,
+                $this->doctrineEntityManager
             );
 
             $journalier->setOwnedByTeam($equipe);

@@ -24,9 +24,8 @@ class ClassementService
      */
     public function cinqDerniersMatchsParAnnee($annee)
     {
-        $matches = $this->doctrineEntityManager->getRepository(Matches::class)->tousLesMatchDuneAnneClassementChrono(
-            $annee
-        );
+        $matches = $this->doctrineEntityManager
+            ->getRepository(Matches::class)->tousLesMatchDuneAnneClassementChrono($annee);
 
         $matchesAafficher = $this->cinqPremierMatches($matches);
 
@@ -206,7 +205,10 @@ class ClassementService
         $tableauCompletConfrontation = [];
 
         foreach ($this->doctrineEntityManager->getRepository(Coaches::class)->findAll() as $coach) {
-            $tableauCompletConfrontation[$coach->getName()]  = $this->confrontationTousLesCoaches($coach, $equipeService);
+            $tableauCompletConfrontation[$coach->getName()] = $this->confrontationTousLesCoaches(
+                $coach,
+                $equipeService
+            );
         }
 
         return $tableauCompletConfrontation;

@@ -1,7 +1,5 @@
 var Encore = require('@symfony/webpack-encore');
 
-
-
 Encore
     // the project directory where compiled assets will be stored
     .setOutputPath('public/build/')
@@ -23,7 +21,7 @@ Encore
 
     // uncomment for legacy applications that require $/jQuery as a global variable
     .autoProvidejQuery()
-	
+	.disableSingleRuntimeChunk()
 ;
 
 module.exports = Encore.getWebpackConfig();

@@ -33,48 +33,44 @@ services:
         class: App\Admin\CoachAdmin
         arguments: [~,App\Entity\Coaches,~]
         tags:
-            - {name: sonata.admin, manager_type: orm, label: Coaches}
+            - {name: sonata.admin, manager_type: orm, group: 'Administration', label: Coaches}
     admin.team:
         class: App\Admin\TeamAdmin
         arguments: [~,App\Entity\Teams,~]
         tags:
-            - {name: sonata.admin, manager_type: orm, label: Teams}
+            - {name: sonata.admin, manager_type: orm, group: 'Administration', label: Equipes}
     admin.player:
         class: App\Admin\PlayersAdmin
         arguments: [~,App\Entity\Players,~]
         tags:
-            - {name: sonata.admin, manager_type: orm, label: Players}
+            - {name: sonata.admin, manager_type: orm, group: 'Administration', label: Joueurs}
     admin.skills:
         class: App\Admin\SkillAdmin
         arguments: [~,App\Entity\PlayersSkills,~]
         tags:
-            - {name: sonata.admin, manager_type: orm, label: Skills}
+            - {name: sonata.admin, manager_type: orm, group: 'Administration', label: Compétences}
     admin.matches:
         class: App\Admin\MatchAdmin
         arguments: [~,App\Entity\Matches,~]
         tags:
-            - {name: sonata.admin, manager_type: orm, label: Matches}
+            - {name: sonata.admin, manager_type: orm, group: 'Administration', label: Matches}
     admin.matchesdata:
         class: App\Admin\MatchDataAdmin
         arguments: [~,App\Entity\MatchData,~]
         tags:
-            - {name: sonata.admin, manager_type: orm, label: MatchData}
+            - {name: sonata.admin, manager_type: orm, group: 'Administration', label: MatchData}
     admin.stades:
         class: App\Admin\StadesAdmin
         arguments: [~,App\Entity\Stades,~]
         tags:
-            - {name: sonata.admin, manager_type: orm, label: Stades}
+            - {name: sonata.admin, manager_type: orm, group: 'Administration', label: Stades}
     admin.prime:
         class: App\Admin\PrimeAdmin
         arguments: [~,App\Entity\Primes,~]
         tags:
-            - {name: sonata.admin, manager_type: orm, label: Primes}
+            - {name: sonata.admin, manager_type: orm, group: 'Administration', label: Primes}
     admin.defis:
         class: App\Admin\DefisAdmin
         arguments: [~, App\Entity\Defis,~]
         tags:
-            - {name: sonata.admin, manager_type: orm, label: Defis}
-    twig.extension.intl:
-        class: Twig_Extensions_Extension_Intl
-        tags:
-            - { name: twig.extension }
+            - {name: sonata.admin, manager_type: orm, group: 'Administration', label: Defis}

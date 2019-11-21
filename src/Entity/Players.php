@@ -198,6 +198,12 @@ class Players
      */
     private $fCid;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\PlayersIcons")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $icon;
+
     public function getPlayerId(): ?int
     {
         return $this->playerId;
@@ -496,6 +502,18 @@ class Players
     public function setFCid(Coaches $fCid): self
     {
         $this->fCid = $fCid;
+
+        return $this;
+    }
+
+    public function getIcon(): ?PlayersIcons
+    {
+        return $this->icon;
+    }
+
+    public function setIcon(?PlayersIcons $icon): self
+    {
+        $this->icon = $icon;
 
         return $this;
     }

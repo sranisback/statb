@@ -226,7 +226,7 @@ class EquipeController extends AbstractController
             $this->addFlash('success', 'Equipe Ajoutée!');
         }
 
-        return $this->redirectToRoute('team', ['teamid' => $teamid, 'type' => 'n']);
+        return $this->redirectToRoute('team', ['teamid' => $teamid]);
     }
 
     /**
@@ -427,5 +427,22 @@ class EquipeController extends AbstractController
         }
 
         return $this->redirectToRoute('frontUser');
+    }
+
+    /**
+     * @Route("/listeDesJoueurs/{equipe}", name="listeDesJoueurs", options = { "expose" = true })
+     * @param Teams $equipe
+     * @return Response
+     */
+    public function listeDesJoueurs(Teams $equipe)
+    {
+        return $this->render(
+            'statbb/playerAdderTable.html.twig',
+            [
+                'listeJoueurs' => $this->getDoctrine()
+                ->getRepository(Players::class)
+                ->listeDesJoueursActifsPourlEquipe($equipe)
+            ]
+        );
     }
 }

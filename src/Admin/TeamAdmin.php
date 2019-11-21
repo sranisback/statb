@@ -38,7 +38,7 @@ final class TeamAdmin extends AbstractAdmin
             ->add('assCoaches', null, ['label' => 'Assistants'])
             ->add('cheerleaders', null, ['label' => 'Pompom girls'])
             ->add('tv')
-            ->add('apothecary', ChoiceType::class, ['choices' => ['Oui' => 1, 'Non' => 0], 'label' => 'Race'])
+            ->add('apothecary', ChoiceType::class, ['choices' => ['Oui' => 1, 'Non' => 0], 'label' => 'Apothicaire'])
             ->add('retired', ChoiceType::class, ['choices' => ['Oui' => 1, 'Non' => 0], 'label' => 'Retirée'])
             ->add('year', null, ['label' => 'Année']);
     }
@@ -59,15 +59,14 @@ final class TeamAdmin extends AbstractAdmin
             ->addIdentifier('name', null, ['label' => 'Nom'])
             ->add('ownedByCoach.name', null, ['label' => 'Coach'])
             ->add('fRace.name', null, ['label' => 'Race'])
-            ->add('treasury', null, ['label' => 'Trésor'])
-            ->add('rerolls')
-            ->add('ffBought', null, ['label' => 'FF achetée'])
-            ->add('ff', null, ['label' => 'FF gagnée'])
-            ->add('assCoaches', null, ['label' => 'Assistants'])
-            ->add('cheerleaders', null, ['label' => 'Pompom girls'])
-            ->add('tv')
-            ->add('apothecary', 'boolean', ['label' => 'Apothicaire'])
-            ->add('retired', 'boolean', ['label' => 'Retiré'])
-            ->add('fStades.nom', null, ['label' => 'Stade']);
+            ->add('treasury', null, ['label' => 'Trésor', 'editable' => true])
+            ->add('rerolls', null, ['editable' => true])
+            ->add('ffBought', null, ['label' => 'FF achetée', 'editable' => true])
+            ->add('ff', null, ['label' => 'FF gagnée', 'editable' => true])
+            ->add('assCoaches', null, ['label' => 'Assistants', 'editable' => true])
+            ->add('cheerleaders', null, ['label' => 'Pompom girls', 'editable' => true])
+            ->add('tv', null, ['editable' => true])
+            ->add('apothecary', 'boolean', ['label' => 'Apothicaire', 'editable' => true])
+            ->add('retired', 'boolean', ['label' => 'Retiré', 'editable' => true]);
     }
 }

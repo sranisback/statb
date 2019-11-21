@@ -21,5 +21,8 @@ parameters:
 	    - '#Argument of an invalid type .+ supplied for foreach.+#'
 	    - '#tousLesMatchDuneAnneClassementChrono.+#'
 	    - '#toutesLesEquipesDunCoachParAnnee.+#'
+	    - '#toutesLesIconesDunePosition.+#'
 	autoload_directories:
 		- %rootDir%/../../../src/Migrations
+	excludes_analyse:
+	    - %rootDir%/../../../src/Tools

@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Coaches;
+use App\Entity\Players;
+use App\Entity\PlayersIcons;
 use App\Service\DefisService;
 use App\Service\SettingsService;
 
+use App\Tools\randomNameGenerator;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -130,5 +133,61 @@ class StatBBController extends AbstractController
     public function tabParametre()
     {
         return $this->render('statbb/tabs/parametres/tabParametre.html.twig');
+    }
+
+    /**
+     * @Route("/testIcons")
+     */
+    public function testIcon()
+    {
+        $icons = $this->getDoctrine()->getRepository(PlayersIcons::class)->findAll();
+
+        return $this->render('statbb/testIcon.html.twig', ['icons' => $icons]);
+    }
+
+    /**
+     * @Route("/attributIconManquante")
+     */
+    public function attributIconManquante()
+    {
+        $tousLesJoueurs = $this->getDoctrine()->getRepository(Players::class)->findAll();
+
+        foreach ($tousLesJoueurs as $joueur) {
+            $icon = $joueur->getIcon();
+            if (!empty($icon)) {
+                if ($icon->getIconName() === 'nope') {
+                    $iconesPositions = $this
+                        ->getDoctrine()
+                        ->getRepository(PlayersIcons::class)->findBy(['position' => $joueur->getFPos()]);
+                    $joueur->setIcon($iconesPositions[ rand(0, count($iconesPositions) - 1)]);
+
+                    $this->getDoctrine()->getManager()->persist($joueur);
+
+                    $this->getDoctrine()->getManager()->flush();
+                }
+            }
+        }
+        return new Response('ok');
+    }
+
+    /**
+     * @Route("/genereNomManquant")
+     */
+    public function genereNomManquant()
+    {
+        $tousLesJoueurs = $this->getDoctrine()->getRepository(Players::class)->findAll();
+
+        foreach ($tousLesJoueurs as $joueur) {
+            if ($joueur->getName() === '' || $joueur->getName() === null) {
+                $generateurNom = new randomNameGenerator();
+                $nom = $generateurNom->generateNames(1);
+                $joueur->setName($nom[0]);
+
+                $this->getDoctrine()->getManager()->persist($joueur);
+
+                $this->getDoctrine()->getManager()->flush();
+            }
+        }
+        return new Response('ok');
     }
 }

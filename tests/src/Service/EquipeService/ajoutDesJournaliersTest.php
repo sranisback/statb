@@ -6,13 +6,14 @@ namespace App\Tests\src\Service\EquipeService;
 use App\Entity\Coaches;
 use App\Entity\GameDataPlayers;
 use App\Entity\Players;
+use App\Entity\PlayersIcons;
 use App\Entity\Races;
 use App\Entity\Teams;
 use App\Service\EquipeService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
 use Doctrine\Common\Persistence\ObjectRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ajoutDesJournaliersTest extends KernelTestCase
@@ -98,15 +99,25 @@ class ajoutDesJournaliersTest extends KernelTestCase
             ]
         );
 
-        $objectManager = $this->createMock(EntityManagerInterface::class);
+        $playerIconRepoMock = $this->getMockBuilder(PlayersIcons::class)
+            ->setMethods(['toutesLesIconesDunePosition'])
+            ->getMock();
+        $playerIconRepoMock->method('toutesLesIconesDunePosition')
+            ->willReturn([$this->createMock(PlayersIcons::class)]);
+
+        $objectManager = $this->createMock(EntityManager::class);
         $objectManager->method('getRepository')->will($this->returnCallback(
-            function ($entityName) use ($gameDataPlayersRepoMock, $joueurRepoMock) {
+            function ($entityName) use ($gameDataPlayersRepoMock, $joueurRepoMock, $playerIconRepoMock) {
                 if ($entityName === 'App\Entity\GameDataPlayers') {
                     return $gameDataPlayersRepoMock;
                 }
 
                 if ($entityName === 'App\Entity\Players') {
                     return $joueurRepoMock;
+                }
+
+                if ($entityName === 'App\Entity\PlayersIcons') {
+                    return $playerIconRepoMock;
                 }
                 return true;
             }
@@ -146,6 +157,12 @@ class ajoutDesJournaliersTest extends KernelTestCase
         $gameDataPlayersRepoMock = $this->createMock(ObjectRepository::class);
         $gameDataPlayersRepoMock->method('findOneBy')->willReturn($gameDataPlayerTest);
 
+        $playerIconRepoMock = $this->getMockBuilder(PlayersIcons::class)
+            ->setMethods(['toutesLesIconesDunePosition'])
+            ->getMock();
+        $playerIconRepoMock->method('toutesLesIconesDunePosition')
+            ->willReturn([$this->createMock(PlayersIcons::class)]);
+
         $joueurRepoMock = $this->getMockBuilder(Players::class)
             ->setMethods(['listeDesJoueursActifsPourlEquipe'])
             ->getMock();
@@ -153,15 +170,19 @@ class ajoutDesJournaliersTest extends KernelTestCase
             []
         );
 
-        $objectManager = $this->createMock(EntityManagerInterface::class);
+        $objectManager = $this->createMock(EntityManager::class);
         $objectManager->method('getRepository')->will($this->returnCallback(
-            function ($entityName) use ($gameDataPlayersRepoMock, $joueurRepoMock) {
+            function ($entityName) use ($gameDataPlayersRepoMock, $joueurRepoMock, $playerIconRepoMock) {
                 if ($entityName === 'App\Entity\GameDataPlayers') {
                     return $gameDataPlayersRepoMock;
                 }
 
                 if ($entityName === 'App\Entity\Players') {
                     return $joueurRepoMock;
+                }
+
+                if ($entityName === 'App\Entity\PlayersIcons') {
+                    return $playerIconRepoMock;
                 }
                 return true;
             }

@@ -275,7 +275,7 @@ class PlayerService
      * @param int $teamId
      * @return array
      */
-    public function ajoutJoueur($positionId, $teamId)
+    public function ajoutJoueur($positionId, $teamId, $nom, $numero)
     {
         $position = $this->doctrineEntityManager->getRepository(
             GameDataPlayers::class
@@ -295,6 +295,10 @@ class PlayerService
             }
         }
 
+        if ($numero === '' || $numero === null) {
+            $numero = $this->numeroLibreDelEquipe($equipe);
+        }
+
         if ($equipe && $position) {
             if ($equipe->getTreasury() >= $position->getCost()) {
                 if ($count < $position->getQty()) {
@@ -303,9 +307,11 @@ class PlayerService
 
                     $joueur = (new PlayerFactory)->nouveauJoueur(
                         $position,
-                        $this->numeroLibreDelEquipe($equipe),
+                        $numero,
                         $equipe,
-                        1
+                        1,
+                        $nom,
+                        $this->doctrineEntityManager
                     );
 
                     $this->doctrineEntityManager->persist($joueur);

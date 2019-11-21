@@ -75,11 +75,12 @@ class MatchDataRepository extends ServiceEntityRepository
                 'players.nr, CASE WHEN players.name = \'\' THEN \'Inconnu\' ELSE players.name END AS name, 
                 CASE WHEN players.status = 8 THEN  \'(Mort)\' ELSE \'\'  END AS dead, 
                 CASE WHEN players.status = 7 THEN \'(Vendu)\' ELSE  \'\'  END AS sold, 
-                teams.name AS equipe, teams.teamId AS equipeId, game_data_players.icon'
+                teams.name AS equipe, teams.teamId AS equipeId, playersIcons.iconName AS icon '
             )
             ->join('Matchdata.fPlayer', 'players')
             ->join('players.ownedByTeam', 'teams')
             ->join('players.fPos', 'game_data_players')
+            ->join('players.icon', 'playersIcons')
             ->join('teams.fRace', 'race')
             ->where('teams.retired = 0 AND teams.year ='.$year)
             ->groupBy('players.playerId')
@@ -97,7 +98,10 @@ class MatchDataRepository extends ServiceEntityRepository
                 break;
 
             case 'xp':
-                $query->addSelect('SUM(Matchdata.cp) + (SUM(Matchdata.td)*3)+ (SUM(Matchdata.intcpt)*3)+ (SUM(Matchdata.bh+Matchdata.si+Matchdata.ki)*2)+(SUM(Matchdata.mvp)*5) AS score');
+                $query->addSelect(
+                    'SUM(Matchdata.cp) + (SUM(Matchdata.td)*3)+ (SUM(Matchdata.intcpt)*3)+ 
+                    (SUM(Matchdata.bh+Matchdata.si+Matchdata.ki)*2)+(SUM(Matchdata.mvp)*5) AS score'
+                );
                 break;
 
             case 'pass':
@@ -115,7 +119,6 @@ class MatchDataRepository extends ServiceEntityRepository
         if ($limit > 0) {
             $query->setMaxResults($limit);
         }
-
         return $query->getQuery()->execute();
     }
 

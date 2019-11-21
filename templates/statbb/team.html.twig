@@ -84,9 +84,9 @@
                                 <p class="fas fa-arrow-up"/>
                             {% endif %}
                         </td>
-                        <td><img src="{{ asset('build/images/player_icons/'~player.fpos.icon~'.gif') }}"
-                                 class="img-fluid">{{ player.fpos.pos }}</td>
-
+                        <td>
+                            <img src="{{ asset('build/images/player_icons/'~player.icon.iconName~'.gif') }}">{{ player.fpos.pos }}
+                        </td>
                         {% if player.achMa>0 %}
                             <td class="table-success">{{ player.fpos.ma + player.achMa - player.injMa }}</td>
                         {% elseif  player.injMa>0 %}

@@ -6,11 +6,17 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                Ajouter un joueur
+                <h4>Ajouter un joueur</h4><br/>
+                Trésorerie restante : <span id="tresor2">{{ equipe.treasury }}</span>
             </div>
             <div class="modal-body">
+{#                <div>
+                    {{ render(controller('App\\Controller\\EquipeController::listeDesJoueurs',{'equipe' : equipe} )) }}
+                </div>#}
                 {{ form_start(form) }}
                 {{ form_errors(form) }}
+                {{ form_row(form.name, { 'id': 'player_futur_nom' }) }}
+                {{ form_row(form.nr, { 'id': 'player_futur_numero' }) }}
                 {{ form_row(form.fPos) }}
             </div>
             <div class="modal-footer">

@@ -58,4 +58,15 @@
             </div>
         </div>
     </div>
+    {%  if app.user %}
+    {% if app.user.roles['role'] == 'ROLE_ADMIN' %}
+    <div class="card">
+        [url={{ url('team', {'teamid': match.team1.teamId }) }}]{{ match.team1.name }}, ({{ match.team1.fRace.name }})[/url] VS [url={{ url('team', {'teamid': match.team2.teamId }) }}]{{ match.team2.name }}, ({{ match.team2.fRace.name }})[/url]<Br/>
+        {{ match.team1Score }} - {{ match.team2Score }} [url={{ url('match', {'matchId': match.matchId}) }}]Voir[/url]<br/>
+        <br/>
+        <br/>
+        Affluence : {{ match.fans }}
+    </div>
+    {% endif %}
+    {% endif %}
 {% endblock %}

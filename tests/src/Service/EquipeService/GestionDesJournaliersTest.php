@@ -6,6 +6,7 @@ namespace App\Tests\src\Service\EquipeService;
 use App\Entity\Coaches;
 use App\Entity\GameDataPlayers;
 use App\Entity\Players;
+use App\Entity\PlayersIcons;
 use App\Entity\Races;
 use App\Entity\Teams;
 use App\Service\EquipeService;
@@ -224,10 +225,17 @@ class GestionDesJournaliersTest extends KernelTestCase
                 $joueurTest9
             ]
         );
+
+        $playerIconRepoMock = $this->getMockBuilder(PlayersIcons::class)
+            ->setMethods(['toutesLesIconesDunePosition'])
+            ->getMock();
+        $playerIconRepoMock->method('toutesLesIconesDunePosition')
+            ->willReturn([$this->createMock(PlayersIcons::class)]);
+
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->will(
             $this->returnCallback(
-                function ($entityName) use ($gameDataPlayersRepoMock, $joueurRepoMock) {
+                function ($entityName) use ($gameDataPlayersRepoMock, $joueurRepoMock, $playerIconRepoMock) {
                     if ($entityName === 'App\Entity\GameDataPlayers') {
                         return $gameDataPlayersRepoMock;
                     }
@@ -236,6 +244,9 @@ class GestionDesJournaliersTest extends KernelTestCase
                         return $joueurRepoMock;
                     }
 
+                    if ($entityName === 'App\Entity\PlayersIcons') {
+                        return $playerIconRepoMock;
+                    }
                     return true;
                 }
             )
