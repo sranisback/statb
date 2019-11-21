@@ -1,0 +1,34 @@
+<div class="table-responsive">
+    <table class="table table-striped" id="TableCimetierre" style="width: 100%">
+        <thead>
+            <tr>
+                <td>Nom Du Joueur</td>
+                <td>Position</td>
+                <td>Equipe</td>
+                <td>Date de la mort</td>
+                <td>Jours</td>
+            </tr>
+        </thead>
+        <tbody>
+        {%  for joueur in joueurCollection %}
+            <tr>
+                <td>
+                {% if(joueur.name|length == 2) %}
+                    Inconnu
+                {% else %}
+                {{ joueur.name }}
+                {% endif %}
+                    <a
+                            class="glyphicon glyphicon-search"
+                            href="{{ path('Player', {'playerid': joueur.playerId,'type':'n' }) }}"></a></td>
+                <td>{{ joueur.fPos.pos }}</td>
+                <td>{{ joueur.ownedByTeam.name }}</td>
+                <td>{{ joueur.dateDied|date("d/m/y") }}</td>
+                {% set difference = date(joueur.dateDied).diff(date(joueur.dateBought)) %}
+                {% set joursSurvecus = difference.days %}
+                <td>{{ joursSurvecus }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

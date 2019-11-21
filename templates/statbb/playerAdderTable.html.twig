@@ -1,0 +1,5 @@
+<table id="liste_joueur_adder" class="table table-striped">
+    {%  for joueur in listeJoueurs %}
+        <tr><td>{{ joueur.nr }}</td><td>{{ joueur.name }}</td><td>{{ joueur.fPos.pos }}</td><td>{{ joueur.fPos.cost }}</td></tr>
+        {% endfor %}
+</table>
