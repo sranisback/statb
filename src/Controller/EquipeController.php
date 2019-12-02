@@ -9,12 +9,14 @@ use App\Entity\Players;
 use App\Entity\Teams;
 use App\Enum\AnneeEnum;
 use App\Form\CreerStadeType;
+use App\Form\LogoEnvoiType;
 use App\Service\EquipeService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
 use App\Form\CreerEquipeType;
 
 use App\Service\StadeService;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,7 +30,7 @@ use Symfony\Component\Serializer\Serializer;
 class EquipeController extends AbstractController
 {
     /**
-     * @param  mixed $response
+     * @param mixed $response
      * @return JsonResponse
      */
     public static function transformeEnJson($response): JsonResponse
@@ -131,76 +133,116 @@ class EquipeController extends AbstractController
     }
 
     /**
-     * @Route("/team/{teamid}/{type}", name="team", options = { "expose" = true })
+     * @Route("/team/{teamid}", name="team", requirements={"teamid"="\d+"}, options = { "expose" = true })
      * @param PlayerService $playerService
      * @param EquipeService $equipeService
      * @param int $teamid
-     * @param string $type
      * @return Response
      */
-    public function showTeam(PlayerService $playerService, EquipeService $equipeService, $teamid, $type = null)
+    public function showTeam(PlayerService $playerService, EquipeService $equipeService, $teamid)
     {
         $pdata = [];
 
+        /** @var Teams $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamid]);
 
-        if ($equipe) {
-            $players = $this->getDoctrine()->getRepository(Players::class)->listeDesJoueursPourlEquipe($equipe);
+        /** @var Players $players */
+        $players = $this->getDoctrine()->getRepository(Players::class)->listeDesJoueursPourlEquipe($equipe);
 
-            $count = 0;
+        $count = 0;
 
-            foreach ($players as $joueur) {
-                $ficheJoueur = $playerService->statsDuJoueur($joueur);
+        /** @var Players $joueur */
+        foreach ($players as $joueur) {
+            $ficheJoueur = $playerService->statsDuJoueur($joueur);
 
-                $pdata[$count]['pid'] = $joueur->getPlayerId();
-                $pdata[$count]['nbrm'] = $ficheJoueur['actions']['NbrMatch'];
-                $pdata[$count]['cp'] = $ficheJoueur['actions']['cp'];
-                $pdata[$count]['td'] = $ficheJoueur['actions']['td'];
-                $pdata[$count]['int'] = $ficheJoueur['actions']['int'];
-                $pdata[$count]['cas'] = $ficheJoueur['actions']['cas'];
-                $pdata[$count]['mvp'] = $ficheJoueur['actions']['mvp'];
-                $pdata[$count]['agg'] = $ficheJoueur['actions']['agg'];
-                $pdata[$count]['skill'] = $ficheJoueur['comp'];
-                $pdata[$count]['spp'] = $playerService->xpDuJoueur($joueur);
-                $pdata[$count]['cost'] = $playerService->valeurDunJoueur($joueur);
-                $pdata[$count]['status'] = $playerService->statutDuJoueur($joueur);
+            $pdata[$count]['pid'] = $joueur->getPlayerId();
+            $pdata[$count]['nbrm'] = $ficheJoueur['actions']['NbrMatch'];
+            $pdata[$count]['cp'] = $ficheJoueur['actions']['cp'];
+            $pdata[$count]['td'] = $ficheJoueur['actions']['td'];
+            $pdata[$count]['int'] = $ficheJoueur['actions']['int'];
+            $pdata[$count]['cas'] = $ficheJoueur['actions']['cas'];
+            $pdata[$count]['mvp'] = $ficheJoueur['actions']['mvp'];
+            $pdata[$count]['agg'] = $ficheJoueur['actions']['agg'];
+            $pdata[$count]['skill'] = $ficheJoueur['comp'];
+            $pdata[$count]['spp'] = $playerService->xpDuJoueur($joueur);
+            $pdata[$count]['cost'] = $playerService->valeurDunJoueur($joueur);
+            $pdata[$count]['status'] = $playerService->statutDuJoueur($joueur);
 
-                if (!$joueur->getName()) {
-                    $joueur->setName('Inconnu');
-                }
-
-                $count++;
+            if (!$joueur->getName()) {
+                $joueur->setName('Inconnu');
             }
 
-            $inducement = $equipeService->valeurInducementDelEquipe($equipe);
-
-            $tdata['playersCost'] = $playerService->coutTotalJoueurs($equipe);
-            $tdata['rerolls'] = $inducement['rerolls'];
-            $tdata['pop'] = $inducement['pop'];
-            $tdata['asscoaches'] = $inducement['asscoaches'];
-            $tdata['cheerleader'] = $inducement['cheerleader'];
-            $tdata['apo'] = $inducement['apo'];
-            $tdata['tv'] = $equipeService->tvDelEquipe($equipe, $playerService);
-
-            if ($type == "modal") {
-                return $this->render(
-                    'statbb/team_modal.html.twig',
-                    ['players' => $players, 'team' => $equipe, 'pdata' => $pdata, 'tdata' => $tdata]
-                );
-            } else {
-                return $this->render(
-                    'statbb/team.html.twig',
-                    [
-                        'players' => $players,
-                        'team' => $equipe,
-                        'pdata' => $pdata,
-                        'tdata' => $tdata,
-                    ]
-                );
-            }
+            $count++;
         }
 
+        $inducement = $equipeService->valeurInducementDelEquipe($equipe);
+
+        $tdata['playersCost'] = $playerService->coutTotalJoueurs($equipe);
+        $tdata['rerolls'] = $inducement['rerolls'];
+        $tdata['pop'] = $inducement['pop'];
+        $tdata['asscoaches'] = $inducement['asscoaches'];
+        $tdata['cheerleader'] = $inducement['cheerleader'];
+        $tdata['apo'] = $inducement['apo'];
+        $tdata['tv'] = $equipeService->tvDelEquipe($equipe, $playerService);
+
+        $form = $this->createForm(LogoEnvoiType::class, $equipe);
+
+        return $this->render(
+            'statbb/team.html.twig',
+            [
+                'players' => $players,
+                'team' => $equipe,
+                'pdata' => $pdata,
+                'tdata' => $tdata,
+                'form' => $form->createView()
+            ]
+        );
         return $this->render('statbb/base.html.twig');
+    }
+
+    /**
+     * @Route("/team/{nomEquipe}", name="montreEquipe",
+     *     requirements={"nommEquipe" = "\D+"}, options = { "expose" = true })
+     * @param string $nomEquipe
+     * @return Response
+     */
+    public function montreEquipe(string $nomEquipe)
+    {
+        /** @var Teams[] $equipe */
+        $equipe = $this->getDoctrine()->getRepository(Teams::class)->requeteEquipeLike($nomEquipe);
+
+        if (count($equipe) > 1) {
+            return $this->render(
+                'statbb/didYouMean.html.twig',
+                ['listeEquipe' => $equipe, 'annees' => (new AnneeEnum)->numeroToAnnee()]
+            );
+        }
+
+        return $this->redirectToRoute('team', ['teamid' => $equipe[0]->getTeamId()]);
+    }
+
+    /**
+     * @Route("/uploadLogo/{equipeId}", name="uploadLogo")
+     */
+    public function uploadLogo(Request $request, $equipeId)
+    {
+        $form = $request->files->all();
+
+        /** @var UploadedFile $logo */
+        $logo = $form['logo_envoi']['logo'];
+        $logo->move($this->getParameter('logo_directory'), $logo->getClientOriginalName());
+
+        /** @var Teams $equipe */
+        $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
+
+        $equipe->setLogo($logo->getClientOriginalName());
+
+        $this->getDoctrine()->getManager()->persist($equipe);
+        $this->getDoctrine()->getManager()->flush();
+
+        $this->getDoctrine()->getManager()->refresh($equipe);
+
+        return $this->redirectToRoute('team', ['teamid' => $equipe->getTeamId()]);
     }
 
     /**
@@ -440,8 +482,8 @@ class EquipeController extends AbstractController
             'statbb/playerAdderTable.html.twig',
             [
                 'listeJoueurs' => $this->getDoctrine()
-                ->getRepository(Players::class)
-                ->listeDesJoueursActifsPourlEquipe($equipe)
+                    ->getRepository(Players::class)
+                    ->listeDesJoueursActifsPourlEquipe($equipe)
             ]
         );
     }

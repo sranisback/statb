@@ -1,5 +1,31 @@
 
-No fixable errors were found
+PHPCBF RESULT SUMMARY
+----------------------------------------------------------------------
+FILE                                                  FIXED  REMAINING
+----------------------------------------------------------------------
+...r-16.1\eds-www\statb\src\Admin\MatchDataAdmin.php  1      0
+...ver-16.1\eds-www\statb\src\Admin\PlayersAdmin.php  1      0
+...server-16.1\eds-www\statb\src\Admin\TeamAdmin.php  1      0
+...www\statb\src\Controller\ClassementController.php  1      0
+...eds-www\statb\src\Controller\EquipeController.php  4      2
+...eds-www\statb\src\Controller\JoueurController.php  1      0
+...eds-www\statb\src\Controller\StatBBController.php  1      0
+...16.1\eds-www\statb\src\Entity\GameDataPlayers.php  1      0
+...vserver-16.1\eds-www\statb\src\Entity\Players.php  1      0
+...er-16.1\eds-www\statb\src\Entity\PlayersIcons.php  1      0
+...-16.1\eds-www\statb\src\Factory\PlayerFactory.php  1      0
+...r-16.1\eds-www\statb\src\Form\AjoutJoueurType.php  1      0
+...-www\statb\src\Repository\MatchDataRepository.php  1      0
+...ww\statb\src\Repository\PlayerIconsRepository.php  1      0
+...1\eds-www\statb\src\Repository\TeamRepository.php  2      0
+...1\eds-www\statb\src\Service\ClassementService.php  1      0
+...-16.1\eds-www\statb\src\Service\EquipeService.php  1      0
+...-16.1\eds-www\statb\src\Service\PlayerService.php  1      0
+...1\eds-www\statb\src\Tools\randomNameGenerator.php  1      1
+----------------------------------------------------------------------
+A TOTAL OF 23 ERRORS WERE FIXED IN 19 FILES
+----------------------------------------------------------------------
 
-Time: 8.38 secs; Memory: 10MB
+Time: 17.04 secs; Memory: 12MB
+
 

@@ -125,4 +125,13 @@ SELECT team_id,ra.icon,t.name as "team_name" ,ra.name as "race",co.name,t.tv as 
             ->getQuery()
             ->getResult();
     }
+
+    public function requeteEquipeLike($nomEquipe)
+    {
+        return $this->createQueryBuilder('Teams')
+            ->where('Teams.name LIKE :nomEquipe')
+            ->setParameter('nomEquipe', '%'.$nomEquipe.'%')
+            ->getQuery()
+            ->getResult();
+    }
 }

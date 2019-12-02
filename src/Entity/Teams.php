@@ -133,6 +133,11 @@ class Teams
     private $fStades;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $logo;
+
+    /**
      * @return Stades
      */
     public function getFStades(): Stades
@@ -328,6 +333,18 @@ class Teams
     public function setTv($tv): self
     {
         $this->tv = $tv;
+
+        return $this;
+    }
+
+    public function getLogo(): ?string
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(?string $logo): self
+    {
+        $this->logo = $logo;
 
         return $this;
     }

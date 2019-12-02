@@ -80,18 +80,20 @@ class JoueurController extends AbstractController
         $count = 0;
 
         /** @var Matches $match */
-        foreach ($listeMatches as $match) {
-            $msdata[$count]["mId"] = $match->getMatchId();
-            if (!empty($joueur)) {
-                $actions = $playerService->actionDuJoueurDansUnMatch($match, $joueur);
-            }
-            if (!empty($actions)) {
-                $msdata[$count]["data"] = substr($actions, 0, strlen($actions) - 2);
-            } else {
-                $msdata[$count]["data"] = '';
-            };
+        if (!empty($listeMatches)) {
+            foreach ($listeMatches as $match) {
+                $msdata[$count]["mId"] = $match->getMatchId();
+                if (!empty($joueur)) {
+                    $actions = $playerService->actionDuJoueurDansUnMatch($match, $joueur);
+                }
+                if (!empty($actions)) {
+                    $msdata[$count]["data"] = substr($actions, 0, strlen($actions) - 2);
+                } else {
+                    $msdata[$count]["data"] = '';
+                };
 
-            $count++;
+                $count++;
+            }
         }
 
         if ($count == 0) {

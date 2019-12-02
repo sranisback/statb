@@ -276,6 +276,10 @@ const routes = {
 }*/
 
 $(document).ready(function () {
+    $(document).on('change', '.custom-file-input', function () {
+        let fileName = $(this).val().replace(/\\/g, '/').replace(/.*\//, '');
+        $(this).parent('.custom-file').find('.custom-file-label').text(fileName);
+    });
 
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
@@ -290,7 +294,6 @@ $(document).ready(function () {
         "responsive": true
 
     });
-
 
     if (window.location.href.indexOf('?capture') > -1 ){
         var element = document.getElementById("card_classgen");
