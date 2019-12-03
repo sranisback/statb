@@ -6,9 +6,13 @@
                     <h4 class="text-center"><a href='{{ path("team",{"teamid":team.teamId}) }}'>{{ team.name }}</a></h4>
                 </div>
                 <div class="card-body text-center">
-                    <img src="{{ asset('build/images/race_icons/'~team.fRace.icon~'.png') }}"
-                         class="img-responsive"><br/>
-                        {{ team.fRace.name }}
+                    <div> {% if team.logo %}
+                            <img class="img-fluid" src="{{ asset('uploads/logo_equipe/' ~ team.logo) }}" width="200px"
+                                 height="100px">
+                        {% else %}
+                            <img class="img-fluid" src="{{ asset('build/'~app.environment~'/images/race_icons/'~team.fRace.icon~'.png') }}">
+                        {% endif %}
+                    </div>
                 </div>
                 <div class="card-footer">
                     <span class="float-left">

@@ -19,9 +19,9 @@
     <!-- End Google Tag Manager -->
     <meta charset="UTF-8">
     <title>{% block title %}Site de Stat Blood bowl{% endblock %}</title>
-    <link rel="icon" type="image/x-icon" href="{{ asset('build/images/favicon.ico') }}"/>
+    <link rel="icon" type="image/x-icon" href="{{ asset('build/'~app.environment~'/images/favicon.ico') }}"/>
     {% block cssjs %}
-        <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+        <link rel="stylesheet" href="{{ asset('build/'~app.environment~'/css/app.css') }}">
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
                 integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
                 crossorigin="anonymous"></script>
@@ -32,7 +32,7 @@
                 integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
                 crossorigin="anonymous"></script>
         <script src="https://kit.fontawesome.com/61d30ff0c7.js" crossorigin="anonymous"></script>
-        <script src="{{ asset('build/js/app.js') }}"></script>
+        <script src="{{ asset('build/'~app.environment~'/js/app.js') }}"></script>
     {% endblock %}
 </head>
 <body>
@@ -43,7 +43,7 @@
 <!-- Navigation -->
 {% block nav %}
     <nav class="navbar navbar-expand-lg ">
-        <a class="navbar-brand" href="{{ path('index') }}"><img src="{{ asset('build/images/favicon.ico') }}" width="25" height="25" >Site de stat Blood bowl</a>
+        <a class="navbar-brand" href="{{ path('index') }}"><img src="{{ asset('build/'~app.environment~'/images/favicon.ico') }}" width="25" height="25" >Site de stat Blood bowl</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarsExample05" aria-expanded="false" aria-label="Toggle navigation">
             <span class="fas fa-bars"></span>
         </button>
@@ -109,7 +109,7 @@
 {% endblock %}
 <!-- footer -->
 {% block footer %}
-    <a id="loadingmessage" style="display:none"><img src="{{ asset('build/images/ajax-loader.gif') }}"/></a>
+    <a id="loadingmessage" style="display:none"><img src="{{ asset('build/'~app.environment~'/images/ajax-loader.gif') }}"/></a>
     <footer class="footer bg-white footer-custom">
         <div class="container">
             {{ render(controller('App\\Controller\\StatBBController::dyk')) }}

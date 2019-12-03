@@ -21,7 +21,7 @@
             <tr>
                 <td class="pos">{{ loop.index }}</td>
                 <td><a href="{{ path('team', {'teamid': team.team_id }) }}">{{ team.team_name }}</a> </td>
-                <td><img src="{{ asset('build/images/race_icons/'~team.icon~'.png') }}" class="img-fluid"></td>
+                <td><img src="{{ asset('build/'~app.environment~'/images/race_icons/'~team.icon~'.png') }}" class="img-fluid"></td>
                 <td>{{ team.race }}</td>
                 <td>{{ team.name }}</td>
                 <td>{{ team.Win }}</td>

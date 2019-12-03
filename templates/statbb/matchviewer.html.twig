@@ -22,7 +22,7 @@
                 <div class="d-flex justify-content-center">
                     <div class="d-flex flex-column">
                         <div class="d-flex">
-                            <img src="{{ asset('build/images/race_icons/'~match.team1.fRace.icon~'.png') }}"
+                            <img src="{{ asset('build/'~app.environment~'/images/race_icons/'~match.team1.fRace.icon~'.png') }}"
                                  class="img-fluid mr-3">
                             <h2 class="mr-3">{{ match.team1.name }}</h2>
                         </div>
@@ -52,7 +52,7 @@
                     <div class="d-flex flex-column">
                         <div class="d-flex ">
                             <h2 class="ml-3">{{ match.team2.name }}</h2>
-                            <img src="{{ asset('build/images/race_icons/'~match.team2.fRace.icon~'.png') }}"
+                            <img src="{{ asset('build/'~app.environment~'/images/race_icons/'~match.team2.fRace.icon~'.png') }}"
                                  class="img-fluid ml-3">
                         </div>
                         <div class="ml-3">{{ match.team2.ownedByCoach.name }}</div>

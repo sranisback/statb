@@ -10,7 +10,7 @@
                             <img class="img-fluid" src="{{ asset('uploads/logo_equipe/' ~ team.logo) }}" width="200px"
                                  height="100px">
                         {% else %}
-                            <img class="img-fluid" src="{{ asset('build/images/race_icons/'~team.fRace.icon~'.png') }}">
+                            <img class="img-fluid" src="{{ asset('build/'~app.environment~'/images/race_icons/'~team.fRace.icon~'.png') }}">
                         {% endif %}
                     </div>
                     <div><h1 class="display-4"><strong>{{ team.name }}</strong></h1></div>
@@ -91,7 +91,7 @@
                                 {% endif %}
                             </td>
                             <td>
-                                <img src="{{ asset('build/images/player_icons/'~player.icon.iconName~'.gif') }}">{{ player.fpos.pos }}
+                                <img src="{{ asset('build/'~app.environment~'/images/player_icons/'~player.icon.iconName~'.gif') }}">{{ player.fpos.pos }}
                             </td>
                             {% if player.achMa>0 %}
                                 <td class="table-success">{{ player.fpos.ma + player.achMa - player.injMa }}</td>
@@ -175,7 +175,7 @@
                     <table class="table">
                         <tr>
                             <td colspan=7 rowspan=7></td>
-                            <td rowspan=7><img src="{{ asset('build/images/race_icons/'~team.fRace.icon~'.png') }}">
+                            <td rowspan=7><img src="{{ asset('build/'~app.environment~'/images/race_icons/'~team.fRace.icon~'.png') }}">
                             </td>
                             <td colspan=4>Coach : {{ team.ownedByCoach.name }}</td>
                             <td colspan=5 class="text-right">Valeur totale des joueurs :</td>
