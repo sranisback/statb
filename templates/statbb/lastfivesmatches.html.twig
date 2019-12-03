@@ -1,20 +1,28 @@
-
-<h2 class="text-center">Last Five Games</h2>
+<h2 class="text-center">Les derniers matchs</h2>
 <div class="table-responsive">
-	<table class="table table-striped">
-		<tbody>
-			{%for game in games%}
-			<tr>
-				<td><img src="{{ asset('build/images/race_icons/'~game.team1.fRace.icon~'.png') }}" class="img-responsive pull-left"></td><td class="text-right"><a data-toggle="modal" data-target="#team" href="{{ path('team', {'id': game.team1.teamId,'type':'modal' }) }}">{{game.team1.name}}, {{game.tv1/1000}} ({{game.team1.fRace.name}})</a></td><td class="text-center">{{game.team1Score}} - {{game.team2Score}}</td><td class="text-left"><a  data-toggle="modal" data-target="#team" href="{{ path('team', {'id': game.team2.teamId,'type':'modal' }) }}">{{game.team2.name}}, {{game.tv2/1000}} ({{game.team2.fRace.name}})</a></td><td><img src="{{ asset('build/images/race_icons/'~game.team2.fRace.icon~'.png') }}" class="img-responsive pull-right"></td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-</div>
-<div class="modal fade" id="team">
-  <div class="modal-dialog modal-lg" style="width:1250px;">
-	<div class="modal-content">
-
-	</div>
-  </div>
+    <table class="table table-striped">
+        <tbody>
+        {% if games is not null %}
+            {% for game in games %}
+                <tr>
+                    <td rowspan="2"><img src="{{ asset('build/images/race_icons/'~game.team1.fRace.icon~'.png') }}"
+                                         class="img-fluid pull-left"></td>
+                    <td class="text-right text-nowrap"><h4>{{ game.team1.name }}</h4></td>
+                    <td class="text-center text-nowrap"><h4>{{ game.team1Score }}
+                            - {{ game.team2Score }}</h4></td>
+                    <td class="text-left text-nowrap"><h4>{{ game.team2.name }}</h4></td>
+                    <td rowspan="2"><img src="{{ asset('build/images/race_icons/'~game.team2.fRace.icon~'.png') }}"
+                                         class="img-fluid pull-right"></td>
+                </tr>
+                <tr>
+                    <td class="text-right text-nowrap">{{ game.team1.ownedByCoach.name }}, {{ game.team1.fRace.name }}
+                        , {{ game.tv1/1000 }} </td>
+                    <td class="text-center text-nowrap"><a href="{{ path('match', {'matchId': game.matchId}) }}">Voir</a></td>
+                    <td class="text-left text-nowrap">{{ game.team2.ownedByCoach.name }}, {{ game.team2.fRace.name }}
+                        , {{ game.tv2/1000 }}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+        </tbody>
+    </table>
 </div>

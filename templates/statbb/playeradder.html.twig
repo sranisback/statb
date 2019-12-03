@@ -1,35 +1,30 @@
-<tr>
-	<td>
-		<button type="button" class="btn btn-primary btn-default" data-toggle="modal" data-target="#addplayer"><plus class="glyphicon glyphicon-plus"></plus> Ajouter Un joueur</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addplayer">
+    <span class="fas fa-plus"></span> Ajouter Un joueur
+</button>
 
-<div class="modal fade" id="addplayer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-		Ajouter un joueur
-      </div>
-      <div class="modal-body">
-
-		<div class="dropdown" id="teamdrop">
-			<button id="dLabel" type="button" class="btn btn-default" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				Position
-				<span class="caret"></span>
-			</button>
-			<ul id="selectedPos" class="dropdown-menu" aria-labelledby="dLabel">
-			{% for playerposition in playerpositions %}
-				<li><a href=# posId="{{playerposition.posId}}">{{playerposition.pos}}</a></li>
-			{% endfor %}
-			</ul>
-		</div>  
-	  </div>
-      <div class="modal-footer">
-	  <button type="button" class="btn btn-default" id="btn_addplayer"  teamId="{{teamId}}" >Ajouter</button>
-		<button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-      </div>
+<div class="modal" id="addplayer" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Ajouter un joueur</h4><br/>
+                Trésorerie restante : <span id="tresor2">{{ equipe.treasury }}</span>
+            </div>
+            <div class="modal-body">
+{#                <div>
+                    {{ render(controller('App\\Controller\\EquipeController::listeDesJoueurs',{'equipe' : equipe} )) }}
+                </div>#}
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
+                {{ form_row(form.name, { 'id': 'player_futur_nom' }) }}
+                {{ form_row(form.nr, { 'id': 'player_futur_numero' }) }}
+                {{ form_row(form.fPos) }}
+            </div>
+            <div class="modal-footer">
+                {{ form_widget(form.submit , { 'id': 'btn_addplayer' }) }}{{ form_widget(form.cancel) }}
+                {{ form_end(form)}}
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
-	</td>
-</tr>
 

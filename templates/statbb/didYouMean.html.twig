@@ -1,0 +1,15 @@
+{% extends 'statbb/base.html.twig' %}
+
+
+{% block body %}
+<div class = "card m-2">
+    <div class="card-header">
+        <h1>Voulez vous dire : </h1>
+    </div>
+    <div class="card-body">
+    {% for equipe in listeEquipe %}
+        <a href="{{ path('team', {'teamid': equipe.teamId }) }}">{{ equipe.name }}</a>, les {{ equipe.fRace.name }} de {{ equipe.ownedByCoach.name }} ({{ annees[equipe.year] }}) ? <br/>
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}

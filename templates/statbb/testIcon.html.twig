@@ -1,0 +1,3 @@
+{% for icon in icons %}
+    <img src="{{ asset('build/images/player_icons/'~icon.icon~'.gif') }}"  class="img-fluid"> {{ icon.icon }}<br/>
+{% endfor %}

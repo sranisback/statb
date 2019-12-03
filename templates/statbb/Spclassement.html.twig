@@ -1,28 +1,45 @@
-{% if limit == 0%}
+{% if limit == 0 %}
+    <div class="modal-header">
+        <h5 class="text-center">{{ title }}</h5>
+        <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 <div class="modal-body">
-{% endif %}
-<h3>{{title}}</h3>
-<div class="table-responsive">
-<table class="table table-striped" id="{{class}}">
-	<tbody>
-		{%for player in players%}
-		<tr>
-			<td>{{loop.index}}</td><td><img src="{{ asset('build/images/player_icons/'~player.icon~'.gif') }}" class=".img-responsive">{{player.nr}}.{{player.name}}{{player.sold}}{{player.dead}} - {{player.teams}}</td><td>{{player.score}}</td>
-		</tr>
-		{% endfor %}
-	</tbody>
-</table>
+    {% endif %}
+    {% if limit != 0 %}
+        <h5 class="text-center">{{ title }}</h5>
+    {% endif %}
+    <div class="table-responsive">
+        <table class="table table-striped" id="{{ class }}">
+            <tbody>
+            {% for player in players %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td><img src="{{ asset('build/images/player_icons/'~player.icon~'.gif') }}"
+                             class="img-fluid">{{ player.nr }}.{{ player.name }}{{ player.sold }}{{ player.dead }}
+                        - <a href="{{ path('team', {'teamid': player.equipeId }) }}">{{ player.equipe }}</a></td>
+                    <td>{{ player.score }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if limit == 0 %}
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>
+    </div>
 </div>
-{% if limit == 0%}
-</div>
 {% endif %}
-{% if limit > 0%}
-<a type="button" class="btn btn-primary" data-toggle="modal" href="{{ path('classement',{'type':type,'teamorplayer':teamorplayer,'limit':0}) }}" data-target="#cl{{type}}">Tous les joueurs</a>
+{% if limit > 0 %}
+    <button class="btn btn-primary" data-toggle="modal" data-target="#cl{{ type }}">
+        Tous les joueurs
+    </button>
 
-<div class="modal fade" id="cl{{type}}">
-  <div class="modal-dialog">
-	<div class="modal-content">
-	</div>
-  </div>
-</div>
+    <div class="modal fade" id="cl{{ type }}">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {{ render(controller('App\\Controller\\ClassementController::afficheSousClassementJoueur', {'type': type,'limit':0} )) }}
+            </div>
+        </div>
+    </div>
 {% endif %}

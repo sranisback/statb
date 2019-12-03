@@ -17,7 +17,7 @@ class Dyk
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=2500, nullable=true)
      */
     private $dyk_text;
 

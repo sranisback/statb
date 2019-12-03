@@ -4,6 +4,8 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    locale: 'en'
+    logo_directory: '%kernel.project_dir%/public/uploads/logo_equipe'
 
 services:
     # default configuration for services in *this* file
@@ -28,3 +30,48 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    admin.coach:
+        class: App\Admin\CoachAdmin
+        arguments: [~,App\Entity\Coaches,~]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: 'Administration', label: Coaches}
+    admin.team:
+        class: App\Admin\TeamAdmin
+        arguments: [~,App\Entity\Teams,~]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: 'Administration', label: Equipes}
+    admin.player:
+        class: App\Admin\PlayersAdmin
+        arguments: [~,App\Entity\Players,~]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: 'Administration', label: Joueurs}
+    admin.skills:
+        class: App\Admin\SkillAdmin
+        arguments: [~,App\Entity\PlayersSkills,~]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: 'Administration', label: Compétences}
+    admin.matches:
+        class: App\Admin\MatchAdmin
+        arguments: [~,App\Entity\Matches,~]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: 'Administration', label: Matches}
+    admin.matchesdata:
+        class: App\Admin\MatchDataAdmin
+        arguments: [~,App\Entity\MatchData,~]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: 'Administration', label: MatchData}
+    admin.stades:
+        class: App\Admin\StadesAdmin
+        arguments: [~,App\Entity\Stades,~]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: 'Administration', label: Stades}
+    admin.prime:
+        class: App\Admin\PrimeAdmin
+        arguments: [~,App\Entity\Primes,~]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: 'Administration', label: Primes}
+    admin.defis:
+        class: App\Admin\DefisAdmin
+        arguments: [~, App\Entity\Defis,~]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: 'Administration', label: Defis}

@@ -1,158 +1,168 @@
-{% extends "statbb/base.html.twig"%}
-      
+{% extends "statbb/base.html.twig" %}
+
 {% block body %}
-<div class="container-fluid">
-	<div class="panel">
-		<div class="panel-header">
-			<h1>{{player.name}}</h1>
-		</div>
-		<div class="panel-body table-responsive">
-			<div class="col-md-6">
-				<table class="table">
-					<tr>
-						<td>Equipe :</td><td>{{player.ownedByTeam.name}}</td>
-					</tr>	
-					<tr>
-						<td>Coach :</td><td>{{player.fCid.name}}</td>
-					</tr>
-					<tr>
-						<td>Poste :</td><td><img src="{{ asset('build/images/player_icons/'~player.fPos.icon~'.gif') }}" class=".img-responsive">{{player.fPos.pos}}</td>
-					</tr>	
-					<tr>
-						<td>Engagé le :</td><td>{{player.dateBought|date("d/m/Y")}}</td>
-					</tr>	
-					{% if player.status == 1%}
-					<tr>
-						<td>Status :</td><td><strong class="text-success">Ok</strong></td>
-					</tr>	
-					{% elseif player.status == 9 %}
-					<tr>
-						<td>Status :</td><td><strong class="text-warning">En attente de monter de niveau</strong></td>
-					</tr>	
-					{% elseif player.status == 8 %}
-					<tr>
-						<td>Status :</td><td><strong class="text-danger">Mort le {{player.dateDied|date("d/m/Y")}}</strong></td>
-					</tr>	
-					{% elseif player.status == 7 %}
-					<tr>
-						<td>Status :</td><td><strong class="text-primary">Vendu le {{player.dateSold|date("d/m/Y")}}</strong></td>
-					</tr>
-					{% elseif player.injrpm == 1 %}
-					<tr>
-						<td>Status :</td><td><strong class="text-warning">Blessé</strong></td>
-					</tr>	
-					{% endif %}
-					<tr>
-						<td>Spp :</td><td>{{pdata.spp}}</td>
-					</tr>
-					<tr>
-						<td>Nbr de matchs :</td><td>{{pdata.nbrm}}</td>
-					</tr>
-					<tr>
-						<td>Salaire :</td><td>{{pdata.cost}}</td>
-					</tr>
-					<tr>
-						<td colspan = 2>
-							<table class="table">
-								<thead>
-									<tr>
-										<th>Nr</th>
-										<th>MA</th>
-										<th>ST</th>
-										<th>AG</th>
-										<th>AV</th>
-										<th>Skill</th>
-										<th>Cp</th>
-										<th>Td</th>
-										<th>Int</th>
-										<th>Cas</th>
-										<th>Mvp</th>
-										<th>Agg</th>
-									</tr>
-								</thead>						
-								<tbody>
-									<tr>
-										<td>{{player.nr}}</td>
-										{% if player.achMa>0 %}
-										<td class="success">{{player.fpos.ma + player.achMa - player.injMa}}</td>
-										{% elseif  player.injMa>0%}
-										<td class="danger">{{player.fpos.ma + player.achMa - player.injMa}}</td>
-										{% else %}
-										<td>{{player.fpos.ma + player.achMa - player.injMa}}</td>
-										{% endif %}
-										
-										{% if player.achSt>0 %}
-										<td class="success">{{player.fpos.st + player.achSt - player.injSt}}</td>
-										{% elseif  player.injSt>0%}
-										<td class="danger">{{player.fpos.st + player.achSt - player.injSt}}</td>
-										{% else %}
-										<td>{{player.fpos.st + player.achSt - player.injSt}}</td>
-										{% endif %}
+    <div class="d-flex m-2 justify-content-center align-content-center">
+        <div class="card">
+            <div class="card-header">
+                <h1>{{ player.name }}</h1>
+            </div>
+            <div class="card-body">
+                <table class="table table-responsive">
+                    <tr>
+                        <td>Equipe :</td>
+                        <td>{{ player.ownedByTeam.name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Coach :</td>
+                        <td>{{ player.fCid.name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Poste :</td>
+                        <td><img src="{{ asset('build/images/player_icons/'~player.icon.iconName~'.gif') }}">{{ player.fPos.pos }}</td>
+                    </tr>
+                    <tr>
+                        <td>Engagé le :</td>
+                        <td>{{ player.dateBought|date("d/m/Y") }}</td>
+                    </tr>
+                    {% if player.status == 1 %}
+                        <tr>
+                            <td>Status :</td>
+                            <td><strong class="text-success">Ok</strong></td>
+                        </tr>
+                    {% elseif player.status == 9 %}
+                        <tr>
+                            <td>Status :</td>
+                            <td><strong class="text-warning">En attente de monter de niveau</strong></td>
+                        </tr>
+                    {% elseif player.status == 8 %}
+                        <tr>
+                            <td>Status :</td>
+                            <td><strong class="text-danger">Mort le {{ player.dateDied|date("d/m/Y") }}</strong>
+                            </td>
+                        </tr>
+                    {% elseif player.status == 7 %}
+                        <tr>
+                            <td>Status :</td>
+                            <td><strong class="text-primary">Vendu le {{ player.dateSold|date("d/m/Y") }}</strong>
+                            </td>
+                        </tr>
+                    {% elseif player.injrpm == 1 %}
+                        <tr>
+                            <td>Status :</td>
+                            <td><strong class="text-warning">Blessé</strong></td>
+                        </tr>
+                    {% endif %}
+                    <tr>
+                        <td>Spp :</td>
+                        <td>{{ pdata.spp }}</td>
+                    </tr>
+                    <tr>
+                        <td>Nbr de matchs :</td>
+                        <td>{{ pdata.nbrm }}</td>
+                    </tr>
+                    <tr>
+                        <td>Salaire :</td>
+                        <td>{{ pdata.cost }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan=2>
+                            <table class="table table-responsive">
+                                <thead>
+                                <tr>
+                                    <th>Nr</th>
+                                    <th>MA</th>
+                                    <th>ST</th>
+                                    <th>AG</th>
+                                    <th>AV</th>
+                                    <th>Comp</th>
+                                    <th>Cp</th>
+                                    <th>Td</th>
+                                    <th>Int</th>
+                                    <th>Cas</th>
+                                    <th>Mvp</th>
+                                    <th>Agg</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{{ player.nr }}</td>
+                                    {% if player.achMa>0 %}
+                                        <td class="success">{{ player.fpos.ma + player.achMa - player.injMa }}</td>
+                                    {% elseif  player.injMa>0 %}
+                                        <td class="danger">{{ player.fpos.ma + player.achMa - player.injMa }}</td>
+                                    {% else %}
+                                        <td>{{ player.fpos.ma + player.achMa - player.injMa }}</td>
+                                    {% endif %}
 
-										{% if player.achAg>0 %}
-										<td class="success">{{player.fpos.ag + player.achAg - player.injAg}}</td>
-										{% elseif  player.injAg>0%}
-										<td class="danger">{{player.fpos.ag + player.achAg - player.injAg}}</td>
-										{% else %}
-										<td>{{player.fpos.ag + player.achAg - player.injAg}}</td>
-										{% endif %}
+                                    {% if player.achSt>0 %}
+                                        <td class="success">{{ player.fpos.st + player.achSt - player.injSt }}</td>
+                                    {% elseif  player.injSt>0 %}
+                                        <td class="danger">{{ player.fpos.st + player.achSt - player.injSt }}</td>
+                                    {% else %}
+                                        <td>{{ player.fpos.st + player.achSt - player.injSt }}</td>
+                                    {% endif %}
 
-										{% if player.achAv>0 %}
-										<td class="success">{{player.fpos.av + player.achAv - player.injAv}}</td>
-										{% elseif  player.injAv>0%}
-										<td class="danger">{{player.fpos.av + player.achAv - player.injAv}}</td>
-										{% else %}
-										<td>{{player.fpos.av + player.achAv - player.injAv}}</td>
-										{% endif %}
-										<td>{{pdata.skill|raw}}</td>
-										<td>{{pdata.cp}}</td>
-										<td>{{pdata.td}}</td>
-										<td>{{pdata.int}}</td>
-										<td>{{pdata.cas}}</td>
-										<td>{{pdata.mvp}}</td>
-										<td>{{pdata.agg}}</td>
-									</tr>
-								</tbody>
-							</table>
-						</td>
-					</tr>
-				</table>
-			</div>
+                                    {% if player.achAg>0 %}
+                                        <td class="success">{{ player.fpos.ag + player.achAg - player.injAg }}</td>
+                                    {% elseif  player.injAg>0 %}
+                                        <td class="danger">{{ player.fpos.ag + player.achAg - player.injAg }}</td>
+                                    {% else %}
+                                        <td>{{ player.fpos.ag + player.achAg - player.injAg }}</td>
+                                    {% endif %}
 
-			<div class="col-md-6">
-				<table class="table">
-					{% for match in matches %}
-					<tr>
-						<td class="text-right">
-							{{match.team1.name}} 
-						</td>
-						<td class="text-center">
-							{%if (match.team1.teamId == player.ownedByTeam.teamId and match.team1Score>match.team2Score) or (match.team2.teamId == player.ownedByTeam.teamId and match.team2Score>match.team1Score) %}
-							<span class="glyphicon glyphicon-ok-circle text-success" aria-hidden="true"></span>
-							{% elseif (match.team1.teamId == player.ownedByTeam.teamId and match.team1Score<match.team2Score) or (match.team2.teamId == player.ownedByTeam.teamId and match.team2Score<match.team1Score) %}
-							<span class="glyphicon glyphicon-ok-circle text-danger" aria-hidden="true"></span>
-							{% elseif (match.team1.teamId == player.ownedByTeam.teamId and match.team1Score==match.team2Score) or (match.team2.teamId == player.ownedByTeam.teamId and match.team1Score==match.team2Score)%}
-							<span class="glyphicon glyphicon-ok-circle text-warning" aria-hidden="true"></span>
-							{% endif %}
-							{{match.team1Score}}-{{match.team2Score}}
-						</td>
-						<td>
-							{{match.team2.name}}
-						</td>
-							{% for data in mdata%}
-								{% if data.mId == match.matchId %}
-						<tr>
-							<td colspan=3 class="text-center">
-							{{data.data}}
-							</td>
-						</tr>
-								{% endif %}
-							{% endfor %}
-					</tr>
-					{% endfor %}
-				</table>
-			</div>
-		</div>
-	</div>
-</div>
+                                    {% if player.achAv>0 %}
+                                        <td class="success">{{ player.fpos.av + player.achAv - player.injAv }}</td>
+                                    {% elseif  player.injAv>0 %}
+                                        <td class="danger">{{ player.fpos.av + player.achAv - player.injAv }}</td>
+                                    {% else %}
+                                        <td>{{ player.fpos.av + player.achAv - player.injAv }}</td>
+                                    {% endif %}
+                                    <td>{{ pdata.skill|raw }}</td>
+                                    <td>{{ pdata.cp }}</td>
+                                    <td>{{ pdata.td }}</td>
+                                    <td>{{ pdata.int }}</td>
+                                    <td>{{ pdata.cas }}</td>
+                                    <td>{{ pdata.mvp }}</td>
+                                    <td>{{ pdata.agg }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+
+                <table class="table table-responsive">
+                    {% for match in matches %}
+                        <tr>
+                        <td class="text-right">
+                            {{ match.team1.name }}
+                        </td>
+                        <td class="text-center">
+                            {% if (match.team1.teamId == player.ownedByTeam.teamId and match.team1Score>match.team2Score) or (match.team2.teamId == player.ownedByTeam.teamId and match.team2Score>match.team1Score) %}
+                                <span class="fas fa-check-circle text-success" aria-hidden="true"></span>
+                            {% elseif (match.team1.teamId == player.ownedByTeam.teamId and match.team1Score<match.team2Score) or (match.team2.teamId == player.ownedByTeam.teamId and match.team2Score<match.team1Score) %}
+                                <span class="fas fa-check-circle text-danger" aria-hidden="true"></span>
+                            {% elseif (match.team1.teamId == player.ownedByTeam.teamId and match.team1Score==match.team2Score) or (match.team2.teamId == player.ownedByTeam.teamId and match.team1Score==match.team2Score) %}
+                                <span class="fas fa-check-circle text-warning" aria-hidden="true"></span>
+                            {% endif %}
+                            {{ match.team1Score }}-{{ match.team2Score }}
+                        </td>
+                        <td>
+                            {{ match.team2.name }}
+                        </td>
+                        {% for data in mdata %}
+                            {% if data.mId == match.matchId %}
+                                <tr>
+                                    <td colspan=3 class="text-center">
+                                        {{ data.data }}
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
 {% endblock %}
