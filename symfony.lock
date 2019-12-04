@@ -83,9 +83,6 @@
             "ref": "70062abc2cd58794d2a90274502f81b55cd9951b"
         }
     },
-    "fig/link-util": {
-        "version": "1.0.0"
-    },
     "friendsofsymfony/jsrouting-bundle": {
         "version": "2.0",
         "recipe": {
@@ -162,7 +159,7 @@
         "version": "v0.3.2"
     },
     "php": {
-        "version": "7.1"
+        "version": "7.4"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.0.0"
