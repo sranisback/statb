@@ -1,7 +1,10 @@
-import './jquery-ui.js'
-import './jquery.serializeToJSON.js'
-import './jquery.dataTables.min.js'
-import './library.js'
+import './jquery-ui.js';
+import './jquery.serializeToJSON.js';
+import './jquery.dataTables.min.js';
+import './library.js';
+
+import routes_dev from './routes_dev.js';
+import routes_prod from './routes_production.js';
 
 let $ = require('jquery');
 
@@ -10,270 +13,6 @@ require('popper.js');
 
 import Routing from './router.min.js';
 import html2canvas from './html2canvas.js';
-
-//json route prod
-
-const routes = {
-    "base_url": "http://statbrutedebowl.url.ph/statb/public",
-    "routes": {
-        "getposstat": {
-            "tokens": [["variable", "\/", "[^\/]++", "posId"], ["text", "\/getposstat"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "addPlayer": {
-            "tokens": [["text", "\/addPlayer"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "remPlayer": {
-            "tokens": [["variable", "\/", "[^\/]++", "playerId"], ["text", "\/remPlayer"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "gestionInducement": {
-            "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "teamId"], ["variable", "\/", "[^\/]++", "action"], ["text", "\/gestionInducement"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "retTeam": {
-            "tokens": [["variable", "\/", "[^\/]++", "teamId"], ["text", "\/retTeam"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "dropdownPlayer": {
-            "tokens": [["variable", "\/", "[^\/]++", "nbr"], ["variable", "\/", "[^\/]++", "teamId"], ["text", "\/dropdownPlayer"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "addGame": {
-            "tokens": [["text", "\/addGame"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "changeNr": {
-            "tokens": [["variable", "\/", "[^\/]++", "playerid"], ["variable", "\/", "[^\/]++", "newnr"], ["text", "\/changeNr"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "changeName": {
-            "tokens": [["variable", "\/", "[^\/]++", "playerid"], ["variable", "\/", "[^\/]++", "newname"], ["text", "\/changeName"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "changeNomStade": {
-            "tokens": [["variable", "\/", "[^\/]++", "nouveauNomStade"], ["variable", "\/", "[^\/]++", "equipeId"], ["text", "\/changeNomStade"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "ajoutStadeModal": {
-            "tokens": [["variable", "\/", "[^\/]++", "teamId"], ["text", "\/ajoutStadeModal"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "supprimerPrime": {
-            "tokens": [["variable", "\/", "[^\/]++", "primeId"], ["text", "\/supprimerPrime"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "supprimerDefis": {
-            "tokens": [["variable", "\/", "[^\/]++", "defisId"],["text", "\/supprimerDefis"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "genereNom" : {
-            "tokens": [["text", "\/genereNom"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "genereNumero" : {
-            "tokens": [["text", "\/genereNumero"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "prefix": "",
-        "host": "localhost",
-        "port": "",
-        "scheme": "http"
-    }
-}
-
-//json route dev
-/*
-const routes = {
-    "base_url": "",
-    "routes": {
-        "getposstat": {
-            "tokens": [["variable", "\/", "[^\/]++", "posId"], ["text", "\/getposstat"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "addPlayer": {
-            "tokens": [["text", "\/addPlayer"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "remPlayer": {
-            "tokens": [["variable", "\/", "[^\/]++", "playerId"], ["text", "\/remPlayer"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "gestionInducement": {
-            "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "teamId"], ["variable", "\/", "[^\/]++", "action"], ["text", "\/gestionInducement"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "retTeam": {
-            "tokens": [["variable", "\/", "[^\/]++", "teamId"], ["text", "\/retTeam"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "dropdownPlayer": {
-            "tokens": [["variable", "\/", "[^\/]++", "nbr"], ["variable", "\/", "[^\/]++", "teamId"], ["text", "\/dropdownPlayer"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "addGame": {
-            "tokens": [["text", "\/addGame"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "changeNr": {
-            "tokens": [["variable", "\/", "[^\/]++", "playerid"], ["variable", "\/", "[^\/]++", "newnr"], ["text", "\/changeNr"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "changeName": {
-            "tokens": [["variable", "\/", "[^\/]++", "playerid"], ["variable", "\/", "[^\/]++", "newname"], ["text", "\/changeName"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "changeNomStade": {
-            "tokens": [["variable", "\/", "[^\/]++", "nouveauNomStade"], ["variable", "\/", "[^\/]++", "equipeId"], ["text", "\/changeNomStade"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "ajoutStadeModal": {
-            "tokens": [["variable", "\/", "[^\/]++", "teamId"], ["text", "\/ajoutStadeModal"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "supprimerPrime": {
-            "tokens": [["variable", "\/", "[^\/]++", "primeId"], ["text", "\/supprimerPrime"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "supprimerDefis": {
-            "tokens": [["variable", "\/", "[^\/]++", "defisId"], ["text", "\/supprimerDefis"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "genereNom": {
-            "tokens": [["text", "\/genereNom"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "genereNumero": {
-            "tokens": [["text", "\/genereNumero"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        }
-    },
-    "prefix": "",
-    "host": "localhost",
-    "port": "",
-    "scheme": "http"
-}*/
 
 $(document).ready(function () {
     $(document).on('change', '.custom-file-input', function () {
@@ -285,7 +24,14 @@ $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip()
     });
 
-    Routing.setRoutingData(routes);
+    switch (process.env.ENV) {
+        case 'dev':
+            Routing.setRoutingData(routes_dev);
+            break;
+        case 'production':
+            Routing.setRoutingData(routes_prod);
+            break;
+    }
 
     $('#classgen').DataTable({
         "lengthChange": false,
@@ -295,7 +41,7 @@ $(document).ready(function () {
 
     });
 
-    if (window.location.href.indexOf('?capture') > -1 ){
+    if (window.location.href.indexOf('?capture') > -1) {
         var element = document.getElementById("card_classgen");
 
         html2canvas(element).then(function (canvas) {
@@ -303,12 +49,12 @@ $(document).ready(function () {
             var base64image = canvas.toDataURL("image/png");
 
             // Open the image in a new window
-            window.open(base64image , "_blank");
+            window.open(base64image, "_blank");
         });
     }
 
     $('#capture_classementgen').click(function () {
-        window.location.href = window.location.href+'?capture';
+        window.location.href = window.location.href + '?capture';
     })
 
     $('#equipesEnCours').DataTable({

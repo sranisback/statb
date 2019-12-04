@@ -1,4 +1,5 @@
 var Encore = require('@symfony/webpack-encore');
+const Dotenv = require('dotenv');
 
 Encore
     .setOutputPath('public/build/dev/')
@@ -9,6 +10,15 @@ Encore
 	.enableSassLoader()
 	.autoProvidejQuery()
 	.disableSingleRuntimeChunk()
+	.configureDefinePlugin(options => {
+		const env = Dotenv.config();
+
+		if (env.error) {
+			throw env.error;
+		}
+
+		options['process.env'].ENV = JSON.stringify(env.parsed.APP_ENV);
+	})
 ;
 
 const dev = Encore.getWebpackConfig();
@@ -26,6 +36,15 @@ Encore
 	.enableSassLoader()
 	.autoProvidejQuery()
 	.disableSingleRuntimeChunk()
+	.configureDefinePlugin(options => {
+		const env = Dotenv.config();
+
+		if (env.error) {
+			throw env.error;
+		}
+
+		options['process.env'].ENV = JSON.stringify(env.parsed.APP_ENV);
+	})
 ;
 
 const production = Encore.getWebpackConfig();
