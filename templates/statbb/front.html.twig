@@ -39,12 +39,6 @@
                 <div class="card-body" id="card_classgen">
                     {{ render(controller('App\\Controller\\ClassementController::classGen' )) }}
                 </div>
-                {%  if app.user %}
-                    {% if app.user.roles['role'] == 'ROLE_ADMIN' %}
-                        <br/>
-                        <button class="btn btn-primary" id="capture_classementgen">capture du classement</button>
-                    {% endif %}
-                {% endif %}
             </div>
             <br/>
             <div class="card m-2">

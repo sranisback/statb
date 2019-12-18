@@ -1,4 +1,4 @@
-const route = {
+const routes_dev = {
     "base_url": "",
     "routes": {
         "getposstat": {
@@ -127,3 +127,5 @@ const route = {
     "port": "",
     "scheme": "http"
 }
+
+export default routes_dev;

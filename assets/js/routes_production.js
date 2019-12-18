@@ -127,3 +127,5 @@ const routes_prod = {
         "scheme": "http"
     }
 }
+
+export default routes_prod;

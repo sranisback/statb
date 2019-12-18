@@ -82,7 +82,7 @@
                                     {% endif %}
                                     playerid="{{ player.playerId }}">{{ player.name }} </span><a
                                         class="fas fa-search"
-                                        href="{{ path('Player', {'playerid': player.playerId,'type':'n' }) }}"></a>
+                                        href="{{ path('Player', {'playerid': player.playerId }) }}"></a>
                                 {% if player.type == 2 %}
                                     <p class="fas fa-euro-sign"/>
                                 {% endif %}

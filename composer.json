@@ -12,9 +12,9 @@
         "sonata-project/admin-bundle": "^3.45",
         "sonata-project/block-bundle": "^3.18",
         "sonata-project/doctrine-orm-admin-bundle": "^3.8",
-        "symfony/console": "*",
+        "symfony/console": "4.4.0",
         "symfony/debug": "*",
-        "symfony/dotenv": "5.*",
+        "symfony/dotenv": "4.*",
         "symfony/flex": "^1.1",
         "symfony/form": "*",
         "symfony/framework-bundle": "*",
@@ -32,8 +32,8 @@
         "twig/extensions": "^1.5"
     },
     "require-dev": {
-        "phpstan/phpstan": "^0.11.2",
-        "phpstan/phpstan-doctrine": "^0.11.6",
+        "phpstan/phpstan": "^0.11.0",
+        "phpstan/phpstan-doctrine": "^0.11.0",
         "phpstan/phpstan-symfony": "^0.11.0",
         "phpunit/phpunit": "^7.5",
         "squizlabs/php_codesniffer": "3.*",

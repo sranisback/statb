@@ -6,6 +6,7 @@
 parameters:
     locale: 'en'
     logo_directory: '%kernel.project_dir%/public/uploads/logo_equipe'
+    photo_directory: '%kernel.project_dir%/public/uploads/photo_joueur'
 
 services:
     # default configuration for services in *this* file

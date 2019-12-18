@@ -204,6 +204,11 @@ class Players
      */
     private $icon;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $photo;
+
     public function getPlayerId(): ?int
     {
         return $this->playerId;
@@ -514,6 +519,18 @@ class Players
     public function setIcon(?PlayersIcons $icon): self
     {
         $this->icon = $icon;
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
 
         return $this;
     }

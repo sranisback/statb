@@ -11,9 +11,11 @@ use App\Entity\PlayersSkills;
 use App\Entity\Teams;
 use App\Form\AjoutCompetenceType;
 use App\Form\AjoutJoueurType;
+use App\Form\JoueurPhotoEnvoiType;
 use App\Service\EquipeService;
 use App\Service\PlayerService;
 use App\Tools\randomNameGenerator;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,7 +29,7 @@ use Symfony\Component\Serializer\Serializer;
 class JoueurController extends AbstractController
 {
     /**
-     * @param  mixed $response
+     * @param mixed $response
      * @return JsonResponse
      */
     public static function transformeEnJson($response): JsonResponse
@@ -43,13 +45,12 @@ class JoueurController extends AbstractController
     }
 
     /**
-     * @Route("/player/{playerid}/{type}", name="Player", options = { "expose" = true })
+     * @Route("/player/{playerid}", name="Player", options = { "expose" = true })
      * @param int $playerid
-     * @param string $type
      * @param PlayerService $playerService
      * @return Response
      */
-    public function showPlayer($playerid, $type, PlayerService $playerService)
+    public function showPlayer($playerid, PlayerService $playerService)
     {
         $msdata = [];
         $pdata = [];
@@ -101,27 +102,18 @@ class JoueurController extends AbstractController
             $msdata[$count]["data"] = '';
         }
 
-        if ($type == "modal") {
-            return $this->render(
-                'statbb/player_modal.html.twig',
-                [
-                    'player' => $joueur,
-                    'pdata' => $pdata,
-                    'matches' => $listeMatches,
-                    'mdata' => $msdata,
-                ]
-            );
-        } else {
-            return $this->render(
-                'statbb/player.html.twig',
-                [
-                    'player' => $joueur,
-                    'pdata' => $pdata,
-                    'matches' => $listeMatches,
-                    'mdata' => $msdata,
-                ]
-            );
-        }
+        $form = $this->createForm(JoueurPhotoEnvoiType::class, $joueur);
+
+        return $this->render(
+            'statbb/player.html.twig',
+            [
+                'player' => $joueur,
+                'pdata' => $pdata,
+                'matches' => $listeMatches,
+                'mdata' => $msdata,
+                'form' => $form->createView()
+            ]
+        );
     }
 
     /**
@@ -153,13 +145,13 @@ class JoueurController extends AbstractController
                                     </thead>
                                 <tbody>
                                         <tr>
-                                            <td>0 - '.$position->getQty().'</td>	
-                                            <td>'.$position->getMa().'</td>										
-                                            <td>'.$position->getSt().'</td>										
-                                            <td>'.$position->getAg().'</td>										
-                                            <td>'.$position->getAv().'</td>										
-                                            <td>'.$competences.'</td>
-                                            <td>'.$position->getCost().'</td>	
+                                            <td>0 - ' . $position->getQty() . '</td>	
+                                            <td>' . $position->getMa() . '</td>										
+                                            <td>' . $position->getSt() . '</td>										
+                                            <td>' . $position->getAg() . '</td>										
+                                            <td>' . $position->getAv() . '</td>										
+                                            <td>' . $competences . '</td>
+                                            <td>' . $position->getCost() . '</td>	
                                         </tr>
                                     </tbody>
                                 </table>';
@@ -252,9 +244,6 @@ class JoueurController extends AbstractController
             "tresor" => $tresors,
             "playercost" => $coutjoueur,
             "reponse" => $reponse,
-/*            "NomJoueur" => $joueur->getName(),
-            "NrJoueur" => $joueur->getNr(),
-            "PositionJoueur" => $joueur->getFPos()->getPos()*/
         ];
 
         return self::transformeEnJson($response);
@@ -435,5 +424,30 @@ class JoueurController extends AbstractController
         }
 
         return new Response(99);
+    }
+
+    /**
+     * @Route("/uploadPhoto/{joueurId}", name= "uploadPhoto")
+     */
+    public function uploadPhoto(Request $request, $joueurId)
+    {
+        $form = $request->files->all();
+
+        dump($form);
+        /** @var UploadedFile $photo */
+        $photo = $form['joueur_photo_envoi']['photo'];
+        $photo->move($this->getParameter('photo_directory'), $photo->getClientOriginalName());
+
+        /** @var Teams $equipe */
+        $joueur = $this->getDoctrine()->getRepository(Players::class)->findOneBy(['playerId' => $joueurId]);
+
+        $joueur->setPhoto($photo->getClientOriginalName());
+
+        $this->getDoctrine()->getManager()->persist($joueur);
+        $this->getDoctrine()->getManager()->flush();
+
+        $this->getDoctrine()->getManager()->refresh($joueur);
+
+        return $this->redirectToRoute('Player', ['playerid' => $joueur->getPlayerId()]);
     }
 }

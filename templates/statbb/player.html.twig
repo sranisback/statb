@@ -5,6 +5,11 @@
         <div class="card">
             <div class="card-header">
                 <h1>{{ player.name }}</h1>
+                <div> {% if player.photo %}
+                        <img class="img-fluid" src="{{ asset('uploads/photo_joueur/' ~ player.photo) }}" width="200px"
+                             height="100px">
+                    {% endif %}
+                </div>
             </div>
             <div class="card-body">
                 <table class="table table-responsive">
@@ -131,37 +136,56 @@
                     </tr>
                 </table>
 
-                <table class="table table-responsive">
-                    {% for match in matches %}
-                        <tr>
-                        <td class="text-right">
-                            {{ match.team1.name }}
-                        </td>
-                        <td class="text-center">
-                            {% if (match.team1.teamId == player.ownedByTeam.teamId and match.team1Score>match.team2Score) or (match.team2.teamId == player.ownedByTeam.teamId and match.team2Score>match.team1Score) %}
-                                <span class="fas fa-check-circle text-success" aria-hidden="true"></span>
-                            {% elseif (match.team1.teamId == player.ownedByTeam.teamId and match.team1Score<match.team2Score) or (match.team2.teamId == player.ownedByTeam.teamId and match.team2Score<match.team1Score) %}
-                                <span class="fas fa-check-circle text-danger" aria-hidden="true"></span>
-                            {% elseif (match.team1.teamId == player.ownedByTeam.teamId and match.team1Score==match.team2Score) or (match.team2.teamId == player.ownedByTeam.teamId and match.team1Score==match.team2Score) %}
-                                <span class="fas fa-check-circle text-warning" aria-hidden="true"></span>
-                            {% endif %}
-                            {{ match.team1Score }}-{{ match.team2Score }}
-                        </td>
-                        <td>
-                            {{ match.team2.name }}
-                        </td>
-                        {% for data in mdata %}
-                            {% if data.mId == match.matchId %}
-                                <tr>
-                                    <td colspan=3 class="text-center">
-                                        {{ data.data }}
-                                    </td>
-                                </tr>
-                            {% endif %}
+                <div class="d-flex w-100">
+                    <table class="table">
+                        {% for match in matches %}
+                            <tr>
+                            <td class="text-right">
+                                {{ match.team1.name }}
+                            </td>
+                            <td class="text-center">
+                                {% if (match.team1.teamId == player.ownedByTeam.teamId and match.team1Score>match.team2Score) or (match.team2.teamId == player.ownedByTeam.teamId and match.team2Score>match.team1Score) %}
+                                    <span class="fas fa-check-circle text-success" aria-hidden="true"></span>
+                                {% elseif (match.team1.teamId == player.ownedByTeam.teamId and match.team1Score<match.team2Score) or (match.team2.teamId == player.ownedByTeam.teamId and match.team2Score<match.team1Score) %}
+                                    <span class="fas fa-check-circle text-danger" aria-hidden="true"></span>
+                                {% elseif (match.team1.teamId == player.ownedByTeam.teamId and match.team1Score==match.team2Score) or (match.team2.teamId == player.ownedByTeam.teamId and match.team1Score==match.team2Score) %}
+                                    <span class="fas fa-check-circle text-warning" aria-hidden="true"></span>
+                                {% endif %}
+                                {{ match.team1Score }}-{{ match.team2Score }}
+                            </td>
+                            <td>
+                                {{ match.team2.name }}
+                            </td>
+                            {% for data in mdata %}
+                                {% if data.mId == match.matchId %}
+                                    <tr>
+                                        <td colspan=3 class="text-center">
+                                            {{ data.data }}
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                            </tr>
                         {% endfor %}
-                        </tr>
-                    {% endfor %}
-                </table>
+                    </table>
+                </div>
+                <div class="d-flex">
+                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#modal_uploadLogo">
+                        Uploader un logo
+                    </button>
+                    <div class="modal fade" id="modal_uploadLogo">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    {{ form_start(form , {'action': path('uploadPhoto',{'joueurId': player.playerId})}) }}
+                                    {{ form_row(form.photo,{'attr' : {'accept' : '.png, .jpg'}}) }}
+                                    {{ form_end(form) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

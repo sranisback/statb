@@ -12,7 +12,6 @@ require('bootstrap');
 require('popper.js');
 
 import Routing from './router.min.js';
-import html2canvas from './html2canvas.js';
 
 $(document).ready(function () {
     $(document).on('change', '.custom-file-input', function () {
@@ -38,24 +37,7 @@ $(document).ready(function () {
         "pageLength": 20,
         "info": false,
         "responsive": true
-
     });
-
-    if (window.location.href.indexOf('?capture') > -1) {
-        var element = document.getElementById("card_classgen");
-
-        html2canvas(element).then(function (canvas) {
-            // Export the canvas to its data URI representation
-            var base64image = canvas.toDataURL("image/png");
-
-            // Open the image in a new window
-            window.open(base64image, "_blank");
-        });
-    }
-
-    $('#capture_classementgen').click(function () {
-        window.location.href = window.location.href + '?capture';
-    })
 
     $('#equipesEnCours').DataTable({
         "lengthChange": false,
@@ -165,12 +147,10 @@ $(document).ready(function () {
                     $("#ajout_joueur_fPos").after(result);
                     $('btn_addplayer').prop('disabled', true);
                 })
-
             $("#pos_table").remove();
             $("#ajout_joueur_fPos").after($('#loadingmessage'));
             $('#loadingmessage').show();
         }
-
     });
 
     /**
@@ -225,7 +205,8 @@ $(document).ready(function () {
                         $('#res').remove();
                         $(".modal-body").prepend('<div id="res" class="alert alert-danger">' + result.html + '</div>');
                     }
-                });
+                }
+            );
         } else {
             alert('Merci d\'entrer les infos manquantes !');
         }
@@ -242,8 +223,8 @@ $(document).ready(function () {
     /*
     * Fonction pour enlever un joueur d'une équipe
      */
-    function removePlayer(origin) {
-
+    function removePlayer(origin)
+    {
         let line = origin.parent().parent();
         let totalPV = $("#totalPV");
 
