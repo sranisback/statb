@@ -25,12 +25,12 @@
                     {% endif %}
                     , {{ prime.players.Fpos.pos }} de  {{ prime.players.OwnedByTeam.name }}, {{ prime.players.OwnedByTeam.fRace.name }}
                     <a
-                            class="glyphicon glyphicon-search"
+                            class="fas fa-search"
                             href="{{ path('Player', {'playerid': prime.players.playerId,'type':'n' }) }}"></a></td>
                 <td>{{ prime.teams.name }}, {{ prime.teams.fRace.name }} de {{ prime.Coaches.name }}</td>
                 <td>{{ prime.montant }}</td>
             {% if app.user.roles["role"] == 'ROLE_ADMIN' %}
-                <td> <i class="glyphicon glyphicon-remove text-danger" id="enleve_prime_{{ prime.id }}" primeId="{{ prime.id }}"></i></td>
+                <td> <i class="fas fa-times text-danger" id="enleve_prime_{{ prime.id }}" primeId="{{ prime.id }}"></i></td>
             {% endif %}
             </tr>
         {% endfor %}
