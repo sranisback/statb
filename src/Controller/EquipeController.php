@@ -16,6 +16,7 @@ use App\Service\SettingsService;
 use App\Form\CreerEquipeType;
 
 use App\Service\StadeService;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -486,5 +487,27 @@ class EquipeController extends AbstractController
                     ->listeDesJoueursActifsPourlEquipe($equipe)
             ]
         );
+    }
+
+    /**
+     * @route("/supprimeLogo/{equipeId}", name="supprimeLogo",  options = { "expose" = true })
+     * @param int $equipeId
+     * @return Response
+     */
+    public function supprimeLogo(int $equipeId)
+    {
+        $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
+
+        $fileSystem = new Filesystem();
+        $fileSystem->remove($this->getParameter('logo_directory') . '/' . $equipe->getLogo());
+
+        $equipe->setLogo(null);
+
+        $this->getDoctrine()->getManager()->persist($equipe);
+        $this->getDoctrine()->getManager()->flush();
+
+        $this->getDoctrine()->getManager()->refresh($equipe);
+
+        return new Response('ok');
     }
 }

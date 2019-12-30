@@ -25,6 +25,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Filesystem\Filesystem;
 
 class JoueurController extends AbstractController
 {
@@ -433,7 +434,6 @@ class JoueurController extends AbstractController
     {
         $form = $request->files->all();
 
-        dump($form);
         /** @var UploadedFile $photo */
         $photo = $form['joueur_photo_envoi']['photo'];
         $photo->move($this->getParameter('photo_directory'), $photo->getClientOriginalName());
@@ -449,5 +449,27 @@ class JoueurController extends AbstractController
         $this->getDoctrine()->getManager()->refresh($joueur);
 
         return $this->redirectToRoute('Player', ['playerid' => $joueur->getPlayerId()]);
+    }
+
+    /**
+     * @route("/supprimePhoto/{joueurId}", name= "supprimePhoto",  options = { "expose" = true })
+     * @param int $joueurId
+     * @return Response
+     */
+    public function supprimePhotos(int $joueurId)
+    {
+        $joueur = $this->getDoctrine()->getRepository(Players::class)->findOneBy(['playerId' => $joueurId]);
+
+        $fileSystem = new Filesystem();
+        $fileSystem->remove($this->getParameter('photo_directory') . '/' . $joueur->getPhoto());
+
+        $joueur->setPhoto(null);
+
+        $this->getDoctrine()->getManager()->persist($joueur);
+        $this->getDoctrine()->getManager()->flush();
+
+        $this->getDoctrine()->getManager()->refresh($joueur);
+
+        return new Response('ok');
     }
 }

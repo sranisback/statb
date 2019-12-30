@@ -7,7 +7,10 @@
                 <h1>{{ player.name }}</h1>
                 <div> {% if player.photo %}
                         <img class="img-fluid" src="{{ asset('uploads/photo_joueur/' ~ player.photo) }}" width="200px"
-                             height="100px">
+                             height="100px"><br/>
+                        {% if app.user == player.ownedByTeam.ownedByCoach %}
+                            <span class="fas fa-trash-alt" joueurId="{{ player.playerId }}" id="supprimePhoto"></span>
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>
@@ -23,7 +26,9 @@
                     </tr>
                     <tr>
                         <td>Poste :</td>
-                        <td><img src="{{ asset('build/'~app.environment~'/images/player_icons/'~player.icon.iconName~'.gif') }}">{{ player.fPos.pos }}</td>
+                        <td>
+                            <img src="{{ asset('build/'~app.environment~'/images/player_icons/'~player.icon.iconName~'.gif') }}">{{ player.fPos.pos }}
+                        </td>
                     </tr>
                     <tr>
                         <td>Engagé le :</td>
@@ -169,10 +174,11 @@
                         {% endfor %}
                     </table>
                 </div>
+                {% if app.user == player.ownedByTeam.ownedByCoach %}
                 <div class="d-flex">
                     <button type="button" class="btn btn-primary" data-toggle="modal"
                             data-target="#modal_uploadLogo">
-                        Uploader un logo
+                        Uploader une photo
                     </button>
                     <div class="modal fade" id="modal_uploadLogo">
                         <div class="modal-dialog">
@@ -186,6 +192,7 @@
                         </div>
                     </div>
                 </div>
+                {%  endif %}
             </div>
         </div>
     </div>

@@ -9,6 +9,10 @@
                     <div> {% if team.logo %}
                             <img class="img-fluid" src="{{ asset('uploads/logo_equipe/' ~ team.logo) }}" width="200px"
                                  height="100px">
+                            {% if app.user == team.ownedByCoach %}
+                            <br/>
+                            <span class="fas fa-trash-alt" teamId="{{ team.teamId }}" id="supprimeLogo"></span>
+                            {% endif %}
                         {% else %}
                             <img class="img-fluid" src="{{ asset('build/'~app.environment~'/images/race_icons/'~team.fRace.icon~'.png') }}">
                         {% endif %}

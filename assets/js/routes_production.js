@@ -98,14 +98,14 @@ const routes_prod = {
             "schemes": []
         },
         "supprimerDefis": {
-            "tokens": [["variable", "\/", "[^\/]++", "defisId"],["text", "\/supprimerDefis"]],
+            "tokens": [["variable", "\/", "[^\/]++", "defisId"], ["text", "\/supprimerDefis"]],
             "defaults": [],
             "requirements": [],
             "hosttokens": [],
             "methods": [],
             "schemes": []
         },
-        "genereNom" : {
+        "genereNom": {
             "tokens": [["text", "\/genereNom"]],
             "defaults": [],
             "requirements": [],
@@ -113,7 +113,7 @@ const routes_prod = {
             "methods": [],
             "schemes": []
         },
-        "genereNumero" : {
+        "genereNumero": {
             "tokens": [["text", "\/genereNumero"]],
             "defaults": [],
             "requirements": [],
@@ -121,11 +121,27 @@ const routes_prod = {
             "methods": [],
             "schemes": []
         },
-        "prefix": "",
-        "host": "localhost",
-        "port": "",
-        "scheme": "http"
-    }
+        "supprimePhoto": {
+            "tokens": [["variable", "\/", "[^\/]++", "joueurId"], ["text", "\/supprimePhoto"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "supprimeLogo": {
+            "tokens": [["variable", "\/", "[^\/]++", "equipeId"], ["text", "\/supprimeLogo"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        }
+    },
+    "prefix": "",
+    "host": "localhost",
+    "port": "",
+    "scheme": "http"
 }
 
 export default routes_prod;

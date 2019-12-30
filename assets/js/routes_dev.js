@@ -120,6 +120,22 @@ const routes_dev = {
             "hosttokens": [],
             "methods": [],
             "schemes": []
+        },
+        "supprimePhoto": {
+            "tokens": [["variable", "\/", "[^\/]++", "joueurId"], ["text", "\/supprimePhoto"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "supprimeLogo": {
+            "tokens": [["variable", "\/", "[^\/]++", "equipeId"], ["text", "\/supprimeLogo"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
         }
     },
     "prefix": "",

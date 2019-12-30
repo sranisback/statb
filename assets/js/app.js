@@ -223,8 +223,7 @@ $(document).ready(function () {
     /*
     * Fonction pour enlever un joueur d'une équipe
      */
-    function removePlayer(origin)
-    {
+    function removePlayer(origin) {
         let line = origin.parent().parent();
         let totalPV = $("#totalPV");
 
@@ -412,6 +411,22 @@ $(document).ready(function () {
                     });
             }
         });
+    });
+
+    $('#supprimePhoto').click(function () {
+        $.post(Routing.generate('supprimePhoto', {joueurId: $(this).attr('joueurId')}),
+            {},
+            function () {
+                window.location.reload();
+            });
+    });
+
+    $('#supprimeLogo').click(function () {
+        $.post(Routing.generate('supprimeLogo', {equipeId: $(this).attr('teamId')}),
+            {},
+            function () {
+                window.location.reload();
+            });
     });
 });
 
