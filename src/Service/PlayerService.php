@@ -371,7 +371,7 @@ class PlayerService
             $matchjoues = $this->doctrineEntityManager->getRepository(MatchData::class)->listeDesMatchsdUnJoueur(
                 $joueur
             );
-            if (count($matchjoues)<1 && $joueur->getType() == 1) {
+            if (!$matchjoues && $joueur->getType() === 1) {
                 $effect = "rm";
                 $equipe->setTreasury($equipe->getTreasury() + $position->getCost());
                 $this->doctrineEntityManager->remove($joueur);

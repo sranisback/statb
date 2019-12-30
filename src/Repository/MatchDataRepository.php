@@ -138,9 +138,13 @@ class MatchDataRepository extends ServiceEntityRepository
             ->addOrderBy('score', 'DESC')
             ->having('score > 0')
             ->getQuery()
-            ->getSingleResult();
+            ->getOneOrNullResult();
 
-        return $totalCas['score'];
+        if (!empty($totalCas)) {
+            return $totalCas['score'];
+        } else {
+            return 0;
+        }
     }
 
     public function listeDesJoueursdUnMatch(Matches $match, Teams $equipe)

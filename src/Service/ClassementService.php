@@ -188,7 +188,6 @@ class ClassementService
         } else {
             $moyenne = round($score / $nbrMatches, 2);
         }
-
         return [
             'score' => $score,
             'nbrMatches' => $nbrMatches,
