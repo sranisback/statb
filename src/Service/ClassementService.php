@@ -53,15 +53,35 @@ class ClassementService
 
     public function cinqDerniersMatchsParEquipe($equipeId)
     {
-
         $matches = $this->doctrineEntityManager->getRepository(Matches::class)->listeDesMatchs(
             $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId])
         );
 
         $matchesAafficher = $this->cinqPremierMatches($matches);
 
-
         return $matchesAafficher;
+    }
+
+    public function classementDetailScoreDuneEquipe(Teams $equipe)
+    {
+        $tdMis = 0;
+        $tdPris = 0;
+        /** @var Matches $match */
+        foreach ($this->doctrineEntityManager->getRepository(Matches::class)->listeDesMatchs($equipe) as $match) {
+            if ( $match->getTeam1() === $equipe) {
+                $tdMis += $match->getTeam1Score();
+                $tdPris += $match->getTeam2Score();
+            } else {
+                $tdMis += $match->getTeam2Score();
+                $tdPris += $match->getTeam1Score();
+            }
+        }
+
+        return [
+            $equipe,
+            $tdMis,
+            $tdPris
+        ];
     }
 
     /**

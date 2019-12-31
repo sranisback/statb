@@ -80,7 +80,11 @@ class MatchesRepository extends ServiceEntityRepository
             }
         );
 
-        return $matches;
+        if (!empty($matches)) {
+            return $matches;
+        }
+
+        return [];
     }
 
     /**

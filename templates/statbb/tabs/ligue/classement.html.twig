@@ -1,45 +1,60 @@
 <h1 class="text-center">Classement Général</h1>
-<div class="table-responsive">
-    <table class="table table-striped" id="classgen">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>Equipe</th>
-            <th></th>
-            <th>Race</th>
-            <th>Coach</th>
-            <th>G</th>
-            <th>N</th>
-            <th>P</th>
-            <th>Pts</th>
-            <th>NbrM</th>
-            <th>TV</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for team in classement %}
-            <tr>
-                <td class="pos">{{ loop.index }}</td>
-                <td><a href="{{ path('team', {'teamid': team.team_id }) }}">{{ team.team_name }}</a> </td>
-                <td>
-                {% if team.logo %}
-                <img src="{{ asset('uploads/logo_equipe/' ~ team.logo) }}" class="img-fluid">
-                {% else %}
-                <img src="{{ asset('build/'~app.environment~'/images/race_icons/'~team.icon~'.png') }}">
-                    {% endif %}
-                </td>
-                <td>{{ team.race }}</td>
-                <td>{{ team.name }}</td>
-                <td>{{ team.Win }}</td>
-                <td>{{ team.Draw }}</td>
-                <td>{{ team.Lost }}</td>
-                <td>{{ team.pts }}</td>
-                <td>{{ team.nbrg }}</td>
-                <td>{{ team.tv/1000 }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#classementGen">Classement général</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#detailClass">Détails</a>
+    </li>
+</ul>
+<div class="tab-content">
+    <div id="classementGen" class="tab-pane fade show active">
+        <div class="table-responsive">
+            <br>
+            <table class="table table-striped" id="classgen">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Equipe</th>
+                    <th></th>
+                    <th>Race</th>
+                    <th>Coach</th>
+                    <th>G</th>
+                    <th>N</th>
+                    <th>P</th>
+                    <th>Pts</th>
+                    <th>NbrM</th>
+                    <th>TV</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for team in classement %}
+                    <tr>
+                        <td class="pos">{{ loop.index }}</td>
+                        <td><a href="{{ path('team', {'teamid': team.team_id }) }}">{{ team.team_name }}</a></td>
+                        <td>
+                            {% if team.logo %}
+                                <img src="{{ asset('uploads/logo_equipe/' ~ team.logo) }}" class="img-fluid">
+                            {% else %}
+                                <img src="{{ asset('build/'~app.environment~'/images/race_icons/'~team.icon~'.png') }}">
+                            {% endif %}
+                        </td>
+                        <td>{{ team.race }}</td>
+                        <td>{{ team.name }}</td>
+                        <td>{{ team.Win }}</td>
+                        <td>{{ team.Draw }}</td>
+                        <td>{{ team.Lost }}</td>
+                        <td>{{ team.pts }}</td>
+                        <td>{{ team.nbrg }}</td>
+                        <td>{{ team.tv/1000 }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="detailClass" class="tab-pane fade show">
+    </div>
 </div>
 
 
