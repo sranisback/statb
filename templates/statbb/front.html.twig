@@ -24,6 +24,12 @@
             <br/>
             <div class="card m-2">
                 <div class="card-body">
+                    {{ render(controller('App\\Controller\\ClassementController::afficheSousClassementJoueur',{'type':'handi','limit':5} )) }}
+                </div>
+            </div>
+            <br/>
+            <div class="card m-2">
+                <div class="card-body">
                     {{ render(controller('App\\Controller\\ClassementController::afficheSousClassementsEquipe',{'type':'td','limit':5} )) }}
                 </div>
             </div>
@@ -62,6 +68,12 @@
             <br/>
             <div class="card m-2">
                 <div class="card-body">
+                    {{ render(controller('App\\Controller\\ClassementController::afficheSousClassementJoueur',{'type':'killer','limit':5} )) }}
+                </div>
+            </div>
+            <br/>
+            <div class="card m-2">
+                <div class="card-body">
                     {{ render(controller('App\\Controller\\ClassementController::afficheSousClassementsEquipe',{'type':'bash','limit':5} )) }}
                 </div>
             </div>
@@ -69,6 +81,12 @@
             <div class="card m-2">
                 <div class="card-body">
                     {{ render(controller('App\\Controller\\ClassementController::afficheSousClassementsEquipe',{'type':'dead','limit':5} )) }}
+                </div>
+            </div>
+            <br/>
+            <div class="card m-2">
+                <div class="card-body">
+                    {{ render(controller('App\\Controller\\ClassementController::afficheSousClassementsEquipe',{'type':'killer','limit':5} )) }}
                 </div>
             </div>
         </div>

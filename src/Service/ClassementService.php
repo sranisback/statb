@@ -110,6 +110,16 @@ class ClassementService
                 $titre = 'Le Tricheur - Record Fautes';
                 $classement = 'class_foul';
                 break;
+
+            case 'killer':
+                $titre = 'Le Serial Tueur - Record Meurtres';
+                $classement = 'class_kill';
+                break;
+
+            case 'handi':
+                $titre = 'Le Tortionnaire - Record Blessures Graves';
+                $classement = 'class_handi';
+                break;
         }
 
         return [
@@ -167,6 +177,10 @@ class ClassementService
                 $titre = 'Les tricheurs';
                 $classement = 'class_Tfoul';
                 break;
+
+            case 'killer':
+                $titre = 'Les tueurs';
+                $classement = 'class_Tkill';
         }
 
         return [

@@ -47,9 +47,12 @@ class MatchDataRepository extends ServiceEntityRepository
                 $query->addSelect('SUM(Matchdata.td) AS score');
                 break;
 
-
             case 'foul':
                 $query->addSelect('SUM(Matchdata.agg) AS score');
+                break;
+
+            case 'killer':
+                $query->addSelect('SUM(Matchdata.ki) AS score');
                 break;
         }
 
@@ -111,7 +114,12 @@ class MatchDataRepository extends ServiceEntityRepository
                 $query->addSelect('SUM(Matchdata.agg) AS score');
                 break;
 
-            case 'dead':
+            case 'killer':
+                $query->addSelect('SUM(Matchdata.ki) AS score');
+                break;
+
+            case 'handi':
+                $query->addSelect('SUM(Matchdata.si) AS score');
                 break;
         }
 
