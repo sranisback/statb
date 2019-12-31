@@ -16,6 +16,7 @@ use App\Service\SettingsService;
 use App\Form\CreerEquipeType;
 
 use App\Service\StadeService;
+use Gumlet\ImageResize;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -231,19 +232,25 @@ class EquipeController extends AbstractController
 
         /** @var UploadedFile $logo */
         $logo = $form['logo_envoi']['logo'];
+
         $logo->move($this->getParameter('logo_directory'), $logo->getClientOriginalName());
+
+        $image = new ImageResize($this->getParameter('logo_directory') . '/' . $logo->getClientOriginalName());
+        $image->resizeToBestFit(200, 114);
+        $image->save($this->getParameter('logo_directory') . '/' . $logo->getClientOriginalName());
 
         /** @var Teams $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
 
         $equipe->setLogo($logo->getClientOriginalName());
-
+        
         $this->getDoctrine()->getManager()->persist($equipe);
         $this->getDoctrine()->getManager()->flush();
 
         $this->getDoctrine()->getManager()->refresh($equipe);
 
         return $this->redirectToRoute('team', ['teamid' => $equipe->getTeamId()]);
+      //  return new Response('ok');
     }
 
     /**

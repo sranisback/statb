@@ -7,8 +7,7 @@
             <div class="card-header">
                 <div class="d-flex ">
                     <div> {% if team.logo %}
-                            <img class="img-fluid" src="{{ asset('uploads/logo_equipe/' ~ team.logo) }}" width="200px"
-                                 height="100px">
+                            <img class="img-fluid" src="{{ asset('uploads/logo_equipe/' ~ team.logo) }}">
                             {% if app.user == team.ownedByCoach %}
                             <br/>
                             <span class="fas fa-trash-alt" teamId="{{ team.teamId }}" id="supprimeLogo"></span>

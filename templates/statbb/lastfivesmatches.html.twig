@@ -9,27 +9,28 @@
                         {% if game.team1.logo %}
                             <img src="{{ asset('uploads/logo_equipe/' ~ game.team1.logo) }}" class="img-fluid">
                         {% else %}
-                        <img src="{{ asset('build/'~app.environment~'/images/race_icons/'~game.team1.fRace.icon~'.png') }}"
-                                         class="img-fluid pull-left">
-                            {% endif %}
-                            </td>
+                            <img src="{{ asset('build/'~app.environment~'/images/race_icons/'~game.team1.fRace.icon~'.png') }}"
+                                 class="img-fluid pull-left">
+                        {% endif %}
+                    </td>
                     <td class="text-right"><h4>{{ game.team1.name }}</h4></td>
                     <td class="text-center text-nowrap"><h4>{{ game.team1Score }}
                             - {{ game.team2Score }}</h4></td>
                     <td class="text-left"><h4>{{ game.team2.name }}</h4></td>
                     <td rowspan="2">
                         {% if game.team2.logo %}
-                        <img src="{{ asset('uploads/logo_equipe/' ~ game.team2.logo) }}" class="img-fluid">
-                    {% else %}
-                        <img src="{{ asset('build/'~app.environment~'/images/race_icons/'~game.team2.fRace.icon~'.png') }}"
-                                         class="img-fluid pull-right">
+                            <img src="{{ asset('uploads/logo_equipe/' ~ game.team2.logo) }}" class="img-fluid">
+                        {% else %}
+                            <img src="{{ asset('build/'~app.environment~'/images/race_icons/'~game.team2.fRace.icon~'.png') }}"
+                                 class="img-fluid pull-right">
                         {% endif %}
                     </td>
                 </tr>
                 <tr>
                     <td class="text-right text-nowrap">{{ game.team1.ownedByCoach.name }}, {{ game.team1.fRace.name }}
                         , {{ game.tv1/1000 }} </td>
-                    <td class="text-center text-nowrap"><a href="{{ path('match', {'matchId': game.matchId}) }}">Voir</a></td>
+                    <td class="text-center text-nowrap"><a
+                                href="{{ path('match', {'matchId': game.matchId}) }}">Voir</a></td>
                     <td class="text-left text-nowrap">{{ game.team2.ownedByCoach.name }}, {{ game.team2.fRace.name }}
                         , {{ game.tv2/1000 }}</td>
                 </tr>
