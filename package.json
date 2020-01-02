@@ -24,6 +24,7 @@
         "datatables.net": "^1.10.19",
         "jquery": "^3.4.1",
         "module": "^1.2.5",
-        "rfs": "^9.0.2"
+        "rfs": "^9.0.2",
+        "serialize-javascript": ">=2.1.1"
     }
 }
