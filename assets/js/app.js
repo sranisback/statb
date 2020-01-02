@@ -233,7 +233,8 @@ $(document).ready(function () {
     function removePlayer(origin) {
         let line = origin.parent().parent();
         let totalPV = $("#totalPV");
-
+        origin.append($('#loadingmessage'));
+        $('#loadingmessage').show();
         $.post(Routing.generate('remPlayer', {playerId: origin.attr("playerId")}),
             {},
             function (result) {
