@@ -34,9 +34,7 @@
                         <div class="text-right mr-3"> {{ actionEquipe1|raw }}</div>
                         {% if match.team1.logo %}
                             <div class="text-right mr-3">
-                                <img class="img-fluid" src="{{ asset('uploads/logo_equipe/' ~ match.team1.logo) }}"
-                                     width="200px"
-                                     height="100px">
+                                <img class="img-fluid" src="{{ asset('uploads/logo_equipe/' ~ match.team1.logo) }}">
                             </div>
                         {% endif %}
                     </div>
@@ -63,9 +61,7 @@
                         <div class="ml-3">{{ actionEquipe2|raw }}</div>
                         {% if match.team2.logo %}
                             <div class="ml-3">
-                                <img class="img-fluid" src="{{ asset('uploads/logo_equipe/' ~ match.team2.logo) }}"
-                                     width="200px"
-                                     height="100px">
+                                <img class="img-fluid" src="{{ asset('uploads/logo_equipe/' ~ match.team2.logo) }}">
                             </div>
                         {% endif %}
                     </div>
