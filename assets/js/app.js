@@ -39,6 +39,13 @@ $(document).ready(function () {
         "responsive": true
     });
 
+    $('#classgenDet').DataTable({
+        "lengthChange": false,
+        "pageLength": 20,
+        "info": false,
+        "responsive": true
+    });
+
     $('#equipesEnCours').DataTable({
         "lengthChange": false,
         "pageLength": 20,
@@ -56,7 +63,7 @@ $(document).ready(function () {
             null,
             {
                 "orderable": false
-            }
+        }
         ]
     });
 

@@ -69,10 +69,10 @@ class classementDetailScoreDuneEquipeTest extends KernelTestCase
         );
 
         $retour = [
-            $equipeMock,
-            10,
-            5,
-            5
+            'equipe' => $equipeMock,
+            'tdMis' => 10,
+            'tdPris' => 5,
+            'tdAverage' => 5
         ];
 
         $this->assertEquals($retour, $classementService->classementDetailScoreDuneEquipe($equipeMock));
@@ -115,10 +115,10 @@ class classementDetailScoreDuneEquipeTest extends KernelTestCase
         );
 
         $retour = [
-            $equipeMock,
-            0,
-            0,
-            0
+            'equipe' => $equipeMock,
+            'tdMis' => 0,
+            'tdPris' => 0,
+            'tdAverage' => 0
         ];
 
         $this->assertEquals($retour, $classementService->classementDetailScoreDuneEquipe($equipeMock));

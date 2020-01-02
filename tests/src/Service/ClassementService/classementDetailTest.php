@@ -8,19 +8,21 @@ use App\Entity\Matches;
 use App\Entity\Teams;
 use App\Service\ClassementService;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class classementDetailScoreGenTest extends KernelTestCase
+class classementDetailTest extends KernelTestCase
 {
     /**
      * @test
      */
-    public function classement_des_equipes()
+    public function classement_genere()
     {
         $equipeMock0 = $this->createMock(Teams::class);
+        $equipeMock0->method('getTeamId')->willReturn(0);
         $equipeMock1 = $this->createMock(Teams::class);
+        $equipeMock1->method('getTeamId')->willReturn(1);
         $equipeMock2 = $this->createMock(Teams::class);
+        $equipeMock2->method('getTeamId')->willReturn(2);
 
         $matchMock0 = $this->createMock(Matches::class);
         $matchMock0->method('getTeam1')->willReturn($equipeMock0);
@@ -55,11 +57,28 @@ class classementDetailScoreGenTest extends KernelTestCase
         );
 
         $teamRepoMock = $this->getMockBuilder(Teams::class)
-            ->setMethods(['findBy'])
+            ->setMethods(['findBy', 'pointsBonus'])
             ->getMock();
 
         $teamRepoMock->method('findBy')->willReturn(
             [$equipeMock0, $equipeMock1, $equipeMock2]
+        );
+
+        $teamRepoMock->method('pointsBonus')->willReturn(
+            [
+                [
+                    'equipeId' => 0,
+                    'Bonus' => 5
+                ],
+                [
+                    'equipeId' => 1,
+                    'Bonus' => 3
+                ],
+                [
+                    'equipeId' => 2,
+                    'Bonus' => 2
+                ]
+            ]
         );
 
         $objectManager = $this->createMock(EntityManagerInterface::class);
@@ -79,29 +98,32 @@ class classementDetailScoreGenTest extends KernelTestCase
             )
         );
 
-        $classementService = new ClassementService($objectManager);
-
         $retour = [
             [
                 'equipe' => $equipeMock0,
                 'tdMis' => 4,
                 'tdPris' => 4,
-                'tdAverage' => 0
+                'tdAverage' => 0,
+                'pts' => 5
             ],
             [
                 'equipe' => $equipeMock1,
                 'tdMis' => 4,
                 'tdPris' => 1,
-                'tdAverage' => 3
+                'tdAverage' => 3,
+                'pts' => 3
             ],
             [
                 'equipe' => $equipeMock2,
                 'tdMis' => 2,
                 'tdPris' => 0,
-                'tdAverage' => 2
-            ]
+                'tdAverage' => 2,
+                'pts' => 2
+            ],
         ];
 
-        $this->assertEquals($retour, $classementService->classementDetailScoreGen(4));
+        $classementService = new ClassementService($objectManager);
+
+        $this->assertEquals($retour, $classementService->classementDetail(4));
     }
 }

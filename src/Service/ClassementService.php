@@ -62,6 +62,10 @@ class ClassementService
         return $matchesAafficher;
     }
 
+    /**
+     * @param Teams $equipe
+     * @return array
+     */
     public function classementDetailScoreDuneEquipe(Teams $equipe)
     {
         $tdMis = 0;
@@ -80,13 +84,17 @@ class ClassementService
         }
 
         return [
-            $equipe,
-            $tdMis,
-            $tdPris,
-            $tdAverage
+            'equipe' => $equipe,
+            'tdMis' => $tdMis,
+            'tdPris' => $tdPris,
+            'tdAverage' => $tdAverage
         ];
     }
 
+    /**
+     * @param int $annee
+     * @return array
+     */
     public function classementDetailScoreGen(int $annee)
     {
         /** @var Teams $equipe */
@@ -95,6 +103,30 @@ class ClassementService
         }
 
         return $tableDetail;
+    }
+
+    public function classementDetail(int $annee)
+    {
+       $classementDetail = [];
+        $pointsBonus = $this->doctrineEntityManager->getRepository(Teams::class)->pointsBonus($annee);
+
+        foreach ($this->classementDetailScoreGen($annee) as $ligne ){
+            foreach ($pointsBonus as $ligneBonus){
+                /** @var Teams $equipe */
+                $equipe = $ligne['equipe'];
+                if ($equipe->getTeamId() == $ligneBonus['equipeId']) {
+                    $classementDetail[] = [
+                        'equipe' => $equipe,
+                        'tdMis' => $ligne['tdMis'],
+                        'tdPris' => $ligne['tdPris'],
+                        'tdAverage' => $ligne['tdAverage'],
+                        'pts' => $ligneBonus['Bonus'],
+                    ];
+                }
+            }
+        }
+
+        return $classementDetail;
     }
 
     /**

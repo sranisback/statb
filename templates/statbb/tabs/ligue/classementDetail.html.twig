@@ -1,0 +1,29 @@
+<div class="tab-content">
+    <div id="classementGenDet" class="tab-pane fade show active">
+        <div class="table-responsive">
+            <br>
+            <table class="table table-striped" id="classgenDet">
+                <thead>
+                <tr>
+                    <th>Equipe</th>
+                    <th>Td+</th>
+                    <th>Td-</th>
+                    <th>Td Average</th>
+                    <th>Pts Bonus</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for ligne in classementDet %}
+                    <tr>
+                        <td><a href="{{ path('team', {'teamid': ligne.equipe.teamId }) }}">{{ ligne.equipe.name }}</a></td>
+                        <td>{{ ligne.tdMis }}</td>
+                        <td>{{ ligne.tdPris }}</td>
+                        <td>{{ ligne.tdAverage }}</td>
+                        <td>{{ ligne.pts }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

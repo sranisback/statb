@@ -31,9 +31,23 @@ class ClassementController extends AbstractController
             'statbb/tabs/ligue/classement.html.twig',
             [
                 'classement' => $this->getDoctrine()->getRepository(Teams::class)->classement(
-                    $this->settingsService->anneeCourante(),
-                    0
-                ),
+                    $this->settingsService->anneeCourante()
+                )
+            ]
+        );
+    }
+
+    /**
+     * @Route("/classement/detail/", name="classGenDetail", options = { "expose" = true })
+     * @param ClassementService $classementService
+     * @return Response
+     */
+    public function classGenDetail(ClassementService $classementService)
+    {
+        return $this->render(
+            'statbb/tabs/ligue/classementDetail.html.twig',
+            [
+                'classementDet' => $classementService->classementDetail($this->settingsService->anneeCourante())
             ]
         );
     }
