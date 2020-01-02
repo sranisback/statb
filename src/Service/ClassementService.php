@@ -66,6 +66,7 @@ class ClassementService
     {
         $tdMis = 0;
         $tdPris = 0;
+        $tdAverage = 0;
         /** @var Matches $match */
         foreach ($this->doctrineEntityManager->getRepository(Matches::class)->listeDesMatchs($equipe) as $match) {
             if ( $match->getTeam1() === $equipe) {
@@ -75,13 +76,25 @@ class ClassementService
                 $tdMis += $match->getTeam2Score();
                 $tdPris += $match->getTeam1Score();
             }
+            $tdAverage = $tdMis - $tdPris;
         }
 
         return [
             $equipe,
             $tdMis,
-            $tdPris
+            $tdPris,
+            $tdAverage
         ];
+    }
+
+    public function classementDetailScoreGen(int $annee)
+    {
+        /** @var Teams $equipe */
+        foreach ($this->doctrineEntityManager->getRepository(Teams::class)->findBy(['year' => $annee]) as $equipe) {
+            $tableDetail[] = $this->classementDetailScoreDuneEquipe($equipe);
+        }
+
+        return $tableDetail;
     }
 
     /**

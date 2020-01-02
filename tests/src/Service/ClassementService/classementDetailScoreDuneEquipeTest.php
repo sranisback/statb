@@ -51,9 +51,8 @@ class classementDetailScoreDuneEquipeTest extends KernelTestCase
         $teamRepoMock = $this->createMock(ObjectManager::class);
 
         $objectManager = $this->createMock(EntityManagerInterface::class);
-
         $classementService = new ClassementService($objectManager);
-        $objectManager->expects($this->any())->method('getRepository')->will(
+        $objectManager->method('getRepository')->will(
             $this->returnCallback(
                 function ($entityName) use ($teamRepoMock, $matchRepoMock) {
                     if ($entityName === 'App\Entity\Teams') {
@@ -73,6 +72,7 @@ class classementDetailScoreDuneEquipeTest extends KernelTestCase
             $equipeMock,
             10,
             5,
+            5
         ];
 
         $this->assertEquals($retour, $classementService->classementDetailScoreDuneEquipe($equipeMock));
@@ -118,6 +118,7 @@ class classementDetailScoreDuneEquipeTest extends KernelTestCase
             $equipeMock,
             0,
             0,
+            0
         ];
 
         $this->assertEquals($retour, $classementService->classementDetailScoreDuneEquipe($equipeMock));
