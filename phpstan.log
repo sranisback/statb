@@ -1,0 +1,8 @@
+
+ [OK] No errors                                                                                                         
+
+💡 Tip of the Day:
+One or more properties in your code do not have a phpDoc with a type
+but it could be inferred from the constructor to find more bugs.
+Use inferPrivatePropertyTypeFromConstructor: true in your phpstan.neon to try it out!
+
