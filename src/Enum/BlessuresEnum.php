@@ -27,7 +27,8 @@ class BlessuresEnum
             55 => 'Fracture du crâne',
             56 => 'Commotion grave',
             57 => 'Cou brisé',
-            58 => 'Clavicule défoncée'
+            58 => 'Clavicule défoncée',
+            60 => 'Mort'
         ];
     }
 }

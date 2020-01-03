@@ -212,6 +212,8 @@ class MatchesService
                 case 'Tué':
                     $joueur->setDateDied(DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s")));
                     $joueur->setStatus(8);
+                    $histoBlessure->setBlessure(60);
+                    $joueur->addHistoriqueBlessure($histoBlessure);
                     break;
                 case 'COMO':
                     $histoBlessure->setBlessure(30);

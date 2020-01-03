@@ -133,27 +133,13 @@ class MatchController extends AbstractController
             $team1 = $match->getTeam1();
             $team2 = $match->getTeam2();
             if (!empty($team1) && !empty($team2)) {
-                $actionEquipe1 = $playerService->toutesLesActionsDeLequipeDansUnMatch($match, $team1);
-                $actionEquipe2 = $playerService->toutesLesActionsDeLequipeDansUnMatch($match, $team2);
-                $listeBlessure = '<div class="text-center">';
-                $labelBlessure = (new BlessuresEnum())->numeroToBlessure();
-                /** @var HistoriqueBlessure $blessure */
-                foreach ($match->getBlessuresMatch() as $blessure ) {
-                    $listeBlessure .= $blessure->getPlayer()->getName() . ', '
-                        . $blessure->getPlayer()->getFPos()->getPos() . ', '
-                        . $blessure->getPlayer()->getOwnedByTeam()->getName() . ' : '
-                        . $labelBlessure[$blessure->getBlessure()] . ' <br/>';
-                }
-
-                $listeBlessure .= '</div>';
-
                 return $this->render(
                     'statbb/matchviewer.html.twig',
                     [
                         'match' => $match,
-                        'actionEquipe1' => $actionEquipe1,
-                        'actionEquipe2' => $actionEquipe2,
-                        'listeBlessure' => $listeBlessure
+                        'actionEquipe1' => $playerService->toutesLesActionsDeLequipeDansUnMatch($match, $team1),
+                        'actionEquipe2' => $playerService->toutesLesActionsDeLequipeDansUnMatch($match, $team2),
+                        'listeBlessure' => $playerService->toutesLesBlessureDuMatch($match)
                     ]
                 );
             }

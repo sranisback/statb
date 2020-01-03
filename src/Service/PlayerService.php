@@ -4,6 +4,7 @@
 namespace App\Service;
 
 use App\Entity\GameDataPlayers;
+use App\Entity\HistoriqueBlessure;
 use App\Entity\MatchData;
 
 use App\Entity\Matches;
@@ -12,6 +13,7 @@ use App\Entity\Teams;
 use App\Entity\Players;
 use App\Entity\PlayersSkills;
 use App\Entity\GameDataSkills;
+use App\Enum\BlessuresEnum;
 use App\Factory\PlayerFactory;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -625,5 +627,21 @@ class PlayerService
 
         return count($skills) + $joueur->getAchAg() + $joueur->getAchAv()
             + $joueur->getAchMa() + $joueur->getAchSt();
+    }
+
+    public function toutesLesBlessureDuMatch(Matches $match)
+    {
+        $listeBlessure = '<div class="text-center">';
+        $labelBlessure = (new BlessuresEnum())->numeroToBlessure();
+        /** @var HistoriqueBlessure $blessure */
+        foreach ($match->getBlessuresMatch() as $blessure ) {
+            $listeBlessure .= $blessure->getPlayer()->getNr() . '. '
+                . $blessure->getPlayer()->getName() . ', '
+                . $blessure->getPlayer()->getFPos()->getPos() . ', '
+                . $blessure->getPlayer()->getOwnedByTeam()->getName() . ' : '
+                . $labelBlessure[$blessure->getBlessure()] . ' <br/>';
+        }
+
+        return $listeBlessure . '</div>';
     }
 }
