@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\GameDataStadium;
+use App\Entity\HistoriqueBlessure;
 use App\Entity\MatchData;
 use App\Entity\Matches;
 use App\Entity\Meteo;
@@ -144,6 +145,10 @@ class MatchesService
                 ['playerId' => $action['id']]
             );
 
+            $histoBlessure = new HistoriqueBlessure();
+            $histoBlessure->setDate(DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s")));
+            $histoBlessure->setFmatch($match);
+
             switch ($action['action']) {
                 case 'COMP':
                     $ligneMatchData->setCp($ligneMatchData->getCp() + 1);
@@ -172,32 +177,51 @@ class MatchesService
                 case '-1 Ma':
                     $joueur->setInjMa($joueur->getInjMa() + 1);
                     $joueur->setInjRpm(1);
+                    $histoBlessure->setBlessure(rand(53,54));
+                    $joueur->addHistoriqueBlessure($histoBlessure);
                     break;
                 case '-1 St':
                     $joueur->setInjSt($joueur->getInjSt() + 1);
                     $joueur->setInjRpm(1);
+                    $histoBlessure->setBlessure(58);
+                    $joueur->addHistoriqueBlessure($histoBlessure);
                     break;
                 case '-1 Ag':
                     $joueur->setInjAg($joueur->getInjAg() + 1);
                     $joueur->setInjRpm(1);
+                    $histoBlessure->setBlessure(57);
+                    $joueur->addHistoriqueBlessure($histoBlessure);
                     break;
                 case '-1 Av':
                     $joueur->setInjAv($joueur->getInjAv() + 1);
                     $joueur->setInjRpm(1);
+                    $histoBlessure->setBlessure(rand(55,56));
+                    $joueur->addHistoriqueBlessure($histoBlessure);
                     break;
                 case 'Ni':
                     $joueur->setInjNi($joueur->getInjNi() + 1);
                     $joueur->setInjRpm(1);
+                    $histoBlessure->setBlessure(rand(51,52));
+                    $joueur->addHistoriqueBlessure($histoBlessure);
                     break;
                 case 'RPM':
                     $joueur->setInjRpm(1);
+                    $histoBlessure->setBlessure(rand(41,48));
+                    $joueur->addHistoriqueBlessure($histoBlessure);
                     break;
                 case 'Tué':
                     $joueur->setDateDied(DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s")));
                     $joueur->setStatus(8);
                     break;
+                case 'COMO':
+                    $histoBlessure->setBlessure(30);
+                    $joueur->addHistoriqueBlessure($histoBlessure);
+                    break;
             }
 
+            if ($histoBlessure->getPlayer()) {
+                $this->doctrineEntityManager->persist($histoBlessure);
+            }
             $this->doctrineEntityManager->persist($joueur);
             $this->doctrineEntityManager->persist($ligneMatchData);
         }

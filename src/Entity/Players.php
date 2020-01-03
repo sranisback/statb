@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -208,6 +210,16 @@ class Players
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $photo;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\HistoriqueBlessure", mappedBy="Players", orphanRemoval=true)
+     */
+    private $historiqueBlessures;
+
+    public function __construct()
+    {
+        $this->historiqueBlessures = new ArrayCollection();
+    }
 
     public function getPlayerId(): ?int
     {
@@ -531,6 +543,37 @@ class Players
     public function setPhoto(?string $photo): self
     {
         $this->photo = $photo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|HistoriqueBlessure[]
+     */
+    public function getHistoriqueBlessures(): Collection
+    {
+        return $this->historiqueBlessures;
+    }
+
+    public function addHistoriqueBlessure(HistoriqueBlessure $historiqueBlessure): self
+    {
+        if (!$this->historiqueBlessures->contains($historiqueBlessure)) {
+            $this->historiqueBlessures[] = $historiqueBlessure;
+            $historiqueBlessure->setPlayers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHistoriqueBlessure(HistoriqueBlessure $historiqueBlessure): self
+    {
+        if ($this->historiqueBlessures->contains($historiqueBlessure)) {
+            $this->historiqueBlessures->removeElement($historiqueBlessure);
+            // set the owning side to null (unless already changed)
+            if ($historiqueBlessure->getPlayers() === $this) {
+                $historiqueBlessure->setPlayers(null);
+            }
+        }
 
         return $this;
     }
