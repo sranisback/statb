@@ -1,0 +1,32 @@
+<div class="d-flex flex-wrap">
+        {% for team in teams %}
+
+            <div class="card m-2">
+                <div class="card-header">
+                    <h4 class="text-center"><a href='{{ path("team",{"teamid":team.teamId}) }}'>{{ team.name }}</a></h4>
+                </div>
+                <div class="card-body text-center">
+                    <div> {% if team.logo %}
+                            <img class="img-fluid" src="{{ asset('uploads/logo_equipe/' ~ team.logo) }}" width="200px"
+                                 height="100px">
+                        {% else %}
+                            <img class="img-fluid" src="{{ asset('build/'~app.environment~'/images/race_icons/'~team.fRace.icon~'.png') }}">
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <span class="float-left">
+                         {{ team.ownedByCoach.name }}
+                    </span>
+                    <span class="float-right">
+                        {{ team.tv/1000 }}
+				    </span>
+                    <div class="clearfix">
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+
+</div>
+

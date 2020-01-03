@@ -2,12 +2,15 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * GameDataPlayers
  *
- * @ORM\Table(name="game_data_players", indexes={@ORM\Index(name="fk_game_data_players_races1_idx", columns={"f_race_id"})})
+ * @ORM\Table(name="game_data_players", indexes={
+ *     @ORM\Index(name="fk_game_data_players_races1_idx", columns={"f_race_id"})})
  * @ORM\Entity
  */
 class GameDataPlayers
@@ -92,14 +95,7 @@ class GameDataPlayers
     private $doub;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="icon", type="string", length=25, nullable=false)
-     */
-    private $icon;
-
-    /**
-     * @var \Races
+     * @var Races
      *
      * @ORM\ManyToOne(targetEntity="Races")
      * @ORM\JoinColumns({
@@ -233,29 +229,15 @@ class GameDataPlayers
         return $this;
     }
 
-    public function getIcon(): ?string
-    {
-        return $this->icon;
-    }
-
-    public function setIcon(string $icon): self
-    {
-        $this->icon = $icon;
-
-        return $this;
-    }
-
     public function getFRace(): ?Races
     {
         return $this->fRace;
     }
 
-    public function setFRace(?Races $fRace): self
+    public function setFRace(Races $fRace): self
     {
         $this->fRace = $fRace;
 
         return $this;
     }
-
-
 }

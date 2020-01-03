@@ -1,25 +1,54 @@
 var Encore = require('@symfony/webpack-encore');
-
-
+const Dotenv = require('dotenv');
 
 Encore
-    // the project directory where compiled assets will be stored
-    .setOutputPath('public/build/')
-    // the public path used by the web server to access the previous directory
-    .setPublicPath('/build')
-   // .enableSourceMaps(!Encore.isProduction())
-    // uncomment to create hashed filenames (e.g. app.abc123.css)
-    // .enableVersioning(Encore.isProduction())
-
-    // uncomment to define the assets of the project
+    .setOutputPath('public/build/dev/')
+	.setManifestKeyPrefix('public/build/dev/')
 	.addEntry('js/app', './assets/js/app.js')
 	.addStyleEntry('css/app', './assets/css/app.scss')
-    // uncomment if you use Sass/SCSS files
-     .enableSassLoader()
+    .setPublicPath('/build/dev')
+	.enableSassLoader()
+	.autoProvidejQuery()
+	.disableSingleRuntimeChunk()
+	.configureDefinePlugin(options => {
+		const env = Dotenv.config();
 
-    // uncomment for legacy applications that require $/jQuery as a global variable
-    .autoProvidejQuery()
-	
+		if (env.error) {
+			throw env.error;
+		}
+
+		options['process.env'].ENV = JSON.stringify(env.parsed.APP_ENV);
+	})
 ;
 
-module.exports = Encore.getWebpackConfig();
+const dev = Encore.getWebpackConfig();
+
+dev.name = 'dev';
+
+Encore.reset();
+
+Encore
+	.setOutputPath('public/build/production/')
+	.setManifestKeyPrefix('public/build/production/')
+	.addEntry('js/app', './assets/js/app.js')
+	.addStyleEntry('css/app', './assets/css/app.scss')
+	.setPublicPath('/statb/public/build/production')
+	.enableSassLoader()
+	.autoProvidejQuery()
+	.disableSingleRuntimeChunk()
+	.configureDefinePlugin(options => {
+		const env = Dotenv.config();
+
+		if (env.error) {
+			throw env.error;
+		}
+
+		options['process.env'].ENV = JSON.stringify(env.parsed.APP_ENV);
+	})
+;
+
+const production = Encore.getWebpackConfig();
+
+dev.name = 'production';
+
+module.exports = [dev, production];

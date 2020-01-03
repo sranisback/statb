@@ -1,139 +1,195 @@
 <?php
+
 namespace App\Repository;
 
 use App\Entity\MatchData;
+use App\Entity\Matches;
+use App\Entity\Players;
+use App\Entity\Teams;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\ORM\ORMException;
+use Doctrine\Persistence\ManagerRegistry;
 
 class MatchDataRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, MatchData::class);
     }
-	
-	
-	public function Sclassement($year,$type,$teamorplayer,$limit): array
-	{
-		$conn = $this->getEntityManager()->getConnection();
 
-		if($teamorplayer == 'player')
-		{
-			
-			$select = '
-			SELECT nr,IF(a.name != "",a.name,"Unnamed") AS name ,IF(a.status = 8,"(DEAD)","") AS dead ,IF(a.status = 7,"(SOLD)","") AS sold, b.name AS teams, c.icon,';
+    //TODO : deux methodes a revoir pour éviter la duplication de code ?
 
-			$groupby = 'GROUP BY f_player_id';	
+    /**
+     * @param int $year
+     * @param string $type
+     * @param int $limit
+     * @return mixed
+     */
+    public function sousClassementEquipe(int $year, string $type, int $limit = 0)
+    {
+        $query = $this->createQueryBuilder('Matchdata')
+            ->select('teams.teamId, teams.name ,race.icon')
+            ->join('Matchdata.fPlayer', 'players')
+            ->join('players.ownedByTeam', 'teams')
+            ->join('players.fPos', 'game_data_players')
+            ->join('teams.fRace', 'race')
+            ->where('teams.retired = 0 AND teams.year ='.$year)
+            ->groupBy('teams.teamId')
+            ->addOrderBy('score', 'DESC')
+            ->addOrderBy('teams.tv', 'DESC')
+            ->having('score > 0');
 
-			$orderby = 'ORDER BY score DESC,value DESC';
-			
-		}
-		else
-		{
-			
-			$select = '
-			SELECT  b.name ,r.icon,';
-			
-			$groupby = 'GROUP BY b.team_id';		
-			
-			$orderby = 'ORDER BY score DESC, tv DESC';
-		}
+        switch ($type) {
+            case 'bash':
+                $query->addSelect('SUM(Matchdata.bh+Matchdata.si+Matchdata.ki) AS score');
+                break;
 
-		
-		switch($type)
-		{
-			
-			case 'bash':
-				$select .= 'SUM(bh+si+ki) AS score';
-			break;
-			
-			case 'td':
-				$select .= 'SUM(td) AS score';
-			break;
-			
-			case 'xp':
-				$select .= 'SUM(cp)+ (SUM(td)*3)+ (SUM(intcpt)*3)+ (SUM(bh+si+ki)*2)+(SUM(mvp)*5) AS score';
-			break;
-						
-			case 'pass':
-				$select .=	'SUM(cp) AS score';
-			break;
-			
-			case 'foul':
-				$select .=	'SUM(agg) AS score';
-			break;
-	
-		}
-		
-		switch($type)
-		{
-			case 'dead':
-				$sql = 'SELECT  b.name, COUNT(*) AS score
-				FROM players  a
-				JOIN teams b ON a.owned_by_team_id = b.team_id
-				WHERE status = 8 AND type = 1 AND b.retired = 0 AND b.year ='.$year.'
-				GROUP BY b.name
-				HAVING COUNT(*)>0
-				ORDER BY score DESC, tv DESC';
-				
-				if($limit >0)
-				{
-					
-					$sql .=' LIMIT '.$limit;
-					
-				}
-							
-			break;
-			
-			default:
-			
-				$sql = $select.'
-				FROM match_data
-				JOIN players a ON f_player_id = a.player_id
-				JOIN teams b ON a.owned_by_team_id = b.team_id	
-				JOIN game_data_players c ON a.f_pos_id = c.pos_id
-				JOIN races r ON r.race_id = b.f_race_id
-				WHERE retired = 0 AND year = '.$year.'
-				 '.$groupby.'
-				 HAVING score >0
-				'.$orderby;
-				
-				
-				if($limit >0)
-				{
-					
-					$sql .=' LIMIT '.$limit;
-					
-				}
-			break;
-		}
-		
-		
-		$stmt = $conn->prepare($sql);
-		$stmt->execute();
+            case 'td':
+                $query->addSelect('SUM(Matchdata.td) AS score');
+                break;
 
-		// returns an array of arrays (i.e. a raw data set)
-		return $stmt->fetchAll();
-	}
-	
-	public function totalcas($year): array
-	{
-		$conn = $this->getEntityManager()->getConnection();
-		
-		$sql = 'SELECT SUM(bh+si+ki) AS score
-				FROM match_data
-				JOIN players a ON f_player_id = a.player_id
-							 JOIN teams b ON a.owned_by_team_id = b.team_id	
-							 JOIN game_data_players c ON a.f_pos_id = c.pos_id
-				WHERE retired = 0 AND year = '.$year.'
-				 HAVING score >0
-				ORDER BY score DESC, tv DESC';
-		
-		$stmt = $conn->prepare($sql);
-		$stmt->execute();
+            case 'foul':
+                $query->addSelect('SUM(Matchdata.agg) AS score');
+                break;
 
-		// returns an array of arrays (i.e. a raw data set)
-		return $stmt->fetchAll();		
-		
-	}
+            case 'killer':
+                $query->addSelect('SUM(Matchdata.ki) AS score');
+                break;
+        }
+
+        if ($limit > 0) {
+            $query->setMaxResults($limit);
+        }
+
+        return $query->getQuery()->execute();
+    }
+
+
+    /**
+     * @param int $year
+     * @param string $type
+     * @param int $limit
+     * @return mixed
+     */
+    public function sousClassementJoueur(int $year, string $type, int $limit = 0)
+    {
+        $query = $this->createQueryBuilder('Matchdata')
+            ->select(
+                'players.nr, CASE WHEN players.name = \'\' THEN \'Inconnu\' ELSE players.name END AS name, 
+                CASE WHEN players.status = 8 THEN  \'(Mort)\' ELSE \'\'  END AS dead, 
+                CASE WHEN players.status = 7 THEN \'(Vendu)\' ELSE  \'\'  END AS sold, 
+                teams.name AS equipe, teams.teamId AS equipeId, playersIcons.iconName AS icon '
+            )
+            ->join('Matchdata.fPlayer', 'players')
+            ->join('players.ownedByTeam', 'teams')
+            ->join('players.fPos', 'game_data_players')
+            ->join('players.icon', 'playersIcons')
+            ->join('teams.fRace', 'race')
+            ->where('teams.retired = 0 AND teams.year ='.$year)
+            ->groupBy('players.playerId')
+            ->addOrderBy('score', 'DESC')
+            ->addOrderBy('players.value', 'DESC')
+            ->having('score > 0');
+
+        switch ($type) {
+            case 'bash':
+                $query->addSelect('SUM(Matchdata.bh+Matchdata.si+Matchdata.ki) AS score');
+                break;
+
+            case 'td':
+                $query->addSelect('SUM(Matchdata.td) AS score');
+                break;
+
+            case 'xp':
+                $query->addSelect(
+                    'SUM(Matchdata.cp) + (SUM(Matchdata.td)*3)+ (SUM(Matchdata.intcpt)*3)+ 
+                    (SUM(Matchdata.bh+Matchdata.si+Matchdata.ki)*2)+(SUM(Matchdata.mvp)*5) AS score'
+                );
+                break;
+
+            case 'pass':
+                $query->addSelect('SUM(Matchdata.cp) AS score');
+                break;
+
+            case 'foul':
+                $query->addSelect('SUM(Matchdata.agg) AS score');
+                break;
+
+            case 'killer':
+                $query->addSelect('SUM(Matchdata.ki) AS score');
+                break;
+
+            case 'handi':
+                $query->addSelect('SUM(Matchdata.si) AS score');
+                break;
+        }
+
+        if ($limit > 0) {
+            $query->setMaxResults($limit);
+        }
+        return $query->getQuery()->execute();
+    }
+
+    /**
+     * @param int $year
+     * @return mixed
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function totalcas($year)
+    {
+        $totalCas =  $this->createQueryBuilder('Matchdata')
+            ->select('SUM(Matchdata.bh+Matchdata.si+Matchdata.ki) AS score')
+            ->join('Matchdata.fPlayer', 'players')
+            ->join('players.ownedByTeam', 'teams')
+            ->where('teams.retired = 0 AND teams.year ='.$year)
+            ->addOrderBy('score', 'DESC')
+            ->having('score > 0')
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        if (!empty($totalCas)) {
+            return $totalCas['score'];
+        } else {
+            return 0;
+        }
+    }
+
+    /**
+     * @param Matches $match
+     * @param Teams $equipe
+     * @return mixed
+     */
+    public function listeDesJoueursdUnMatch(Matches $match, Teams $equipe)
+    {
+        return $this->createQueryBuilder('Matchdata')
+            ->join('Matchdata.fMatch', 'Matches')
+            ->join('Matchdata.fPlayer', 'Players')
+            ->join('Players.ownedByTeam', 'Teams')
+            ->where('Matches.matchId ='.$match->getMatchId())
+            ->andWhere('Teams.teamId ='.$equipe->getTeamId())
+            ->getQuery()
+            ->execute();
+    }
+
+    /**
+     * @param Players $joueur
+     * @return array|null
+     */
+    public function listeDesMatchsdUnJoueur(Players $joueur)
+    {
+        $matchJoue = null;
+
+        /** @var MatchData $dataMatches */
+        foreach ($this->getEntityManager()->getRepository(MatchData::class)->findBy(
+            ['fPlayer' => $joueur]
+        ) as $dataMatches) {
+            try {
+                $matchJoue[] = $dataMatches->getFMatch();
+            } catch (ORMException $e) {
+            }
+        }
+
+        return $matchJoue;
+    }
 }
