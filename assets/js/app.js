@@ -365,17 +365,8 @@ $(document).ready(function () {
 
                 //$("#team" + clicked.attr('side') + "_flex_sl_container").after(result.html);
                 $("#liste"+clicked.attr('side')).append(result.html);
-
-                $("#suppr_ligne").click(function () {
-                    $(this).parent().remove();
-                });
-
             })
     }
-
-    $("#suppr_ligne").click(function () {
-        $(this).parent().remove();
-    });
 
     /*
     * Ajouter le match
