@@ -107,6 +107,9 @@
     "knplabs/knp-menu-bundle": {
         "version": "v2.2.1"
     },
+    "laminas/laminas-zendframework-bridge": {
+        "version": "1.0.0"
+    },
     "monolog/monolog": {
         "version": "1.24.0"
     },
