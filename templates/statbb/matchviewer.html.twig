@@ -46,6 +46,7 @@
                         <div class="text-center"><u>Popularité</u></div>
                         <div class="text-center"><u>Gains</u></div>
                         <div class="text-center"><u>Actions du matchs</u></div>
+                        <div class="text-center"><u>Blessures</u></div>
                     </div>
                     <div class="d-flex flex-column">
                         <div class="d-flex ">
@@ -66,9 +67,11 @@
                         {% endif %}
                     </div>
                 </div>
+                {{ listeBlessure|raw }}
             </div>
         </div>
     </div>
+
     {% if app.user %}
         {% if app.user.roles['role'] == 'ROLE_ADMIN' %}
             <div class="card">

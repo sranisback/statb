@@ -1,12 +1,12 @@
 <div class="table-responsive" >
     <table class="table table-striped" id="listeMatchs" style="width: 100%">
         <thead>
-            <td>Equipe 1</td>
-            <td></td>
-            <td>Equipe 2</td>
-            <td>Score</td>
-            <td>date</td>
-            <td>Lien</td>
+            <th>Equipe 1</th>
+            <th></th>
+            <th>Equipe 2</th>
+            <th>Score</th>
+            <th>date</th>
+            <th>Lien</th>
         </thead>
         <tbody>
         {% for match in matches %}
@@ -21,7 +21,7 @@
             <td>{{ match.team1Score }} - {{ match.team2Score }}</td>
             <td>{{ match.dateCreated|date("d/m/Y") }}</td>
             <td class="text-center text-nowrap"><a
-                    href="{{ path('match', {'matchId': match.matchId}) }}">Voir</a></td>
+                    href="{{ path('match', {'matchId': match.matchId}) }}">Voir</a>
             </td>
         </tr>
         {% endfor %}

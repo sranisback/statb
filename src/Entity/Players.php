@@ -212,7 +212,7 @@ class Players
     private $photo;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\HistoriqueBlessure", mappedBy="Players", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\HistoriqueBlessure", mappedBy="Player", orphanRemoval=true)
      */
     private $historiqueBlessures;
 
@@ -559,7 +559,7 @@ class Players
     {
         if (!$this->historiqueBlessures->contains($historiqueBlessure)) {
             $this->historiqueBlessures[] = $historiqueBlessure;
-            $historiqueBlessure->setPlayers($this);
+            $historiqueBlessure->setPlayer($this);
         }
 
         return $this;
@@ -570,8 +570,8 @@ class Players
         if ($this->historiqueBlessures->contains($historiqueBlessure)) {
             $this->historiqueBlessures->removeElement($historiqueBlessure);
             // set the owning side to null (unless already changed)
-            if ($historiqueBlessure->getPlayers() === $this) {
-                $historiqueBlessure->setPlayers(null);
+            if ($historiqueBlessure->getPlayer() === $this) {
+                $historiqueBlessure->setPlayer(null);
             }
         }
 

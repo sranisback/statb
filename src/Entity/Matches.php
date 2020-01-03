@@ -129,7 +129,7 @@ class Matches
     private $fStade = 0;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\HistoriqueBlessure", mappedBy="fmatch")
+     * @ORM\OneToMany(targetEntity="App\Entity\HistoriqueBlessure", mappedBy="fmatch", fetch="EAGER")
      */
     private $blessuresMatch;
 

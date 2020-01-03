@@ -6,18 +6,12 @@ namespace App\Enum;
 
 class BlessuresEnum
 {
-    public function numeroToBlessureGen()
+    public function numeroToBlessure()
     {
         return [
             30 => 'Commotion',
             40 => 'Blessure Grave non notée',
-            50 => 'Perte de Stat non notées'
-        ];
-    }
-
-    public function numeroToRpm()
-    {
-        return [
+            50 => 'Perte de Stat non notées',
             41 => 'Mâchoire Fracassée',
             42 => 'Côtes cassées',
             43 => 'Bras fracturé',
@@ -25,13 +19,7 @@ class BlessuresEnum
             45 => 'Main écrasée',
             46 => 'Œil crevé',
             47 => 'Ligaments arrachés',
-            48 => 'Nerf Coincé'
-        ];
-    }
-
-    public function numeroToBlessureGrave()
-    {
-        return [
+            48 => 'Nerf Coincé',
             51 => 'Dos abîmé',
             52 => 'Genou déboîté',
             53 => 'Cheville détruite',

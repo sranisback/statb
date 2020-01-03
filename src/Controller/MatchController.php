@@ -4,11 +4,13 @@
 namespace App\Controller;
 
 use App\Entity\GameDataStadium;
+use App\Entity\HistoriqueBlessure;
 use App\Entity\Matches;
 use App\Entity\Meteo;
 use App\Entity\Players;
 use App\Entity\Teams;
 use App\Enum\AnneeEnum;
+use App\Enum\BlessuresEnum;
 use App\Service\MatchesService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
@@ -133,20 +135,31 @@ class MatchController extends AbstractController
             if (!empty($team1) && !empty($team2)) {
                 $actionEquipe1 = $playerService->toutesLesActionsDeLequipeDansUnMatch($match, $team1);
                 $actionEquipe2 = $playerService->toutesLesActionsDeLequipeDansUnMatch($match, $team2);
-                if (!empty($actionEquipe1) && !empty($actionEquipe1)) {
-                    return $this->render(
-                        'statbb/matchviewer.html.twig',
-                        [
-                            'match' => $match,
-                            'actionEquipe1' => $actionEquipe1,
-                            'actionEquipe2' => $actionEquipe2,
-                        ]
-                    );
+                $listeBlessure = '<div class="text-center">';
+                $labelBlessure = (new BlessuresEnum())->numeroToBlessure();
+                /** @var HistoriqueBlessure $blessure */
+                foreach ($match->getBlessuresMatch() as $blessure ) {
+                    $listeBlessure .= $blessure->getPlayer()->getName() . ', '
+                        . $blessure->getPlayer()->getFPos()->getPos() . ', '
+                        . $blessure->getPlayer()->getOwnedByTeam()->getName() . ' : '
+                        . $labelBlessure[$blessure->getBlessure()] . ' <br/>';
                 }
+
+                $listeBlessure .= '</div>';
+
+                return $this->render(
+                    'statbb/matchviewer.html.twig',
+                    [
+                        'match' => $match,
+                        'actionEquipe1' => $actionEquipe1,
+                        'actionEquipe2' => $actionEquipe2,
+                        'listeBlessure' => $listeBlessure
+                    ]
+                );
             }
         }
 
-        return 'erreur';
+        return new Response('erreur');
     }
 
     /**
