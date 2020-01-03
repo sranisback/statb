@@ -1,3 +1,4 @@
+<br/>
 <h3>Ajouter un match - N°{{ numero+1 }}</h3>
 <form id="formMatch">
     <div class="d-flex">
@@ -22,11 +23,14 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div>
+                <div class="form-group align-self-end  pl-3">
                     <button type="button" class="btn btn-primary form-control " side="1" id="valideteam1">
                         <span class="fas fa-plus"></span>
                     </button>
                 </div>
+            </div>
+            <div id="liste1">
+
             </div>
             <div class="form-group">
                 <label class="control-label">Variation de popularité</label>
@@ -64,11 +68,14 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div>
+                <div class="form-group align-self-end pl-3">
                     <button type="button" class="btn btn-primary form-control" side="2" id="valideteam2">
                         <span class="fas fa-plus"></span>
                     </button>
                 </div>
+            </div>
+            <div id="liste2">
+
             </div>
             <div class="form-group">
                 <label class="control-label">Variation de popularité</label>
@@ -89,7 +96,7 @@
             <label for="totalpop">Total popularité</label>
             <input type="text" name="totalpop" value="0" id="totalpop" class="form-control">
         </div>
-        <div>
+        <div class="pl-3">
             <label for="meteo">Météo</label>
             <select class="form-control" id="meteo" name="meteo">
                 <option value="" selected>Choisir une Météo</option>
@@ -98,18 +105,17 @@
                 {% endfor %}
             </select>
         </div>
-            <div id="stade_select">
-                <label for="stade">Stade</label>
-                <select class="form-control" id="stade" name="stade">
-                    <option value="" selected>Choisir un stade</option>
-                    {% for stade in stades %}
-                        <option value="{{ stade.id }}">{{ stade.type }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
+        <div class="pl-3" id="stade_select">
+            <label for="stade">Stade</label>
+            <select class="form-control" id="stade" name="stade">
+                <option value="" selected>Choisir un stade</option>
+                {% for stade in stades %}
+                    <option value="{{ stade.id }}">{{ stade.type }}</option>
+                {% endfor %}
+            </select>
+        </div>
     </div>
-    <button id="recMatch" type="button" class="btn btn-default" data-toggle="modal" data-target="#exampleModal">
+    <button id="recMatch" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
         Valider
     </button>
 </form>

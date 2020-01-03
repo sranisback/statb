@@ -7,8 +7,7 @@
                 </div>
                 <div class="card-body text-center">
                     <div> {% if team.logo %}
-                            <img class="img-fluid" src="{{ asset('uploads/logo_equipe/' ~ team.logo) }}" width="200px"
-                                 height="100px">
+                            <img class="img-fluid" src="{{ asset('uploads/logo_equipe/' ~ team.logo) }}" >
                         {% else %}
                             <img class="img-fluid" src="{{ asset('build/'~app.environment~'/images/race_icons/'~team.fRace.icon~'.png') }}">
                         {% endif %}

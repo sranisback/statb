@@ -134,7 +134,6 @@ $(document).ready(function () {
     /**
      * bouton qui montre tout les joueurs/équipes
      */
-
     $('#showall_btn').click(function () {
         $("tr.table-danger").toggle();
         $("tr.table-info").toggle();
@@ -343,23 +342,40 @@ $(document).ready(function () {
     $("[id^='valideteam']").click(function () {
         let clicked = $(this);
 
-        addLine(clicked, $(".form-group #action").length)
+        if ($('#selectedTeam_'+ clicked.attr('side')).val() !== '') {
+            $('#selectedTeam_'+ clicked.attr('side')).css('border', '');
+            addLine(clicked, $(".form-group #action").length);
+        } else {
+            $('#selectedTeam_'+ clicked.attr('side')).css('border', 'solid red');
+        }
     });
 
     /**
      * ajout de ligne dans feuille de match
      */
     function addLine(clicked, number) {
+        $("#team" + clicked.attr('side') + "_flex_sl_container").after($('#loadingmessage'));
+
+        $('#loadingmessage').show();
         $.getJSON(Routing.generate('dropdownPlayer', {teamId: clicked.attr('teamId'), nbr: number}),
             {},
             function (result) {
-
+                $('#loadingmessage').hide();
                 result = JSON.parse(result);
 
-                $("#team" + clicked.attr('side') + "_flex_sl_container").after(result.html);
+                //$("#team" + clicked.attr('side') + "_flex_sl_container").after(result.html);
+                $("#liste"+clicked.attr('side')).append(result.html);
+
+                $("#suppr_ligne").click(function () {
+                    $(this).parent().remove();
+                });
 
             })
     }
+
+    $("#suppr_ligne").click(function () {
+        $(this).parent().remove();
+    });
 
     /*
     * Ajouter le match
@@ -437,4 +453,6 @@ $(document).ready(function () {
             });
     });
 });
+
+
 

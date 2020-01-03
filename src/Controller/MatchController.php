@@ -32,26 +32,23 @@ class MatchController extends AbstractController
      */
     public function dropdownPlayer($teamId, $nbr)
     {
+        /** @var Teams $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
 
-        if ($equipe) {
-            $response = [
-                'html' => $this->renderView(
-                    'statbb/dropdownplayers.html.twig',
-                    [
-                        'players' => $this->getDoctrine()->getRepository(
-                            Players::class
-                        )->listeDesJoueursActifsPourlEquipe($equipe),
-                        'teamId' => $teamId,
-                        'nbr' => $nbr,
-                    ]
-                ),
-            ];
+        $response = [
+            'html' => $this->renderView(
+                'statbb/dropdownplayers.html.twig',
+                [
+                    'players' => $this->getDoctrine()->getRepository(
+                        Players::class
+                    )->listeDesJoueursActifsPourlEquipe($equipe),
+                    'teamId' => $teamId,
+                    'nbr' => $nbr,
+                ]
+            ),
+        ];
 
-            return self::transformeEnJson($response);
-        } else {
-            return new JsonResponse(['error']);
-        }
+        return self::transformeEnJson($response);
     }
 
     /**

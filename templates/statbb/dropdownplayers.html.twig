@@ -1,4 +1,4 @@
-<div class="d-flex">
+<div class="d-flex" id ="selected_player_{{ teamId }}_{{ nbr }}_container">
     <div class="form-group">
         <label for="selected_player_{{ teamId }}_{{ nbr }}" class="control-label" id="action">Joueur</label>
         <select class="form-control" id="selected_player_{{ teamId }}_{{ nbr }}" name="player[{{ nbr }}].id">
@@ -10,7 +10,7 @@
             {% endfor %}
         </select>
     </div>
-    <div>
+    <div class="form-group align-self-end pl-3">
         <select class="form-control"  name="player[{{ nbr }}].action">
             <option selected></option>
             <option>COMP</option>
@@ -29,5 +29,8 @@
             <option>RPM</option>
             <option>Tué</option>
         </select>
+    </div>
+    <div class="form-group align-self-end pl-3" id="suppr_ligne">
+    <span class="fas fa-times text-danger fa-2x"></span>
     </div>
 </div>
