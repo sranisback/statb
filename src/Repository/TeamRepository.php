@@ -145,6 +145,7 @@ FROM teams t
 				WHERE retired = 0 AND year = '.$annee.'
 
 				GROUP BY t.name
+				ORDER BY t.name
 ';
         try {
             $stmt = $conn->prepare($sql);
