@@ -28,7 +28,8 @@ class PlayerService
         EntityManagerInterface $doctrineEntityManager,
         EquipeService $equipeService,
         MatchDataService $matchDataService
-    ) {
+    )
+    {
         $this->doctrineEntityManager = $doctrineEntityManager;
         $this->equipeService = $equipeService;
         $this->matchDataService = $matchDataService;
@@ -114,7 +115,7 @@ class PlayerService
                     ['skillId' => $idComp]
                 );
 
-                $listeCompDeBase .= '<text class="test-primary">'.$comp->getName().'</text>, ';
+                $listeCompDeBase .= '<text class="test-primary">' . $comp->getName() . '</text>, ';
             }
 
             return $listeCompDeBase;
@@ -140,10 +141,10 @@ class PlayerService
             foreach ($compSupplementaire as $comp) {
                 if ($comp->getType() == 'N') {
                     $coutTotal += 20000;
-                    $listCompGagnee .= '<text class="text-success">'.$comp->getFSkill()->getName().'</text>, ';
+                    $listCompGagnee .= '<text class="text-success">' . $comp->getFSkill()->getName() . '</text>, ';
                 } else {
                     $coutTotal += 30000;
-                    $listCompGagnee .= '<text class="text-danger">'.$comp->getFSkill()->getName().'</text>, ';
+                    $listCompGagnee .= '<text class="text-danger">' . $comp->getFSkill()->getName() . '</text>, ';
                 }
             }
         }
@@ -267,9 +268,9 @@ class PlayerService
         foreach ($this->doctrineEntityManager->getRepository(MatchData::class)->findBy(
             ['fPlayer' => $joueur->getPlayerId(), 'fMatch' => $match]
         ) as $matchData) {
-            $actions .=  $this->matchDataService->lectureLignedUnMatch($matchData);
+            $actions .= $this->matchDataService->lectureLignedUnMatch($matchData);
             foreach ($match->getBlessuresMatch() as $blessure) {
-                if ( $blessure->getPlayer() === $joueur) {
+                if ($blessure->getPlayer() === $joueur) {
                     $actions .= 'Blessure : ' . $labelBlessure[$blessure->getBlessure()] . ', ';
                 }
             }
@@ -572,6 +573,7 @@ class PlayerService
             $this->doctrineEntityManager->persist($joueur);
         }
     }
+
     /**
      * @param Players $joueur
      * @return float|int
@@ -609,12 +611,11 @@ class PlayerService
 
                 $actions = $this->actionDuJoueurDansUnMatch($match, $listeActionsDunJoueur->getFPlayer());
 
-                $textAction .= $name.', '.$listeActionsDunJoueur->getFPlayer()->getFPos()->getPos(
-                ).'('.$listeActionsDunJoueur->getFPlayer()->getNr().'): '.substr(
-                    $actions,
-                    0,
-                    strlen($actions) - 2
-                ).'<br/>';
+                $textAction .= $name . ', ' . $listeActionsDunJoueur->getFPlayer()->getFPos()->getPos() . '(' . $listeActionsDunJoueur->getFPlayer()->getNr() . '): ' . substr(
+                        $actions,
+                        0,
+                        strlen($actions) - 2
+                    ) . '<br/>';
             }
         }
 
@@ -640,7 +641,7 @@ class PlayerService
         $listeBlessure = '<div class="text-center">';
         $labelBlessure = (new BlessuresEnum())->numeroToBlessure();
         /** @var HistoriqueBlessure $blessure */
-        foreach ($match->getBlessuresMatch() as $blessure ) {
+        foreach ($match->getBlessuresMatch() as $blessure) {
             $listeBlessure .= $blessure->getPlayer()->getNr() . '. '
                 . $blessure->getPlayer()->getName() . ', '
                 . $blessure->getPlayer()->getFPos()->getPos() . ', '
