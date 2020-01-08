@@ -262,11 +262,17 @@ class PlayerService
     public function actionDuJoueurDansUnMatch(Matches $match, Players $joueur)
     {
         $actions = '';
+        $labelBlessure = (new BlessuresEnum())->numeroToBlessure();
 
         foreach ($this->doctrineEntityManager->getRepository(MatchData::class)->findBy(
             ['fPlayer' => $joueur->getPlayerId(), 'fMatch' => $match]
         ) as $matchData) {
             $actions .=  $this->matchDataService->lectureLignedUnMatch($matchData);
+            foreach ($match->getBlessuresMatch() as $blessure) {
+                if ( $blessure->getPlayer() === $joueur) {
+                    $actions .= 'Blessure : ' . $labelBlessure[$blessure->getBlessure()] . ', ';
+                }
+            }
         }
 
         return $actions;

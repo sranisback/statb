@@ -138,8 +138,7 @@ class MatchController extends AbstractController
                     [
                         'match' => $match,
                         'actionEquipe1' => $playerService->toutesLesActionsDeLequipeDansUnMatch($match, $team1),
-                        'actionEquipe2' => $playerService->toutesLesActionsDeLequipeDansUnMatch($match, $team2),
-                        'listeBlessure' => $playerService->toutesLesBlessureDuMatch($match)
+                        'actionEquipe2' => $playerService->toutesLesActionsDeLequipeDansUnMatch($match, $team2)
                     ]
                 );
             }
