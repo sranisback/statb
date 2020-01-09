@@ -24,7 +24,10 @@
                         <div class="d-flex">
                             <img src="{{ asset('build/'~app.environment~'/images/race_icons/'~match.team1.fRace.icon~'.png') }}"
                                  class="img-fluid mr-3">
-                            <h2 class="mr-3">{{ match.team1.name }}</h2>
+                            <h2 class="mr-3">{{ match.team1.name }}
+                            {% if match.team1.franchise == true %}
+                            <span class="fas fa-tag text-success"></span>
+                            {% endif %}</h2>
                         </div>
                         <div class="text-right mr-3"> {{ match.team1.ownedByCoach.name }}</div>
                         <div class="text-right mr-3"> {{ match.team1.fRace.name }}</div>
@@ -49,7 +52,10 @@
                     </div>
                     <div class="d-flex flex-column">
                         <div class="d-flex ">
-                            <h2 class="ml-3">{{ match.team2.name }}</h2>
+                            <h2 class="ml-3">{{ match.team2.name }}
+                                {% if match.team2.franchise == true %}
+                                    <span class="fas fa-tag text-success"></span>
+                                {% endif %}</h2>
                             <img src="{{ asset('build/'~app.environment~'/images/race_icons/'~match.team2.fRace.icon~'.png') }}"
                                  class="img-fluid ml-3">
                         </div>

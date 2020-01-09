@@ -22,7 +22,7 @@ class TeamRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = '
-SELECT team_id,ra.icon,t.name as team_name ,ra.name as race,co.name,t.tv as tv, t.logo,
+SELECT team_id,ra.icon,t.name as team_name ,ra.name as race,co.name,t.tv as tv, t.logo, t.franchise,
 	
 				SUM(IF(team_id = a.team1_id AND a.team1_score>a.team2_score,1,0)+ 
 					IF(team_id = a.team2_id AND a.team1_score<a.team2_score,1,0)) AS Win,

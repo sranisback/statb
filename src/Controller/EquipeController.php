@@ -495,4 +495,21 @@ class EquipeController extends AbstractController
 
         return new Response('ok');
     }
+
+    /**
+     * @route("/mettreEnFranchise/{equipeId}", name="mettreEnFranchise", options = { "expose" = true })
+     */
+    public function mettreEnFranchise($equipeId)
+    {
+        /** @var Teams $equipe */
+        $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
+
+        $equipe->setFranchise(!$equipe->getFranchise());
+
+        $this->getDoctrine()->getManager()->persist($equipe);
+        $this->getDoctrine()->getManager()->flush();
+        $this->getDoctrine()->getManager()->refresh($equipe);
+
+        return new Response('ok');
+    }
 }

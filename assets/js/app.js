@@ -63,7 +63,7 @@ $(document).ready(function () {
             null,
             {
                 "orderable": false
-        }
+            }
         ]
     });
 
@@ -342,11 +342,11 @@ $(document).ready(function () {
     $("[id^='valideteam']").click(function () {
         let clicked = $(this);
 
-        if ($('#selectedTeam_'+ clicked.attr('side')).val() !== '') {
-            $('#selectedTeam_'+ clicked.attr('side')).css('border', '');
+        if ($('#selectedTeam_' + clicked.attr('side')).val() !== '') {
+            $('#selectedTeam_' + clicked.attr('side')).css('border', '');
             addLine(clicked, $(".form-group #action").length);
         } else {
-            $('#selectedTeam_'+ clicked.attr('side')).css('border', 'solid red');
+            $('#selectedTeam_' + clicked.attr('side')).css('border', 'solid red');
         }
     });
 
@@ -364,7 +364,7 @@ $(document).ready(function () {
                 result = JSON.parse(result);
 
                 //$("#team" + clicked.attr('side') + "_flex_sl_container").after(result.html);
-                $("#liste"+clicked.attr('side')).append(result.html);
+                $("#liste" + clicked.attr('side')).append(result.html);
             })
     }
 
@@ -442,6 +442,15 @@ $(document).ready(function () {
             function () {
                 window.location.reload();
             });
+    });
+
+    $('#equipeFranchise').click(function () {
+        $.post(Routing.generate('mettreEnFranchise', {equipeId: $(this).attr('equipeId')}),
+            {},
+            function () {
+                window.location.reload();
+            });
+
     });
 });
 

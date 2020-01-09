@@ -136,6 +136,14 @@ const routes_dev = {
             "hosttokens": [],
             "methods": [],
             "schemes": []
+        },
+        "mettreEnFranchise": {
+            "tokens": [["variable", "\/", "[^\/]++", "equipeId"], ["text", "\/mettreEnFranchise"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
         }
     },
     "prefix": "",

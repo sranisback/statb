@@ -31,7 +31,10 @@
                 {% for team in classement %}
                     <tr>
                         <td class="pos">{{ loop.index }}</td>
-                        <td><a href="{{ path('team', {'teamid': team.team_id }) }}">{{ team.team_name }}</a></td>
+                        <td><a href="{{ path('team', {'teamid': team.team_id }) }}">{{ team.team_name }}</a>
+                            {% if team.franchise == true %}
+                                <span class="fas fa-tag text-success"></span>
+                            {% endif %}</td>
                         <td>
                             {% if team.logo %}
                                 <img src="{{ asset('uploads/logo_equipe/' ~ team.logo) }}" class="img-fluid">
