@@ -199,7 +199,6 @@ class EquipeController extends AbstractController
                 'form' => $form->createView()
             ]
         );
-        return $this->render('statbb/base.html.twig');
     }
 
     /**

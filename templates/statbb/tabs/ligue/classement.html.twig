@@ -1,4 +1,4 @@
-<h1 class="text-center">Classement Général</h1>
+<h1 class="text-center">Classement Général {{ etiquette }}</h1>
 <ul class="nav nav-tabs">
     <li class="nav-item">
         <a class="nav-link active" data-toggle="tab" href="#classementGen">Classement général</a>
@@ -54,7 +54,7 @@
         </div>
     </div>
     <div id="detailClass" class="tab-pane fade show">
-        {{ render(controller('App\\Controller\\ClassementController::classGenDetail')) }}
+        {{ render(controller('App\\Controller\\ClassementController::classGenDetail', {'annee': annee})) }}
     </div>
 </div>
 
