@@ -195,6 +195,7 @@ class ClassementService
             'class' => $classement,
             'type' => $type,
             'limit' => $limit,
+            'annee' => $annee
         ];
     }
 
@@ -256,6 +257,7 @@ class ClassementService
             'class' => $classement,
             'type' => $type,
             'limit' => $limit,
+            'annee' => $annee
         ];
     }
 

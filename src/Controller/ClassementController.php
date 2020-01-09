@@ -22,16 +22,17 @@ class ClassementController extends AbstractController
     }
 
     /**
-     * @Route("/classement/general/", name="classementgen", options = { "expose" = true })
+     * @Route("/classement/general/{annee}", name="classementgen", options = { "expose" = true })
+     * @param int $annee
      * @return Response
      */
-    public function classGen()
+    public function classGen(int $annee)
     {
         return $this->render(
             'statbb/tabs/ligue/classement.html.twig',
             [
                 'classement' => $this->getDoctrine()->getRepository(Teams::class)->classement(
-                    $this->settingsService->anneeCourante()
+                    $annee
                 )
             ]
         );
@@ -53,16 +54,17 @@ class ClassementController extends AbstractController
     }
 
     /**
-     * @Route("/classementEquipe/{type}/{limit}", defaults={"limit"=0}, name="classementEquipe")
+     * @Route("/classementEquipe/{type}/{limit}/{annee}", defaults={"limit"=0}, name="classementEquipe")
      * @param ClassementService $classementService
      * @param string $type
      * @param int $limit
+     * @param int $annee
      * @return Response
      */
-    public function afficheSousClassementsEquipe(ClassementService $classementService, string $type, int $limit)
+    public function afficheSousClassementsEquipe(ClassementService $classementService, string $type, int $limit, int $annee)
     {
         $sousClassement = $classementService->genereClassementEquipes(
-            $this->settingsService->anneeCourante(),
+            $annee,
             $type,
             $limit
         );
@@ -71,16 +73,17 @@ class ClassementController extends AbstractController
     }
 
     /**
-     * @Route("/classementJoueur/{type}/{limit}", defaults={"limit"=0}, name="classementJoueur")
+     * @Route("/classementJoueur/{type}/{limit}/{annee}", defaults={"limit"=0}, name="classementJoueur")
      * @param ClassementService $classementService
      * @param string $type
      * @param int $limit
+     * @param int $annee
      * @return Response
      */
-    public function afficheSousClassementJoueur(ClassementService $classementService, string $type, int $limit)
+    public function afficheSousClassementJoueur(ClassementService $classementService, string $type, int $limit, int $annee)
     {
         $sousClassement = $classementService->genereClassementJoueurs(
-            $this->settingsService->anneeCourante(),
+            $annee,
             $type,
             $limit
         );

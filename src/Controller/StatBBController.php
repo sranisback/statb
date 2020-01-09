@@ -65,7 +65,7 @@ class StatBBController extends AbstractController
                 $this->addFlash('success', $defisEnCours['par'] . ' a defié ' . $defisEnCours['defiee'] . ' !');
             }
         }
-        return $this->render('statbb/front.html.twig');
+        return $this->render('statbb/front.html.twig', ['annee' => $settingsService->anneeCourante()]);
     }
 
     /**
