@@ -125,9 +125,9 @@ class StatBBController extends AbstractController
     /**
      * @Route("/tabLigue", name="tabLigue")
      */
-    public function tabLigue()
+    public function tabLigue(SettingsService $settingsService)
     {
-        return $this->render('statbb/tabs/ligue/tabLigue.html.twig');
+        return $this->render('statbb/tabs/ligue/tabLigue.html.twig', ['annee' => $settingsService->anneeCourante()]);
     }
 
     public function tabParametre()

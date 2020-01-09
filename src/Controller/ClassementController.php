@@ -94,13 +94,12 @@ class ClassementController extends AbstractController
         return $this->render('statbb/Spclassement.html.twig', $sousClassement);
     }
 
-
     /**
-     * @Route("/totalcas", options = { "expose" = true })
+     * @Route("/totalcas/{annee}", options = { "expose" = true })
      */
-    public function affichetotalCas(ClassementService $classementService)
+    public function affichetotalCas(ClassementService $classementService, int $annee)
     {
-        $totalCas = $classementService->totalCas($this->settingsService->anneeCourante());
+        $totalCas = $classementService->totalCas($annee);
 
         return new Response(
             '<strong>Total : '.$totalCas['score'].' En '.$totalCas['nbrMatches'].' Matches.</strong><br/>
@@ -194,9 +193,17 @@ class ClassementController extends AbstractController
      * @param int $annee
      * @return Response
      */
-    public function afficheAncienClassement( $annee)
+    public function afficheAncienClassement(int $annee)
     {
         $labelAnnee = (new AnneeEnum)->numeroToAnnee();
         return $this->render('statbb/ancienClassement.html.twig', ['annee' => $annee,'etiquette' => $labelAnnee[$annee] ]);
+    }
+
+    /**
+     * @route("/listeAnciennesAnnees", name="listeAncienneAnnnee")
+     */
+    public function listeAncienAnneClassement()
+    {
+        return $this->render('statbb/tabs/coach/ancienClassement.html.twig', ['annee' => $this->settingsService->anneeCourante(), 'label' => (new AnneeEnum)->numeroToAnnee()]);
     }
 }

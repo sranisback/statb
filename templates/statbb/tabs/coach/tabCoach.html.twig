@@ -11,6 +11,9 @@
                 <a class="nav-link" data-toggle="tab" href="#AncienneEquipes">Anciennes Equipes</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#ClassementAnciens">Anciens Classements</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#confrontations" id="confrontationsTab">Confrontations</a>
             </li>
         </ul>
@@ -26,6 +29,9 @@
             </div>
             <div id="confrontations" class="tab-pane fade show">
                 {{ render(controller('App\\Controller\\ClassementController::afficheConfrontation')) }}
+            </div>
+            <div id="ClassementAnciens" class="tab-pane fade show">
+                {{ render(controller('App\\Controller\\ClassementController::listeAncienAnneClassement')) }}
             </div>
         </div>
     </div>
