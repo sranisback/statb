@@ -141,7 +141,7 @@ class EquipeController extends AbstractController
      * @param int $teamid
      * @return Response
      */
-    public function showTeam(PlayerService $playerService, EquipeService $equipeService, $teamid)
+    public function showTeam(PlayerService $playerService, EquipeService $equipeService, $teamid, SettingsService $settingsService)
     {
         $pdata = [];
 
@@ -196,7 +196,8 @@ class EquipeController extends AbstractController
                 'team' => $equipe,
                 'pdata' => $pdata,
                 'tdata' => $tdata,
-                'form' => $form->createView()
+                'form' => $form->createView(),
+                'annee' => $settingsService->anneeCourante()
             ]
         );
     }
@@ -207,7 +208,7 @@ class EquipeController extends AbstractController
      * @param string $nomEquipe
      * @return Response
      */
-    public function montreEquipe(string $nomEquipe)
+    public function montreEquipe(string $nomEquipe, SettingsService $settingsService)
     {
         /** @var Teams[] $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->requeteEquipeLike($nomEquipe);
@@ -218,8 +219,10 @@ class EquipeController extends AbstractController
                 ['listeEquipe' => $equipe, 'annees' => (new AnneeEnum)->numeroToAnnee()]
             );
         }
-
-        return $this->redirectToRoute('team', ['teamid' => $equipe[0]->getTeamId()]);
+        if ($equipe) {
+            return $this->redirectToRoute('team', ['teamid' => $equipe[0]->getTeamId()]);
+        }
+        return $this->render('statbb/front.html.twig', ['annee' => $settingsService->anneeCourante()]);
     }
 
     /**
@@ -249,7 +252,6 @@ class EquipeController extends AbstractController
         $this->getDoctrine()->getManager()->refresh($equipe);
 
         return $this->redirectToRoute('team', ['teamid' => $equipe->getTeamId()]);
-        //  return new Response('ok');
     }
 
     /**

@@ -72,9 +72,9 @@ class StatBBController extends AbstractController
      * @Route("/login", name="login", options = { "expose" = true })
      * @return Response
      */
-    public function login()
+    public function login(SettingsService $settingsService)
     {
-        return $this->render('statbb/front.html.twig');
+        return $this->render('statbb/front.html.twig', ['annee' => $settingsService->anneeCourante()]);
     }
 
     /**
