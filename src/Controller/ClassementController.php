@@ -23,7 +23,8 @@ class ClassementController extends AbstractController
     }
 
     /**
-     * @Route("/classement/general/{annee}/{etiquette}", defaults={"etiquette"=null}, name="classementgen", options = { "expose" = true })
+     * @Route("/classement/general/{annee}/{etiquette}",
+     *     defaults={"etiquette"=null}, name="classementgen", options = { "expose" = true })
      * @param int $annee
      * @return Response
      */
@@ -64,8 +65,12 @@ class ClassementController extends AbstractController
      * @param int $annee
      * @return Response
      */
-    public function afficheSousClassementsEquipe(ClassementService $classementService, string $type, int $limit, int $annee)
-    {
+    public function afficheSousClassementsEquipe(
+        ClassementService $classementService,
+        string $type,
+        int $limit,
+        int $annee
+    ) {
         $sousClassement = $classementService->genereClassementEquipes(
             $annee,
             $type,
@@ -83,8 +88,12 @@ class ClassementController extends AbstractController
      * @param int $annee
      * @return Response
      */
-    public function afficheSousClassementJoueur(ClassementService $classementService, string $type, int $limit, int $annee)
-    {
+    public function afficheSousClassementJoueur(
+        ClassementService $classementService,
+        string $type,
+        int $limit,
+        int $annee
+    ) {
         $sousClassement = $classementService->genereClassementJoueurs(
             $annee,
             $type,
@@ -102,8 +111,8 @@ class ClassementController extends AbstractController
         $totalCas = $classementService->totalCas($annee);
 
         return new Response(
-            '<strong>Total : '.$totalCas['score'].' En '.$totalCas['nbrMatches'].' Matches.</strong><br/>
-                 <strong>Par Matches :  '.$totalCas['moyenne'].'</strong>'
+            '<strong>Total : ' . $totalCas['score'] . ' En ' . $totalCas['nbrMatches'] . ' Matches.</strong><br/>
+                 <strong>Par Matches :  ' . $totalCas['moyenne'] . '</strong>'
         );
     }
 
@@ -196,7 +205,10 @@ class ClassementController extends AbstractController
     public function afficheAncienClassement(int $annee)
     {
         $labelAnnee = (new AnneeEnum)->numeroToAnnee();
-        return $this->render('statbb/ancienClassement.html.twig', ['annee' => $annee,'etiquette' => $labelAnnee[$annee] ]);
+        return $this->render(
+            'statbb/ancienClassement.html.twig',
+            ['annee' => $annee, 'etiquette' => $labelAnnee[$annee]]
+        );
     }
 
     /**
@@ -204,6 +216,9 @@ class ClassementController extends AbstractController
      */
     public function listeAncienAnneClassement()
     {
-        return $this->render('statbb/tabs/coach/ancienClassement.html.twig', ['annee' => $this->settingsService->anneeCourante(), 'label' => (new AnneeEnum)->numeroToAnnee()]);
+        return $this->render(
+            'statbb/tabs/coach/ancienClassement.html.twig',
+            ['annee' => $this->settingsService->anneeCourante(), 'label' => (new AnneeEnum)->numeroToAnnee()]
+        );
     }
 }

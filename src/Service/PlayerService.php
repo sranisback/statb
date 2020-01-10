@@ -28,8 +28,7 @@ class PlayerService
         EntityManagerInterface $doctrineEntityManager,
         EquipeService $equipeService,
         MatchDataService $matchDataService
-    )
-    {
+    ) {
         $this->doctrineEntityManager = $doctrineEntityManager;
         $this->equipeService = $equipeService;
         $this->matchDataService = $matchDataService;
@@ -37,7 +36,6 @@ class PlayerService
 
     public function remplirMatchDataDeLigneAzero(Teams $equipe, Matches $match)
     {
-
         foreach ($this->doctrineEntityManager->getRepository(Players::class)->listeDesJoueursActifsPourlEquipe(
             $equipe
         ) as $joueur) {
@@ -611,7 +609,13 @@ class PlayerService
 
                 $actions = $this->actionDuJoueurDansUnMatch($match, $listeActionsDunJoueur->getFPlayer());
 
-                $textAction .= $name . ', ' . $listeActionsDunJoueur->getFPlayer()->getFPos()->getPos() . '(' . $listeActionsDunJoueur->getFPlayer()->getNr() . '): ' . substr(
+                $textAction .= $name .
+                    ', ' .
+                    $listeActionsDunJoueur->getFPlayer()->getFPos()->getPos() .
+                    '(' .
+                    $listeActionsDunJoueur->getFPlayer()->getNr() .
+                    '): ' .
+                    substr(
                         $actions,
                         0,
                         strlen($actions) - 2
@@ -642,11 +646,19 @@ class PlayerService
         $labelBlessure = (new BlessuresEnum())->numeroToBlessure();
         /** @var HistoriqueBlessure $blessure */
         foreach ($match->getBlessuresMatch() as $blessure) {
-            $listeBlessure .= $blessure->getPlayer()->getNr() . '. '
-                . $blessure->getPlayer()->getName() . ', '
-                . $blessure->getPlayer()->getFPos()->getPos() . ', '
-                . $blessure->getPlayer()->getOwnedByTeam()->getName() . ' : '
-                . $labelBlessure[$blessure->getBlessure()] . ' <br/>';
+            $joueur = $blessure->getPlayer();
+            if (!empty($joueur)) {
+                $position = $joueur->getFPos();
+                $equipe = $joueur->getOwnedByTeam();
+            }
+
+            if (!empty($joueur) && !empty($position) && !empty($equipe)) {
+                $listeBlessure .= $joueur->getNr() . '. '
+                    . $joueur->getName() . ', '
+                    . $position->getPos() . ', '
+                    . $equipe->getName() . ' : '
+                    . $labelBlessure[$blessure->getBlessure()] . ' <br/>';
+            }
         }
 
         return $listeBlessure . '</div>';

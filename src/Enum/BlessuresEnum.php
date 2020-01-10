@@ -3,7 +3,6 @@
 
 namespace App\Enum;
 
-
 class BlessuresEnum
 {
     public function numeroToBlessure()

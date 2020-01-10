@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -28,6 +29,8 @@ class HistoriqueBlessure
     private $Player;
 
     /**
+     * @var DateTime
+     *
      * @ORM\Column(type="date")
      */
     private $date;
@@ -67,12 +70,12 @@ class HistoriqueBlessure
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDate(): ?\DateTime
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(\DateTime $date): self
     {
         $this->date = $date;
 

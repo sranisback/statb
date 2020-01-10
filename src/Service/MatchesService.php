@@ -146,7 +146,12 @@ class MatchesService
             );
 
             $histoBlessure = new HistoriqueBlessure();
-            $histoBlessure->setDate(DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s")));
+
+            $dateBless = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
+
+            if (!empty($dateBless)) {
+                $histoBlessure->setDate($dateBless);
+            }
             $histoBlessure->setFmatch($match);
 
             switch ($action['action']) {
@@ -177,7 +182,7 @@ class MatchesService
                 case '-1 Ma':
                     $joueur->setInjMa($joueur->getInjMa() + 1);
                     $joueur->setInjRpm(1);
-                    $histoBlessure->setBlessure(rand(53,54));
+                    $histoBlessure->setBlessure(rand(53, 54));
                     $joueur->addHistoriqueBlessure($histoBlessure);
                     break;
                 case '-1 St':
@@ -195,18 +200,18 @@ class MatchesService
                 case '-1 Av':
                     $joueur->setInjAv($joueur->getInjAv() + 1);
                     $joueur->setInjRpm(1);
-                    $histoBlessure->setBlessure(rand(55,56));
+                    $histoBlessure->setBlessure(rand(55, 56));
                     $joueur->addHistoriqueBlessure($histoBlessure);
                     break;
                 case 'Ni':
                     $joueur->setInjNi($joueur->getInjNi() + 1);
                     $joueur->setInjRpm(1);
-                    $histoBlessure->setBlessure(rand(51,52));
+                    $histoBlessure->setBlessure(rand(51, 52));
                     $joueur->addHistoriqueBlessure($histoBlessure);
                     break;
                 case 'RPM':
                     $joueur->setInjRpm(1);
-                    $histoBlessure->setBlessure(rand(41,48));
+                    $histoBlessure->setBlessure(rand(41, 48));
                     $joueur->addHistoriqueBlessure($histoBlessure);
                     break;
                 case 'Tué':

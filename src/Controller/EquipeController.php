@@ -141,8 +141,12 @@ class EquipeController extends AbstractController
      * @param int $teamid
      * @return Response
      */
-    public function showTeam(PlayerService $playerService, EquipeService $equipeService, $teamid, SettingsService $settingsService)
-    {
+    public function showTeam(
+        PlayerService $playerService,
+        EquipeService $equipeService,
+        $teamid,
+        SettingsService $settingsService
+    ) {
         $pdata = [];
 
         /** @var Teams $equipe */
