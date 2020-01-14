@@ -38,7 +38,7 @@
     <div class="modal fade" id="cl{{ type }}">
         <div class="modal-dialog">
             <div class="modal-content">
-                {{ render(controller('App\\Controller\\ClassementController::afficheSousClassementJoueur', {'type': type,'limit':0} )) }}
+                {{ render(controller('App\\Controller\\ClassementController::afficheSousClassementJoueur', {'type': type,'limit':0, 'annee': annee} )) }}
             </div>
         </div>
     </div>

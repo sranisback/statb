@@ -4,11 +4,13 @@
 namespace App\Controller;
 
 use App\Entity\GameDataStadium;
+use App\Entity\HistoriqueBlessure;
 use App\Entity\Matches;
 use App\Entity\Meteo;
 use App\Entity\Players;
 use App\Entity\Teams;
 use App\Enum\AnneeEnum;
+use App\Enum\BlessuresEnum;
 use App\Service\MatchesService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
@@ -32,26 +34,23 @@ class MatchController extends AbstractController
      */
     public function dropdownPlayer($teamId, $nbr)
     {
+        /** @var Teams $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
 
-        if ($equipe) {
-            $response = [
-                'html' => $this->renderView(
-                    'statbb/dropdownplayers.html.twig',
-                    [
-                        'players' => $this->getDoctrine()->getRepository(
-                            Players::class
-                        )->listeDesJoueursActifsPourlEquipe($equipe),
-                        'teamId' => $teamId,
-                        'nbr' => $nbr,
-                    ]
-                ),
-            ];
+        $response = [
+            'html' => $this->renderView(
+                'statbb/dropdownplayers.html.twig',
+                [
+                    'players' => $this->getDoctrine()->getRepository(
+                        Players::class
+                    )->listeDesJoueursActifsPourlEquipe($equipe),
+                    'teamId' => $teamId,
+                    'nbr' => $nbr,
+                ]
+            ),
+        ];
 
-            return self::transformeEnJson($response);
-        } else {
-            return new JsonResponse(['error']);
-        }
+        return self::transformeEnJson($response);
     }
 
     /**
@@ -134,22 +133,18 @@ class MatchController extends AbstractController
             $team1 = $match->getTeam1();
             $team2 = $match->getTeam2();
             if (!empty($team1) && !empty($team2)) {
-                $actionEquipe1 = $playerService->toutesLesActionsDeLequipeDansUnMatch($match, $team1);
-                $actionEquipe2 = $playerService->toutesLesActionsDeLequipeDansUnMatch($match, $team2);
-                if (!empty($actionEquipe1) && !empty($actionEquipe1)) {
-                    return $this->render(
-                        'statbb/matchviewer.html.twig',
-                        [
-                            'match' => $match,
-                            'actionEquipe1' => $actionEquipe1,
-                            'actionEquipe2' => $actionEquipe2,
-                        ]
-                    );
-                }
+                return $this->render(
+                    'statbb/matchviewer.html.twig',
+                    [
+                        'match' => $match,
+                        'actionEquipe1' => $playerService->toutesLesActionsDeLequipeDansUnMatch($match, $team1),
+                        'actionEquipe2' => $playerService->toutesLesActionsDeLequipeDansUnMatch($match, $team2)
+                    ]
+                );
             }
         }
 
-        return 'erreur';
+        return new Response('erreur');
     }
 
     /**

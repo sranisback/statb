@@ -8,6 +8,7 @@ use App\Entity\Players;
 use App\Service\EquipeService;
 use App\Service\MatchDataService;
 use App\Service\PlayerService;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -25,6 +26,9 @@ class actionDuJoueurDansUnMatchTest extends KernelTestCase
         $matchDataTest1->setTd(1);
         $matchDataMock2 = new MatchData();
 
+        $matchMock = $this->createMock(Matches::class);
+        $matchMock->method('getBlessuresMatch')->willReturn(new ArrayCollection());
+
         $matchDataRepoMock = $this->createMock(ObjectRepository::class);
         $matchDataRepoMock->method('findBy')->willReturn([$matchDataTest0, $matchDataTest1, $matchDataMock2]);
 
@@ -41,7 +45,7 @@ class actionDuJoueurDansUnMatchTest extends KernelTestCase
         $this->assertEquals(
             'MVP: 1, TD: 1, ',
             $playerService->actionDuJoueurDansUnMatch(
-                $this->createMock(Matches::class),
+                $matchMock,
                 $this->createMock(Players::class)
             )
         );
@@ -55,6 +59,9 @@ class actionDuJoueurDansUnMatchTest extends KernelTestCase
         $matchDataTest0 = new MatchData();
         $matchDataTest1 = new MatchData();
         $matchDataMock2 = new MatchData();
+
+        $matchMock = $this->createMock(Matches::class);
+        $matchMock->method('getBlessuresMatch')->willReturn(new ArrayCollection());
 
         $matchDataRepoMock = $this->createMock(ObjectRepository::class);
         $matchDataRepoMock->method('findBy')->willReturn([$matchDataTest0, $matchDataTest1, $matchDataMock2]);
@@ -72,7 +79,7 @@ class actionDuJoueurDansUnMatchTest extends KernelTestCase
         $this->assertEquals(
             '',
             $playerService->actionDuJoueurDansUnMatch(
-                $this->createMock(Matches::class),
+                $matchMock,
                 $this->createMock(Players::class)
             )
         );

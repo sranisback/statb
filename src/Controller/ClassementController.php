@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Coaches;
 use App\Entity\Players;
 use App\Entity\Teams;
+use App\Enum\AnneeEnum;
 use App\Service\ClassementService;
 use App\Service\EquipeService;
 use App\Service\SettingsService;
@@ -22,47 +23,56 @@ class ClassementController extends AbstractController
     }
 
     /**
-     * @Route("/classement/general/", name="classementgen", options = { "expose" = true })
+     * @Route("/classement/general/{annee}/{etiquette}",
+     *     defaults={"etiquette"=null}, name="classementgen", options = { "expose" = true })
+     * @param int $annee
      * @return Response
      */
-    public function classGen()
+    public function classGen(int $annee, $etiquette)
     {
         return $this->render(
             'statbb/tabs/ligue/classement.html.twig',
             [
                 'classement' => $this->getDoctrine()->getRepository(Teams::class)->classement(
-                    $this->settingsService->anneeCourante()
-                )
+                    $annee
+                ),
+                'annee' => $annee,
+                'etiquette' => $etiquette
             ]
         );
     }
 
     /**
-     * @Route("/classement/detail/", name="classGenDetail", options = { "expose" = true })
+     * @Route("/classement/detail/{annee}", name="classGenDetail", options = { "expose" = true })
      * @param ClassementService $classementService
      * @return Response
      */
-    public function classGenDetail(ClassementService $classementService)
+    public function classGenDetail(ClassementService $classementService, int $annee)
     {
         return $this->render(
             'statbb/tabs/ligue/classementDetail.html.twig',
             [
-                'classementDet' => $classementService->classementDetail($this->settingsService->anneeCourante())
+                'classementDet' => $classementService->classementDetail($annee)
             ]
         );
     }
 
     /**
-     * @Route("/classementEquipe/{type}/{limit}", defaults={"limit"=0}, name="classementEquipe")
+     * @Route("/classementEquipe/{type}/{limit}/{annee}", defaults={"limit"=0}, name="classementEquipe")
      * @param ClassementService $classementService
      * @param string $type
      * @param int $limit
+     * @param int $annee
      * @return Response
      */
-    public function afficheSousClassementsEquipe(ClassementService $classementService, string $type, int $limit)
-    {
+    public function afficheSousClassementsEquipe(
+        ClassementService $classementService,
+        string $type,
+        int $limit,
+        int $annee
+    ) {
         $sousClassement = $classementService->genereClassementEquipes(
-            $this->settingsService->anneeCourante(),
+            $annee,
             $type,
             $limit
         );
@@ -71,16 +81,21 @@ class ClassementController extends AbstractController
     }
 
     /**
-     * @Route("/classementJoueur/{type}/{limit}", defaults={"limit"=0}, name="classementJoueur")
+     * @Route("/classementJoueur/{type}/{limit}/{annee}", defaults={"limit"=0}, name="classementJoueur")
      * @param ClassementService $classementService
      * @param string $type
      * @param int $limit
+     * @param int $annee
      * @return Response
      */
-    public function afficheSousClassementJoueur(ClassementService $classementService, string $type, int $limit)
-    {
+    public function afficheSousClassementJoueur(
+        ClassementService $classementService,
+        string $type,
+        int $limit,
+        int $annee
+    ) {
         $sousClassement = $classementService->genereClassementJoueurs(
-            $this->settingsService->anneeCourante(),
+            $annee,
             $type,
             $limit
         );
@@ -88,17 +103,16 @@ class ClassementController extends AbstractController
         return $this->render('statbb/Spclassement.html.twig', $sousClassement);
     }
 
-
     /**
-     * @Route("/totalcas", options = { "expose" = true })
+     * @Route("/totalcas/{annee}", options = { "expose" = true })
      */
-    public function affichetotalCas(ClassementService $classementService)
+    public function affichetotalCas(ClassementService $classementService, int $annee)
     {
-        $totalCas = $classementService->totalCas($this->settingsService->anneeCourante());
+        $totalCas = $classementService->totalCas($annee);
 
         return new Response(
-            '<strong>Total : '.$totalCas['score'].' En '.$totalCas['nbrMatches'].' Matches.</strong><br/>
-                 <strong>Par Matches :  '.$totalCas['moyenne'].'</strong>'
+            '<strong>Total : ' . $totalCas['score'] . ' En ' . $totalCas['nbrMatches'] . ' Matches.</strong><br/>
+                 <strong>Par Matches :  ' . $totalCas['moyenne'] . '</strong>'
         );
     }
 
@@ -180,6 +194,31 @@ class ClassementController extends AbstractController
                     $equipeService
                 ),
             ]
+        );
+    }
+
+    /**
+     * @route("/ancienClassement/{annee}", name="ancienClassement")
+     * @param int $annee
+     * @return Response
+     */
+    public function afficheAncienClassement(int $annee)
+    {
+        $labelAnnee = (new AnneeEnum)->numeroToAnnee();
+        return $this->render(
+            'statbb/ancienClassement.html.twig',
+            ['annee' => $annee, 'etiquette' => $labelAnnee[$annee]]
+        );
+    }
+
+    /**
+     * @route("/listeAnciennesAnnees", name="listeAncienneAnnnee")
+     */
+    public function listeAncienAnneClassement()
+    {
+        return $this->render(
+            'statbb/tabs/coach/ancienClassement.html.twig',
+            ['annee' => $this->settingsService->anneeCourante(), 'label' => (new AnneeEnum)->numeroToAnnee()]
         );
     }
 }

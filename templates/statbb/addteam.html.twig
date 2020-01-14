@@ -12,12 +12,10 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div>
-                    {{ form_start(form, {'action': path('createTeam')}) }}
-                    {{ form_errors(form) }}
-                    {{ form_row(form.Name) }}
-                    {{ form_row(form.fRace) }}
-                </div>
+                {{ form_start(form, {'action': path('createTeam')}) }}
+                {{ form_errors(form) }}
+                {{ form_row(form.Name) }}
+                {{ form_row(form.fRace) }}
             </div>
             <div class="modal-footer">
                 {{ form_widget(form.submit) }}{{ form_widget(form.cancel) }}

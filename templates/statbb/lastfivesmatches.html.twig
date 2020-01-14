@@ -13,10 +13,17 @@
                                  class="img-fluid pull-left">
                         {% endif %}
                     </td>
-                    <td class="text-right"><h4>{{ game.team1.name }}</h4></td>
+                    <td class="text-right"><h4>{{ game.team1.name }}</h4>
+                        {% if game.team1.franchise == true %}
+                            <span class="fas fa-tag text-success"></span>
+                        {% endif %}</td>
                     <td class="text-center text-nowrap"><h4>{{ game.team1Score }}
                             - {{ game.team2Score }}</h4></td>
-                    <td class="text-left"><h4>{{ game.team2.name }}</h4></td>
+                    <td class="text-left"><h4>{{ game.team2.name }}</h4>
+                        {% if game.team2.franchise == true %}
+                            <span class="fas fa-tag text-success"></span>
+                        {% endif %}
+                    </td>
                     <td rowspan="2">
                         {% if game.team2.logo %}
                             <img src="{{ asset('uploads/logo_equipe/' ~ game.team2.logo) }}" class="img-fluid">

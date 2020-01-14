@@ -65,16 +65,16 @@ class StatBBController extends AbstractController
                 $this->addFlash('success', $defisEnCours['par'] . ' a defié ' . $defisEnCours['defiee'] . ' !');
             }
         }
-        return $this->render('statbb/front.html.twig');
+        return $this->render('statbb/front.html.twig', ['annee' => $settingsService->anneeCourante()]);
     }
 
     /**
      * @Route("/login", name="login", options = { "expose" = true })
      * @return Response
      */
-    public function login()
+    public function login(SettingsService $settingsService)
     {
-        return $this->render('statbb/front.html.twig');
+        return $this->render('statbb/front.html.twig', ['annee' => $settingsService->anneeCourante()]);
     }
 
     /**
@@ -125,9 +125,9 @@ class StatBBController extends AbstractController
     /**
      * @Route("/tabLigue", name="tabLigue")
      */
-    public function tabLigue()
+    public function tabLigue(SettingsService $settingsService)
     {
-        return $this->render('statbb/tabs/ligue/tabLigue.html.twig');
+        return $this->render('statbb/tabs/ligue/tabLigue.html.twig', ['annee' => $settingsService->anneeCourante()]);
     }
 
     public function tabParametre()

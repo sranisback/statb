@@ -27,6 +27,7 @@ class sousClassementsTestEquipe extends KernelTestCase
             'class' => 'class_bash',
             'type' => 'bash',
             'limit' => 5,
+            'annee' => 3
         ];
 
         $matchDataRepoMock = $this->getMockBuilder(MatchData::class)
@@ -69,6 +70,7 @@ class sousClassementsTestEquipe extends KernelTestCase
             'class' => 'class_td',
             'type' => 'td',
              'limit' => 5,
+            'annee' => 3
         ];
 
         $matchDataRepoMock = $this->getMockBuilder(MatchData::class)
@@ -111,6 +113,7 @@ class sousClassementsTestEquipe extends KernelTestCase
             'class' => 'class_xp',
             'type' => 'xp',
             'limit' => 5,
+            'annee' => 3
         ];
 
         $matchDataRepoMock = $this->getMockBuilder(MatchData::class)
@@ -153,6 +156,7 @@ class sousClassementsTestEquipe extends KernelTestCase
             'class' => 'class_pass',
             'type' => 'pass',
             'limit' => 5,
+            'annee' => 3
         ];
 
         $matchDataRepoMock = $this->getMockBuilder(MatchData::class)
@@ -195,6 +199,7 @@ class sousClassementsTestEquipe extends KernelTestCase
             'class' => 'class_foul',
             'type' => 'foul',
             'limit' => 5,
+            'annee' => 3
         ];
 
         $matchDataRepoMock = $this->getMockBuilder(MatchData::class)
@@ -232,6 +237,7 @@ class sousClassementsTestEquipe extends KernelTestCase
             'class' => 'class_bash',
             'type' => 'bash',
             'limit' => 5,
+            'annee' => 3
         ];
 
         $matchDataRepoMock = $this->getMockBuilder(MatchData::class)
