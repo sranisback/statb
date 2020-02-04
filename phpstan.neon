@@ -23,6 +23,7 @@ parameters:
 	    - '#toutesLesEquipesDunCoachParAnnee.+#'
 	    - '#toutesLesIconesDunePosition.+#'
 	    - '#requeteEquipeLike.+#'
+	    - '#tousLesMatchsDeDeuxCoach.+#'
 	autoload_directories:
 		- %rootDir%/../../../src/Migrations
 	excludes_analyse:

@@ -18,7 +18,6 @@ class MatchesFactory
      * @param int $tv2
      * @param Meteo $meteo
      * @param GameDataStadium $stade
-     * @param $stadeAccueil
      * @return Matches
      */
     public function creerUnMatch(

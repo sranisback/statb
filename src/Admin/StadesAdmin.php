@@ -28,7 +28,7 @@ class StadesAdmin extends AbstractAdmin
                     'group_by' => 'famille',
                 ]
             )
-            ->add('niveau', IntegerType::class , ['label' => 'Niveau']);
+            ->add('niveau', IntegerType::class, ['label' => 'Niveau']);
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)

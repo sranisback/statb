@@ -435,10 +435,16 @@ class EquipeController extends AbstractController
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
         $form = $request->request->get('creer_stade');
 
+        /** @var GameDataStadium $typeStade */
+        $typeStade = $this
+            ->getDoctrine()
+            ->getRepository(GameDataStadium::class)
+            ->findOneBy(['id' => $form['fTypeStade']]);
+
         $stadeService->construireStade(
             $equipe,
             $form['nom'],
-            $this->getDoctrine()->getRepository(GameDataStadium::class)->findOneBy(['id' => $form['fTypeStade']]),
+            $typeStade,
             $form['niveau']
         );
 

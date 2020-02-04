@@ -3,7 +3,6 @@
 
 namespace App\Enum;
 
-
 class NiveauStadeEnum
 {
     public function numeroVersNiveauDeStade()

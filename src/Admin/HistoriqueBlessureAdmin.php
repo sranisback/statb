@@ -30,7 +30,7 @@ final class HistoriqueBlessureAdmin extends AbstractAdmin
             ->add('blessure', 'choice', ['editable' => true, 'choices' => $blessureLabel])
             ->add('Player.name', null, ['label' => 'Joueur'])
             ->add('Player.ownedByTeam.name', null, ['label' => 'Equipe'])
-            ->add('date', 'date', ['editable' => true, 'format' => 'd-m-Y'] );
+            ->add('date', 'date', ['editable' => true, 'format' => 'd-m-Y']);
     }
 
     protected function configureFormFields(FormMapper $formMapper): void

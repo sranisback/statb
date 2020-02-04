@@ -132,8 +132,7 @@ class Matches
      * @ORM\OneToMany(targetEntity="App\Entity\HistoriqueBlessure", mappedBy="fmatch", fetch="EAGER")
      */
     private $blessuresMatch;
-
-    /**
+/**
      * @ORM\Column(type="integer", nullable=true)
      */
     private $stadeAcceuil;
@@ -355,7 +354,6 @@ class Matches
     public function setStadeAcceuil(?int $stadeAcceuil): self
     {
         $this->stadeAcceuil = $stadeAcceuil;
-
         return $this;
     }
 }

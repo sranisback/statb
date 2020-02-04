@@ -236,7 +236,10 @@ class ClassementController extends AbstractController
             'statbb/matchsContreUnCoach.html.twig',
             [
                 'listeMatches' =>
-                    $this->getDoctrine()->getRepository(Matches::class)->tousLesMatchsDeDeuxCoach($coachActif, $coachAdverse),
+                    $this
+                        ->getDoctrine()
+                        ->getRepository(Matches::class)
+                        ->tousLesMatchsDeDeuxCoach($coachActif, $coachAdverse),
                 'contreCoach' => $coachAdverse->getName()
             ]
         );
