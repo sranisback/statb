@@ -1,0 +1,8 @@
+<br/>
+<div>
+    <ul>
+        {% for i in 0..(annee-1) %}
+            <li><a href="{{ path('ancienClassement', {'annee': i}) }}">{{ label[i] }}</a></li>
+        {% endfor %}
+    </ul>
+</div>

@@ -1,4 +1,4 @@
-<h1 class="text-center">Classement Général</h1>
+<h1 class="text-center">Classement Général {{ etiquette }}</h1>
 <ul class="nav nav-tabs">
     <li class="nav-item">
         <a class="nav-link active" data-toggle="tab" href="#classementGen">Classement général</a>
@@ -31,7 +31,10 @@
                 {% for team in classement %}
                     <tr>
                         <td class="pos">{{ loop.index }}</td>
-                        <td><a href="{{ path('team', {'teamid': team.team_id }) }}">{{ team.team_name }}</a></td>
+                        <td><a href="{{ path('team', {'teamid': team.team_id }) }}">{{ team.team_name }}</a>
+                            {% if team.franchise == true %}
+                                <span class="fas fa-tag text-success"></span>
+                            {% endif %}</td>
                         <td>
                             {% if team.logo %}
                                 <img src="{{ asset('uploads/logo_equipe/' ~ team.logo) }}" class="img-fluid">
@@ -54,7 +57,7 @@
         </div>
     </div>
     <div id="detailClass" class="tab-pane fade show">
-        {{ render(controller('App\\Controller\\ClassementController::classGenDetail')) }}
+        {{ render(controller('App\\Controller\\ClassementController::classGenDetail', {'annee': annee})) }}
     </div>
 </div>
 

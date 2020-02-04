@@ -9,6 +9,7 @@
         "friendsofsymfony/jsrouting-bundle": "^2.2",
         "fzaninotto/faker": "^1.8",
         "gumlet/php-image-resize": "1.9.*",
+        "laminas/laminas-code": "^3.4",
         "nette/utils": "*",
         "sonata-project/admin-bundle": "^3.45",
         "sonata-project/block-bundle": "^3.18",
@@ -21,6 +22,7 @@
         "symfony/framework-bundle": "*",
         "symfony/monolog-bundle": "*",
         "symfony/orm-pack": "^1.0",
+        "symfony/phpunit-bridge": "^5.0",
         "symfony/profiler-pack": "*",
         "symfony/security-bundle": "*",
         "symfony/twig-bundle": "*",
@@ -40,7 +42,6 @@
         "squizlabs/php_codesniffer": "3.*",
         "symfony/debug-pack": "^1.0",
         "symfony/maker-bundle": "^1.11",
-        "symfony/phpunit-bridge": "^5.0",
         "symfony/test-pack": "^1.0",
         "thecodingmachine/phpstan-strict-rules": "^0.11.0"
     },

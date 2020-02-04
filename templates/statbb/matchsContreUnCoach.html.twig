@@ -1,0 +1,31 @@
+{% extends "statbb/base.html.twig" %}
+
+{% block body %}
+    <div class="card m-2">
+        <div class="card-header">
+            <h3>Matches contre {{ contreCoach}}</h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-condensed">
+                <thead>
+                <th>Equipe Locale</th>
+                <th>Equipe Visiteur</th>
+                <th>score</th>
+                <th></th>
+                </thead>
+                <tbody>
+                {% for match in listeMatches %}
+                    <tr>
+                        <td><a href="{{ path('team', {'teamid': match.team1.teamId }) }}">{{ match.team1.name }}
+                                , {{ match.team1.fRace.name }}</a></td>
+                        <td><a href="{{ path('team', {'teamid': match.team2.teamId }) }}">{{ match.team2.name }}
+                                , {{ match.team2.fRace.name }}</a></td>
+                        <td>{{ match.team1Score }} - {{ match.team2Score }}</td>
+                        <td><a href="{{ path('match', {'matchId': match.matchId}) }}">Voir</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

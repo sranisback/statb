@@ -4,6 +4,7 @@
 namespace App\Service;
 
 use App\Entity\GameDataPlayers;
+use App\Entity\HistoriqueBlessure;
 use App\Entity\MatchData;
 
 use App\Entity\Matches;
@@ -12,6 +13,7 @@ use App\Entity\Teams;
 use App\Entity\Players;
 use App\Entity\PlayersSkills;
 use App\Entity\GameDataSkills;
+use App\Enum\BlessuresEnum;
 use App\Factory\PlayerFactory;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -34,7 +36,6 @@ class PlayerService
 
     public function remplirMatchDataDeLigneAzero(Teams $equipe, Matches $match)
     {
-
         foreach ($this->doctrineEntityManager->getRepository(Players::class)->listeDesJoueursActifsPourlEquipe(
             $equipe
         ) as $joueur) {
@@ -112,7 +113,7 @@ class PlayerService
                     ['skillId' => $idComp]
                 );
 
-                $listeCompDeBase .= '<text class="test-primary">'.$comp->getName().'</text>, ';
+                $listeCompDeBase .= '<text class="test-primary">' . $comp->getName() . '</text>, ';
             }
 
             return $listeCompDeBase;
@@ -138,10 +139,10 @@ class PlayerService
             foreach ($compSupplementaire as $comp) {
                 if ($comp->getType() == 'N') {
                     $coutTotal += 20000;
-                    $listCompGagnee .= '<text class="text-success">'.$comp->getFSkill()->getName().'</text>, ';
+                    $listCompGagnee .= '<text class="text-success">' . $comp->getFSkill()->getName() . '</text>, ';
                 } else {
                     $coutTotal += 30000;
-                    $listCompGagnee .= '<text class="text-danger">'.$comp->getFSkill()->getName().'</text>, ';
+                    $listCompGagnee .= '<text class="text-danger">' . $comp->getFSkill()->getName() . '</text>, ';
                 }
             }
         }
@@ -260,11 +261,17 @@ class PlayerService
     public function actionDuJoueurDansUnMatch(Matches $match, Players $joueur)
     {
         $actions = '';
+        $labelBlessure = (new BlessuresEnum())->numeroToBlessure();
 
         foreach ($this->doctrineEntityManager->getRepository(MatchData::class)->findBy(
             ['fPlayer' => $joueur->getPlayerId(), 'fMatch' => $match]
         ) as $matchData) {
-            $actions .=  $this->matchDataService->lectureLignedUnMatch($matchData);
+            $actions .= $this->matchDataService->lectureLignedUnMatch($matchData);
+            foreach ($match->getBlessuresMatch() as $blessure) {
+                if ($blessure->getPlayer() === $joueur) {
+                    $actions .= 'Blessure : ' . $labelBlessure[$blessure->getBlessure()] . ', ';
+                }
+            }
         }
 
         return $actions;
@@ -564,6 +571,7 @@ class PlayerService
             $this->doctrineEntityManager->persist($joueur);
         }
     }
+
     /**
      * @param Players $joueur
      * @return float|int
@@ -601,12 +609,17 @@ class PlayerService
 
                 $actions = $this->actionDuJoueurDansUnMatch($match, $listeActionsDunJoueur->getFPlayer());
 
-                $textAction .= $name.', '.$listeActionsDunJoueur->getFPlayer()->getFPos()->getPos(
-                ).'('.$listeActionsDunJoueur->getFPlayer()->getNr().'): '.substr(
-                    $actions,
-                    0,
-                    strlen($actions) - 2
-                ).'<br/>';
+                $textAction .= $name .
+                    ', ' .
+                    $listeActionsDunJoueur->getFPlayer()->getFPos()->getPos() .
+                    '(' .
+                    $listeActionsDunJoueur->getFPlayer()->getNr() .
+                    '): ' .
+                    substr(
+                        $actions,
+                        0,
+                        strlen($actions) - 2
+                    ) . '<br/>';
             }
         }
 
@@ -625,5 +638,29 @@ class PlayerService
 
         return count($skills) + $joueur->getAchAg() + $joueur->getAchAv()
             + $joueur->getAchMa() + $joueur->getAchSt();
+    }
+
+    public function toutesLesBlessureDuMatch(Matches $match)
+    {
+        $listeBlessure = '<div class="text-center">';
+        $labelBlessure = (new BlessuresEnum())->numeroToBlessure();
+        /** @var HistoriqueBlessure $blessure */
+        foreach ($match->getBlessuresMatch() as $blessure) {
+            $joueur = $blessure->getPlayer();
+            if (!empty($joueur)) {
+                $position = $joueur->getFPos();
+                $equipe = $joueur->getOwnedByTeam();
+            }
+
+            if (!empty($joueur) && !empty($position) && !empty($equipe)) {
+                $listeBlessure .= $joueur->getNr() . '. '
+                    . $joueur->getName() . ', '
+                    . $position->getPos() . ', '
+                    . $equipe->getName() . ' : '
+                    . $labelBlessure[$blessure->getBlessure()] . ' <br/>';
+            }
+        }
+
+        return $listeBlessure . '</div>';
     }
 }

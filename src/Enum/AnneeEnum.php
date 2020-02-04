@@ -4,8 +4,6 @@ namespace App\Enum;
 
 class AnneeEnum
 {
-    const TEST = 0;
-
     public function numeroToAnnee()
     {
         return [

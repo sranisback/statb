@@ -18,14 +18,21 @@ class genereConfrontationTousLesCoachesTest extends KernelTestCase
      */
     public function le_resultat_de_tous_les_coaches_est_bien_retournee()
     {
-        $coachTest0 = new Coaches();
-        $coachTest0->setName('coach 0');
-        $coachTest1 = new Coaches();
-        $coachTest1->setName('coach 1');
-        $coachTest2 = new Coaches();
-        $coachTest2->setName('coach 2');
-        $coachTest3 = new Coaches();
-        $coachTest3->setName('coach 3');
+        $coachTest0 = $this->createMock(Coaches::class);
+        $coachTest0->method('getName')->willReturn('coach 0');
+        $coachTest0->method('getCoachId')->willReturn(0);
+
+        $coachTest1 = $this->createMock(Coaches::class);
+        $coachTest1->method('getName')->willReturn('coach 1');
+        $coachTest1->method('getCoachId')->willReturn(1);
+
+        $coachTest2 = $this->createMock(Coaches::class);
+        $coachTest2->method('getName')->willReturn('coach 2');
+        $coachTest2->method('getCoachId')->willReturn(2);
+
+        $coachTest3 = $this->createMock(Coaches::class);
+        $coachTest3->method('getName')->willReturn('coach 3');
+        $coachTest3->method('getCoachId')->willReturn(3);
 
         $equipeTest0 = new Teams();
         $equipeTest0->setOwnedByCoach($coachTest0);
@@ -166,18 +173,21 @@ class genereConfrontationTousLesCoachesTest extends KernelTestCase
                     1,
                     0,
                     1,
+                    1
                 ],
                 'coach 2' => [
                     '100%',
                     2,
                     0,
                     0,
+                    2
                 ],
                 'coach 3' => [
                     '0%',
                     0,
                     0,
                     2,
+                    3
                 ],
             ],
             'coach 1' => [
@@ -186,18 +196,21 @@ class genereConfrontationTousLesCoachesTest extends KernelTestCase
                     1,
                     0,
                     1,
+                    0
                 ],
                 'coach 2' => [
                     '100%',
                     1,
                     1,
                     0,
+                    2
                 ],
                 'coach 3' => [
                     '50%',
                     1,
                     0,
                     1,
+                    3
                 ],
             ],
             'coach 2' => [
@@ -206,18 +219,21 @@ class genereConfrontationTousLesCoachesTest extends KernelTestCase
                     0,
                     0,
                     2,
+                    0
                 ],
                 'coach 1' => [
                     '0%',
                     0,
                     1,
                     1,
+                    1
                 ],
                 'coach 3' => [
                     '0%',
                     0,
                     1,
                     1,
+                    3
                 ],
             ],
             'coach 3' => [
@@ -226,18 +242,21 @@ class genereConfrontationTousLesCoachesTest extends KernelTestCase
                     2,
                     0,
                     0,
+                    0
                 ],
                 'coach 1' => [
                     '50%',
                     1,
                     0,
                     1,
+                    1
                 ],
                 'coach 2' => [
                     '100%',
                     1,
                     1,
                     0,
+                    2
                 ],
             ],
         ];

@@ -8,6 +8,7 @@ use App\Entity\Matches;
 use App\Entity\Players;
 use App\Entity\Teams;
 use App\Enum\AnneeEnum;
+use App\Enum\NiveauStadeEnum;
 use App\Form\CreerStadeType;
 use App\Form\LogoEnvoiType;
 use App\Service\EquipeService;
@@ -141,8 +142,12 @@ class EquipeController extends AbstractController
      * @param int $teamid
      * @return Response
      */
-    public function showTeam(PlayerService $playerService, EquipeService $equipeService, $teamid)
-    {
+    public function showTeam(
+        PlayerService $playerService,
+        EquipeService $equipeService,
+        $teamid,
+        SettingsService $settingsService
+    ) {
         $pdata = [];
 
         /** @var Teams $equipe */
@@ -196,10 +201,11 @@ class EquipeController extends AbstractController
                 'team' => $equipe,
                 'pdata' => $pdata,
                 'tdata' => $tdata,
-                'form' => $form->createView()
+                'form' => $form->createView(),
+                'annee' => $settingsService->anneeCourante(),
+                'niveauStade' => (new NiveauStadeEnum)->numeroVersNiveauDeStade()
             ]
         );
-        return $this->render('statbb/base.html.twig');
     }
 
     /**
@@ -208,7 +214,7 @@ class EquipeController extends AbstractController
      * @param string $nomEquipe
      * @return Response
      */
-    public function montreEquipe(string $nomEquipe)
+    public function montreEquipe(string $nomEquipe, SettingsService $settingsService)
     {
         /** @var Teams[] $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->requeteEquipeLike($nomEquipe);
@@ -216,11 +222,16 @@ class EquipeController extends AbstractController
         if (count($equipe) > 1) {
             return $this->render(
                 'statbb/didYouMean.html.twig',
-                ['listeEquipe' => $equipe, 'annees' => (new AnneeEnum)->numeroToAnnee()]
+                [
+                    'listeEquipe' => $equipe,
+                    'annees' => (new AnneeEnum)->numeroToAnnee()
+                ]
             );
         }
-
-        return $this->redirectToRoute('team', ['teamid' => $equipe[0]->getTeamId()]);
+        if ($equipe) {
+            return $this->redirectToRoute('team', ['teamid' => $equipe[0]->getTeamId()]);
+        }
+        return $this->render('statbb/front.html.twig', ['annee' => $settingsService->anneeCourante()]);
     }
 
     /**
@@ -250,7 +261,6 @@ class EquipeController extends AbstractController
         $this->getDoctrine()->getManager()->refresh($equipe);
 
         return $this->redirectToRoute('team', ['teamid' => $equipe->getTeamId()]);
-        //  return new Response('ok');
     }
 
     /**
@@ -423,17 +433,16 @@ class EquipeController extends AbstractController
     {
         /** @var Teams $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
-
         $form = $request->request->get('creer_stade');
 
-        /** @var GameDataStadium $typeStade */
-        $typeStade = $this->getDoctrine()->getRepository(GameDataStadium::class)->findOneBy(
-            ['id' => $form['fTypeStade']]
+        $stadeService->construireStade(
+            $equipe,
+            $form['nom'],
+            $this->getDoctrine()->getRepository(GameDataStadium::class)->findOneBy(['id' => $form['fTypeStade']]),
+            $form['niveau']
         );
 
-        $stadeService->construireStade($equipe, $form['nom'], $typeStade);
-
-        return $this->redirectToRoute('team', ['teamid' => $equipeId, 'type' => 'n']);
+        return $this->redirectToRoute('team', ['teamid' => $equipeId]);
     }
 
     /**
@@ -492,6 +501,23 @@ class EquipeController extends AbstractController
         $this->getDoctrine()->getManager()->persist($equipe);
         $this->getDoctrine()->getManager()->flush();
 
+        $this->getDoctrine()->getManager()->refresh($equipe);
+
+        return new Response('ok');
+    }
+
+    /**
+     * @route("/mettreEnFranchise/{equipeId}", name="mettreEnFranchise", options = { "expose" = true })
+     */
+    public function mettreEnFranchise($equipeId)
+    {
+        /** @var Teams $equipe */
+        $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
+
+        $equipe->setFranchise(!$equipe->getFranchise());
+
+        $this->getDoctrine()->getManager()->persist($equipe);
+        $this->getDoctrine()->getManager()->flush();
         $this->getDoctrine()->getManager()->refresh($equipe);
 
         return new Response('ok');

@@ -11,7 +11,7 @@
     {% endif %}
     <div class="table-responsive">
         {% if class == 'class_Tbash' %}
-            {{ render(controller('App\\Controller\\ClassementController::affichetotalCas' )) }}
+            {{ render(controller('App\\Controller\\ClassementController::affichetotalCas', {'annee': annee} )) }}
         {% endif %}
         <table class="table table-striped" id="{{ class }}">
             <tbody>
@@ -42,7 +42,7 @@
     <div class="modal fade" id="clt{{ type }}">
         <div class="modal-dialog">
             <div class="modal-content">
-                {{ render(controller('App\\Controller\\ClassementController::afficheSousClassementsEquipe',{'type': type,'limit':0} )) }}
+                {{ render(controller('App\\Controller\\ClassementController::afficheSousClassementsEquipe',{'type': type,'limit':0, 'annee': annee} )) }}
             </div>
         </div>
     </div>

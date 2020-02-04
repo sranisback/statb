@@ -138,6 +138,11 @@ class Teams
     private $logo;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $franchise = 0;
+
+    /**
      * @return Stades
      */
     public function getFStades(): Stades
@@ -345,6 +350,18 @@ class Teams
     public function setLogo(?string $logo): self
     {
         $this->logo = $logo;
+
+        return $this;
+    }
+
+    public function getFranchise(): ?bool
+    {
+        return $this->franchise;
+    }
+
+    public function setFranchise(bool $franchise): self
+    {
+        $this->franchise = $franchise;
 
         return $this;
     }

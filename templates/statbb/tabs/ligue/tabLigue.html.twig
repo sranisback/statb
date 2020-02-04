@@ -30,7 +30,7 @@
                         {{ render(controller('App\\Controller\\EquipeController::montreLesEquipes' )) }}
                     </div>
                     <div id="classement" class="tab-pane fade show active">
-                        {{ render(controller('App\\Controller\\ClassementController::classGen')) }}
+                        {{ render(controller('App\\Controller\\ClassementController::classGen', {'annee' : annee, 'etiquette' : null})) }}
                     </div>
                     <div id="cimetiere" class="tab-pane fade show">
                         {{ render(controller('App\\Controller\\ClassementController::montreLeCimetiere')) }}

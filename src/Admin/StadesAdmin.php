@@ -8,6 +8,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class StadesAdmin extends AbstractAdmin
@@ -26,7 +27,8 @@ class StadesAdmin extends AbstractAdmin
                     'label' => 'Type',
                     'group_by' => 'famille',
                 ]
-            );
+            )
+            ->add('niveau', IntegerType::class , ['label' => 'Niveau']);
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
@@ -42,6 +44,6 @@ class StadesAdmin extends AbstractAdmin
             ->add('nom')
             ->add('total_payement', null, ['label' => 'Payement total'])
             ->add('fTypeStade.type', null, ['label' => 'Type'])
-            ->add('_action', null, ['actions' => ['edit' => [], 'delete' => []]]);
+            ->add('niveau', null, ['editable' => true]);
     }
 }

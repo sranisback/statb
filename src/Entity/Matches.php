@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -125,6 +127,21 @@ class Matches
      * @ORM\JoinColumn(nullable=false)
      */
     private $fStade = 0;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\HistoriqueBlessure", mappedBy="fmatch", fetch="EAGER")
+     */
+    private $blessuresMatch;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $stadeAcceuil;
+
+    public function __construct()
+    {
+        $this->blessuresMatch = new ArrayCollection();
+    }
 
     public function getMatchId(): ?int
     {
@@ -295,6 +312,49 @@ class Matches
     public function setFStade(?GameDataStadium $fStade): self
     {
         $this->fStade = $fStade;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|HistoriqueBlessure[]
+     */
+    public function getBlessuresMatch(): Collection
+    {
+        return $this->blessuresMatch;
+    }
+
+    public function addBlessuresMatch(HistoriqueBlessure $blessuresMatch): self
+    {
+        if (!$this->blessuresMatch->contains($blessuresMatch)) {
+            $this->blessuresMatch[] = $blessuresMatch;
+            $blessuresMatch->setFmatch($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBlessuresMatch(HistoriqueBlessure $blessuresMatch): self
+    {
+        if ($this->blessuresMatch->contains($blessuresMatch)) {
+            $this->blessuresMatch->removeElement($blessuresMatch);
+            // set the owning side to null (unless already changed)
+            if ($blessuresMatch->getFmatch() === $this) {
+                $blessuresMatch->setFmatch(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getStadeAcceuil(): ?int
+    {
+        return $this->stadeAcceuil;
+    }
+
+    public function setStadeAcceuil(?int $stadeAcceuil): self
+    {
+        $this->stadeAcceuil = $stadeAcceuil;
 
         return $this;
     }
