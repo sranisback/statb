@@ -441,6 +441,16 @@ class EquipeController extends AbstractController
             ->getRepository(GameDataStadium::class)
             ->findOneBy(['id' => $form['fTypeStade']]);
 
+        if ($form['niveau'] === '5') {
+            $stadeService->emenagerResidence(
+                $equipe,
+                $form['nom'],
+                $typeStade
+            );
+
+            return $this->redirectToRoute('team', ['teamid' => $equipeId]);
+        }
+
         $stadeService->construireStade(
             $equipe,
             $form['nom'],

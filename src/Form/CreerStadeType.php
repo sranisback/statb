@@ -34,7 +34,8 @@ class CreerStadeType extends AbstractType
                 'Terrain aménagé - 150 000 Po' => 1,
                 'Terrain bien aménagé - 250 000 Po' => 2,
                 'Stade Correct - 500 000 Po' => 3,
-                'Stade Ultra moderne  - 750 000 Po' => 4
+                'Stade Ultra moderne  - 750 000 Po' => 4,
+                'Résidence' => 5
             ],
             'label' => 'Niveau du stades'
         ])

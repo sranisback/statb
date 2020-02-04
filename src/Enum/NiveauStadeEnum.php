@@ -12,7 +12,8 @@ class NiveauStadeEnum
             1 => 'Terrain aménagé',
             2 => 'Terrain bien aménagé',
             3 => 'Stade Correct',
-            4 => 'Stade Ultra moderne'
+            4 => 'Stade Ultra moderne',
+            5 => 'Résidence'
         ];
     }
 }
