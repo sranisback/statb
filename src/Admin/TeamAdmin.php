@@ -67,6 +67,7 @@ final class TeamAdmin extends AbstractAdmin
             ->add('cheerleaders', null, ['label' => 'Pompom girls', 'editable' => true])
             ->add('tv', null, ['editable' => true])
             ->add('apothecary', 'boolean', ['label' => 'Apothicaire', 'editable' => true])
-            ->add('retired', 'boolean', ['label' => 'Retiré', 'editable' => true]);
+            ->add('retired', 'boolean', ['label' => 'Retiré', 'editable' => true])
+            ->add('franchise', 'boolean', ['label' => 'Franchise ?', 'editable' => true]);
     }
 }

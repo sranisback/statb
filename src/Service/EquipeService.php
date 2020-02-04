@@ -234,24 +234,12 @@ class EquipeService
             case "pay":
                 $stadeDelEquipe = $equipe->getFStades();
 
-                if ($stadeDelEquipe->getId() == 0) {
-                    $stadeDelEquipe = new Stades();
-                    $typeStade = $this->doctrineEntityManager->getRepository(GameDataStadium::class)->findOneBy(
-                        ['id' => 0]
-                    );
-
-                    $stadeDelEquipe->setNom('La prairie verte ');
-                    $stadeDelEquipe->setFTypeStade($typeStade);
-                    $stadeDelEquipe->setTotalPayement(0);
-                    $this->doctrineEntityManager->persist($stadeDelEquipe);
-                    $equipe->setFStades($stadeDelEquipe);
-                }
-
                 $nbr = $stadeDelEquipe->getTotalPayement();
 
                 if ($equipe->getTreasury() >= $this->payementStade) {
                     $nbr += 50000;
                     $stadeDelEquipe->setTotalPayement($nbr);
+                    $this->doctrineEntityManager->persist($stadeDelEquipe);
                     $inducost = 70000;
                 }
         }

@@ -18,7 +18,11 @@
                 <table class="table table-responsive">
                     <tr>
                         <td>Equipe :</td>
-                        <td>{{ player.ownedByTeam.name }}</td>
+                        <td>
+                            {{ player.ownedByTeam.name }} {% if player.ownedByTeam.franchise == true %}
+                                <span class="fas fa-tag text-success"></span>
+                            {% endif %}
+                        </td>
                     </tr>
                     <tr>
                         <td>Coach :</td>

@@ -76,3 +76,10 @@ services:
         arguments: [~, App\Entity\Defis,~]
         tags:
             - {name: sonata.admin, manager_type: orm, group: 'Administration', label: Defis}
+
+    admin.historique_blessure:
+        class: App\Admin\HistoriqueBlessureAdmin
+        arguments: [~, App\Entity\HistoriqueBlessure, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: 'Administration', label: HistoriqueBlessure }
+

@@ -15,7 +15,9 @@
                 <tbody>
                 {% for ligne in classementDet %}
                     <tr>
-                        <td><a href="{{ path('team', {'teamid': ligne.equipe.teamId }) }}">{{ ligne.equipe.name }}</a></td>
+                        <td><a href="{{ path('team', {'teamid': ligne.equipe.teamId }) }}">{{ ligne.equipe.name }}</a>{% if ligne.equipe.franchise == true %}
+                            <span class="fas fa-tag text-success"></span>
+                            {% endif %}</td>
                         <td>{{ ligne.tdMis }}</td>
                         <td>{{ ligne.tdPris }}</td>
                         <td>{{ ligne.tdAverage }}</td>

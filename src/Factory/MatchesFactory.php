@@ -48,6 +48,7 @@ class MatchesFactory
             $match->setFMeteo($meteo);
             $match->setFStade($stade);
             $match->setDateCreated($dateMatch);
+            $match->setStadeAcceuil($donnees['stadeAccueil']);
         }
 
         return $match;

@@ -18,18 +18,22 @@
                             <tbody>
                             {% for match in listeAnne %}
                                 <tr>
-                                    <td>{{ match.team1.name }} ( {{ match.team1.fRace.name }}, {{ match.tv1/1000 }}
+                                    <td>{{ match.team1.name }}                {% if match.team1.franchise == true %}
+                                            <span class="fas fa-tag text-success"></span>
+                                        {% endif %} ( {{ match.team1.fRace.name }}, {{ match.tv1/1000 }}
                                         de {{ match.team1.ownedByCoach.name }} )
                                     </td>
                                     <td> Vs</td>
-                                    <td>{{ match.team2.name }} ( {{ match.team2.fRace.name }}, {{ match.tv2/1000 }}
+                                    <td>{{ match.team2.name }}{% if match.team2.franchise == true %}
+                                            <span class="fas fa-tag text-success"></span>
+                                        {% endif %} ( {{ match.team2.fRace.name }}, {{ match.tv2/1000 }}
                                         de {{ match.team2.ownedByCoach.name }} )
                                     </td>
                                     <td class="text-nowrap">{{ match.team1Score }} - {{ match.team2Score }}</td>
                                     <td>{{ match.dateCreated|date("d/m/Y") }}</td>
                                     <td>
                                     <td class="text-center text-nowrap"><a
-                                                href="{{ path('match', {'matchId': match.matchId}) }}">Voir</a></td>
+                                                href="{{ path('match', {'matchId': match.matchId}) }}">Voir</a>
                                     </td>
                                 </tr>
                             {% endfor %}

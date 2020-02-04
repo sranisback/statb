@@ -107,6 +107,9 @@
     "knplabs/knp-menu-bundle": {
         "version": "v2.2.1"
     },
+    "laminas/laminas-zendframework-bridge": {
+        "version": "1.0.0"
+    },
     "monolog/monolog": {
         "version": "1.24.0"
     },
@@ -159,7 +162,7 @@
         "version": "v0.3.2"
     },
     "php": {
-        "version": "7.3"
+        "version": "7.4"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.0.0"
@@ -639,6 +642,9 @@
     },
     "twig/twig": {
         "version": "v2.5.0"
+    },
+    "webimpress/safe-writer": {
+        "version": "2.0.0"
     },
     "webmozart/assert": {
         "version": "1.6.0"

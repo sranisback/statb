@@ -195,6 +195,7 @@ class ClassementService
             'class' => $classement,
             'type' => $type,
             'limit' => $limit,
+            'annee' => $annee
         ];
     }
 
@@ -256,6 +257,7 @@ class ClassementService
             'class' => $classement,
             'type' => $type,
             'limit' => $limit,
+            'annee' => $annee
         ];
     }
 
@@ -337,6 +339,7 @@ class ClassementService
             $tableConfrontation[] = $totalResultat['win'];
             $tableConfrontation[] = $totalResultat['draw'];
             $tableConfrontation[] = $totalResultat['loss'];
+            $tableConfrontation[] = $autreCoach->getCoachId();
         } else {
             $tableConfrontation[] = 'N/A';
         }

@@ -63,7 +63,7 @@ $(document).ready(function () {
             null,
             {
                 "orderable": false
-        }
+            }
         ]
     });
 
@@ -134,7 +134,6 @@ $(document).ready(function () {
     /**
      * bouton qui montre tout les joueurs/équipes
      */
-
     $('#showall_btn').click(function () {
         $("tr.table-danger").toggle();
         $("tr.table-info").toggle();
@@ -295,16 +294,7 @@ $(document).ready(function () {
                 $("#caseTv").text(result.tv);
                 $("#pTv").text(result.ptv);
 
-                $("#tresor").text(result.tresor)
-
-                /**
-                 * check pour paiement stade
-                 */
-                if ($("#pay").text() == 150000 && result.type == "pay") {
-                    $.post(Routing.generate('ajoutStadeModal', {teamId: origin.attr("teamId")}), {}, function (result) {
-                        $('#rem_pay').after(' ' + result)
-                    });
-                }
+                $("#tresor").text(result.tresor);
             });
     }
 
@@ -343,21 +333,29 @@ $(document).ready(function () {
     $("[id^='valideteam']").click(function () {
         let clicked = $(this);
 
-        addLine(clicked, $(".form-group #action").length)
+        if ($('#selectedTeam_' + clicked.attr('side')).val() !== '') {
+            $('#selectedTeam_' + clicked.attr('side')).css('border', '');
+            addLine(clicked, $(".form-group #action").length);
+        } else {
+            $('#selectedTeam_' + clicked.attr('side')).css('border', 'solid red');
+        }
     });
 
     /**
      * ajout de ligne dans feuille de match
      */
     function addLine(clicked, number) {
+        $("#team" + clicked.attr('side') + "_flex_sl_container").after($('#loadingmessage'));
+
+        $('#loadingmessage').show();
         $.getJSON(Routing.generate('dropdownPlayer', {teamId: clicked.attr('teamId'), nbr: number}),
             {},
             function (result) {
-
+                $('#loadingmessage').hide();
                 result = JSON.parse(result);
 
-                $("#team" + clicked.attr('side') + "_flex_sl_container").after(result.html);
-
+                //$("#team" + clicked.attr('side') + "_flex_sl_container").after(result.html);
+                $("#liste" + clicked.attr('side')).append(result.html);
             })
     }
 
@@ -436,5 +434,16 @@ $(document).ready(function () {
                 window.location.reload();
             });
     });
+
+    $('#equipeFranchise').click(function () {
+        $.post(Routing.generate('mettreEnFranchise', {equipeId: $(this).attr('equipeId')}),
+            {},
+            function () {
+                window.location.reload();
+            });
+
+    });
 });
+
+
 

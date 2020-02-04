@@ -32,6 +32,7 @@ class creerUnMatchTest extends KernelTestCase
             'team_2' => '181',
             'varpop_team2' => '0',
             'totalpop' => '2000',
+            'stadeAccueil' => 2
         ];
 
 

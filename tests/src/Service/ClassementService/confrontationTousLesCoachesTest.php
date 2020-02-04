@@ -18,14 +18,21 @@ class confrontationTousLesCoachesTest extends KernelTestCase
      */
     public function un_tableau_de_confrontation_est_retourne()
     {
-        $coachTest0 = new Coaches();
-        $coachTest0->setName('coach 0');
-        $coachTest1 = new Coaches();
-        $coachTest1->setName('coach 1');
-        $coachTest2 = new Coaches();
-        $coachTest2->setName('coach 2');
-        $coachTest3 = new Coaches();
-        $coachTest3->setName('coach 3');
+        $coachTest0 = $this->createMock(Coaches::class);
+        $coachTest0->method('getName')->willReturn('coach 0');
+        $coachTest0->method('getCoachId')->willReturn(0);
+
+        $coachTest1 = $this->createMock(Coaches::class);
+        $coachTest1->method('getName')->willReturn('coach 1');
+        $coachTest1->method('getCoachId')->willReturn(1);
+
+        $coachTest2 = $this->createMock(Coaches::class);
+        $coachTest2->method('getName')->willReturn('coach 2');
+        $coachTest2->method('getCoachId')->willReturn(2);
+
+        $coachTest3 = $this->createMock(Coaches::class);
+        $coachTest3->method('getName')->willReturn('coach 3');
+        $coachTest3->method('getCoachId')->willReturn(3);
 
         $equipeTest0 = new Teams();
         $equipeTest0->setOwnedByCoach($coachTest0);
@@ -96,13 +103,13 @@ class confrontationTousLesCoachesTest extends KernelTestCase
 
         $tableauAttendu = [
             'coach 1' => [
-                '50%', 1, 0, 1
+                '50%', 1, 0, 1, 1
             ],
             'coach 2' => [
-                '100%', 2, 0, 0
+                '100%', 2, 0, 0, 2
             ],
             'coach 3' => [
-                '0%', 0, 0, 2
+                '0%', 0, 0, 2, 3
             ]
         ];
 
@@ -210,14 +217,21 @@ class confrontationTousLesCoachesTest extends KernelTestCase
      */
     public function une_paire_de_coach_ne_se_sont_pas_rencontre()
     {
-        $coachTest0 = new Coaches();
-        $coachTest0->setName('coach 0');
-        $coachTest1 = new Coaches();
-        $coachTest1->setName('coach 1');
-        $coachTest2 = new Coaches();
-        $coachTest2->setName('coach 2');
-        $coachTest3 = new Coaches();
-        $coachTest3->setName('coach 3');
+        $coachTest0 = $this->createMock(Coaches::class);
+        $coachTest0->method('getName')->willReturn('coach 0');
+        $coachTest0->method('getCoachId')->willReturn(0);
+
+        $coachTest1 = $this->createMock(Coaches::class);
+        $coachTest1->method('getName')->willReturn('coach 1');
+        $coachTest1->method('getCoachId')->willReturn(1);
+
+        $coachTest2 = $this->createMock(Coaches::class);
+        $coachTest2->method('getName')->willReturn('coach 2');
+        $coachTest2->method('getCoachId')->willReturn(2);
+
+        $coachTest3 = $this->createMock(Coaches::class);
+        $coachTest3->method('getName')->willReturn('coach 3');
+        $coachTest3->method('getCoachId')->willReturn(3);
 
         $equipeTest0 = new Teams();
         $equipeTest0->setOwnedByCoach($coachTest0);
@@ -281,9 +295,9 @@ class confrontationTousLesCoachesTest extends KernelTestCase
         );
 
         $tableauAttendu = [
-            'coach 1' => ['50%', 1, 0, 1],
+            'coach 1' => ['50%', 1, 0, 1,1],
             'coach 2' => ['N/A'],
-            'coach 3' => ['0%',0,0,2]
+            'coach 3' => ['0%',0,0,2,3]
         ];
 
         $this->assertEquals(
@@ -298,14 +312,21 @@ class confrontationTousLesCoachesTest extends KernelTestCase
      */
     public function les_coaches_ont_plusieurs_equipes()
     {
-        $coachTest0 = new Coaches();
-        $coachTest0->setName('coach 0');
-        $coachTest1 = new Coaches();
-        $coachTest1->setName('coach 1');
-        $coachTest2 = new Coaches();
-        $coachTest2->setName('coach 2');
-        $coachTest3 = new Coaches();
-        $coachTest3->setName('coach 3');
+        $coachTest0 = $this->createMock(Coaches::class);
+        $coachTest0->method('getName')->willReturn('coach 0');
+        $coachTest0->method('getCoachId')->willReturn(0);
+
+        $coachTest1 = $this->createMock(Coaches::class);
+        $coachTest1->method('getName')->willReturn('coach 1');
+        $coachTest1->method('getCoachId')->willReturn(1);
+
+        $coachTest2 = $this->createMock(Coaches::class);
+        $coachTest2->method('getName')->willReturn('coach 2');
+        $coachTest2->method('getCoachId')->willReturn(2);
+
+        $coachTest3 = $this->createMock(Coaches::class);
+        $coachTest3->method('getName')->willReturn('coach 3');
+        $coachTest3->method('getCoachId')->willReturn(3);
 
         $equipeTest0a = new Teams();
         $equipeTest0a->setOwnedByCoach($coachTest0);
@@ -384,13 +405,13 @@ class confrontationTousLesCoachesTest extends KernelTestCase
 
         $tableauAttendu = [
             'coach 1' => [
-                '50%', 1, 0, 1
+                '50%', 1, 0, 1, 1
             ],
             'coach 2' => [
-                '100%', 2, 0, 0
+                '100%', 2, 0, 0, 2
             ],
             'coach 3' => [
-                '0%', 0, 0, 2
+                '0%', 0, 0, 2, 3
             ]
         ];
 

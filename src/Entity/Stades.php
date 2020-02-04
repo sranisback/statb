@@ -34,6 +34,11 @@ class Stades
      */
     private $TotalPayement = 0;
 
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    private $niveau;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -71,6 +76,18 @@ class Stades
     public function setTotalPayement(int $TotalPayement): self
     {
         $this->TotalPayement = $TotalPayement;
+
+        return $this;
+    }
+
+    public function getNiveau(): ?int
+    {
+        return $this->niveau;
+    }
+
+    public function setNiveau(int $niveau): self
+    {
+        $this->niveau = $niveau;
 
         return $this;
     }

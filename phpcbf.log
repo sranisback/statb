@@ -3,35 +3,28 @@ PHPCBF RESULT SUMMARY
 ----------------------------------------------------------------------
 FILE                                                  FIXED  REMAINING
 ----------------------------------------------------------------------
-...ets\statb\src\Controller\ClassementController.php  1      0
-...projets\statb\src\Controller\EquipeController.php  4      0
-...projets\statb\src\Controller\JoueurController.php  1      0
-...ts\statb\src\Controller\UtilisateurController.php  1      0
+...ojets\statb\src\Admin\HistoriqueBlessureAdmin.php  1      0
+C:\wamp\www\projets\statb\src\Admin\StadesAdmin.php   1      0
+...ets\statb\src\Controller\ClassementController.php  1      1
+...projets\statb\src\Controller\EquipeController.php  1      1
+...\projets\statb\src\Controller\MatchController.php  1      0
+...projets\statb\src\Controller\StatBBController.php  1      0
+...w\projets\statb\src\Entity\HistoriqueBlessure.php  1      0
+C:\wamp\www\projets\statb\src\Entity\Matches.php      10     0
 C:\wamp\www\projets\statb\src\Entity\Players.php      1      0
 C:\wamp\www\projets\statb\src\Entity\Teams.php        1      0
 C:\wamp\www\projets\statb\src\Enum\AnneeEnum.php      1      0
-...w\projets\statb\src\Form\JoueurPhotoEnvoiType.php  1      0
-C:\wamp\www\projets\statb\src\Form\LogoEnvoiType.php  1      0
-...jets\statb\src\Repository\CitationsRepository.php  1      0
-...rojets\statb\src\Repository\CoachesRepository.php  2      0
-...\projets\statb\src\Repository\DefisRepository.php  1      0
-...ww\projets\statb\src\Repository\DykRepository.php  1      0
-...tatb\src\Repository\GameDataStadiumRepository.php  1      0
-...jets\statb\src\Repository\MatchDataRepository.php  1      0
-...rojets\statb\src\Repository\MatchesRepository.php  1      0
-...\projets\statb\src\Repository\MeteoRepository.php  1      0
-...ts\statb\src\Repository\PlayerIconsRepository.php  1      0
-...rojets\statb\src\Repository\PlayersRepository.php  1      0
-...projets\statb\src\Repository\PrimesRepository.php  1      0
-...rojets\statb\src\Repository\SettingRepository.php  1      0
-...projets\statb\src\Repository\StadesRepository.php  1      0
-...w\projets\statb\src\Repository\TeamRepository.php  2      0
-...w\projets\statb\src\Service\ClassementService.php  6      0
+C:\wamp\www\projets\statb\src\Enum\BlessuresEnum.php  1      0
+...mp\www\projets\statb\src\Enum\NiveauStadeEnum.php  3      0
+...b\src\Repository\HistoriqueBlessureRepository.php  1      0
+...w\projets\statb\src\Repository\TeamRepository.php  1      0
+...w\projets\statb\src\Service\ClassementService.php  1      0
+...\www\projets\statb\src\Service\MatchesService.php  1      0
 ...p\www\projets\statb\src\Service\PlayerService.php  1      0
 ----------------------------------------------------------------------
-A TOTAL OF 35 ERRORS WERE FIXED IN 25 FILES
+A TOTAL OF 29 ERRORS WERE FIXED IN 18 FILES
 ----------------------------------------------------------------------
 
-Time: 15.85 secs; Memory: 14MB
+Time: 15.16 secs; Memory: 14MB
 
 

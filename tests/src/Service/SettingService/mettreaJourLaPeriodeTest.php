@@ -24,7 +24,7 @@ class mettreaJourLaPeriodeTest extends KernelTestCase
         $settingRepoMock->expects($this->any())->method('findOneBy')->willReturn($setting);
 
         $objectManager = $this->createMock(EntityManagerInterface::class);
-        $objectManager->expects($this->any())->method('getRepository')->willReturn($settingRepoMock);
+        $objectManager->method('getRepository')->willReturn($settingRepoMock);
 
         $settingsService = new SettingsService($objectManager);
 

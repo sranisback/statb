@@ -38,20 +38,42 @@ class StadeService
      * @param Teams $equipe
      * @param string $nomDuStade
      * @param GameDataStadium $typeStade
+     * @return bool
      */
-    public function construireStade(Teams $equipe, $nomDuStade, $typeStade)
+    public function construireStade(Teams $equipe, $nomDuStade, $typeStade, $niveauAatteindre)
     {
+        $tableCoutStade = [
+            0 => 0,
+            1 => 150000,
+            2 => 250000,
+            3 => 500000,
+            4 => 750000,
+        ];
+
         $stade = $equipe->getFStades();
 
-        $stade->setNom($nomDuStade);
+        if ($niveauAatteindre >= $stade->getNiveau()) {
+            $coutApayer = $tableCoutStade[$niveauAatteindre] - $tableCoutStade[$stade->getNiveau()];
 
-        $stade->setTotalPayement(0);
+            if ($coutApayer <= ($stade->getTotalPayement() + $equipe->getTreasury())) {
+                $stade->setTotalPayement($stade->getTotalPayement() - $coutApayer);
+                if ($stade->getTotalPayement() < 0) {
+                    $equipe->setTreasury($equipe->getTreasury() + $stade->getTotalPayement());
+                    $stade->setTotalPayement(0);
+                }
 
-        $stade->setFTypeStade($typeStade);
+                $stade->setFTypeStade($typeStade);
+                $stade->setNiveau($niveauAatteindre);
+                $stade->setNom($nomDuStade);
 
-        $this->doctrineEntityManager->persist($stade);
-        $this->doctrineEntityManager->persist($equipe);
+                $this->doctrineEntityManager->persist($stade);
+                $this->doctrineEntityManager->persist($equipe);
+                $this->doctrineEntityManager->flush();
 
-        $this->doctrineEntityManager->flush();
+                return true;
+            }
+        }
+
+        return false;
     }
 }

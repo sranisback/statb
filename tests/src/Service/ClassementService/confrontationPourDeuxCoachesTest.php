@@ -18,10 +18,13 @@ class confrontationPourDeuxCoachesTest extends KernelTestCase
      */
     public function le_resultat_de_deux_coaches_est_bien_retournee()
     {
-        $coachTest0 = new Coaches();
-        $coachTest0->setName('coach 0');
-        $coachTest1 = new Coaches();
-        $coachTest1->setName('coach 1');
+        $coachTest0 = $this->createMock(Coaches::class);
+        $coachTest0->method('getName')->willReturn('coach 0');
+        $coachTest0->method('getCoachId')->willReturn(0);
+
+        $coachTest1 = $this->createMock(Coaches::class);
+        $coachTest1->method('getName')->willReturn('coach 1');
+        $coachTest1->method('getCoachId')->willReturn(1);
 
         $equipeTest0 = new Teams();
         $equipeTest0->setOwnedByCoach($coachTest0);
@@ -56,6 +59,7 @@ class confrontationPourDeuxCoachesTest extends KernelTestCase
             1,
             0,
             1,
+            1
         ];
 
         $this->assertEquals(
@@ -177,10 +181,13 @@ class confrontationPourDeuxCoachesTest extends KernelTestCase
      */
     public function les_coaches_ont_plusieurs_equipes()
     {
-        $coachTest0 = new Coaches();
-        $coachTest0->setName('coach 0');
-        $coachTest1 = new Coaches();
-        $coachTest1->setName('coach 1');
+        $coachTest0 = $this->createMock(Coaches::class);
+        $coachTest0->method('getName')->willReturn('coach 0');
+        $coachTest0->method('getCoachId')->willReturn(0);
+
+        $coachTest1 = $this->createMock(Coaches::class);
+        $coachTest1->method('getName')->willReturn('coach 1');
+        $coachTest1->method('getCoachId')->willReturn(1);
 
         $equipeTest0a = new Teams();
         $equipeTest0a->setOwnedByCoach($coachTest0);
@@ -219,6 +226,7 @@ class confrontationPourDeuxCoachesTest extends KernelTestCase
             1,
             0,
             1,
+            1
         ];
 
         $this->assertEquals(

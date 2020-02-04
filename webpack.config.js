@@ -49,6 +49,6 @@ Encore
 
 const production = Encore.getWebpackConfig();
 
-dev.name = 'production';
+production.name = 'production';
 
 module.exports = [dev, production];

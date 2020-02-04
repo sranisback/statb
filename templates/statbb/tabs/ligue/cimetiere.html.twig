@@ -22,7 +22,12 @@
                             class="glyphicon glyphicon-search"
                             href="{{ path('Player', {'playerid': joueur.playerId,'type':'n' }) }}"></a></td>
                 <td>{{ joueur.fPos.pos }}</td>
-                <td>{{ joueur.ownedByTeam.name }}</td>
+                <td>
+                    {{ joueur.ownedByTeam.name }}
+                    {% if joueur.ownedByTeam.franchise == true %}
+                        <span class="fas fa-tag text-success"></span>
+                    {% endif %}
+                </td>
                 <td>{{ joueur.dateDied|date("d/m/y") }}</td>
                 {% set difference = date(joueur.dateDied).diff(date(joueur.dateBought)) %}
                 {% set joursSurvecus = difference.days %}
