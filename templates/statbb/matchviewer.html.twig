@@ -5,9 +5,6 @@
         <div class="card m-2">
             <div class="card-header">
                 <div>
-                    {% if match.stadeAcceuil == null %}
-                        Stade : non noté
-                    {% endif  %}
                     {% if match.stadeAcceuil == 1 %}
                         Stade : {{ match.team1.fStades.nom }}, {{ niveauStade[match.team1.fStades.niveau] }}
                         {% if (match.team1.fStades.fTypeStade.famille  != 'aucune') %}
@@ -20,6 +17,12 @@
                             - Etat : {{ match.team1.fStades.fTypeStade.famille }}, {{ match.team2.fStades.fTypeStade.type }}
                         {% endif %}
                     {% endif  %}
+                    {% if match.stadeAcceuil == 3 or match.stadeAcceuil == null %}
+                        Stade : {{ match.fStade.type }}
+                        {% if (match.fStade.famille  != 'aucune') %}
+                            - Etat : {{ match.fStade.famille }}
+                        {% endif %}
+                    {% endif %}
                 </div>
                 <div>
                     Match n°{{ match.matchId }} du : {{ match.dateCreated|date('d/m/y') }}
