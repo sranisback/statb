@@ -76,4 +76,19 @@ class StadeService
 
         return false;
     }
+
+    public function emenagerResidence (Teams $equipe, $nomDuStade, $typeStade)
+    {
+        $stade = $equipe->getFStades();
+
+        $stade->setFTypeStade($typeStade);
+        $stade->setNiveau(5);
+        $stade->setNom($nomDuStade);
+
+        $this->doctrineEntityManager->persist($stade);
+        $this->doctrineEntityManager->persist($equipe);
+        $this->doctrineEntityManager->flush();
+
+        return true;
+    }
 }
