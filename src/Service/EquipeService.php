@@ -139,6 +139,7 @@ class EquipeService
         $stade->setFTypeStade($typeStade);
         $stade->setTotalPayement(0);
         $stade->setNom('La prairie verte');
+        $stade->setNiveau(0);
         $this->doctrineEntityManager->persist($stade);
 
         $equipe = (new TeamsFactory)->lancerEquipe(
