@@ -48,6 +48,7 @@
                         <div class="text-right mr-3"> {{ match.tv1/1000 }}</div>
                         <div class="text-right mr-3"> {{ match.ffactor1 }}</div>
                         <div class="text-right mr-3"> {{ match.income1 }}</div>
+                        <div class="text-right mr-3"> {{ match.Depense1 }}</div>
                         <div class="text-right mr-3"> {{ actionEquipe1|raw }}</div>
                         {% if match.team1.logo %}
                             <div class="text-right mr-3">
@@ -62,6 +63,7 @@
                         <div class="text-center"><u>TV</u></div>
                         <div class="text-center"><u>Popularité</u></div>
                         <div class="text-center"><u>Gains</u></div>
+                        <div class="text-center"><u>Dépenses</u></div>
                         <div class="text-center"><u>Actions du matchs</u></div>
                     </div>
                     <div class="d-flex flex-column">
@@ -78,6 +80,7 @@
                         <div class="ml-3">{{ match.tv2/1000 }}</div>
                         <div class="ml-3">{{ match.ffactor2 }}</div>
                         <div class="ml-3">{{ match.income2 }}</div>
+                        <div class="ml-3"> {{ match.Depense2 }}</div>
                         <div class="ml-3">{{ actionEquipe2|raw }}</div>
                         {% if match.team2.logo %}
                             <div class="ml-3">

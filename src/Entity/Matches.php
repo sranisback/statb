@@ -140,12 +140,12 @@ class Matches
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $depense1;
+    private $depense1 = 0;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $depense2;
+    private $depense2 = 0;
 
     public function __construct()
     {
