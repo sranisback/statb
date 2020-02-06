@@ -32,9 +32,10 @@ class creerUnMatchTest extends KernelTestCase
             'team_2' => '181',
             'varpop_team2' => '0',
             'totalpop' => '2000',
-            'stadeAccueil' => 2
+            'stadeAccueil' => 2,
+            'depense1' => '10000',
+            'depense2' => '10000',
         ];
-
 
         $this->assertInstanceOf(
             Matches::class,
