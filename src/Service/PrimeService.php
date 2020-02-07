@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class PrimeService
 {
-    private $doctrineEntityManager;
+    private \Doctrine\ORM\EntityManagerInterface $doctrineEntityManager;
 
     public function __construct(EntityManagerInterface $doctrineEntityManager)
     {

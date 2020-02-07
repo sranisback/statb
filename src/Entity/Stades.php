@@ -14,30 +14,29 @@ class Stades
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
      */
-    private $nom;
+    private ?string $nom;
 
     /**
-     * @var GameDataStadium
      *
      * @ORM\ManyToOne(targetEntity="GameDataStadium")
      * @ORM\JoinColumn(name="f_type_stade_id", referencedColumnName="id", nullable=false)
      */
-    private $fTypeStade;
+    private \App\Entity\GameDataStadium $fTypeStade;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $TotalPayement = 0;
+    private int $TotalPayement = 0;
 
     /**
      * @ORM\Column(type="smallint")
      */
-    private $niveau;
+    private int $niveau;
 
     public function getId(): ?int
     {

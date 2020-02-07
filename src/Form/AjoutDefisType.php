@@ -14,7 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AjoutDefisType extends AbstractType
 {
-    private $settingsService;
+    private \App\Service\SettingsService $settingsService;
 
     public function __construct(
         SettingsService $settingsService

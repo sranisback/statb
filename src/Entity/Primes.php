@@ -14,40 +14,40 @@ class Primes
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $montant;
+    private int $montant;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Coaches")
      * @ORM\JoinColumn(name="coach_id", referencedColumnName="coach_id", nullable=false)
      */
-    private $Coaches;
+    private \App\Entity\Coaches $Coaches;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Players")
      * @ORM\JoinColumn(name="player_id", referencedColumnName="player_id")
      */
-    private $players;
+    private ?\App\Entity\Players $players;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Teams")
      * @ORM\JoinColumn(name="team_id", referencedColumnName="team_id")
      */
-    private $teams;
+    private ?\App\Entity\Teams $teams;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $dateAjoutee;
+    private \DateTimeInterface $dateAjoutee;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $actif=1;
+    private int $actif=1;
 
     public function getId(): ?int
     {

@@ -60,10 +60,8 @@ class DefisAdmin extends AbstractAdmin
                 entityType::class,
                 [
                     'class' => Matches::class,
-                    'choice_label' => function ($matches) {
-                        return $matches->getTeam1()->getName().' VS '.$matches->getTeam2()->getName(
-                        ).', Annee : '.$matches->getTeam1()->getYear();
-                    },
+                    'choice_label' => fn($matches) => $matches->getTeam1()->getName().' VS '.$matches->getTeam2()->getName(
+                    ).', Annee : '.$matches->getTeam1()->getYear(),
                     'label' => 'Match défie',
                 ]
             )

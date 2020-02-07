@@ -20,196 +20,171 @@ use Doctrine\ORM\Mapping as ORM;
 class Players
 {
     /**
-     * @var int
      *
      * @ORM\Column(name="player_id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $playerId;
+    private int $playerId;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="type", type="integer", nullable=true)
      */
-    private $type;
+    private ?int $type;
 
     /**
-     * @var string|null
      *
      * @ORM\Column(name="name", type="string", length=60, nullable=true)
      */
-    private $name;
+    private ?string $name;
 
     /**
-     * @var int|null
      *
-     * @ORM\Column(name="nr", type="integer", nullable=true, options={"unsigned"=true})
+     * @ORM\Column(name="nr", type="integer", nullable=true, options={"unsigned":true})
      */
-    private $nr;
+    private ?int $nr;
 
     /**
-     * @var DateTime
      *
      * @ORM\Column(name="date_bought", type="datetime", nullable=true)
      */
-    private $dateBought;
+    private ?\DateTimeInterface $dateBought;
 
     /**
-     * @var DateTime
      *
      * @ORM\Column(name="date_sold", type="datetime", nullable=true)
      */
-    private $dateSold;
+    private ?\DateTimeInterface $dateSold;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="ach_ma", type="integer", nullable=true)
      */
-    private $achMa = 0;
+    private int $achMa = 0;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="ach_st", type="integer", nullable=true)
      */
-    private $achSt = 0;
+    private int $achSt = 0;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="ach_ag", type="integer", nullable=true)
      */
-    private $achAg = 0;
+    private int $achAg = 0;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="ach_av", type="integer", nullable=true)
      */
-    private $achAv = 0;
+    private int $achAv = 0;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="extra_spp", type="integer", nullable=true)
      */
-    private $extraSpp;
+    private ?int $extraSpp;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="extra_val", type="integer", nullable=false)
      */
-    private $extraVal = 0;
+    private int $extraVal = 0;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="value", type="integer", nullable=true)
      */
-    private $value;
+    private ?int $value;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="status", type="integer", nullable=true)
      */
-    private $status;
+    private ?int $status;
 
     /**
-     * @var DateTime
      *
      * @ORM\Column(name="date_died", type="datetime", nullable=true)
      */
-    private $dateDied;
+    private ?\DateTimeInterface $dateDied;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="inj_ma", type="integer", nullable=true)
      */
-    private $injMa = 0;
+    private int $injMa = 0;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="inj_st", type="integer", nullable=true)
      */
-    private $injSt = 0;
+    private int $injSt = 0;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="inj_ag", type="integer", nullable=true)
      */
-    private $injAg = 0;
+    private int $injAg = 0;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="inj_av", type="integer", nullable=true)
      */
-    private $injAv = 0;
+    private int $injAv = 0;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="inj_ni", type="integer", nullable=true)
      */
-    private $injNi = 0;
+    private int $injNi = 0;
 
     /**
-     * @var int
      *
      * @ORM\Column(name="inj_rpm", type="integer", nullable=false)
      */
-    private $injRpm = 0;
+    private int $injRpm = 0;
 
     /**
-     * @var GameDataPlayers
      *
      * @ORM\ManyToOne(targetEntity="GameDataPlayers", fetch="EAGER")
      * @ORM\JoinColumn(name="f_pos_id", referencedColumnName="pos_id")
      */
-    private $fPos;
+    private ?\App\Entity\GameDataPlayers $fPos;
 
     /**
-     * @var Races
      *
      * @ORM\ManyToOne(targetEntity="Races", fetch="EAGER")
      * @ORM\JoinColumn(name="f_rid", referencedColumnName="race_id")
      */
-    private $fRid;
+    private ?\App\Entity\Races $fRid;
 
     /**
-     * @var Teams
      *
      * @ORM\ManyToOne(targetEntity="Teams", fetch="EAGER")
-     *  @ORM\JoinColumn(name="owned_by_team_id", referencedColumnName="team_id")
+     *  @ORM\JoinColumn (name="owned_by_team_id", referencedColumnName="team_id")
      */
-    private $ownedByTeam;
+    private ?\App\Entity\Teams $ownedByTeam;
 
     /**
-     * @var Coaches
      *
      * @ORM\ManyToOne(targetEntity="Coaches", fetch="EAGER")
-     *   @ORM\JoinColumn(name="f_cid", referencedColumnName="coach_id")
+     *   @ORM\JoinColumn  (name="f_cid", referencedColumnName="coach_id")
      */
-    private $fCid;
+    private ?\App\Entity\Coaches $fCid;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\PlayersIcons")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $icon;
+    private \App\Entity\PlayersIcons $icon;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $photo;
+    private ?string $photo;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\HistoriqueBlessure", mappedBy="Player", orphanRemoval=true)

@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class StadeService
 {
-    private $doctrineEntityManager;
+    private \Doctrine\ORM\EntityManagerInterface $doctrineEntityManager;
 
     public function __construct(EntityManagerInterface $doctrineEntityManager)
     {
@@ -44,10 +44,10 @@ class StadeService
     {
         $tableCoutStade = [
             0 => 0,
-            1 => 150000,
-            2 => 250000,
-            3 => 500000,
-            4 => 750000,
+            1 => 150_000,
+            2 => 250_000,
+            3 => 500_000,
+            4 => 750_000,
         ];
 
         $stade = $equipe->getFStades();

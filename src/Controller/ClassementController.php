@@ -16,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ClassementController extends AbstractController
 {
-    private $settingsService;
+    private \App\Service\SettingsService $settingsService;
 
     public function __construct(SettingsService $settingsService)
     {

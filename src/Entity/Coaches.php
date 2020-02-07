@@ -15,34 +15,31 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class Coaches implements UserInterface
 {
     /**
-     * @var int
      *
-     * @ORM\Column(name="coach_id", type="integer", nullable=false, options={"unsigned"=true})
+     * @ORM\Column(name="coach_id", type="integer", nullable=false, options={"unsigned":true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $coachId;
+    private int $coachId;
 
     /**
-     * @var string
      * @Assert\NotBlank
      *
      * @ORM\Column(name="name", type="string", length=60, nullable=true)
      */
-    private $name;
+    private ?string $name;
 
     /**
-     * @var string
      *
      * @ORM\Column(name="passwd", type="string", length=64, nullable=true)
      */
-    private $passwd;
+    private ?string $passwd;
 
     /**
      *
      * @ORM\Column(name="role", type="json", nullable=false)
      */
-    private $roles;
+    private array $roles;
 
     public function getCoachId(): ?int
     {

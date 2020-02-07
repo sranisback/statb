@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class CitationService
 {
-    private $doctrineEntityManager;
+    private \Doctrine\ORM\EntityManagerInterface $doctrineEntityManager;
 
     public function __construct(EntityManagerInterface $doctrineEntityManager)
     {

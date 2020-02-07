@@ -14,35 +14,35 @@ class Defis
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Teams", cascade={"persist"})
      * @ORM\JoinColumn(name="equipe_Defiee", referencedColumnName="team_id")
      */
-    private $equipeDefiee;
+    private ?\App\Entity\Teams $equipeDefiee;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $defieRealise = 0;
+    private int $defieRealise = 0;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Matches", cascade={"persist"})
      * @ORM\JoinColumn(name="match_Defie", referencedColumnName="match_id")
      */
-    private $matchDefi;
+    private ?\App\Entity\Matches $matchDefi;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $dateDefi;
+    private ?\DateTimeInterface $dateDefi;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Teams")
      * @ORM\JoinColumn(name="equipe_Origine", referencedColumnName="team_id")
      */
-    private $equipeOrigine;
+    private ?\App\Entity\Teams $equipeOrigine;
 
     public function getId(): ?int
     {
