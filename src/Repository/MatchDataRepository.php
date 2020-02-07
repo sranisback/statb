@@ -132,11 +132,11 @@ class MatchDataRepository extends ServiceEntityRepository
 
     /**
      * @param int $year
-     * @return mixed
+     * @return mixed|int
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function totalcas($year)
+    public function totalcas(int $year)
     {
         $totalCas =  $this->createQueryBuilder('Matchdata')
             ->select('SUM(Matchdata.bh+Matchdata.si+Matchdata.ki) AS score')
@@ -176,7 +176,7 @@ class MatchDataRepository extends ServiceEntityRepository
      * @param Players $joueur
      * @return array|null
      */
-    public function listeDesMatchsdUnJoueur(Players $joueur)
+    public function listeDesMatchsdUnJoueur(Players $joueur): ?array
     {
         $matchJoue = null;
 

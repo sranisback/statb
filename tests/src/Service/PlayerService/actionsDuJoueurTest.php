@@ -15,7 +15,7 @@ class actionsDuJoueurTest extends KernelTestCase
     /**
      * @test
      */
-    public function les_actions_sont_retournees_correctement()
+    public function les_actions_sont_retournees_correctement(): void
     {
         $retour = [
             'NbrMatch' => 1,

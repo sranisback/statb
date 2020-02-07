@@ -31,7 +31,7 @@ class MatchController extends AbstractController
      * @param int $nbr
      * @return JsonResponse
      */
-    public function dropdownPlayer($teamId, $nbr)
+    public function dropdownPlayer(int $teamId, int $nbr): \Symfony\Component\HttpFoundation\JsonResponse
     {
         /** @var Teams $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
@@ -77,7 +77,7 @@ class MatchController extends AbstractController
     public function addGame(
         MatchesService $matchesService,
         Request $request
-    ) {
+    ): \Symfony\Component\HttpFoundation\JsonResponse {
         $recuperationDonneeForm = [];
 
         if (($contenu = $request->getContent()) !== '') {
@@ -102,7 +102,7 @@ class MatchController extends AbstractController
      * @param SettingsService $settingsService
      * @return Response
      */
-    public function ajoutMatch(SettingsService $settingsService)
+    public function ajoutMatch(SettingsService $settingsService): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render(
             'statbb/ajoutMatch.html.twig',
@@ -124,7 +124,7 @@ class MatchController extends AbstractController
      * @param integer $matchId
      * @return string|Response
      */
-    public function visualiseurDeMatch(PlayerService $playerService, $matchId)
+    public function visualiseurDeMatch(PlayerService $playerService, int $matchId): \Symfony\Component\HttpFoundation\Response
     {
         /** @var Matches $match */
         $match = $this->getDoctrine()->getRepository(Matches::class)->findOneBy(['matchId' => $matchId]);
@@ -152,7 +152,7 @@ class MatchController extends AbstractController
      * @param int $coachActif
      * @return Response
      */
-    public function matchsDunCoach(MatchesService $matchesService, int $coachActif)
+    public function matchsDunCoach(MatchesService $matchesService, int $coachActif): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render(
             'statbb/tabs/coach/anciensMatchs.html.twig',
@@ -168,7 +168,7 @@ class MatchController extends AbstractController
      * @param SettingsService $settingsService
      * @return Response
      */
-    public function afficherLesMatchs(SettingsService $settingsService)
+    public function afficherLesMatchs(SettingsService $settingsService): \Symfony\Component\HttpFoundation\Response
     {
         $annee = $settingsService->anneeCourante();
 

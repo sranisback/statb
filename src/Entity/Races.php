@@ -17,28 +17,32 @@ class Races
      * @ORM\Column(name="race_id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @var int
      */
     private int $raceId;
 
     /**
      *
      * @ORM\Column(name="name", type="string", length=60, nullable=true)
+     * @var null|string
      */
     private ?string $name = null;
 
     /**
      *
      * @ORM\Column(name="cost_rr", type="integer", nullable=true, options={"unsigned":true})
+     * @var int|null
      */
     private ?int $costRr;
 
     /**
      *
      * @ORM\Column(name="icon", type="string", length=45, nullable=true)
+     * @var string|null
      */
     private ?string $icon;
 
-    public function getRaceId(): ?int
+    public function getRaceId(): int
     {
         return $this->raceId;
     }

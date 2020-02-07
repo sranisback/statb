@@ -10,7 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 class PlayersIcons
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
+     * @var int|null
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
@@ -18,12 +19,14 @@ class PlayersIcons
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @var string|null
      */
     private ?string $iconName = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\GameDataPlayers")
      * @ORM\JoinColumn(name="f_pos_id", referencedColumnName="pos_id")
+     * @var null|\App\Entity\GameDataPlayers
      */
     private ?\App\Entity\GameDataPlayers $position = null;
 

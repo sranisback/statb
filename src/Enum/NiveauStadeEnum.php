@@ -5,7 +5,7 @@ namespace App\Enum;
 
 class NiveauStadeEnum
 {
-    public function numeroVersNiveauDeStade()
+    public function numeroVersNiveauDeStade(): array
     {
         return [
             0 => 'Prairie Verte',

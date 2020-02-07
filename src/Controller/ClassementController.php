@@ -16,6 +16,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ClassementController extends AbstractController
 {
+    /**
+     * @var \App\Service\SettingsService
+     */
     private \App\Service\SettingsService $settingsService;
 
     public function __construct(SettingsService $settingsService)
@@ -29,7 +32,7 @@ class ClassementController extends AbstractController
      * @param int $annee
      * @return Response
      */
-    public function classGen(int $annee, $etiquette)
+    public function classGen(int $annee, $etiquette): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render(
             'statbb/tabs/ligue/classement.html.twig',
@@ -48,7 +51,7 @@ class ClassementController extends AbstractController
      * @param ClassementService $classementService
      * @return Response
      */
-    public function classGenDetail(ClassementService $classementService, int $annee)
+    public function classGenDetail(ClassementService $classementService, int $annee): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render(
             'statbb/tabs/ligue/classementDetail.html.twig',
@@ -71,7 +74,7 @@ class ClassementController extends AbstractController
         string $type,
         int $limit,
         int $annee
-    ) {
+    ): \Symfony\Component\HttpFoundation\Response {
         $sousClassement = $classementService->genereClassementEquipes(
             $annee,
             $type,
@@ -94,7 +97,7 @@ class ClassementController extends AbstractController
         string $type,
         int $limit,
         int $annee
-    ) {
+    ): \Symfony\Component\HttpFoundation\Response {
         $sousClassement = $classementService->genereClassementJoueurs(
             $annee,
             $type,
@@ -107,7 +110,7 @@ class ClassementController extends AbstractController
     /**
      * @Route("/totalcas/{annee}", options = { "expose" = true })
      */
-    public function affichetotalCas(ClassementService $classementService, int $annee)
+    public function affichetotalCas(ClassementService $classementService, int $annee): \Symfony\Component\HttpFoundation\Response
     {
         $totalCas = $classementService->totalCas($annee);
 
@@ -122,7 +125,7 @@ class ClassementController extends AbstractController
      * @param ClassementService $classementService
      * @return Response
      */
-    public function cinqDernierMatch(ClassementService $classementService)
+    public function cinqDernierMatch(ClassementService $classementService): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render(
             'statbb/lastfivesmatches.html.twig',
@@ -136,7 +139,7 @@ class ClassementController extends AbstractController
      * @param integer $equipeId
      * @return Response
      */
-    public function cinqDernierMatchPourEquipe(ClassementService $classementService, $equipeId)
+    public function cinqDernierMatchPourEquipe(ClassementService $classementService, int $equipeId): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render(
             'statbb/lastfivesmatches.html.twig',
@@ -148,7 +151,7 @@ class ClassementController extends AbstractController
      * @Route("/montreLeCimetierre", name="montreLeCimetierre", options = { "expose" = true })
      * @return Response
      */
-    public function montreLeCimetiere()
+    public function montreLeCimetiere(): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render(
             'statbb/tabs/ligue/cimetiere.html.twig',
@@ -164,7 +167,7 @@ class ClassementController extends AbstractController
      * @Route("/montreClassementELO", name="montreClassementELO", options = { "expose" = true })
      * @return Response
      */
-    public function montreClassementELO()
+    public function montreClassementELO(): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render(
             'statbb/tabs/ligue/classementELO.html.twig',
@@ -182,7 +185,7 @@ class ClassementController extends AbstractController
      * @param EquipeService $equipeService
      * @return Response
      */
-    public function afficheConfrontation(ClassementService $classementService, EquipeService $equipeService)
+    public function afficheConfrontation(ClassementService $classementService, EquipeService $equipeService): \Symfony\Component\HttpFoundation\Response
     {
         /** @var Coaches $coach */
         $coach = $this->getUser();
@@ -203,7 +206,7 @@ class ClassementController extends AbstractController
      * @param int $annee
      * @return Response
      */
-    public function afficheAncienClassement(int $annee)
+    public function afficheAncienClassement(int $annee): \Symfony\Component\HttpFoundation\Response
     {
         $labelAnnee = (new AnneeEnum)->numeroToAnnee();
         return $this->render(
@@ -215,7 +218,7 @@ class ClassementController extends AbstractController
     /**
      * @route("/listeAnciennesAnnees", name="listeAncienneAnnnee")
      */
-    public function listeAncienAnneClassement()
+    public function listeAncienAnneClassement(): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render(
             'statbb/tabs/coach/ancienClassement.html.twig',
@@ -226,7 +229,7 @@ class ClassementController extends AbstractController
     /**
      * @route("/matchesContreCoach/{coachId}", name="matchesContreCoach")
      */
-    public function matchesContreCoach($coachId)
+    public function matchesContreCoach($coachId): \Symfony\Component\HttpFoundation\Response
     {
         $coachActif = $this->getUser();
         /** @var Coaches $coachAdverse */

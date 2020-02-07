@@ -15,7 +15,7 @@ class verificationDefisTest extends KernelTestCase
     /**
      * @test
      */
-    public function le_match_valide_un_defis()
+    public function le_match_valide_un_defis(): void
     {
         $equipeMock0 = $this->createMock(Teams::class);
         $equipeMock0->method('getTeamId')->willReturn(0);
@@ -59,7 +59,7 @@ class verificationDefisTest extends KernelTestCase
     /**
      * @test
      */
-    public function il_n_y_a_pas_de_defis()
+    public function il_n_y_a_pas_de_defis(): void
     {
         $equipeMock0 = $this->createMock(Teams::class);
         $equipeMock0->method('getTeamId')->willReturn(0);

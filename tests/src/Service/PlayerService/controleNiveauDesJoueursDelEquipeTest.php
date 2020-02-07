@@ -18,7 +18,7 @@ class controleNiveauDesJoueursDelEquipeTest extends KernelTestCase
     /**
      * @test
      */
-    public function le_controle_est_bien_fait_sur_l_exp()
+    public function le_controle_est_bien_fait_sur_l_exp(): void
     {
         $equipeMock = $this->createMock(Teams::class);
 
@@ -74,7 +74,7 @@ class controleNiveauDesJoueursDelEquipeTest extends KernelTestCase
     /**
      * @test
      */
-    public function pas_assez_d_xp_pour_le_nbr_de_comp()
+    public function pas_assez_d_xp_pour_le_nbr_de_comp(): void
     {
         $equipeMock = $this->createMock(Teams::class);
 

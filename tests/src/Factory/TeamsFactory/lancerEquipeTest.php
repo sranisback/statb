@@ -14,14 +14,14 @@ class lancerEquipeTest extends KernelTestCase
     /**
      * @test
      */
-    public function une_equipe_est_cree()
+    public function une_equipe_est_cree(): void
     {
         $equipeFactory = new TeamsFactory();
 
         $this->assertInstanceOf(
             Teams::class,
             $equipeFactory->lancerEquipe(
-                1000000,
+                1_000_000,
                 'test team',
                 150,
                 $this->createMock(Stades::class),

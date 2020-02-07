@@ -15,7 +15,7 @@ class classementDetailTest extends KernelTestCase
     /**
      * @test
      */
-    public function classement_genere()
+    public function classement_genere(): void
     {
         $equipeMock0 = $this->createMock(Teams::class);
         $equipeMock0->method('getTeamId')->willReturn(0);

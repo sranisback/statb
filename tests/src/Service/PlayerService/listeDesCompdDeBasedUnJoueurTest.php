@@ -17,7 +17,7 @@ class listeDesCompdDeBasedUnJoueurTest extends KernelTestCase
     /**
      * @test
      */
-    public function toutes_les_comps_de_base_sont_retournees()
+    public function toutes_les_comps_de_base_sont_retournees(): void
     {
         $positionmock = $this->createMock(GameDataPlayers::class);
         $positionmock->method('getSkills')->willReturn('5,23,24');

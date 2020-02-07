@@ -14,7 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class SkillAdmin extends AbstractAdmin
 {
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->add('fPid', EntityType::class, ['class' => Players::class, 'choice_label' => 'name', 'label' => 'joueur'])
@@ -26,7 +26,7 @@ class SkillAdmin extends AbstractAdmin
             ->add('type', ChoiceType::class, ['choices' => ['N' => 'N', 'D' => 'D']]);
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('fPid.name', null, ['label' => 'Joueur'])
@@ -36,7 +36,7 @@ class SkillAdmin extends AbstractAdmin
             ->add('type');
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add('fPid.nr', null, ['label' => 'Numero'])

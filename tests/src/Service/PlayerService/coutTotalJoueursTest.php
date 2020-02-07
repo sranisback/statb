@@ -20,12 +20,12 @@ class coutTotalJoueursTest extends KernelTestCase
     /**
      * @test
      */
-    public function le_cout_total_des_joueurs_est_bien_calcule()
+    public function le_cout_total_des_joueurs_est_bien_calcule(): void
     {
         $equipeMock = $this->createMock(Teams::class);
 
         $positionMock = $this->createMock(GameDataPlayers::class);
-        $positionMock->method('getCost')->willReturn(110000);
+        $positionMock->method('getCost')->willReturn(110_000);
 
         $joueurMock = $this->createMock(Players::class);
         $joueurMock->method('getFPos')->willReturn($positionMock);

@@ -14,7 +14,7 @@ class annulerRPMunJoueurTest extends KernelTestCase
     /**
      * @test
      */
-    public function le_rpm_d_un_joueur_est_bien_supprime()
+    public function le_rpm_d_un_joueur_est_bien_supprime(): void
     {
         $objectManager = $this->createMock(EntityManagerInterface::class);
 

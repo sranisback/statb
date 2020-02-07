@@ -18,7 +18,7 @@ class emenagerResidenceTest extends KernelTestCase
     /**
      * @test
      */
-    public function une_residence_est_emenagee()
+    public function une_residence_est_emenagee(): void
     {
         $stade = new Stades();
         $stade->setNiveau(0);
@@ -27,7 +27,7 @@ class emenagerResidenceTest extends KernelTestCase
         $coach = new Coaches();
 
         $equipe = (new TeamsFactory)->lancerEquipe(
-            1000000,
+            1_000_000,
             'Test',
             150,
             $stade,

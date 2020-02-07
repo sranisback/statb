@@ -17,6 +17,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AjoutJoueurType extends AbstractType
 {
+    /**
+     * @var \App\Service\PlayerService
+     */
     private \App\Service\PlayerService $playerService;
 
     public function __construct(PlayerService $playerService)
@@ -24,7 +27,7 @@ class AjoutJoueurType extends AbstractType
         $this->playerService = $playerService;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         /** @var Teams $equipe */
         $equipe = $options['equipe'];
@@ -76,7 +79,7 @@ class AjoutJoueurType extends AbstractType
         }
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
             [

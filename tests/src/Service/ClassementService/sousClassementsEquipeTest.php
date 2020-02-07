@@ -13,7 +13,7 @@ class sousClassementsEquipeTest extends KernelTestCase
     /**
      * @test
      */
-    public function le_classement_bash_est_retournee()
+    public function le_classement_bash_est_retournee(): void
     {
         $teamMock0 = $this->createMock(Teams::class);
         $teamMock1 = $this->createMock(Teams::class);
@@ -56,7 +56,7 @@ class sousClassementsEquipeTest extends KernelTestCase
     /**
      * @test
      */
-    public function le_classement_td_est_retournee()
+    public function le_classement_td_est_retournee(): void
     {
         $teamMock0 = $this->createMock(Teams::class);
         $teamMock1 = $this->createMock(Teams::class);
@@ -99,7 +99,7 @@ class sousClassementsEquipeTest extends KernelTestCase
     /**
      * @test
      */
-    public function le_classement_dead_est_retournee()
+    public function le_classement_dead_est_retournee(): void
     {
         $teamMock0 = $this->createMock(Teams::class);
         $teamMock1 = $this->createMock(Teams::class);
@@ -142,7 +142,7 @@ class sousClassementsEquipeTest extends KernelTestCase
     /**
      * @test
      */
-    public function le_classement_foul_team_est_retournee()
+    public function le_classement_foul_team_est_retournee(): void
     {
         $teamMock0 = $this->createMock(Teams::class);
         $teamMock1 = $this->createMock(Teams::class);
@@ -186,7 +186,7 @@ class sousClassementsEquipeTest extends KernelTestCase
     /**
      * @test
      */
-    public function il_n_y_a_pas_de_donnees()
+    public function il_n_y_a_pas_de_donnees(): void
     {
 
         $match_data_test = [

@@ -6,7 +6,13 @@ class randomNameGenerator
 {
 
     public $output;
+    /**
+     * @var string[]
+     */
     public array $allowedFormats;
+    /**
+     * @var string
+     */
     public string $inputFormat;
 
     public function __construct($output = 'array')
@@ -26,6 +32,9 @@ class randomNameGenerator
         return json_decode($json, true);
     }
 
+    /**
+     * @return mixed[][]|string[]|string|bool
+     */
     public function generateNames($num)
     {
 

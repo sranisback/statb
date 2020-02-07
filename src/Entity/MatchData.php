@@ -22,60 +22,70 @@ class MatchData
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @var int
      */
     private int $id;
 
     /**
      *
      * @ORM\Column(name="mvp", type="integer", nullable=true)
+     * @var int
      */
     private ?int $mvp = 0;
 
     /**
      *
      * @ORM\Column(name="cp", type="integer", nullable=true)
+     * @var int
      */
     private ?int $cp = 0;
 
     /**
      *
      * @ORM\Column(name="td", type="integer", nullable=true)
+     * @var int
      */
     private ?int $td = 0;
 
     /**
      *
      * @ORM\Column(name="intcpt", type="integer", nullable=true)
+     * @var int
      */
     private ?int $intcpt = 0;
 
     /**
      *
      * @ORM\Column(name="bh", type="integer", nullable=true)
+     * @var int
      */
     private ?int $bh = 0;
 
     /**
      *
      * @ORM\Column(name="si", type="integer", nullable=true)
+     * @var int
      */
     private ?int $si = 0;
 
     /**
      *
      * @ORM\Column(name="ki", type="integer", nullable=true)
+     * @var int
      */
     private ?int $ki = 0;
 
     /**
      *
      * @ORM\Column(name="inj", type="integer", nullable=true)
+     * @var int|null
      */
     private ?int $inj;
 
     /**
      *
      * @ORM\Column(name="agg", type="integer", nullable=true)
+     * @var int
      */
     private ?int $agg = 0;
 
@@ -85,6 +95,7 @@ class MatchData
      * @ORM\JoinColumns({
      *      @ORM\JoinColumn(name="f_player_id", referencedColumnName="player_id")
      * })
+     * @var \App\Entity\Players|null
      */
     private ?\App\Entity\Players $fPlayer;
 
@@ -94,10 +105,11 @@ class MatchData
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="f_match_id", referencedColumnName="match_id")
      * })
+     * @var \App\Entity\Matches|null
      */
     private ?\App\Entity\Matches $fMatch;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }

@@ -18,7 +18,7 @@ class creerUnMatchTest extends KernelTestCase
     /**
      * @test
      */
-    public function un_match_est_cree()
+    public function un_match_est_cree(): void
     {
         $matchFactory = new MatchesFactory();
 
@@ -43,8 +43,8 @@ class creerUnMatchTest extends KernelTestCase
                 $donnees,
                 $this->createMock(Teams::class),
                 $this->createMock(Teams::class),
-                150000,
-                140000,
+                150_000,
+                140_000,
                 $this->createMock(Meteo::class),
                 $this->createMock(GameDataStadium::class)
             )

@@ -14,7 +14,7 @@ class statutDuJoueurTest extends KernelTestCase
     /**
      * @test
      */
-    public function le_statut_est_bien_retourne()
+    public function le_statut_est_bien_retourne(): void
     {
         $joueur = new Players();
         $joueur->setStatus(9);

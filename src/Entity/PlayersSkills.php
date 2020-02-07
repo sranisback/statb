@@ -18,12 +18,14 @@ class PlayersSkills
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @var int
      */
     private int $id;
 
     /**
      *
      * @ORM\Column(name="type", type="string", length=1, nullable=true)
+     * @var null|string
      */
     private ?string $type = null;
 
@@ -33,6 +35,7 @@ class PlayersSkills
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="f_skill_id", referencedColumnName="skill_id")
      * })
+     * @var \App\Entity\GameDataSkills|null
      */
     private ?\App\Entity\GameDataSkills $fSkill;
 
@@ -42,10 +45,11 @@ class PlayersSkills
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="f_pid", referencedColumnName="player_id")
      * })
+     * @var \App\Entity\Players|null
      */
     private ?\App\Entity\Players $fPid;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }

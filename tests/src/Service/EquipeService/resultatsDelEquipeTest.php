@@ -15,7 +15,7 @@ class resultatsDelEquipeTest extends KernelTestCase
     /**
      * @test
      */
-    public function valider_resultats_equipe()
+    public function valider_resultats_equipe(): void
     {
         $equipeTest = new Teams();
 

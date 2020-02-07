@@ -10,7 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 class Meteo
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
+     * @var int
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
@@ -18,6 +19,7 @@ class Meteo
 
     /**
      * @ORM\Column(type="string", length=25)
+     * @var string|null
      */
     private ?string $nom = null;
 

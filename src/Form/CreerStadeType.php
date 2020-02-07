@@ -14,7 +14,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class CreerStadeType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
         ->add("nom", TextType::class, ['label'=>"Nom du stade", 'required' => 'true'])

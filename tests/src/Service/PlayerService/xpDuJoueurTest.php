@@ -16,7 +16,7 @@ class xpDuJoueurTest extends KernelTestCase
     /**
      * @test
      */
-    public function l_xp_totale_est_bien_calculee()
+    public function l_xp_totale_est_bien_calculee(): void
     {
         $joueurTest = new Players();
 
@@ -46,7 +46,7 @@ class xpDuJoueurTest extends KernelTestCase
     /**
      * @test
      */
-    public function il_n_y_a_pas_de_donnees()
+    public function il_n_y_a_pas_de_donnees(): void
     {
         $joueurTest = new Players();
 
@@ -69,7 +69,7 @@ class xpDuJoueurTest extends KernelTestCase
     /**
      * @test
      */
-    public function le_joueur_n_a_rien_fait_dans_les_matches()
+    public function le_joueur_n_a_rien_fait_dans_les_matches(): void
     {
         $joueurTest = new Players();
 

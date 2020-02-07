@@ -10,7 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 class Primes
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
+     * @var int|null
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
@@ -18,34 +19,40 @@ class Primes
 
     /**
      * @ORM\Column(type="integer")
+     * @var int
      */
     private int $montant;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Coaches")
      * @ORM\JoinColumn(name="coach_id", referencedColumnName="coach_id", nullable=false)
+     * @var \App\Entity\Coaches
      */
     private \App\Entity\Coaches $Coaches;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Players")
      * @ORM\JoinColumn(name="player_id", referencedColumnName="player_id")
+     * @var \App\Entity\Players|null
      */
     private ?\App\Entity\Players $players;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Teams")
      * @ORM\JoinColumn(name="team_id", referencedColumnName="team_id")
+     * @var \App\Entity\Teams|null
      */
     private ?\App\Entity\Teams $teams;
 
     /**
      * @ORM\Column(type="datetime")
+     * @var \DateTimeInterface
      */
     private \DateTimeInterface $dateAjoutee;
 
     /**
      * @ORM\Column(type="integer")
+     * @var int
      */
     private int $actif=1;
 
@@ -54,7 +61,7 @@ class Primes
         return $this->id;
     }
 
-    public function getMontant(): ?int
+    public function getMontant(): int
     {
         return $this->montant;
     }
@@ -66,7 +73,7 @@ class Primes
         return $this;
     }
 
-    public function getCoaches(): ?Coaches
+    public function getCoaches(): \App\Entity\Coaches
     {
         return $this->Coaches;
     }
@@ -90,7 +97,7 @@ class Primes
         return $this;
     }
 
-    public function getDateAjoutee(): ?\DateTimeInterface
+    public function getDateAjoutee(): \DateTimeInterface
     {
         return $this->dateAjoutee;
     }
@@ -102,7 +109,7 @@ class Primes
         return $this;
     }
 
-    public function getTeams()
+    public function getTeams(): ?\App\Entity\Teams
     {
         return $this->teams;
     }
@@ -114,7 +121,7 @@ class Primes
         return $this;
     }
 
-    public function getActif()
+    public function getActif(): int
     {
         return $this->actif;
     }

@@ -20,66 +20,77 @@ class GameDataPlayers
      * @ORM\Column(name="pos_id", type="smallint", nullable=false, options={"unsigned":true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @var int
      */
     private int $posId;
 
     /**
      *
      * @ORM\Column(name="pos", type="string", length=60, nullable=true)
+     * @var string|null
      */
     private ?string $pos;
 
     /**
      *
      * @ORM\Column(name="cost", type="integer", nullable=true, options={"unsigned":true})
+     * @var int|null
      */
     private ?int $cost;
 
     /**
      *
      * @ORM\Column(name="qty", type="integer", nullable=true)
+     * @var int|null
      */
     private ?int $qty;
 
     /**
      *
      * @ORM\Column(name="ma", type="integer", nullable=true)
+     * @var int|null
      */
     private ?int $ma;
 
     /**
      *
      * @ORM\Column(name="st", type="integer", nullable=true)
+     * @var int|null
      */
     private ?int $st;
 
     /**
      *
      * @ORM\Column(name="ag", type="integer", nullable=true)
+     * @var int|null
      */
     private ?int $ag;
 
     /**
      *
      * @ORM\Column(name="av", type="integer", nullable=true)
+     * @var int|null
      */
     private ?int $av;
 
     /**
      *
      * @ORM\Column(name="skills", type="string", length=79, nullable=true)
+     * @var string|null
      */
     private ?string $skills;
 
     /**
      *
      * @ORM\Column(name="norm", type="string", length=6, nullable=true)
+     * @var string|null
      */
     private ?string $norm;
 
     /**
      *
      * @ORM\Column(name="doub", type="string", length=6, nullable=true)
+     * @var string|null
      */
     private ?string $doub;
 
@@ -89,10 +100,11 @@ class GameDataPlayers
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="f_race_id", referencedColumnName="race_id", nullable=false)
      * })
+     * @var \App\Entity\Races|null
      */
     private ?\App\Entity\Races $fRace;
 
-    public function getPosId(): ?int
+    public function getPosId(): int
     {
         return $this->posId;
     }

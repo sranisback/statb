@@ -20,7 +20,7 @@ class enregistrementDesActionsDesJoueursTest extends KernelTestCase
     /**
      * @test
      */
-    public function les_donnees_sont_bien_transformees()
+    public function les_donnees_sont_bien_transformees(): void
     {
         $joueurMock = $this->createMock(Players::class);
         $joueurMock->method('getPlayerId')->willReturn(1);
@@ -59,7 +59,7 @@ class enregistrementDesActionsDesJoueursTest extends KernelTestCase
     /**
      * @test
      */
-    public function plusieurs_fois_la_meme_action()
+    public function plusieurs_fois_la_meme_action(): void
     {
         $joueurMock = $this->createMock(Players::class);
         $joueurMock->method('getPlayerId')->willReturn(1);
@@ -102,7 +102,7 @@ class enregistrementDesActionsDesJoueursTest extends KernelTestCase
     /**
      * @test
      */
-    public function il_n_y_a_pas_de_donnees()
+    public function il_n_y_a_pas_de_donnees(): void
     {
         $joueurMock = $this->createMock(Players::class);
         $joueurMock->method('getPlayerId')->willReturn(1);
@@ -137,7 +137,7 @@ class enregistrementDesActionsDesJoueursTest extends KernelTestCase
     /**
      * @test
      */
-    public function actions_differentes()
+    public function actions_differentes(): void
     {
         $joueurMock = $this->createMock(Players::class);
         $joueurMock->method('getPlayerId')->willReturn(1);
@@ -181,7 +181,7 @@ class enregistrementDesActionsDesJoueursTest extends KernelTestCase
     /**
      * @test
      */
-    public function des_joueurs_differents()
+    public function des_joueurs_differents(): void
     {
         $joueurMock0 = $this->createMock(Players::class);
         $joueurMock0->method('getPlayerId')->willReturn(1);

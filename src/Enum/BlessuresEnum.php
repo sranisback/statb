@@ -5,7 +5,10 @@ namespace App\Enum;
 
 class BlessuresEnum
 {
-    public function numeroToBlessure()
+    /**
+     * @return string[]
+     */
+    public function numeroToBlessure(): array
     {
         return [
             30 => 'Commotion',

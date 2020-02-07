@@ -16,7 +16,7 @@ class genereConfrontationTousLesCoachesTest extends KernelTestCase
     /**
      * @test
      */
-    public function le_resultat_de_tous_les_coaches_est_bien_retournee()
+    public function le_resultat_de_tous_les_coaches_est_bien_retournee(): void
     {
         $coachTest0 = $this->createMock(Coaches::class);
         $coachTest0->method('getName')->willReturn('coach 0');
