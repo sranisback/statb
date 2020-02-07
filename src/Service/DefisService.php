@@ -70,7 +70,7 @@ class DefisService
         return 'ok';
     }
 
-    public function verificationDefis(Matches $matches): \App\Entity\Defis
+    public function verificationDefis(Matches $matches): ?\App\Entity\Defis
     {
         if (!empty($matches->getTeam1()) && !empty($matches->getTeam2())) {
             /** @var Defis $defiEnCours */

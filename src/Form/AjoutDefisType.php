@@ -14,8 +14,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AjoutDefisType extends AbstractType
 {
+    private settingsService $settingsService;
+
     public function __construct(SettingsService $settingsService)
     {
+        $this->settingsService = $settingsService;
     }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
