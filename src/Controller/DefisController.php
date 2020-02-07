@@ -19,7 +19,7 @@ class DefisController extends AbstractController
      * @param int $coachId
      * @return Response
      */
-    public function ajoutDefisForm($coachId)
+    public function ajoutDefisForm(int $coachId): \Symfony\Component\HttpFoundation\Response
     {
         $defis = new Defis();
 
@@ -35,7 +35,7 @@ class DefisController extends AbstractController
      * @param SettingsService $settingService
      * @return Response
      */
-    public function ajoutDefis(Request $request, defisService $defisService, SettingsService $settingService)
+    public function ajoutDefis(Request $request, defisService $defisService, SettingsService $settingService): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $datas = $request->request->get('ajout_defis');
 
@@ -63,7 +63,7 @@ class DefisController extends AbstractController
      * @param SettingsService $settingsService
      * @return Response
      */
-    public function afficherLesDefis(SettingsService $settingsService)
+    public function afficherLesDefis(SettingsService $settingsService): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render(
             'statbb/tabs/ligue/affichageDefis.html.twig',
@@ -80,7 +80,7 @@ class DefisController extends AbstractController
      * @param SettingsService $settingsService
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function afficherPeriodeDefisActuelle(SettingsService $settingsService)
+    public function afficherPeriodeDefisActuelle(SettingsService $settingsService): \Symfony\Component\HttpFoundation\Response
     {
         $periode = $settingsService->periodeDefisCourrante();
 
@@ -93,7 +93,7 @@ class DefisController extends AbstractController
      * @param int $defisId
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function supprimerPrime(DefisService $defisService, $defisId)
+    public function supprimerPrime(DefisService $defisService, int $defisId): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         if ($defisService->supprimerDefis($defisId)) {
             $this->addFlash('success', 'Defis Supprimée');

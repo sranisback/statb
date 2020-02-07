@@ -18,7 +18,7 @@ class actionDuJoueurDansUnMatchTest extends KernelTestCase
     /**
      * @test
      */
-    public function les_actions_du_joueur_pour_un_match_sont_bien_retournees()
+    public function les_actions_du_joueur_pour_un_match_sont_bien_retournees(): void
     {
         $matchDataTest0 = new MatchData();
         $matchDataTest0->setMvp(1);
@@ -54,7 +54,7 @@ class actionDuJoueurDansUnMatchTest extends KernelTestCase
     /**
      * @test
      */
-    public function il_n_y_a_pas_de_donnees()
+    public function il_n_y_a_pas_de_donnees(): void
     {
         $matchDataTest0 = new MatchData();
         $matchDataTest1 = new MatchData();

@@ -18,13 +18,13 @@ class renvoisOuSuppressionJoueurTest extends KernelTestCase
     /**
      * @test
      */
-    public function le_joueur_est_renvoye()
+    public function le_joueur_est_renvoye(): void
     {
         $positionTest = new GameDataPlayers();
-        $positionTest->setCost(50000);
+        $positionTest->setCost(50_000);
 
         $equipeTest = new Teams();
-        $equipeTest->setTreasury(50000);
+        $equipeTest->setTreasury(50_000);
 
         $playerTest = new Players();
         $playerTest->setFPos($positionTest);
@@ -61,7 +61,7 @@ class renvoisOuSuppressionJoueurTest extends KernelTestCase
         );
 
         $equipeServiceMock = $this->createMock(EquipeService::class);
-        $equipeServiceMock->method('tvDelEquipe')->willReturn(1000);
+        $equipeServiceMock->method('tvDelEquipe')->willReturn(1_000);
 
         $playerServiceTest = new PlayerService(
             $objectManager,
@@ -71,9 +71,9 @@ class renvoisOuSuppressionJoueurTest extends KernelTestCase
 
         $reponseTest = [
             'reponse' => 'sld',
-            'tv' => 1000,
-            'tresor' => 50000,
-            'playercost' => 50000,
+            'tv' => 1_000,
+            'tresor' => 50_000,
+            'playercost' => 50_000,
         ];
 
         $this->assertEquals($reponseTest, $playerServiceTest->renvoisOuSuppressionJoueur($playerTest));
@@ -82,13 +82,13 @@ class renvoisOuSuppressionJoueurTest extends KernelTestCase
     /**
      * @test
      */
-    public function le_joueur_est_supprime()
+    public function le_joueur_est_supprime(): void
     {
         $positionTest = new GameDataPlayers();
-        $positionTest->setCost(50000);
+        $positionTest->setCost(50_000);
 
         $equipeTest = new Teams();
-        $equipeTest->setTreasury(50000);
+        $equipeTest->setTreasury(50_000);
 
         $playerTest = new Players();
         $playerTest->setFPos($positionTest);
@@ -123,7 +123,7 @@ class renvoisOuSuppressionJoueurTest extends KernelTestCase
         );
 
         $equipeServiceMock = $this->createMock(EquipeService::class);
-        $equipeServiceMock->method('tvDelEquipe')->willReturn(1000);
+        $equipeServiceMock->method('tvDelEquipe')->willReturn(1_000);
 
         $playerServiceTest = new PlayerService(
             $objectManager,
@@ -133,9 +133,9 @@ class renvoisOuSuppressionJoueurTest extends KernelTestCase
 
         $reponseTest = [
             'reponse' => 'rm',
-            'tv' => 1000,
-            'tresor' => 100000,
-            'playercost' => 50000,
+            'tv' => 1_000,
+            'tresor' => 100_000,
+            'playercost' => 50_000,
         ];
 
         $this->assertEquals($reponseTest, $playerServiceTest->renvoisOuSuppressionJoueur($playerTest));

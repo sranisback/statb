@@ -17,7 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 final class PlayersAdmin extends AbstractAdmin
 {
-    public function preValidate($object)
+    public function preValidate($object): void
     {
         /** @var Players $joueur */
         $joueur = $this->getSubject();
@@ -44,7 +44,7 @@ final class PlayersAdmin extends AbstractAdmin
         }
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->add('nr', null, ['label' => 'Numéro'])
@@ -76,7 +76,7 @@ final class PlayersAdmin extends AbstractAdmin
             ->add('injRpm', null, ['label' => 'RPM']);
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('name', null, ['label' => 'nom'])
@@ -87,7 +87,7 @@ final class PlayersAdmin extends AbstractAdmin
             ->add('status');
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add('nr', null, ['label' => 'Numero', 'editable' => true])

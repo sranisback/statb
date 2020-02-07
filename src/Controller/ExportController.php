@@ -20,7 +20,7 @@ class ExportController extends AbstractController
      * @param EquipeService $equipeService
      * @param int $id
      */
-    public function pdfTeam(PlayerService $playerService, EquipeService $equipeService, $id)
+    public function pdfTeam(PlayerService $playerService, EquipeService $equipeService, int $id): void
     {
         /** @var Teams $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->find($id);

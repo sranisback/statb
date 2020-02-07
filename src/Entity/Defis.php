@@ -10,7 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 class Defis
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
+     * @var int|null
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
@@ -19,28 +20,33 @@ class Defis
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Teams", cascade={"persist"})
      * @ORM\JoinColumn(name="equipe_Defiee", referencedColumnName="team_id")
+     * @var null|\App\Entity\Teams
      */
     private ?\App\Entity\Teams $equipeDefiee = null;
 
     /**
      * @ORM\Column(type="boolean")
+     * @var int
      */
     private int $defieRealise = 0;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Matches", cascade={"persist"})
      * @ORM\JoinColumn(name="match_Defie", referencedColumnName="match_id")
+     * @var \App\Entity\Matches|null
      */
     private ?\App\Entity\Matches $matchDefi;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @var \DateTimeInterface|null
      */
     private ?\DateTimeInterface $dateDefi;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Teams")
      * @ORM\JoinColumn(name="equipe_Origine", referencedColumnName="team_id")
+     * @var null|\App\Entity\Teams
      */
     private ?\App\Entity\Teams $equipeOrigine = null;
 
@@ -61,7 +67,7 @@ class Defis
         return $this;
     }
 
-    public function getDefieRealise(): ?bool
+    public function getDefieRealise(): int
     {
         return $this->defieRealise;
     }
@@ -85,7 +91,7 @@ class Defis
         return $this;
     }
 
-    public function getDateDefi(): ?\DateTime
+    public function getDateDefi(): ?\DateTimeInterface
     {
         return $this->dateDefi;
     }

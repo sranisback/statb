@@ -17,22 +17,25 @@ class GameDataSkills
      * @ORM\Column(name="skill_id", type="smallint", nullable=false, options={"unsigned":true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @var int
      */
     private int $skillId;
 
     /**
      *
      * @ORM\Column(name="name", type="string", length=60, nullable=true)
+     * @var string|null
      */
     private ?string $name;
 
     /**
      *
      * @ORM\Column(name="cat", type="string", length=1, nullable=true)
+     * @var null|string
      */
     private ?string $cat = null;
 
-    public function getSkillId(): ?int
+    public function getSkillId(): int
     {
         return $this->skillId;
     }

@@ -12,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class JoueurPhotoEnvoiType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('photo', FileType::class, [
@@ -33,7 +33,7 @@ class JoueurPhotoEnvoiType extends AbstractType
             ->add('submit', SubmitType::class, ['label' => 'Ajouter']);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Players::class,

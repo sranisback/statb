@@ -18,7 +18,7 @@ class toutesLesActionsDeLequipeDansUnMatchTest extends KernelTestCase
     /**
      * @test
      */
-    public function les_actions_des_joueurs_sont_retournees()
+    public function les_actions_des_joueurs_sont_retournees(): void
     {
         $position = new GameDataPlayers();
         $position->setPos('Witch Elf');
@@ -63,7 +63,7 @@ class toutesLesActionsDeLequipeDansUnMatchTest extends KernelTestCase
     /**
      * @test
      */
-    public function le_joueur_sans_nom_retourne_inconnu()
+    public function le_joueur_sans_nom_retourne_inconnu(): void
     {
         $position = new GameDataPlayers();
         $position->setPos('Witch Elf');
@@ -107,7 +107,7 @@ class toutesLesActionsDeLequipeDansUnMatchTest extends KernelTestCase
     /**
      * @test
      */
-    public function le_joueur_n_est_pas_retourne_s_il_n_a_rien_fait()
+    public function le_joueur_n_est_pas_retourne_s_il_n_a_rien_fait(): void
     {
         $position = new GameDataPlayers();
         $position->setPos('Witch Elf');

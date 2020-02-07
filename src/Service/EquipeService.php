@@ -20,15 +20,39 @@ use Nette\Utils\DateTime;
 class EquipeService
 {
 
+    /**
+     * @var \Doctrine\ORM\EntityManagerInterface
+     */
     private \Doctrine\ORM\EntityManagerInterface $doctrineEntityManager;
+    /**
+     * @var \App\Service\SettingsService
+     */
     private \App\Service\SettingsService $settingsService;
 
+    /**
+     * @var int
+     */
     private int $baseElo = 150;
 
+    /**
+     * @var int
+     */
     private int $coutpop = 10_000;
+    /**
+     * @var int
+     */
     private int $coutAssistant = 10_000;
+    /**
+     * @var int
+     */
     private int $coutCheer = 10_000;
+    /**
+     * @var int
+     */
     private int $coutApo = 50_000;
+    /**
+     * @var int
+     */
     private int $payementStade = 70_000;
 
     private const MORTS_VIVANTS = 'Morts vivants';
@@ -42,7 +66,7 @@ class EquipeService
      /**
      * @param Teams $equipe
      * @param PlayerService $playerService
-     * @return int
+     * @return float|int
      */
     public function tvDelEquipe(Teams $equipe, PlayerService $playerService)
     {
@@ -57,7 +81,7 @@ class EquipeService
      * @param Teams $equipe
      * @return array
      */
-    public function valeurInducementDelEquipe(Teams $equipe)
+    public function valeurInducementDelEquipe(Teams $equipe): array
     {
         $equipeRace = $equipe->getFRace();
 
@@ -80,7 +104,7 @@ class EquipeService
      * @param array $matchesCollection
      * @return array
      */
-    public function resultatsDelEquipe(Teams $equipe, Array $matchesCollection)
+    public function resultatsDelEquipe(Teams $equipe, Array $matchesCollection): array
     {
         $TotalWin = 0;
         $Totaldraw = 0;
@@ -128,7 +152,7 @@ class EquipeService
      * @param int $raceid
      * @return int|null
      */
-    public function createTeam($teamname, $coachid, $raceid)
+    public function createTeam(string $teamname, int $coachid, int $raceid): int
     {
         $race = $this->doctrineEntityManager->getRepository(Races::class)->findOneBy(['raceId' => $raceid]);
         $coach = $this->doctrineEntityManager->getRepository(Coaches::class)->findOneBy(array('coachId' => $coachid));
@@ -170,7 +194,7 @@ class EquipeService
      * @param PlayerService $playerService
      * @return array
      */
-    public function ajoutInducement(Teams $equipe, $type, PlayerService $playerService)
+    public function ajoutInducement(Teams $equipe, string $type, PlayerService $playerService): array
     {
         $nbr = 0;
         $inducost = 0;
@@ -265,7 +289,7 @@ class EquipeService
      * @param PlayerService $playerService
      * @return array
      */
-    public function supprInducement(Teams $equipe, $type, PlayerService $playerService)
+    public function supprInducement(Teams $equipe, string $type, PlayerService $playerService): array
     {
         $nbr = 0;
         $inducost = 0;
@@ -347,7 +371,7 @@ class EquipeService
      * @param integer $year
      * @return array
      */
-    public function eloDesEquipes($year)
+    public function eloDesEquipes(int $year): array
     {
         $equipeCollection = $this->doctrineEntityManager->getRepository(Teams::class)->findBy(['year' => $year]);
 
@@ -418,9 +442,9 @@ class EquipeService
     /**
      * @param int $coachActif
      * @param int $annee
-     * @return array|null
+     * @return mixed[]
      */
-    public function listeDesAnciennesEquipes($coachActif, $annee)
+    public function listeDesAnciennesEquipes(int $coachActif, int $annee): array
     {
         $anciennesEquipes = [];
 
@@ -443,7 +467,7 @@ class EquipeService
      * @param Teams $equipe
      * @return GameDataPlayers
      */
-    public function positionDuJournalier(Teams $equipe)
+    public function positionDuJournalier(Teams $equipe): ?\App\Entity\GameDataPlayers
     {
         /** @var Races $race */
         $race = $equipe->getFRace();
@@ -461,8 +485,9 @@ class EquipeService
     /**
      * @param Teams $equipe
      * @param PlayerService $playerService
+     * @return int[]|mixed[]
      */
-    public function gestionDesJournaliers(Teams $equipe, PlayerService $playerService)
+    public function gestionDesJournaliers(Teams $equipe, PlayerService $playerService): array
     {
         $resultat = [];
 
@@ -490,7 +515,7 @@ class EquipeService
      * @param Teams $equipe
      * @return int
      */
-    public function suppressionDesJournaliers(int $nbrDeJournalierAvendre, Teams $equipe)
+    public function suppressionDesJournaliers(int $nbrDeJournalierAvendre, Teams $equipe): int
     {
         $nombreVendu = 0;
 
@@ -519,7 +544,7 @@ class EquipeService
      * @param PlayerService $playerService
      * @return mixed
      */
-    public function ajoutDesJournaliers(int $nbrDeJournalier, Teams $equipe, PlayerService $playerService)
+    public function ajoutDesJournaliers(int $nbrDeJournalier, Teams $equipe, PlayerService $playerService): int
     {
         $nombreAjoute = 0;
 
@@ -553,7 +578,7 @@ class EquipeService
      * @param Teams $equipe
      * @param PlayerService $playerService
      */
-    public function checkEquipe(Teams $equipe, PlayerService $playerService)
+    public function checkEquipe(Teams $equipe, PlayerService $playerService): void
     {
         $playerService->controleNiveauDesJoueursDelEquipe($equipe);
 

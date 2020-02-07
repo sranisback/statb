@@ -13,7 +13,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class PrimeAdmin extends AbstractAdmin
 {
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->add('montant')
@@ -45,7 +45,7 @@ class PrimeAdmin extends AbstractAdmin
             ->add('actif', null, ['label' => 'Active']);
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('teams.name', null, ['label' => 'De (Equipe Source)'])
@@ -54,7 +54,7 @@ class PrimeAdmin extends AbstractAdmin
             ->add('actif', null, ['label' => 'Active']);
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->addIdentifier('id', null, ['label' => 'id'])

@@ -9,7 +9,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 
 class MatchDataAdmin extends AbstractAdmin
 {
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->add('mvp', null)
@@ -23,7 +23,7 @@ class MatchDataAdmin extends AbstractAdmin
             ->add('agg', null);
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('fMatch.matchId', null, ['label' => 'Match'])
@@ -32,7 +32,7 @@ class MatchDataAdmin extends AbstractAdmin
             ->add('fPlayer.ownedByTeam.year', null, ['label' => 'Année']);
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add('fMatch.matchId', null, ['label' => 'Match'])

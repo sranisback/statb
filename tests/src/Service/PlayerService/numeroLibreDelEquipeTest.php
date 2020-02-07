@@ -15,7 +15,7 @@ class numeroLibreDelEquipeTest extends KernelTestCase
     /**
      * @test
      */
-    public function le_numero_manquant_du_joueur_est_bien_renvoye()
+    public function le_numero_manquant_du_joueur_est_bien_renvoye(): void
     {
         $equipeMock = $this->createMock(Teams::class);
 

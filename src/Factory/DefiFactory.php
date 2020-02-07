@@ -13,7 +13,7 @@ class DefiFactory
      * @param Teams $equipeOrigine
      * @return Defis
      */
-    public function lancerDefis(Teams $equipeDefiee, Teams $equipeOrigine)
+    public function lancerDefis(Teams $equipeDefiee, Teams $equipeOrigine): \App\Entity\Defis
     {
         $dateDefis = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
 

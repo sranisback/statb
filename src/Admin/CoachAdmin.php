@@ -13,9 +13,12 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 final class CoachAdmin extends AbstractAdmin
 {
+    /**
+     * @var string[]
+     */
     protected $datagridValues = ['_sort_by' => 'name'];
 
-    public function preValidate($object)
+    public function preValidate($object): void
     {
         /** @var Coaches $coach */
         $coach = $this->getSubject();
@@ -34,7 +37,7 @@ final class CoachAdmin extends AbstractAdmin
         }
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         /** @var Coaches $coach */
         $coach = $this->getSubject();
@@ -57,12 +60,12 @@ final class CoachAdmin extends AbstractAdmin
             );
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper->add('name', null, ['label' => 'Nom']);
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper->addIdentifier('name', null, ['label' => 'Nom'])
             ->add(

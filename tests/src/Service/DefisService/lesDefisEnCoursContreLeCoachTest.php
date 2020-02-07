@@ -17,7 +17,7 @@ class lesDefisEnCoursContreLeCoachTest extends KernelTestCase
     /**
      * @test
      */
-    public function la_liste_des_defis_en_cours_contre_un_coach_est_retournee()
+    public function la_liste_des_defis_en_cours_contre_un_coach_est_retournee(): void
     {
         $settingServiceMock = $this->createMock(SettingsService::class);
         $settingServiceMock->method('anneeCourante')->willReturn(3);

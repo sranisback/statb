@@ -14,9 +14,12 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 final class TeamAdmin extends AbstractAdmin
 {
+    /**
+     * @var string[]
+     */
     protected $datagridValues = ['_sort_by' => 'name'];
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->add('name', null, ['label' => 'Nom'])
@@ -43,7 +46,7 @@ final class TeamAdmin extends AbstractAdmin
             ->add('year', null, ['label' => 'Année']);
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('name', null, ['label' => 'Nom'])
@@ -53,7 +56,7 @@ final class TeamAdmin extends AbstractAdmin
             ->add('year', null, ['label' => 'Année']);
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->addIdentifier('name', null, ['label' => 'Nom'])

@@ -28,7 +28,7 @@ class MatchesFactory
         int $tv2,
         Meteo $meteo,
         GameDataStadium $stade
-    ) {
+    ): \App\Entity\Matches {
         $dateMatch = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
 
         $match = new Matches();

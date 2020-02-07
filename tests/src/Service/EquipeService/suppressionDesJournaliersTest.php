@@ -15,7 +15,7 @@ class suppressionDesJournaliersTest extends KernelTestCase
     /**
      * @test
      */
-    public function un_journalier_est_vendu()
+    public function un_journalier_est_vendu(): void
     {
         $joueurTest0 = new Players();
 
@@ -48,7 +48,7 @@ class suppressionDesJournaliersTest extends KernelTestCase
     /**
      * @test
      */
-    public function il_y_a_deux_journaliers_mais_un_seul_a_vendre()
+    public function il_y_a_deux_journaliers_mais_un_seul_a_vendre(): void
     {
         $joueurTest0 = new Players();
         $joueurTest1 = new Players();
@@ -83,7 +83,7 @@ class suppressionDesJournaliersTest extends KernelTestCase
     /**
      * @test
      */
-    public function il_y_en_a_plusieurs_a_vendre()
+    public function il_y_en_a_plusieurs_a_vendre(): void
     {
         $joueurTest0 = new Players();
         $joueurTest1 = new Players();
@@ -122,7 +122,7 @@ class suppressionDesJournaliersTest extends KernelTestCase
     /**
      * @test
      */
-    public function certains_sont_en_attente_xp()
+    public function certains_sont_en_attente_xp(): void
     {
         $joueurTest0 = new Players();
         $joueurTest1 = new Players();

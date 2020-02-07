@@ -11,6 +11,9 @@ use Doctrine\ORM\EntityManagerInterface;
 class MatchDataService
 {
 
+    /**
+     * @var \Doctrine\ORM\EntityManagerInterface
+     */
     private \Doctrine\ORM\EntityManagerInterface $doctrineEntityManager;
 
     public function __construct(EntityManagerInterface $doctrineEntityManager)
@@ -18,7 +21,7 @@ class MatchDataService
         $this->doctrineEntityManager = $doctrineEntityManager;
     }
 
-    public function creationLigneVideDonneeMatch(Players $joueur, Matches $match)
+    public function creationLigneVideDonneeMatch(Players $joueur, Matches $match): void
     {
         $this->doctrineEntityManager->persist((new MatchDataFactory)->ligneVide($joueur, $match));
 
@@ -29,7 +32,7 @@ class MatchDataService
      * @param MatchData $matchData
      * @return string
      */
-    public function lectureLignedUnMatch(MatchData $matchData)
+    public function lectureLignedUnMatch(MatchData $matchData): string
     {
         $ligneDuMatch = '';
 

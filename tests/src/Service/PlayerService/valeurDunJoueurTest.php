@@ -19,10 +19,10 @@ class valeurDunJoueurTest extends KernelTestCase
     /**
      * @test
      */
-    public function la_valeur_de_base_est_bien_retournee()
+    public function la_valeur_de_base_est_bien_retournee(): void
     {
         $positionTest = new GameDataPlayers();
-        $positionTest->setCost(50000);
+        $positionTest->setCost(50_000);
 
         $joueurTest = new Players();
         $joueurTest->setFPos($positionTest);
@@ -39,16 +39,16 @@ class valeurDunJoueurTest extends KernelTestCase
             $this->createMock(MatchDataService::class)
         );
 
-        $this->assertEquals(50000, $playerServiceTest->valeurDunJoueur($joueurTest));
+        $this->assertEquals(50_000, $playerServiceTest->valeurDunJoueur($joueurTest));
     }
 
     /**
      * @test
      */
-    public function les_comps_simples_sont_bien_comptees()
+    public function les_comps_simples_sont_bien_comptees(): void
     {
         $positionTest = new GameDataPlayers();
-        $positionTest->setCost(50000);
+        $positionTest->setCost(50_000);
 
         $joueurTest = new Players();
         $joueurTest->setFPos($positionTest);
@@ -72,16 +72,16 @@ class valeurDunJoueurTest extends KernelTestCase
             $this->createMock(MatchDataService::class)
         );
 
-        $this->assertEquals(70000, $playerServiceTest->valeurDunJoueur($joueurTest));
+        $this->assertEquals(70_000, $playerServiceTest->valeurDunJoueur($joueurTest));
     }
 
     /**
      * @test
      */
-    public function les_comps_doubles_sont_bien_comptees()
+    public function les_comps_doubles_sont_bien_comptees(): void
     {
         $positionTest = new GameDataPlayers();
-        $positionTest->setCost(50000);
+        $positionTest->setCost(50_000);
 
         $joueurTest = new Players();
         $joueurTest->setFPos($positionTest);
@@ -105,16 +105,16 @@ class valeurDunJoueurTest extends KernelTestCase
             $this->createMock(MatchDataService::class)
         );
 
-        $this->assertEquals(80000, $playerServiceTest->valeurDunJoueur($joueurTest));
+        $this->assertEquals(80_000, $playerServiceTest->valeurDunJoueur($joueurTest));
     }
 
     /**
      * @test
      */
-    public function les_augmentations_de_stats_sont_bien_comptees()
+    public function les_augmentations_de_stats_sont_bien_comptees(): void
     {
         $positionTest = new GameDataPlayers();
-        $positionTest->setCost(50000);
+        $positionTest->setCost(50_000);
 
         $joueurTest = new Players();
         $joueurTest->setFPos($positionTest);
@@ -136,16 +136,16 @@ class valeurDunJoueurTest extends KernelTestCase
             $this->createMock(MatchDataService::class)
         );
 
-        $this->assertEquals(200000, $playerServiceTest->valeurDunJoueur($joueurTest));
+        $this->assertEquals(200_000, $playerServiceTest->valeurDunJoueur($joueurTest));
     }
 
     /**
      * @test
      */
-    public function le_joueur_a_plusieurs_type_de_compt()
+    public function le_joueur_a_plusieurs_type_de_compt(): void
     {
         $positionTest = new GameDataPlayers();
-        $positionTest->setCost(50000);
+        $positionTest->setCost(50_000);
 
         $joueurTest = new Players();
         $joueurTest->setFPos($positionTest);
@@ -173,7 +173,7 @@ class valeurDunJoueurTest extends KernelTestCase
             $this->createMock(MatchDataService::class)
         );
 
-        $this->assertEquals(100000, $playerServiceTest->valeurDunJoueur($joueurTest));
+        $this->assertEquals(100_000, $playerServiceTest->valeurDunJoueur($joueurTest));
     }
 
 }

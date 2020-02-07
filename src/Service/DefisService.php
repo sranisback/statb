@@ -12,6 +12,9 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class DefisService
 {
+    /**
+     * @var \Doctrine\ORM\EntityManagerInterface
+     */
     private \Doctrine\ORM\EntityManagerInterface $doctrineEntityManager;
 
     public function __construct(EntityManagerInterface $doctrineEntityManager)
@@ -19,7 +22,7 @@ class DefisService
         $this->doctrineEntityManager = $doctrineEntityManager;
     }
 
-    public function creerDefis($datas)
+    public function creerDefis($datas): \App\Entity\Defis
     {
         $defis = (new DefiFactory)->lancerDefis(
             $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(
@@ -36,7 +39,7 @@ class DefisService
         return $defis;
     }
 
-    public function defiAutorise(Teams $equipe, SettingsService $settingsService)
+    public function defiAutorise(Teams $equipe, SettingsService $settingsService): bool
     {
         foreach ($this->doctrineEntityManager->getRepository(Teams::class)->findBy(
             ['ownedByCoach' => $equipe->getOwnedByCoach(), 'year' => $settingsService->anneeCourante()]
@@ -56,7 +59,7 @@ class DefisService
         return true;
     }
 
-    public function supprimerDefis($defisId)
+    public function supprimerDefis($defisId): string
     {
         $prime = $this->doctrineEntityManager->getRepository(Defis::class)->findOneBy(['id' => $defisId]);
 
@@ -67,7 +70,7 @@ class DefisService
         return 'ok';
     }
 
-    public function verificationDefis(Matches $matches)
+    public function verificationDefis(Matches $matches): \App\Entity\Defis
     {
         if (!empty($matches->getTeam1()) && !empty($matches->getTeam2())) {
             /** @var Defis $defiEnCours */
@@ -89,7 +92,10 @@ class DefisService
         return $defiEnCours;
     }
 
-    public function lesDefisEnCoursContreLeCoach(SettingsService $settingsService, Coaches $coach)
+    /**
+     * @return string[][]|null[][]
+     */
+    public function lesDefisEnCoursContreLeCoach(SettingsService $settingsService, Coaches $coach): array
     {
         $contenuMessage = [];
 

@@ -27,7 +27,7 @@ class TeamsFactory
         int $annee,
         Races $race,
         Coaches $coach
-    ) {
+    ): \App\Entity\Teams {
         $equipe = new Teams();
 
         $equipe->setTreasury($tresorDepart);

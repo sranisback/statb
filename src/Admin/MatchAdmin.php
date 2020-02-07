@@ -14,12 +14,15 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class MatchAdmin extends AbstractAdmin
 {
+    /**
+     * @var string[]
+     */
     protected $datagridValues = [
         '_sort_order' => 'DESC',
         '_sort_by' => 'dateCreated',
     ];
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->add(
@@ -54,7 +57,7 @@ class MatchAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('matchId')
@@ -64,7 +67,7 @@ class MatchAdmin extends AbstractAdmin
             ->add('team2.name', null, ['label' => 'Equipe 2']);
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->addIdentifier('matchId')

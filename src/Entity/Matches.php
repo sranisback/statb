@@ -22,66 +22,77 @@ class Matches
      * @ORM\Column(name="match_id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @var int
      */
     private int $matchId;
 
     /**
      *
      * @ORM\Column(name="fans", type="integer", nullable=false, options={"unsigned":true})
+     * @var int
      */
     private int $fans = 0;
 
     /**
      *
      * @ORM\Column(name="ffactor1", type="integer", nullable=true)
+     * @var int|null
      */
     private ?int $ffactor1;
 
     /**
      *
      * @ORM\Column(name="ffactor2", type="integer", nullable=true)
+     * @var int|null
      */
     private ?int $ffactor2;
 
     /**
      *
      * @ORM\Column(name="income1", type="integer", nullable=true)
+     * @var int|null
      */
     private ?int $income1;
 
     /**
      *
      * @ORM\Column(name="income2", type="integer", nullable=true)
+     * @var int|null
      */
     private ?int $income2;
 
     /**
      *
      * @ORM\Column(name="date_created", type="datetime", nullable=true)
+     * @var \DateTimeInterface|null
      */
     private ?\DateTimeInterface $dateCreated;
 
     /**
      *
      * @ORM\Column(name="team1_score", type="integer", nullable=true)
+     * @var int|null
      */
     private ?int $team1Score;
 
     /**
      *
      * @ORM\Column(name="team2_score", type="integer", nullable=true)
+     * @var int|null
      */
     private ?int $team2Score;
 
     /**
      *
      * @ORM\Column(name="tv1", type="integer", nullable=false)
+     * @var int
      */
     private int $tv1 = 0;
 
     /**
      *
      * @ORM\Column(name="tv2", type="integer", nullable=false)
+     * @var int
      */
     private int $tv2 = 0;
 
@@ -91,6 +102,7 @@ class Matches
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="team1_id", referencedColumnName="team_id")
      * })
+     * @var \App\Entity\Teams|null
      */
     private ?\App\Entity\Teams $team1;
 
@@ -100,27 +112,32 @@ class Matches
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="team2_id", referencedColumnName="team_id")
      * })
+     * @var null|\App\Entity\Teams
      */
     private ?\App\Entity\Teams $team2 = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Meteo")
      * @ORM\JoinColumn(nullable=false)
+     * @var int
      */
-    private $fMeteo = 0;
+    private int $fMeteo = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\GameDataStadium", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
+     * @var int
      */
-    private $fStade = 0;
+    private int $fStade = 0;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\HistoriqueBlessure", mappedBy="fmatch", fetch="EAGER")
+     * @var \App\Entity\HistoriqueBlessure[]|\Doctrine\Common\Collections\Collection
      */
     private $blessuresMatch;
 /**
      * @ORM\Column(type="integer", nullable=true)
+     * @var int|null
      */
     private ?int $stadeAcceuil;
 
@@ -129,12 +146,12 @@ class Matches
         $this->blessuresMatch = new ArrayCollection();
     }
 
-    public function getMatchId(): ?int
+    public function getMatchId(): int
     {
         return $this->matchId;
     }
 
-    public function getFans(): ?int
+    public function getFans(): int
     {
         return $this->fans;
     }
@@ -194,7 +211,7 @@ class Matches
         return $this;
     }
 
-    public function getDateCreated(): DateTime
+    public function getDateCreated(): ?\DateTimeInterface
     {
         return $this->dateCreated;
     }
@@ -230,7 +247,7 @@ class Matches
         return $this;
     }
 
-    public function getTv1(): ?int
+    public function getTv1(): int
     {
         return $this->tv1;
     }
@@ -242,7 +259,7 @@ class Matches
         return $this;
     }
 
-    public function getTv2(): ?int
+    public function getTv2(): int
     {
         return $this->tv2;
     }
@@ -278,7 +295,7 @@ class Matches
         return $this;
     }
 
-    public function getFMeteo()
+    public function getFMeteo(): ?\App\Entity\Meteo
     {
         return $this->fMeteo;
     }
@@ -290,7 +307,7 @@ class Matches
         return $this;
     }
 
-    public function getFStade()
+    public function getFStade(): ?\App\Entity\GameDataStadium
     {
         return $this->fStade;
     }
@@ -305,7 +322,7 @@ class Matches
     /**
      * @return Collection|HistoriqueBlessure[]
      */
-    public function getBlessuresMatch(): Collection
+    public function getBlessuresMatch(): \Doctrine\Common\Collections\ArrayCollection
     {
         return $this->blessuresMatch;
     }

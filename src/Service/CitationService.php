@@ -8,6 +8,9 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class CitationService
 {
+    /**
+     * @var \Doctrine\ORM\EntityManagerInterface
+     */
     private \Doctrine\ORM\EntityManagerInterface $doctrineEntityManager;
 
     public function __construct(EntityManagerInterface $doctrineEntityManager)
@@ -19,7 +22,7 @@ class CitationService
      * @param mixed $datas
      * @return Citations
      */
-    public function enregistrerCitation($datas)
+    public function enregistrerCitation($datas): void
     {
         $citation = new Citations;
 

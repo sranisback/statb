@@ -18,66 +18,77 @@ class Teams
      * @ORM\Column(name="team_id", type="integer", nullable=false, options={"unsigned":true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @var int
      */
     private int $teamId;
 
     /**
      *
      * @ORM\Column(name="name", type="string", length=60, nullable=true)
+     * @var null|string
      */
     private ?string $name = null;
 
     /**
      *
      * @ORM\Column(name="treasury", type="bigint", nullable=true)
+     * @var int|null
      */
     private ?int $treasury;
 
     /**
      *
      * @ORM\Column(name="apothecary", type="integer", nullable=true)
+     * @var int
      */
     private int $apothecary = 0;
 
     /**
      *
      * @ORM\Column(name="rerolls", type="integer", nullable=true, options={"unsigned":true})
+     * @var int
      */
     private int $rerolls = 0;
 
     /**
      *
      * @ORM\Column(name="ff_bought", type="integer", nullable=true)
+     * @var int
      */
     private int $ffBought = 0;
 
     /**
      *
      * @ORM\Column(name="ass_coaches", type="integer", nullable=true, options={"unsigned":true})
+     * @var int
      */
     private int $assCoaches = 0;
 
     /**
      *
      * @ORM\Column(name="cheerleaders", type="integer", nullable=true, options={"unsigned":true})
+     * @var int
      */
     private int $cheerleaders = 0;
 
     /**
      *
      * @ORM\Column(name="retired", type="boolean", nullable=false)
+     * @var bool
      */
     private bool $retired = false;
 
     /**
      *
      * @ORM\Column(name="ff", type="integer", nullable=true)
+     * @var int
      */
     private int $ff = 0;
 
     /**
      *
      * @ORM\Column(name="elo", type="float", precision=10, scale=0, nullable=true)
+     * @var float|null
      */
     private ?float $elo;
 
@@ -85,19 +96,22 @@ class Teams
     /**
      *
      * @ORM\Column(name="tv", type="integer", nullable=true)
+     * @var int|null
      */
     private ?int $tv;
 
     /**
      *
      * @ORM\Column(name="year", type="integer", nullable=false)
+     * @var int
      */
     private int $year;
 
     /**
      *
      * @ORM\ManyToOne(targetEntity="Coaches", fetch="EAGER")
-     *   @ORM\JoinColumn  (name="owned_by_coach_id", referencedColumnName="coach_id")
+     *   @ORM\JoinColumn  (name="owned_by_coach_id",  referencedColumnName="coach_id")
+     * @var \App\Entity\Coaches|null
      */
     private ?\App\Entity\Coaches $ownedByCoach;
 
@@ -105,6 +119,7 @@ class Teams
      *
      * @ORM\ManyToOne(targetEntity="Races", fetch="EAGER")
      * @ORM\JoinColumn(name="f_race_id", referencedColumnName="race_id", nullable=false)
+     * @var \App\Entity\Races|null
      */
     private ?\App\Entity\Races $fRace = null;
 
@@ -112,23 +127,26 @@ class Teams
      *
      * @ORM\ManyToOne(targetEntity="Stades", fetch="EAGER")
      * @ORM\JoinColumn(name="f_stade_id", referencedColumnName="id", nullable=false)
+     * @var \App\Entity\Stades|null
      */
     private ?\App\Entity\Stades $fStades = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string|null
      */
     private ?string $logo;
 
     /**
      * @ORM\Column(type="boolean")
+     * @var int
      */
     private int $franchise = 0;
 
     /**
      * @return Stades
      */
-    public function getFStades(): Stades
+    public function getFStades(): ?\App\Entity\Stades
     {
         return $this->fStades;
     }
@@ -144,7 +162,7 @@ class Teams
         return $this;
     }
 
-    public function getTeamId(): ?int
+    public function getTeamId(): int
     {
         return $this->teamId;
     }
@@ -173,7 +191,7 @@ class Teams
         return $this;
     }
 
-    public function getApothecary(): ?int
+    public function getApothecary(): int
     {
         return $this->apothecary;
     }
@@ -185,7 +203,7 @@ class Teams
         return $this;
     }
 
-    public function getRerolls(): ?int
+    public function getRerolls(): int
     {
         return $this->rerolls;
     }
@@ -197,7 +215,7 @@ class Teams
         return $this;
     }
 
-    public function getFfBought(): ?int
+    public function getFfBought(): int
     {
         return $this->ffBought;
     }
@@ -209,7 +227,7 @@ class Teams
         return $this;
     }
 
-    public function getAssCoaches(): ?int
+    public function getAssCoaches(): int
     {
         return $this->assCoaches;
     }
@@ -221,7 +239,7 @@ class Teams
         return $this;
     }
 
-    public function getCheerleaders(): ?int
+    public function getCheerleaders(): int
     {
         return $this->cheerleaders;
     }
@@ -233,7 +251,7 @@ class Teams
         return $this;
     }
 
-    public function getRetired(): ?bool
+    public function getRetired(): bool
     {
         return $this->retired;
     }
@@ -245,7 +263,7 @@ class Teams
         return $this;
     }
 
-    public function getFf(): ?int
+    public function getFf(): int
     {
         return $this->ff;
     }
@@ -269,7 +287,7 @@ class Teams
         return $this;
     }
 
-    public function getYear(): ?int
+    public function getYear(): int
     {
         return $this->year;
     }
@@ -337,7 +355,7 @@ class Teams
         return $this;
     }
 
-    public function getFranchise(): ?bool
+    public function getFranchise(): int
     {
         return $this->franchise;
     }

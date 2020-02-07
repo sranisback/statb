@@ -11,6 +11,9 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ClassementService
 {
+    /**
+     * @var \Doctrine\ORM\EntityManagerInterface
+     */
     private \Doctrine\ORM\EntityManagerInterface $doctrineEntityManager;
 
     public function __construct(EntityManagerInterface $doctrineEntityManager)
@@ -22,7 +25,7 @@ class ClassementService
      * @param int $annee
      * @return array
      */
-    public function cinqDerniersMatchsParAnnee($annee)
+    public function cinqDerniersMatchsParAnnee(int $annee): array
     {
         $matches = $this->doctrineEntityManager
             ->getRepository(Matches::class)->tousLesMatchDuneAnneClassementChrono($annee);
@@ -34,7 +37,7 @@ class ClassementService
      * @param array $matches
      * @return array
      */
-    private function cinqPremierMatches($matches)
+    private function cinqPremierMatches(array $matches): array
     {
         $matchesAreatourner = [];
 
@@ -49,7 +52,10 @@ class ClassementService
         return $matchesAreatourner;
     }
 
-    public function cinqDerniersMatchsParEquipe($equipeId)
+    /**
+     * @return mixed[]
+     */
+    public function cinqDerniersMatchsParEquipe($equipeId): array
     {
         $matches = $this->doctrineEntityManager->getRepository(Matches::class)->listeDesMatchs(
             $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId])
@@ -62,7 +68,7 @@ class ClassementService
      * @param Teams $equipe
      * @return array
      */
-    public function classementDetailScoreDuneEquipe(Teams $equipe)
+    public function classementDetailScoreDuneEquipe(Teams $equipe): array
     {
         $tdMis = 0;
         $tdPris = 0;
@@ -91,7 +97,7 @@ class ClassementService
      * @param int $annee
      * @return array
      */
-    public function classementDetailScoreGen(int $annee)
+    public function classementDetailScoreGen(int $annee): array
     {
         $tableDetail = [];
 
@@ -103,7 +109,10 @@ class ClassementService
         return $tableDetail;
     }
 
-    public function classementDetail(int $annee)
+    /**
+     * @return mixed[][]
+     */
+    public function classementDetail(int $annee): array
     {
         $classementDetail = [];
         $pointsBonus = $this->doctrineEntityManager->getRepository(Teams::class)->pointsBonus($annee);
@@ -133,7 +142,7 @@ class ClassementService
      * @param int $limit
      * @return array
      */
-    public function genereClassementJoueurs(int $annee, string $type, int $limit)
+    public function genereClassementJoueurs(int $annee, string $type, int $limit): array
     {
         $classement = '';
         $titre = '';
@@ -201,7 +210,7 @@ class ClassementService
      * @param int $limit
      * @return array
      */
-    public function genereClassementEquipes($annee, $type, $limit)
+    public function genereClassementEquipes(int $annee, string $type, int $limit): array
     {
         $classement = '';
         $titre = '';
@@ -257,7 +266,10 @@ class ClassementService
         ];
     }
 
-    public function totalCas($annee)
+    /**
+     * @return mixed[]
+     */
+    public function totalCas($annee): array
     {
         $score = $this->doctrineEntityManager->getRepository(MatchData::class)->totalcas($annee);
         $nbrMatches = count($this->doctrineEntityManager->getRepository(Matches::class)->tousLesMatchDuneAnne($annee));
@@ -274,7 +286,7 @@ class ClassementService
      * @param EquipeService $equipeService
      * @return array
      */
-    public function genereConfrontationTousLesCoaches(EquipeService $equipeService)
+    public function genereConfrontationTousLesCoaches(EquipeService $equipeService): array
     {
         $tableauCompletConfrontation = [];
 
@@ -294,7 +306,7 @@ class ClassementService
      * @param EquipeService $equipeService
      * @return array
      */
-    public function confrontationPourDeuxCoaches(Coaches $coach, Coaches $autreCoach, EquipeService $equipeService)
+    public function confrontationPourDeuxCoaches(Coaches $coach, Coaches $autreCoach, EquipeService $equipeService): array
     {
         $totalResultat = [
             'win' => 0,
@@ -339,7 +351,10 @@ class ClassementService
         return $tableConfrontation;
     }
 
-    public function confrontationTousLesCoaches(Coaches $coach, EquipeService $equipeService)
+    /**
+     * @return mixed[][]
+     */
+    public function confrontationTousLesCoaches(Coaches $coach, EquipeService $equipeService): array
     {
         $tableConfrontation = [];
 

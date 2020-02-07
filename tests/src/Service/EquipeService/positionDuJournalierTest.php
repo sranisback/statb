@@ -17,7 +17,7 @@ class positionDuJournalierTest extends KernelTestCase
     /**
      * @test
      */
-    public function une_position_est_renvoyee()
+    public function une_position_est_renvoyee(): void
     {
         $gameDatPlayerTest = new GameDataPlayers();
         $gameDatPlayerTest->setQty('16');
@@ -48,7 +48,7 @@ class positionDuJournalierTest extends KernelTestCase
     /**
      * @test
      */
-    public function une_equipe_mort_vivant_recois_un_zombie()
+    public function une_equipe_mort_vivant_recois_un_zombie(): void
     {
         $gameDatPlayerTest = new GameDataPlayers();
         $gameDatPlayerTest->setQty('16');

@@ -14,7 +14,7 @@ class listenivSpeciauxEtSurcoutTest extends KernelTestCase
     /**
      * @test
      */
-    public function tous_les_niv_spec_sont_retournes()
+    public function tous_les_niv_spec_sont_retournes(): void
     {
         $joueurMock = $this->createMock(Players::class);
         $joueurMock->method('getAchSt')->willReturn(1);
@@ -29,7 +29,7 @@ class listenivSpeciauxEtSurcoutTest extends KernelTestCase
             $matchDataService
         );
 
-        $retour = ['nivspec' => '<text class="text-success">+1 St</text>, ', 'cout' => 50000];
+        $retour = ['nivspec' => '<text class="text-success">+1 St</text>, ', 'cout' => 50_000];
 
         $this->assertEquals($retour, $playerService->listenivSpeciauxEtSurcout($joueurMock));
     }

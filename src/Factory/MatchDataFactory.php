@@ -12,7 +12,7 @@ class MatchDataFactory
      * @param Matches $match
      * @return MatchData
      */
-    public function ligneVide(Players $joueur, Matches $match)
+    public function ligneVide(Players $joueur, Matches $match): \App\Entity\MatchData
     {
         $matchdata = new MatchData();
 

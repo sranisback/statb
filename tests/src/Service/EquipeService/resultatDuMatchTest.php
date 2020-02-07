@@ -14,7 +14,7 @@ class resultatDuMatchTest extends KernelTestCase
     /**
      * @test
      */
-    public function une_victoire()
+    public function une_victoire(): void
     {
         $equipeTest = new Teams();
 
@@ -42,7 +42,7 @@ class resultatDuMatchTest extends KernelTestCase
     /**
      * @test
      */
-    public function un_defaite()
+    public function un_defaite(): void
     {
         $equipeTest = new Teams();
 
@@ -70,7 +70,7 @@ class resultatDuMatchTest extends KernelTestCase
     /**
      * @test
      */
-    public function une_egalite()
+    public function une_egalite(): void
     {
         $equipeTest = new Teams();
 

@@ -53,7 +53,7 @@ class EquipeController extends AbstractController
      * @param SettingsService $settingsService
      * @return response
      */
-    public function montreLesEquipes(SettingsService $settingsService)
+    public function montreLesEquipes(SettingsService $settingsService): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render(
             'statbb/tabs/ligue/showteams.html.twig',
@@ -75,8 +75,8 @@ class EquipeController extends AbstractController
     public function montreLesAnciennesEquipes(
         SettingsService $settingsService,
         EquipeService $equipeService,
-        $coachActif
-    ) {
+        int $coachActif
+    ): \Symfony\Component\HttpFoundation\Response {
         $annee = $settingsService->anneeCourante();
 
         $etiquetteAnne = (new AnneeEnum)->numeroToAnnee();
@@ -110,7 +110,7 @@ class EquipeController extends AbstractController
     public function showUserTeams(
         SettingsService $settingsService,
         EquipeService $equipeService
-    ) {
+    ): \Symfony\Component\HttpFoundation\Response {
         $annee = $settingsService->anneeCourante();
         /** @var Coaches $coach */
         $coach = $this->getUser();
@@ -145,9 +145,9 @@ class EquipeController extends AbstractController
     public function showTeam(
         PlayerService $playerService,
         EquipeService $equipeService,
-        $teamid,
+        int $teamid,
         SettingsService $settingsService
-    ) {
+    ): \Symfony\Component\HttpFoundation\Response {
         $pdata = [];
 
         /** @var Teams $equipe */
@@ -214,7 +214,7 @@ class EquipeController extends AbstractController
      * @param string $nomEquipe
      * @return Response
      */
-    public function montreEquipe(string $nomEquipe, SettingsService $settingsService)
+    public function montreEquipe(string $nomEquipe, SettingsService $settingsService): \Symfony\Component\HttpFoundation\Response
     {
         /** @var Teams[] $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->requeteEquipeLike($nomEquipe);
@@ -237,7 +237,7 @@ class EquipeController extends AbstractController
     /**
      * @Route("/uploadLogo/{equipeId}", name="uploadLogo")
      */
-    public function uploadLogo(Request $request, $equipeId)
+    public function uploadLogo(Request $request, $equipeId): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $form = $request->files->all();
 
@@ -269,7 +269,7 @@ class EquipeController extends AbstractController
      * @param EquipeService $equipeService
      * @return Response
      */
-    public function createTeam(Request $request, EquipeService $equipeService)
+    public function createTeam(Request $request, EquipeService $equipeService): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $coach = $this->getUser();
 
@@ -293,7 +293,7 @@ class EquipeController extends AbstractController
      * @Route("/choixRace", options = { "expose" = true })
      * @return Response
      */
-    public function choixRace()
+    public function choixRace(): \Symfony\Component\HttpFoundation\Response
     {
         $equipe = new Teams();
 
@@ -307,7 +307,7 @@ class EquipeController extends AbstractController
      * @param int $teamId
      * @return JsonResponse
      */
-    public function retTeam($teamId)
+    public function retTeam(int $teamId): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -333,10 +333,10 @@ class EquipeController extends AbstractController
     public function gestionInducement(
         EquipeService $equipeService,
         PlayerService $playerService,
-        $action,
-        $teamId,
-        $type
-    ) {
+        string $action,
+        int $teamId,
+        string $type
+    ): \Symfony\Component\HttpFoundation\JsonResponse {
         /** @var Teams $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
 
@@ -366,7 +366,7 @@ class EquipeController extends AbstractController
      * @param PlayerService $playerService
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function chkteam($teamId, EquipeService $equipeService, PlayerService $playerService)
+    public function chkteam(int $teamId, EquipeService $equipeService, PlayerService $playerService): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         /** @var Teams $team */
         $team = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
@@ -387,7 +387,7 @@ class EquipeController extends AbstractController
      * @param string $nouveauNomStade
      * @return Response
      */
-    public function changeNomStade(StadeService $stadeService, $equipeId, $nouveauNomStade)
+    public function changeNomStade(StadeService $stadeService, int $equipeId, string $nouveauNomStade): \Symfony\Component\HttpFoundation\Response
     {
         /** @var Teams $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
@@ -405,7 +405,7 @@ class EquipeController extends AbstractController
      * @param int $equipeId
      * @return Response
      */
-    public function ajoutStadeModal($equipeId)
+    public function ajoutStadeModal(int $equipeId): \Symfony\Component\HttpFoundation\Response
     {
         /** @var Teams $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
@@ -427,7 +427,7 @@ class EquipeController extends AbstractController
      * @param int $equipeId
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function ajoutStade(Request $request, StadeService $stadeService, $equipeId)
+    public function ajoutStade(Request $request, StadeService $stadeService, int $equipeId): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         /** @var Teams $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
@@ -465,7 +465,7 @@ class EquipeController extends AbstractController
      * @param PlayerService $playerService
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function recalculerTV(EquipeService $equipeService, PlayerService $playerService)
+    public function recalculerTV(EquipeService $equipeService, PlayerService $playerService): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -485,7 +485,7 @@ class EquipeController extends AbstractController
      * @param Teams $equipe
      * @return Response
      */
-    public function listeDesJoueurs(Teams $equipe)
+    public function listeDesJoueurs(Teams $equipe): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render(
             'statbb/playerAdderTable.html.twig',
@@ -502,7 +502,7 @@ class EquipeController extends AbstractController
      * @param int $equipeId
      * @return Response
      */
-    public function supprimeLogo(int $equipeId)
+    public function supprimeLogo(int $equipeId): \Symfony\Component\HttpFoundation\Response
     {
         /** @var Teams $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
@@ -523,7 +523,7 @@ class EquipeController extends AbstractController
     /**
      * @route("/mettreEnFranchise/{equipeId}", name="mettreEnFranchise", options = { "expose" = true })
      */
-    public function mettreEnFranchise($equipeId)
+    public function mettreEnFranchise($equipeId): \Symfony\Component\HttpFoundation\Response
     {
         /** @var Teams $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
