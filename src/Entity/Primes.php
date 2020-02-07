@@ -42,7 +42,7 @@ class Primes
      * @ORM\JoinColumn(name="team_id", referencedColumnName="team_id")
      * @var \App\Entity\Teams|null
      */
-    private ?\App\Entity\Teams $teams;
+    private ?\App\Entity\Teams $teams = null;
 
     /**
      * @ORM\Column(type="datetime")

@@ -16,8 +16,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PrimeType extends AbstractType
 {
+    private SettingsService $settingsService;
+
     public function __construct(SettingsService $settingsService)
     {
+         $this->settingsService =  $settingsService;
     }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

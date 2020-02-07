@@ -26,9 +26,9 @@ class Defis
 
     /**
      * @ORM\Column(type="boolean")
-     * @var int
+     * @var bool
      */
-    private int $defieRealise = 0;
+    private bool $defieRealise = false;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Matches", cascade={"persist"})
@@ -67,7 +67,7 @@ class Defis
         return $this;
     }
 
-    public function getDefieRealise(): int
+    public function getDefieRealise(): bool
     {
         return $this->defieRealise;
     }

@@ -107,9 +107,9 @@ class MatchesRepository extends ServiceEntityRepository
     /**
      * @param Coaches $coach1
      * @param Coaches $coach2
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return array
      */
-    public function tousLesMatchsDeDeuxCoach(Coaches $coach1, Coaches $coach2): \Doctrine\ORM\QueryBuilder
+    public function tousLesMatchsDeDeuxCoach(Coaches $coach1, Coaches $coach2): array
     {
         return $this->createQueryBuilder('Matches')
             ->join('Matches.team1', 'team1')

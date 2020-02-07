@@ -38,7 +38,7 @@ class SettingsService
     /**
      * @return mixed[]
      */
-    public function tirerCitationAuHasard(): array
+    public function tirerCitationAuHasard()
     {
         $citations = $this->doctrineEntityManager->getRepository(Citations::class)->findAll();
 
