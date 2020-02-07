@@ -86,12 +86,10 @@ class PrimeController extends AbstractController
      * @param SettingsService $settingsService
      * @return Response
      */
-    public function realiserPrimeForm(SettingsService $settingsService)
+    public function realiserPrimeForm()
     {
         $prime = new Primes();
-
         $form = $this->createForm(RealiserPrimeType::class, $prime);
-
         return $this->render('statbb/realisationPrime.html.twig', ['form' => $form->createView()]);
     }
 
