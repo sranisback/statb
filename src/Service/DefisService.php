@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class DefisService
 {
-    private $doctrineEntityManager;
+    private \Doctrine\ORM\EntityManagerInterface $doctrineEntityManager;
 
     public function __construct(EntityManagerInterface $doctrineEntityManager)
     {

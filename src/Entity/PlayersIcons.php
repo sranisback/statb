@@ -14,18 +14,18 @@ class PlayersIcons
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=50)
      */
-    private $iconName;
+    private string $iconName;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\GameDataPlayers")
      * @ORM\JoinColumn(name="f_pos_id", referencedColumnName="pos_id")
      */
-    private $position;
+    private ?\App\Entity\GameDataPlayers $position;
 
     public function getId(): ?int
     {

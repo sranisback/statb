@@ -14,12 +14,12 @@ class Meteo
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=25)
      */
-    private $nom;
+    private string $nom;
 
     public function getId(): ?int
     {

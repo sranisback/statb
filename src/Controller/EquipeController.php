@@ -349,7 +349,7 @@ class EquipeController extends AbstractController
 
         $response = [
             "tv" => $tv,
-            "ptv" => $tv / 1000,
+            "ptv" => $tv / 1_000,
             "tresor" => $equipe->getTreasury(),
             "inducost" => $coutEtnbr['inducost'],
             "type" => $type,

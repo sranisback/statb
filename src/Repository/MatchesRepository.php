@@ -64,7 +64,7 @@ class MatchesRepository extends ServiceEntityRepository
             ['dateCreated' => 'DESC']
         );
 
-        $matches = array_merge($matches1, $matches2);
+        $matches = [...$matches1, ...$matches2];
 
         usort(
             $matches,

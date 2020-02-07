@@ -13,34 +13,30 @@ use Doctrine\ORM\Mapping as ORM;
 class Races
 {
     /**
-     * @var int
      *
      * @ORM\Column(name="race_id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $raceId;
+    private int $raceId;
 
     /**
-     * @var string|null
      *
      * @ORM\Column(name="name", type="string", length=60, nullable=true)
      */
-    private $name;
+    private ?string $name;
 
     /**
-     * @var int|null
      *
-     * @ORM\Column(name="cost_rr", type="integer", nullable=true, options={"unsigned"=true})
+     * @ORM\Column(name="cost_rr", type="integer", nullable=true, options={"unsigned":true})
      */
-    private $costRr;
+    private ?int $costRr;
 
     /**
-     * @var string|null
      *
      * @ORM\Column(name="icon", type="string", length=45, nullable=true)
      */
-    private $icon;
+    private ?string $icon;
 
     public function getRaceId(): ?int
     {

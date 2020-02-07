@@ -20,16 +20,16 @@ use Nette\Utils\DateTime;
 class EquipeService
 {
 
-    private $doctrineEntityManager;
-    private $settingsService;
+    private \Doctrine\ORM\EntityManagerInterface $doctrineEntityManager;
+    private \App\Service\SettingsService $settingsService;
 
-    private $baseElo = 150;
+    private int $baseElo = 150;
 
-    private $coutpop = 10000;
-    private $coutAssistant = 10000;
-    private $coutCheer = 10000;
-    private $coutApo = 50000;
-    private $payementStade = 70000;
+    private int $coutpop = 10_000;
+    private int $coutAssistant = 10_000;
+    private int $coutCheer = 10_000;
+    private int $coutApo = 50_000;
+    private int $payementStade = 70_000;
 
     private const MORTS_VIVANTS = 'Morts vivants';
 
@@ -65,10 +65,10 @@ class EquipeService
             $inducement['rerolls'] = $equipe->getRerolls() * $equipeRace->getCostRr();
         }
 
-        $inducement['pop'] = ($equipe->getFf() + $equipe->getFfBought()) * 10000;
-        $inducement['asscoaches'] = $equipe->getAssCoaches() * 10000;
-        $inducement['cheerleader'] = $equipe->getCheerleaders() * 10000;
-        $inducement['apo'] = $equipe->getApothecary() * 50000;
+        $inducement['pop'] = ($equipe->getFf() + $equipe->getFfBought()) * 10_000;
+        $inducement['asscoaches'] = $equipe->getAssCoaches() * 10_000;
+        $inducement['cheerleader'] = $equipe->getCheerleaders() * 10_000;
+        $inducement['apo'] = $equipe->getApothecary() * 50_000;
         $inducement['total'] = $inducement['rerolls'] + $inducement['pop']
             + $inducement['asscoaches'] + $inducement['cheerleader'] + $inducement['apo'];
 
@@ -236,10 +236,10 @@ class EquipeService
                 $nbr = $stadeDelEquipe->getTotalPayement();
 
                 if ($equipe->getTreasury() >= $this->payementStade) {
-                    $nbr += 50000;
+                    $nbr += 50_000;
                     $stadeDelEquipe->setTotalPayement($nbr);
                     $this->doctrineEntityManager->persist($stadeDelEquipe);
-                    $inducost = 70000;
+                    $inducost = 70_000;
                 }
         }
 
@@ -318,7 +318,7 @@ class EquipeService
                 $stadeDelEquipe = $equipe->getFStades();
                 $nbr = $stadeDelEquipe->getTotalPayement();
                 if ($nbr > 0) {
-                    $nbr -= 50000;
+                    $nbr -= 50_000;
                     $stadeDelEquipe->setTotalPayement($nbr);
                     $inducost = $this->payementStade;
                 }

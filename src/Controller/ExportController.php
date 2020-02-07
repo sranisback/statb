@@ -69,10 +69,10 @@ class ExportController extends AbstractController
 
         $tdata['playersCost'] = $playerService->coutTotalJoueurs($equipe);
         $tdata['rerolls'] = $equipe->getRerolls() * $costRr;
-        $tdata['pop'] = ($equipe->getFf() + $equipe->getFfBought()) * 10000;
-        $tdata['asscoaches'] = $equipe->getAssCoaches() * 10000;
-        $tdata['cheerleader'] = $equipe->getCheerleaders() * 10000;
-        $tdata['apo'] = $equipe->getApothecary() * 50000;
+        $tdata['pop'] = ($equipe->getFf() + $equipe->getFfBought()) * 10_000;
+        $tdata['asscoaches'] = $equipe->getAssCoaches() * 10_000;
+        $tdata['cheerleader'] = $equipe->getCheerleaders() * 10_000;
+        $tdata['apo'] = $equipe->getApothecary() * 50_000;
         $tdata['tv'] = $equipeService->tvDelEquipe($equipe, $playerService);
 
         $html = $this->renderView(

@@ -13,26 +13,24 @@ use Doctrine\ORM\Mapping as ORM;
 class Citations
 {
     /**
-     * @var int
      *
      * @ORM\Column(name="id_cit", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idCit;
+    private int $idCit;
 
     /**
-     * @var string
      *
      * @ORM\Column(name="citation", type="string", length=180, nullable=false)
      */
-    private $citation;
+    private string $citation;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Coaches")
      *  @ORM\JoinColumn(name="coach_id", referencedColumnName="coach_id")
      */
-    private $coachId;
+    private ?\App\Entity\Coaches $coachId;
 
 
     public function getIdCit(): ?int

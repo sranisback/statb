@@ -18,11 +18,11 @@ use phpDocumentor\Reflection\Types\Integer;
 class MatchesService
 {
 
-    private $doctrineEntityManager;
-    private $equipeService;
-    private $playerService;
-    private $settingService;
-    private $defisService;
+    private \Doctrine\ORM\EntityManagerInterface $doctrineEntityManager;
+    private \App\Service\EquipeService $equipeService;
+    private \App\Service\PlayerService $playerService;
+    private \App\Service\SettingsService $settingService;
+    private \App\Service\DefisService $defisService;
 
     public function __construct(
         EntityManagerInterface $doctrineEntityManager,

@@ -14,22 +14,22 @@ class GameDataStadium
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=50)
      */
-    private $famille;
+    private string $famille;
 
     /**
      * @ORM\Column(type="string", length=50)
      */
-    private $type;
+    private string $type;
 
     /**
      * @ORM\Column(type="string", length=1500)
      */
-    private $effect;
+    private string $effect;
 
     public function getId(): ?int
     {

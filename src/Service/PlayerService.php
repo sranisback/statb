@@ -20,9 +20,9 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class PlayerService
 {
-    private $doctrineEntityManager;
-    private $equipeService;
-    private $matchDataService;
+    private \Doctrine\ORM\EntityManagerInterface $doctrineEntityManager;
+    private \App\Service\EquipeService $equipeService;
+    private \App\Service\MatchDataService $matchDataService;
 
     public function __construct(
         EntityManagerInterface $doctrineEntityManager,
@@ -138,10 +138,10 @@ class PlayerService
         if ($compSupplementaire !== []) {
             foreach ($compSupplementaire as $comp) {
                 if ($comp->getType() == 'N') {
-                    $coutTotal += 20000;
+                    $coutTotal += 20_000;
                     $listCompGagnee .= '<text class="text-success">' . $comp->getFSkill()->getName() . '</text>, ';
                 } else {
-                    $coutTotal += 30000;
+                    $coutTotal += 30_000;
                     $listCompGagnee .= '<text class="text-danger">' . $comp->getFSkill()->getName() . '</text>, ';
                 }
             }
@@ -165,25 +165,25 @@ class PlayerService
 
         if ($joueur->getAchMa() > 0) {
             $listSupp .= '<text class="text-success">+1 Ma</text>, ';
-            $cout += 30000;
+            $cout += 30_000;
         }
 
         if ($joueur->getAchSt() > 0) {
             $listSupp .= '<text class="text-success">+1 St</text>, ';
 
-            $cout += 50000;
+            $cout += 50_000;
         }
 
         if ($joueur->getAchAg() > 0) {
             $listSupp .= '<text class="text-success">+1 Ag</text>, ';
 
-            $cout += 40000;
+            $cout += 40_000;
         }
 
         if ($joueur->getAchAv() > 0) {
             $listSupp .= '<text class="text-success">+1 Av</text>, ';
 
-            $cout += 30000;
+            $cout += 30_000;
         }
 
         return ['nivspec' => $listSupp, 'cout' => $cout];

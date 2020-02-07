@@ -14,133 +14,116 @@ use Doctrine\ORM\Mapping as ORM;
 class Teams
 {
     /**
-     * @var int
      *
-     * @ORM\Column(name="team_id", type="integer", nullable=false, options={"unsigned"=true})
+     * @ORM\Column(name="team_id", type="integer", nullable=false, options={"unsigned":true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $teamId;
+    private int $teamId;
 
     /**
-     * @var string|null
      *
      * @ORM\Column(name="name", type="string", length=60, nullable=true)
      */
-    private $name;
+    private ?string $name;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="treasury", type="bigint", nullable=true)
      */
-    private $treasury;
+    private ?int $treasury;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="apothecary", type="integer", nullable=true)
      */
-    private $apothecary = 0;
+    private int $apothecary = 0;
 
     /**
-     * @var int|null
      *
-     * @ORM\Column(name="rerolls", type="integer", nullable=true, options={"unsigned"=true})
+     * @ORM\Column(name="rerolls", type="integer", nullable=true, options={"unsigned":true})
      */
-    private $rerolls = 0;
+    private int $rerolls = 0;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="ff_bought", type="integer", nullable=true)
      */
-    private $ffBought = 0;
+    private int $ffBought = 0;
 
     /**
-     * @var int|null
      *
-     * @ORM\Column(name="ass_coaches", type="integer", nullable=true, options={"unsigned"=true})
+     * @ORM\Column(name="ass_coaches", type="integer", nullable=true, options={"unsigned":true})
      */
-    private $assCoaches = 0;
+    private int $assCoaches = 0;
 
     /**
-     * @var int|null
      *
-     * @ORM\Column(name="cheerleaders", type="integer", nullable=true, options={"unsigned"=true})
+     * @ORM\Column(name="cheerleaders", type="integer", nullable=true, options={"unsigned":true})
      */
-    private $cheerleaders = 0;
+    private int $cheerleaders = 0;
 
     /**
-     * @var bool
      *
      * @ORM\Column(name="retired", type="boolean", nullable=false)
      */
-    private $retired = false;
+    private bool $retired = false;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="ff", type="integer", nullable=true)
      */
-    private $ff = 0;
+    private int $ff = 0;
 
     /**
-     * @var float|null
      *
      * @ORM\Column(name="elo", type="float", precision=10, scale=0, nullable=true)
      */
-    private $elo;
+    private ?float $elo;
 
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="tv", type="integer", nullable=true)
      */
-    private $tv;
+    private ?int $tv;
 
     /**
-     * @var int
      *
      * @ORM\Column(name="year", type="integer", nullable=false)
      */
-    private $year;
+    private int $year;
 
     /**
-     * @var Coaches
      *
      * @ORM\ManyToOne(targetEntity="Coaches", fetch="EAGER")
-     *   @ORM\JoinColumn(name="owned_by_coach_id", referencedColumnName="coach_id")
+     *   @ORM\JoinColumn  (name="owned_by_coach_id", referencedColumnName="coach_id")
      */
-    private $ownedByCoach;
+    private ?\App\Entity\Coaches $ownedByCoach;
 
     /**
-     * @var Races
      *
      * @ORM\ManyToOne(targetEntity="Races", fetch="EAGER")
      * @ORM\JoinColumn(name="f_race_id", referencedColumnName="race_id", nullable=false)
      */
-
-    private $fRace;
+    private \App\Entity\Races $fRace;
 
     /**
-     * @var Stades
      *
      * @ORM\ManyToOne(targetEntity="Stades", fetch="EAGER")
      * @ORM\JoinColumn(name="f_stade_id", referencedColumnName="id", nullable=false)
      */
-    private $fStades;
+    private \App\Entity\Stades $fStades;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $logo;
+    private ?string $logo;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $franchise = 0;
+    private int $franchise = 0;
 
     /**
      * @return Stades

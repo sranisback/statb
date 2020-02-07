@@ -18,115 +18,102 @@ use Doctrine\ORM\Mapping as ORM;
 class Matches
 {
     /**
-     * @var int
      *
      * @ORM\Column(name="match_id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $matchId;
+    private int $matchId;
 
     /**
-     * @var int
      *
-     * @ORM\Column(name="fans", type="integer", nullable=false, options={"unsigned"=true})
+     * @ORM\Column(name="fans", type="integer", nullable=false, options={"unsigned":true})
      */
-    private $fans = 0;
+    private int $fans = 0;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="ffactor1", type="integer", nullable=true)
      */
-    private $ffactor1;
+    private ?int $ffactor1;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="ffactor2", type="integer", nullable=true)
      */
-    private $ffactor2;
+    private ?int $ffactor2;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="income1", type="integer", nullable=true)
      */
-    private $income1;
+    private ?int $income1;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="income2", type="integer", nullable=true)
      */
-    private $income2;
+    private ?int $income2;
 
     /**
-     * @var DateTime
      *
      * @ORM\Column(name="date_created", type="datetime", nullable=true)
      */
-    private $dateCreated;
+    private ?\DateTimeInterface $dateCreated;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="team1_score", type="integer", nullable=true)
      */
-    private $team1Score;
+    private ?int $team1Score;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="team2_score", type="integer", nullable=true)
      */
-    private $team2Score;
+    private ?int $team2Score;
 
     /**
-     * @var int
      *
      * @ORM\Column(name="tv1", type="integer", nullable=false)
      */
-    private $tv1 = 0;
+    private int $tv1 = 0;
 
     /**
-     * @var int
      *
      * @ORM\Column(name="tv2", type="integer", nullable=false)
      */
-    private $tv2 = 0;
+    private int $tv2 = 0;
 
     /**
-     * @var Teams
      *
      * @ORM\ManyToOne(targetEntity="Teams", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="team1_id", referencedColumnName="team_id")
      * })
      */
-    private $team1;
+    private ?\App\Entity\Teams $team1;
 
     /**
-     * @var Teams
      *
      * @ORM\ManyToOne(targetEntity="Teams", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="team2_id", referencedColumnName="team_id")
      * })
      */
-    private $team2;
+    private ?\App\Entity\Teams $team2;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Meteo")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $fMeteo = 0;
+    private int $fMeteo = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\GameDataStadium", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $fStade = 0;
+    private int $fStade = 0;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\HistoriqueBlessure", mappedBy="fmatch", fetch="EAGER")
@@ -135,7 +122,7 @@ class Matches
 /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $stadeAcceuil;
+    private ?int $stadeAcceuil;
 
     public function __construct()
     {

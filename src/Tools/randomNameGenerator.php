@@ -6,9 +6,9 @@ class randomNameGenerator
 {
 
     public $output;
-    private $version;
-    public $allowedFormats;
-    public $inputFormat;
+    private string $version;
+    public array $allowedFormats;
+    public string $inputFormat;
 
     public function __construct($output = 'array')
     {

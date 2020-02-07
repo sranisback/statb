@@ -17,7 +17,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class PrimeType extends AbstractType
 {
 
-    private $settingsService;
+    private \App\Service\SettingsService $settingsService;
 
     public function __construct(
         SettingsService $settingsService

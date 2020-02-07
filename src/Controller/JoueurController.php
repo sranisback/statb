@@ -230,7 +230,7 @@ class JoueurController extends AbstractController
         $response = [
             "html" => $html,
             "tv" => $tv,
-            "ptv" => ($tv / 1000),
+            "ptv" => ($tv / 1_000),
             "tresor" => $tresors,
             "playercost" => $coutjoueur,
             "reponse" => $reponse,
@@ -255,7 +255,7 @@ class JoueurController extends AbstractController
 
         $response = array(
             "tv" => $resultat['tv'],
-            "ptv" => ($resultat['tv'] / 1000),
+            "ptv" => ($resultat['tv'] / 1_000),
             "tresor" => $resultat['tresor'],
             "playercost" => $resultat['playercost'],
             "reponse" => $resultat['reponse'],

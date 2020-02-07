@@ -13,27 +13,24 @@ use Doctrine\ORM\Mapping as ORM;
 class GameDataSkills
 {
     /**
-     * @var int
      *
-     * @ORM\Column(name="skill_id", type="smallint", nullable=false, options={"unsigned"=true})
+     * @ORM\Column(name="skill_id", type="smallint", nullable=false, options={"unsigned":true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $skillId;
+    private int $skillId;
 
     /**
-     * @var string|null
      *
      * @ORM\Column(name="name", type="string", length=60, nullable=true)
      */
-    private $name;
+    private ?string $name;
 
     /**
-     * @var string|null
      *
      * @ORM\Column(name="cat", type="string", length=1, nullable=true)
      */
-    private $cat;
+    private ?string $cat;
 
     public function getSkillId(): ?int
     {
