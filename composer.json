@@ -74,6 +74,8 @@
         "phpstan": "phpstan analyse src/ -c phpstan.neon --level=7 --no-progress -vvv --memory-limit=1024M > phpstan.log",
         "phpcs": "phpcs --standard=PSR2 --ignore=src/Migrations/*,src/Tools/* src/ > phpcs.log",
         "phpcbf": "phpcbf --standard=PSR2 src > phpcbf.log",
+        "rectorDry " : "vendor\\bin\\rector process --config rector.yml --dry-run > rectorDry.log",
+        "rector " : "vendor\\bin\\rector process --config rector.yml > rector.log",
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
