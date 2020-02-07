@@ -24,13 +24,13 @@ class Citations
      *
      * @ORM\Column(name="citation", type="string", length=180, nullable=false)
      */
-    private string $citation;
+    private ?string $citation = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Coaches")
      *  @ORM\JoinColumn(name="coach_id", referencedColumnName="coach_id")
      */
-    private ?\App\Entity\Coaches $coachId;
+    private ?\App\Entity\Coaches $coachId = null;
 
 
     public function getIdCit(): ?int

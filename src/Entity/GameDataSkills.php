@@ -30,7 +30,7 @@ class GameDataSkills
      *
      * @ORM\Column(name="cat", type="string", length=1, nullable=true)
      */
-    private ?string $cat;
+    private ?string $cat = null;
 
     public function getSkillId(): ?int
     {

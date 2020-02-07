@@ -29,43 +29,43 @@ class MatchData
      *
      * @ORM\Column(name="mvp", type="integer", nullable=true)
      */
-    private ?int $mvp;
+    private ?int $mvp = 0;
 
     /**
      *
      * @ORM\Column(name="cp", type="integer", nullable=true)
      */
-    private ?int $cp;
+    private ?int $cp = 0;
 
     /**
      *
      * @ORM\Column(name="td", type="integer", nullable=true)
      */
-    private ?int $td;
+    private ?int $td = 0;
 
     /**
      *
      * @ORM\Column(name="intcpt", type="integer", nullable=true)
      */
-    private ?int $intcpt;
+    private ?int $intcpt = 0;
 
     /**
      *
      * @ORM\Column(name="bh", type="integer", nullable=true)
      */
-    private ?int $bh;
+    private ?int $bh = 0;
 
     /**
      *
      * @ORM\Column(name="si", type="integer", nullable=true)
      */
-    private ?int $si;
+    private ?int $si = 0;
 
     /**
      *
      * @ORM\Column(name="ki", type="integer", nullable=true)
      */
-    private ?int $ki;
+    private ?int $ki = 0;
 
     /**
      *
@@ -77,7 +77,7 @@ class MatchData
      *
      * @ORM\Column(name="agg", type="integer", nullable=true)
      */
-    private ?int $agg;
+    private ?int $agg = 0;
 
     /**
      *

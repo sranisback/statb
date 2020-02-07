@@ -26,7 +26,7 @@ class HistoriqueBlessure
      * @ORM\ManyToOne(targetEntity="App\Entity\Players", inversedBy="historiqueBlessures")
      * @ORM\JoinColumn(name="fplayer", referencedColumnName="player_id")
      */
-    private ?\App\Entity\Players $Player;
+    private ?\App\Entity\Players $Player = null;
 
     /**
      *

@@ -25,7 +25,7 @@ class Teams
      *
      * @ORM\Column(name="name", type="string", length=60, nullable=true)
      */
-    private ?string $name;
+    private ?string $name = null;
 
     /**
      *
@@ -106,7 +106,7 @@ class Teams
      * @ORM\ManyToOne(targetEntity="Races", fetch="EAGER")
      * @ORM\JoinColumn(name="f_race_id", referencedColumnName="race_id", nullable=false)
      */
-    private \App\Entity\Races $fRace;
+    private ?\App\Entity\Races $fRace = null;
 
     /**
      *
