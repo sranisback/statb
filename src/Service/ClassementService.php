@@ -27,9 +27,7 @@ class ClassementService
         $matches = $this->doctrineEntityManager
             ->getRepository(Matches::class)->tousLesMatchDuneAnneClassementChrono($annee);
 
-        $matchesAafficher = $this->cinqPremierMatches($matches);
-
-        return $matchesAafficher;
+        return $this->cinqPremierMatches($matches);
     }
 
     /**
@@ -57,9 +55,7 @@ class ClassementService
             $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId])
         );
 
-        $matchesAafficher = $this->cinqPremierMatches($matches);
-
-        return $matchesAafficher;
+        return $this->cinqPremierMatches($matches);
     }
 
     /**
@@ -210,7 +206,7 @@ class ClassementService
         $classement = '';
         $titre = '';
 
-        if ($type == 'dead') {
+        if ($type === 'dead') {
             $matchData = $this->doctrineEntityManager->getRepository(
                 Players::class
             )->sousClassementEquipeFournisseurDeCadavre(
@@ -266,11 +262,7 @@ class ClassementService
         $score = $this->doctrineEntityManager->getRepository(MatchData::class)->totalcas($annee);
         $nbrMatches = count($this->doctrineEntityManager->getRepository(Matches::class)->tousLesMatchDuneAnne($annee));
 
-        if ($nbrMatches === 0) {
-            $moyenne = 0;
-        } else {
-            $moyenne = round($score / $nbrMatches, 2);
-        }
+        $moyenne = $nbrMatches === 0 ? 0 : round($score / $nbrMatches, 2);
         return [
             'score' => $score,
             'nbrMatches' => $nbrMatches,

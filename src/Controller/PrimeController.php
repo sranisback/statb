@@ -24,7 +24,7 @@ class PrimeController extends AbstractController
     {
         $prime = new Primes();
 
-        if ($primeId == null) {
+        if ($primeId === null) {
             $prime = $this->getDoctrine()->getRepository(Primes::class)->findOneBy(['id' => $primeId]);
         }
 

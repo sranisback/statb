@@ -226,7 +226,7 @@ class MatchesService
                     break;
             }
 
-            if ($histoBlessure->getPlayer()) {
+            if ($histoBlessure->getPlayer() !== null) {
                 $this->doctrineEntityManager->persist($histoBlessure);
             }
             $this->doctrineEntityManager->persist($joueur);

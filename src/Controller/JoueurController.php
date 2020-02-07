@@ -87,17 +87,13 @@ class JoueurController extends AbstractController
                 if (!empty($joueur)) {
                     $actions = $playerService->actionDuJoueurDansUnMatch($match, $joueur);
                 }
-                if (!empty($actions)) {
-                    $msdata[$count]["data"] = substr($actions, 0, strlen($actions) - 2);
-                } else {
-                    $msdata[$count]["data"] = '';
-                };
+                $msdata[$count]["data"] = !empty($actions) ? substr($actions, 0, strlen($actions) - 2) : '';;
 
                 $count++;
             }
         }
 
-        if ($count == 0) {
+        if ($count === 0) {
             $msdata[$count]["mId"] = 0;
             $msdata[$count]["data"] = '';
         }
@@ -197,7 +193,7 @@ class JoueurController extends AbstractController
             /** @var Players $joueur */
             $joueur = $resultat['joueur'];
             $position = $joueur->getFPos();
-            if ($position) {
+            if ($position !== null) {
                 $competences = $playerService->listeDesCompdDeBasedUnJoueur($joueur);
 
                 $competences = substr($competences, 0, strlen($competences) - 2);
@@ -212,7 +208,7 @@ class JoueurController extends AbstractController
 
                 $coutjoueur = $joueur->getValue();
 
-                if ($equipe) {
+                if ($equipe !== null) {
                     $tv = $equipeService->tvDelEquipe($equipe, $playerService);
                     $tresors = $equipe->getTreasury();
                 }
@@ -290,7 +286,7 @@ class JoueurController extends AbstractController
 
         $playerTeam = $player->getOwnedByTeam();
 
-        if ($playerTeam) {
+        if ($playerTeam !== null) {
             $playerTeamId = $playerTeam->getTeamId();
         }
         $response = new Response();
@@ -322,7 +318,7 @@ class JoueurController extends AbstractController
 
         $playerTeam = $player->getOwnedByTeam();
 
-        if ($playerTeam) {
+        if ($playerTeam !== null) {
             $playerTeamId = $playerTeam->getTeamId();
         }
         $response = new Response();

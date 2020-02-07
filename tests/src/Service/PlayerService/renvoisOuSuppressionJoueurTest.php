@@ -103,7 +103,7 @@ class renvoisOuSuppressionJoueurTest extends KernelTestCase
         );
 
         $playersSkillsRepoMock = $this->createMock(ObjectRepository::class);
-        $playersSkillsRepoMock->method('findBy')->willReturn(null);
+        $playersSkillsRepoMock->method('findBy')->willReturn([]);
 
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->will(

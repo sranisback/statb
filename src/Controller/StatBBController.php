@@ -55,10 +55,8 @@ class StatBBController extends AbstractController
         if ($coach != null) {
             $role = $coach->getRoles();
 
-            if ($role['role'] == 'ROLE_ADMIN') {
-                if ($settingsService->mettreaJourLaPeriode(date('m/d/Y')) == true) {
-                    $this->addFlash('admin', 'Periode Mise à jour');
-                };
+            if ($role['role'] == 'ROLE_ADMIN' && $settingsService->mettreaJourLaPeriode(date('m/d/Y')) == true) {
+                $this->addFlash('admin', 'Periode Mise à jour');;
             }
 
             foreach ($defisService->lesDefisEnCoursContreLeCoach($settingsService, $coach) as $defisEnCours) {
@@ -153,18 +151,14 @@ class StatBBController extends AbstractController
         /** @var Players $joueur */
         foreach ($this->getDoctrine()->getRepository(Players::class)->findAll() as $joueur) {
             $icon = $joueur->getIcon();
-            if (!empty($icon)) {
-                if ($icon->getIconName() === 'nope') {
-                    /** @var PlayersIcons[] $iconesPositions */
-                    $iconesPositions = $this
-                        ->getDoctrine()
-                        ->getRepository(PlayersIcons::class)->findBy(['position' => $joueur->getFPos()]);
-                    $joueur->setIcon($iconesPositions[ rand(0, count($iconesPositions) - 1)]);
-
-                    $this->getDoctrine()->getManager()->persist($joueur);
-
-                    $this->getDoctrine()->getManager()->flush();
-                }
+            if (!empty($icon) && $icon->getIconName() === 'nope') {
+                /** @var PlayersIcons[] $iconesPositions */
+                $iconesPositions = $this
+                    ->getDoctrine()
+                    ->getRepository(PlayersIcons::class)->findBy(['position' => $joueur->getFPos()]);
+                $joueur->setIcon($iconesPositions[ rand(0, count($iconesPositions) - 1)]);
+                $this->getDoctrine()->getManager()->persist($joueur);
+                $this->getDoctrine()->getManager()->flush();
             }
         }
         return new Response('ok');

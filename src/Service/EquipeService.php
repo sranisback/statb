@@ -61,7 +61,7 @@ class EquipeService
     {
         $equipeRace = $equipe->getFRace();
 
-        if ($equipeRace) {
+        if ($equipeRace !== null) {
             $inducement['rerolls'] = $equipe->getRerolls() * $equipeRace->getCostRr();
         }
 
@@ -114,8 +114,8 @@ class EquipeService
         } elseif (($equipe === $match->getTeam1() && $match->getTeam1Score() < $match->getTeam2Score(
         )) || ($equipe === $match->getTeam2() && $match->getTeam1Score() > $match->getTeam2Score())) {
             $loss++;
-        } elseif (($equipe === $match->getTeam1() && $match->getTeam1Score() == $match->getTeam2Score(
-        )) || ($equipe === $match->getTeam2() && $match->getTeam1Score() == $match->getTeam2Score())) {
+        } elseif (($equipe === $match->getTeam1() && $match->getTeam1Score() === $match->getTeam2Score(
+        )) || ($equipe === $match->getTeam2() && $match->getTeam1Score() === $match->getTeam2Score())) {
             $draw++;
         }
 
@@ -181,16 +181,16 @@ class EquipeService
             case "rr":
                 $race = $equipe->getFRace();
 
-                if ($race) {
+                if ($race !== null) {
                     $coutRR = $race->getCostRr();
                     $nbr = $equipe->getRerolls();
 
                     if (count($matches) > 0) {
-                        $coutRR = $coutRR * 2;
+                        $coutRR *= 2;
                     }
                     if ($equipe->getTreasury() >= $coutRR) {
                         $inducost = $coutRR;
-                        $nbr = $nbr + 1;
+                        $nbr += 1;
                         $equipe->setRerolls($nbr);
                     }
                 }
@@ -198,19 +198,17 @@ class EquipeService
             case "pop":
                 $nbr = $equipe->getFfBought() + $equipe->getFf();
 
-                if (count($matches) == 0) {
-                    if ($equipe->getTreasury() >= $this->coutpop) {
-                        $nbr = $nbr + 1;
-                        $equipe->setFfBought($equipe->getFfBought() + 1);
-                        $inducost = $this->coutpop;
-                    }
+                if (count($matches) === 0 && $equipe->getTreasury() >= $this->coutpop) {
+                    $nbr += 1;
+                    $equipe->setFfBought($equipe->getFfBought() + 1);
+                    $inducost = $this->coutpop;
                 }
                 break;
             case "ac":
                 $nbr = $equipe->getAssCoaches();
 
                 if ($equipe->getTreasury() >= $this->coutAssistant) {
-                    $nbr = $nbr + 1;
+                    $nbr += 1;
                     $equipe->setAssCoaches($nbr);
                     $inducost = $this->coutAssistant;
                 }
@@ -219,7 +217,7 @@ class EquipeService
                 $nbr = $equipe->getCheerleaders();
 
                 if ($equipe->getTreasury() >= $this->coutCheer) {
-                    $nbr = $nbr + 1;
+                    $nbr += 1;
                     $equipe->setCheerleaders($nbr);
                     $inducost = $this->coutCheer;
                 }
@@ -278,29 +276,25 @@ class EquipeService
             case "rr":
                 $race = $equipe->getFRace();
 
-                if ($race) {
-                    if ($equipe->getRerolls() > 0) {
-                        $inducost = $race->getCostRr();
-                        $nbr = $equipe->getRerolls() - 1;
-                        $equipe->setRerolls($nbr);
-                    }
+                if ($race !== null && $equipe->getRerolls() > 0) {
+                    $inducost = $race->getCostRr();
+                    $nbr = $equipe->getRerolls() - 1;
+                    $equipe->setRerolls($nbr);
                 }
                 break;
             case "pop":
                 $nbr = $equipe->getFfBought() + $equipe->getFf();
-                if (count($matches) == 0) {
-                    if ($equipe->getFfBought() > 0) {
-                        $inducost = $this->coutpop;
-                        $nbr = $nbr - 1;
-                        $equipe->setFfBought($equipe->getFfBought() - 1);
-                    }
+                if (count($matches) === 0 && $equipe->getFfBought() > 0) {
+                    $inducost = $this->coutpop;
+                    $nbr -= 1;
+                    $equipe->setFfBought($equipe->getFfBought() - 1);
                 }
                 break;
             case "ac":
                 $nbr = $equipe->getAssCoaches();
                 if ($nbr > 0) {
                     $inducost = $this->coutAssistant;
-                    $nbr = $nbr - 1;
+                    $nbr -= 1;
                     $equipe->setAssCoaches($nbr);
                 }
                 break;
@@ -308,7 +302,7 @@ class EquipeService
                 $nbr = $equipe->getCheerleaders();
                 if ($nbr > 0) {
                     $inducost = $this->coutCheer;
-                    $nbr = $nbr - 1;
+                    $nbr -= 1;
                     $equipe->setCheerleaders($nbr);
                 }
                 break;
@@ -324,14 +318,14 @@ class EquipeService
                 $stadeDelEquipe = $equipe->getFStades();
                 $nbr = $stadeDelEquipe->getTotalPayement();
                 if ($nbr > 0) {
-                    $nbr = $nbr - 50000;
+                    $nbr -= 50000;
                     $stadeDelEquipe->setTotalPayement($nbr);
                     $inducost = $this->payementStade;
                 }
                 break;
         }
 
-        if (count($matches) == 0) {
+        if (count($matches) === 0) {
             $nouveauTresor = $equipe->getTreasury() + $inducost;
             $equipe->setTreasury($nouveauTresor);
         }
@@ -399,10 +393,8 @@ class EquipeService
                     10,
                     ($r[$equipe1Id] - $r[$equipe2Id]) / $d
                 ) + 1);
-                $r[$equipe1Id] = $r[$equipe1Id]
-                    + ($nbrDeCoachesActifsDivParDeux * ($resultat1 - $pourcentageVictoireEquipe1));
-                $r[$equipe2Id] = $r[$equipe2Id]
-                    + ($nbrDeCoachesActifsDivParDeux * ($resultat2 - $pourcentageVictoireEquipe2));
+                $r[$equipe1Id] += $nbrDeCoachesActifsDivParDeux * ($resultat1 - $pourcentageVictoireEquipe1);
+                $r[$equipe2Id] += $nbrDeCoachesActifsDivParDeux * ($resultat2 - $pourcentageVictoireEquipe2);
             }
         }
 
@@ -440,9 +432,7 @@ class EquipeService
                 );
 
             if (!empty($retourRequete)) {
-                foreach ($retourRequete as $equipe) {
-                    $anciennesEquipes[] = $equipe;
-                }
+                $anciennesEquipes = array_merge($anciennesEquipes, $retourRequete);
             }
         }
 
@@ -507,22 +497,16 @@ class EquipeService
         foreach ($this->doctrineEntityManager->getRepository(
             Players::class
         )->listeDesJournaliersDeLequipe($equipe) as $journalierAVendre) {
-            if ($nombreVendu < $nbrDeJournalierAvendre) {
-                /** @var Players $journalierAVendre */
-                if ($journalierAVendre->getStatus() != 9) {
-                    $journalierAVendre->setStatus(7);
-
-                    $dateSoldFormat = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
-
-                    if ($dateSoldFormat) {
-                        $journalierAVendre->setDateSold($dateSoldFormat);
-                    }
-
-                    $this->doctrineEntityManager->persist($journalierAVendre);
-                    $this->doctrineEntityManager->flush();
-
-                    $nombreVendu++;
+            /** @var Players $journalierAVendre */
+            if ($nombreVendu < $nbrDeJournalierAvendre && $journalierAVendre->getStatus() != 9) {
+                $journalierAVendre->setStatus(7);
+                $dateSoldFormat = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
+                if ($dateSoldFormat) {
+                    $journalierAVendre->setDateSold($dateSoldFormat);
                 }
+                $this->doctrineEntityManager->persist($journalierAVendre);
+                $this->doctrineEntityManager->flush();
+                $nombreVendu++;
             }
         }
 

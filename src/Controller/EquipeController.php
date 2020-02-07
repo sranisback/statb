@@ -228,7 +228,7 @@ class EquipeController extends AbstractController
                 ]
             );
         }
-        if ($equipe) {
+        if ($equipe !== []) {
             return $this->redirectToRoute('team', ['teamid' => $equipe[0]->getTeamId()]);
         }
         return $this->render('statbb/front.html.twig', ['annee' => $settingsService->anneeCourante()]);
@@ -340,7 +340,7 @@ class EquipeController extends AbstractController
         /** @var Teams $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
 
-        if ($action == 'add') {
+        if ($action === 'add') {
             $coutEtnbr = $equipeService->ajoutInducement($equipe, $type, $playerService);
         } else {
             $coutEtnbr = $equipeService->supprInducement($equipe, $type, $playerService);

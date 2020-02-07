@@ -5,6 +5,7 @@ namespace App\Tools;
 class randomNameGenerator
 {
 
+    public $output;
     private $version;
     public $allowedFormats;
     public $inputFormat;
@@ -26,9 +27,8 @@ class randomNameGenerator
     private function getList($type)
     {
         $json = file_get_contents($type . '.' . $this->inputFormat, FILE_USE_INCLUDE_PATH);
-        $data = json_decode($json, true);
 
-        return $data;
+        return json_decode($json, true);
     }
 
     public function generateNames($num)
