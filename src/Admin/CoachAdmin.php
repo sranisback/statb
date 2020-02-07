@@ -27,7 +27,7 @@ final class CoachAdmin extends AbstractAdmin
         /** @var Coaches $object */
         $plainPassword = $object->getPasswd();
         $container = $this->getConfigurationPool()->getContainer();
-        if ($container) {
+        if ($container !== null) {
             $encoder = $container->get('security.password_encoder');
             $encoded = $encoder->encodePassword($object, $plainPassword);
             $object->setPasswd($encoded);

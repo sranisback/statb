@@ -72,11 +72,7 @@ class SettingsService
     public function dateDansLaPeriodeCourante($date)
     {
         $periodeCourrante = $this->periodeDefisCourrante();
-
-        if (($date > $periodeCourrante['debut']) && ($date < $periodeCourrante['fin'])) {
-            return true;
-        }
-        return false;
+        return ($date > $periodeCourrante['debut']) && ($date < $periodeCourrante['fin']);
     }
 
     public function mettreaJourLaPeriode($maintenant)

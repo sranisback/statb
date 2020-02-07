@@ -46,7 +46,7 @@ class listeDesAnciennesEquipesTest extends KernelTestCase
         $objectManager->method('getRepository')->willReturn($equipeRepoMock);
 
         $settingServiceMock = $this->createMock(SettingsService::class);
-        $settingServiceMock->expects($this->any())->method('anneeCourante')->willReturn(3);
+        $settingServiceMock->method('anneeCourante')->willReturn(3);
 
         $equipeService = new EquipeService($objectManager, $settingServiceMock );
 

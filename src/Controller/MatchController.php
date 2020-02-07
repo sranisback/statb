@@ -80,17 +80,17 @@ class MatchController extends AbstractController
     ) {
         $recuperationDonneeForm = [];
 
-        if ($contenu = $request->getContent()) {
+        if (($contenu = $request->getContent()) !== '') {
             $recuperationDonneeForm = json_decode($contenu, true);
         }
 
         $resultat = $matchesService->enregistrerMatch($recuperationDonneeForm);
 
-        if ($resultat['enregistrement']) {
+        if ($resultat['enregistrement'] !== []) {
             $url = $this->generateUrl('match', ['matchId' => $resultat['enregistrement']]);
             $this->addFlash('admin', 'Match enregistré, <a href= "'.$url.'"> Voir </a>');
         }
-        if ($resultat['defis']) {
+        if ($resultat['defis'] !== []) {
             $this->addFlash('admin', 'Un defis a été réalisé');
         }
 

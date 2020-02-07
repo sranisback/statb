@@ -88,7 +88,7 @@ class PlayerService
     {
         $position = $joueur->getFPos();
 
-        if ($position) {
+        if ($position !== null) {
             return $this->listeDesCompdUnePosition($position);
         }
 
@@ -135,7 +135,7 @@ class PlayerService
         $coutTotal = 0;
         $listCompGagnee = '';
 
-        if ($compSupplementaire) {
+        if ($compSupplementaire !== []) {
             foreach ($compSupplementaire as $comp) {
                 if ($comp->getType() == 'N') {
                     $coutTotal += 20000;
@@ -419,7 +419,7 @@ class PlayerService
     public function valeurDunJoueur(Players $joueur)
     {
         $position = $joueur->getFPos();
-        if ($position) {
+        if ($position !== null) {
             $coutCompetencesGagnee = $this->listeDesCompEtSurcoutGagnedUnJoueur($joueur);
             $coutNiveauSpeciaux = $this->listenivSpeciauxEtSurcout($joueur);
 
@@ -462,7 +462,7 @@ class PlayerService
             $normale = '';
             $double = '';
 
-            if ($positionDuJoueur) {
+            if ($positionDuJoueur !== null) {
                 $double = $positionDuJoueur->getDoub();
                 $normale = $positionDuJoueur->getNorm();
             }
@@ -602,7 +602,7 @@ class PlayerService
             /** @var MatchData $listeActionsDunJoueur */
             $name = $listeActionsDunJoueur->getFPlayer()->getName();
 
-            if ($actions != '') {
+            if ($actions !== '') {
                 if (strlen($name) < 2) {
                     $name = 'Inconnu';
                 }

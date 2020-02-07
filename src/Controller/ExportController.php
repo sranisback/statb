@@ -65,7 +65,7 @@ class ExportController extends AbstractController
 
         $race = $equipe->getFRace();
 
-        $costRr = $race ? $race->getCostRr() : 0;
+        $costRr = $race !== null ? $race->getCostRr() : 0;
 
         $tdata['playersCost'] = $playerService->coutTotalJoueurs($equipe);
         $tdata['rerolls'] = $equipe->getRerolls() * $costRr;
