@@ -418,8 +418,6 @@ class EquipeController extends AbstractController
             'statbb/ajoutStade.html.twig',
             ['form' => $form->createView(), 'teamId' => $equipe->getTeamId()]
         );
-
-        return new Response('');
     }
 
     /**

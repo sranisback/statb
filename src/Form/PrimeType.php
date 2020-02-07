@@ -16,15 +16,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PrimeType extends AbstractType
 {
-
-    private \App\Service\SettingsService $settingsService;
-
-    public function __construct(
-        SettingsService $settingsService
-    ) {
-        $this->settingsService = $settingsService;
+    public function __construct(SettingsService $settingsService)
+    {
     }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
@@ -102,7 +96,6 @@ class PrimeType extends AbstractType
             ->add('cancel', ButtonType::class, ['label' => 'Annuler', 'attr' => ['data-dismiss' => 'modal']])
             ->getForm();
     }
-
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(

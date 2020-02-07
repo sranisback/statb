@@ -113,7 +113,7 @@ class Teams
      * @ORM\ManyToOne(targetEntity="Stades", fetch="EAGER")
      * @ORM\JoinColumn(name="f_stade_id", referencedColumnName="id", nullable=false)
      */
-    private \App\Entity\Stades $fStades;
+    private ?\App\Entity\Stades $fStades = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)

@@ -26,7 +26,6 @@ class ExportController extends AbstractController
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->find($id);
 
         $count = 0;
-        $html = '';
 
         $pdata = [];
         $pdata[] = [];

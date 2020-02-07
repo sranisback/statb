@@ -19,13 +19,13 @@ class PlayersIcons
     /**
      * @ORM\Column(type="string", length=50)
      */
-    private string $iconName;
+    private ?string $iconName = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\GameDataPlayers")
      * @ORM\JoinColumn(name="f_pos_id", referencedColumnName="pos_id")
      */
-    private ?\App\Entity\GameDataPlayers $position;
+    private ?\App\Entity\GameDataPlayers $position = null;
 
     public function getId(): ?int
     {

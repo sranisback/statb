@@ -6,21 +6,16 @@ class randomNameGenerator
 {
 
     public $output;
-    private string $version;
     public array $allowedFormats;
     public string $inputFormat;
 
     public function __construct($output = 'array')
     {
-
-        $this->version = '1.0.0';
         $this->allowedFormats = array('array', 'json', 'associative_array');
         $this->inputFormat = 'json';
-
         if (!in_array($output, $this->allowedFormats)) {
             throw new Exception('Unrecognized format');
         }
-
         $this->output = $output;
     }
 
