@@ -25,7 +25,7 @@ class Players
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private int $playerId;
+    private int $playerId = 0;
 
     /**
      *
@@ -37,7 +37,7 @@ class Players
      *
      * @ORM\Column(name="name", type="string", length=60, nullable=true)
      */
-    private ?string $name;
+    private ?string $name = null;
 
     /**
      *
@@ -103,7 +103,7 @@ class Players
      *
      * @ORM\Column(name="status", type="integer", nullable=true)
      */
-    private ?int $status;
+    private ?int $status = 0;
 
     /**
      *
@@ -152,7 +152,7 @@ class Players
      * @ORM\ManyToOne(targetEntity="GameDataPlayers", fetch="EAGER")
      * @ORM\JoinColumn(name="f_pos_id", referencedColumnName="pos_id")
      */
-    private ?\App\Entity\GameDataPlayers $fPos;
+    private ?\App\Entity\GameDataPlayers $fPos = null;
 
     /**
      *

@@ -25,7 +25,7 @@ class PlayersSkills
      *
      * @ORM\Column(name="type", type="string", length=1, nullable=true)
      */
-    private ?string $type;
+    private ?string $type = null;
 
     /**
      *

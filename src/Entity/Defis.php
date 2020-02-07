@@ -20,7 +20,7 @@ class Defis
      * @ORM\ManyToOne(targetEntity="App\Entity\Teams", cascade={"persist"})
      * @ORM\JoinColumn(name="equipe_Defiee", referencedColumnName="team_id")
      */
-    private ?\App\Entity\Teams $equipeDefiee;
+    private ?\App\Entity\Teams $equipeDefiee = null;
 
     /**
      * @ORM\Column(type="boolean")
@@ -42,7 +42,7 @@ class Defis
      * @ORM\ManyToOne(targetEntity="App\Entity\Teams")
      * @ORM\JoinColumn(name="equipe_Origine", referencedColumnName="team_id")
      */
-    private ?\App\Entity\Teams $equipeOrigine;
+    private ?\App\Entity\Teams $equipeOrigine = null;
 
     public function getId(): ?int
     {

@@ -24,7 +24,7 @@ class Races
      *
      * @ORM\Column(name="name", type="string", length=60, nullable=true)
      */
-    private ?string $name;
+    private ?string $name = null;
 
     /**
      *

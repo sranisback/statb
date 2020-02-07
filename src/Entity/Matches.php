@@ -101,19 +101,19 @@ class Matches
      *   @ORM\JoinColumn(name="team2_id", referencedColumnName="team_id")
      * })
      */
-    private ?\App\Entity\Teams $team2;
+    private ?\App\Entity\Teams $team2 = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Meteo")
      * @ORM\JoinColumn(nullable=false)
      */
-    private int $fMeteo = 0;
+    private $fMeteo = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\GameDataStadium", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
-    private int $fStade = 0;
+    private $fStade = 0;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\HistoriqueBlessure", mappedBy="fmatch", fetch="EAGER")

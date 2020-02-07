@@ -37,7 +37,7 @@ class Primes
      * @ORM\ManyToOne(targetEntity="App\Entity\Teams")
      * @ORM\JoinColumn(name="team_id", referencedColumnName="team_id")
      */
-    private ?\App\Entity\Teams $teams;
+    private ?\App\Entity\Teams $teams = null;
 
     /**
      * @ORM\Column(type="datetime")
