@@ -332,7 +332,7 @@ class Matches
     /**
      * @return Collection|HistoriqueBlessure[]
      */
-    public function getBlessuresMatch(): \Doctrine\Common\Collections\ArrayCollection
+    public function getBlessuresMatch(): \Doctrine\Common\Collections\Collection
     {
         return $this->blessuresMatch;
     }

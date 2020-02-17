@@ -8,12 +8,12 @@ use App\Entity\MatchData;
 use App\Entity\Matches;
 use App\Entity\Meteo;
 use App\Entity\Players;
+use App\Entity\Stades;
 use App\Entity\Teams;
 use App\Enum\AnneeEnum;
 use App\Factory\MatchesFactory;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use phpDocumentor\Reflection\Types\Integer;
 
 class MatchesService
 {
@@ -45,7 +45,8 @@ class MatchesService
         PlayerService $playerService,
         SettingsService $settingService,
         DefisService $defisService
-    ) {
+    )
+    {
         $this->doctrineEntityManager = $doctrineEntityManager;
         $this->equipeService = $equipeService;
         $this->playerService = $playerService;
@@ -92,6 +93,7 @@ class MatchesService
      */
     public function creationEnteteMatch(array $donneesMatch): \App\Entity\Matches
     {
+        /** @var Teams $equipe1 */
         $equipe1 = $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(
             ['teamId' => $donneesMatch['team_1']]
         );
@@ -99,6 +101,32 @@ class MatchesService
         $equipe2 = $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(
             ['teamId' => $donneesMatch['team_2']]
         );
+
+        $stadeNature = $this->doctrineEntityManager->getRepository(GameDataStadium::class)->findOneBy(
+            ['id' => $donneesMatch['stade']]
+        );
+
+        switch ($donneesMatch['stadeAccueil']) {
+            case 1:
+                $stade = $equipe1->getFStades();
+                /** @var Stades $stade */
+                if ($stade->getNiveau() === 0) {
+                    $stade = $stadeNature;
+                }
+                break;
+            case 2:
+                $stade = $equipe2->getFStades();
+                /** @var Stades $stade */
+                if ($stade->getNiveau() === 0) {
+                    $stade = $stadeNature;
+                }
+                break;
+            case 3:
+                $stade = $this->doctrineEntityManager->getRepository(GameDataStadium::class)->findOneBy(
+                    ['id' => $donneesMatch['stade']]
+                );
+                break;
+        }
 
         $match = (new MatchesFactory)->creerUnMatch(
             $donneesMatch,
@@ -109,9 +137,7 @@ class MatchesService
             $this->doctrineEntityManager->getRepository(Meteo::class)->findOneBy(
                 ['id' => $donneesMatch['meteo']]
             ),
-            $this->doctrineEntityManager->getRepository(GameDataStadium::class)->findOneBy(
-                ['id' => $donneesMatch['stade']]
-            )
+            $stade
         );
 
         $this->doctrineEntityManager->persist($match);
