@@ -1,0 +1,135 @@
+{% extends "statbb/base.html.twig" %}
+
+
+{% block body %}
+    <div class="m-2">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex">
+                    <div class="display-4" onclick="replaceWithInput(this)">Nom équipe</div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table" id="teamsheet">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>Nr</th>
+                            <th>Nom</th>
+                            <th>Position</th>
+                            <th>MA</th>
+                            <th>ST</th>
+                            <th>AG</th>
+                            <th>AV</th>
+                            <th>Comp</th>
+                            <th class="text-right">Coût</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutJoueur">
+                    <span class="fas fa-plus"></span> Ajouter Un joueur
+                </button>
+
+                <div class="modal" id="ajoutJoueur" data-backdrop="false">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4>Ajouter un joueur</h4><br/>
+                                Trésorerie restante : <span id="tresor2">1000000</span>
+                            </div>
+                            <div class="modal-body">
+                                <select id="selectPosition" class="form-control" onchange="positionStat(this)">
+                                    <option>Choisir une position</option>
+                                </select>
+                            </div>
+                            <div class="modal-footer" id="montreStat">
+                                <button type="button" class="btn btn-primary" id="btnAjoutJoueur">Ajouter</button>
+                                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#ajoutJoueur">Fermer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-primary">Exporter en PDF</button>
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <tr>
+                            <td colspan=7 rowspan=7></td>
+                            <td rowspan=7></td>
+                            <td colspan=4>Coach : <span id="nomCoach" onclick="replaceWithInput(this)">Nom du coach</span></td>
+                            <td colspan=5 class="text-right">Valeur totale des joueurs :</td>
+                            <td class="text-right" id="totaljoueur">0</td>
+                        </tr>
+                        <tr>
+                            <td colspan=4>Races :
+                            <select class="form-control" onchange="choisirRace(this)">
+                                <option>Choisir Une race</option>
+                                {% for race in  listeRaces%}
+                                <option value="{{ race.raceId }}" rr="{{ race.costRr }}">{{ race.name }}</option>
+                                {% endfor %}
+                            </select>
+                            </td>
+                            <td colspan=5 class="text-right"> Relance :
+                                <span class="fas fa-plus text-success" onclick="ajoutIndu('rr')"></span>
+                                <span id="rr">0</span>
+                                <span class="fas fa-minus text-danger" onclick="supprIndu('rr')" ></span>
+                                x <span id="coutrr">--</span>
+                            </td>
+                            <td class="text-right" id="totalrr">0</td>
+                        </tr>
+                        <tr>
+                            <td colspan=4>Trésor : <span id="tresor">1000000</span>, Dépenses(<span id="depenses">0</span>)</td>
+                            <td colspan=5 class="text-right"> Popularité :
+                                <span class="fas fa-plus text-success" onclick="ajoutIndu('pop')"></span>
+                                <span id="pop">0</span>
+                                <span class="fas fa-minus text-danger" onclick="supprIndu('pop')" ></span>
+                                x <span id="coutpop"> 10000 </span>
+                            </td>
+                            <td class="text-right" id="totalpop">0</td>
+                        </tr>
+                        <tr>
+                            <td colspan=4>TV : <span id="tv">0</span></td>
+                            <td colspan=5 class="text-right"> Ass. Coach :
+                                <span class="fas fa-plus text-success" onclick="ajoutIndu('ass')"></span>
+                                <span id="ass">0</span>
+                                <span class="fas fa-minus text-danger" onclick="supprIndu('ass')" ></span>
+                                x <span id="coutass"> 10000 </span>
+                            </td>
+                            <td class="text-right" id="totalass">0</td>
+                        </tr>
+                        <tr>
+                            <td colspan=4>Stade : <span  onclick="replaceWithInput(this)">Nom du stade</span></td>
+                            <td colspan=5 class="text-right"> Cheerleaders :
+                                <span class="fas fa-plus text-success" onclick="ajoutIndu('cheer')"></span>
+                                <span id="cheer">0</span>
+                                <span class="fas fa-minus text-danger" onclick="supprIndu('cheer')" ></span>
+                                x <span id="coutcheer"> 10000 </span>
+                            </td>
+                            <td class="text-right" id="totalcheer">0</td>
+                        </tr>
+                        <tr>
+                            <td colspan=4></td>
+                            <td colspan=5 class="text-right"> Apothicaire :
+                                <span class="fas fa-plus text-success" onclick="ajoutIndu('apo')"></span>
+                                <span id="apo">0</span>
+                                <span class="fas fa-minus text-danger" onclick="supprIndu('apo')" ></span>
+                                x <span id="coutapo"> 50000 </span>
+                            </td>
+                            <td class="text-right" id="totalapo">0</td>
+                        </tr>
+                        <tr>
+                            <td colspan=4 rowspan=1></td>
+                            <td colspan=5 class="text-right">Total :</td>
+                            <td class="text-right">0</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

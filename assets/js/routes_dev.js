@@ -144,6 +144,22 @@ const routes_dev = {
             "hosttokens": [],
             "methods": [],
             "schemes": []
+        },
+        "listePosition": {
+            "tokens": [["variable", "\/", "[^\/]++", "raceId"], ["text", "\/listePosition"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "nombreVersComp": {
+            "tokens": [["variable", "\/", "[^\/]++", "positionId"], ["text", "\/nombreVersComp"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
         }
     },
     "prefix": "",
