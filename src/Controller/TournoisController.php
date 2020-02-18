@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\GameDataPlayers;
+use App\Entity\GameDataSkills;
 use App\Entity\Races;
 use App\Service\PlayerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -70,5 +71,32 @@ class TournoisController extends AbstractController
             );
 
         return new Response($listeCompHtml);
+    }
+
+    /**
+     * @Route("/classeLesComp/{norm}/{doub}", name="classeLesComp", options={"expose" = true })
+     */
+    public function classeLesComp($norm, $doub)
+    {
+        $listeComp = $this->getDoctrine()->getRepository(GameDataSkills::class)->findAll();
+        $listCompNormales = [];
+        $listeCompDoubles = [];
+
+        foreach ($listeComp as $comp) {
+            if ( strpos($norm,$comp->getCat()) !== false ) {
+                $listCompNormales[] = $comp;
+                continue;
+            }
+
+            if ( strpos($doub,$comp->getCat()) !== false ) {
+                $listeCompDoubles[] = $comp;
+                continue;
+            }
+        }
+
+        $listeCompTriee['norm'] = $listCompNormales;
+        $listeCompTriee['double'] = $listeCompDoubles;
+
+        return self::transformeEnJson($listeCompTriee);
     }
 }

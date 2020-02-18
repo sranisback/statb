@@ -160,6 +160,14 @@ const routes_dev = {
             "hosttokens": [],
             "methods": [],
             "schemes": []
+        },
+        "classeLesComp": {
+            "tokens": [["variable", "\/", "[^\/]++", "norm"], ["variable", "\/", "[^\/]++", "doub"], ["text", "\/classeLesComp"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
         }
     },
     "prefix": "",

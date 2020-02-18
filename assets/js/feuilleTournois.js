@@ -1,6 +1,8 @@
 import Routing from "./router.min";
 
+
 var listePosition = '';
+var cibleComp = '';
 
 function replaceWithInput(selector) {
     $(selector).replaceWith('<input type="text" id="' + $(selector).attr('id') + '_text" placeholder="' + $(selector).text() + '" value="' + $(selector).text() + '" data-toggle="tooltip" title="Appuyez sur enter pour valider">').focus();
@@ -8,6 +10,10 @@ function replaceWithInput(selector) {
     $('#' + $(selector).attr('id') + '_text').keydown(function (e) {
         if (e.which == 13) {
             $('#' + $(selector).attr('id') + '_text').replaceWith('<span id="' + $(selector).attr('id') + '" class="' + $(selector).attr('class') + '" onclick="replaceWithInput(this)">' + $('#' + $(selector).attr('id') + '_text').val() + '</span>');
+            if ($(selector).attr('id') == 'tresorAuto') {
+                $('#tresor').html($('#' + $(selector).attr('id')).html());
+                $('#tresor2').html($('#' + $(selector).attr('id')).html());
+            }
         }
     });
 }
@@ -48,7 +54,7 @@ function positionStat(selector) {
 window.positionStat = positionStat;
 
 function ajoutJoueur(id) {
-    listePosition.forEach(function (value, index) {
+    listePosition.forEach(function (value) {
         if (value.posId == id) {
             if (checkIfPossible(value.cost) && nbrDuPositionel(id) <= value.qty) {
                 $.post(
@@ -56,9 +62,8 @@ function ajoutJoueur(id) {
                     {},
                     function (listeComp) {
                         listeComp = listeComp.substr(0, listeComp.length - 2);
-                        $('#teamsheet').append('<tr><td><span onclick="supprimerJoueur(this)">X</span></td><td><span onclick="replaceWithInput(this)">' + $('#teamsheet tr').length + '</span></td><td><span onclick="replaceWithInput(this)">Inconnu</span></td><td class="positionJoueur" pos="' + id + '">' + value.pos + '</td>' +
-                            '<td>' + value.ma + '</td><td>' + value.st + '</td><td>' + value.ag + '</td><td>' + value.av + '</td><td>' + listeComp + '</td><td class="text-right coutJoueur">' + value.cost + '</td></tr>');
-
+                        $('#teamsheet').append('<tr><td><span onclick="supprimerJoueur(this)"  class="fas fa-times text-danger"></span></td><td><span onclick="replaceWithInput(this)">' + $('#teamsheet tr').length + '</span></td><td><span onclick="replaceWithInput(this)">Inconnu</span></td><td class="positionJoueur" pos="' + id + '">' + value.pos + '</td>' +
+                            '<td>' + value.ma + '</td><td>' + value.st + '</td><td>' + value.ag + '</td><td>' + value.av + '</td><td>' + listeComp + ' <span class="fas fa-plus-square text-success" onclick="ajoutComp(\'' + value.norm + '\', \'' + value.doub + ' \', this)" ></span> </td><td class="text-right coutJoueur">' + value.cost + '</td></tr>');
                         addToTotal(value.cost, true);
                     }
                 );
@@ -106,13 +111,94 @@ function supprIndu(type) {
 
 window.supprIndu = supprIndu;
 
+function ajoutComp(norm, doub, selector) {
+    cibleComp = selector;
+    $.post(Routing.generate('classeLesComp', {norm: doub, doub: norm}),
+        {},
+        function (data) {
+            data = $.parseJSON(data);
+            $('#selectCompSimple').children('option').remove();
+            $('#selectCompDouble').children('option').remove();
+            $('#selectCompSimple').append(new Option('Choisir une comp. simple', 999));
+            $('#selectCompDouble').append(new Option('Choisir une comp. double', 999));
+            data['norm'].forEach(function (value) {
+                var o = new Option(value.name, value.SkillId);
+                $(o).html(value.name);
+                $("#selectCompSimple").append(o);
+            });
+            data['double'].forEach(function (value) {
+                var o = new Option(value.name, value.SkillId);
+                $(o).html(value.name);
+                $("#selectCompDouble").append(o);
+            });
+            $('#btnAjoutSimple').attr('onclick', 'AjoutCompSimple()');
+            $('#btnAjoutDouble').attr('onclick', 'AjoutCompDouble()');
+            $('#ajoutCompModal').modal('show');
+
+            $('#btnFermeAjoutComp').click(function(){
+                $('#ajoutCompModal').modal('hide');
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+            });
+        });
+}
+
+window.ajoutComp = ajoutComp;
+
+function AjoutCompSimple() {
+    if ( checkIfPossible(20000)) {
+        $(cibleComp).before('<span class="text-success" onclick="supprCompSimple(this)">+' + $('#selectCompSimple option:selected').text() + '</span> ');
+        $(cibleComp).parents().children('.coutJoueur').html(parseInt($(cibleComp).parents().children('.coutJoueur').html()) + 20000);
+        addToTotal(20000, true);
+    }
+}
+
+window.AjoutCompSimple = AjoutCompSimple;
+
+function supprCompSimple(selector) {
+    $(selector).remove();
+    $(cibleComp).parents().children('.coutJoueur').html(parseInt($(cibleComp).parents().children('.coutJoueur').html())-20000);
+    substrToTotal(20000)
+}
+
+window.supprCompSimple = supprCompSimple;
+
+function AjoutCompDouble() {
+    if ( checkIfPossible(30000)){
+        $(cibleComp).before('<span class="text-danger" onclick="supprCompDouble(this)">+' + $('#selectCompDouble option:selected').text() + '</span> ');
+        $(cibleComp).parents().children('.coutJoueur').html(parseInt($(cibleComp).parents().children('.coutJoueur').html())+30000);
+        addToTotal(30000, true);
+    }
+}
+
+window.AjoutCompDouble = AjoutCompDouble;
+
+function supprCompDouble(selector) {
+    $(selector).remove();
+    $(cibleComp).parents().children('.coutJoueur').html(parseInt($(cibleComp).parents().children('.coutJoueur').html())-30000);
+    substrToTotal(30000)
+}
+
+window.supprCompDouble = supprCompDouble;
+
+function exportToPdf() {
+    let doc = new jsPDF();
+
+    doc.fromHTML($('#content').html(), 15, 15, {
+        'width': 170,
+        'elementHandlers': specialElementHandlers
+    });
+    doc.save('sample-file.pdf');
+}
+
+window.exportToPdf = exportToPdf;
+
 function addToValue(target, value) {
     $(target).html(parseInt($(target).html()) + value);
 }
 
 function SubstoValue(target, value) {
     $(target).html(parseInt($(target).html()) - value);
-
     if (parseInt($(target).html()) < 0) {
         $(target.html(0));
     }
@@ -165,6 +251,6 @@ function reset() {
     $('#depenses').html(0);
     $('#total').html(0);
     $('#tv').html(0);
-    $('#tresor').html(1000000);
-    $('#tresor2').html(1000000);
+    $('#tresor').html($('#tresorAuto').html());
+    $('#tresor2').html($('#tresorAuto').html());
 }

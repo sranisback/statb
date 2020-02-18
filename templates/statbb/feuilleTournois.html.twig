@@ -2,7 +2,7 @@
 
 
 {% block body %}
-    <div class="m-2">
+    <div class="m-2" id="content">
         <div class="card">
             <div class="card-header">
                 <div class="d-flex">
@@ -34,7 +34,7 @@
                     <span class="fas fa-plus"></span> Ajouter Un joueur
                 </button>
 
-                <div class="modal" id="ajoutJoueur" data-backdrop="false">
+                <div class="modal" id="ajoutJoueur"  data-backdrop="false">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -48,46 +48,77 @@
                             </div>
                             <div class="modal-footer" id="montreStat">
                                 <button type="button" class="btn btn-primary" id="btnAjoutJoueur">Ajouter</button>
-                                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#ajoutJoueur">Fermer</button>
+                                <button type="button" class="btn btn-secondary" data-toggle="modal"
+                                        data-target="#ajoutJoueur">Fermer
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <button type="button" class="btn btn-primary">Exporter en PDF</button>
+                <div class="modal" id="ajoutCompModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4>Ajouter une compétence</h4>
+                            </div>
+                            <div class="modal-body">
+                                <select id="selectCompSimple" class="form-control">
+                                    <option>Choisir une compétence simple</option>
+                                </select>
+                                <button type="button" class="btn btn-primary" id="btnAjoutSimple">Ajouter Simple</button>
+                                <select id="selectCompDouble" class="form-control">
+                                    <option>Choisir une compétence double</option>
+                                </select>
+                                <button type="button" class="btn btn-primary" id="btnAjoutDouble">Ajouter Double</button>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" id="btnFermeAjoutComp">Fermer
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-primary" onclick="exportToPdf()">Exporter en PDF</button>
 
                 <div class="table-responsive">
                     <table class="table">
                         <tr>
                             <td colspan=7 rowspan=7></td>
                             <td rowspan=7></td>
-                            <td colspan=4>Coach : <span id="nomCoach" onclick="replaceWithInput(this)">Nom du coach</span></td>
+                            <td colspan=4>Coach : <span id="nomCoach"
+                                                        onclick="replaceWithInput(this)">Nom du coach</span></td>
                             <td colspan=5 class="text-right">Valeur totale des joueurs :</td>
                             <td class="text-right" id="totaljoueur">0</td>
                         </tr>
                         <tr>
-                            <td colspan=4>Races :
-                            <select class="form-control" onchange="choisirRace(this)">
-                                <option>Choisir Une race</option>
-                                {% for race in  listeRaces%}
-                                <option value="{{ race.raceId }}" rr="{{ race.costRr }}">{{ race.name }}</option>
-                                {% endfor %}
-                            </select>
+                            <td colspan=4>
+                                Races :
+                                <select class="form-control" onchange="choisirRace(this)">
+                                    <option>Choisir Une race</option>
+                                    {% for race in  listeRaces %}
+                                        <option value="{{ race.raceId }}">{{ race.name }}</option>
+                                    {% endfor %}
+                                </select>
                             </td>
                             <td colspan=5 class="text-right"> Relance :
                                 <span class="fas fa-plus text-success" onclick="ajoutIndu('rr')"></span>
                                 <span id="rr">0</span>
-                                <span class="fas fa-minus text-danger" onclick="supprIndu('rr')" ></span>
+                                <span class="fas fa-minus text-danger" onclick="supprIndu('rr')"></span>
                                 x <span id="coutrr">--</span>
                             </td>
                             <td class="text-right" id="totalrr">0</td>
                         </tr>
                         <tr>
-                            <td colspan=4>Trésor : <span id="tresor">1000000</span>, Dépenses(<span id="depenses">0</span>)</td>
+                            <td colspan=4>Trésor : <span id="tresor">1000000</span>, Dépenses(<span
+                                        id="depenses">0</span>), trésor autorisé : <span id="tresorAuto"
+                                                                                         onclick="replaceWithInput(this)">1000000</span>
+                            </td>
                             <td colspan=5 class="text-right"> Popularité :
                                 <span class="fas fa-plus text-success" onclick="ajoutIndu('pop')"></span>
                                 <span id="pop">0</span>
-                                <span class="fas fa-minus text-danger" onclick="supprIndu('pop')" ></span>
+                                <span class="fas fa-minus text-danger" onclick="supprIndu('pop')"></span>
                                 x <span id="coutpop"> 10000 </span>
                             </td>
                             <td class="text-right" id="totalpop">0</td>
@@ -97,17 +128,17 @@
                             <td colspan=5 class="text-right"> Ass. Coach :
                                 <span class="fas fa-plus text-success" onclick="ajoutIndu('ass')"></span>
                                 <span id="ass">0</span>
-                                <span class="fas fa-minus text-danger" onclick="supprIndu('ass')" ></span>
+                                <span class="fas fa-minus text-danger" onclick="supprIndu('ass')"></span>
                                 x <span id="coutass"> 10000 </span>
                             </td>
                             <td class="text-right" id="totalass">0</td>
                         </tr>
                         <tr>
-                            <td colspan=4>Stade : <span  onclick="replaceWithInput(this)">Nom du stade</span></td>
+                            <td colspan=4>Stade : <span onclick="replaceWithInput(this)">Nom du stade</span></td>
                             <td colspan=5 class="text-right"> Cheerleaders :
                                 <span class="fas fa-plus text-success" onclick="ajoutIndu('cheer')"></span>
                                 <span id="cheer">0</span>
-                                <span class="fas fa-minus text-danger" onclick="supprIndu('cheer')" ></span>
+                                <span class="fas fa-minus text-danger" onclick="supprIndu('cheer')"></span>
                                 x <span id="coutcheer"> 10000 </span>
                             </td>
                             <td class="text-right" id="totalcheer">0</td>
@@ -117,7 +148,7 @@
                             <td colspan=5 class="text-right"> Apothicaire :
                                 <span class="fas fa-plus text-success" onclick="ajoutIndu('apo')"></span>
                                 <span id="apo">0</span>
-                                <span class="fas fa-minus text-danger" onclick="supprIndu('apo')" ></span>
+                                <span class="fas fa-minus text-danger" onclick="supprIndu('apo')"></span>
                                 x <span id="coutapo"> 50000 </span>
                             </td>
                             <td class="text-right" id="totalapo">0</td>
@@ -125,7 +156,7 @@
                         <tr>
                             <td colspan=4 rowspan=1></td>
                             <td colspan=5 class="text-right">Total :</td>
-                            <td class="text-right">0</td>
+                            <td class="text-right" id="total">0</td>
                         </tr>
                     </table>
                 </div>
