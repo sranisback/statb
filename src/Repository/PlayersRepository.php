@@ -34,7 +34,7 @@ class PlayersRepository extends ServiceEntityRepository
      * @param Teams $equipe
      * @return array
      */
-    public function listeDesJoueursPourlEquipe($equipe)
+    public function listeDesJoueursPourlEquipe(\App\Entity\Teams $equipe): array
     {
         return $this->getEntityManager()->getRepository(Players::class)->findBy(
             ['ownedByTeam' => $equipe->getTeamId()],
@@ -46,7 +46,7 @@ class PlayersRepository extends ServiceEntityRepository
      * @param Teams $equipe
      * @return array
      */
-    public function listeDesJoueursActifsPourlEquipe(Teams $equipe)
+    public function listeDesJoueursActifsPourlEquipe(Teams $equipe): array
     {
         return $this->createQueryBuilder('players')
             ->where('players.ownedByTeam = '.$equipe->getTeamId())
@@ -79,7 +79,7 @@ class PlayersRepository extends ServiceEntityRepository
      * @param int $limit
      * @return mixed
      */
-    public function sousClassementEquipeFournisseurDeCadavre(int $year, $limit = 0)
+    public function sousClassementEquipeFournisseurDeCadavre(int $year, int $limit = 0)
     {
         $query = $this->createQueryBuilder('players')
             ->select('teams.teamId, teams.name, COUNT(players) AS score')

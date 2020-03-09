@@ -14,7 +14,7 @@ class periodeDefisCourranteTest extends KernelTestCase
     /**
      * @test
      */
-    public function la_fin_de_la_periode_correcte_est_retournee()
+    public function la_fin_de_la_periode_correcte_est_retournee(): void
     {
         $setting = new Setting();
         $setting->setName('periodeDefis');

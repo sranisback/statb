@@ -20,199 +20,202 @@ use Doctrine\ORM\Mapping as ORM;
 class Players
 {
     /**
-     * @var int
      *
      * @ORM\Column(name="player_id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @var int
      */
-    private $playerId;
+    private int $playerId = 0;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="type", type="integer", nullable=true)
+     * @var int|null
      */
-    private $type;
+    private ?int $type;
 
     /**
-     * @var string|null
      *
      * @ORM\Column(name="name", type="string", length=60, nullable=true)
+     * @var null|string
      */
-    private $name;
+    private ?string $name = null;
 
     /**
-     * @var int|null
      *
-     * @ORM\Column(name="nr", type="integer", nullable=true, options={"unsigned"=true})
+     * @ORM\Column(name="nr", type="integer", nullable=true, options={"unsigned":true})
+     * @var int|null
      */
-    private $nr;
+    private ?int $nr;
 
     /**
-     * @var DateTime
      *
      * @ORM\Column(name="date_bought", type="datetime", nullable=true)
+     * @var \DateTimeInterface|null
      */
-    private $dateBought;
+    private ?\DateTimeInterface $dateBought;
 
     /**
-     * @var DateTime
      *
      * @ORM\Column(name="date_sold", type="datetime", nullable=true)
+     * @var \DateTimeInterface|null
      */
-    private $dateSold;
+    private ?\DateTimeInterface $dateSold;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="ach_ma", type="integer", nullable=true)
+     * @var int
      */
-    private $achMa = 0;
+    private int $achMa = 0;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="ach_st", type="integer", nullable=true)
+     * @var int
      */
-    private $achSt = 0;
+    private int $achSt = 0;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="ach_ag", type="integer", nullable=true)
+     * @var int
      */
-    private $achAg = 0;
+    private int $achAg = 0;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="ach_av", type="integer", nullable=true)
+     * @var int
      */
-    private $achAv = 0;
+    private int $achAv = 0;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="extra_spp", type="integer", nullable=true)
+     * @var int|null
      */
-    private $extraSpp;
+    private ?int $extraSpp;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="extra_val", type="integer", nullable=false)
+     * @var int
      */
-    private $extraVal = 0;
+    private int $extraVal = 0;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="value", type="integer", nullable=true)
+     * @var int|null
      */
-    private $value;
+    private ?int $value;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="status", type="integer", nullable=true)
+     * @var int
      */
-    private $status;
+    private ?int $status = 0;
 
     /**
-     * @var DateTime
      *
      * @ORM\Column(name="date_died", type="datetime", nullable=true)
+     * @var \DateTimeInterface|null
      */
-    private $dateDied;
+    private ?\DateTimeInterface $dateDied;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="inj_ma", type="integer", nullable=true)
+     * @var int
      */
-    private $injMa = 0;
+    private int $injMa = 0;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="inj_st", type="integer", nullable=true)
+     * @var int
      */
-    private $injSt = 0;
+    private int $injSt = 0;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="inj_ag", type="integer", nullable=true)
+     * @var int
      */
-    private $injAg = 0;
+    private int $injAg = 0;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="inj_av", type="integer", nullable=true)
+     * @var int
      */
-    private $injAv = 0;
+    private int $injAv = 0;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="inj_ni", type="integer", nullable=true)
+     * @var int
      */
-    private $injNi = 0;
+    private int $injNi = 0;
 
     /**
-     * @var int
      *
      * @ORM\Column(name="inj_rpm", type="integer", nullable=false)
+     * @var int
      */
-    private $injRpm = 0;
+    private int $injRpm = 0;
 
     /**
-     * @var GameDataPlayers
      *
      * @ORM\ManyToOne(targetEntity="GameDataPlayers", fetch="EAGER")
      * @ORM\JoinColumn(name="f_pos_id", referencedColumnName="pos_id")
+     * @var null|\App\Entity\GameDataPlayers
      */
-    private $fPos;
+    private ?\App\Entity\GameDataPlayers $fPos = null;
 
     /**
-     * @var Races
      *
      * @ORM\ManyToOne(targetEntity="Races", fetch="EAGER")
      * @ORM\JoinColumn(name="f_rid", referencedColumnName="race_id")
+     * @var \App\Entity\Races|null
      */
-    private $fRid;
+    private ?\App\Entity\Races $fRid;
 
     /**
-     * @var Teams
      *
      * @ORM\ManyToOne(targetEntity="Teams", fetch="EAGER")
-     *  @ORM\JoinColumn(name="owned_by_team_id", referencedColumnName="team_id")
+     *  @ORM\JoinColumn (name="owned_by_team_id", referencedColumnName="team_id")
+     * @var \App\Entity\Teams|null
      */
-    private $ownedByTeam;
+    private ?\App\Entity\Teams $ownedByTeam;
 
     /**
-     * @var Coaches
      *
      * @ORM\ManyToOne(targetEntity="Coaches", fetch="EAGER")
-     *   @ORM\JoinColumn(name="f_cid", referencedColumnName="coach_id")
+     *   @ORM\JoinColumn  (name="f_cid",  referencedColumnName="coach_id")
+     * @var \App\Entity\Coaches|null
      */
-    private $fCid;
+    private ?\App\Entity\Coaches $fCid;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\PlayersIcons")
      * @ORM\JoinColumn(nullable=false)
+     * @var \App\Entity\PlayersIcons
      */
-    private $icon;
+    private \App\Entity\PlayersIcons $icon;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string|null
      */
-    private $photo;
+    private ?string $photo;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\HistoriqueBlessure", mappedBy="Player", orphanRemoval=true)
+     * @var \App\Entity\HistoriqueBlessure[]|\Doctrine\Common\Collections\Collection
      */
     private $historiqueBlessures;
 
@@ -221,7 +224,7 @@ class Players
         $this->historiqueBlessures = new ArrayCollection();
     }
 
-    public function getPlayerId(): ?int
+    public function getPlayerId(): int
     {
         return $this->playerId;
     }
@@ -262,7 +265,7 @@ class Players
         return $this;
     }
 
-    public function getDateBought(): DateTime
+    public function getDateBought(): ?\DateTimeInterface
     {
         return $this->dateBought;
     }
@@ -274,7 +277,7 @@ class Players
         return $this;
     }
 
-    public function getDateSold(): DateTime
+    public function getDateSold(): ?\DateTimeInterface
     {
         return $this->dateSold;
     }
@@ -286,7 +289,7 @@ class Players
         return $this;
     }
 
-    public function getAchMa(): ?int
+    public function getAchMa(): int
     {
         return $this->achMa;
     }
@@ -298,7 +301,7 @@ class Players
         return $this;
     }
 
-    public function getAchSt(): ?int
+    public function getAchSt(): int
     {
         return $this->achSt;
     }
@@ -310,7 +313,7 @@ class Players
         return $this;
     }
 
-    public function getAchAg(): ?int
+    public function getAchAg(): int
     {
         return $this->achAg;
     }
@@ -322,7 +325,7 @@ class Players
         return $this;
     }
 
-    public function getAchAv(): ?int
+    public function getAchAv(): int
     {
         return $this->achAv;
     }
@@ -346,7 +349,7 @@ class Players
         return $this;
     }
 
-    public function getExtraVal(): ?int
+    public function getExtraVal(): int
     {
         return $this->extraVal;
     }
@@ -387,7 +390,7 @@ class Players
         return $this;
     }
 
-    public function getDateDied(): ?DateTime
+    public function getDateDied(): ?\DateTimeInterface
     {
         return $this->dateDied;
     }
@@ -403,7 +406,7 @@ class Players
         return $this;
     }
 
-    public function getInjMa(): ?int
+    public function getInjMa(): int
     {
         return $this->injMa;
     }
@@ -415,7 +418,7 @@ class Players
         return $this;
     }
 
-    public function getInjSt(): ?int
+    public function getInjSt(): int
     {
         return $this->injSt;
     }
@@ -427,7 +430,7 @@ class Players
         return $this;
     }
 
-    public function getInjAg(): ?int
+    public function getInjAg(): int
     {
         return $this->injAg;
     }
@@ -439,7 +442,7 @@ class Players
         return $this;
     }
 
-    public function getInjAv(): ?int
+    public function getInjAv(): int
     {
         return $this->injAv;
     }
@@ -451,7 +454,7 @@ class Players
         return $this;
     }
 
-    public function getInjNi(): ?int
+    public function getInjNi(): int
     {
         return $this->injNi;
     }
@@ -463,7 +466,7 @@ class Players
         return $this;
     }
 
-    public function getInjRpm(): ?int
+    public function getInjRpm(): int
     {
         return $this->injRpm;
     }
@@ -523,7 +526,7 @@ class Players
         return $this;
     }
 
-    public function getIcon(): ?PlayersIcons
+    public function getIcon(): \App\Entity\PlayersIcons
     {
         return $this->icon;
     }
@@ -550,7 +553,7 @@ class Players
     /**
      * @return Collection|HistoriqueBlessure[]
      */
-    public function getHistoriqueBlessures(): Collection
+    public function getHistoriqueBlessures(): \Doctrine\Common\Collections\ArrayCollection
     {
         return $this->historiqueBlessures;
     }

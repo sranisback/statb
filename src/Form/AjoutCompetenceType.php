@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class AjoutCompetenceType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add(
@@ -20,7 +20,7 @@ class AjoutCompetenceType extends AbstractType
                 [
                     'class' => GameDataSkills::class,
                     'choice_label' => 'name',
-                    'group_by' => function (GameDataSkills $comp) {
+                    'group_by' => function (GameDataSkills $comp): array {
                         $listeCategoriesCompetences =
                             [
                                 '' => '',

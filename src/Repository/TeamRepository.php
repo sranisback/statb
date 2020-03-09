@@ -17,7 +17,7 @@ class TeamRepository extends ServiceEntityRepository
      * @param int $year
      * @return array
      */
-    public function classement($year): array
+    public function classement(int $year): array
     {
         $conn = $this->getEntityManager()->getConnection();
 
@@ -98,7 +98,10 @@ SELECT team_id,ra.icon,t.name as team_name ,ra.name as race,co.name,t.tv as tv, 
         return [];
     }
 
-    public function pointsBonus(int $annee)
+    /**
+     * @return mixed[]
+     */
+    public function pointsBonus(int $annee): array
     {
         $conn = $this->getEntityManager()->getConnection();
 
@@ -156,6 +159,9 @@ FROM teams t
         return [];
     }
 
+    /**
+     * @return float|int
+     */
     public function nbrCoachAyantUneEquipelAnneeEnCours($annee)
     {
         return count($this->createQueryBuilder('t')

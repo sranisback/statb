@@ -28,7 +28,7 @@ class PlayerFactory
         int $type,
         string $nom = null,
         entityManagerInterface $entityManager
-    ) {
+    ): \App\Entity\Players {
         $dateBoughtFormat = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
 
         $coach = $equipe->getOwnedByCoach();

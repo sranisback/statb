@@ -18,98 +18,98 @@ use Doctrine\ORM\Mapping as ORM;
 class MatchData
 {
     /**
-     * @var int
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @var int
      */
-    private $id;
+    private int $id;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="mvp", type="integer", nullable=true)
+     * @var int
      */
-    private $mvp;
+    private ?int $mvp = 0;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="cp", type="integer", nullable=true)
+     * @var int
      */
-    private $cp;
+    private ?int $cp = 0;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="td", type="integer", nullable=true)
+     * @var int
      */
-    private $td;
+    private ?int $td = 0;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="intcpt", type="integer", nullable=true)
+     * @var int
      */
-    private $intcpt;
+    private ?int $intcpt = 0;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="bh", type="integer", nullable=true)
+     * @var int
      */
-    private $bh;
+    private ?int $bh = 0;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="si", type="integer", nullable=true)
+     * @var int
      */
-    private $si;
+    private ?int $si = 0;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="ki", type="integer", nullable=true)
+     * @var int
      */
-    private $ki;
+    private ?int $ki = 0;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="inj", type="integer", nullable=true)
+     * @var int|null
      */
-    private $inj;
+    private ?int $inj;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="agg", type="integer", nullable=true)
+     * @var int
      */
-    private $agg;
+    private ?int $agg = 0;
 
     /**
-     * @var Players
      *
      * @ORM\ManyToOne(targetEntity="Players", fetch="EAGER")
      * @ORM\JoinColumns({
      *      @ORM\JoinColumn(name="f_player_id", referencedColumnName="player_id")
      * })
+     * @var \App\Entity\Players|null
      */
-    private $fPlayer;
+    private ?\App\Entity\Players $fPlayer;
 
     /**
-     * @var Matches
      *
      * @ORM\ManyToOne(targetEntity="Matches", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="f_match_id", referencedColumnName="match_id")
      * })
+     * @var \App\Entity\Matches|null
      */
-    private $fMatch;
+    private ?\App\Entity\Matches $fMatch;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }

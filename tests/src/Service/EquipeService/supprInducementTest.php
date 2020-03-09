@@ -17,10 +17,10 @@ class supprInducementTest extends KernelTestCase
     /**
      * @test
      */
-    public function les_inducements_rendent_l_argent_si_pas_de_match()
+    public function les_inducements_rendent_l_argent_si_pas_de_match(): void
     {
         $raceTest = new Races();
-        $raceTest->setCostRr(50000);
+        $raceTest->setCostRr(50_000);
 
         $equipeTest = new Teams();
         $equipeTest->setFRace($raceTest);
@@ -39,7 +39,7 @@ class supprInducementTest extends KernelTestCase
         );
 
         $resultatAttendu = [
-            'inducost' => 50000,
+            'inducost' => 50_000,
             'nbr' => 1
         ];
 
@@ -49,17 +49,17 @@ class supprInducementTest extends KernelTestCase
             $this->createMock(PlayerService::class)
         ));
 
-        $this->assertEquals(50000, $equipeTest->getTreasury());
+        $this->assertEquals(50_000, $equipeTest->getTreasury());
         $this->assertEquals(1, $equipeTest->getRerolls());
     }
 
     /**
      * @test
      */
-    public function les_inducements_ne_rendent_pas_l_argent_si_match()
+    public function les_inducements_ne_rendent_pas_l_argent_si_match(): void
     {
         $raceTest = new Races();
-        $raceTest->setCostRr(50000);
+        $raceTest->setCostRr(50_000);
 
         $equipeTest = new Teams();
         $equipeTest->setFRace($raceTest);
@@ -80,7 +80,7 @@ class supprInducementTest extends KernelTestCase
         );
 
         $resultatAttendu = [
-            'inducost' => 50000,
+            'inducost' => 50_000,
             'nbr' => 1
         ];
 

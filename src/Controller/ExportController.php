@@ -20,13 +20,12 @@ class ExportController extends AbstractController
      * @param EquipeService $equipeService
      * @param int $id
      */
-    public function pdfTeam(PlayerService $playerService, EquipeService $equipeService, $id)
+    public function pdfTeam(PlayerService $playerService, EquipeService $equipeService, int $id): void
     {
         /** @var Teams $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->find($id);
 
         $count = 0;
-        $html = '';
 
         $pdata = [];
         $pdata[] = [];
@@ -65,14 +64,14 @@ class ExportController extends AbstractController
 
         $race = $equipe->getFRace();
 
-        $costRr = $race ? $race->getCostRr() : 0;
+        $costRr = $race !== null ? $race->getCostRr() : 0;
 
         $tdata['playersCost'] = $playerService->coutTotalJoueurs($equipe);
         $tdata['rerolls'] = $equipe->getRerolls() * $costRr;
-        $tdata['pop'] = ($equipe->getFf() + $equipe->getFfBought()) * 10000;
-        $tdata['asscoaches'] = $equipe->getAssCoaches() * 10000;
-        $tdata['cheerleader'] = $equipe->getCheerleaders() * 10000;
-        $tdata['apo'] = $equipe->getApothecary() * 50000;
+        $tdata['pop'] = ($equipe->getFf() + $equipe->getFfBought()) * 10_000;
+        $tdata['asscoaches'] = $equipe->getAssCoaches() * 10_000;
+        $tdata['cheerleader'] = $equipe->getCheerleaders() * 10_000;
+        $tdata['apo'] = $equipe->getApothecary() * 50_000;
         $tdata['tv'] = $equipeService->tvDelEquipe($equipe, $playerService);
 
         $html = $this->renderView(

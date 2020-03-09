@@ -52,7 +52,7 @@ class MatchesRepository extends ServiceEntityRepository
      * @param Teams $equipe
      * @return array
      */
-    public function listeDesMatchs(Teams $equipe)
+    public function listeDesMatchs(Teams $equipe): array
     {
         $matches1 = $this->getEntityManager()->getRepository(Matches::class)->findBy(
             ['team1' => $equipe->getTeamId()],
@@ -64,11 +64,11 @@ class MatchesRepository extends ServiceEntityRepository
             ['dateCreated' => 'DESC']
         );
 
-        $matches = array_merge($matches1, $matches2);
+        $matches = [...$matches1, ...$matches2];
 
         usort(
             $matches,
-            function ($a, $b) {
+            function ($a, $b): int {
                 $ad = $a->getDateCreated();
                 $bd = $b->getDateCreated();
 
@@ -107,9 +107,9 @@ class MatchesRepository extends ServiceEntityRepository
     /**
      * @param Coaches $coach1
      * @param Coaches $coach2
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return array
      */
-    public function tousLesMatchsDeDeuxCoach(Coaches $coach1, Coaches $coach2)
+    public function tousLesMatchsDeDeuxCoach(Coaches $coach1, Coaches $coach2): array
     {
         return $this->createQueryBuilder('Matches')
             ->join('Matches.team1', 'team1')

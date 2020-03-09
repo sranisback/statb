@@ -15,36 +15,37 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class Coaches implements UserInterface
 {
     /**
-     * @var int
      *
-     * @ORM\Column(name="coach_id", type="integer", nullable=false, options={"unsigned"=true})
+     * @ORM\Column(name="coach_id", type="integer", nullable=false, options={"unsigned":true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @var int
      */
-    private $coachId;
+    private int $coachId;
 
     /**
-     * @var string
      * @Assert\NotBlank
      *
      * @ORM\Column(name="name", type="string", length=60, nullable=true)
+     * @var string|null
      */
-    private $name;
+    private ?string $name;
 
     /**
-     * @var string
      *
      * @ORM\Column(name="passwd", type="string", length=64, nullable=true)
+     * @var string|null
      */
-    private $passwd;
+    private ?string $passwd;
 
     /**
      *
      * @ORM\Column(name="role", type="json", nullable=false)
+     * @var mixed[]
      */
-    private $roles;
+    private array $roles;
 
-    public function getCoachId(): ?int
+    public function getCoachId(): int
     {
         return $this->coachId;
     }
@@ -73,34 +74,38 @@ class Coaches implements UserInterface
         return $this;
     }
 
-    public function getRoles()
+    /**
+     * @return mixed[]
+     */
+    public function getRoles(): array
     {
-        $roles = $this->roles;
-
-        return $roles;
+        return $this->roles;
     }
 
-    public function getPassword()
+    public function getPassword(): ?string
     {
         return $this->passwd;
     }
 
+    /**
+     * @return null
+     */
     public function getSalt()
     {
         return null;
     }
 
-    public function getUsername()
+    public function getUsername(): ?string
     {
         return $this->name;
     }
 
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
     }
 
     /** @see \Serializable::serialize() */
-    public function serialize()
+    public function serialize(): string
     {
         return serialize(array(
             $this->coachId,
@@ -112,7 +117,7 @@ class Coaches implements UserInterface
     /** @see \Serializable::unserialize()
      * @param string $serialized
      */
-    public function unserialize($serialized)
+    public function unserialize(string $serialized): void
     {
         list (
             $this->coachId,
@@ -121,7 +126,10 @@ class Coaches implements UserInterface
         ) = unserialize($serialized, ['allowed_classes' => false]);
     }
 
-    public function setRoles(array $roles)
+    /**
+     * @param mixed[] $roles
+     */
+    public function setRoles(array $roles): void
     {
         $this->roles = $roles;
     }

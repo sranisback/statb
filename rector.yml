@@ -1,0 +1,12 @@
+parameters:
+  sets:
+    - 'code-quality'
+    - 'php74'
+    - 'symfony44'
+    - 'type-declaration'
+
+  paths:
+    - 'src'
+    - 'tests'
+
+  symfony_container_xml_path: 'var/cache/dev/AppKernelDevDebugContainer.xml'

@@ -18,124 +18,128 @@ use Doctrine\ORM\Mapping as ORM;
 class Matches
 {
     /**
-     * @var int
      *
      * @ORM\Column(name="match_id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $matchId;
-
-    /**
      * @var int
-     *
-     * @ORM\Column(name="fans", type="integer", nullable=false, options={"unsigned"=true})
      */
-    private $fans = 0;
+    private int $matchId;
 
     /**
-     * @var int|null
+     *
+     * @ORM\Column(name="fans", type="integer", nullable=false, options={"unsigned":true})
+     * @var int
+     */
+    private int $fans = 0;
+
+    /**
      *
      * @ORM\Column(name="ffactor1", type="integer", nullable=true)
+     * @var int|null
      */
-    private $ffactor1;
+    private ?int $ffactor1;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="ffactor2", type="integer", nullable=true)
+     * @var int|null
      */
-    private $ffactor2;
+    private ?int $ffactor2;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="income1", type="integer", nullable=true)
+     * @var int|null
      */
-    private $income1;
+    private ?int $income1;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="income2", type="integer", nullable=true)
+     * @var int|null
      */
-    private $income2;
+    private ?int $income2;
 
     /**
-     * @var DateTime
      *
      * @ORM\Column(name="date_created", type="datetime", nullable=true)
+     * @var \DateTimeInterface|null
      */
-    private $dateCreated;
+    private ?\DateTimeInterface $dateCreated;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="team1_score", type="integer", nullable=true)
+     * @var int|null
      */
-    private $team1Score;
+    private ?int $team1Score;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="team2_score", type="integer", nullable=true)
+     * @var int|null
      */
-    private $team2Score;
+    private ?int $team2Score;
 
     /**
-     * @var int
      *
      * @ORM\Column(name="tv1", type="integer", nullable=false)
+     * @var int
      */
-    private $tv1 = 0;
+    private int $tv1 = 0;
 
     /**
-     * @var int
      *
      * @ORM\Column(name="tv2", type="integer", nullable=false)
+     * @var int
      */
-    private $tv2 = 0;
+    private int $tv2 = 0;
 
     /**
-     * @var Teams
      *
      * @ORM\ManyToOne(targetEntity="Teams", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="team1_id", referencedColumnName="team_id")
      * })
+     * @var \App\Entity\Teams|null
      */
-    private $team1;
+    private ?\App\Entity\Teams $team1;
 
     /**
-     * @var Teams
      *
      * @ORM\ManyToOne(targetEntity="Teams", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="team2_id", referencedColumnName="team_id")
      * })
+     * @var null|\App\Entity\Teams
      */
-    private $team2;
+    private ?\App\Entity\Teams $team2 = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Meteo")
      * @ORM\JoinColumn(nullable=false)
+     * @var int
      */
-    private $fMeteo = 0;
+    private ?\App\Entity\Meteo $fMeteo = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\GameDataStadium", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
+     * @var int
      */
-    private $fStade = 0;
+    private ?\App\Entity\GameDataStadium $fStade = null;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\HistoriqueBlessure", mappedBy="fmatch", fetch="EAGER")
+     * @var \App\Entity\HistoriqueBlessure[]|\Doctrine\Common\Collections\Collection
      */
     private $blessuresMatch;
 /**
      * @ORM\Column(type="integer", nullable=true)
+     * @var int|null
      */
-    private $stadeAcceuil;
+    private ?int $stadeAcceuil;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -152,12 +156,12 @@ class Matches
         $this->blessuresMatch = new ArrayCollection();
     }
 
-    public function getMatchId(): ?int
+    public function getMatchId(): int
     {
         return $this->matchId;
     }
 
-    public function getFans(): ?int
+    public function getFans(): int
     {
         return $this->fans;
     }
@@ -217,7 +221,7 @@ class Matches
         return $this;
     }
 
-    public function getDateCreated(): DateTime
+    public function getDateCreated(): ?\DateTimeInterface
     {
         return $this->dateCreated;
     }
@@ -253,7 +257,7 @@ class Matches
         return $this;
     }
 
-    public function getTv1(): ?int
+    public function getTv1(): int
     {
         return $this->tv1;
     }
@@ -265,7 +269,7 @@ class Matches
         return $this;
     }
 
-    public function getTv2(): ?int
+    public function getTv2(): int
     {
         return $this->tv2;
     }
@@ -301,7 +305,7 @@ class Matches
         return $this;
     }
 
-    public function getFMeteo()
+    public function getFMeteo(): ?\App\Entity\Meteo
     {
         return $this->fMeteo;
     }
@@ -313,7 +317,7 @@ class Matches
         return $this;
     }
 
-    public function getFStade()
+    public function getFStade(): ?\App\Entity\GameDataStadium
     {
         return $this->fStade;
     }
@@ -328,7 +332,7 @@ class Matches
     /**
      * @return Collection|HistoriqueBlessure[]
      */
-    public function getBlessuresMatch(): Collection
+    public function getBlessuresMatch(): \Doctrine\Common\Collections\Collection
     {
         return $this->blessuresMatch;
     }

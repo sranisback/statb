@@ -16,7 +16,7 @@ class confrontationPourDeuxCoachesTest extends KernelTestCase
     /**
      * @test
      */
-    public function le_resultat_de_deux_coaches_est_bien_retournee()
+    public function le_resultat_de_deux_coaches_est_bien_retournee(): void
     {
         $coachTest0 = $this->createMock(Coaches::class);
         $coachTest0->method('getName')->willReturn('coach 0');
@@ -72,7 +72,7 @@ class confrontationPourDeuxCoachesTest extends KernelTestCase
     /**
      * @test
      */
-    public function il_n_y_a_pas_de_matchs_mais_des_equipes_et_coachs()
+    public function il_n_y_a_pas_de_matchs_mais_des_equipes_et_coachs(): void
     {
         $coachTest0 = new Coaches();
         $coachTest0->setName('coach 0');
@@ -111,7 +111,7 @@ class confrontationPourDeuxCoachesTest extends KernelTestCase
     /**
      * @test
      */
-    public function il_n_y_a_pas_de_donnees()
+    public function il_n_y_a_pas_de_donnees(): void
     {
         $coachTest0 = new Coaches();
         $coachTest0->setName('coach 0');
@@ -146,7 +146,7 @@ class confrontationPourDeuxCoachesTest extends KernelTestCase
     /**
      * @test
      */
-    public function une_paire_de_coach_ne_se_sont_pas_rencontre()
+    public function une_paire_de_coach_ne_se_sont_pas_rencontre(): void
     {
         $coachTest0 = new Coaches();
         $coachTest0->setName('coach 0');
@@ -179,7 +179,7 @@ class confrontationPourDeuxCoachesTest extends KernelTestCase
     /**
      * @test
      */
-    public function les_coaches_ont_plusieurs_equipes()
+    public function les_coaches_ont_plusieurs_equipes(): void
     {
         $coachTest0 = $this->createMock(Coaches::class);
         $coachTest0->method('getName')->willReturn('coach 0');

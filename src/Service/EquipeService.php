@@ -20,16 +20,40 @@ use Nette\Utils\DateTime;
 class EquipeService
 {
 
-    private $doctrineEntityManager;
-    private $settingsService;
+    /**
+     * @var \Doctrine\ORM\EntityManagerInterface
+     */
+    private \Doctrine\ORM\EntityManagerInterface $doctrineEntityManager;
+    /**
+     * @var \App\Service\SettingsService
+     */
+    private \App\Service\SettingsService $settingsService;
 
-    private $baseElo = 150;
+    /**
+     * @var int
+     */
+    private int $baseElo = 150;
 
-    private $coutpop = 10000;
-    private $coutAssistant = 10000;
-    private $coutCheer = 10000;
-    private $coutApo = 50000;
-    private $payementStade = 70000;
+    /**
+     * @var int
+     */
+    private int $coutpop = 10_000;
+    /**
+     * @var int
+     */
+    private int $coutAssistant = 10_000;
+    /**
+     * @var int
+     */
+    private int $coutCheer = 10_000;
+    /**
+     * @var int
+     */
+    private int $coutApo = 50_000;
+    /**
+     * @var int
+     */
+    private int $payementStade = 70_000;
 
     private const MORTS_VIVANTS = 'Morts vivants';
 
@@ -42,7 +66,7 @@ class EquipeService
      /**
      * @param Teams $equipe
      * @param PlayerService $playerService
-     * @return int
+     * @return float|int
      */
     public function tvDelEquipe(Teams $equipe, PlayerService $playerService)
     {
@@ -57,18 +81,18 @@ class EquipeService
      * @param Teams $equipe
      * @return array
      */
-    public function valeurInducementDelEquipe(Teams $equipe)
+    public function valeurInducementDelEquipe(Teams $equipe): array
     {
         $equipeRace = $equipe->getFRace();
 
-        if ($equipeRace) {
+        if ($equipeRace !== null) {
             $inducement['rerolls'] = $equipe->getRerolls() * $equipeRace->getCostRr();
         }
 
-        $inducement['pop'] = ($equipe->getFf() + $equipe->getFfBought()) * 10000;
-        $inducement['asscoaches'] = $equipe->getAssCoaches() * 10000;
-        $inducement['cheerleader'] = $equipe->getCheerleaders() * 10000;
-        $inducement['apo'] = $equipe->getApothecary() * 50000;
+        $inducement['pop'] = ($equipe->getFf() + $equipe->getFfBought()) * 10_000;
+        $inducement['asscoaches'] = $equipe->getAssCoaches() * 10_000;
+        $inducement['cheerleader'] = $equipe->getCheerleaders() * 10_000;
+        $inducement['apo'] = $equipe->getApothecary() * 50_000;
         $inducement['total'] = $inducement['rerolls'] + $inducement['pop']
             + $inducement['asscoaches'] + $inducement['cheerleader'] + $inducement['apo'];
 
@@ -80,7 +104,7 @@ class EquipeService
      * @param array $matchesCollection
      * @return array
      */
-    public function resultatsDelEquipe(Teams $equipe, Array $matchesCollection)
+    public function resultatsDelEquipe(Teams $equipe, Array $matchesCollection): array
     {
         $TotalWin = 0;
         $Totaldraw = 0;
@@ -114,8 +138,8 @@ class EquipeService
         } elseif (($equipe === $match->getTeam1() && $match->getTeam1Score() < $match->getTeam2Score(
         )) || ($equipe === $match->getTeam2() && $match->getTeam1Score() > $match->getTeam2Score())) {
             $loss++;
-        } elseif (($equipe === $match->getTeam1() && $match->getTeam1Score() == $match->getTeam2Score(
-        )) || ($equipe === $match->getTeam2() && $match->getTeam1Score() == $match->getTeam2Score())) {
+        } elseif (($equipe === $match->getTeam1() && $match->getTeam1Score() === $match->getTeam2Score(
+        )) || ($equipe === $match->getTeam2() && $match->getTeam1Score() === $match->getTeam2Score())) {
             $draw++;
         }
 
@@ -128,7 +152,7 @@ class EquipeService
      * @param int $raceid
      * @return int|null
      */
-    public function createTeam($teamname, $coachid, $raceid)
+    public function createTeam(string $teamname, int $coachid, int $raceid): int
     {
         $race = $this->doctrineEntityManager->getRepository(Races::class)->findOneBy(['raceId' => $raceid]);
         $coach = $this->doctrineEntityManager->getRepository(Coaches::class)->findOneBy(array('coachId' => $coachid));
@@ -170,7 +194,7 @@ class EquipeService
      * @param PlayerService $playerService
      * @return array
      */
-    public function ajoutInducement(Teams $equipe, $type, PlayerService $playerService)
+    public function ajoutInducement(Teams $equipe, string $type, PlayerService $playerService): array
     {
         $nbr = 0;
         $inducost = 0;
@@ -181,16 +205,16 @@ class EquipeService
             case "rr":
                 $race = $equipe->getFRace();
 
-                if ($race) {
+                if ($race !== null) {
                     $coutRR = $race->getCostRr();
                     $nbr = $equipe->getRerolls();
 
                     if (count($matches) > 0) {
-                        $coutRR = $coutRR * 2;
+                        $coutRR *= 2;
                     }
                     if ($equipe->getTreasury() >= $coutRR) {
                         $inducost = $coutRR;
-                        $nbr = $nbr + 1;
+                        $nbr += 1;
                         $equipe->setRerolls($nbr);
                     }
                 }
@@ -198,19 +222,17 @@ class EquipeService
             case "pop":
                 $nbr = $equipe->getFfBought() + $equipe->getFf();
 
-                if (count($matches) == 0) {
-                    if ($equipe->getTreasury() >= $this->coutpop) {
-                        $nbr = $nbr + 1;
-                        $equipe->setFfBought($equipe->getFfBought() + 1);
-                        $inducost = $this->coutpop;
-                    }
+                if (count($matches) === 0 && $equipe->getTreasury() >= $this->coutpop) {
+                    $nbr += 1;
+                    $equipe->setFfBought($equipe->getFfBought() + 1);
+                    $inducost = $this->coutpop;
                 }
                 break;
             case "ac":
                 $nbr = $equipe->getAssCoaches();
 
                 if ($equipe->getTreasury() >= $this->coutAssistant) {
-                    $nbr = $nbr + 1;
+                    $nbr += 1;
                     $equipe->setAssCoaches($nbr);
                     $inducost = $this->coutAssistant;
                 }
@@ -219,7 +241,7 @@ class EquipeService
                 $nbr = $equipe->getCheerleaders();
 
                 if ($equipe->getTreasury() >= $this->coutCheer) {
-                    $nbr = $nbr + 1;
+                    $nbr += 1;
                     $equipe->setCheerleaders($nbr);
                     $inducost = $this->coutCheer;
                 }
@@ -238,10 +260,10 @@ class EquipeService
                 $nbr = $stadeDelEquipe->getTotalPayement();
 
                 if ($equipe->getTreasury() >= $this->payementStade) {
-                    $nbr += 50000;
+                    $nbr += 50_000;
                     $stadeDelEquipe->setTotalPayement($nbr);
                     $this->doctrineEntityManager->persist($stadeDelEquipe);
-                    $inducost = 70000;
+                    $inducost = 70_000;
                 }
         }
 
@@ -267,7 +289,7 @@ class EquipeService
      * @param PlayerService $playerService
      * @return array
      */
-    public function supprInducement(Teams $equipe, $type, PlayerService $playerService)
+    public function supprInducement(Teams $equipe, string $type, PlayerService $playerService): array
     {
         $nbr = 0;
         $inducost = 0;
@@ -278,29 +300,25 @@ class EquipeService
             case "rr":
                 $race = $equipe->getFRace();
 
-                if ($race) {
-                    if ($equipe->getRerolls() > 0) {
-                        $inducost = $race->getCostRr();
-                        $nbr = $equipe->getRerolls() - 1;
-                        $equipe->setRerolls($nbr);
-                    }
+                if ($race !== null && $equipe->getRerolls() > 0) {
+                    $inducost = $race->getCostRr();
+                    $nbr = $equipe->getRerolls() - 1;
+                    $equipe->setRerolls($nbr);
                 }
                 break;
             case "pop":
                 $nbr = $equipe->getFfBought() + $equipe->getFf();
-                if (count($matches) == 0) {
-                    if ($equipe->getFfBought() > 0) {
-                        $inducost = $this->coutpop;
-                        $nbr = $nbr - 1;
-                        $equipe->setFfBought($equipe->getFfBought() - 1);
-                    }
+                if (count($matches) === 0 && $equipe->getFfBought() > 0) {
+                    $inducost = $this->coutpop;
+                    $nbr -= 1;
+                    $equipe->setFfBought($equipe->getFfBought() - 1);
                 }
                 break;
             case "ac":
                 $nbr = $equipe->getAssCoaches();
                 if ($nbr > 0) {
                     $inducost = $this->coutAssistant;
-                    $nbr = $nbr - 1;
+                    $nbr -= 1;
                     $equipe->setAssCoaches($nbr);
                 }
                 break;
@@ -308,7 +326,7 @@ class EquipeService
                 $nbr = $equipe->getCheerleaders();
                 if ($nbr > 0) {
                     $inducost = $this->coutCheer;
-                    $nbr = $nbr - 1;
+                    $nbr -= 1;
                     $equipe->setCheerleaders($nbr);
                 }
                 break;
@@ -324,14 +342,14 @@ class EquipeService
                 $stadeDelEquipe = $equipe->getFStades();
                 $nbr = $stadeDelEquipe->getTotalPayement();
                 if ($nbr > 0) {
-                    $nbr = $nbr - 50000;
+                    $nbr -= 50_000;
                     $stadeDelEquipe->setTotalPayement($nbr);
                     $inducost = $this->payementStade;
                 }
                 break;
         }
 
-        if (count($matches) == 0) {
+        if (count($matches) === 0) {
             $nouveauTresor = $equipe->getTreasury() + $inducost;
             $equipe->setTreasury($nouveauTresor);
         }
@@ -353,7 +371,7 @@ class EquipeService
      * @param integer $year
      * @return array
      */
-    public function eloDesEquipes($year)
+    public function eloDesEquipes(int $year): array
     {
         $equipeCollection = $this->doctrineEntityManager->getRepository(Teams::class)->findBy(['year' => $year]);
 
@@ -399,10 +417,8 @@ class EquipeService
                     10,
                     ($r[$equipe1Id] - $r[$equipe2Id]) / $d
                 ) + 1);
-                $r[$equipe1Id] = $r[$equipe1Id]
-                    + ($nbrDeCoachesActifsDivParDeux * ($resultat1 - $pourcentageVictoireEquipe1));
-                $r[$equipe2Id] = $r[$equipe2Id]
-                    + ($nbrDeCoachesActifsDivParDeux * ($resultat2 - $pourcentageVictoireEquipe2));
+                $r[$equipe1Id] += $nbrDeCoachesActifsDivParDeux * ($resultat1 - $pourcentageVictoireEquipe1);
+                $r[$equipe2Id] += $nbrDeCoachesActifsDivParDeux * ($resultat2 - $pourcentageVictoireEquipe2);
             }
         }
 
@@ -426,9 +442,9 @@ class EquipeService
     /**
      * @param int $coachActif
      * @param int $annee
-     * @return array|null
+     * @return mixed[]
      */
-    public function listeDesAnciennesEquipes($coachActif, $annee)
+    public function listeDesAnciennesEquipes(int $coachActif, int $annee): array
     {
         $anciennesEquipes = [];
 
@@ -440,9 +456,7 @@ class EquipeService
                 );
 
             if (!empty($retourRequete)) {
-                foreach ($retourRequete as $equipe) {
-                    $anciennesEquipes[] = $equipe;
-                }
+                $anciennesEquipes = array_merge($anciennesEquipes, $retourRequete);
             }
         }
 
@@ -453,7 +467,7 @@ class EquipeService
      * @param Teams $equipe
      * @return GameDataPlayers
      */
-    public function positionDuJournalier(Teams $equipe)
+    public function positionDuJournalier(Teams $equipe): ?\App\Entity\GameDataPlayers
     {
         /** @var Races $race */
         $race = $equipe->getFRace();
@@ -471,8 +485,9 @@ class EquipeService
     /**
      * @param Teams $equipe
      * @param PlayerService $playerService
+     * @return int[]|mixed[]
      */
-    public function gestionDesJournaliers(Teams $equipe, PlayerService $playerService)
+    public function gestionDesJournaliers(Teams $equipe, PlayerService $playerService): array
     {
         $resultat = [];
 
@@ -500,29 +515,23 @@ class EquipeService
      * @param Teams $equipe
      * @return int
      */
-    public function suppressionDesJournaliers(int $nbrDeJournalierAvendre, Teams $equipe)
+    public function suppressionDesJournaliers(int $nbrDeJournalierAvendre, Teams $equipe): int
     {
         $nombreVendu = 0;
 
         foreach ($this->doctrineEntityManager->getRepository(
             Players::class
         )->listeDesJournaliersDeLequipe($equipe) as $journalierAVendre) {
-            if ($nombreVendu < $nbrDeJournalierAvendre) {
-                /** @var Players $journalierAVendre */
-                if ($journalierAVendre->getStatus() != 9) {
-                    $journalierAVendre->setStatus(7);
-
-                    $dateSoldFormat = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
-
-                    if ($dateSoldFormat) {
-                        $journalierAVendre->setDateSold($dateSoldFormat);
-                    }
-
-                    $this->doctrineEntityManager->persist($journalierAVendre);
-                    $this->doctrineEntityManager->flush();
-
-                    $nombreVendu++;
+            /** @var Players $journalierAVendre */
+            if ($nombreVendu < $nbrDeJournalierAvendre && $journalierAVendre->getStatus() != 9) {
+                $journalierAVendre->setStatus(7);
+                $dateSoldFormat = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
+                if ($dateSoldFormat) {
+                    $journalierAVendre->setDateSold($dateSoldFormat);
                 }
+                $this->doctrineEntityManager->persist($journalierAVendre);
+                $this->doctrineEntityManager->flush();
+                $nombreVendu++;
             }
         }
 
@@ -535,7 +544,7 @@ class EquipeService
      * @param PlayerService $playerService
      * @return mixed
      */
-    public function ajoutDesJournaliers(int $nbrDeJournalier, Teams $equipe, PlayerService $playerService)
+    public function ajoutDesJournaliers(int $nbrDeJournalier, Teams $equipe, PlayerService $playerService): int
     {
         $nombreAjoute = 0;
 
@@ -569,7 +578,7 @@ class EquipeService
      * @param Teams $equipe
      * @param PlayerService $playerService
      */
-    public function checkEquipe(Teams $equipe, PlayerService $playerService)
+    public function checkEquipe(Teams $equipe, PlayerService $playerService): void
     {
         $playerService->controleNiveauDesJoueursDelEquipe($equipe);
 

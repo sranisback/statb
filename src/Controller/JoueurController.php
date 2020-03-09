@@ -51,7 +51,7 @@ class JoueurController extends AbstractController
      * @param PlayerService $playerService
      * @return Response
      */
-    public function showPlayer($playerid, PlayerService $playerService)
+    public function showPlayer(int $playerid, PlayerService $playerService): \Symfony\Component\HttpFoundation\Response
     {
         $msdata = [];
         $pdata = [];
@@ -87,17 +87,13 @@ class JoueurController extends AbstractController
                 if (!empty($joueur)) {
                     $actions = $playerService->actionDuJoueurDansUnMatch($match, $joueur);
                 }
-                if (!empty($actions)) {
-                    $msdata[$count]["data"] = substr($actions, 0, strlen($actions) - 2);
-                } else {
-                    $msdata[$count]["data"] = '';
-                };
+                $msdata[$count]["data"] = !empty($actions) ? substr($actions, 0, strlen($actions) - 2) : '';;
 
                 $count++;
             }
         }
 
-        if ($count == 0) {
+        if ($count === 0) {
             $msdata[$count]["mId"] = 0;
             $msdata[$count]["data"] = '';
         }
@@ -122,7 +118,7 @@ class JoueurController extends AbstractController
      * @param int $posId
      * @return Response
      */
-    public function getposstat(PlayerService $playerService, $posId)
+    public function getposstat(PlayerService $playerService, int $posId): \Symfony\Component\HttpFoundation\Response
     {
         /** @var GameDataPlayers $position */
         $position = $this->getDoctrine()->getRepository(GameDataPlayers::class)->findOneBy(['posId' => $posId]);
@@ -164,7 +160,7 @@ class JoueurController extends AbstractController
      * @param Teams $equipe
      * @return Response
      */
-    public function playerAdder(Teams $equipe)
+    public function playerAdder(Teams $equipe): \Symfony\Component\HttpFoundation\Response
     {
         $form = $this->createForm(AjoutJoueurType::class, null, ['equipe' => $equipe]);
 
@@ -178,7 +174,7 @@ class JoueurController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function addPlayer(PlayerService $playerService, EquipeService $equipeService, Request $request)
+    public function addPlayer(PlayerService $playerService, EquipeService $equipeService, Request $request): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $donneesPourAjout = $request->request->all();
         $resultat = $playerService->ajoutJoueur(
@@ -197,7 +193,7 @@ class JoueurController extends AbstractController
             /** @var Players $joueur */
             $joueur = $resultat['joueur'];
             $position = $joueur->getFPos();
-            if ($position) {
+            if ($position !== null) {
                 $competences = $playerService->listeDesCompdDeBasedUnJoueur($joueur);
 
                 $competences = substr($competences, 0, strlen($competences) - 2);
@@ -212,7 +208,7 @@ class JoueurController extends AbstractController
 
                 $coutjoueur = $joueur->getValue();
 
-                if ($equipe) {
+                if ($equipe !== null) {
                     $tv = $equipeService->tvDelEquipe($equipe, $playerService);
                     $tresors = $equipe->getTreasury();
                 }
@@ -234,7 +230,7 @@ class JoueurController extends AbstractController
         $response = [
             "html" => $html,
             "tv" => $tv,
-            "ptv" => ($tv / 1000),
+            "ptv" => ($tv / 1_000),
             "tresor" => $tresors,
             "playercost" => $coutjoueur,
             "reponse" => $reponse,
@@ -249,7 +245,7 @@ class JoueurController extends AbstractController
      * @param int $playerId
      * @return JsonResponse
      */
-    public function remPlayer(PlayerService $playerService, $playerId)
+    public function remPlayer(PlayerService $playerService, int $playerId): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $resultat[''] = '';
         /** @var Players $joueur */
@@ -259,7 +255,7 @@ class JoueurController extends AbstractController
 
         $response = array(
             "tv" => $resultat['tv'],
-            "ptv" => ($resultat['tv'] / 1000),
+            "ptv" => ($resultat['tv'] / 1_000),
             "tresor" => $resultat['tresor'],
             "playercost" => $resultat['playercost'],
             "reponse" => $resultat['reponse'],
@@ -274,7 +270,7 @@ class JoueurController extends AbstractController
      * @param int $playerid
      * @return Response
      */
-    public function changeNr($newnr, $playerid)
+    public function changeNr(int $newnr, int $playerid): \Symfony\Component\HttpFoundation\Response
     {
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -290,7 +286,7 @@ class JoueurController extends AbstractController
 
         $playerTeam = $player->getOwnedByTeam();
 
-        if ($playerTeam) {
+        if ($playerTeam !== null) {
             $playerTeamId = $playerTeam->getTeamId();
         }
         $response = new Response();
@@ -306,7 +302,7 @@ class JoueurController extends AbstractController
      * @param int $playerid
      * @return Response
      */
-    public function changeName($newname, $playerid)
+    public function changeName(string $newname, int $playerid): \Symfony\Component\HttpFoundation\Response
     {
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -322,7 +318,7 @@ class JoueurController extends AbstractController
 
         $playerTeam = $player->getOwnedByTeam();
 
-        if ($playerTeam) {
+        if ($playerTeam !== null) {
             $playerTeamId = $playerTeam->getTeamId();
         }
         $response = new Response();
@@ -337,7 +333,7 @@ class JoueurController extends AbstractController
      * @param int $playerid
      * @return Response
      */
-    public function skillmodal($playerid)
+    public function skillmodal(int $playerid): \Symfony\Component\HttpFoundation\Response
     {
         $competence = new PlayersSkills();
 
@@ -347,13 +343,13 @@ class JoueurController extends AbstractController
     }
 
     /**
-     * @Route("/ajoutComp/{playerid}", name="ajoutComp", options = { "expose" = true })
+     * @Route("/ajoutComp/{playerid}", name="ajoutComp", options={"expose":true})
      * @param Request $request
      * @param PlayerService $playerService
      * @param int $playerid
-     * @return string
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|string
      */
-    public function ajoutComp(Request $request, PlayerService $playerService, $playerid)
+    public function ajoutComp(Request $request, PlayerService $playerService, int $playerid)
     {
         $form = $request->request->get('ajout_competence');
 
@@ -384,7 +380,7 @@ class JoueurController extends AbstractController
      * @Route("/genereNom", name="genereNom", options = { "expose" = true })
      * @return mixed
      */
-    public function genereNomJoueur()
+    public function genereNomJoueur(): \Symfony\Component\HttpFoundation\Response
     {
         $generateurDeNom = new randomNameGenerator();
         $nom = $generateurDeNom->generateNames(1);
@@ -398,7 +394,7 @@ class JoueurController extends AbstractController
      * @param Request $request
      * @return mixed
      */
-    public function genereNumero(PlayerService $playerService, Request $request)
+    public function genereNumero(PlayerService $playerService, Request $request): \Symfony\Component\HttpFoundation\Response
     {
         $donnees = $request->request->all();
         /** @var Teams $equipe */
@@ -413,7 +409,7 @@ class JoueurController extends AbstractController
     /**
      * @Route("/uploadPhoto/{joueurId}", name= "uploadPhoto")
      */
-    public function uploadPhoto(Request $request, $joueurId)
+    public function uploadPhoto(Request $request, $joueurId): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $form = $request->files->all();
 
@@ -439,7 +435,7 @@ class JoueurController extends AbstractController
      * @param int $joueurId
      * @return Response
      */
-    public function supprimePhotos(int $joueurId)
+    public function supprimePhotos(int $joueurId): \Symfony\Component\HttpFoundation\Response
     {
         /** @var Players $joueur */
         $joueur = $this->getDoctrine()->getRepository(Players::class)->findOneBy(['playerId' => $joueurId]);

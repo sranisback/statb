@@ -9,7 +9,10 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class StadeService
 {
-    private $doctrineEntityManager;
+    /**
+     * @var \Doctrine\ORM\EntityManagerInterface
+     */
+    private \Doctrine\ORM\EntityManagerInterface $doctrineEntityManager;
 
     public function __construct(EntityManagerInterface $doctrineEntityManager)
     {
@@ -20,7 +23,7 @@ class StadeService
      * @param Teams $equipe
      * @param string $nouveauNomStade
      */
-    public function renommerStade(Teams $equipe, string $nouveauNomStade)
+    public function renommerStade(Teams $equipe, string $nouveauNomStade): void
     {
         /** @var Stades $stade */
         $stade = $equipe->getFStades();
@@ -40,14 +43,14 @@ class StadeService
      * @param GameDataStadium $typeStade
      * @return bool
      */
-    public function construireStade(Teams $equipe, $nomDuStade, $typeStade, $niveauAatteindre)
+    public function construireStade(Teams $equipe, string $nomDuStade, \App\Entity\GameDataStadium $typeStade, $niveauAatteindre): bool
     {
         $tableCoutStade = [
             0 => 0,
-            1 => 150000,
-            2 => 250000,
-            3 => 500000,
-            4 => 750000,
+            1 => 150_000,
+            2 => 250_000,
+            3 => 500_000,
+            4 => 750_000,
         ];
 
         $stade = $equipe->getFStades();
@@ -77,7 +80,7 @@ class StadeService
         return false;
     }
 
-    public function emenagerResidence (Teams $equipe, $nomDuStade, $typeStade)
+    public function emenagerResidence (Teams $equipe, $nomDuStade, $typeStade): bool
     {
         $stade = $equipe->getFStades();
 

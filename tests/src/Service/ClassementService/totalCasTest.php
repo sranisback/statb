@@ -14,7 +14,7 @@ class totalCasTest extends KernelTestCase
     /**
      * @test
      */
-    public function compte_les_cas_total_par_match()
+    public function compte_les_cas_total_par_match(): void
     {
         $matchMock0 = $this->createMock(Matches::class);
         $matchMock1 = $this->createMock(Matches::class);
@@ -47,7 +47,7 @@ class totalCasTest extends KernelTestCase
     /**
      * @test
      */
-    public function il_n_y_a_pas_de_donnees()
+    public function il_n_y_a_pas_de_donnees(): void
     {
         $matchRepoMock = $this->getMockBuilder(Matches::class)
             ->setMethods(['totalcas','tousLesMatchDuneAnne'])

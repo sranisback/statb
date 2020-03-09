@@ -47,7 +47,7 @@ class StatBBController extends AbstractController
      * @param DefisService $defisService
      * @return Response
      */
-    public function index(SettingsService $settingsService, DefisService $defisService)
+    public function index(SettingsService $settingsService, DefisService $defisService): \Symfony\Component\HttpFoundation\Response
     {
         /** @var Coaches $coach */
         $coach = $this->getUser();
@@ -55,10 +55,8 @@ class StatBBController extends AbstractController
         if ($coach != null) {
             $role = $coach->getRoles();
 
-            if ($role['role'] == 'ROLE_ADMIN') {
-                if ($settingsService->mettreaJourLaPeriode(date('m/d/Y')) == true) {
-                    $this->addFlash('admin', 'Periode Mise à jour');
-                };
+            if ($role['role'] == 'ROLE_ADMIN' && $settingsService->mettreaJourLaPeriode(date('m/d/Y')) == true) {
+                $this->addFlash('admin', 'Periode Mise à jour');;
             }
 
             foreach ($defisService->lesDefisEnCoursContreLeCoach($settingsService, $coach) as $defisEnCours) {
@@ -72,7 +70,7 @@ class StatBBController extends AbstractController
      * @Route("/login", name="login", options = { "expose" = true })
      * @return Response
      */
-    public function login(SettingsService $settingsService)
+    public function login(SettingsService $settingsService): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('statbb/front.html.twig', ['annee' => $settingsService->anneeCourante()]);
     }
@@ -81,7 +79,7 @@ class StatBBController extends AbstractController
      * @Route("/logout", name="logout")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function logout()
+    public function logout(): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         return $this->redirectToRoute('index');
     }
@@ -91,7 +89,7 @@ class StatBBController extends AbstractController
      * @param SettingsService $settingsService
      * @return Response
      */
-    public function citation(SettingsService $settingsService)
+    public function citation(SettingsService $settingsService): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('statbb/citation.html.twig', ['citation' => $settingsService->tirerCitationAuHasard()]);
     }
@@ -101,7 +99,7 @@ class StatBBController extends AbstractController
      * @param SettingsService $settingsService
      * @return Response
      */
-    public function dyk(SettingsService $settingsService)
+    public function dyk(SettingsService $settingsService): \Symfony\Component\HttpFoundation\Response
     {
         return new Response($settingsService->tirerDYKauHasard());
     }
@@ -109,7 +107,7 @@ class StatBBController extends AbstractController
     /**
      * @Route("/frontUser", name="frontUser", options = { "expose" = true })
      */
-    public function frontUser()
+    public function frontUser(): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('statbb/user.html.twig');
     }
@@ -117,7 +115,7 @@ class StatBBController extends AbstractController
     /**
      * @Route("/tabCoach", name="tabCoach")
      */
-    public function tabCoach()
+    public function tabCoach(): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('statbb/tabs/coach/tabCoach.html.twig');
     }
@@ -125,12 +123,12 @@ class StatBBController extends AbstractController
     /**
      * @Route("/tabLigue", name="tabLigue")
      */
-    public function tabLigue(SettingsService $settingsService)
+    public function tabLigue(SettingsService $settingsService): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('statbb/tabs/ligue/tabLigue.html.twig', ['annee' => $settingsService->anneeCourante()]);
     }
 
-    public function tabParametre()
+    public function tabParametre(): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render('statbb/tabs/parametres/tabParametre.html.twig');
     }
@@ -138,7 +136,7 @@ class StatBBController extends AbstractController
     /**
      * @Route("/testIcons")
      */
-    public function testIcon()
+    public function testIcon(): \Symfony\Component\HttpFoundation\Response
     {
         $icons = $this->getDoctrine()->getRepository(PlayersIcons::class)->findAll();
 
@@ -148,23 +146,19 @@ class StatBBController extends AbstractController
     /**
      * @Route("/attributIconManquante")
      */
-    public function attributIconManquante()
+    public function attributIconManquante(): \Symfony\Component\HttpFoundation\Response
     {
         /** @var Players $joueur */
         foreach ($this->getDoctrine()->getRepository(Players::class)->findAll() as $joueur) {
             $icon = $joueur->getIcon();
-            if (!empty($icon)) {
-                if ($icon->getIconName() === 'nope') {
-                    /** @var PlayersIcons[] $iconesPositions */
-                    $iconesPositions = $this
-                        ->getDoctrine()
-                        ->getRepository(PlayersIcons::class)->findBy(['position' => $joueur->getFPos()]);
-                    $joueur->setIcon($iconesPositions[ rand(0, count($iconesPositions) - 1)]);
-
-                    $this->getDoctrine()->getManager()->persist($joueur);
-
-                    $this->getDoctrine()->getManager()->flush();
-                }
+            if (!empty($icon) && $icon->getIconName() === 'nope') {
+                /** @var PlayersIcons[] $iconesPositions */
+                $iconesPositions = $this
+                    ->getDoctrine()
+                    ->getRepository(PlayersIcons::class)->findBy(['position' => $joueur->getFPos()]);
+                $joueur->setIcon($iconesPositions[ rand(0, count($iconesPositions) - 1)]);
+                $this->getDoctrine()->getManager()->persist($joueur);
+                $this->getDoctrine()->getManager()->flush();
             }
         }
         return new Response('ok');
@@ -173,7 +167,7 @@ class StatBBController extends AbstractController
     /**
      * @Route("/genereNomManquant")
      */
-    public function genereNomManquant()
+    public function genereNomManquant(): \Symfony\Component\HttpFoundation\Response
     {
         /** @var Players $joueur */
         foreach ($this->getDoctrine()->getRepository(Players::class)->findAll() as $joueur) {

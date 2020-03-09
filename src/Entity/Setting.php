@@ -18,20 +18,22 @@ class Setting
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @var string
      */
-    private $name;
+    private string $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string|null
      */
-    private $value;
+    private ?string $value;
 
     public function getId()
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }

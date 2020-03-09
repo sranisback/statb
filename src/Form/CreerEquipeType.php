@@ -12,7 +12,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class CreerEquipeType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add("Name", TextType::class, ['label'=>"Nom de l'équipe", 'required' => 'true'])

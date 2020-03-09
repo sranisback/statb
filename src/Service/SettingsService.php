@@ -11,7 +11,10 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class SettingsService
 {
-    private $doctrineEntityManager;
+    /**
+     * @var \Doctrine\ORM\EntityManagerInterface
+     */
+    private \Doctrine\ORM\EntityManagerInterface $doctrineEntityManager;
 
     public function __construct(EntityManagerInterface $doctrineEntityManager)
     {
@@ -19,7 +22,7 @@ class SettingsService
     }
 
     /**
-     * @return int $anneeCourante
+     * @return int|string|null $anneeCourante
      */
     public function anneeCourante()
     {
@@ -33,7 +36,7 @@ class SettingsService
     }
 
     /**
-     * @return Citations|\App\Entity\Dyk|\App\Entity\GameDataSkills|\App\Entity\Matches
+     * @return mixed[]
      */
     public function tirerCitationAuHasard()
     {
@@ -47,7 +50,7 @@ class SettingsService
     /**
      * @return string
      */
-    public function tirerDYKauHasard()
+    public function tirerDYKauHasard(): string
     {
         $dyk = $this->doctrineEntityManager->getRepository(Dyk::class)->findAll();
 
@@ -56,7 +59,10 @@ class SettingsService
         return '<b>Did you know ?</b> <i>'.$dyk[$nbrAuHasard]->getDykText().'</i>';
     }
 
-    public function periodeDefisCourrante()
+    /**
+     * @return \DateTime[]|bool[]
+     */
+    public function periodeDefisCourrante(): array
     {
         $setting = $this->doctrineEntityManager->getRepository(Setting::class)->findOneBy(['name' => 'periodeDefis']);
 
@@ -69,17 +75,13 @@ class SettingsService
         ];
     }
 
-    public function dateDansLaPeriodeCourante($date)
+    public function dateDansLaPeriodeCourante($date): bool
     {
         $periodeCourrante = $this->periodeDefisCourrante();
-
-        if (($date > $periodeCourrante['debut']) && ($date < $periodeCourrante['fin'])) {
-            return true;
-        }
-        return false;
+        return ($date > $periodeCourrante['debut']) && ($date < $periodeCourrante['fin']);
     }
 
-    public function mettreaJourLaPeriode($maintenant)
+    public function mettreaJourLaPeriode($maintenant): bool
     {
         $periode  = $this->periodeDefisCourrante();
 
@@ -97,6 +99,9 @@ class SettingsService
         return false;
     }
 
+    /**
+     * @return int|string|null
+     */
     public function recupererTresorDepart()
     {
         $tresorDepart = $this->doctrineEntityManager->getRepository(Setting::class)->findOneBy(

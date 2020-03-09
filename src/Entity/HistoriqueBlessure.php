@@ -11,42 +11,46 @@ use Doctrine\ORM\Mapping as ORM;
 class HistoriqueBlessure
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
+     * @var int|null
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="integer")
+     * @var int
      */
-    private $blessure;
+    private int $blessure;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Players", inversedBy="historiqueBlessures")
      * @ORM\JoinColumn(name="fplayer", referencedColumnName="player_id")
+     * @var null|\App\Entity\Players
      */
-    private $Player;
+    private ?\App\Entity\Players $Player = null;
 
     /**
-     * @var DateTime
      *
      * @ORM\Column(type="date")
+     * @var \DateTimeInterface
      */
-    private $date;
+    private \DateTimeInterface $date;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Matches", inversedBy="blessuresMatch")
      * @ORM\JoinColumn(name="matches", referencedColumnName="match_id")
+     * @var \App\Entity\Matches|null
      */
-    private $fmatch;
+    private ?\App\Entity\Matches $fmatch;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getBlessure(): ?int
+    public function getBlessure(): int
     {
         return $this->blessure;
     }
@@ -70,7 +74,7 @@ class HistoriqueBlessure
         return $this;
     }
 
-    public function getDate(): ?\DateTime
+    public function getDate(): \DateTimeInterface
     {
         return $this->date;
     }

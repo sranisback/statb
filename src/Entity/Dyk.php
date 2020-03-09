@@ -18,8 +18,9 @@ class Dyk
 
     /**
      * @ORM\Column(type="string", length=2500, nullable=true)
+     * @var string|null
      */
-    private $dyk_text;
+    private ?string $dyk_text;
 
     public function getId()
     {

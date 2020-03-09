@@ -18,13 +18,13 @@ class nouveauJoueurTest extends KernelTestCase
     /**
      * @test
      */
-    public function un_nouveau_joueur_est_bien_cree()
+    public function un_nouveau_joueur_est_bien_cree(): void
     {
         $raceMock = $this->createMock(Races::class);
 
         $gameDataPlayersMock = $this->createMock(GameDataPlayers::class);
         $gameDataPlayersMock->method('getFRace')->willReturn($raceMock);
-        $gameDataPlayersMock->method('getCost')->willReturn(50000);
+        $gameDataPlayersMock->method('getCost')->willReturn(50_000);
 
         $playerIconMock = $this->createMock(PlayersIcons::class);
 
@@ -60,13 +60,13 @@ class nouveauJoueurTest extends KernelTestCase
     /**
      * @test
      */
-    public function il_n_y_a_pas_d_icones()
+    public function il_n_y_a_pas_d_icones(): void
     {
         $raceMock = $this->createMock(Races::class);
 
         $gameDataPlayersMock = $this->createMock(GameDataPlayers::class);
         $gameDataPlayersMock->method('getFRace')->willReturn($raceMock);
-        $gameDataPlayersMock->method('getCost')->willReturn(50000);
+        $gameDataPlayersMock->method('getCost')->willReturn(50_000);
 
         $playerIconTestDefaut = new PlayersIcons();
         $playerIconTestDefaut->setIconName('nope');

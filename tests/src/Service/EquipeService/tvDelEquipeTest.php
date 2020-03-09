@@ -18,10 +18,10 @@ class tvDelEquipeTest extends KernelTestCase
     /**
      * @test
      */
-    public function la_tv_est_calculee_correctement()
+    public function la_tv_est_calculee_correctement(): void
     {
         $raceTest = new Races();
-        $raceTest->setCostRr(50000);
+        $raceTest->setCostRr(50_000);
 
         $equipeTest = new Teams;
         $equipeTest->setRerolls(4);
@@ -30,14 +30,14 @@ class tvDelEquipeTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
 
         $playerServiceMock = $this->createMock(PlayerService::class);
-        $playerServiceMock->method('coutTotalJoueurs')->willReturn(100000);
+        $playerServiceMock->method('coutTotalJoueurs')->willReturn(100_000);
 
         $equipeService = new EquipeService(
             $objectManager,
             $this->createMock(SettingsService::class)
         );
 
-        $this->assertEquals(300000, $equipeService->tvDelEquipe($equipeTest, $playerServiceMock));
+        $this->assertEquals(300_000, $equipeService->tvDelEquipe($equipeTest, $playerServiceMock));
     }
 
 }

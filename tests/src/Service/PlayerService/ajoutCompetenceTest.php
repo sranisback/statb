@@ -17,7 +17,7 @@ class ajoutCompetenceTest extends KernelTestCase
     /**
      * @test
      */
-    public function la_competence_s_ajoute_correctement() // pas tip top
+    public function la_competence_s_ajoute_correctement(): void // pas tip top
     {
         $joueurTest = new Players();
         $joueurTest->setStatus(9);

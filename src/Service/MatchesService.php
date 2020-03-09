@@ -8,21 +8,36 @@ use App\Entity\MatchData;
 use App\Entity\Matches;
 use App\Entity\Meteo;
 use App\Entity\Players;
+use App\Entity\Stades;
 use App\Entity\Teams;
 use App\Enum\AnneeEnum;
 use App\Factory\MatchesFactory;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use phpDocumentor\Reflection\Types\Integer;
 
 class MatchesService
 {
 
-    private $doctrineEntityManager;
-    private $equipeService;
-    private $playerService;
-    private $settingService;
-    private $defisService;
+    /**
+     * @var \Doctrine\ORM\EntityManagerInterface
+     */
+    private \Doctrine\ORM\EntityManagerInterface $doctrineEntityManager;
+    /**
+     * @var \App\Service\EquipeService
+     */
+    private \App\Service\EquipeService $equipeService;
+    /**
+     * @var \App\Service\PlayerService
+     */
+    private \App\Service\PlayerService $playerService;
+    /**
+     * @var \App\Service\SettingsService
+     */
+    private \App\Service\SettingsService $settingService;
+    /**
+     * @var \App\Service\DefisService
+     */
+    private \App\Service\DefisService $defisService;
 
     public function __construct(
         EntityManagerInterface $doctrineEntityManager,
@@ -30,7 +45,8 @@ class MatchesService
         PlayerService $playerService,
         SettingsService $settingService,
         DefisService $defisService
-    ) {
+    )
+    {
         $this->doctrineEntityManager = $doctrineEntityManager;
         $this->equipeService = $equipeService;
         $this->playerService = $playerService;
@@ -43,7 +59,7 @@ class MatchesService
      * @return array
      * @throws \Exception
      */
-    public function enregistrerMatch(array $donnneesMatch)
+    public function enregistrerMatch(array $donnneesMatch): array
     {
         $match = $this->creationEnteteMatch($donnneesMatch);
 
@@ -75,8 +91,9 @@ class MatchesService
      * @param array $donneesMatch
      * @return Matches
      */
-    public function creationEnteteMatch(array $donneesMatch)
+    public function creationEnteteMatch(array $donneesMatch): \App\Entity\Matches
     {
+        /** @var Teams $equipe1 */
         $equipe1 = $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(
             ['teamId' => $donneesMatch['team_1']]
         );
@@ -84,6 +101,32 @@ class MatchesService
         $equipe2 = $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(
             ['teamId' => $donneesMatch['team_2']]
         );
+
+        $stadeNature = $this->doctrineEntityManager->getRepository(GameDataStadium::class)->findOneBy(
+            ['id' => $donneesMatch['stade']]
+        );
+
+        switch ($donneesMatch['stadeAccueil']) {
+            case 1:
+                $stade = $equipe1->getFStades();
+                /** @var Stades $stade */
+                if ($stade->getNiveau() === 0) {
+                    $stade = $stadeNature;
+                }
+                break;
+            case 2:
+                $stade = $equipe2->getFStades();
+                /** @var Stades $stade */
+                if ($stade->getNiveau() === 0) {
+                    $stade = $stadeNature;
+                }
+                break;
+            case 3:
+                $stade = $this->doctrineEntityManager->getRepository(GameDataStadium::class)->findOneBy(
+                    ['id' => $donneesMatch['stade']]
+                );
+                break;
+        }
 
         $match = (new MatchesFactory)->creerUnMatch(
             $donneesMatch,
@@ -94,9 +137,7 @@ class MatchesService
             $this->doctrineEntityManager->getRepository(Meteo::class)->findOneBy(
                 ['id' => $donneesMatch['meteo']]
             ),
-            $this->doctrineEntityManager->getRepository(GameDataStadium::class)->findOneBy(
-                ['id' => $donneesMatch['stade']]
-            )
+            $stade
         );
 
         $this->doctrineEntityManager->persist($match);
@@ -109,7 +150,7 @@ class MatchesService
      * @param Teams $equipe1
      * @param Teams $equipe2
      */
-    public function modificationEquipes(Matches $match, Teams $equipe1, Teams $equipe2)
+    public function modificationEquipes(Matches $match, Teams $equipe1, Teams $equipe2): void
     {
         $equipe1->setTreasury($equipe1->getTreasury() + $match->getIncome1() + $match->getDepense1());
         $equipe2->setTreasury($equipe2->getTreasury() + $match->getIncome2() + $match->getDepense2());
@@ -134,7 +175,7 @@ class MatchesService
      * @param array $actionsCollection
      * @param Matches $match
      */
-    public function enregistrementDesActionsDesJoueurs(array $actionsCollection, Matches $match)
+    public function enregistrementDesActionsDesJoueurs(array $actionsCollection, Matches $match): void
     {
         foreach ($actionsCollection as $action) {
             $ligneMatchData = $this->doctrineEntityManager->getRepository(MatchData::class)->findOneBy(
@@ -226,7 +267,7 @@ class MatchesService
                     break;
             }
 
-            if ($histoBlessure->getPlayer()) {
+            if ($histoBlessure->getPlayer() !== null) {
                 $this->doctrineEntityManager->persist($histoBlessure);
             }
             $this->doctrineEntityManager->persist($joueur);
@@ -236,9 +277,9 @@ class MatchesService
 
     /**
      * @param int $coachId
-     * @return mixed
+     * @return mixed[][]
      */
-    public function tousLesMatchesDunCoachParAnnee(int $coachId)
+    public function tousLesMatchesDunCoachParAnnee(int $coachId): array
     {
         $anneeEnCours = $this->settingService->anneeCourante();
         $anneeEtiquette = (new AnneeEnum)->numeroToAnnee();

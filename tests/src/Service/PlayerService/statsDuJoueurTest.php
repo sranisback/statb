@@ -19,7 +19,7 @@ class statsDuJoueurTest extends KernelTestCase
     /**
      * @test
      */
-    public function les_stats_du_joueur_sont_bien_retournee()
+    public function les_stats_du_joueur_sont_bien_retournee(): void
     {
         $positionmock = $this->createMock(GameDataPlayers::class);
         $positionmock->method('getSkills')->willReturn('5,23,24');

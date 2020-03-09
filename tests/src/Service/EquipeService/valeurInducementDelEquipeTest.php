@@ -17,10 +17,10 @@ class valeurInducementDelEquipeTest extends KernelTestCase
     /**
      * @test
      */
-    public function la_valeur_est_bien_calculee()
+    public function la_valeur_est_bien_calculee(): void
     {
         $raceTest = new Races();
-        $raceTest->setCostRr(50000);
+        $raceTest->setCostRr(50_000);
 
         $equipeTest = new Teams;
         $equipeTest->setRerolls(4);
@@ -39,12 +39,12 @@ class valeurInducementDelEquipeTest extends KernelTestCase
         );
 
         $retour = [
-            'rerolls'=> 200000,
-            'pop'=> 100000,
-            'asscoaches'=> 50000,
-            'cheerleader'=> 100000,
-            'apo'=> 50000,
-            'total'=> 500000
+            'rerolls'=> 200_000,
+            'pop'=> 100_000,
+            'asscoaches'=> 50_000,
+            'cheerleader'=> 100_000,
+            'apo'=> 50_000,
+            'total'=> 500_000
         ];
 
         $this->assertEquals($retour,$equipeService->valeurInducementDelEquipe($equipeTest));

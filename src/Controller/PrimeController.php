@@ -20,11 +20,11 @@ class PrimeController extends AbstractController
      * @param null $primeId
      * @return Response
      */
-    public function ajoutPrimeForm($coachId, $primeId = null)
+    public function ajoutPrimeForm(int $coachId, $primeId = null): \Symfony\Component\HttpFoundation\Response
     {
         $prime = new Primes();
 
-        if ($primeId == null) {
+        if ($primeId === null) {
             $prime = $this->getDoctrine()->getRepository(Primes::class)->findOneBy(['id' => $primeId]);
         }
 
@@ -40,7 +40,7 @@ class PrimeController extends AbstractController
      * @param int $coachId
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function ajoutPrime(Request $request, PrimeService $primeService, $coachId)
+    public function ajoutPrime(Request $request, PrimeService $primeService, int $coachId): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         if ($primeService->creationPrime($coachId, $request->request->get('prime'))) {
             $this->addFlash('success', 'Prime Ajoutée');
@@ -54,7 +54,7 @@ class PrimeController extends AbstractController
      * @param SettingsService $settingsService
      * @return Response
      */
-    public function montrePrimesEnCours(SettingsService $settingsService)
+    public function montrePrimesEnCours(SettingsService $settingsService): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render(
             'statbb/tabs/ligue/affichagePrimes.html.twig',
@@ -72,7 +72,7 @@ class PrimeController extends AbstractController
      * @param int $primeId
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function supprimerPrime(PrimeService $primeService, $primeId)
+    public function supprimerPrime(PrimeService $primeService, int $primeId): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         if ($primeService->supprimerPrime($primeId)) {
             $this->addFlash('success', 'Prime Supprimée');
@@ -86,12 +86,10 @@ class PrimeController extends AbstractController
      * @param SettingsService $settingsService
      * @return Response
      */
-    public function realiserPrimeForm(SettingsService $settingsService)
+    public function realiserPrimeForm(): \Symfony\Component\HttpFoundation\Response
     {
         $prime = new Primes();
-
         $form = $this->createForm(RealiserPrimeType::class, $prime);
-
         return $this->render('statbb/realisationPrime.html.twig', ['form' => $form->createView()]);
     }
 
@@ -101,7 +99,7 @@ class PrimeController extends AbstractController
      * @param PrimeService $primeService
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function realiserPrime(Request $request, PrimeService $primeService)
+    public function realiserPrime(Request $request, PrimeService $primeService): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         if ($primeService->realiserPrime($request->request->get('realiser_prime'))) {
             $this->addFlash('success', 'Prime Réalisée');

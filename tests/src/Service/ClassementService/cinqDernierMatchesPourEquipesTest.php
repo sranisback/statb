@@ -16,7 +16,7 @@ class cinqDernierMatchesPourEquipesTest extends KernelTestCase
     /**
      * @test
      */
-    public function les_cinqs_dernier_matchs_sont_retournes()
+    public function les_cinqs_dernier_matchs_sont_retournes(): void
     {
         $matchMock0 = $this->createMock(Matches::class);
         $matchMock1 = $this->createMock(Matches::class);
@@ -62,7 +62,7 @@ class cinqDernierMatchesPourEquipesTest extends KernelTestCase
     /**
      * @test
      */
-    public function pas_de_matchs_donc_pas_de_retours()
+    public function pas_de_matchs_donc_pas_de_retours(): void
     {
         $equipeMock = $this->createMock(Teams::class);
 

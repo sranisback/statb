@@ -13,7 +13,7 @@ class lancerDefisTest extends KernelTestCase
     /**
      * @test
      */
-    public function lancer_un_defi()
+    public function lancer_un_defi(): void
     {
         $defiFactoryTest = new DefiFactory();
 

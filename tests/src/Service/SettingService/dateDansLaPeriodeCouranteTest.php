@@ -15,7 +15,7 @@ class dateDansLaPeriodeCouranteTest extends KernelTestCase
     /**
      * @test
      */
-    public function la_date_est_dans_la_periode_ciblee()
+    public function la_date_est_dans_la_periode_ciblee(): void
     {
         $setting = new Setting();
         $setting->setName('periodeDefis');
@@ -37,7 +37,7 @@ class dateDansLaPeriodeCouranteTest extends KernelTestCase
     /**
      * @test
      */
-    public function la_date_est_pas_dans_la_periode_ciblee()
+    public function la_date_est_pas_dans_la_periode_ciblee(): void
     {
         $setting = new Setting();
         $setting->setName('periodeDefis');

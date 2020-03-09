@@ -20,7 +20,7 @@ class toutesLesCompsdunJoueurTest extends KernelTestCase
     /**
      * @test
      */
-    public function toutes_les_comps_sont_retournees()
+    public function toutes_les_comps_sont_retournees(): void
     {
         $gameDataSkillTest0 = new GameDataSkills();
         $gameDataSkillTest0->setName('Test');

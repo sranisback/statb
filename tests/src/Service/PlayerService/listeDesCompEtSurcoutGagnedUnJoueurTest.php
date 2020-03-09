@@ -17,7 +17,7 @@ class listeDesCompEtSurcoutGagnedUnJoueurTest extends KernelTestCase
     /**
      * @test
      */
-    public function toutes_les_comps_gagnees_sont_retournees()
+    public function toutes_les_comps_gagnees_sont_retournees(): void
     {
         $joueurMock = $this->createMock(Players::class);
 
@@ -42,7 +42,7 @@ class listeDesCompEtSurcoutGagnedUnJoueurTest extends KernelTestCase
             $matchDataService
         );
 
-        $retour = ['compgagnee' => '<text class="text-success">Block</text>, ', 'cout' => 20000];
+        $retour = ['compgagnee' => '<text class="text-success">Block</text>, ', 'cout' => 20_000];
 
         $this->assertEquals($retour, $playerService->listeDesCompEtSurcoutGagnedUnJoueur($joueurMock));
     }

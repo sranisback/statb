@@ -14,7 +14,7 @@ class classementDetailScoreDuneEquipeTest extends KernelTestCase
     /**
      * @test
      */
-    public function le_total_td_est_retourne()
+    public function le_total_td_est_retourne(): void
     {
         $equipeMock = $this->createMock(Teams::class);
 
@@ -81,7 +81,7 @@ class classementDetailScoreDuneEquipeTest extends KernelTestCase
     /**
      * @test
      */
-    public function il_n_y_a_pas_de_donnees()
+    public function il_n_y_a_pas_de_donnees(): void
     {
         $equipeMock = $this->createMock(Teams::class);
 

@@ -16,95 +16,95 @@ use Doctrine\ORM\Mapping as ORM;
 class GameDataPlayers
 {
     /**
-     * @var int
      *
-     * @ORM\Column(name="pos_id", type="smallint", nullable=false, options={"unsigned"=true})
+     * @ORM\Column(name="pos_id", type="smallint", nullable=false, options={"unsigned":true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @var int
      */
-    private $posId;
+    private int $posId;
 
     /**
-     * @var string|null
      *
      * @ORM\Column(name="pos", type="string", length=60, nullable=true)
+     * @var string|null
      */
-    private $pos;
+    private ?string $pos;
 
     /**
-     * @var int|null
      *
-     * @ORM\Column(name="cost", type="integer", nullable=true, options={"unsigned"=true})
+     * @ORM\Column(name="cost", type="integer", nullable=true, options={"unsigned":true})
+     * @var int|null
      */
-    private $cost;
+    private ?int $cost;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="qty", type="integer", nullable=true)
+     * @var int|null
      */
-    private $qty;
+    private ?int $qty;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="ma", type="integer", nullable=true)
+     * @var int|null
      */
-    private $ma;
+    private ?int $ma;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="st", type="integer", nullable=true)
+     * @var int|null
      */
-    private $st;
+    private ?int $st;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="ag", type="integer", nullable=true)
+     * @var int|null
      */
-    private $ag;
+    private ?int $ag;
 
     /**
-     * @var int|null
      *
      * @ORM\Column(name="av", type="integer", nullable=true)
+     * @var int|null
      */
-    private $av;
+    private ?int $av;
 
     /**
-     * @var string|null
      *
      * @ORM\Column(name="skills", type="string", length=79, nullable=true)
+     * @var string|null
      */
-    private $skills;
+    private ?string $skills;
 
     /**
-     * @var string|null
      *
      * @ORM\Column(name="norm", type="string", length=6, nullable=true)
+     * @var string|null
      */
-    private $norm;
+    private ?string $norm;
 
     /**
-     * @var string|null
      *
      * @ORM\Column(name="doub", type="string", length=6, nullable=true)
+     * @var string|null
      */
-    private $doub;
+    private ?string $doub;
 
     /**
-     * @var Races
      *
      * @ORM\ManyToOne(targetEntity="Races")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="f_race_id", referencedColumnName="race_id", nullable=false)
      * })
+     * @var \App\Entity\Races|null
      */
-    private $fRace;
+    private ?\App\Entity\Races $fRace;
 
-    public function getPosId(): ?int
+    public function getPosId(): int
     {
         return $this->posId;
     }

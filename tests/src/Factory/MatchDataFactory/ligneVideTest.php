@@ -12,7 +12,7 @@ class ligneVideTest extends KernelTestCase
     /**
      * @test
      */
-    public function creation_ligne_vide()
+    public function creation_ligne_vide(): void
     {
         $matchDataFactory = new MatchDataFactory();
 

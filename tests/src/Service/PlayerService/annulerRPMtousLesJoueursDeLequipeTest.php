@@ -15,7 +15,7 @@ class annulerRPMtousLesJoueursDeLequipeTest extends KernelTestCase
     /**
      * @test
      */
-    public function les_rpm_de_l_equipe_sont_bien_supprime()
+    public function les_rpm_de_l_equipe_sont_bien_supprime(): void
     {
         $equipeMock = $this->createMock(Teams::class);
 

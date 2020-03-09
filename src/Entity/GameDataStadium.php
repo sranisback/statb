@@ -10,33 +10,37 @@ use Doctrine\ORM\Mapping as ORM;
 class GameDataStadium
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
+     * @var int|null
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @var string
      */
-    private $famille;
+    private string $famille;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @var string
      */
-    private $type;
+    private string $type;
 
     /**
      * @ORM\Column(type="string", length=1500)
+     * @var string
      */
-    private $effect;
+    private string $effect;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getFamille(): ?string
+    public function getFamille(): string
     {
         return $this->famille;
     }
@@ -48,7 +52,7 @@ class GameDataStadium
         return $this;
     }
 
-    public function getType(): ?string
+    public function getType(): string
     {
         return $this->type;
     }
@@ -60,7 +64,7 @@ class GameDataStadium
         return $this;
     }
 
-    public function getEffect(): ?string
+    public function getEffect(): string
     {
         return $this->effect;
     }

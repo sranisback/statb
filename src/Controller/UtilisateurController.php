@@ -16,7 +16,7 @@ class UtilisateurController extends AbstractController
      * @Route("/usercontrol/", name="usercontrol", options ={"expose"= true})
      * @return Response
      */
-    public function interfaceUtilisateur()
+    public function interfaceUtilisateur(): \Symfony\Component\HttpFoundation\Response
     {
         $citation = new Citations();
 
@@ -31,7 +31,7 @@ class UtilisateurController extends AbstractController
      * @param CitationService $citationService
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function interfaceUtilisateurRetour(Request $request, CitationService $citationService)
+    public function interfaceUtilisateurRetour(Request $request, CitationService $citationService): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $citationService->enregistrerCitation($request->request->get('ajout_citation'));
 

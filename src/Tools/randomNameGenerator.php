@@ -5,32 +5,36 @@ namespace App\Tools;
 class randomNameGenerator
 {
 
-    private $version;
-    public $allowedFormats;
-    public $inputFormat;
+    public $output;
+    /**
+     * @var string[]
+     */
+    public array $allowedFormats;
+    /**
+     * @var string
+     */
+    public string $inputFormat;
 
     public function __construct($output = 'array')
     {
-
-        $this->version = '1.0.0';
         $this->allowedFormats = array('array', 'json', 'associative_array');
         $this->inputFormat = 'json';
-
         if (!in_array($output, $this->allowedFormats)) {
             throw new Exception('Unrecognized format');
         }
-
         $this->output = $output;
     }
 
     private function getList($type)
     {
         $json = file_get_contents($type . '.' . $this->inputFormat, FILE_USE_INCLUDE_PATH);
-        $data = json_decode($json, true);
 
-        return $data;
+        return json_decode($json, true);
     }
 
+    /**
+     * @return mixed[][]|string[]|string|bool
+     */
     public function generateNames($num)
     {
 

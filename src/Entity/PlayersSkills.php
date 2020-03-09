@@ -14,42 +14,42 @@ use Doctrine\ORM\Mapping as ORM;
 class PlayersSkills
 {
     /**
-     * @var int
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @var int
      */
-    private $id;
+    private int $id;
 
     /**
-     * @var string|null
      *
      * @ORM\Column(name="type", type="string", length=1, nullable=true)
+     * @var null|string
      */
-    private $type;
+    private ?string $type = null;
 
     /**
-     * @var GameDataSkills
      *
      * @ORM\ManyToOne(targetEntity="GameDataSkills", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="f_skill_id", referencedColumnName="skill_id")
      * })
+     * @var \App\Entity\GameDataSkills|null
      */
-    private $fSkill;
+    private ?\App\Entity\GameDataSkills $fSkill;
 
     /**
-     * @var Players
      *
      * @ORM\ManyToOne(targetEntity="Players", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="f_pid", referencedColumnName="player_id")
      * })
+     * @var \App\Entity\Players|null
      */
-    private $fPid;
+    private ?\App\Entity\Players $fPid;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }

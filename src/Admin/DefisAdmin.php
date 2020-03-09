@@ -31,7 +31,7 @@ class DefisAdmin extends AbstractAdmin
     /**
      * @param FormMapper $formMapper
      */
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->add(
@@ -60,17 +60,15 @@ class DefisAdmin extends AbstractAdmin
                 entityType::class,
                 [
                     'class' => Matches::class,
-                    'choice_label' => function ($matches) {
-                        return $matches->getTeam1()->getName().' VS '.$matches->getTeam2()->getName(
-                        ).', Annee : '.$matches->getTeam1()->getYear();
-                    },
+                    'choice_label' => fn($matches) => $matches->getTeam1()->getName().' VS '.$matches->getTeam2()->getName(
+                    ).', Annee : '.$matches->getTeam1()->getYear(),
                     'label' => 'Match défie',
                 ]
             )
             ->add('defieRealise');
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('equipeOrigine.name', null, ['label' => 'Equipe defieuse'])
@@ -78,7 +76,7 @@ class DefisAdmin extends AbstractAdmin
             ->add('defieRealise', null, ['label' => 'Fait']);
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->addIdentifier('id', null, ['label' => 'id'])

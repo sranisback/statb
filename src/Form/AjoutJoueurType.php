@@ -17,14 +17,17 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AjoutJoueurType extends AbstractType
 {
-    private $playerService;
+    /**
+     * @var \App\Service\PlayerService
+     */
+    private \App\Service\PlayerService $playerService;
 
     public function __construct(PlayerService $playerService)
     {
         $this->playerService = $playerService;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         /** @var Teams $equipe */
         $equipe = $options['equipe'];
@@ -44,10 +47,8 @@ class AjoutJoueurType extends AbstractType
                         'class' => GameDataPlayers::class,
                         'choice_label' => 'pos',
                         'label' => 'Choisir une position',
-                        'query_builder' => function (EntityRepository $entityRepository) use ($race) {
-                            return $entityRepository->createQueryBuilder('Position')
-                                ->where('Position.fRace ='.$race->getRaceId());
-                        },
+                        'query_builder' => fn(EntityRepository $entityRepository) => $entityRepository->createQueryBuilder('Position')
+                            ->where('Position.fRace ='.$race->getRaceId()),
                         'placeholder' => 'Choisir un joueur',
                         'required' => true
                     ]
@@ -78,7 +79,7 @@ class AjoutJoueurType extends AbstractType
         }
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
             [

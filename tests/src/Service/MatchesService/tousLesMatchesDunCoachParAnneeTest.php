@@ -18,7 +18,7 @@ class tousLesMatchesDunCoachParAnneeTest extends KernelTestCase
     /**
      * @test
      */
-    public function un_match_par_equipe_par_an()
+    public function un_match_par_equipe_par_an(): void
     {
         $equipeMock0 = $this->createMock(Teams::class);
         $equipeMock0->method('getYear')->willReturn(0);
@@ -103,7 +103,7 @@ class tousLesMatchesDunCoachParAnneeTest extends KernelTestCase
     /**
      * @test
      */
-    public function deux_equipes_deux_match_par_an()
+    public function deux_equipes_deux_match_par_an(): void
     {
         $equipeMock0 = $this->createMock(Teams::class);
         $equipeMock0->method('getYear')->willReturn(0);
@@ -181,7 +181,7 @@ class tousLesMatchesDunCoachParAnneeTest extends KernelTestCase
     /**
      * @test
      */
-    public function une_annee_est_vide()
+    public function une_annee_est_vide(): void
     {
         $equipeMock0 = $this->createMock(Teams::class);
         $equipeMock0->method('getYear')->willReturn(0);
@@ -257,7 +257,7 @@ class tousLesMatchesDunCoachParAnneeTest extends KernelTestCase
     /**
      * @test
      */
-    public function il_n_y_a_pas_de_donnees()
+    public function il_n_y_a_pas_de_donnees(): void
     {
         $equipeRepoMock = $this->getMockBuilder(Teams::class)
             ->setMethods(['toutesLesEquipesDunCoachParAnnee'])
@@ -296,7 +296,7 @@ class tousLesMatchesDunCoachParAnneeTest extends KernelTestCase
     /**
      * @test
      */
-    public function il_y_a_plusieur_equipes_dans_une_annee()
+    public function il_y_a_plusieur_equipes_dans_une_annee(): void
     {
         $equipeMock0 = $this->createMock(Teams::class);
         $equipeMock0->method('getYear')->willReturn(0);

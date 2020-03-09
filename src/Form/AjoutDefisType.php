@@ -14,15 +14,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AjoutDefisType extends AbstractType
 {
-    private $settingsService;
+    private settingsService $settingsService;
 
-    public function __construct(
-        SettingsService $settingsService
-    ) {
+    public function __construct(SettingsService $settingsService)
+    {
         $this->settingsService = $settingsService;
     }
-
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add(
@@ -65,8 +63,7 @@ class AjoutDefisType extends AbstractType
             ->add('submit', SubmitType::class, array('label' => 'Créer'))
             ->add('cancel', ButtonType::class, array('label' => 'Annuler', 'attr' => array('data-dismiss' => 'modal')));
     }
-
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
             [

@@ -20,7 +20,10 @@ class PlayerIconsRepository extends ServiceEntityRepository
         parent::__construct($registry, PlayersIcons::class);
     }
 
-    public function toutesLesIconesDunePosition(GameDataPlayers $position)
+    /**
+     * @return \App\Entity\PlayersIcons[]
+     */
+    public function toutesLesIconesDunePosition(GameDataPlayers $position): array
     {
         return $this->findBy(['position' => $position]);
     }

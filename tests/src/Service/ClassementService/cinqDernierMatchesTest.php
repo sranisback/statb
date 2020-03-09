@@ -13,7 +13,7 @@ class cinqDernierMatchesTest extends KernelTestCase
     /**
      * @test
      */
-    public function affiche_cinq_dernier_matchs()
+    public function affiche_cinq_dernier_matchs(): void
     {
         $matchMock0 = $this->createMock(Matches::class);
         $matchMock1 = $this->createMock(Matches::class);
@@ -41,7 +41,7 @@ class cinqDernierMatchesTest extends KernelTestCase
     /**
      * @test
      */
-    public function il_n_y_a_pas_de_matches()
+    public function il_n_y_a_pas_de_matches(): void
     {
         $matchRepoMock = $this->getMockBuilder(Matches::class)
             ->setMethods(['tousLesMatchDuneAnneClassementChrono'])

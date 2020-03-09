@@ -14,7 +14,7 @@ class listeDesAnciennesEquipesTest extends KernelTestCase
     /**
      * @test
      */
-    public function une_liste_d_ancienne_equipe_est_retournee()
+    public function une_liste_d_ancienne_equipe_est_retournee(): void
     {
         $equipeMock0 = $this->createMock(Teams::class);
         $equipeMock0->method('getYear')->willReturn(0);
@@ -46,7 +46,7 @@ class listeDesAnciennesEquipesTest extends KernelTestCase
         $objectManager->method('getRepository')->willReturn($equipeRepoMock);
 
         $settingServiceMock = $this->createMock(SettingsService::class);
-        $settingServiceMock->expects($this->any())->method('anneeCourante')->willReturn(3);
+        $settingServiceMock->method('anneeCourante')->willReturn(3);
 
         $equipeService = new EquipeService($objectManager, $settingServiceMock );
 
@@ -56,7 +56,7 @@ class listeDesAnciennesEquipesTest extends KernelTestCase
     /**
      * @test
      */
-    public function pas_d_ancienne_equipe()
+    public function pas_d_ancienne_equipe(): void
     {
         $equipeRepoMock = $this->getMockBuilder(Teams::class)
             ->setMethods(['toutesLesEquipesDunCoachParAnnee'])
@@ -78,7 +78,7 @@ class listeDesAnciennesEquipesTest extends KernelTestCase
     /**
      * @test
      */
-    public function une_liste_d_ancienne_equipe_est_retournee_avec_des_annees_vides()
+    public function une_liste_d_ancienne_equipe_est_retournee_avec_des_annees_vides(): void
     {
         $equipeMock0 = $this->createMock(Teams::class);
         $equipeMock0->method('getYear')->willReturn(0);

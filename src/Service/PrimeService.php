@@ -11,14 +11,17 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class PrimeService
 {
-    private $doctrineEntityManager;
+    /**
+     * @var \Doctrine\ORM\EntityManagerInterface
+     */
+    private \Doctrine\ORM\EntityManagerInterface $doctrineEntityManager;
 
     public function __construct(EntityManagerInterface $doctrineEntityManager)
     {
         $this->doctrineEntityManager = $doctrineEntityManager;
     }
 
-    public function creationPrime($coach, $data)
+    public function creationPrime($coach, $data): string
     {
         $equipe = $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(['teamId' => $data['teams']]);
 
@@ -53,7 +56,7 @@ class PrimeService
         }
     }
 
-    public function supprimerPrime($primeId)
+    public function supprimerPrime($primeId): string
     {
         $prime = $this->doctrineEntityManager->getRepository(Primes::class)->findOneBy(['id' => $primeId]);
 
@@ -70,7 +73,7 @@ class PrimeService
         return 'ok';
     }
 
-    public function realiserPrime($data)
+    public function realiserPrime($data): string
     {
         $prime = $this->doctrineEntityManager->getRepository(Primes::class)->findOneBy(['id' => $data['Primes']]);
 

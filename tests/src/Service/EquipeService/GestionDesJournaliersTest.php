@@ -21,7 +21,7 @@ class GestionDesJournaliersTest extends KernelTestCase
     /**
      * @test
      */
-    public function un_journalier_est_vendu()
+    public function un_journalier_est_vendu(): void
     {
         $coachTest = new Coaches();
 
@@ -32,7 +32,7 @@ class GestionDesJournaliersTest extends KernelTestCase
         $gameDataPlayerTest->setQty('16');
         $gameDataPlayerTest->setPos('halflings');
         $gameDataPlayerTest->setFRace($raceTest);
-        $gameDataPlayerTest->setCost(50000);
+        $gameDataPlayerTest->setCost(50_000);
 
         $equipeTest = new Teams();
         $equipeTest->setFRace($raceTest);
@@ -148,7 +148,7 @@ class GestionDesJournaliersTest extends KernelTestCase
     /**
      * @test
      */
-    public function un_journalier_est_ajoute()
+    public function un_journalier_est_ajoute(): void
     {
         $coachTest = new Coaches();
 
@@ -159,7 +159,7 @@ class GestionDesJournaliersTest extends KernelTestCase
         $gameDataPlayerTest->setQty('16');
         $gameDataPlayerTest->setPos('halflings');
         $gameDataPlayerTest->setFRace($raceTest);
-        $gameDataPlayerTest->setCost(50000);
+        $gameDataPlayerTest->setCost(50_000);
 
         $equipeTest = new Teams();
         $equipeTest->setFRace($raceTest);
