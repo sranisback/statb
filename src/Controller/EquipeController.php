@@ -374,7 +374,7 @@ class EquipeController extends AbstractController
         if (!empty($team)) {
             $equipeService->checkEquipe($team, $playerService);
 
-            return $this->redirectToRoute('team', ['teamid' => $team->getTeamId(), 'type' => 'n'], 302);
+            return $this->redirectToRoute('team', ['teamid' => $team->getTeamId()], 302);
         }
 
         return $this->redirectToRoute('/');
