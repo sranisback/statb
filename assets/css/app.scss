@@ -113,6 +113,12 @@ $dropDown       : false;
     color: $colHighlight;
     background-color: $bgHighlight; }}
 
+u {
+  border-bottom: 1px dashed #000;
+  border-color: #00ccff;
+  text-decoration: none;
+}
+
 @media print {
 /*  table{
     font-size: $font-size-base2;

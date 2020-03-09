@@ -3,7 +3,6 @@ import './jquery.serializeToJSON.js';
 import './jquery.dataTables.min.js';
 import './library.js';
 import './feuilleTournois.js';
-import './jspdf.min.js'
 
 import routes_dev from './routes_dev.js';
 import routes_prod from './routes_production.js';

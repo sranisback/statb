@@ -168,6 +168,14 @@ const routes_dev = {
             "hosttokens": [],
             "methods": [],
             "schemes": []
+        },
+        "pdfTournois": {
+            "tokens": [["text", "\/pdfTournois"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
         }
     },
     "prefix": "",

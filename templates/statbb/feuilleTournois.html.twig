@@ -6,7 +6,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="d-flex">
-                    <div class="display-4" onclick="replaceWithInput(this)">Nom équipe</div>
+                    <div onclick="replaceWithInput(this)" class="display-2 text-center" id="nomEquipe"><u>Nom équipe</u></div>
                 </div>
             </div>
             <div class="card-body">
@@ -14,7 +14,7 @@
                     <table class="table" id="teamsheet">
                         <thead>
                         <tr>
-                            <th></th>
+                            <th class="first"></th>
                             <th>Nr</th>
                             <th>Nom</th>
                             <th>Position</th>
@@ -30,7 +30,7 @@
                         </tbody>
                     </table>
                 </div>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutJoueur">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutJoueur" disabled>
                     <span class="fas fa-plus"></span> Ajouter Un joueur
                 </button>
 
@@ -80,22 +80,23 @@
                     </div>
                 </div>
 
-                <button type="button" class="btn btn-primary" onclick="exportToPdf()">Exporter en PDF</button>
-
+                <button type="button" class="btn btn-primary" onclick="exportToPdf()" disabled>Exporter
+                    en PDF</button>
+                <div id="zoneFichier"></div>
                 <div class="table-responsive">
                     <table class="table">
                         <tr>
                             <td colspan=7 rowspan=7></td>
                             <td rowspan=7></td>
                             <td colspan=4>Coach : <span id="nomCoach"
-                                                        onclick="replaceWithInput(this)">Nom du coach</span></td>
+                                                        onclick="replaceWithInput(this)"><u>Nom du coach</u></span></td>
                             <td colspan=5 class="text-right">Valeur totale des joueurs :</td>
                             <td class="text-right" id="totaljoueur">0</td>
                         </tr>
                         <tr>
                             <td colspan=4>
                                 Races :
-                                <select class="form-control" onchange="choisirRace(this)">
+                                <select class="form-control" id='selectRace' onchange="choisirRace(this)">
                                     <option>Choisir Une race</option>
                                     {% for race in  listeRaces %}
                                         <option value="{{ race.raceId }}">{{ race.name }}</option>
@@ -113,7 +114,7 @@
                         <tr>
                             <td colspan=4>Trésor : <span id="tresor">1000000</span>, Dépenses(<span
                                         id="depenses">0</span>), trésor autorisé : <span id="tresorAuto"
-                                                                                         onclick="replaceWithInput(this)">1000000</span>
+                                                                                         onclick="replaceWithInput(this)"><u>1000000</u></span>
                             </td>
                             <td colspan=5 class="text-right"> Popularité :
                                 <span class="fas fa-plus text-success" onclick="ajoutIndu('pop')"></span>
@@ -134,7 +135,7 @@
                             <td class="text-right" id="totalass">0</td>
                         </tr>
                         <tr>
-                            <td colspan=4>Stade : <span onclick="replaceWithInput(this)">Nom du stade</span></td>
+                            <td colspan=4>Stade : <span onclick="replaceWithInput(this)" id="nomDuStade"><u>Nom du stade</u></span></td>
                             <td colspan=5 class="text-right"> Cheerleaders :
                                 <span class="fas fa-plus text-success" onclick="ajoutIndu('cheer')"></span>
                                 <span id="cheer">0</span>

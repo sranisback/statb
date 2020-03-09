@@ -1,0 +1,68 @@
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/61d30ff0c7.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ asset('build/'~app.environment~'/css/app.css') }}">
+</head>
+
+<div class="container">
+    <div class="table-responsive">
+        <table class="table table-condensed">
+            <tr>
+                <td colspan="2" style="width: 100%; text-align: center; border: 3px solid rgb(215,229,208);">
+                    <h5>{{ nomEquipe }}</h5></td>
+            </tr>
+            <tr style="font-size: 9px;">
+                <td style="text-align: center;">Race : {{ raceEquipe }}</td>
+                <td style="text-align: center;">Coach : {{ coachEquipe }}</td>
+            </tr>
+            <tr style="font-size: 9px;">
+                <td style="text-align: center;">Trésors : {{ tresorEquipe }} dépensé : {{ depenseEquipe }} / {{ totalAutorise }}</td>
+                <td style="text-align: center;">Stade : {{ stadeEquipe  }}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="table-responsive">
+        <table id="team_sheet" class="table table-striped table-bordered table-condensed" style="font-size: 9px;">
+            {{ feuilleEquipe|raw }}
+            <tr>
+                <td colspan="8" style="text-align:right;">Total joueurs :</td>
+                <td style="text-align:right;">{{ coutTotalJoueur }}</td>
+            </tr>
+            <tr>
+                <td colspan="8" style="text-align:right;">Relances : {{ relancesEquipe }} X {{ CoutrelancesEquipe }}</td>
+                <td style="text-align:right;">{{ totalRelanceEquipe }}</td>
+            </tr>
+            <tr>
+                <td colspan="8" style="text-align:right;">Popularité : {{ popEquipe }} X 10000</td>
+                <td style="text-align:right;">{{ coutPopEquipe}} </td>
+            </tr>
+            <tr>
+                <td colspan="8" style="text-align:right;">Assistants : {{ assistants }} X 10000</td>
+                <td style="text-align:right;">{{ totalAssistant }}</td>
+            </tr>
+            <tr>
+                <td colspan="8" style="text-align:right;">Pompom girls : {{ pompom }} X 10000</td>
+                <td style="text-align:right;">{{ totalPompom }}</td>
+            </tr>
+            <tr>
+                <td colspan="8" style="text-align:right;">Apoticaire : {{ apoticaire }} X 50000</td>
+                <td style="text-align:right;">{{ totalapo }}</td>
+            </tr>
+            <tr>
+                <td colspan="8" style="text-align:right;">Tv Totale :</td>
+                <td style="text-align:right;">{{ tvTotal }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>

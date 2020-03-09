@@ -1,6 +1,5 @@
 import Routing from "./router.min";
 
-
 var listePosition = '';
 var cibleComp = '';
 
@@ -9,10 +8,10 @@ function replaceWithInput(selector) {
 
     $('#' + $(selector).attr('id') + '_text').keydown(function (e) {
         if (e.which == 13) {
-            $('#' + $(selector).attr('id') + '_text').replaceWith('<span id="' + $(selector).attr('id') + '" class="' + $(selector).attr('class') + '" onclick="replaceWithInput(this)">' + $('#' + $(selector).attr('id') + '_text').val() + '</span>');
+            $('#' + $(selector).attr('id') + '_text').replaceWith('<span id="' + $(selector).attr('id') + '" class="' + $(selector).attr('class') + '" onclick="replaceWithInput(this)"><u>' + $('#' + $(selector).attr('id') + '_text').val() + '</u></span>');
             if ($(selector).attr('id') == 'tresorAuto') {
-                $('#tresor').html($('#' + $(selector).attr('id')).html());
-                $('#tresor2').html($('#' + $(selector).attr('id')).html());
+                $('#tresor').html($("<div>").html($('#' + $(selector).attr('id')).html()).text());
+                $('#tresor2').html($("<div>").html($('#' + $(selector).attr('id')).html()).text());
             }
         }
     });
@@ -35,6 +34,10 @@ function choisirRace(selector) {
                 $('#coutrr').html(value.fRace.costRr);
             });
             listePosition = data;
+
+            $('button').prop('disabled', false);
+            $('#tresorAuto').attr('onclick', '');
+            $('#tresorAuto').html($("<div>").html($('#tresorAuto').html()).text());
         }
     );
 }
@@ -62,7 +65,7 @@ function ajoutJoueur(id) {
                     {},
                     function (listeComp) {
                         listeComp = listeComp.substr(0, listeComp.length - 2);
-                        $('#teamsheet').append('<tr><td><span onclick="supprimerJoueur(this)"  class="fas fa-times text-danger"></span></td><td><span onclick="replaceWithInput(this)">' + $('#teamsheet tr').length + '</span></td><td><span onclick="replaceWithInput(this)">Inconnu</span></td><td class="positionJoueur" pos="' + id + '">' + value.pos + '</td>' +
+                        $('#teamsheet').append('<tr><td class="first"><span onclick="supprimerJoueur(this)"  class="fas fa-times text-danger"></span></td><td><span onclick="replaceWithInput(this)">' + $('#teamsheet tr').length + '</span></td><td><span onclick="replaceWithInput(this)">Inconnu</span></td><td class="positionJoueur" pos="' + id + '">' + value.pos + '</td>' +
                             '<td>' + value.ma + '</td><td>' + value.st + '</td><td>' + value.ag + '</td><td>' + value.av + '</td><td>' + listeComp + ' <span class="fas fa-plus-square text-success" onclick="ajoutComp(\'' + value.norm + '\', \'' + value.doub + ' \', this)" ></span> </td><td class="text-right coutJoueur">' + value.cost + '</td></tr>');
                         addToTotal(value.cost, true);
                     }
@@ -135,7 +138,7 @@ function ajoutComp(norm, doub, selector) {
             $('#btnAjoutDouble').attr('onclick', 'AjoutCompDouble()');
             $('#ajoutCompModal').modal('show');
 
-            $('#btnFermeAjoutComp').click(function(){
+            $('#btnFermeAjoutComp').click(function () {
                 $('#ajoutCompModal').modal('hide');
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
@@ -146,7 +149,7 @@ function ajoutComp(norm, doub, selector) {
 window.ajoutComp = ajoutComp;
 
 function AjoutCompSimple() {
-    if ( checkIfPossible(20000)) {
+    if (checkIfPossible(20000)) {
         $(cibleComp).before('<span class="text-success" onclick="supprCompSimple(this)">+' + $('#selectCompSimple option:selected').text() + '</span> ');
         $(cibleComp).parents().children('.coutJoueur').html(parseInt($(cibleComp).parents().children('.coutJoueur').html()) + 20000);
         addToTotal(20000, true);
@@ -157,16 +160,16 @@ window.AjoutCompSimple = AjoutCompSimple;
 
 function supprCompSimple(selector) {
     $(selector).remove();
-    $(cibleComp).parents().children('.coutJoueur').html(parseInt($(cibleComp).parents().children('.coutJoueur').html())-20000);
+    $(cibleComp).parents().children('.coutJoueur').html(parseInt($(cibleComp).parents().children('.coutJoueur').html()) - 20000);
     substrToTotal(20000)
 }
 
 window.supprCompSimple = supprCompSimple;
 
 function AjoutCompDouble() {
-    if ( checkIfPossible(30000)){
+    if (checkIfPossible(30000)) {
         $(cibleComp).before('<span class="text-danger" onclick="supprCompDouble(this)">+' + $('#selectCompDouble option:selected').text() + '</span> ');
-        $(cibleComp).parents().children('.coutJoueur').html(parseInt($(cibleComp).parents().children('.coutJoueur').html())+30000);
+        $(cibleComp).parents().children('.coutJoueur').html(parseInt($(cibleComp).parents().children('.coutJoueur').html()) + 30000);
         addToTotal(30000, true);
     }
 }
@@ -175,20 +178,44 @@ window.AjoutCompDouble = AjoutCompDouble;
 
 function supprCompDouble(selector) {
     $(selector).remove();
-    $(cibleComp).parents().children('.coutJoueur').html(parseInt($(cibleComp).parents().children('.coutJoueur').html())-30000);
+    $(cibleComp).parents().children('.coutJoueur').html(parseInt($(cibleComp).parents().children('.coutJoueur').html()) - 30000);
     substrToTotal(30000)
 }
 
 window.supprCompDouble = supprCompDouble;
 
 function exportToPdf() {
-    let doc = new jsPDF();
+    let json = [
+        $('#nomEquipe').text(),
+        $('#teamsheet').html(),
+        $('#nomCoach').text(),
+        $('#selectRace option:selected').text(),
+        $('#totaljoueur').text(),
+        $('#tresor').text(),
+        $('#depenses').text(),
+        $('#tresorAuto').text(),
+        $('#rr').text(),
+        $('#totalrr').text(),
+        $('#pop').text(),
+        $('#totalpop').text(),
+        $('#ass').text(),
+        $('#totalass').text(),
+        $('#cheer').text(),
+        $('#totalcheer').text(),
+        $('#apo').text(),
+        $('#total').text(),
+        $('#nomDuStade').text(),
+        $('#coutrr').text(),
+        $('#totalapo').text(),
+    ];
 
-    doc.fromHTML($('#content').html(), 15, 15, {
-        'width': 170,
-        'elementHandlers': specialElementHandlers
-    });
-    doc.save('sample-file.pdf');
+    $.post(Routing.generate('pdfTournois'),
+        {
+           post: JSON.stringify(json)
+        }, function (data) {
+            $('#zoneFichier').html(data);
+        });
+
 }
 
 window.exportToPdf = exportToPdf;
@@ -205,7 +232,7 @@ function SubstoValue(target, value) {
 }
 
 function checkIfPossible(value) {
-    if (parseInt(value) <= parseInt($('#tresor').html())) {
+    if (parseInt(value) <= parseInt($('#tresor').text())) {
         return true;
     }
     return false;
@@ -251,6 +278,6 @@ function reset() {
     $('#depenses').html(0);
     $('#total').html(0);
     $('#tv').html(0);
-    $('#tresor').html($('#tresorAuto').html());
-    $('#tresor2').html($('#tresorAuto').html());
+    $('#tresor').html($("<div>").html($('#tresorAuto').html()).text());
+    $('#tresor2').html($("<div>").html($('#tresorAuto').html()).text());
 }
