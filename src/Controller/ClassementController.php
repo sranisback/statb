@@ -30,10 +30,10 @@ class ClassementController extends AbstractController
      * @Route("/classement/general/{annee}/{etiquette}",
      *     defaults={"etiquette"=null}, name="classementgen", options = { "expose" = true })
      * @param int $annee
-     * @param string $etiquette
+     * @param string|null $etiquette
      * @return Response
      */
-    public function classGen(int $annee, string $etiquette): \Symfony\Component\HttpFoundation\Response
+    public function classGen(int $annee, ?string $etiquette): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render(
             'statbb/tabs/ligue/classement.html.twig',

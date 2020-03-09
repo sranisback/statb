@@ -38,15 +38,15 @@ class SettingsService
     }
 
     /**
-     * @return string
+     * @return Citations
      */
-    public function tirerCitationAuHasard():string
+    public function tirerCitationAuHasard():Citations
     {
         $citations = $this->doctrineEntityManager->getRepository(Citations::class)->findAll();
 
         $nbrAuHasard = rand(1, count($citations) - 1);
 
-        return  $citations[$nbrAuHasard]->getCitation();
+        return  $citations[$nbrAuHasard];
     }
 
     /**
