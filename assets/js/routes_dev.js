@@ -144,6 +144,38 @@ const routes_dev = {
             "hosttokens": [],
             "methods": [],
             "schemes": []
+        },
+        "listePosition": {
+            "tokens": [["variable", "\/", "[^\/]++", "raceId"], ["text", "\/listePosition"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "nombreVersComp": {
+            "tokens": [["variable", "\/", "[^\/]++", "positionId"], ["text", "\/nombreVersComp"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "classeLesComp": {
+            "tokens": [["variable", "\/", "[^\/]++", "norm"], ["variable", "\/", "[^\/]++", "doub"], ["text", "\/classeLesComp"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "pdfTournois": {
+            "tokens": [["text", "\/pdfTournois"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
         }
     },
     "prefix": "",
