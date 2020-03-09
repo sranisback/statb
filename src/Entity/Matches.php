@@ -137,6 +137,16 @@ class Matches
      */
     private $stadeAcceuil;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $depense1 = 0;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $depense2 = 0;
+
     public function __construct()
     {
         $this->blessuresMatch = new ArrayCollection();
@@ -354,6 +364,30 @@ class Matches
     public function setStadeAcceuil(?int $stadeAcceuil): self
     {
         $this->stadeAcceuil = $stadeAcceuil;
+        return $this;
+    }
+
+    public function getDepense1(): ?int
+    {
+        return $this->depense1;
+    }
+
+    public function setDepense1(?int $depense1): self
+    {
+        $this->depense1 = $depense1;
+
+        return $this;
+    }
+
+    public function getDepense2(): ?int
+    {
+        return $this->depense2;
+    }
+
+    public function setDepense2(?int $depense2): self
+    {
+        $this->depense2 = $depense2;
+
         return $this;
     }
 }

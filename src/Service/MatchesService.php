@@ -111,8 +111,8 @@ class MatchesService
      */
     public function modificationEquipes(Matches $match, Teams $equipe1, Teams $equipe2)
     {
-        $equipe1->setTreasury($equipe1->getTreasury() + $match->getIncome1());
-        $equipe2->setTreasury($equipe2->getTreasury() + $match->getIncome2());
+        $equipe1->setTreasury($equipe1->getTreasury() + $match->getIncome1() + $match->getDepense1());
+        $equipe2->setTreasury($equipe2->getTreasury() + $match->getIncome2() + $match->getDepense2());
 
         if ($equipe1->getFf() + $match->getFfactor1() < 0) {
             $equipe1->setFf(0);
