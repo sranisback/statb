@@ -160,9 +160,10 @@ FROM teams t
     }
 
     /**
-     * @return float|int
+     * @param int $annee
+     * @return int
      */
-    public function nbrCoachAyantUneEquipelAnneeEnCours($annee)
+    public function nbrCoachAyantUneEquipelAnneeEnCours(int $annee)
     {
         return count($this->createQueryBuilder('t')
             ->select('c.name')

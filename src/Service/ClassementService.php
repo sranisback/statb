@@ -23,7 +23,7 @@ class ClassementService
 
     /**
      * @param int $annee
-     * @return array
+     * @return array<Matches>
      */
     public function cinqDerniersMatchsParAnnee(int $annee): array
     {
@@ -34,8 +34,8 @@ class ClassementService
     }
 
     /**
-     * @param array $matches
-     * @return array
+     * @param array<Matches> $matches
+     * @return array<Matches>
      */
     private function cinqPremierMatches(array $matches): array
     {
@@ -53,9 +53,10 @@ class ClassementService
     }
 
     /**
+     * @param int $equipeId
      * @return mixed[]
      */
-    public function cinqDerniersMatchsParEquipe($equipeId): array
+    public function cinqDerniersMatchsParEquipe(int $equipeId): array
     {
         $matches = $this->doctrineEntityManager->getRepository(Matches::class)->listeDesMatchs(
             $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId])
@@ -140,7 +141,7 @@ class ClassementService
      * @param int $annee
      * @param string $type
      * @param int $limit
-     * @return array
+     * @return array<string,mixed>
      */
     public function genereClassementJoueurs(int $annee, string $type, int $limit): array
     {
@@ -208,7 +209,7 @@ class ClassementService
      * @param int $annee
      * @param string $type
      * @param int $limit
-     * @return array
+     * @return array<string,mixed>
      */
     public function genereClassementEquipes(int $annee, string $type, int $limit): array
     {
@@ -267,9 +268,12 @@ class ClassementService
     }
 
     /**
+     * @param int $annee
      * @return mixed[]
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function totalCas($annee): array
+    public function totalCas(int $annee): array
     {
         $score = $this->doctrineEntityManager->getRepository(MatchData::class)->totalcas($annee);
         $nbrMatches = count($this->doctrineEntityManager->getRepository(Matches::class)->tousLesMatchDuneAnne($annee));
@@ -284,7 +288,7 @@ class ClassementService
 
     /**
      * @param EquipeService $equipeService
-     * @return array
+     * @return array<string, mixed>
      */
     public function genereConfrontationTousLesCoaches(EquipeService $equipeService): array
     {
@@ -304,9 +308,10 @@ class ClassementService
      * @param Coaches $coach
      * @param Coaches $autreCoach
      * @param EquipeService $equipeService
-     * @return array
+     * @return array<int,mixed>
      */
-    public function confrontationPourDeuxCoaches(Coaches $coach, Coaches $autreCoach, EquipeService $equipeService): array
+    public function confrontationPourDeuxCoaches(Coaches $coach, Coaches $autreCoach, EquipeService $equipeService)
+    : array
     {
         $totalResultat = [
             'win' => 0,

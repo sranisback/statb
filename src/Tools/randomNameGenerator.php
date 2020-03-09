@@ -33,7 +33,7 @@ class randomNameGenerator
     }
 
     /**
-     * @return mixed[][]|string[]|string|bool
+     * @return string
      */
     public function generateNames($num)
     {

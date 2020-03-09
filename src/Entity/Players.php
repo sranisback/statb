@@ -13,8 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="players", indexes={
  *     @ORM\Index(name="idx_owned_by_team_id", columns={"owned_by_team_id"}),
  *     @ORM\Index(name="fk_players_game_data_players1_idx", columns={"f_pos_id"}),
- *      *     @ORM\Index(name="fk_players_races1_idx", columns={"f_rid"}),
- *     @ORM\Index(name="fk_players_coaches1_idx", columns={"f_cid"})})
+ *      *     @ORM\Index(name="fk_players_races1_idx", columns={"f_rid"})})
  * @ORM\Entity(repositoryClass="App\Repository\PlayersRepository")
  */
 class Players
@@ -191,14 +190,6 @@ class Players
      * @var \App\Entity\Teams|null
      */
     private ?\App\Entity\Teams $ownedByTeam;
-
-    /**
-     *
-     * @ORM\ManyToOne(targetEntity="Coaches", fetch="EAGER")
-     *   @ORM\JoinColumn  (name="f_cid",  referencedColumnName="coach_id")
-     * @var \App\Entity\Coaches|null
-     */
-    private ?\App\Entity\Coaches $fCid;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\PlayersIcons")
@@ -514,18 +505,6 @@ class Players
         return $this;
     }
 
-    public function getFCid(): ?Coaches
-    {
-        return $this->fCid;
-    }
-
-    public function setFCid(Coaches $fCid): self
-    {
-        $this->fCid = $fCid;
-
-        return $this;
-    }
-
     public function getIcon(): \App\Entity\PlayersIcons
     {
         return $this->icon;
@@ -551,7 +530,7 @@ class Players
     }
 
     /**
-     * @return Collection|HistoriqueBlessure[]
+     * @return ArrayCollection
      */
     public function getHistoriqueBlessures(): \Doctrine\Common\Collections\ArrayCollection
     {

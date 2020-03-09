@@ -80,14 +80,13 @@ class JoueurController extends AbstractController
         $listeMatches = $this->getDoctrine()->getRepository(MatchData::class)->listeDesMatchsdUnJoueur($joueur);
         $count = 0;
 
-        /** @var Matches $match */
         if (!empty($listeMatches)) {
             foreach ($listeMatches as $match) {
                 $msdata[$count]["mId"] = $match->getMatchId();
                 if (!empty($joueur)) {
                     $actions = $playerService->actionDuJoueurDansUnMatch($match, $joueur);
                 }
-                $msdata[$count]["data"] = !empty($actions) ? substr($actions, 0, strlen($actions) - 2) : '';;
+                $msdata[$count]["data"] = !empty($actions) ? substr($actions, 0, strlen($actions) - 2) : '';
 
                 $count++;
             }
@@ -174,7 +173,8 @@ class JoueurController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function addPlayer(PlayerService $playerService, EquipeService $equipeService, Request $request): \Symfony\Component\HttpFoundation\JsonResponse
+    public function addPlayer(PlayerService $playerService, EquipeService $equipeService, Request $request)
+    : \Symfony\Component\HttpFoundation\JsonResponse
     {
         $donneesPourAjout = $request->request->all();
         $resultat = $playerService->ajoutJoueur(
@@ -245,7 +245,8 @@ class JoueurController extends AbstractController
      * @param int $playerId
      * @return JsonResponse
      */
-    public function remPlayer(PlayerService $playerService, int $playerId): \Symfony\Component\HttpFoundation\JsonResponse
+    public function remPlayer(PlayerService $playerService, int $playerId)
+    : \Symfony\Component\HttpFoundation\JsonResponse
     {
         $resultat[''] = '';
         /** @var Players $joueur */
@@ -378,7 +379,7 @@ class JoueurController extends AbstractController
 
     /**
      * @Route("/genereNom", name="genereNom", options = { "expose" = true })
-     * @return mixed
+     * @return Response
      */
     public function genereNomJoueur(): \Symfony\Component\HttpFoundation\Response
     {
@@ -392,9 +393,10 @@ class JoueurController extends AbstractController
      * @Route("/genereNumero", name="genereNumero", options = { "expose" = true })
      * @param PlayerService $playerService
      * @param Request $request
-     * @return mixed
+     * @return Response
      */
-    public function genereNumero(PlayerService $playerService, Request $request): \Symfony\Component\HttpFoundation\Response
+    public function genereNumero(PlayerService $playerService, Request $request)
+    : \Symfony\Component\HttpFoundation\Response
     {
         $donnees = $request->request->all();
         /** @var Teams $equipe */
@@ -408,8 +410,11 @@ class JoueurController extends AbstractController
 
     /**
      * @Route("/uploadPhoto/{joueurId}", name= "uploadPhoto")
+     * @param Request $request
+     * @param int $joueurId
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function uploadPhoto(Request $request, $joueurId): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function uploadPhoto(Request $request, int $joueurId): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $form = $request->files->all();
 

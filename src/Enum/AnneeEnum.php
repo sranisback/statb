@@ -4,7 +4,10 @@ namespace App\Enum;
 
 class AnneeEnum
 {
-    public function numeroToAnnee(): array
+    /**
+     * @return array<int, string>
+     */
+    public function numeroToAnnee()
     {
         return [
             0 => '2015 - 2016',

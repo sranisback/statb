@@ -8,7 +8,7 @@ function replaceWithInput(selector) {
 
     $('#' + $(selector).attr('id') + '_text').keydown(function (e) {
         if (e.which == 13) {
-            $('#' + $(selector).attr('id') + '_text').replaceWith('<span id="' + $(selector).attr('id') + '" class="' + $(selector).attr('class') + '" onclick="replaceWithInput(this)"><u>' + $('#' + $(selector).attr('id') + '_text').val() + '</u></span>');
+            $('#' + $(selector).attr('id') + '_text').replaceWith('<span id="' + $(selector).attr('id') + '" class="' + $(selector).attr('class') + '" onclick="replaceWithInput(this)"><ulink>' + $('#' + $(selector).attr('id') + '_text').val() + '</ulink></span>');
             if ($(selector).attr('id') == 'tresorAuto') {
                 $('#tresor').html($("<div>").html($('#' + $(selector).attr('id')).html()).text());
                 $('#tresor2').html($("<div>").html($('#' + $(selector).attr('id')).html()).text());

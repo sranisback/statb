@@ -21,7 +21,12 @@ class PrimeService
         $this->doctrineEntityManager = $doctrineEntityManager;
     }
 
-    public function creationPrime($coach, $data): string
+    /**
+     * @param integer $coach
+     * @param array<string,mixed> $data
+     * @return string
+     */
+    public function creationPrime(int $coach, array $data): string
     {
         $equipe = $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(['teamId' => $data['teams']]);
 
@@ -54,9 +59,15 @@ class PrimeService
 
             return 'ok';
         }
+
+        return 'false';
     }
 
-    public function supprimerPrime($primeId): string
+    /**
+     * @param int $primeId
+     * @return string
+     */
+    public function supprimerPrime(int $primeId): string
     {
         $prime = $this->doctrineEntityManager->getRepository(Primes::class)->findOneBy(['id' => $primeId]);
 
@@ -73,7 +84,11 @@ class PrimeService
         return 'ok';
     }
 
-    public function realiserPrime($data): string
+    /**
+     * @param array<string,mixed> $data
+     * @return string
+     */
+    public function realiserPrime(array $data): string
     {
         $prime = $this->doctrineEntityManager->getRepository(Primes::class)->findOneBy(['id' => $data['Primes']]);
 

@@ -101,13 +101,18 @@ class ExportController extends AbstractController
     /**
      * @Route("/pdfTournois", name="pdfTournois", options = { "expose" = true })
      * @param Request $request
+     * @return Response
      */
     public function pdfTournois(Request $request)
     {
         $ignore = ['.', '..'];
         $nbr = -2;
         foreach (scandir($this->getParameter('pdf_directory')) as $fichier) {
-            if (!in_array($fichier, $ignore) && filemtime($this->getParameter('pdf_directory') . DIRECTORY_SEPARATOR . $fichier) < strtotime('- 2 weeks')) {
+            if (!in_array($fichier, $ignore)
+                &&
+                filemtime(
+                    $this->getParameter('pdf_directory') . DIRECTORY_SEPARATOR . $fichier
+                ) < strtotime('- 2 weeks')) {
                 unlink($this->getParameter('pdf_directory') . DIRECTORY_SEPARATOR . $fichier);
             }
 
@@ -122,7 +127,13 @@ class ExportController extends AbstractController
         $json = json_decode($request['post']);
 
         $json[1] = str_replace('<th class="first"></th>', '', $json[1]);
-        $json[1] = str_replace('<td class="first"><span onclick="supprimerJoueur(this)" class="fas fa-times text-danger" aria-hidden="true"></span></td>', '', $json[1]);
+        $json[1] = str_replace(
+            '<td class="first">
+                <span onclick="supprimerJoueur(this)" class="fas fa-times text-danger" aria-hidden="true">
+            </span></td>',
+            '',
+            $json[1]
+        );
 
         $html = $this->renderView(
             'statbb/pdfTournois.html.twig',

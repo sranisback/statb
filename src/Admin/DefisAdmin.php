@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class DefisAdmin extends AbstractAdmin
 {
-    public function preValidate($object)
+    public function preValidate($object):void
     {
         /** @var Defis $defis */
         $defis = $this->getSubject();
@@ -60,8 +60,9 @@ class DefisAdmin extends AbstractAdmin
                 entityType::class,
                 [
                     'class' => Matches::class,
-                    'choice_label' => fn($matches) => $matches->getTeam1()->getName().' VS '.$matches->getTeam2()->getName(
-                    ).', Annee : '.$matches->getTeam1()->getYear(),
+                    'choice_label' =>
+                        fn($matches) => $matches->getTeam1()->getName().' VS '.$matches->getTeam2()->getName(
+                        ).', Annee : '.$matches->getTeam1()->getYear(),
                     'label' => 'Match défie',
                 ]
             )

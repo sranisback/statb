@@ -47,7 +47,8 @@ class StatBBController extends AbstractController
      * @param DefisService $defisService
      * @return Response
      */
-    public function index(SettingsService $settingsService, DefisService $defisService): \Symfony\Component\HttpFoundation\Response
+    public function index(SettingsService $settingsService, DefisService $defisService)
+    : \Symfony\Component\HttpFoundation\Response
     {
         /** @var Coaches $coach */
         $coach = $this->getUser();
@@ -55,8 +56,9 @@ class StatBBController extends AbstractController
         if ($coach != null) {
             $role = $coach->getRoles();
 
-            if ($role['role'] == 'ROLE_ADMIN' && $settingsService->mettreaJourLaPeriode(date('m/d/Y')) == true) {
-                $this->addFlash('admin', 'Periode Mise à jour');;
+            if ($role['role'] == 'ROLE_ADMIN' && $settingsService->mettreaJourLaPeriode(date('m/d/Y'))) {
+                $this->addFlash('admin', 'Periode Mise à jour');
+                ;
             }
 
             foreach ($defisService->lesDefisEnCoursContreLeCoach($settingsService, $coach) as $defisEnCours) {

@@ -122,9 +122,10 @@ class MatchController extends AbstractController
      * @Route("/match/{matchId}", name="match", options ={"expose"= true})
      * @param PlayerService $playerService
      * @param integer $matchId
-     * @return string|Response
+     * @return Response
      */
-    public function visualiseurDeMatch(PlayerService $playerService, int $matchId): \Symfony\Component\HttpFoundation\Response
+    public function visualiseurDeMatch(PlayerService $playerService, int $matchId)
+    : \Symfony\Component\HttpFoundation\Response
     {
         /** @var Matches $match */
         $match = $this->getDoctrine()->getRepository(Matches::class)->findOneBy(['matchId' => $matchId]);
@@ -152,7 +153,8 @@ class MatchController extends AbstractController
      * @param int $coachActif
      * @return Response
      */
-    public function matchsDunCoach(MatchesService $matchesService, int $coachActif): \Symfony\Component\HttpFoundation\Response
+    public function matchsDunCoach(MatchesService $matchesService, int $coachActif)
+    : \Symfony\Component\HttpFoundation\Response
     {
         return $this->render(
             'statbb/tabs/coach/anciensMatchs.html.twig',

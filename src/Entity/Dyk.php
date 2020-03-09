@@ -14,7 +14,7 @@ class Dyk
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=2500, nullable=true)
@@ -22,6 +22,9 @@ class Dyk
      */
     private ?string $dyk_text;
 
+    /**
+     * @return int
+     */
     public function getId()
     {
         return $this->id;

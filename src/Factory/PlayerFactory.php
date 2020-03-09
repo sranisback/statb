@@ -31,7 +31,6 @@ class PlayerFactory
     ): \App\Entity\Players {
         $dateBoughtFormat = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
 
-        $coach = $equipe->getOwnedByCoach();
         $race = $position->getFRace();
         $cost = $position->getCost();
 
@@ -48,9 +47,6 @@ class PlayerFactory
             $joueur->setIcon($iconeNope);
         }
 
-        if (!empty($coach)) {
-            $joueur->setFCid($coach);
-        }
         if (!empty($race)) {
             $joueur->setFRid($race);
         }

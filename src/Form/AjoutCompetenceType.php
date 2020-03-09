@@ -20,7 +20,7 @@ class AjoutCompetenceType extends AbstractType
                 [
                     'class' => GameDataSkills::class,
                     'choice_label' => 'name',
-                    'group_by' => function (GameDataSkills $comp): array {
+                    'group_by' => function (GameDataSkills $comp): string {
                         $listeCategoriesCompetences =
                             [
                                 '' => '',

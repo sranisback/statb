@@ -54,7 +54,7 @@ class PlayerService
 
     /**
      * @param Players $joueur
-     * @return array
+     * @return array<string,mixed>
      */
     public function statsDuJoueur(Players $joueur): array
     {
@@ -133,7 +133,7 @@ class PlayerService
 
     /**
      * @param Players $joueur
-     * @return array
+     * @return array<string,mixed>
      */
     public function listeDesCompEtSurcoutGagnedUnJoueur(Players $joueur): array
     {
@@ -161,7 +161,7 @@ class PlayerService
 
     /**
      * @param Players $joueur
-     * @return array
+     * @return array<string,mixed>
      */
     public function listenivSpeciauxEtSurcout(Players $joueur): array
     {
@@ -200,7 +200,7 @@ class PlayerService
 
     /**
      * @param Players $joueur
-     * @return array
+     * @return array<string,int>
      */
     public function actionsDuJoueur(Players $joueur): array
     {
@@ -254,7 +254,7 @@ class PlayerService
                 return 'XP';
 
             default:
-                if ($joueur->getInjRpm() != 0) {
+                if ($joueur->getInjRpm() !== 0) {
                     return 'RPM';
                 } else {
                     return '';
@@ -289,9 +289,11 @@ class PlayerService
     /**
      * @param int $positionId
      * @param int $teamId
-     * @return array
+     * @param string $nom
+     * @param string $numero
+     * @return array<string,mixed>
      */
-    public function ajoutJoueur(int $positionId, int $teamId, $nom, $numero): array
+    public function ajoutJoueur(int $positionId, int $teamId, string $nom, string $numero): array
     {
         $position = $this->doctrineEntityManager->getRepository(
             GameDataPlayers::class
@@ -311,7 +313,7 @@ class PlayerService
             }
         }
 
-        if ($numero === '' || $numero === null) {
+        if ($numero === '') {
             $numero = $this->numeroLibreDelEquipe($equipe);
         }
 
@@ -323,7 +325,7 @@ class PlayerService
 
                     $joueur = (new PlayerFactory)->nouveauJoueur(
                         $position,
-                        $numero,
+                        (int)$numero,
                         $equipe,
                         1,
                         $nom,
@@ -375,7 +377,7 @@ class PlayerService
 
     /**
      * @param Players $joueur
-     * @return array
+     * @return array<string,mixed>
      */
     public function renvoisOuSuppressionJoueur(Players $joueur): array
     {
@@ -418,7 +420,7 @@ class PlayerService
             ];
         }
 
-        return ['error'];
+        return ['error' => 'error'];
     }
 
     /**

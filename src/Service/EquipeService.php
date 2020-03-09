@@ -66,7 +66,7 @@ class EquipeService
      /**
      * @param Teams $equipe
      * @param PlayerService $playerService
-     * @return float|int
+     * @return int
      */
     public function tvDelEquipe(Teams $equipe, PlayerService $playerService)
     {
@@ -79,7 +79,7 @@ class EquipeService
 
     /**
      * @param Teams $equipe
-     * @return array
+     * @return array<string,mixed>
      */
     public function valeurInducementDelEquipe(Teams $equipe): array
     {
@@ -101,8 +101,8 @@ class EquipeService
 
     /**
      * @param Teams $equipe
-     * @param array $matchesCollection
-     * @return array
+     * @param array<Matches> $matchesCollection
+     * @return array<string,int>
      */
     public function resultatsDelEquipe(Teams $equipe, Array $matchesCollection): array
     {
@@ -124,7 +124,7 @@ class EquipeService
     /**
      * @param Teams $equipe
      * @param Matches $match
-     * @return array
+     * @return array<string,int>
      */
     public function resultatDuMatch(Teams $equipe, Matches $match): array
     {
@@ -150,7 +150,7 @@ class EquipeService
      * @param string $teamname
      * @param int $coachid
      * @param int $raceid
-     * @return int|null
+     * @return int
      */
     public function createTeam(string $teamname, int $coachid, int $raceid): int
     {
@@ -192,7 +192,7 @@ class EquipeService
      * @param Teams $equipe
      * @param string $type
      * @param PlayerService $playerService
-     * @return array
+     * @return array<string,int>
      */
     public function ajoutInducement(Teams $equipe, string $type, PlayerService $playerService): array
     {
@@ -287,7 +287,7 @@ class EquipeService
      * @param Teams $equipe
      * @param string $type
      * @param PlayerService $playerService
-     * @return array
+     * @return array<string,int>
      */
     public function supprInducement(Teams $equipe, string $type, PlayerService $playerService): array
     {
@@ -369,7 +369,7 @@ class EquipeService
 
     /**
      * @param integer $year
-     * @return array
+     * @return array<int,mixed>
      */
     public function eloDesEquipes(int $year): array
     {
@@ -542,7 +542,7 @@ class EquipeService
      * @param int $nbrDeJournalier
      * @param Teams $equipe
      * @param PlayerService $playerService
-     * @return mixed
+     * @return int
      */
     public function ajoutDesJournaliers(int $nbrDeJournalier, Teams $equipe, PlayerService $playerService): int
     {

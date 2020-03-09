@@ -72,7 +72,9 @@ class creerUnMatchTest extends KernelTestCase
             'team_2' => '181',
             'varpop_team2' => '0',
             'totalpop' => '2000',
-            'stadeAccueil' => 1
+            'stadeAccueil' => 2,
+            'depense1' => 0,
+            'depense2' => 0
         ];
 
         $matchTest = $matchFactory->creerUnMatch(

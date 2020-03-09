@@ -37,7 +37,7 @@ class PlayersSkills
      * })
      * @var \App\Entity\GameDataSkills|null
      */
-    private ?\App\Entity\GameDataSkills $fSkill;
+    private ?\App\Entity\GameDataSkills $fSkill = null;
 
     /**
      *

@@ -22,7 +22,11 @@ class DefisService
         $this->doctrineEntityManager = $doctrineEntityManager;
     }
 
-    public function creerDefis($datas): \App\Entity\Defis
+    /**
+     * @param array<string,mixed> $datas
+     * @return Defis
+     */
+    public function creerDefis(array $datas): \App\Entity\Defis
     {
         $defis = (new DefiFactory)->lancerDefis(
             $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(
@@ -59,7 +63,11 @@ class DefisService
         return true;
     }
 
-    public function supprimerDefis($defisId): string
+    /**
+     * @param int $defisId
+     * @return string
+     */
+    public function supprimerDefis(int $defisId): string
     {
         $prime = $this->doctrineEntityManager->getRepository(Defis::class)->findOneBy(['id' => $defisId]);
 

@@ -6,7 +6,9 @@ use App\Entity\Citations;
 use App\Entity\Dyk;
 use App\Entity\Setting;
 
+use Cassandra\Date;
 use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 class SettingsService
@@ -22,29 +24,29 @@ class SettingsService
     }
 
     /**
-     * @return int|string|null $anneeCourante
+     * @return int $anneeCourante
      */
-    public function anneeCourante()
+    public function anneeCourante(): int
     {
         $anneeCourante = $this->doctrineEntityManager->getRepository(Setting::class)->findOneBy(['name' => 'year']);
 
         if (!empty($anneeCourante)) {
-            return $anneeCourante->getValue();
+            return (int) $anneeCourante->getValue();
         }
 
         return 0;
     }
 
     /**
-     * @return mixed[]
+     * @return string
      */
-    public function tirerCitationAuHasard()
+    public function tirerCitationAuHasard():string
     {
         $citations = $this->doctrineEntityManager->getRepository(Citations::class)->findAll();
 
         $nbrAuHasard = rand(1, count($citations) - 1);
 
-        return $citations[$nbrAuHasard];
+        return  $citations[$nbrAuHasard]->getCitation();
     }
 
     /**
@@ -60,7 +62,7 @@ class SettingsService
     }
 
     /**
-     * @return \DateTime[]|bool[]
+     * @return array<string, DateTime|false>
      */
     public function periodeDefisCourrante(): array
     {
@@ -75,13 +77,21 @@ class SettingsService
         ];
     }
 
-    public function dateDansLaPeriodeCourante($date): bool
+    /**
+     * @param  DateTimeInterface|null $date
+     * @return bool
+     */
+    public function dateDansLaPeriodeCourante(?DateTimeInterface $date): bool
     {
         $periodeCourrante = $this->periodeDefisCourrante();
         return ($date > $periodeCourrante['debut']) && ($date < $periodeCourrante['fin']);
     }
 
-    public function mettreaJourLaPeriode($maintenant): bool
+    /**
+     * @param string $maintenant
+     * @return bool
+     */
+    public function mettreaJourLaPeriode(string $maintenant): bool
     {
         $periode  = $this->periodeDefisCourrante();
 
@@ -100,7 +110,7 @@ class SettingsService
     }
 
     /**
-     * @return int|string|null
+     * @return int
      */
     public function recupererTresorDepart()
     {
@@ -109,9 +119,9 @@ class SettingsService
         );
 
         if (!empty($tresorDepart)) {
-            return $tresorDepart->getValue();
+            return (int)$tresorDepart->getValue();
         }
 
-        return 0;
+        return (int)0;
     }
 }
