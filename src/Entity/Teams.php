@@ -20,7 +20,7 @@ class Teams
      * @ORM\GeneratedValue(strategy="AUTO")
      * @var int
      */
-    private int $teamId;
+    private int $teamId = 0;
 
     /**
      *

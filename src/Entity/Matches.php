@@ -143,11 +143,13 @@ class Matches
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @var int|null
      */
     private $depense1 = 0;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @var int|null
      */
     private $depense2 = 0;
 

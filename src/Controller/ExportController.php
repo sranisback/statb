@@ -8,6 +8,7 @@ use App\Service\EquipeService;
 use App\Service\PlayerService;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -53,7 +54,7 @@ class ExportController extends AbstractController
             $pdata[$count]['skill'] = substr($listeCompetence, 0, strlen($listeCompetence) - 2);
             $pdata[$count]['spp'] = $playerService->xpDuJoueur($joueur);
             if ($joueur->getInjRpm() != 0) {
-                $pdata[$count]['cost'] = '<s>'.$playerService->valeurDunJoueur($joueur).'</s>';
+                $pdata[$count]['cost'] = '<s>' . $playerService->valeurDunJoueur($joueur) . '</s>';
             } else {
                 $pdata[$count]['cost'] = $playerService->valeurDunJoueur($joueur);
             }
@@ -84,24 +85,92 @@ class ExportController extends AbstractController
             ]
         );
 
-
-        // Configure Dompdf according to your needs
         $pdfOptions = new Options();
         $pdfOptions->set('defaultFont', 'Arial');
         $pdfOptions->setIsRemoteEnabled(true);
         $pdfOptions->setIsHtml5ParserEnabled(true);
 
         $dompdf = new Dompdf($pdfOptions);
-
-        // Load HTML to Dompdf
         $dompdf->loadHtml($html);
-
-        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
         $dompdf->setPaper('A4', 'landscape');
-
-        // Render the HTML as PDF
         $dompdf->render();
 
-        $dompdf->stream($equipe->getName().'.pdf', ["Attachment" => true]);
+        $dompdf->stream($equipe->getName() . '.pdf', ["Attachment" => true]);
+    }
+
+    /**
+     * @Route("/pdfTournois", name="pdfTournois", options = { "expose" = true })
+     * @param Request $request
+     */
+    public function pdfTournois(Request $request)
+    {
+        $ignore = ['.', '..'];
+        $nbr = -2;
+        foreach (scandir($this->getParameter('pdf_directory')) as $fichier) {
+            if (!in_array($fichier, $ignore) && filemtime($this->getParameter('pdf_directory') . DIRECTORY_SEPARATOR . $fichier) < strtotime('- 2 weeks')) {
+                unlink($this->getParameter('pdf_directory') . DIRECTORY_SEPARATOR . $fichier);
+            }
+
+            if ($nbr > 7) {
+                unlink($this->getParameter('pdf_directory') . DIRECTORY_SEPARATOR . $fichier);
+            }
+            $nbr++;
+        }
+
+        $request = $request->request->all();
+
+        $json = json_decode($request['post']);
+
+        $json[1] = str_replace('<th class="first"></th>', '', $json[1]);
+        $json[1] = str_replace('<td class="first"><span onclick="supprimerJoueur(this)" class="fas fa-times text-danger" aria-hidden="true"></span></td>', '', $json[1]);
+
+        $html = $this->renderView(
+            'statbb/pdfTournois.html.twig',
+            [
+                'nomEquipe' => $json[0],
+                'feuilleEquipe' => $json[1],
+                'coachEquipe' => $json[2],
+                'raceEquipe' => $json[3],
+                'coutTotalJoueur' => $json[4],
+                'tresorEquipe' => $json[5],
+                'depenseEquipe' => $json[6],
+                'totalAutorise' => $json[7],
+                'relancesEquipe' => $json[8],
+                'totalRelanceEquipe' => $json[9],
+                'popEquipe' => $json[10],
+                'coutPopEquipe' => $json[11],
+                'assistants' => $json[12],
+                'totalAssistant' => $json[13],
+                'pompom' => $json[14],
+                'totalPompom' => $json[15],
+                'apoticaire' => $json[16],
+                'tvTotal' => $json[17],
+                'stadeEquipe' => $json[18],
+                'CoutrelancesEquipe' => $json[19],
+                'totalapo' => $json[19]
+            ]
+        );
+
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+        $pdfOptions->setIsRemoteEnabled(true);
+        $pdfOptions->setIsHtml5ParserEnabled(true);
+
+        $dompdf = new Dompdf($pdfOptions);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+
+        $hash = hash('md5', date('Y-m-d h:i:s'));
+        $nomFichier = 'Equipe' . $hash . '.pdf';
+
+        file_put_contents($this->getParameter('pdf_directory') . '/' . $nomFichier, $dompdf->output());
+
+        return new Response(
+            $this->renderView(
+                'statbb/pdfDownload.html.twig',
+                ['file' => $nomFichier]
+            )
+        );
     }
 }
