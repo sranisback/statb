@@ -47,7 +47,9 @@ class AjoutJoueurType extends AbstractType
                         'class' => GameDataPlayers::class,
                         'choice_label' => 'pos',
                         'label' => 'Choisir une position',
-                        'query_builder' => fn(EntityRepository $entityRepository) => $entityRepository->createQueryBuilder('Position')
+                        'query_builder' =>
+                            fn(EntityRepository $entityRepository) =>
+                            $entityRepository->createQueryBuilder('Position')
                             ->where('Position.fRace ='.$race->getRaceId()),
                         'placeholder' => 'Choisir un joueur',
                         'required' => true

@@ -18,7 +18,7 @@ use Symfony\Component\Serializer\Serializer;
 class TournoisController extends AbstractController
 {
     /**
-     * @param  mixed $response
+     * @param mixed $response
      * @return JsonResponse
      */
     public static function transformeEnJson($response): JsonResponse
@@ -35,18 +35,21 @@ class TournoisController extends AbstractController
 
     /**
      * @Route("/tournois", name="tournois")
+     * @return Response
      */
     public function index()
     {
-        return $this->render('statbb/feuilleTournois.html.twig',[
-            'listeRaces' => $this->getDoctrine()->getRepository(Races::class)->findBy([],['name' => 'ASC'])
+        return $this->render('statbb/feuilleTournois.html.twig', [
+            'listeRaces' => $this->getDoctrine()->getRepository(Races::class)->findBy([], ['name' => 'ASC'])
         ]);
     }
 
     /**
      * @Route("/listePosition/{raceId}", name="listePosition", options = { "expose" = true } )
+     * @param integer $raceId
+     * @return JsonResponse
      */
-    public function listePosition($raceId)
+    public function listePosition(int $raceId)
     {
         $listePosition = $this->getDoctrine()->getRepository(GameDataPlayers::class)->findBy(
             ['fRace' => $this->getDoctrine()->getRepository(Races::class)->findOneBy(['raceId' => $raceId])]
@@ -58,15 +61,15 @@ class TournoisController extends AbstractController
     /**
      * @Route("/nombreVersComp/{positionId}", name="nombreVersComp", options = { "expose" = true } )
      * @param PlayerService $playerService
-     * @param $positionId
+     * @param integer $positionId
      * @return Response
      */
-    public function nombreVersComp(PlayerService $playerService, $positionId)
+    public function nombreVersComp(PlayerService $playerService, int $positionId)
     {
         $listeCompHtml =
             $playerService->listeDesCompdUnePosition(
                 $this->getDoctrine()->getRepository(GameDataPlayers::class)->findOneBy(
-                    ['posId' => $positionId ]
+                    ['posId' => $positionId]
                 )
             );
 
@@ -75,20 +78,23 @@ class TournoisController extends AbstractController
 
     /**
      * @Route("/classeLesComp/{norm}/{doub}", name="classeLesComp", options={"expose" = true })
+     * @param string $norm
+     * @param string $doub
+     * @return JsonResponse
      */
-    public function classeLesComp($norm, $doub)
+    public function classeLesComp(string $norm, string $doub)
     {
         $listeComp = $this->getDoctrine()->getRepository(GameDataSkills::class)->findAll();
         $listCompNormales = [];
         $listeCompDoubles = [];
 
         foreach ($listeComp as $comp) {
-            if ( strpos($norm,$comp->getCat()) !== false ) {
+            if (strpos($norm, $comp->getCat()) !== false) {
                 $listCompNormales[] = $comp;
                 continue;
             }
 
-            if ( strpos($doub,$comp->getCat()) !== false ) {
+            if (strpos($doub, $comp->getCat()) !== false) {
                 $listeCompDoubles[] = $comp;
                 continue;
             }

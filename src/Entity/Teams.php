@@ -139,14 +139,13 @@ class Teams
 
     /**
      * @ORM\Column(type="boolean")
-     * @var int
      */
     private int $franchise = 0;
 
     /**
      * @return Stades
      */
-    public function getFStades(): ?\App\Entity\Stades
+    public function getFStades(): \App\Entity\Stades
     {
         return $this->fStades;
     }
@@ -336,7 +335,11 @@ class Teams
         return $this->tv;
     }
 
-    public function setTv($tv): self
+    /**
+     * @param integer $tv
+     * @return $this
+     */
+    public function setTv(int $tv): self
     {
         $this->tv = $tv;
 
@@ -355,12 +358,15 @@ class Teams
         return $this;
     }
 
+    /**
+     * @return integer
+     */
     public function getFranchise(): int
     {
         return $this->franchise;
     }
 
-    public function setFranchise(bool $franchise): self
+    public function setFranchise(int $franchise): self
     {
         $this->franchise = $franchise;
 

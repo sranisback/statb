@@ -40,7 +40,8 @@ class PrimeController extends AbstractController
      * @param int $coachId
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function ajoutPrime(Request $request, PrimeService $primeService, int $coachId): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function ajoutPrime(Request $request, PrimeService $primeService, int $coachId)
+    : \Symfony\Component\HttpFoundation\RedirectResponse
     {
         if ($primeService->creationPrime($coachId, $request->request->get('prime'))) {
             $this->addFlash('success', 'Prime Ajoutée');
@@ -72,7 +73,8 @@ class PrimeController extends AbstractController
      * @param int $primeId
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function supprimerPrime(PrimeService $primeService, int $primeId): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function supprimerPrime(PrimeService $primeService, int $primeId)
+    : \Symfony\Component\HttpFoundation\RedirectResponse
     {
         if ($primeService->supprimerPrime($primeId)) {
             $this->addFlash('success', 'Prime Supprimée');
@@ -83,7 +85,6 @@ class PrimeController extends AbstractController
 
     /**
      * @Route("/realiserPrimeForm", name="realiserPrimeForm", options = { "expose" = true })
-     * @param SettingsService $settingsService
      * @return Response
      */
     public function realiserPrimeForm(): \Symfony\Component\HttpFoundation\Response
@@ -97,9 +98,10 @@ class PrimeController extends AbstractController
      * @Route("/realiserPrime", name="realiserPrime", options = { "expose" = true })
      * @param Request $request
      * @param PrimeService $primeService
-     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function realiserPrime(Request $request, PrimeService $primeService): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function realiserPrime(Request $request, PrimeService $primeService)
+    : \Symfony\Component\HttpFoundation\RedirectResponse
     {
         if ($primeService->realiserPrime($request->request->get('realiser_prime'))) {
             $this->addFlash('success', 'Prime Réalisée');

@@ -3,28 +3,12 @@ PHPCBF RESULT SUMMARY
 ----------------------------------------------------------------------
 FILE                                                  FIXED  REMAINING
 ----------------------------------------------------------------------
-...ojets\statb\src\Admin\HistoriqueBlessureAdmin.php  1      0
-C:\wamp\www\projets\statb\src\Admin\StadesAdmin.php   1      0
-...ets\statb\src\Controller\ClassementController.php  1      1
-...projets\statb\src\Controller\EquipeController.php  1      1
-...\projets\statb\src\Controller\MatchController.php  1      0
-...projets\statb\src\Controller\StatBBController.php  1      0
-...w\projets\statb\src\Entity\HistoriqueBlessure.php  1      0
-C:\wamp\www\projets\statb\src\Entity\Matches.php      10     0
-C:\wamp\www\projets\statb\src\Entity\Players.php      1      0
-C:\wamp\www\projets\statb\src\Entity\Teams.php        1      0
-C:\wamp\www\projets\statb\src\Enum\AnneeEnum.php      1      0
-C:\wamp\www\projets\statb\src\Enum\BlessuresEnum.php  1      0
-...mp\www\projets\statb\src\Enum\NiveauStadeEnum.php  3      0
-...b\src\Repository\HistoriqueBlessureRepository.php  1      0
-...w\projets\statb\src\Repository\TeamRepository.php  1      0
-...w\projets\statb\src\Service\ClassementService.php  1      0
-...\www\projets\statb\src\Service\MatchesService.php  1      0
-...p\www\projets\statb\src\Service\PlayerService.php  1      0
+C:\wamp\www\projets\statb\src\Admin\DefisAdmin.php    1      0
+...mp\www\projets\statb\src\Service\StadeService.php  1      0
 ----------------------------------------------------------------------
-A TOTAL OF 29 ERRORS WERE FIXED IN 18 FILES
+A TOTAL OF 2 ERRORS WERE FIXED IN 2 FILES
 ----------------------------------------------------------------------
 
-Time: 15.16 secs; Memory: 14MB
+Time: 9.49 secs; Memory: 12MB
 
 

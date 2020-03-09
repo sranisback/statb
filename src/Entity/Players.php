@@ -530,7 +530,7 @@ class Players
     }
 
     /**
-     * @return Collection|HistoriqueBlessure[]
+     * @return ArrayCollection
      */
     public function getHistoriqueBlessures(): \Doctrine\Common\Collections\ArrayCollection
     {

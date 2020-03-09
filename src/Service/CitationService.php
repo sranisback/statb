@@ -19,10 +19,9 @@ class CitationService
     }
 
     /**
-     * @param mixed $datas
-     * @return Citations
+     * @param array<string,string> $datas
      */
-    public function enregistrerCitation($datas): void
+    public function enregistrerCitation(array $datas): void
     {
         $citation = new Citations;
 

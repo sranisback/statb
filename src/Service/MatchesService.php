@@ -14,6 +14,7 @@ use App\Enum\AnneeEnum;
 use App\Factory\MatchesFactory;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 
 class MatchesService
 {
@@ -45,8 +46,7 @@ class MatchesService
         PlayerService $playerService,
         SettingsService $settingService,
         DefisService $defisService
-    )
-    {
+    ) {
         $this->doctrineEntityManager = $doctrineEntityManager;
         $this->equipeService = $equipeService;
         $this->playerService = $playerService;
@@ -55,8 +55,8 @@ class MatchesService
     }
 
     /**
-     * @param array $donnneesMatch
-     * @return array
+     * @param array<string,mixed> $donnneesMatch
+     * @return array<string,mixed>
      * @throws \Exception
      */
     public function enregistrerMatch(array $donnneesMatch): array
@@ -88,8 +88,9 @@ class MatchesService
     }
 
     /**
-     * @param array $donneesMatch
+     * @param array<string,mixed> $donneesMatch
      * @return Matches
+     * @throws Exception
      */
     public function creationEnteteMatch(array $donneesMatch): \App\Entity\Matches
     {
@@ -102,29 +103,26 @@ class MatchesService
             ['teamId' => $donneesMatch['team_2']]
         );
 
-        $stadeNature = $this->doctrineEntityManager->getRepository(GameDataStadium::class)->findOneBy(
+        $typeStade = $this->doctrineEntityManager->getRepository(GameDataStadium::class)->findOneBy(
             ['id' => $donneesMatch['stade']]
         );
+
+        if ($typeStade == null) {
+            $typeStade = new GameDataStadium();
+        }
 
         switch ($donneesMatch['stadeAccueil']) {
             case 1:
                 $stade = $equipe1->getFStades();
-                /** @var Stades $stade */
                 if ($stade->getNiveau() === 0) {
-                    $stade = $stadeNature;
+                    $typeStade = $stade->getFTypeStade();
                 }
                 break;
             case 2:
                 $stade = $equipe2->getFStades();
-                /** @var Stades $stade */
                 if ($stade->getNiveau() === 0) {
-                    $stade = $stadeNature;
+                    $typeStade = $stade->getFTypeStade();
                 }
-                break;
-            case 3:
-                $stade = $this->doctrineEntityManager->getRepository(GameDataStadium::class)->findOneBy(
-                    ['id' => $donneesMatch['stade']]
-                );
                 break;
         }
 
@@ -137,8 +135,9 @@ class MatchesService
             $this->doctrineEntityManager->getRepository(Meteo::class)->findOneBy(
                 ['id' => $donneesMatch['meteo']]
             ),
-            $stade
+            $typeStade
         );
+
 
         $this->doctrineEntityManager->persist($match);
 
@@ -172,7 +171,7 @@ class MatchesService
     }
 
     /**
-     * @param array $actionsCollection
+     * @param array<string,mixed> $actionsCollection
      * @param Matches $match
      */
     public function enregistrementDesActionsDesJoueurs(array $actionsCollection, Matches $match): void
@@ -256,7 +255,10 @@ class MatchesService
                     $joueur->addHistoriqueBlessure($histoBlessure);
                     break;
                 case 'Tué':
-                    $joueur->setDateDied(DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s")));
+                    $date = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
+                    if (!empty($date)) {
+                        $joueur->setDateDied($date);
+                    }
                     $joueur->setStatus(8);
                     $histoBlessure->setBlessure(60);
                     $joueur->addHistoriqueBlessure($histoBlessure);

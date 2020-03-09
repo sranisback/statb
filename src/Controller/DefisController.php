@@ -33,9 +33,10 @@ class DefisController extends AbstractController
      * @param Request $request
      * @param DefisService $defisService
      * @param SettingsService $settingService
-     * @return Response
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function ajoutDefis(Request $request, defisService $defisService, SettingsService $settingService): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function ajoutDefis(Request $request, defisService $defisService, SettingsService $settingService)
+    : \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $datas = $request->request->get('ajout_defis');
 
@@ -47,9 +48,8 @@ class DefisController extends AbstractController
                 $equipe,
                 $settingService
             )) {
-                if ($defisService->creerDefis($datas)) {
-                    $this->addFlash('success', 'Défis Ajouté!');
-                }
+                $defisService->creerDefis($datas);
+                $this->addFlash('success', 'Défis Ajouté!');
             } else {
                 $this->addFlash('fail', 'Plus de défis pour cette période');
             }
@@ -80,11 +80,16 @@ class DefisController extends AbstractController
      * @param SettingsService $settingsService
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function afficherPeriodeDefisActuelle(SettingsService $settingsService): \Symfony\Component\HttpFoundation\Response
+    public function afficherPeriodeDefisActuelle(SettingsService $settingsService)
+    : \Symfony\Component\HttpFoundation\Response
     {
         $periode = $settingsService->periodeDefisCourrante();
 
-        return new Response($periode['debut']->format('d/m/Y').' - '.$periode['fin']->format('d/m/Y'));
+        if ($periode['debut'] != false && $periode['fin'] != false) {
+            return new Response($periode['debut']->format('d/m/Y') . ' - ' . $periode['fin']->format('d/m/Y'));
+        }
+
+        return new Response('Error');
     }
 
     /**
@@ -93,7 +98,8 @@ class DefisController extends AbstractController
      * @param int $defisId
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function supprimerPrime(DefisService $defisService, int $defisId): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function supprimerPrime(DefisService $defisService, int $defisId)
+    : \Symfony\Component\HttpFoundation\RedirectResponse
     {
         if ($defisService->supprimerDefis($defisId)) {
             $this->addFlash('success', 'Defis Supprimée');

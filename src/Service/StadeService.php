@@ -6,6 +6,7 @@ use App\Entity\GameDataStadium;
 use App\Entity\Stades;
 use App\Entity\Teams;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\Integer;
 
 class StadeService
 {
@@ -41,10 +42,15 @@ class StadeService
      * @param Teams $equipe
      * @param string $nomDuStade
      * @param GameDataStadium $typeStade
+     * @param int $niveauAatteindre
      * @return bool
      */
-    public function construireStade(Teams $equipe, string $nomDuStade, \App\Entity\GameDataStadium $typeStade, $niveauAatteindre): bool
-    {
+    public function construireStade(
+        Teams $equipe,
+        string $nomDuStade,
+        \App\Entity\GameDataStadium $typeStade,
+        int $niveauAatteindre
+    ): bool {
         $tableCoutStade = [
             0 => 0,
             1 => 150_000,
@@ -80,7 +86,13 @@ class StadeService
         return false;
     }
 
-    public function emenagerResidence (Teams $equipe, $nomDuStade, $typeStade): bool
+    /**
+     * @param Teams $equipe
+     * @param int $nomDuStade
+     * @param GameDataStadium $typeStade
+     * @return bool
+     */
+    public function emenagerResidence(Teams $equipe, int $nomDuStade, \App\Entity\GameDataStadium $typeStade): bool
     {
         $stade = $equipe->getFStades();
 

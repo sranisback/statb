@@ -119,14 +119,12 @@ class Matches
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Meteo")
      * @ORM\JoinColumn(nullable=false)
-     * @var int
      */
     private ?\App\Entity\Meteo $fMeteo = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\GameDataStadium", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
-     * @var int
      */
     private ?\App\Entity\GameDataStadium $fStade = null;
 

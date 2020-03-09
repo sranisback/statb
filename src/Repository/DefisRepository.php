@@ -28,7 +28,13 @@ class DefisRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function listeDeDefisActifPourLeMatch($equipe1Id, $equipe2Id)
+    /**
+     * @param int $equipe1Id
+     * @param int $equipe2Id
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function listeDeDefisActifPourLeMatch(int $equipe1Id, int $equipe2Id)
     {
         return $this->createQueryBuilder('Defis')
             ->where(

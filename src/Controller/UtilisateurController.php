@@ -31,7 +31,8 @@ class UtilisateurController extends AbstractController
      * @param CitationService $citationService
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function interfaceUtilisateurRetour(Request $request, CitationService $citationService): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function interfaceUtilisateurRetour(Request $request, CitationService $citationService)
+    : \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $citationService->enregistrerCitation($request->request->get('ajout_citation'));
 

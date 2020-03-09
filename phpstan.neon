@@ -24,6 +24,21 @@ parameters:
 	    - '#toutesLesIconesDunePosition.+#'
 	    - '#requeteEquipeLike.+#'
 	    - '#tousLesMatchsDeDeuxCoach.+#'
+	    - '#blessuresMatch.+#'
+	    - '#getBlessuresMatch.+#'
+	    - '#historiqueBlessures.+#'
+	    - '#getHistoriqueBlessures.+#'
+	    - '#pointsBonus.+#'
+	    - '#sousClassementJoueur.+#'
+	    - '#sousClassementEquipeFournisseurDeCadavre.+#'
+	    - '#sousClassementEquipe.+#'
+	    - '#totalcas.+#'
+	    - '#tousLesMatchDuneAnne.+#'
+	    - '#tousLesAutresCoaches.+#'
+	    - '#listeDeDefisActifPourLeMatch.+#'
+	    - '#nbrCoachAyantUneEquipelAnneeEnCours.+#'
+	    - '#listeDesJournaliersDeLequipe.+#'
+	    - '#listeDesJoueursdUnMatch.+#'
 	autoload_directories:
 		- %rootDir%/../../../src/Migrations
 	excludes_analyse:

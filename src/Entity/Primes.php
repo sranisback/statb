@@ -114,19 +114,29 @@ class Primes
         return $this->teams;
     }
 
-    public function setTeams($teams): self
+    /**
+     * @param Teams $teams
+     * @return $this
+     */
+    public function setTeams(Teams $teams): self
     {
         $this->teams = $teams;
 
         return $this;
     }
 
+    /**
+     * @return int
+     */
     public function getActif(): int
     {
         return $this->actif;
     }
 
-    public function setActif($actif): void
+    /**
+     * @param integer $actif
+     */
+    public function setActif(int $actif): void
     {
         $this->actif = $actif;
     }

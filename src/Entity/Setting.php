@@ -14,7 +14,7 @@ class Setting
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -28,6 +28,9 @@ class Setting
      */
     private ?string $value;
 
+    /**
+     * @return int
+     */
     public function getId()
     {
         return $this->id;
