@@ -43,7 +43,7 @@ class PrimeController extends AbstractController
     public function ajoutPrime(Request $request, PrimeService $primeService, int $coachId)
     : \Symfony\Component\HttpFoundation\RedirectResponse
     {
-        if ($primeService->creationPrime($coachId, $request->request->get('prime'))) {
+        if ($primeService->creationPrime($coachId, $request->request->get('prime')) !== '') {
             $this->addFlash('success', 'Prime Ajoutée');
         }
 
@@ -76,7 +76,7 @@ class PrimeController extends AbstractController
     public function supprimerPrime(PrimeService $primeService, int $primeId)
     : \Symfony\Component\HttpFoundation\RedirectResponse
     {
-        if ($primeService->supprimerPrime($primeId)) {
+        if ($primeService->supprimerPrime($primeId) !== '') {
             $this->addFlash('success', 'Prime Supprimée');
         }
 
@@ -103,7 +103,7 @@ class PrimeController extends AbstractController
     public function realiserPrime(Request $request, PrimeService $primeService)
     : \Symfony\Component\HttpFoundation\RedirectResponse
     {
-        if ($primeService->realiserPrime($request->request->get('realiser_prime'))) {
+        if ($primeService->realiserPrime($request->request->get('realiser_prime')) !== '') {
             $this->addFlash('success', 'Prime Réalisée');
         }
 

@@ -3,8 +3,6 @@ parameters:
     - 'code-quality'
     - 'php74'
     - 'symfony44'
-    - 'type-declaration'
-
   paths:
     - 'src'
     - 'tests'

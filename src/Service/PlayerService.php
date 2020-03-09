@@ -254,7 +254,7 @@ class PlayerService
                 return 'XP';
 
             default:
-                if ($joueur->getInjRpm() != 0) {
+                if ($joueur->getInjRpm() !== 0) {
                     return 'RPM';
                 } else {
                     return '';

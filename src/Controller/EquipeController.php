@@ -288,7 +288,7 @@ class EquipeController extends AbstractController
             $teamid = $equipeService->createTeam($form['Name'], $coach->getCoachId(), $form['fRace']);
         }
 
-        if ($teamid != 0) {
+        if ($teamid !== 0) {
             $this->addFlash('success', 'Equipe Ajoutée!');
         }
 
@@ -540,7 +540,7 @@ class EquipeController extends AbstractController
         /** @var Teams $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
 
-        if ($equipe->getFranchise() == 0) {
+        if ($equipe->getFranchise() === 0) {
             $equipe->setFranchise(1);
         } else {
             $equipe->setFranchise(0);

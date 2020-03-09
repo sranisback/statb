@@ -56,7 +56,7 @@ class StatBBController extends AbstractController
         if ($coach != null) {
             $role = $coach->getRoles();
 
-            if ($role['role'] == 'ROLE_ADMIN' && $settingsService->mettreaJourLaPeriode(date('m/d/Y')) == true) {
+            if ($role['role'] == 'ROLE_ADMIN' && $settingsService->mettreaJourLaPeriode(date('m/d/Y'))) {
                 $this->addFlash('admin', 'Periode Mise à jour');
                 ;
             }

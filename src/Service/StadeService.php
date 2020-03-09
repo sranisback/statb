@@ -88,11 +88,11 @@ class StadeService
 
     /**
      * @param Teams $equipe
-     * @param int $nomDuStade
+     * @param string $nomDuStade
      * @param GameDataStadium $typeStade
      * @return bool
      */
-    public function emenagerResidence(Teams $equipe, int $nomDuStade, \App\Entity\GameDataStadium $typeStade): bool
+    public function emenagerResidence(Teams $equipe, string $nomDuStade, \App\Entity\GameDataStadium $typeStade): bool
     {
         $stade = $equipe->getFStades();
 

@@ -101,7 +101,7 @@ class DefisController extends AbstractController
     public function supprimerPrime(DefisService $defisService, int $defisId)
     : \Symfony\Component\HttpFoundation\RedirectResponse
     {
-        if ($defisService->supprimerDefis($defisId)) {
+        if ($defisService->supprimerDefis($defisId) !== '') {
             $this->addFlash('success', 'Defis Supprimée');
         }
 
