@@ -25,7 +25,7 @@ class Players
      * @ORM\GeneratedValue(strategy="IDENTITY")
      * @var int
      */
-    private int $playerId = 0;
+    private ?int $playerId = 0;
 
     /**
      *
@@ -215,7 +215,7 @@ class Players
         $this->historiqueBlessures = new ArrayCollection();
     }
 
-    public function getPlayerId(): int
+    public function getPlayerId(): ?int
     {
         return $this->playerId;
     }
