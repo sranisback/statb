@@ -6,12 +6,18 @@
         <div class="card">
             <div class="card-header">
                 <div class="d-flex ">
-                    <div> {% if (team.logo) or (app.user) %}
+                    <div>
+                        {% if (app.user != null) %}
+                        {% if (team.logo)%}
                             <img class="img-fluid" src="{{ asset('uploads/logo_equipe/' ~ team.logo) }}">
                             {% if (app.user == team.ownedByCoach and team.year == annee) or app.user.roles["role"] == 'ROLE_ADMIN' %}
                                 <br/>
                                 <span class="fas fa-trash-alt" teamId="{{ team.teamId }}" id="supprimeLogo"></span>
                             {% endif %}
+                        {% else %}
+                            <img class="img-fluid"
+                                 src="{{ asset('build/'~app.environment~'/images/race_icons/'~team.fRace.icon~'.png') }}">
+                        {% endif %}
                         {% else %}
                             <img class="img-fluid"
                                  src="{{ asset('build/'~app.environment~'/images/race_icons/'~team.fRace.icon~'.png') }}">

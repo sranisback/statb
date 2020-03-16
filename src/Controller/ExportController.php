@@ -128,9 +128,7 @@ class ExportController extends AbstractController
 
         $json[1] = str_replace('<th class="first"></th>', '', $json[1]);
         $json[1] = str_replace(
-            '<td class="first">
-                <span onclick="supprimerJoueur(this)" class="fas fa-times text-danger" aria-hidden="true">
-            </span></td>',
+            '<td class="first"><span onclick="supprimerJoueur(this)" class="fas fa-times text-danger" aria-hidden="true"></span></td>',
             '',
             $json[1]
         );
