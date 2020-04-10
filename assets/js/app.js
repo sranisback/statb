@@ -198,8 +198,6 @@ $(document).ready(function () {
                             $("#player_futur_numero").attr('value', num);
                         });
 
-                        //$('#liste_joueur_adder').append('<tr><td>'+result.NrJoueur+'</td><td>'+result.NomJoueur+'</td><td>'+result.PositionJoueur +'</td><td>'+result.playercost+'</td></tr>');
-
                         $("#teamsheet").append(result.html);
 
                         $("#caseTv").text(result.tv);
