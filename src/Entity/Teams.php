@@ -34,7 +34,7 @@ class Teams
      * @ORM\Column(name="treasury", type="bigint", nullable=true)
      * @var int|null
      */
-    private ?int $treasury;
+    private ?int $treasury = 0;
 
     /**
      *
@@ -98,14 +98,14 @@ class Teams
      * @ORM\Column(name="tv", type="integer", nullable=true)
      * @var int|null
      */
-    private ?int $tv;
+    private ?int $tv = 0;
 
     /**
      *
      * @ORM\Column(name="year", type="integer", nullable=false)
      * @var int
      */
-    private int $year;
+    private int $year = 0;
 
     /**
      *
@@ -113,7 +113,7 @@ class Teams
      *   @ORM\JoinColumn  (name="owned_by_coach_id",  referencedColumnName="coach_id")
      * @var \App\Entity\Coaches|null
      */
-    private ?\App\Entity\Coaches $ownedByCoach;
+    private ?\App\Entity\Coaches $ownedByCoach = null;
 
     /**
      *
@@ -125,8 +125,8 @@ class Teams
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="Stades", fetch="EAGER")
-     * @ORM\JoinColumn(name="f_stade_id", referencedColumnName="id", nullable=false)
+     * @ORM\OneToOne(targetEntity="Stades", fetch="EAGER")
+     * @ORM\JoinColumn(name="f_stade_id", referencedColumnName="id", nullable=true)
      * @var \App\Entity\Stades|null
      */
     private ?\App\Entity\Stades $fStades = null;
@@ -143,9 +143,9 @@ class Teams
     private int $franchise = 0;
 
     /**
-     * @return Stades
+     * @return Stades|null
      */
-    public function getFStades(): \App\Entity\Stades
+    public function getFStades(): ?\App\Entity\Stades
     {
         return $this->fStades;
     }

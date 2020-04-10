@@ -29,14 +29,14 @@ class Coaches implements UserInterface
      * @ORM\Column(name="name", type="string", length=60, nullable=true)
      * @var string|null
      */
-    private ?string $name;
+    private ?string $name = null;
 
     /**
      *
      * @ORM\Column(name="passwd", type="string", length=64, nullable=true)
      * @var string|null
      */
-    private ?string $passwd;
+    private ?string $passwd = null;
 
     /**
      *

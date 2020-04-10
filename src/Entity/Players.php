@@ -32,7 +32,7 @@ class Players
      * @ORM\Column(name="type", type="integer", nullable=true)
      * @var int|null
      */
-    private ?int $type;
+    private ?int $type = null;
 
     /**
      *
@@ -46,7 +46,7 @@ class Players
      * @ORM\Column(name="nr", type="integer", nullable=true, options={"unsigned":true})
      * @var int|null
      */
-    private ?int $nr;
+    private ?int $nr = null;
 
     /**
      *
@@ -95,7 +95,7 @@ class Players
      * @ORM\Column(name="extra_spp", type="integer", nullable=true)
      * @var int|null
      */
-    private ?int $extraSpp;
+    private ?int $extraSpp = null;
 
     /**
      *
@@ -181,7 +181,7 @@ class Players
      * @ORM\JoinColumn(name="f_rid", referencedColumnName="race_id")
      * @var \App\Entity\Races|null
      */
-    private ?\App\Entity\Races $fRid;
+    private ?\App\Entity\Races $fRid = null;
 
     /**
      *
@@ -189,7 +189,7 @@ class Players
      *  @ORM\JoinColumn (name="owned_by_team_id", referencedColumnName="team_id")
      * @var \App\Entity\Teams|null
      */
-    private ?\App\Entity\Teams $ownedByTeam;
+    private ?\App\Entity\Teams $ownedByTeam = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\PlayersIcons")

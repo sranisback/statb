@@ -38,28 +38,28 @@ class Matches
      * @ORM\Column(name="ffactor1", type="integer", nullable=true)
      * @var int|null
      */
-    private ?int $ffactor1;
+    private ?int $ffactor1 = 0;
 
     /**
      *
      * @ORM\Column(name="ffactor2", type="integer", nullable=true)
      * @var int|null
      */
-    private ?int $ffactor2;
+    private ?int $ffactor2 = 0;
 
     /**
      *
      * @ORM\Column(name="income1", type="integer", nullable=true)
      * @var int|null
      */
-    private ?int $income1;
+    private ?int $income1 = 0;
 
     /**
      *
      * @ORM\Column(name="income2", type="integer", nullable=true)
      * @var int|null
      */
-    private ?int $income2;
+    private ?int $income2 = 0;
 
     /**
      *
@@ -73,14 +73,14 @@ class Matches
      * @ORM\Column(name="team1_score", type="integer", nullable=true)
      * @var int|null
      */
-    private ?int $team1Score;
+    private ?int $team1Score = 0;
 
     /**
      *
      * @ORM\Column(name="team2_score", type="integer", nullable=true)
      * @var int|null
      */
-    private ?int $team2Score;
+    private ?int $team2Score = 0;
 
     /**
      *
@@ -104,7 +104,7 @@ class Matches
      * })
      * @var \App\Entity\Teams|null
      */
-    private ?\App\Entity\Teams $team1;
+    private ?\App\Entity\Teams $team1 = null;
 
     /**
      *

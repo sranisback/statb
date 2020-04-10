@@ -20,9 +20,9 @@ class HistoriqueBlessure
 
     /**
      * @ORM\Column(type="integer")
-     * @var int
+     * @var int|null
      */
-    private int $blessure;
+    private ?int $blessure = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Players", inversedBy="historiqueBlessures")
@@ -34,16 +34,16 @@ class HistoriqueBlessure
     /**
      *
      * @ORM\Column(type="date")
-     * @var \DateTimeInterface
+     * @var \DateTimeInterface|null
      */
-    private \DateTimeInterface $date;
+    private ?\DateTimeInterface $date= null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Matches", inversedBy="blessuresMatch")
      * @ORM\JoinColumn(name="matches", referencedColumnName="match_id")
      * @var \App\Entity\Matches|null
      */
-    private ?\App\Entity\Matches $fmatch;
+    private ?\App\Entity\Matches $fmatch= null;
 
     public function getId(): ?int
     {
@@ -74,7 +74,7 @@ class HistoriqueBlessure
         return $this;
     }
 
-    public function getDate(): \DateTimeInterface
+    public function getDate(): ?\DateTimeInterface
     {
         return $this->date;
     }

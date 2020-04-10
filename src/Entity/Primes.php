@@ -19,23 +19,23 @@ class Primes
 
     /**
      * @ORM\Column(type="integer")
-     * @var int
+     * @var int|null
      */
-    private int $montant;
+    private ?int $montant = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Coaches")
      * @ORM\JoinColumn(name="coach_id", referencedColumnName="coach_id", nullable=false)
-     * @var \App\Entity\Coaches
+     * @var \App\Entity\Coaches|null
      */
-    private \App\Entity\Coaches $Coaches;
+    private ?\App\Entity\Coaches $Coaches = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Players")
      * @ORM\JoinColumn(name="player_id", referencedColumnName="player_id")
      * @var \App\Entity\Players|null
      */
-    private ?\App\Entity\Players $players;
+    private ?\App\Entity\Players $players  = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Teams")
@@ -46,9 +46,9 @@ class Primes
 
     /**
      * @ORM\Column(type="datetime")
-     * @var \DateTimeInterface
+     * @var \DateTimeInterface|null
      */
-    private \DateTimeInterface $dateAjoutee;
+    private ?\DateTimeInterface $dateAjoutee = null;
 
     /**
      * @ORM\Column(type="integer")
@@ -73,7 +73,7 @@ class Primes
         return $this;
     }
 
-    public function getCoaches(): \App\Entity\Coaches
+    public function getCoaches(): ?\App\Entity\Coaches
     {
         return $this->Coaches;
     }
@@ -97,7 +97,7 @@ class Primes
         return $this;
     }
 
-    public function getDateAjoutee(): \DateTimeInterface
+    public function getDateAjoutee(): ?\DateTimeInterface
     {
         return $this->dateAjoutee;
     }

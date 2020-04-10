@@ -2,7 +2,6 @@
 
 namespace App\Admin;
 
-use App\Entity\Coaches;
 use App\Entity\GameDataPlayers;
 use App\Entity\Players;
 use App\Entity\PlayersIcons;
@@ -49,7 +48,6 @@ final class PlayersAdmin extends AbstractAdmin
         $formMapper
             ->add('nr', null, ['label' => 'Numéro'])
             ->add('name', null, ['label' => 'Nom'])
-            ->add('fCid', EntityType::class, ['class' => Coaches::class, 'choice_label' => 'name', 'label' => 'Coach'])
             ->add('fRid', EntityType::class, ['class' => Races::class, 'choice_label' => 'name', 'label' => 'Roster'])
             ->add(
                 'fPos',
@@ -83,7 +81,6 @@ final class PlayersAdmin extends AbstractAdmin
             ->add('ownedByTeam.name', null, ['label' => 'Equipe'])
             ->add('ownedByTeam.year', null, ['label' => 'Année'])
             ->add('fRid.name', null, ['label' => 'Race'])
-            ->add('fCid.name', null, ['label' => 'Coach'])
             ->add('status');
     }
 
@@ -95,7 +92,6 @@ final class PlayersAdmin extends AbstractAdmin
             ->add('ownedByTeam.name', null, ['label' => 'Equipe'])
             ->add('fRid.name', null, ['label' => 'Race'])
             ->add('fPos.pos', null, ['label' => 'Position'])
-            ->add('fCid.name', null, ['label' => 'Coach'])
             ->add('status', null, ['editable' => true])
             ->add(
                 '_action',
