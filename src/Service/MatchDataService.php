@@ -53,11 +53,11 @@ class MatchDataService
         }
 
         if ($matchData->getSi() > 0) {
-            $ligneDuMatch .= 'Blessure(s) grave(s) : ' . $matchData->getSi() . ', ';
+            $ligneDuMatch .= ' Blessure(s) grave(s)(CAS) : ' . $matchData->getSi() . ', ';
         }
 
         if ($matchData->getKi() > 0) {
-            $ligneDuMatch .= 'Tué(s) : ' . $matchData->getKi() . ', ';
+            $ligneDuMatch .= ' Tué(s)(CAS) : ' . $matchData->getKi() . ', ';
         }
 
         if ($matchData->getMvp() > 0) {
