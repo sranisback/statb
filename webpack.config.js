@@ -28,11 +28,11 @@ dev.name = 'dev';
 Encore.reset();
 
 Encore
-	.setOutputPath('public/build/production/')
-	.setManifestKeyPrefix('public/build/production/')
+	.setOutputPath('public/build/prod/')
+	.setManifestKeyPrefix('public/build/prod/')
 	.addEntry('js/app', './assets/js/app.js')
 	.addStyleEntry('css/app', './assets/css/app.scss')
-	.setPublicPath('/statb/public/build/production')
+	.setPublicPath('/statb/public/build/prod')
 	.enableSassLoader()
 	.autoProvidejQuery()
 	.disableSingleRuntimeChunk()
@@ -49,6 +49,6 @@ Encore
 
 const production = Encore.getWebpackConfig();
 
-production.name = 'production';
+production.name = 'prod';
 
 module.exports = [dev, production];

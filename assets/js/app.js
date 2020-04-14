@@ -28,7 +28,7 @@ $(document).ready(function () {
         case 'dev':
             Routing.setRoutingData(routes_dev);
             break;
-        case 'production':
+        case 'prod':
             Routing.setRoutingData(routes_prod);
             break;
     }
