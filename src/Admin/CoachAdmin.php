@@ -16,7 +16,7 @@ final class CoachAdmin extends AbstractAdmin
     /**
      * @var string[]
      */
-    protected $datagridValues = ['_sort_by' => 'name'];
+    protected array $datagridValues = ['_sort_by' => 'name'];
 
     public function preValidate($object): void
     {

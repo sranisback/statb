@@ -17,7 +17,7 @@ class MatchAdmin extends AbstractAdmin
     /**
      * @var string[]
      */
-    protected $datagridValues = [
+    protected array $datagridValues = [
         '_sort_order' => 'DESC',
         '_sort_by' => 'dateCreated',
     ];

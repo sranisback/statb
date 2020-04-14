@@ -17,7 +17,7 @@ final class TeamAdmin extends AbstractAdmin
     /**
      * @var string[]
      */
-    protected $datagridValues = ['_sort_by' => 'name'];
+    protected array $datagridValues = ['_sort_by' => 'name'];
 
     protected function configureFormFields(FormMapper $formMapper): void
     {
