@@ -65,13 +65,13 @@
                         {% for player in players %}
 
                             {% if (player.status == 8) %}
-                                <tr class="table-danger" style="display: none;">
+                                <tr teamId="{{ team.teamId }}" class="table-danger" style="display: none;">
                             {% elseif player.status == 7 %}
-                                <tr class="table-info" style="display: none;">
+                                <tr teamId="{{ team.teamId }}" class="table-info" style="display: none;">
                             {% elseif (player.injrpm == 1  or player.status ==9) %}
-                                <tr class="table-warning">
+                                <tr teamId="{{ team.teamId }}" class="table-warning">
                             {% else %}
-                                <tr>
+                                <tr teamId="{{ team.teamId }}">
                             {% endif %}
 
                             {% if (app.user != null) %}

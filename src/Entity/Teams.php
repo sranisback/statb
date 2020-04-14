@@ -125,7 +125,7 @@ class Teams
 
     /**
      *
-     * @ORM\OneToOne(targetEntity="Stades", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="Stades", fetch="EAGER")
      * @ORM\JoinColumn(name="f_stade_id", referencedColumnName="id", nullable=true)
      * @var \App\Entity\Stades|null
      */

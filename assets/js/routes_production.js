@@ -176,6 +176,14 @@ const routes_prod = {
             "hosttokens": [],
             "methods": [],
             "schemes": []
+        },
+        "estAutorise": {
+            "tokens": [["variable", "\/", "[^\/]++", "equipeId"],["text", "\/estAutorise"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
         }
     },
     "prefix": "",
