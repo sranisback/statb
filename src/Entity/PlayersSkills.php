@@ -47,7 +47,7 @@ class PlayersSkills
      * })
      * @var \App\Entity\Players|null
      */
-    private ?\App\Entity\Players $fPid;
+    private ?\App\Entity\Players $fPid = null;
 
     public function getId(): int
     {

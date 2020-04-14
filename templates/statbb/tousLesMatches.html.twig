@@ -1,0 +1,112 @@
+<h2 class="text-center">Tous les matchs</h2>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <tbody>
+        {% if games is not empty %}
+            {% for game in games %}
+                {% if loop.index <= 5 %}
+                    <tr>
+                        <td rowspan="2">
+                            {% if game.team1.logo %}
+                                <img src="{{ asset('uploads/logo_equipe/' ~ game.team1.logo) }}" class="img-fluid">
+                            {% else %}
+                                <img src="{{ asset('build/'~app.environment~'/images/race_icons/'~game.team1.fRace.icon~'.png') }}"
+                                     class="img-fluid pull-left">
+                            {% endif %}
+                        </td>
+                        <td class="text-right"><h4>{{ game.team1.name }}</h4>
+                            {% if game.team1.franchise == true %}
+                                <span class="fas fa-tag text-success"></span>
+                            {% endif %}</td>
+                        <td class="text-center text-nowrap"><h4>{{ game.team1Score }}
+                                - {{ game.team2Score }}</h4></td>
+                        <td class="text-left"><h4>{{ game.team2.name }}</h4>
+                            {% if game.team2.franchise == true %}
+                                <span class="fas fa-tag text-success"></span>
+                            {% endif %}
+                        </td>
+                        <td rowspan="2">
+                            {% if game.team2.logo %}
+                                <img src="{{ asset('uploads/logo_equipe/' ~ game.team2.logo) }}" class="img-fluid">
+                            {% else %}
+                                <img src="{{ asset('build/'~app.environment~'/images/race_icons/'~game.team2.fRace.icon~'.png') }}"
+                                     class="img-fluid pull-right">
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-right text-nowrap">{{ game.team1.ownedByCoach.name }}
+                            , {{ game.team1.fRace.name }}
+                            , {{ game.tv1/1000 }} </td>
+                        <td class="text-center text-nowrap"><a
+                                    href="{{ path('match', {'matchId': game.matchId}) }}">Voir</a></td>
+                        <td class="text-left text-nowrap">{{ game.team2.ownedByCoach.name }}
+                            , {{ game.team2.fRace.name }}
+                            , {{ game.tv2/1000 }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        </tbody>
+    </table>
+    {% if games is not empty %}
+    <a data-toggle="collapse" href="#tousLesMatchs" >
+        Afficher tous les matchs
+    </a>
+    <div class="collapse" id="tousLesMatchs">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <tbody>
+                {% if games is not empty %}
+                    {% for game in games %}
+                        {% if loop.index > 5 %}
+                            <tr>
+                                <td rowspan="2">
+                                    {% if game.team1.logo %}
+                                        <img src="{{ asset('uploads/logo_equipe/' ~ game.team1.logo) }}"
+                                             class="img-fluid">
+                                    {% else %}
+                                        <img src="{{ asset('build/'~app.environment~'/images/race_icons/'~game.team1.fRace.icon~'.png') }}"
+                                             class="img-fluid pull-left">
+                                    {% endif %}
+                                </td>
+                                <td class="text-right"><h4>{{ game.team1.name }}</h4>
+                                    {% if game.team1.franchise == true %}
+                                        <span class="fas fa-tag text-success"></span>
+                                    {% endif %}</td>
+                                <td class="text-center text-nowrap"><h4>{{ game.team1Score }}
+                                        - {{ game.team2Score }}</h4></td>
+                                <td class="text-left"><h4>{{ game.team2.name }}</h4>
+                                    {% if game.team2.franchise == true %}
+                                        <span class="fas fa-tag text-success"></span>
+                                    {% endif %}
+                                </td>
+                                <td rowspan="2">
+                                    {% if game.team2.logo %}
+                                        <img src="{{ asset('uploads/logo_equipe/' ~ game.team2.logo) }}"
+                                             class="img-fluid">
+                                    {% else %}
+                                        <img src="{{ asset('build/'~app.environment~'/images/race_icons/'~game.team2.fRace.icon~'.png') }}"
+                                             class="img-fluid pull-right">
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-right text-nowrap">{{ game.team1.ownedByCoach.name }}
+                                    , {{ game.team1.fRace.name }}
+                                    , {{ game.tv1/1000 }} </td>
+                                <td class="text-center text-nowrap"><a
+                                            href="{{ path('match', {'matchId': game.matchId}) }}">Voir</a></td>
+                                <td class="text-left text-nowrap">{{ game.team2.ownedByCoach.name }}
+                                    , {{ game.team2.fRace.name }}
+                                    , {{ game.tv2/1000 }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+</div>

@@ -80,7 +80,7 @@ class MatchData
      * @ORM\Column(name="inj", type="integer", nullable=true)
      * @var int|null
      */
-    private ?int $inj;
+    private ?int $inj = 0;
 
     /**
      *

@@ -35,13 +35,13 @@ class Defis
      * @ORM\JoinColumn(name="match_Defie", referencedColumnName="match_id")
      * @var \App\Entity\Matches|null
      */
-    private ?\App\Entity\Matches $matchDefi;
+    private ?\App\Entity\Matches $matchDefi = null;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @var \DateTimeInterface|null
      */
-    private ?\DateTimeInterface $dateDefi;
+    private ?\DateTimeInterface $dateDefi = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Teams")

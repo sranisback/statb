@@ -3,15 +3,39 @@
 namespace App\Controller;
 
 use App\Entity\Citations;
+use App\Entity\Coaches;
+use App\Entity\Teams;
 use App\Form\AjoutCitationType;
 use App\Service\CitationService;
+use App\Service\SettingsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class UtilisateurController extends AbstractController
 {
+    /**
+     * @param mixed $response
+     * @return JsonResponse
+     */
+    public static function transformeEnJson($response): JsonResponse
+    {
+        $encoders = array(new XmlEncoder(), new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $serializer = new Serializer($normalizers, $encoders);
+
+        $jsonContent = $serializer->serialize($response, 'json');
+
+        return new JsonResponse($jsonContent);
+    }
+
     /**
      * @Route("/usercontrol/", name="usercontrol", options ={"expose"= true})
      * @return Response
@@ -31,13 +55,42 @@ class UtilisateurController extends AbstractController
      * @param CitationService $citationService
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function interfaceUtilisateurRetour(Request $request, CitationService $citationService)
-    : \Symfony\Component\HttpFoundation\RedirectResponse
+    public function interfaceUtilisateurRetour(Request $request, CitationService $citationService): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $citationService->enregistrerCitation($request->request->get('ajout_citation'));
 
         $this->addFlash('success', 'Citation Ajoutée!');
 
         return $this->redirectToRoute('frontUser');
+    }
+
+    /**
+     * @route("/estAutorise/{equipeId}", defaults={"equipeId"=null}, name="estAutorise", options = { "expose" = true })
+     * @param int $equipeId
+     * @param SettingsService $settingsService
+     * @return JsonResponse
+     */
+    public function estAutorise($equipeId, SettingsService $settingsService)
+    {
+        /** @var Coaches $coach */
+        $coach = $this->getUser();
+        if ($coach != null) {
+            $role = $coach->getRoles();
+
+            if ($role['role'] == 'ROLE_ADMIN') {
+                return $this->transformeEnJson(true);
+            }
+
+            if ($role['role'] == "ROLE_USER") {
+                /** @var  Teams $equipe */
+                if (!is_null($equipeId)) {
+                    $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
+                    if ($equipe->getOwnedByCoach() == $coach && $equipe->getRetired() == 0 && $equipe->getYear() == $settingsService->anneeCourante()) {
+                        return $this->transformeEnJson(true);
+                    }
+                }
+            }
+        }
+        return $this->transformeEnJson(false);
     }
 }

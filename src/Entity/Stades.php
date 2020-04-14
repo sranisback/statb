@@ -21,15 +21,15 @@ class Stades
      * @ORM\Column(type="string", length=50, nullable=true)
      * @var string|null
      */
-    private ?string $nom;
+    private ?string $nom = null;
 
     /**
      *
      * @ORM\ManyToOne(targetEntity="GameDataStadium")
      * @ORM\JoinColumn(name="f_type_stade_id", referencedColumnName="id", nullable=false)
-     * @var \App\Entity\GameDataStadium
+     * @var \App\Entity\GameDataStadium|null
      */
-    private \App\Entity\GameDataStadium $fTypeStade;
+    private ?\App\Entity\GameDataStadium $fTypeStade = null;
 
     /**
      * @ORM\Column(type="integer")
@@ -41,7 +41,7 @@ class Stades
      * @ORM\Column(type="smallint")
      * @var int
      */
-    private int $niveau;
+    private int $niveau = 0;
 
     public function getId(): ?int
     {
@@ -60,7 +60,7 @@ class Stades
         return $this;
     }
 
-    public function getFTypeStade(): GameDataStadium
+    public function getFTypeStade(): ?GameDataStadium
     {
         return $this->fTypeStade;
     }

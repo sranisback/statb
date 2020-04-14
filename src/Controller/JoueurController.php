@@ -371,7 +371,7 @@ class JoueurController extends AbstractController
         }
 
         if (!empty($equipe)) {
-            return $this->redirectToRoute('team', ['teamid' => $equipe->getTeamId(), 'type' => 'n']);
+            return $this->redirectToRoute('team', ['teamid' => $equipe->getTeamId()]);
         }
 
         return 'erreur';
