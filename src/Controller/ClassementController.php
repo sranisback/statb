@@ -152,6 +152,23 @@ class ClassementController extends AbstractController
     }
 
     /**
+     * @Route("/tousLesMatchesPourEquipe/{equipeId}", options = { "expose" = true })
+     * @param ClassementService $classementService
+     * @param integer $equipeId
+     * @return Response
+     */
+    public function tousLesMatchesPourEquipe(ClassementService $classementService, int $equipeId)
+    : \Symfony\Component\HttpFoundation\Response
+    {
+        return $this->render(
+            'statbb/tousLesMatches.html.twig',
+            ['games' => $this->getDoctrine()->getRepository(Matches::class)->listeDesMatchs(
+                $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId])
+            )]
+        );
+    }
+
+    /**
      * @Route("/montreLeCimetierre", name="montreLeCimetierre", options = { "expose" = true })
      * @return Response
      */
