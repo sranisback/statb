@@ -24,14 +24,15 @@ $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip()
     });
 
+    /*console.log(process.env.ENV);
     switch (process.env.ENV) {
         case 'dev':
-            Routing.setRoutingData(routes_dev);
+            */Routing.setRoutingData(routes_dev);/*
             break;
-        case 'prod':
-            Routing.setRoutingData(routes_prod);
-            break;
-    }
+        case 'prod':*/
+           // Routing.setRoutingData(routes_prod);
+          /*  break;
+    }*/
 
     $('#classgen').DataTable({
         "lengthChange": false,
@@ -292,7 +293,9 @@ $(document).ready(function () {
                         line.remove();
                         break;
                     case "sld":
-                        line.addClass("info hidden");
+                        line.addClass("table-info");
+                        $('#loadingmessage').hide();
+                        line.toggle();
                         break;
                 }
 
