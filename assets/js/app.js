@@ -24,14 +24,14 @@ $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip()
     });
 
-    /*console.log(process.env.ENV);
-    switch (process.env.ENV) {
-        case 'dev':
-            */Routing.setRoutingData(routes_dev);/*
+    console.log(process.env.ENV);
+    //switch (process.env.ENV) {
+      /*  case 'dev':
+            Routing.setRoutingData(routes_dev);
             break;
         case 'prod':*/
-           // Routing.setRoutingData(routes_prod);
-          /*  break;
+            Routing.setRoutingData(routes_prod);
+           /* break;
     }*/
 
     $('#classgen').DataTable({
