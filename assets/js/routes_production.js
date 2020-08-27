@@ -137,14 +137,6 @@ const routes_prod = {
             "methods": [],
             "schemes": []
         },
-        "mettreEnFranchise": {
-            "tokens": [["variable", "\/", "[^\/]++", "equipeId"], ["text", "\/mettreEnFranchise"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
         "listePosition": {
             "tokens": [["variable", "\/", "[^\/]++", "raceId"], ["text", "\/listePosition"]],
             "defaults": [],
@@ -179,6 +171,14 @@ const routes_prod = {
         },
         "estAutorise": {
             "tokens": [["variable", "\/", "[^\/]++", "equipeId"],["text", "\/estAutorise"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "etatClassAuto": {
+            "tokens": [["variable", "\/", "[^\/]++", "equipeId"],["text", "\/etatClassAuto"]],
             "defaults": [],
             "requirements": [],
             "hosttokens": [],

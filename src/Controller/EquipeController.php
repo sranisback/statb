@@ -531,7 +531,7 @@ class EquipeController extends AbstractController
     }
 
     /**
-     * @route("/mettreEnFranchise/{equipeId}", name="mettreEnFranchise", options = { "expose" = true })
+     * @route("/mettreEnFranchise/{equipeId}", name="mettreEnFranchise")
      * @param int $equipeId
      * @return Response
      */
@@ -551,6 +551,47 @@ class EquipeController extends AbstractController
         $this->getDoctrine()->getManager()->flush();
         $this->getDoctrine()->getManager()->refresh($equipe);
 
-        return new Response('ok');
+        return $this->redirectToRoute('team', ['teamid' => $equipeId]);
+    }
+
+    /**
+     * @route("/activerAutoClass/{equipeId}", name="activerAutoClass")
+     * @param int $equipeId
+     * @return Response
+     */
+    public function activerAutoClass(int $equipeId): \Symfony\Component\HttpFoundation\Response
+    {
+        /** @var Teams $equipe */
+        $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
+
+        if ($equipe->getAutoClass() === false) {
+            $equipe->setAutoClass(true);
+        } else {
+            $equipe->setAutoClass(false);
+        }
+
+
+        $this->getDoctrine()->getManager()->persist($equipe);
+        $this->getDoctrine()->getManager()->flush();
+        $this->getDoctrine()->getManager()->refresh($equipe);
+
+        return $this->redirectToRoute('team', ['teamid' => $equipeId]);
+    }
+
+    /**
+     * @route("/etatClassAuto/{equipeId}", name="etatClassAuto", options = { "expose" = true })
+     * @param int $equipeId
+     * @return JsonResponse
+     */
+    public function etatClassAuto(int $equipeId)
+    {
+        /** @var Teams $equipe */
+        $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
+
+        if ($equipe->getAutoClass() === false) {
+            return $this->transformeEnJson(false);
+        } else {
+            return $this->transformeEnJson(true);
+        }
     }
 }
