@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Admin;
+namespace App\Admin_old;
 
 use App\Enum\BlessuresEnum;
 use Sonata\AdminBundle\Admin\AbstractAdmin;

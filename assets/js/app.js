@@ -35,6 +35,13 @@ $(document).ready(function () {
     /* break;
 }*/
 
+    $('table[id^=\'Admin\']').DataTable({
+        "lengthChange": false,
+        "pageLength": 20,
+        "info": false,
+        "responsive": true
+    });
+
     $('#classgen').DataTable({
         "lengthChange": false,
         "pageLength": 20,

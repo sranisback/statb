@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Admin;
+namespace App\Admin_old;
 
 use App\Entity\GameDataStadium;
 use App\Entity\Meteo;

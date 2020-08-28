@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Admin;
+namespace App\Admin_old;
 
 use App\Entity\GameDataSkills;
 use App\Entity\Players;
