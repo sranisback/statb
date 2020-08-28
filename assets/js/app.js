@@ -26,13 +26,14 @@ $(document).ready(function () {
 
     console.log(process.env.ENV);
     //switch (process.env.ENV) {
-      /*  case 'dev':
-            */Routing.setRoutingData(routes_dev);/*
+    /*  case 'dev':
+          */
+    Routing.setRoutingData(routes_dev);/*
             break;
         case 'prod':*/
-           // Routing.setRoutingData(routes_prod);
-           /* break;
-    }*/
+    // Routing.setRoutingData(routes_prod);
+    /* break;
+}*/
 
     $('#classgen').DataTable({
         "lengthChange": false,
@@ -115,49 +116,7 @@ $(document).ready(function () {
         return temporalDivElement.textContent || temporalDivElement.innerText || "";
     }
 
-    $('#teamBody').sortable({
-        start: function () {
-            $.post(Routing.generate('estAutorise', {equipeId: $('#teamBody tr').attr('teamid')}), {}, function (data) {
-                data = $.parseJSON(data);
-                if (data == false) {
-                    $('#teamBody').sortable('cancel');
-                    $('#teamBody').sortable('disable');
-                }
-            });
-        },
-        stop: function () {
-            $.post(Routing.generate('estAutorise', {equipeId: $('#teamBody tr').attr('teamid')}), {}, function (data) {
-                data = $.parseJSON(data);
-                if (data == true) {
-                    let table = [];
-                    $('#teamBody tr').map(function () {
-                        let str = $(this).attr('class');
-                        if (str.indexOf("table-danger") === -1 && str.indexOf("table-info") === -1) {
-                            table.push(this);
-                        }
-                    });
-                    table.forEach(function (element, index) {
-                        let nbr = $(element).find('div[id^="number_"]');
-                        let currentNbr = stripHtml(nbr.html());
 
-                        if (currentNbr != index + 1) {
-                            $('#loadingmessage').clone().appendTo(nbr);
-                            $('#loadingmessage').show();
-
-                            $.post(Routing.generate('changeNr', {
-                                    newnr: index + 1,
-                                    playerid: nbr.attr('playerid')
-                                }),
-                                {},
-                                function () {
-                                    nbr.html('<ulink>' + (index + 1) + '</ulink>');
-                                });
-                        }
-                    });
-                }
-            });
-        }
-    });
     /*
      * retirer prime
      */
@@ -448,6 +407,10 @@ $(document).ready(function () {
         });
     })
 
+    /**
+     * Renommer joueur
+     */
+
     $("[id^='name_']").click(function () {
         let id = $(this).attr('id').substring($(this).attr('id').indexOf('_') + 1, $(this).attr('id').length);
 
@@ -484,15 +447,6 @@ $(document).ready(function () {
             function () {
                 window.location.reload();
             });
-    });
-
-    $('#equipeFranchise').click(function () {
-        $.post(Routing.generate('mettreEnFranchise', {equipeId: $(this).attr('equipeId')}),
-            {},
-            function () {
-                window.location.reload();
-            });
-
     });
 });
 

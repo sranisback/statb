@@ -8,7 +8,7 @@ use App\Service\ClassementService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class sousClassementsTestEquipe extends KernelTestCase
+class sousClassementJoueurTest extends KernelTestCase
 {
     /**
      * @test

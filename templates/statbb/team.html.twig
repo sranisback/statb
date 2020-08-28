@@ -8,16 +8,16 @@
                 <div class="d-flex ">
                     <div>
                         {% if (app.user != null) %}
-                        {% if (team.logo)%}
-                            <img class="img-fluid" src="{{ asset('uploads/logo_equipe/' ~ team.logo) }}">
-                            {% if (app.user == team.ownedByCoach and team.year == annee) or app.user.roles["role"] == 'ROLE_ADMIN' %}
-                                <br/>
-                                <span class="fas fa-trash-alt" teamId="{{ team.teamId }}" id="supprimeLogo"></span>
+                            {% if (team.logo) %}
+                                <img class="img-fluid" src="{{ asset('uploads/logo_equipe/' ~ team.logo) }}">
+                                {% if (app.user == team.ownedByCoach and team.year == annee) or app.user.roles["role"] == 'ROLE_ADMIN' %}
+                                    <br/>
+                                    <span class="fas fa-trash-alt" teamId="{{ team.teamId }}" id="supprimeLogo"></span>
+                                {% endif %}
+                            {% else %}
+                                <img class="img-fluid"
+                                     src="{{ asset('build/'~app.environment~'/images/race_icons/'~team.fRace.icon~'.png') }}">
                             {% endif %}
-                        {% else %}
-                            <img class="img-fluid"
-                                 src="{{ asset('build/'~app.environment~'/images/race_icons/'~team.fRace.icon~'.png') }}">
-                        {% endif %}
                         {% else %}
                             <img class="img-fluid"
                                  src="{{ asset('build/'~app.environment~'/images/race_icons/'~team.fRace.icon~'.png') }}">
@@ -29,9 +29,11 @@
                 </div>
 
                 <div class="d-inline-flex my-2">
-                    <button type="button" id="showall_btn" class="btn btn-primary">
-                        Tous les joueurs
-                    </button>
+                    <div class="p-2">
+                        <button type="button" id="showall_btn" class="btn btn-primary">
+                            Tous les joueurs
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -65,11 +67,11 @@
                         {% for player in players %}
 
                             {% if (player.status == 8) %}
-                                <tr teamId="{{ team.teamId }}" class="table-danger" style="display: none;">
+                            <tr teamId="{{ team.teamId }}" class="table-danger" style="display: none;">
                             {% elseif player.status == 7 %}
-                                <tr teamId="{{ team.teamId }}" class="table-info" style="display: none;">
+                            <tr teamId="{{ team.teamId }}" class="table-info" style="display: none;">
                             {% elseif (player.injrpm == 1  or player.status ==9) %}
-                                <tr teamId="{{ team.teamId }}" class="table-warning">
+                            <tr teamId="{{ team.teamId }}" class="table-warning">
                             {% else %}
                                 <tr teamId="{{ team.teamId }}">
                             {% endif %}
@@ -187,14 +189,14 @@
                                 data-target="#modal_uploadLogo">
                             Uploader un logo
                         </button>
-                        <button type="button" class="btn btn-primary" id="equipeFranchise" equipeId="{{ team.teamId }}">
+                        <a type="button" class="btn btn-primary" equipeId="{{ team.teamId }}" href="{{ path('mettreEnFranchise', {'equipeId': team.teamId} ) }}">
                             {% if team.franchise == false %}
                                 <span class="far fa-square"></span>
                             {% else %}
                                 <span class="far fa-check-square"></span>
                             {% endif %}
                             Equipe Franchisee ?
-                        </button>
+                        </a>
                         {% if app.user == team.ownedByCoach and team.retired == 0 %}
                             {{ render(controller('App\\Controller\\EquipeController::ajoutStadeModal',{'equipeId':team.teamId} )) }}
                         {% endif %}

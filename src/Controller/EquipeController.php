@@ -214,9 +214,10 @@ class EquipeController extends AbstractController
      * @param string $nomEquipe
      * @return Response
      */
-    public function montreEquipe(string $nomEquipe, SettingsService $settingsService)
-    : \Symfony\Component\HttpFoundation\Response
-    {
+    public function montreEquipe(
+        string $nomEquipe,
+        SettingsService $settingsService
+    ): \Symfony\Component\HttpFoundation\Response {
         /** @var Teams[] $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->requeteEquipeLike($nomEquipe);
 
@@ -274,9 +275,10 @@ class EquipeController extends AbstractController
      * @param EquipeService $equipeService
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function createTeam(Request $request, EquipeService $equipeService)
-    : \Symfony\Component\HttpFoundation\RedirectResponse
-    {
+    public function createTeam(
+        Request $request,
+        EquipeService $equipeService
+    ): \Symfony\Component\HttpFoundation\RedirectResponse {
         $coach = $this->getUser();
 
         $form = $request->request->get('creer_equipe');
@@ -372,9 +374,11 @@ class EquipeController extends AbstractController
      * @param PlayerService $playerService
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function chkteam(int $teamId, EquipeService $equipeService, PlayerService $playerService)
-    : \Symfony\Component\HttpFoundation\RedirectResponse
-    {
+    public function chkteam(
+        int $teamId,
+        EquipeService $equipeService,
+        PlayerService $playerService
+    ): \Symfony\Component\HttpFoundation\RedirectResponse {
         /** @var Teams $team */
         $team = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
 
@@ -394,9 +398,11 @@ class EquipeController extends AbstractController
      * @param string $nouveauNomStade
      * @return Response
      */
-    public function changeNomStade(StadeService $stadeService, int $equipeId, string $nouveauNomStade)
-    : \Symfony\Component\HttpFoundation\Response
-    {
+    public function changeNomStade(
+        StadeService $stadeService,
+        int $equipeId,
+        string $nouveauNomStade
+    ): \Symfony\Component\HttpFoundation\Response {
         /** @var Teams $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
         $stadeService->renommerStade($equipe, $nouveauNomStade);
@@ -435,9 +441,11 @@ class EquipeController extends AbstractController
      * @param int $equipeId
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function ajoutStade(Request $request, StadeService $stadeService, int $equipeId)
-    : \Symfony\Component\HttpFoundation\RedirectResponse
-    {
+    public function ajoutStade(
+        Request $request,
+        StadeService $stadeService,
+        int $equipeId
+    ): \Symfony\Component\HttpFoundation\RedirectResponse {
         /** @var Teams $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
         $form = $request->request->get('creer_stade');
@@ -474,9 +482,10 @@ class EquipeController extends AbstractController
      * @param PlayerService $playerService
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function recalculerTV(EquipeService $equipeService, PlayerService $playerService)
-    : \Symfony\Component\HttpFoundation\RedirectResponse
-    {
+    public function recalculerTV(
+        EquipeService $equipeService,
+        PlayerService $playerService
+    ): \Symfony\Component\HttpFoundation\RedirectResponse {
         $entityManager = $this->getDoctrine()->getManager();
 
         /** @var Teams $equipe */
@@ -531,7 +540,7 @@ class EquipeController extends AbstractController
     }
 
     /**
-     * @route("/mettreEnFranchise/{equipeId}", name="mettreEnFranchise", options = { "expose" = true })
+     * @route("/mettreEnFranchise/{equipeId}", name="mettreEnFranchise")
      * @param int $equipeId
      * @return Response
      */
@@ -551,6 +560,6 @@ class EquipeController extends AbstractController
         $this->getDoctrine()->getManager()->flush();
         $this->getDoctrine()->getManager()->refresh($equipe);
 
-        return new Response('ok');
+        return $this->redirectToRoute('team', ['teamid' => $equipeId]);
     }
 }
