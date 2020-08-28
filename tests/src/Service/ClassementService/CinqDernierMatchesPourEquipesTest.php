@@ -2,15 +2,14 @@
 
 namespace App\Tests\src\Service\ClassementService;
 
-
 use App\Entity\Matches;
 use App\Entity\Teams;
 use App\Service\ClassementService;
-use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Doctrine\Persistence\ObjectRepository;
+use PHPUnit\Framework\TestCase;
 
-class cinqDernierMatchesPourEquipesTest extends KernelTestCase
+class CinqDernierMatchesPourEquipesTest extends TestCase
 {
 
     /**

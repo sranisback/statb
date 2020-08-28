@@ -8,11 +8,11 @@ use App\Entity\Defis;
 use App\Entity\Teams;
 use App\Service\DefisService;
 use App\Service\SettingsService;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use PHPUnit\Framework\TestCase;
 
-class lesDefisEnCoursContreLeCoachTest extends KernelTestCase
+class lesDefisEnCoursContreLeCoachTest extends TestCase
 {
     /**
      * @test

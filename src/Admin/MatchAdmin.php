@@ -14,14 +14,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class MatchAdmin extends AbstractAdmin
 {
-    /**
-     * @var string[]
-     */
-    protected array $datagridValues = [
-        '_sort_order' => 'DESC',
-        '_sort_by' => 'dateCreated',
-    ];
-
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper

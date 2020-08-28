@@ -11,11 +11,11 @@ use App\Service\EquipeService;
 use App\Service\MatchesService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use PHPUnit\Framework\TestCase;
 
-class enregistrementDesActionsDesJoueursTest extends KernelTestCase
+class enregistrementDesActionsDesJoueursTest extends TestCase
 {
     /**
      * @test

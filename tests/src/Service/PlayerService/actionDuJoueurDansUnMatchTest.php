@@ -9,11 +9,11 @@ use App\Service\EquipeService;
 use App\Service\MatchDataService;
 use App\Service\PlayerService;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use PHPUnit\Framework\TestCase;
 
-class actionDuJoueurDansUnMatchTest extends KernelTestCase
+class actionDuJoueurDansUnMatchTest extends TestCase
 {
     /**
      * @test

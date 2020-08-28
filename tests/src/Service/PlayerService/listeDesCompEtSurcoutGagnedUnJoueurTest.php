@@ -8,11 +8,11 @@ use App\Entity\PlayersSkills;
 use App\Service\EquipeService;
 use App\Service\MatchDataService;
 use App\Service\PlayerService;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use PHPUnit\Framework\TestCase;
 
-class listeDesCompEtSurcoutGagnedUnJoueurTest extends KernelTestCase
+class listeDesCompEtSurcoutGagnedUnJoueurTest extends TestCase
 {
     /**
      * @test

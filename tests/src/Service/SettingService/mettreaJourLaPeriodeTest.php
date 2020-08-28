@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Tests\src\Service\DefisService;
+namespace App\Tests\src\Service\SettingService;
 
 
 use App\Entity\Setting;
 use App\Service\SettingsService;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use PHPUnit\Framework\TestCase;
 
-class mettreaJourLaPeriodeTest extends KernelTestCase
+class mettreaJourLaPeriodeTest extends TestCase
 {
     /**
      * @test

@@ -10,11 +10,11 @@ use App\Entity\PlayersSkills;
 use App\Service\EquipeService;
 use App\Service\MatchDataService;
 use App\Service\PlayerService;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use PHPUnit\Framework\TestCase;
 
-class valeurDunJoueurTest extends KernelTestCase
+class valeurDunJoueurTest extends TestCase
 {
     /**
      * @test
@@ -142,7 +142,7 @@ class valeurDunJoueurTest extends KernelTestCase
     /**
      * @test
      */
-    public function le_joueur_a_plusieurs_type_de_compt(): void
+    public function le_joueur_a_plusieurs_type_de_comp(): void
     {
         $positionTest = new GameDataPlayers();
         $positionTest->setCost(50_000);

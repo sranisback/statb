@@ -9,11 +9,11 @@ use App\Entity\Teams;
 use App\Service\EquipeService;
 use App\Service\MatchDataService;
 use App\Service\PlayerService;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use PHPUnit\Framework\TestCase;
 
-class renvoisOuSuppressionJoueurTest extends KernelTestCase
+class renvoisOuSuppressionJoueurTest extends TestCase
 {
     /**
      * @test

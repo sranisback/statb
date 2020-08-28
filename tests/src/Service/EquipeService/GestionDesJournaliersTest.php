@@ -12,11 +12,11 @@ use App\Entity\Teams;
 use App\Service\EquipeService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use PHPUnit\Framework\TestCase;
 
-class GestionDesJournaliersTest extends KernelTestCase
+class GestionDesJournaliersTest extends TestCase
 {
     /**
      * @test

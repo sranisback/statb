@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\src\Service\CitationService;
+namespace App\Tests\src\Service\DefisService;
 
 
 use App\Entity\Coaches;
@@ -8,11 +8,11 @@ use App\Entity\Defis;
 use App\Entity\Teams;
 use App\Service\DefisService;
 use App\Service\SettingsService;
-use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Doctrine\Persistence\ObjectRepository;
+use PHPUnit\Framework\TestCase;
 
-class defiAutoriseTest extends KernelTestCase
+class defiAutoriseTest extends TestCase
 {
     /**
      * @test

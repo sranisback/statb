@@ -6,11 +6,11 @@ use App\Entity\Players;
 use App\Service\EquipeService;
 use App\Service\MatchDataService;
 use App\Service\PlayerService;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use PHPUnit\Framework\TestCase;
 
-class actionsDuJoueurTest extends KernelTestCase
+class actionsDuJoueurTest extends TestCase
 {
     /**
      * @test

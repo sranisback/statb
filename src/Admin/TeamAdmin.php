@@ -14,11 +14,6 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 final class TeamAdmin extends AbstractAdmin
 {
-    /**
-     * @var string[]
-     */
-    protected array $datagridValues = ['_sort_by' => 'name'];
-
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper

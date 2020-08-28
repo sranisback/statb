@@ -5,11 +5,11 @@ namespace App\Tests\src\Service\SettingService;
 use App\Entity\Setting;
 use App\Service\SettingsService;
 use DateTime;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use PHPUnit\Framework\TestCase;
 
-class periodeDefisCourranteTest extends KernelTestCase
+class periodeDefisCourranteTest extends TestCase
 {
     /**
      * @test
