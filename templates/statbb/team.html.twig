@@ -34,21 +34,6 @@
                             Tous les joueurs
                         </button>
                     </div>
-                    <div class="p-2">
-                        {% if (app.user != null) %}
-                            {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee) or app.user.roles["role"] == 'ROLE_ADMIN' %}
-                                <a type="button" class="btn btn-primary" href="{{ path('activerAutoClass', {'equipeId': team.teamId} ) }}"
-                                        equipeId="{{ team.teamId }}">
-                                    {% if team.autoClass == false %}
-                                        <span class="far fa-square"></span>
-                                    {% else %}
-                                        <span class="far fa-check-square"></span>
-                                    {% endif %}
-                                    class. Auto
-                                </a>
-                            {% endif %}
-                        {% endif %}
-                    </div>
                 </div>
             </div>
 

@@ -143,11 +143,6 @@ class Teams
     private int $franchise = 0;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $autoClass = 0;
-
-    /**
      * @return Stades|null
      */
     public function getFStades(): ?\App\Entity\Stades
@@ -374,18 +369,6 @@ class Teams
     public function setFranchise(int $franchise): self
     {
         $this->franchise = $franchise;
-
-        return $this;
-    }
-
-    public function getAutoClass(): ?bool
-    {
-        return $this->autoClass;
-    }
-
-    public function setAutoClass(bool $autoClass): self
-    {
-        $this->autoClass = $autoClass;
 
         return $this;
     }

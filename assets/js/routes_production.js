@@ -297,22 +297,6 @@ const routes_prod = {
             "methods": [],
             "schemes": []
         },
-        "activerAutoClass": {
-            "tokens": [["variable", "\/", "[^\/]++", "equipeId"], ["text", "\/activerAutoClass"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "etatClassAuto": {
-            "tokens": [["variable", "\/", "[^\/]++", "equipeId"], ["text", "\/etatClassAuto"]],
-            "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
         "pdfTeam": {
             "tokens": [["variable", "\/", "[^\/]++", "id"], ["text", "\/pdfTeam"]],
             "defaults": [],
