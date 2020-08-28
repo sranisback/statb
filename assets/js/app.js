@@ -26,13 +26,14 @@ $(document).ready(function () {
 
     console.log(process.env.ENV);
     //switch (process.env.ENV) {
-      /*  case 'dev':
-            */Routing.setRoutingData(routes_dev);/*
+    /*  case 'dev':
+          */
+    Routing.setRoutingData(routes_dev);/*
             break;
         case 'prod':*/
-           // Routing.setRoutingData(routes_prod);
-           /* break;
-    }*/
+    // Routing.setRoutingData(routes_prod);
+    /* break;
+}*/
 
     $('#classgen').DataTable({
         "lengthChange": false,
@@ -405,6 +406,10 @@ $(document).ready(function () {
 
         });
     })
+
+    /**
+     * Renommer joueur
+     */
 
     $("[id^='name_']").click(function () {
         let id = $(this).attr('id').substring($(this).attr('id').indexOf('_') + 1, $(this).attr('id').length);
