@@ -1,0 +1,79 @@
+{% extends 'statbb/base.html.twig' %}
+
+{% block title %}Joueurs{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-body">
+
+            <h1>Joueurs</h1>
+            <div class="table-responsive">
+                <table class="table" id="Admin_player">
+                    <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Name</th>
+                        <th>Nr</th>
+                        <th>DateBought</th>
+                        <th>DateSold</th>
+                        <th>AchMa</th>
+                        <th>AchSt</th>
+                        <th>AchAg</th>
+                        <th>AchAv</th>
+                        <th>ExtraSpp</th>
+                        <th>ExtraVal</th>
+                        <th>Value</th>
+                        <th>Status</th>
+                        <th>DateDied</th>
+                        <th>InjMa</th>
+                        <th>InjSt</th>
+                        <th>InjAg</th>
+                        <th>InjAv</th>
+                        <th>InjNi</th>
+                        <th>InjRpm</th>
+                        <th>Photo</th>
+                        <th>actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for player in players %}
+                        <tr>
+                            <td>{{ player.type }}</td>
+                            <td>{{ player.name }}</td>
+                            <td>{{ player.nr }}</td>
+                            <td>{{ player.dateBought ? player.dateBought|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>{{ player.dateSold ? player.dateSold|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>{{ player.achMa }}</td>
+                            <td>{{ player.achSt }}</td>
+                            <td>{{ player.achAg }}</td>
+                            <td>{{ player.achAv }}</td>
+                            <td>{{ player.extraSpp }}</td>
+                            <td>{{ player.extraVal }}</td>
+                            <td>{{ player.value }}</td>
+                            <td>{{ player.status }}</td>
+                            <td>{{ player.dateDied ? player.dateDied|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>{{ player.injMa }}</td>
+                            <td>{{ player.injSt }}</td>
+                            <td>{{ player.injAg }}</td>
+                            <td>{{ player.injAv }}</td>
+                            <td>{{ player.injNi }}</td>
+                            <td>{{ player.injRpm }}</td>
+                            <td>{{ player.photo }}</td>
+                            <td>
+                                <a href="{{ path('players_show', {'playerId': player.playerId}) }}">show</a>
+                                <a href="{{ path('players_edit', {'playerId': player.playerId}) }}">edit</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="23">no records found</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <a href="{{ path('players_new') }}">Create new</a>
+        </div>
+    </div>
+{% endblock %}

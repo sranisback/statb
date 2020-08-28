@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Players{% endblock %}
+
+{% block body %}
+    <h1>Players</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>PlayerId</th>
+                <td>{{ player.playerId }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ player.type }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ player.name }}</td>
+            </tr>
+            <tr>
+                <th>Nr</th>
+                <td>{{ player.nr }}</td>
+            </tr>
+            <tr>
+                <th>DateBought</th>
+                <td>{{ player.dateBought ? player.dateBought|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateSold</th>
+                <td>{{ player.dateSold ? player.dateSold|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>AchMa</th>
+                <td>{{ player.achMa }}</td>
+            </tr>
+            <tr>
+                <th>AchSt</th>
+                <td>{{ player.achSt }}</td>
+            </tr>
+            <tr>
+                <th>AchAg</th>
+                <td>{{ player.achAg }}</td>
+            </tr>
+            <tr>
+                <th>AchAv</th>
+                <td>{{ player.achAv }}</td>
+            </tr>
+            <tr>
+                <th>ExtraSpp</th>
+                <td>{{ player.extraSpp }}</td>
+            </tr>
+            <tr>
+                <th>ExtraVal</th>
+                <td>{{ player.extraVal }}</td>
+            </tr>
+            <tr>
+                <th>Value</th>
+                <td>{{ player.value }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ player.status }}</td>
+            </tr>
+            <tr>
+                <th>DateDied</th>
+                <td>{{ player.dateDied ? player.dateDied|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>InjMa</th>
+                <td>{{ player.injMa }}</td>
+            </tr>
+            <tr>
+                <th>InjSt</th>
+                <td>{{ player.injSt }}</td>
+            </tr>
+            <tr>
+                <th>InjAg</th>
+                <td>{{ player.injAg }}</td>
+            </tr>
+            <tr>
+                <th>InjAv</th>
+                <td>{{ player.injAv }}</td>
+            </tr>
+            <tr>
+                <th>InjNi</th>
+                <td>{{ player.injNi }}</td>
+            </tr>
+            <tr>
+                <th>InjRpm</th>
+                <td>{{ player.injRpm }}</td>
+            </tr>
+            <tr>
+                <th>Photo</th>
+                <td>{{ player.photo }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('players_index') }}">back to list</a>
+
+    <a href="{{ path('players_edit', {'playerId': player.playerId}) }}">edit</a>
+
+    {{ include('players/_delete_form.html.twig') }}
+{% endblock %}
