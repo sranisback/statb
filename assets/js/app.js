@@ -309,6 +309,42 @@ $(document).ready(function () {
     }
 
     /**
+     * Recalcul Num
+     */
+    $("#recalculNum").click(function () {
+        let table = [];
+        $('#teamBody tr').map(function () {
+            let str = $(this).attr('class');
+
+            if ( str === undefined) {
+               return table.push(this);
+            }
+
+            if (str.indexOf("table-danger") === -1 && str.indexOf("table-info") === -1) {
+                return table.push(this);
+            }
+        });
+        table.forEach(function (element, index) {
+            let nbr = $(element).find('div[id^="number_"]');
+            let currentNbr = stripHtml(nbr.html());
+
+            if (currentNbr != index + 1) {
+                $('#loadingmessage').clone().appendTo(nbr);
+                $('#loadingmessage').show();
+
+                $.post(Routing.generate('changeNr', {
+                        newnr: index + 1,
+                        playerid: nbr.attr('playerid')
+                    }),
+                    {},
+                    function () {
+                        nbr.html('<ulink>' + (index + 1) + '</ulink>');
+                    });
+            }
+        });
+    });
+
+    /**
      * cpt modal ajout de joueur
      */
     $("#addplayer").on('show.bs.modal', function () {

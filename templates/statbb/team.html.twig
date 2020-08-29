@@ -15,11 +15,11 @@
                                     <span class="fas fa-trash-alt" teamId="{{ team.teamId }}" id="supprimeLogo"></span>
                                 {% endif %}
                             {% else %}
-                                <img class="img-fluid"
+                                <img class="img-fluid" alt="Logo Race"
                                      src="{{ asset('build/'~app.environment~'/images/race_icons/'~team.fRace.icon~'.png') }}">
                             {% endif %}
                         {% else %}
-                            <img class="img-fluid"
+                            <img class="img-fluid" alt="Logo Race"
                                  src="{{ asset('build/'~app.environment~'/images/race_icons/'~team.fRace.icon~'.png') }}">
                         {% endif %}
                     </div>
@@ -33,6 +33,11 @@
                         <button type="button" id="showall_btn" class="btn btn-primary">
                             Tous les joueurs
                         </button>
+                        {% if (app.user == team.ownedByCoach and team.year == annee) or app.user.roles["role"] == 'ROLE_ADMIN' %}
+                            <button type="button" id="recalculNum" class="btn btn-primary" teamId="{{ team.teamId }}" >
+                                Recalculer Numéros
+                            </button>
+                        {%  endif %}
                     </div>
                 </div>
             </div>
