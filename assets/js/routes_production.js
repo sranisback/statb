@@ -225,7 +225,7 @@ const routes_prod = {
             "methods": [],
             "schemes": []
         },
-        "app_equipe_gestioninducement": {
+        "gestionInducement": {
             "tokens": [["variable", "\/", "[^\/]++", "type"], ["variable", "\/", "[^\/]++", "teamId"], ["variable", "\/", "[^\/]++", "action"], ["text", "\/gestionInducement"]],
             "defaults": [],
             "requirements": [],

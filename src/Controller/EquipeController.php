@@ -330,7 +330,7 @@ class EquipeController extends AbstractController
     }
 
     /**
-     * @Route("/gestionInducement/{action}/{teamId}/{type}", options = { "expose" = true })
+     * @Route("/gestionInducement/{action}/{teamId}/{type}", name="gestionInducement",  options = { "expose" = true })
      * @param EquipeService $equipeService
      * @param PlayerService $playerService
      * @param string $action
