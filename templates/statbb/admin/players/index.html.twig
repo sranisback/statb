@@ -8,11 +8,14 @@
 
             <h1>Joueurs</h1>
             <div class="table-responsive">
-                <table class="table" id="Admin_player">
+                <table class="table-striped" id="Admin_player">
                     <thead>
                     <tr>
-                        <th>Type</th>
                         <th>Name</th>
+                        <th>Team</th>
+                        <th>Annee</th>
+                        <th>Race</th>
+                        <th>Type</th>
                         <th>Nr</th>
                         <th>DateBought</th>
                         <th>DateSold</th>
@@ -30,7 +33,6 @@
                         <th>InjAg</th>
                         <th>InjAv</th>
                         <th>InjNi</th>
-                        <th>InjRpm</th>
                         <th>Photo</th>
                         <th>actions</th>
                     </tr>
@@ -38,11 +40,20 @@
                     <tbody>
                     {% for player in players %}
                         <tr>
-                            <td>{{ player.type }}</td>
                             <td>{{ player.name }}</td>
+                            <td>{{ player.ownedByTeam.name }}</td>
+                            <td>{{ player.ownedByTeam.year }}</td>
+                            <td>{{ player.fRid.name }} {{ dump(players) }}</td>
+                            <td>
+                                {% if player.type == 2 %}
+                                    J
+                                {% else %}
+                                    N
+                                {% endif %}
+                            </td>
                             <td>{{ player.nr }}</td>
-                            <td>{{ player.dateBought ? player.dateBought|date('Y-m-d H:i:s') : '' }}</td>
-                            <td>{{ player.dateSold ? player.dateSold|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>{{ player.dateBought ? player.dateBought|date('d-m-Y') : '' }}</td>
+                            <td>{{ player.dateSold ? player.dateSold|date('d-m-Y') : '' }}</td>
                             <td>{{ player.achMa }}</td>
                             <td>{{ player.achSt }}</td>
                             <td>{{ player.achAg }}</td>
@@ -50,14 +61,26 @@
                             <td>{{ player.extraSpp }}</td>
                             <td>{{ player.extraVal }}</td>
                             <td>{{ player.value }}</td>
-                            <td>{{ player.status }}</td>
-                            <td>{{ player.dateDied ? player.dateDied|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>
+                                {% if (player.status == 7 ) %}
+                                    Vendu
+                                {% endif %}
+                                {% if (player.status == 8 ) %}
+                                    Mort
+                                {% endif %}
+                                {% if (player.status == 9 ) %}
+                                    XP
+                                {% endif %}
+                                {% if (player.injRpm > 0 ) %}
+                                    RPM
+                                {% endif %}
+                            </td>
+                            <td>{{ player.dateDied ? player.dateDied|date('d-m-Y') : '' }}</td>
                             <td>{{ player.injMa }}</td>
                             <td>{{ player.injSt }}</td>
                             <td>{{ player.injAg }}</td>
                             <td>{{ player.injAv }}</td>
                             <td>{{ player.injNi }}</td>
-                            <td>{{ player.injRpm }}</td>
                             <td>{{ player.photo }}</td>
                             <td>
                                 <a href="{{ path('players_show', {'playerId': player.playerId}) }}">show</a>

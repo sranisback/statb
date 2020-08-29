@@ -20,7 +20,7 @@ class PlayersController extends AbstractController
      */
     public function index(PlayersRepository $playersRepository): Response
     {
-        return $this->render('players/index.html.twig', [
+        return $this->render('statbb/admin/players/index.html.twig', [
             'players' => $playersRepository->findAll(),
         ]);
     }
