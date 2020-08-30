@@ -240,7 +240,7 @@ class JoueurController extends AbstractController
     }
 
     /**
-     * @Route("/remPlayer/{playerId}", options = { "expose" = true })
+     * @Route("/remPlayer/{playerId}", name="remPlayer", options = { "expose" = true })
      * @param PlayerService $playerService
      * @param int $playerId
      * @return JsonResponse

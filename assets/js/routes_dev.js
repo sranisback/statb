@@ -345,7 +345,7 @@ const routes_dev = {
             "methods": [],
             "schemes": []
         },
-        "app_joueur_remplayer": {
+        "remPlayer": {
             "tokens": [["variable", "\/", "[^\/]++", "playerId"], ["text", "\/remPlayer"]],
             "defaults": [],
             "requirements": [],
