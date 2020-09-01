@@ -15,9 +15,10 @@ class TeamRepository extends ServiceEntityRepository
 
     /**
      * @param int $year
+     * @param array $points
      * @return array
      */
-    public function classement(int $year): array
+    public function classement(int $year, array $points): array
     {
         $conn = $this->getEntityManager()->getConnection();
 
@@ -34,11 +35,11 @@ SELECT team_id,ra.icon,t.name as team_name ,ra.name as race,co.name,t.tv as tv, 
 					IF(team_id = a.team2_id AND a.team1_score>a.team2_score,1,0)) AS Lost,(
 					
 				SUM(IF(team_id = a.team1_id AND a.team1_score>a.team2_score,1,0)+ 
-					IF(team_id = a.team2_id AND a.team1_score<a.team2_score,1,0)) * 10 +
+					IF(team_id = a.team2_id AND a.team1_score<a.team2_score,1,0)) * ' . $points[0] . ' +
 				SUM(IF(team_id = a.team1_id AND a.team1_score=a.team2_score,1,0)+ 
-					IF(team_id = a.team2_id AND a.team1_score=a.team2_score,1,0)) * 4 +
+					IF(team_id = a.team2_id AND a.team1_score=a.team2_score,1,0)) * ' . $points[1] . ' +
 				SUM(IF(team_id = a.team1_id AND a.team1_score<a.team2_score,1,0)+ 
-					IF(team_id = a.team2_id AND a.team1_score>a.team2_score,1,0)) * -5 
+					IF(team_id = a.team2_id AND a.team1_score>a.team2_score,1,0)) * ' . $points[2] . '  
 					
 					)+(
 					

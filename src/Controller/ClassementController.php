@@ -39,7 +39,7 @@ class ClassementController extends AbstractController
             'statbb/tabs/ligue/classement.html.twig',
             [
                 'classement' => $this->getDoctrine()->getRepository(Teams::class)->classement(
-                    $annee
+                    $annee, $this->settingsService->pointsEnCours($annee)
                 ),
                 'annee' => $annee,
                 'etiquette' => $etiquette
