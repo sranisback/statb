@@ -124,4 +124,12 @@ class SettingsService
 
         return (int)0;
     }
+
+    /**
+     *
+     */
+    public function pointsEnCours(int $anne)
+    {
+        return explode(';',$this->doctrineEntityManager->getRepository(Setting::class)->findByName('points_' . $anne));
+    }
 }

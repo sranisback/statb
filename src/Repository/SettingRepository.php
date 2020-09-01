@@ -19,6 +19,13 @@ class SettingRepository extends ServiceEntityRepository
         parent::__construct($registry, Setting::class);
     }
 
+    public function findByName($name)
+    {
+        $ret = $this->findOneBy(['name' => $name]);
+
+        return $ret->getValue();
+    }
+
 //    /**
 //     * @return Setting[] Returns an array of Setting objects
 //     */
