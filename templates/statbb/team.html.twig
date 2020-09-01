@@ -33,11 +33,13 @@
                         <button type="button" id="showall_btn" class="btn btn-primary">
                             Tous les joueurs
                         </button>
-                        {% if (app.user == team.ownedByCoach and team.year == annee) or app.user.roles["role"] == 'ROLE_ADMIN' %}
+                        {% if (app.user != null) %}
+                        {% if  (app.user == team.ownedByCoach and team.year == annee) or app.user.roles["role"] == 'ROLE_ADMIN' %}
                             <button type="button" id="recalculNum" class="btn btn-primary" teamId="{{ team.teamId }}" >
                                 Recalculer Numéros
                             </button>
                         {%  endif %}
+                        {% endif %}
                     </div>
                 </div>
             </div>
