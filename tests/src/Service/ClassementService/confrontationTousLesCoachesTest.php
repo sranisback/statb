@@ -8,6 +8,7 @@ use App\Entity\Matches;
 use App\Entity\Teams;
 use App\Service\ClassementService;
 use App\Service\EquipeService;
+use App\Service\MatchDataService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -89,7 +90,11 @@ class confrontationTousLesCoachesTest extends KernelTestCase
             )
         );
 
-        $classementServiceTest = new ClassementService($objectManager);
+        $classementServiceTest = new ClassementService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class)
+        );
 
         $equipeServiceMock = $this->createMock(EquipeService::class);
         $equipeServiceMock->method('resultatDuMatch')->willReturnOnConsecutiveCalls(
@@ -167,7 +172,11 @@ class confrontationTousLesCoachesTest extends KernelTestCase
             )
         );
 
-        $classementServiceTest = new ClassementService($objectManager);
+        $classementServiceTest = new ClassementService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class)
+        );
 
         $equipeServiceMock = $this->createMock(EquipeService::class);
 
@@ -200,9 +209,13 @@ class confrontationTousLesCoachesTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($coachesRepoMock);
 
-        $classementServiceTest = new ClassementService($objectManager);
+        $classementServiceTest = new ClassementService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class)
+        );
 
-        $equipeServiceMock = $this->createMock(EquipeService::class);
+        $equipeServiceMock = $this->createMock(EquipeService::class, $this->createMock(EquipeService::class));
 
         $tableauAttendu = [];
 
@@ -284,7 +297,11 @@ class confrontationTousLesCoachesTest extends KernelTestCase
             )
         );
 
-        $classementServiceTest = new ClassementService($objectManager);
+        $classementServiceTest = new ClassementService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class)
+        );
 
         $equipeServiceMock = $this->createMock(EquipeService::class);
         $equipeServiceMock->method('resultatDuMatch')->willReturnOnConsecutiveCalls(
@@ -391,7 +408,11 @@ class confrontationTousLesCoachesTest extends KernelTestCase
             )
         );
 
-        $classementServiceTest = new ClassementService($objectManager);
+        $classementServiceTest = new ClassementService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class)
+        );
 
         $equipeServiceMock = $this->createMock(EquipeService::class);
         $equipeServiceMock->method('resultatDuMatch')->willReturnOnConsecutiveCalls(

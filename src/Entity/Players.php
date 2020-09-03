@@ -169,7 +169,7 @@ class Players
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="GameDataPlayers", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="GameDataPlayers")
      * @ORM\JoinColumn(name="f_pos_id", referencedColumnName="pos_id")
      * @var null|\App\Entity\GameDataPlayers
      */
@@ -177,7 +177,7 @@ class Players
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="Races", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="Races")
      * @ORM\JoinColumn(name="f_rid", referencedColumnName="race_id")
      * @var \App\Entity\Races|null
      */
@@ -185,7 +185,7 @@ class Players
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="Teams", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="Teams")
      *  @ORM\JoinColumn (name="owned_by_team_id", referencedColumnName="team_id")
      * @var \App\Entity\Teams|null
      */

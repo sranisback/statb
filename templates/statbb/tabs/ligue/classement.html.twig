@@ -31,25 +31,25 @@
                 {% for team in classement %}
                     <tr>
                         <td class="pos">{{ loop.index }}</td>
-                        <td><a href="{{ path('team', {'teamid': team.team_id }) }}">{{ team.team_name }}</a>
-                            {% if team.franchise == true %}
+                        <td><a href="{{ path('team', {'teamid': team.equipe.teamId }) }}">{{ team.equipe.name }}</a>
+                            {% if team.equipe.franchise == true %}
                                 <span class="fas fa-tag text-success"></span>
-                            {% endif %}</td>
+                            {% endif %}</td></td>
                         <td>
-                            {% if team.logo %}
-                                <img src="{{ asset('uploads/logo_equipe/' ~ team.logo) }}" class="img-fluid">
+                            {% if team.equipe.logo %}
+                                <img src="{{ asset('uploads/logo_equipe/' ~ team.equipe.logo) }}" class="img-fluid">
                             {% else %}
-                                <img src="{{ asset('build/'~app.environment~'/images/race_icons/'~team.icon~'.png') }}">
+                                <img src="{{ asset('build/'~app.environment~'/images/race_icons/'~team.equipe.frace.icon~'.png') }}">
                             {% endif %}
                         </td>
-                        <td>{{ team.race }}</td>
-                        <td>{{ team.name }}</td>
-                        <td>{{ team.Win }}</td>
-                        <td>{{ team.Draw }}</td>
-                        <td>{{ team.Lost }}</td>
+                        <td>{{ team.equipe.frace.name }}</td>
+                        <td>{{ team.equipe.ownedByCoach.name }}</td>
+                        <td>{{ team.G }}</td>
+                        <td>{{ team.N }}</td>
+                        <td>{{ team.P }}</td>
                         <td>{{ team.pts }}</td>
                         <td>{{ team.nbrg }}</td>
-                        <td>{{ team.tv/1000 }}</td>
+                        <td>{{ team.equipe.tv/1000}}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

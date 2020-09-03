@@ -5,6 +5,8 @@ namespace App\Tests\src\Service\ClassementService;
 use App\Entity\Matches;
 use App\Entity\Teams;
 use App\Service\ClassementService;
+use App\Service\EquipeService;
+use App\Service\MatchDataService;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -51,7 +53,13 @@ class classementDetailScoreDuneEquipeTest extends KernelTestCase
         $teamRepoMock = $this->createMock(ObjectManager::class);
 
         $objectManager = $this->createMock(EntityManagerInterface::class);
-        $classementService = new ClassementService($objectManager);
+
+        $classementService = new ClassementService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class)
+        );
+
         $objectManager->method('getRepository')->will(
             $this->returnCallback(
                 function ($entityName) use ($teamRepoMock, $matchRepoMock) {
@@ -97,7 +105,12 @@ class classementDetailScoreDuneEquipeTest extends KernelTestCase
 
         $objectManager = $this->createMock(EntityManagerInterface::class);
 
-        $classementService = new ClassementService($objectManager);
+        $classementService = new ClassementService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class)
+        );
+
         $objectManager->expects($this->any())->method('getRepository')->will(
             $this->returnCallback(
                 function ($entityName) use ($teamRepoMock, $matchRepoMock) {

@@ -109,7 +109,7 @@ class Teams
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="Coaches", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="Coaches")
      *   @ORM\JoinColumn  (name="owned_by_coach_id",  referencedColumnName="coach_id")
      * @var \App\Entity\Coaches|null
      */
@@ -117,7 +117,7 @@ class Teams
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="Races", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="Races")
      * @ORM\JoinColumn(name="f_race_id", referencedColumnName="race_id", nullable=false)
      * @var \App\Entity\Races|null
      */
@@ -125,7 +125,7 @@ class Teams
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="Stades", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="Stades")
      * @ORM\JoinColumn(name="f_stade_id", referencedColumnName="id", nullable=true)
      * @var \App\Entity\Stades|null
      */

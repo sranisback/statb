@@ -7,6 +7,8 @@ namespace App\Tests\src\Service\ClassementService;
 use App\Entity\Matches;
 use App\Entity\Teams;
 use App\Service\ClassementService;
+use App\Service\EquipeService;
+use App\Service\MatchDataService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -79,7 +81,11 @@ class classementDetailScoreGenTest extends KernelTestCase
             )
         );
 
-        $classementService = new ClassementService($objectManager);
+        $classementService = new ClassementService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class)
+        );
 
         $retour = [
             [

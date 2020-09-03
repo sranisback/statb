@@ -8,6 +8,7 @@ use App\Entity\Matches;
 use App\Entity\Teams;
 use App\Service\ClassementService;
 use App\Service\EquipeService;
+use App\Service\MatchDataService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -136,7 +137,11 @@ class genereConfrontationTousLesCoachesTest extends KernelTestCase
             )
         );
 
-        $classementServiceTest = new ClassementService($objectManager);
+        $classementServiceTest = new ClassementService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class)
+        );
 
         $equipeServiceMock = $this->createMock(EquipeService::class);
         $equipeServiceMock->method('resultatDuMatch')->willReturnOnConsecutiveCalls(

@@ -2,9 +2,10 @@
 
 namespace App\Tests\src\Service\ClassementService;
 
-
 use App\Entity\Matches;
 use App\Service\ClassementService;
+use App\Service\EquipeService;
+use App\Service\MatchDataService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -37,7 +38,11 @@ class totalCasTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchRepoMock);
 
-        $classementService = new ClassementService($objectManager);
+        $classementService = new ClassementService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class)
+        );
 
         $tableauAttendu = ['score' => 25, 'nbrMatches' => 5, 'moyenne' => 5];
 
@@ -64,11 +69,14 @@ class totalCasTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchRepoMock);
 
-        $classementService = new ClassementService($objectManager);
+        $classementService = new ClassementService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class)
+        );
 
         $tableauAttendu = ['score' => 0, 'nbrMatches' => 0, 'moyenne' => 0];
 
         $this->assertEquals($tableauAttendu, $classementService->totalCas(3));
     }
-
 }

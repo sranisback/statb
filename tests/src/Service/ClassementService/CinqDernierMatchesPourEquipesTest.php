@@ -5,6 +5,8 @@ namespace App\Tests\src\Service\ClassementService;
 use App\Entity\Matches;
 use App\Entity\Teams;
 use App\Service\ClassementService;
+use App\Service\EquipeService;
+use App\Service\MatchDataService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
@@ -53,7 +55,12 @@ class CinqDernierMatchesPourEquipesTest extends TestCase
                 }
             )
         );
-        $classementService = new ClassementService($objectManager);
+
+        $classementService = new ClassementService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class)
+        );
 
         $this->assertEquals(5, count($classementService->cinqDerniersMatchsParEquipe(0)));
     }
@@ -91,7 +98,11 @@ class CinqDernierMatchesPourEquipesTest extends TestCase
             )
         );
 
-        $classementService = new ClassementService($objectManager);
+        $classementService = new ClassementService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class)
+        );
 
         $this->assertEquals(0, count($classementService->cinqDerniersMatchsParEquipe(0)));
     }

@@ -5,6 +5,8 @@ namespace App\Tests\src\Service\ClassementService;
 use App\Entity\MatchData;
 use App\Entity\Teams;
 use App\Service\ClassementService;
+use App\Service\EquipeService;
+use App\Service\MatchDataService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -41,7 +43,11 @@ class sousClassementsEquipeTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchDataRepoMock);
 
-        $classementService = new ClassementService($objectManager);
+        $classementService = new ClassementService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class)
+        );
 
         $this->assertEquals(
             $match_data_test,
@@ -84,7 +90,11 @@ class sousClassementsEquipeTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchDataRepoMock);
 
-        $classementService = new ClassementService($objectManager);
+        $classementService = new ClassementService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class)
+        );
 
         $this->assertEquals(
             $match_data_test,
@@ -127,7 +137,11 @@ class sousClassementsEquipeTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchDataRepoMock);
 
-        $classementService = new ClassementService($objectManager);
+        $classementService = new ClassementService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class)
+        );
 
         $this->assertEquals(
             $match_data_test,
@@ -170,8 +184,11 @@ class sousClassementsEquipeTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchDataRepoMock);
 
-        $classementService = new ClassementService($objectManager);
-
+        $classementService = new ClassementService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class)
+        );
         $this->assertEquals(
             $match_data_test,
             $classementService->genereClassementEquipes(
@@ -209,7 +226,11 @@ class sousClassementsEquipeTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchDataRepoMock);
 
-        $classementService = new ClassementService($objectManager);
+        $classementService = new ClassementService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class)
+        );
 
         $this->assertEquals(
             $match_data_test,
