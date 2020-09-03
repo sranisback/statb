@@ -11,6 +11,8 @@
         "gumlet/php-image-resize": "*",
         "laminas/laminas-code": "*",
         "nette/utils": "*",
+        "symfony/apache-pack": "^1.0",
+        "symfony/cache": "*",
         "symfony/console": "*",
         "symfony/debug": "*",
         "symfony/dotenv": "*",
@@ -27,8 +29,7 @@
         "symfony/webpack-encore-bundle": "*",
         "symfony/yaml": "*",
         "twbs/bootstrap": "*",
-        "twig/extensions": "*",
-        "symfony/cache": "*"
+        "twig/extensions": "*"
     },
     "require-dev": {
         "phpstan/phpstan": "*",

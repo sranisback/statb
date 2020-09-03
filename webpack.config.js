@@ -6,7 +6,7 @@ Encore
 	.setManifestKeyPrefix('public/build/dev/')
 	.addEntry('js/app', './assets/js/app.js')
 	.addStyleEntry('css/app', './assets/css/app.scss')
-    .setPublicPath('/build/dev')
+    .setPublicPath('/projets/statb/public/build/dev')
 	.enableSassLoader()
 	.autoProvidejQuery()
 	.disableSingleRuntimeChunk()
