@@ -28,21 +28,21 @@ class ClassementController extends AbstractController
 
     /**
      * @Route("/classement/general/{annee}/{etiquette}",
-     *     defaults={"etiquette"=null}, name="classementgen", options = { "expose" = true })
-     * @param ClassementService $classementService
+     *     defaults={"etiquette"=null}, name="classementgen")
      * @param int $annee
      * @param string|null $etiquette
      * @return Response
      */
-    public function classGen(ClassementService $classementService, int $annee, ?string $etiquette): \Symfony\Component\HttpFoundation\Response
+    public function classGen(int $annee, ?string $etiquette): \Symfony\Component\HttpFoundation\Response
     {
         return $this->render(
-            'statbb/tabs/ligue/classement.html.twig', [
-            'classement' => $classementService->toutesLesEquipesPourLeClassementGeneral($annee, $this->settingsService->pointsEnCours($annee)),
+            'statbb/tabs/ligue/classement.html.twig',
+            [
+            'classement' => null,
             'annee' => $annee,
             'etiquette' => $etiquette
-        ]);
-
+        ]
+        );
     }
 
     /**
@@ -268,5 +268,17 @@ class ClassementController extends AbstractController
                 'contreCoach' => $coachAdverse->getName()
             ]
         );
+    }
+
+    /**
+     * @route("/calculClassementGen/{annee}")
+     * @param int $annee
+     * @param ClassementService $classementService
+     */
+    public function calculClassementGen(int $annee, ClassementService $classementService)
+    {
+        $classementService->toutesLesEquipesPourLeClassementGeneral($annee, $this->settingsService->pointsEnCours($annee));
+
+        return $this->redirectToRoute('index');
     }
 }
