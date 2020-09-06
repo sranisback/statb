@@ -101,6 +101,9 @@
     "laminas/laminas-zendframework-bridge": {
         "version": "1.0.0"
     },
+    "migrify/migrify-kernel": {
+        "version": "0.3.34"
+    },
     "migrify/php-config-printer": {
         "version": "v0.3.31"
     },
