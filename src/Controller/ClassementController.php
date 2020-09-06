@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\ClassementGeneral;
 use App\Entity\Coaches;
 use App\Entity\Matches;
 use App\Entity\Players;
@@ -38,7 +39,7 @@ class ClassementController extends AbstractController
         return $this->render(
             'statbb/tabs/ligue/classement.html.twig',
             [
-            'classement' => null,
+            'classement' => $this->getDoctrine()->getRepository(ClassementGeneral::class)->classementGeneral($annee),
             'annee' => $annee,
             'etiquette' => $etiquette
         ]
@@ -56,7 +57,7 @@ class ClassementController extends AbstractController
         return $this->render(
             'statbb/tabs/ligue/classementDetail.html.twig',
             [
-                'classementDet' => $classementService->classementDetail($annee)
+                'classementDet' => null
             ]
         );
     }
@@ -277,7 +278,7 @@ class ClassementController extends AbstractController
      */
     public function calculClassementGen(int $annee, ClassementService $classementService)
     {
-        $classementService->toutesLesEquipesPourLeClassementGeneral($annee, $this->settingsService->pointsEnCours($annee));
+        $classementService->sauvegardeClassementGeneral($classementService->toutesLesEquipesPourLeClassementGeneral($annee, $this->settingsService->pointsEnCours($annee)));
 
         return $this->redirectToRoute('index');
     }

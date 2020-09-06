@@ -84,16 +84,60 @@ class ToutesLesEquipesPourLeClassementGeneralTest extends TestCase
 
         $this->assertEquals(
             [
-                ['G' => 2, 'N' => 0, 'P' => 0, 'pts' => 16, 'bonus' => 0,  'equipe' => $equipeMock1, 'nbrg' => 2],
-                ['G' => 1, 'N' => 1, 'P' => 1, 'pts' => 8, 'bonus' => 0, 'equipe' => $equipeMock0, 'nbrg' => 3],
-                ['G' => 0, 'N' => 2, 'P' => 0, 'pts' => 6, 'bonus' => 0,  'equipe' => $equipeMock2, 'nbrg' => 2],
-                ['G' => 0, 'N' => 0, 'P' => 2, 'pts' => -6, 'bonus' => 0,  'equipe' => $equipeMock3, 'nbrg' => 2]
+                [
+                    'gagne' => 1,
+                    'nul' => 1,
+                    'perdu' => 1,
+                    'pts' => 8,
+                    'bonus' => 0,
+                    'equipe' => $equipeMock0,
+                    'tdMis' => 0,
+                    'tdPris' => 0,
+                    'sortiesPour' => 0,
+                    'sortiesContre' => 0,
+                ],
+                [
+                    'gagne' => 2,
+                    'nul' => 0,
+                    'perdu' => 0,
+                    'pts' => 16,
+                    'bonus' => 0,
+                    'equipe' => $equipeMock1,
+                    'tdMis' => 0,
+                    'tdPris' => 0,
+                    'sortiesPour' => 0,
+                    'sortiesContre' => 0
+                ],
+                [
+                    'gagne' => 0,
+                    'nul' => 2,
+                    'perdu' => 0,
+                    'pts' => 6,
+                    'bonus' => 0,
+                    'equipe' => $equipeMock2,
+                    'tdMis' => 0,
+                    'tdPris' => 0,
+                    'sortiesPour' => 0,
+                    'sortiesContre' => 0
+                ],
+                [
+                    'gagne' => 0,
+                    'nul' => 0,
+                    'perdu' => 2,
+                    'pts' => -6,
+                    'bonus' => 0,
+                    'equipe' => $equipeMock3,
+                    'tdMis' => 0,
+                    'tdPris' => 0,
+                    'sortiesPour' => 0,
+                    'sortiesContre' => 0,
+                ]
             ],
             $resultat
         );
 
-        $this->assertEquals(1, $resultat[0]['equipe']->getTeamId());
-        $this->assertEquals(0, $resultat[1]['equipe']->getTeamId());
+        $this->assertEquals(0, $resultat[0]['equipe']->getTeamId());
+        $this->assertEquals(1, $resultat[1]['equipe']->getTeamId());
         $this->assertEquals(2, $resultat[2]['equipe']->getTeamId());
         $this->assertEquals(3, $resultat[3]['equipe']->getTeamId());
     }

@@ -112,11 +112,11 @@ class CalculPointBonusTest extends TestCase
 
         $match0 = new Matches();
         $match0->setTeam1($equipeMock);
-        $match0->setTeam1Score(0);
+        $match0->setTeam2Score(0);
 
         $match1 = new Matches();
         $match1->setTeam2($equipeMock);
-        $match1->setTeam2Score(1);
+        $match1->setTeam1Score(1);
 
         $matchRepoMock->method('listeDesMatchs')->willReturn(
             [

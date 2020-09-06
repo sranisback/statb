@@ -20,19 +20,35 @@ class LigneClassementGeneralTest extends TestCase
     {
         $equipeMock0 = $this->createMock(Teams::class);
 
-        $match = new Matches();
-        $match->setTeam1($equipeMock0);
-        $match->setTeam1Score(1);
+        $matchMock0 = new Matches();
+        $matchMock0->setTeam1($equipeMock0);
+        $matchMock0->setTeam2($this->createMock(Teams::class));
+        $matchMock0->setTeam1Score(3);
+
+        $matchMock1 = new Matches();
+        $matchMock1->setTeam1($equipeMock0);
+        $matchMock1->setTeam2($this->createMock(Teams::class));
+
+        $matchMock2 = new Matches();
+        $matchMock2->setTeam1($equipeMock0);
+        $matchMock2->setTeam2($this->createMock(Teams::class));
+
 
         $matchRepoMock = $this->getMockBuilder(Matches::class)
             ->setMethods(['listeDesMatchs'])
             ->getMock();
 
         $matchRepoMock->method('listeDesMatchs')->willReturnOnConsecutiveCalls(
-            [],[
-                $this->createMock(Matches::class),
-                $match,
-                $this->createMock(Matches::class)
+            [],
+            [
+                $matchMock0,
+                $matchMock1,
+                $matchMock2
+            ],
+            [
+                $matchMock0,
+                $matchMock1,
+                $matchMock2
             ]
         );
 
@@ -48,7 +64,7 @@ class LigneClassementGeneralTest extends TestCase
         );
 
         $matchDateServiceMock = $this->createMock(MatchDataService::class);
-        $matchDateServiceMock->method('nombreDeSortiesDunMatch')->willReturnOnConsecutiveCalls(2,5,1);
+        $matchDateServiceMock->method('nombreDeSortiesDunMatch')->willReturnOnConsecutiveCalls(2,5,1,2,0,5,0,1,0);
 
         $classementService = new ClassementService(
             $objectManager,
@@ -56,7 +72,19 @@ class LigneClassementGeneralTest extends TestCase
             $matchDateServiceMock
         );
 
-        $this->assertEquals(['G' => 1, 'N' => 1, 'P' => 1, 'pts' => 10, 'bonus' => 2, 'equipe' => $equipeMock0, 'nbrg' => 3],
+        $this->assertEquals(
+            [
+                'gagne' => 1,
+                'nul' => 1,
+                'perdu' => 1,
+                'pts' => 8,
+                'bonus' => 2,
+                'equipe' => $equipeMock0,
+                'tdMis' => 3,
+                'tdPris' => 0,
+                'sortiesPour' => 8,
+                'sortiesContre' => 0
+            ],
             $classementService->ligneClassementGeneral($equipeMock0,[8,3,-3])
         );
     }

@@ -80,64 +80,33 @@ class ClassementService
     {
         $tdMis = 0;
         $tdPris = 0;
-        $tdAverage = 0;
+
+        $totalSortiePour = 0;
+        $totalSortieContre = 0;
+
         /** @var Matches $match */
         foreach ($this->doctrineEntityManager->getRepository(Matches::class)->listeDesMatchs($equipe) as $match) {
             if ($match->getTeam1() === $equipe) {
                 $tdMis += $match->getTeam1Score();
                 $tdPris += $match->getTeam2Score();
+
+                $totalSortiePour += $this->matchDataService->nombreDeSortiesDunMatch($match->getTeam1(), $match);
+                $totalSortieContre += $this->matchDataService->nombreDeSortiesDunMatch($match->getTeam2(), $match);
             } else {
                 $tdMis += $match->getTeam2Score();
                 $tdPris += $match->getTeam1Score();
+
+                $totalSortiePour += $this->matchDataService->nombreDeSortiesDunMatch($match->getTeam2(), $match);
+                $totalSortieContre += $this->matchDataService->nombreDeSortiesDunMatch($match->getTeam1(), $match);
             }
-            $tdAverage = $tdMis - $tdPris;
         }
 
         return [
-            'equipe' => $equipe,
             'tdMis' => $tdMis,
             'tdPris' => $tdPris,
-            'tdAverage' => $tdAverage
+            'sortiesPour' => $totalSortiePour,
+            'sortiesContre' => $totalSortieContre
         ];
-    }
-
-    /**
-     * @param int $annee
-     * @return array
-     */
-    public function classementDetailScoreGen(int $annee): array
-    {
-        $tableDetail = [];
-
-        /** @var Teams $equipe */
-        foreach ($this->doctrineEntityManager->getRepository(Teams::class)->findBy(['year' => $annee]) as $equipe) {
-            $tableDetail[] = $this->classementDetailScoreDuneEquipe($equipe);
-        }
-
-        return $tableDetail;
-    }
-
-    /**
-     * @return mixed[][]
-     */
-    public function classementDetail(int $annee): array
-    {
-        $classementDetail = [];
-        //$pointsBonus = $this->doctrineEntityManager->getRepository(Teams::class)->pointsBonus($annee);
-
-        foreach ($this->classementDetailScoreGen($annee) as $ligne) {
-            /** @var Teams $equipe */
-            $equipe = $ligne['equipe'];
-            $classementDetail[] = [
-                        'equipe' => $equipe,
-                        'tdMis' => $ligne['tdMis'],
-                        'tdPris' => $ligne['tdPris'],
-                        'tdAverage' => $ligne['tdAverage'],
-                        'pts' => $this->calculPointsBonus($equipe)
-                    ];
-        }
-
-        return $classementDetail;
     }
 
     /**
@@ -407,13 +376,19 @@ class ClassementService
 
         $bonus = $this->calculPointsBonus($equipe);
 
+        $classementDetail = $this->classementDetailScoreDuneEquipe($equipe);
+
         return [
-            'G' => $resultatEquipe['win'],
-            'N' => $resultatEquipe['draw'],
-            'P' => $resultatEquipe['loss'],
+            'gagne' => $resultatEquipe['win'],
+            'nul' => $resultatEquipe['draw'],
+            'perdu' => $resultatEquipe['loss'],
             'pts' => $points,
             'bonus' => $bonus,
-            'equipe' => $equipe
+            'equipe' => $equipe,
+            'tdMis' => $classementDetail['tdMis'],
+            'tdPris' => $classementDetail['tdPris'],
+            'sortiesPour' => $classementDetail['sortiesPour'],
+            'sortiesContre' => $classementDetail['sortiesContre'],
         ];
     }
 
@@ -432,7 +407,6 @@ class ClassementService
 
         /** @var Matches $match */
         foreach ($this->doctrineEntityManager->getRepository(Matches::class)->listeDesMatchs($equipe) as $match) {
-            $tt = $this->matchDataService->nombreDeSortiesDunMatch($equipe, $match);
             //bonus nombre de sorties > 4 sorties
             if ($this->matchDataService->nombreDeSortiesDunMatch($equipe, $match)>4) {
                 $totalPointBonus++;
@@ -456,7 +430,7 @@ class ClassementService
 
             //bonus Defense 1 seul TD pris aved défaite
             if ($tableResult['loss'] == 1) {
-                if (($equipe == $match->getTeam1() && $match->getTeam1Score()==1) || ($equipe == $match->getTeam2() && $match->getTeam2Score()===1)) {
+                if (($equipe == $match->getTeam1() && $match->getTeam2Score()==1) || ($equipe == $match->getTeam2() && $match->getTeam1Score()===1)) {
                     $totalPointBonus++;
                 }
             }
@@ -475,15 +449,19 @@ class ClassementService
                 $ligneClassement = new ClassementGeneral();
             }
 
-            $ligneClassement->setGagne($ligne['G']);
-            $ligneClassement->setEgalite($ligne['N']);
-            $ligneClassement->setEgalite($ligne['P']);
+            $ligneClassement->setGagne($ligne['gagne']);
+            $ligneClassement->setEgalite($ligne['nul']);
+            $ligneClassement->setPerdu($ligne['perdu']);
             $ligneClassement->setPoints($ligne['pts']);
             $ligneClassement->setBonus($ligne['bonus']);
-            $ligneClassement->setEquipe($ligne['equipe']->getTeamId());
+            $ligneClassement->setEquipe($ligne['equipe']);
+            $ligneClassement->setTdPour($ligne['tdMis']);
+            $ligneClassement->setTdContre($ligne['tdPris']);
+            $ligneClassement->setCasContre($ligne['sortiesContre']);
+            $ligneClassement->setCasPour($ligne['sortiesPour']);
 
             $this->doctrineEntityManager->persist($ligneClassement);
-            $this->doctrineEntityManager->flush($ligneClassement);
+            $this->doctrineEntityManager->flush();
         }
     }
 }

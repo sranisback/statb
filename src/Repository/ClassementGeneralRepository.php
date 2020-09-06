@@ -19,6 +19,18 @@ class ClassementGeneralRepository extends ServiceEntityRepository
         parent::__construct($registry, ClassementGeneral::class);
     }
 
+    public function classementGeneral($annee)
+    {
+        return $this->createQueryBuilder('cg')
+            ->select(
+                'cg total','cg.gagne+cg.egalite+cg.perdu nbr', 'cg.points + cg.bonus pointTotaux')
+            ->join('cg.equipe', 'equipe')
+            ->where('equipe.year =' . $annee)
+            ->addOrderBy('pointTotaux','DESC')
+            ->addOrderBy('nbr','ASC')
+            ->getQuery()->execute();
+    }
+
     // /**
     //  * @return ClassementGeneral[] Returns an array of ClassementGeneral objects
     //  */
