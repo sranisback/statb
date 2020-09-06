@@ -42,7 +42,7 @@ class StatBBController extends AbstractController
     }
 
     /**
-     * @Route("/", name="index", options = { "expose" = true })
+     * @Route("/", name="index")
      * @param SettingsService $settingsService
      * @param DefisService $defisService
      * @return Response

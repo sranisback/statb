@@ -5,6 +5,8 @@ namespace App\Tests\src\Service\ClassementService;
 use App\Entity\Matches;
 use App\Entity\Teams;
 use App\Service\ClassementService;
+use App\Service\EquipeService;
+use App\Service\MatchDataService;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -20,38 +22,26 @@ class classementDetailScoreDuneEquipeTest extends KernelTestCase
 
         $matchMock0 = $this->createMock(Matches::class);
         $matchMock0->method('getTeam1')->willReturn($equipeMock);
+        $matchMock0->method('getTeam2')->willReturn($this->createMock(Teams::class));
         $matchMock0->method('getTeam1Score')->willReturn(2);
         $matchMock0->method('getTeam2Score')->willReturn(2);
         $matchMock1 = $this->createMock(Matches::class);
         $matchMock1->method('getTeam1')->willReturn($equipeMock);
+        $matchMock1->method('getTeam2')->willReturn($this->createMock(Teams::class));
         $matchMock1->method('getTeam1Score')->willReturn(2);
         $matchMock1->method('getTeam2Score')->willReturn(2);
-        $matchMock2 = $this->createMock(Matches::class);
-        $matchMock2->method('getTeam1')->willReturn($equipeMock);
-        $matchMock2->method('getTeam1Score')->willReturn(2);
-        $matchMock2->method('getTeam2Score')->willReturn(1);
-        $matchMock3 = $this->createMock(Matches::class);
-        $matchMock3->method('getTeam1')->willReturn($equipeMock);
-        $matchMock3->method('getTeam1Score')->willReturn(2);
-        $matchMock4 = $this->createMock(Matches::class);
-        $matchMock4->method('getTeam1')->willReturn($equipeMock);
-        $matchMock4->method('getTeam1Score')->willReturn(2);
-        $matchMock5 = $this->createMock(Matches::class);
-        $matchMock5->method('getTeam1')->willReturn($equipeMock);
-        $matchMock5->method('getTeam1Score')->willReturn(0);
 
         $matchRepoMock = $this->getMockBuilder(Matches::class)
             ->setMethods(['listeDesMatchs'])
             ->getMock();
 
         $matchRepoMock->method('listeDesMatchs')->willReturn(
-            [$matchMock0, $matchMock1, $matchMock2, $matchMock3, $matchMock4, $matchMock5]
+            [$matchMock0, $matchMock1]
         );
 
         $teamRepoMock = $this->createMock(ObjectManager::class);
 
         $objectManager = $this->createMock(EntityManagerInterface::class);
-        $classementService = new ClassementService($objectManager);
         $objectManager->method('getRepository')->will(
             $this->returnCallback(
                 function ($entityName) use ($teamRepoMock, $matchRepoMock) {
@@ -68,14 +58,22 @@ class classementDetailScoreDuneEquipeTest extends KernelTestCase
             )
         );
 
-        $retour = [
-            'equipe' => $equipeMock,
-            'tdMis' => 10,
-            'tdPris' => 5,
-            'tdAverage' => 5
-        ];
+        $matchDataServiceMock = $this->createMock(MatchDataService::class);
+        $matchDataServiceMock->method('nombreDeSortiesDunMatch')->willReturnOnConsecutiveCalls(3,2,1,0);
 
-        $this->assertEquals($retour, $classementService->classementDetailScoreDuneEquipe($equipeMock));
+        $classementService = new ClassementService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $matchDataServiceMock
+        );
+
+
+        $this->assertEquals([
+            'tdMis' => 4,
+            'tdPris' => 4,
+            'sortiesPour' => 4,
+            'sortiesContre' => 2,
+        ], $classementService->classementDetailScoreDuneEquipe($equipeMock));
     }
 
     /**
@@ -97,7 +95,12 @@ class classementDetailScoreDuneEquipeTest extends KernelTestCase
 
         $objectManager = $this->createMock(EntityManagerInterface::class);
 
-        $classementService = new ClassementService($objectManager);
+        $classementService = new ClassementService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class)
+        );
+
         $objectManager->expects($this->any())->method('getRepository')->will(
             $this->returnCallback(
                 function ($entityName) use ($teamRepoMock, $matchRepoMock) {
@@ -115,10 +118,10 @@ class classementDetailScoreDuneEquipeTest extends KernelTestCase
         );
 
         $retour = [
-            'equipe' => $equipeMock,
             'tdMis' => 0,
             'tdPris' => 0,
-            'tdAverage' => 0
+            'sortiesPour' => 0,
+            'sortiesContre' => 0,
         ];
 
         $this->assertEquals($retour, $classementService->classementDetailScoreDuneEquipe($equipeMock));

@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\MatchData;
 use App\Entity\Matches;
 use App\Entity\Players;
+use App\Entity\Teams;
 use App\Factory\MatchDataFactory;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -37,15 +38,15 @@ class MatchDataService
         $ligneDuMatch = '';
 
         if ($matchData->getCp() > 0) {
-            $ligneDuMatch .= 'CP: '.$matchData->getCp() . ', ';
+            $ligneDuMatch .= 'CP: ' . $matchData->getCp() . ', ';
         }
 
         if ($matchData->getTd() > 0) {
-            $ligneDuMatch .= 'TD: '.$matchData->getTd() . ', ';
+            $ligneDuMatch .= 'TD: ' . $matchData->getTd() . ', ';
         }
 
         if ($matchData->getIntcpt() > 0) {
-            $ligneDuMatch .= 'INT: '.$matchData->getIntcpt() . ',';
+            $ligneDuMatch .= 'INT: ' . $matchData->getIntcpt() . ',';
         }
 
         if ($matchData->getBh() > 0) {
@@ -61,13 +62,30 @@ class MatchDataService
         }
 
         if ($matchData->getMvp() > 0) {
-            $ligneDuMatch .= 'MVP: '.$matchData->getMvp() . ', ';
+            $ligneDuMatch .= 'MVP: ' . $matchData->getMvp() . ', ';
         }
 
         if ($matchData->getAgg() > 0) {
-            $ligneDuMatch .= 'AGG: '.$matchData->getAgg().', ';
+            $ligneDuMatch .= 'AGG: ' . $matchData->getAgg() . ', ';
         }
 
         return $ligneDuMatch;
+    }
+
+    public function nombreDeSortiesDunMatch(Teams $equipe, Matches $match)
+    {
+        $total = 0;
+
+        foreach ( $this->doctrineEntityManager->getRepository(Players::class)->listeDesJoueursPourlEquipe($equipe) as $joueur) {
+            $ligneMatchData = $this->doctrineEntityManager->getRepository(MatchData::class)->findOneBy([
+                'fPlayer' => $joueur->getPlayerId(),
+                'fMatch' => $match->getMatchId()
+            ]);
+            if (!empty($ligneMatchData)) {
+                $total += $ligneMatchData->getBh() + $ligneMatchData->getSi() + $ligneMatchData->getKi() + $ligneMatchData->getAgg();
+            }
+        }
+
+        return $total;
     }
 }

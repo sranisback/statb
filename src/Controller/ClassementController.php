@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\ClassementGeneral;
 use App\Entity\Coaches;
 use App\Entity\Matches;
 use App\Entity\Players;
@@ -28,7 +29,7 @@ class ClassementController extends AbstractController
 
     /**
      * @Route("/classement/general/{annee}/{etiquette}",
-     *     defaults={"etiquette"=null}, name="classementgen", options = { "expose" = true })
+     *     defaults={"etiquette"=null}, name="classementgen")
      * @param int $annee
      * @param string|null $etiquette
      * @return Response
@@ -38,12 +39,10 @@ class ClassementController extends AbstractController
         return $this->render(
             'statbb/tabs/ligue/classement.html.twig',
             [
-                'classement' => $this->getDoctrine()->getRepository(Teams::class)->classement(
-                    $annee, $this->settingsService->pointsEnCours($annee)
-                ),
-                'annee' => $annee,
-                'etiquette' => $etiquette
-            ]
+            'classement' => $this->getDoctrine()->getRepository(ClassementGeneral::class)->classementGeneral($annee),
+            'annee' => $annee,
+            'etiquette' => $etiquette
+        ]
         );
     }
 
@@ -58,7 +57,7 @@ class ClassementController extends AbstractController
         return $this->render(
             'statbb/tabs/ligue/classementDetail.html.twig',
             [
-                'classementDet' => $classementService->classementDetail($annee)
+                'classementDet' => $this->getDoctrine()->getRepository(ClassementGeneral::class)->classementGeneralDetail($annee)
             ]
         );
     }
@@ -270,5 +269,17 @@ class ClassementController extends AbstractController
                 'contreCoach' => $coachAdverse->getName()
             ]
         );
+    }
+
+    /**
+     * @route("/calculClassementGen/{annee}")
+     * @param int $annee
+     * @param ClassementService $classementService
+     */
+    public function calculClassementGen(int $annee, ClassementService $classementService)
+    {
+        $classementService->sauvegardeClassementGeneral($classementService->toutesLesEquipesPourLeClassementGeneral($annee, $this->settingsService->pointsEnCours($annee)));
+
+        return $this->redirectToRoute('index');
     }
 }

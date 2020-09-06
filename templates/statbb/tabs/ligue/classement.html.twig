@@ -28,28 +28,29 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for team in classement %}
+                {% for ligne in classement %}
                     <tr>
                         <td class="pos">{{ loop.index }}</td>
-                        <td><a href="{{ path('team', {'teamid': team.team_id }) }}">{{ team.team_name }}</a>
-                            {% if team.franchise == true %}
+                        <td><a href="{{ path('team', {'teamid': ligne.total.equipe.teamId }) }}">{{ ligne.total.equipe.name }}</a>
+                            {% if ligne.total.equipe.franchise == true %}
                                 <span class="fas fa-tag text-success"></span>
-                            {% endif %}</td>
-                        <td>
-                            {% if team.logo %}
-                                <img src="{{ asset('uploads/logo_equipe/' ~ team.logo) }}" class="img-fluid">
-                            {% else %}
-                                <img src="{{ asset('build/'~app.environment~'/images/race_icons/'~team.icon~'.png') }}">
                             {% endif %}
                         </td>
-                        <td>{{ team.race }}</td>
-                        <td>{{ team.name }}</td>
-                        <td>{{ team.Win }}</td>
-                        <td>{{ team.Draw }}</td>
-                        <td>{{ team.Lost }}</td>
-                        <td>{{ team.pts }}</td>
-                        <td>{{ team.nbrg }}</td>
-                        <td>{{ team.tv/1000 }}</td>
+                        <td>
+                            {% if ligne.total.equipe.logo %}
+                                <img src="{{ asset('uploads/logo_equipe/' ~ ligne.total.equipe.logo) }}" class="img-fluid">
+                            {% else %}
+                                <img src="{{ asset('build/'~app.environment~'/images/race_icons/'~ligne.total.equipe.frace.icon~'.png') }}">
+                            {% endif %}
+                        </td>
+                        <td>{{ ligne.total.equipe.frace.name }}</td>
+                        <td>{{ ligne.total.equipe.ownedByCoach.name }}</td>
+                        <td>{{ ligne.total.gagne }}</td>
+                        <td>{{ ligne.total.egalite }}</td>
+                        <td>{{ ligne.total.perdu }}</td>
+                        <td>{{ ligne.pointTotaux }}</td>
+                        <td>{{ ligne.nbr }}</td>
+                        <td>{{ ligne.total.equipe.tv/1000}}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

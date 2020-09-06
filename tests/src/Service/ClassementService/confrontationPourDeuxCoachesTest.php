@@ -8,6 +8,7 @@ use App\Entity\Matches;
 use App\Entity\Teams;
 use App\Service\ClassementService;
 use App\Service\EquipeService;
+use App\Service\MatchDataService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -46,7 +47,11 @@ class confrontationPourDeuxCoachesTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchesRepoMock);
 
-        $classementServiceTest = new ClassementService($objectManager);
+        $classementServiceTest = new ClassementService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class)
+        );
 
         $equipeServiceMock = $this->createMock(EquipeService::class);
         $equipeServiceMock->method('resultatDuMatch')->willReturnOnConsecutiveCalls(
@@ -92,7 +97,11 @@ class confrontationPourDeuxCoachesTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchesRepoMock);
 
-        $classementServiceTest = new ClassementService($objectManager);
+        $classementServiceTest = new ClassementService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class)
+        );
 
         $tableauAttendu = [
             'N/A',
@@ -127,7 +136,11 @@ class confrontationPourDeuxCoachesTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchesRepoMock);
 
-        $classementServiceTest = new ClassementService($objectManager);
+        $classementServiceTest = new ClassementService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class)
+        );
 
         $tableauAttendu = [
             'N/A',
@@ -161,7 +174,11 @@ class confrontationPourDeuxCoachesTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchesRepoMock);
 
-        $classementServiceTest = new ClassementService($objectManager);
+        $classementServiceTest = new ClassementService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class)
+        );
 
         $tableauAttendu = [
             'N/A',
@@ -213,7 +230,11 @@ class confrontationPourDeuxCoachesTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchesRepoMock);
 
-        $classementServiceTest = new ClassementService($objectManager);
+        $classementServiceTest = new ClassementService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class)
+        );
 
         $equipeServiceMock = $this->createMock(EquipeService::class);
         $equipeServiceMock->method('resultatDuMatch')->willReturnOnConsecutiveCalls(

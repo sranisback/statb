@@ -21,8 +21,8 @@
         "symfony/framework-bundle": "*",
         "symfony/monolog-bundle": "*",
         "symfony/orm-pack": "*",
-        "symfony/profiler-pack": "*",
         "symfony/security-bundle": "*",
+        "symfony/stopwatch": "5.*",
         "symfony/twig-bundle": "*",
         "symfony/validator": "*",
         "symfony/web-link": "*",
@@ -42,7 +42,7 @@
         "symfony/maker-bundle": "*",
         "symfony/phpunit-bridge": "*",
         "symfony/test-pack": "*",
-        "symfony/web-server-bundle": "*",
+        "symfony/web-profiler-bundle": "5.*",
         "thecodingmachine/phpstan-strict-rules": "*"
     },
     "config": {
