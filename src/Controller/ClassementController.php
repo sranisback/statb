@@ -57,7 +57,7 @@ class ClassementController extends AbstractController
         return $this->render(
             'statbb/tabs/ligue/classementDetail.html.twig',
             [
-                'classementDet' => null
+                'classementDet' => $this->getDoctrine()->getRepository(ClassementGeneral::class)->classementGeneralDetail($annee)
             ]
         );
     }

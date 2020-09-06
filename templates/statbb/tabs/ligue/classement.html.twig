@@ -58,7 +58,7 @@
         </div>
     </div>
     <div id="detailClass" class="tab-pane fade show">
-
+        {{ render(controller('App\\Controller\\ClassementController::classGenDetail', {'annee': annee})) }}
     </div>
 </div>
 

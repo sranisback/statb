@@ -9,19 +9,25 @@
                     <th>Td+</th>
                     <th>Td-</th>
                     <th>Td Average</th>
+                    <th>Sort +</th>
+                    <th>Sort -</th>
+                    <th>Sort Average</th>
                     <th>Pts Bonus</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for ligne in classementDet %}
                     <tr>
-                        <td><a href="{{ path('team', {'teamid': ligne.equipe.teamId }) }}">{{ ligne.equipe.name }}</a>{% if ligne.equipe.franchise == true %}
+                        <td><a href="{{ path('team', {'teamid': ligne.total.equipe.teamId }) }}">{{ ligne.total.equipe.name }}</a>{% if ligne.total.equipe.franchise == true %}
                             <span class="fas fa-tag text-success"></span>
                             {% endif %}</td>
-                        <td>{{ ligne.tdMis }}</td>
-                        <td>{{ ligne.tdPris }}</td>
+                        <td>{{ ligne.total.tdPour }}</td>
+                        <td>{{ ligne.total.tdContre }}</td>
                         <td>{{ ligne.tdAverage }}</td>
-                        <td>{{ ligne.pts }}</td>
+                        <td>{{ ligne.total.casPour }}</td>
+                        <td>{{ ligne.total.casContre }}</td>
+                        <td>{{ ligne.casAverage }}</td>
+                        <td>{{ ligne.total.bonus }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

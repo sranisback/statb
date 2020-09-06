@@ -394,7 +394,7 @@ class ClassementService
 
     public function toutesLesEquipesPourLeClassementGeneral(int $annee, array $point)
     {
-        foreach ($this->doctrineEntityManager->getRepository(Teams::class)->findBy(['year' => $annee]) as $equipe) {
+        foreach ($this->doctrineEntityManager->getRepository(Teams::class)->findBy(['year' => $annee, 'retired' => 0]) as $equipe) {
             $table[] = $this->ligneClassementGeneral($equipe, $point);
         }
 

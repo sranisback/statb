@@ -31,6 +31,17 @@ class ClassementGeneralRepository extends ServiceEntityRepository
             ->getQuery()->execute();
     }
 
+    public function classementGeneralDetail($annee)
+    {
+        return $this->createQueryBuilder('cg')
+            ->select(
+                'cg total','cg.tdPour - cg.tdContre tdAverage', 'cg.casPour - cg.casContre casAverage')
+            ->join('cg.equipe', 'equipe')
+            ->where('equipe.year =' . $annee)
+            ->addOrderBy('equipe.name','ASC')
+            ->getQuery()->execute();
+    }
+
     // /**
     //  * @return ClassementGeneral[] Returns an array of ClassementGeneral objects
     //  */
