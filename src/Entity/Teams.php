@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -141,6 +143,16 @@ class Teams
      * @ORM\Column(type="boolean")
      */
     private int $franchise = 0;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Penalite::class, mappedBy="equipe", orphanRemoval=true)
+     */
+    private $penalite;
+
+    public function __construct()
+    {
+        $this->penalite = new ArrayCollection();
+    }
 
     /**
      * @return Stades|null
@@ -369,6 +381,37 @@ class Teams
     public function setFranchise(int $franchise): self
     {
         $this->franchise = $franchise;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Penalite[]
+     */
+    public function getPenalite(): Collection
+    {
+        return $this->penalite;
+    }
+
+    public function addPenalite(Penalite $penalite): self
+    {
+        if (!$this->penalite->contains($penalite)) {
+            $this->penalite[] = $penalite;
+            $penalite->setEquipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removePenalite(Penalite $penalite): self
+    {
+        if ($this->penalite->contains($penalite)) {
+            $this->penalite->removeElement($penalite);
+            // set the owning side to null (unless already changed)
+            if ($penalite->getEquipe() === $this) {
+                $penalite->setEquipe(null);
+            }
+        }
 
         return $this;
     }
