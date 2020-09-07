@@ -28,6 +28,16 @@ class Penalite
      */
     private $equipe;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $motif;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $date;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -53,6 +63,30 @@ class Penalite
     public function setEquipe(?Teams $equipe): self
     {
         $this->equipe = $equipe;
+
+        return $this;
+    }
+
+    public function getMotif(): ?string
+    {
+        return $this->motif;
+    }
+
+    public function setMotif(?string $motif): self
+    {
+        $this->motif = $motif;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): self
+    {
+        $this->date = $date;
 
         return $this;
     }

@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Entity\Penalite;
 use App\Entity\Teams;
 use Doctrine\ORM\EntityManagerInterface;
+use Nette\Utils\DateTime;
 
 class PenaliteService
 {
@@ -27,6 +28,8 @@ class PenaliteService
             ['teamId' => $datas['equipe']]
         ));
         $penalite->setPoints($datas['points']);
+        $penalite->setMotif($datas['motif']);
+        $penalite->setDate(DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s")));
 
         $this->doctrineEntityManager->persist($penalite);
         $this->doctrineEntityManager->flush();

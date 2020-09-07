@@ -1,0 +1,35 @@
+<div class="table-responsive">
+    <table class="table" id="TablePenalite" style="width: 100%">
+        <thead>
+        <tr>
+            <td>Equipe</td>
+            <td>Points</td>
+            <td>Motif</td>
+            <td>Date</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for penalite in penaliteCollection %}
+            <tr>
+                <td>
+                    {{ penalite.equipe.name }} {% if penalite.equipe.franchise == true %}
+                        <span class="fas fa-tag text-success"></span>
+                    {% endif %} de {{ penalite.equipe.ownedByCoach.name }}, {{ penalite.equipe.fRace.name }}
+                </td>
+                <td>
+                    {{ penalite.points }}
+                </td>
+                <td>
+                    {{ penalite.motif }}
+                </td>
+                <td>
+                    {{ penalite.date|date("d/m/Y") }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% if app.user.roles["role"] == 'ROLE_ADMIN' %}
+    {{ render(controller('App\\Controller\\PenaliteController::ajoutPenaliteForm')) }}
+{% endif %}

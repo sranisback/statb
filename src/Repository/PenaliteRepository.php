@@ -19,6 +19,15 @@ class PenaliteRepository extends ServiceEntityRepository
         parent::__construct($registry, Penalite::class);
     }
 
+    public function listePenaliteEnCours(int $annee)
+    {
+        return $this->createQueryBuilder('penalite')
+            ->join('penalite.equipe', 'teams')
+            ->where('teams.year = ' . $annee)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Penalite[] Returns an array of Penalite objects
     //  */

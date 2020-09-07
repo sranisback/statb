@@ -26,6 +26,7 @@ class AjoutPenaliteForm extends AbstractType
     {
         $builder
             ->add('points')
+            ->add('motif')
             ->add(
                 'equipe',
                 EntityType::class,

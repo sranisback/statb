@@ -103,6 +103,12 @@ $(document).ready(function () {
         "info": false
     });
 
+    $('#TablePenalite').DataTable({
+        "lengthChange": false,
+        "pageLength": 20,
+        "info": false
+    });
+
     $('#TableAnciennesEquipes').DataTable({
         "lengthChange": false,
         "pageLength": 20,

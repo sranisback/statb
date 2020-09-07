@@ -2,8 +2,5 @@
     <div class="card-body">
         <br/>
         {{ render(controller('App\\Controller\\UtilisateurController::interfaceUtilisateur')) }}
-        {% if app.user.roles["role"] == 'ROLE_ADMIN' %}
-            {{ render(controller('App\\Controller\\PenaliteController::ajoutPenaliteForm')) }}
-        {% endif %}
     </div>
 </div>

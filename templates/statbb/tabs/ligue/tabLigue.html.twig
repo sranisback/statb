@@ -23,6 +23,9 @@
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="tab" href="#Defis">Défis</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#Penalite">Pénalite</a>
+                    </li>
                 </ul>
                 <div class="tab-content">
                     <div id="allteam" class="tab-pane fade show">
@@ -46,6 +49,9 @@
                     </div>
                     <div id="matchs" class="tab-pane fade show">
                         {{ render(controller('App\\Controller\\MatchController::afficherLesMatchs')) }}
+                    </div>
+                    <div id="Penalite" class="tab-pane fade show">
+                        {{ render(controller('App\\Controller\\PenaliteController::afficherPenalite')) }}
                     </div>
                 </div>
         </div>

@@ -55,4 +55,21 @@ class PenaliteController extends AbstractController
 
         return $this->redirectToRoute('frontUser');
     }
+
+    /**
+     * @Route("/afficherPenalite", name="afficherPenalite")
+     * @param SettingsService $settingsService
+     * @return Response
+     */
+    public function afficherPenalite(SettingsService $settingsService): \Symfony\Component\HttpFoundation\Response
+    {
+        return $this->render(
+            'statbb/tabs/ligue/affichagePenalite.html.twig',
+            [
+                'penaliteCollection' => $this->getDoctrine()->getRepository(Penalite::class)->listePenaliteEnCours(
+                    $settingsService->anneeCourante()
+                ),
+            ]
+        );
+    }
 }
