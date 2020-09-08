@@ -414,7 +414,7 @@ class PlayerService
 
             return [
                 'reponse' => $effect,
-                'tv' => $this->equipeService->tvDelEquipe($equipe, $this),
+                'tv' => $equipe->getTv()/1000,
                 'tresor' => $equipe->getTreasury(),
                 'playercost' => $this->valeurDunJoueur($joueur),
             ];
@@ -434,7 +434,14 @@ class PlayerService
             $coutCompetencesGagnee = $this->listeDesCompEtSurcoutGagnedUnJoueur($joueur);
             $coutNiveauSpeciaux = $this->listenivSpeciauxEtSurcout($joueur);
 
-            return $position->getCost() + $coutCompetencesGagnee['cout'] + $coutNiveauSpeciaux['cout'];
+            $coutPosition = $position->getCost();
+
+            if ($this->leJoueurEstDisposable($joueur))
+            {
+                $coutPosition = 0;
+            }
+
+            return $coutPosition + $coutCompetencesGagnee['cout'] + $coutNiveauSpeciaux['cout'];
         }
 
         return 0;
@@ -673,5 +680,19 @@ class PlayerService
         }
 
         return $listeBlessure . '</div>';
+    }
+
+    public function leJoueurEstDisposable(Players $joueur)
+    {
+        /** @var GameDataSkills $disposable */
+        $disposable = $this->doctrineEntityManager->getRepository(GameDataSkills::class)->findOneBy(['name' => 'Disposable']);
+
+        if (!empty($disposable)) {
+            if(in_array($disposable->getSkillId(), explode(',',$joueur->getFPos()->getSkills()))) {
+               return true;
+            }
+        }
+
+        return false;
     }
 }

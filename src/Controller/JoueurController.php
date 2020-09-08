@@ -198,15 +198,25 @@ class JoueurController extends AbstractController
 
                 $competences = substr($competences, 0, strlen($competences) - 2);
 
+                $cout = $position->getCost();
+
+                if($playerService->leJoueurEstDisposable($joueur)) {
+                    $cout = 0;
+                }
+
                 $html = $this->render(
                     'statbb/lineteamsheet.html.twig',
-                    ['position' => $position, 'player' => $joueur, 'skill' => $competences]
+                    ['position' => $position, 'player' => $joueur, 'skill' => $competences, 'cout' => $cout]
                 )
                     ->getContent();
 
                 $equipe = $joueur->getOwnedByTeam();
 
                 $coutjoueur = $joueur->getValue();
+
+                if($playerService->leJoueurEstDisposable($joueur)) {
+                    $coutjoueur = 0;
+                }
 
                 if ($equipe !== null) {
                     $tv = $equipeService->tvDelEquipe($equipe, $playerService);
