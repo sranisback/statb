@@ -3,6 +3,7 @@
 namespace App\Tests\src\Service\PlayerService;
 
 use App\Entity\GameDataPlayers;
+use App\Entity\GameDataSkills;
 use App\Entity\MatchData;
 use App\Entity\Players;
 use App\Entity\Teams;
@@ -22,6 +23,7 @@ class renvoisOuSuppressionJoueurTest extends TestCase
     {
         $positionTest = new GameDataPlayers();
         $positionTest->setCost(50_000);
+        $positionTest->setSkills(50);
 
         $equipeTest = new Teams();
         $equipeTest->setTreasury(50_000);
@@ -43,10 +45,19 @@ class renvoisOuSuppressionJoueurTest extends TestCase
         $playersSkillsRepoMock = $this->createMock(ObjectRepository::class);
         $playersSkillsRepoMock->method('findBy')->willReturn([]);
 
+        $gameDataSkillsTest = $this->createMock(GameDataSkills::class);
+        $gameDataSkillsTest->method('getName')->willReturn('Disposable');
+        $gameDataSkillsTest->method('getSkillId')->willReturn(1);
+
+        $gameDataSkillRepoMock = $this->getMockBuilder(Players::class)
+            ->setMethods(['findOneBy'])
+            ->getMock();
+        $gameDataSkillRepoMock->method('findOneBy')->willReturn($gameDataSkillsTest);
+
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->will(
             $this->returnCallback(
-                function ($entityName) use ($matchDataRepoMock, $playersSkillsRepoMock) {
+                function ($entityName) use ($matchDataRepoMock, $playersSkillsRepoMock,$gameDataSkillRepoMock) {
                     if ($entityName === 'App\Entity\MatchData') {
                         return $matchDataRepoMock;
                     }
@@ -55,13 +66,16 @@ class renvoisOuSuppressionJoueurTest extends TestCase
                         return $playersSkillsRepoMock;
                     }
 
+                    if ($entityName === 'App\Entity\GameDataSkills') {
+                        return $gameDataSkillRepoMock;
+                    }
                     return true;
                 }
             )
         );
 
         $equipeServiceMock = $this->createMock(EquipeService::class);
-        $equipeServiceMock->method('tvDelEquipe')->willReturn(1_000);
+        $equipeServiceMock->method('tvDelEquipe')->willReturnOnConsecutiveCalls(1_000_000);
 
         $playerServiceTest = new PlayerService(
             $objectManager,
@@ -86,6 +100,7 @@ class renvoisOuSuppressionJoueurTest extends TestCase
     {
         $positionTest = new GameDataPlayers();
         $positionTest->setCost(50_000);
+        $positionTest->setSkills(50);
 
         $equipeTest = new Teams();
         $equipeTest->setTreasury(50_000);
@@ -105,10 +120,19 @@ class renvoisOuSuppressionJoueurTest extends TestCase
         $playersSkillsRepoMock = $this->createMock(ObjectRepository::class);
         $playersSkillsRepoMock->method('findBy')->willReturn([]);
 
+        $gameDataSkillsTest = $this->createMock(GameDataSkills::class);
+        $gameDataSkillsTest->method('getName')->willReturn('Disposable');
+        $gameDataSkillsTest->method('getSkillId')->willReturn(1);
+
+        $gameDataSkillRepoMock = $this->getMockBuilder(Players::class)
+            ->setMethods(['findOneBy'])
+            ->getMock();
+        $gameDataSkillRepoMock->method('findOneBy')->willReturn($gameDataSkillsTest);
+
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->will(
             $this->returnCallback(
-                function ($entityName) use ($matchDataRepoMock, $playersSkillsRepoMock) {
+                function ($entityName) use ($matchDataRepoMock, $playersSkillsRepoMock, $gameDataSkillRepoMock) {
                     if ($entityName === 'App\Entity\MatchData') {
                         return $matchDataRepoMock;
                     }
@@ -117,13 +141,16 @@ class renvoisOuSuppressionJoueurTest extends TestCase
                         return $playersSkillsRepoMock;
                     }
 
+                    if ($entityName === 'App\Entity\GameDataSkills') {
+                        return $gameDataSkillRepoMock;
+                    }
                     return true;
                 }
             )
         );
 
         $equipeServiceMock = $this->createMock(EquipeService::class);
-        $equipeServiceMock->method('tvDelEquipe')->willReturn(1_000);
+        $equipeServiceMock->method('tvDelEquipe')->willReturn(1_000_000);
 
         $playerServiceTest = new PlayerService(
             $objectManager,

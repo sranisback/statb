@@ -45,15 +45,28 @@ class coutTotalJoueursTest extends TestCase
             ->getMock();
         $joueurRepoMock->method('listeDesJoueursPourlEquipe')->willReturn([$joueurMock]);
 
+        $gameDataSkillsTest = $this->createMock(GameDataSkills::class);
+        $gameDataSkillsTest->method('getName')->willReturn('Disposable');
+        $gameDataSkillsTest->method('getSkillId')->willReturn(1);
+
+        $gameDataSkillRepoMock = $this->getMockBuilder(Players::class)
+            ->setMethods(['findOneBy'])
+            ->getMock();
+        $gameDataSkillRepoMock->method('findOneBy')->willReturn($gameDataSkillsTest);
+
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->will($this->returnCallback(
-            function ($entityName) use ($joueurRepoMock, $playerSkillRepoMock) {
+            function ($entityName) use ($joueurRepoMock, $playerSkillRepoMock,$gameDataSkillRepoMock) {
                 if ($entityName === 'App\Entity\Players') {
                     return $joueurRepoMock;
                 }
 
                 if ($entityName === 'App\Entity\PlayersSkills') {
                     return $playerSkillRepoMock;
+                }
+
+                if ($entityName === 'App\Entity\GameDataSkills') {
+                    return $gameDataSkillRepoMock;
                 }
                 return true;
             }
