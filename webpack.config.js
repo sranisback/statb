@@ -32,7 +32,7 @@ Encore
 	.setManifestKeyPrefix('public/build/prod/')
 	.addEntry('js/app', './assets/js/app.js')
 	.addStyleEntry('css/app', './assets/css/app.scss')
-	.setPublicPath('/build/prod')
+	.setPublicPath('/statb/public/build/prod')
 	.enableSassLoader()
 	.autoProvidejQuery()
 	.disableSingleRuntimeChunk()
