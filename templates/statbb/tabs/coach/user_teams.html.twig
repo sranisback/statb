@@ -8,7 +8,16 @@
             <th>G</th>
             <th>E</th>
             <th>P</th>
+            <th>Td Mis</th>
+            <th>Td Contre</th>
+            <th>Td Avrg</th>
+            <th>Sorties faites</th>
+            <th>Sorties prises</th>
+            <th>Sorties Avrg</th>
             <th>% victoire</th>
+            <th>Points</th>
+            <th>Bonus</th>
+            <th>Penalite</th>
             <th>ELO</th>
             <th>Retirer ?</th>
         </tr>
@@ -29,11 +38,20 @@
             <td>{{ ligne.resultats.win }}</td>
             <td>{{ ligne.resultats.draw }}</td>
             <td>{{ ligne.resultats.loss }}</td>
+            <td>{{ ligne.resultats.tdMis }}</td>
+            <td>{{ ligne.resultats.tdPris }}</td>
+            <td>{{ ligne.resultats.tdMis - ligne.resultats.tdPris }}</td>
+            <td>{{ ligne.resultats.sortiesPour }}</td>
+            <td>{{ ligne.resultats.sortiesContre }}</td>
+            <td>{{ ligne.resultats.sortiesPour - ligne.resultats.sortiesContre }}</td>
             {% if ligne.resultats.loss > 0 or ligne.resultats.win > 0 %}
                 <td>{{ (ligne.resultats.win/(ligne.resultats.loss+ligne.resultats.win) * 100)|round(2,'floor') }}</td>
             {% else %}
                 <td>0</td>
             {% endif %}
+            <td>{{ ligne.resultats.score }}</td>
+            <td>{{ ligne.resultats.bonus }}</td>
+            <td>{{ ligne.resultats.penalite }}</td>
             <td>{{ ligne.equipe.elo }}</td>
             {% if ligne.equipe.retired == 1 %}
                 <td> Retirée</td>

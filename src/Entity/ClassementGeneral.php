@@ -68,6 +68,11 @@ class ClassementGeneral
      */
     private $equipe;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $penalite;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -189,6 +194,18 @@ class ClassementGeneral
     public function setEquipe(Teams $equipe): self
     {
         $this->equipe = $equipe;
+
+        return $this;
+    }
+
+    public function getPenalite(): ?int
+    {
+        return $this->penalite;
+    }
+
+    public function setPenalite(?int $penalite): self
+    {
+        $this->penalite = $penalite;
 
         return $this;
     }

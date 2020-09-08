@@ -6,6 +6,7 @@ use App\Entity\ClassementGeneral;
 use App\Entity\Coaches;
 use App\Entity\MatchData;
 use App\Entity\Matches;
+use App\Entity\Penalite;
 use App\Entity\Players;
 use App\Entity\Teams;
 use Doctrine\ORM\EntityManagerInterface;
@@ -389,6 +390,7 @@ class ClassementService
             'tdPris' => $classementDetail['tdPris'],
             'sortiesPour' => $classementDetail['sortiesPour'],
             'sortiesContre' => $classementDetail['sortiesContre'],
+            'penalite' => $this->doctrineEntityManager->getRepository(Penalite::class)->penaliteDuneEquipe($equipe)
         ];
     }
 
@@ -445,7 +447,7 @@ class ClassementService
         foreach ($tableauClassementGeneral as $ligne) {
             $ligneClassement = $this->doctrineEntityManager->getRepository(ClassementGeneral::class)->findOneBy(['equipe' => $ligne['equipe']->getTeamId()]);
 
-            if ($ligneClassement !== false) {
+            if ($ligneClassement === null) {
                 $ligneClassement = new ClassementGeneral();
             }
 
@@ -459,6 +461,7 @@ class ClassementService
             $ligneClassement->setTdContre($ligne['tdPris']);
             $ligneClassement->setCasContre($ligne['sortiesContre']);
             $ligneClassement->setCasPour($ligne['sortiesPour']);
+            $ligneClassement->setPenalite($ligne['penalite'] === null ? 0 : $ligne['penalite']);
 
             $this->doctrineEntityManager->persist($ligneClassement);
             $this->doctrineEntityManager->flush();

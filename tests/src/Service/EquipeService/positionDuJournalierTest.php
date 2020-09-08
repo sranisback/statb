@@ -6,6 +6,7 @@ namespace App\Tests\src\Service\EquipeService;
 use App\Entity\GameDataPlayers;
 use App\Entity\Races;
 use App\Entity\Teams;
+use App\Service\ClassementService;
 use App\Service\EquipeService;
 use App\Service\SettingsService;
 use Doctrine\Persistence\ObjectRepository;
@@ -36,7 +37,8 @@ class positionDuJournalierTest extends TestCase
 
         $equipeService = new EquipeService(
             $objectManager,
-            $this->createMock(SettingsService::class)
+            $this->createMock(SettingsService::class),
+            $this->createMock(ClassementService::class)
         );
 
         /** @var GameDataPlayers $journalierTest */
@@ -68,7 +70,8 @@ class positionDuJournalierTest extends TestCase
 
         $equipeService = new EquipeService(
             $objectManager,
-            $this->createMock(SettingsService::class)
+            $this->createMock(SettingsService::class),
+            $this->createMock(ClassementService::class)
         );
 
         /** @var GameDataPlayers $journalierTest */

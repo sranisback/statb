@@ -4,8 +4,8 @@ namespace App\Tests\src\Service\EquipeService;
 
 
 use App\Entity\Races;
-use App\Entity\Stades;
 use App\Entity\Teams;
+use App\Service\ClassementService;
 use App\Service\EquipeService;
 use App\Service\SettingsService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -35,7 +35,8 @@ class valeurInducementDelEquipeTest extends KernelTestCase
 
         $equipeService = new EquipeService(
             $objectManager,
-            $this->createMock(SettingsService::class)
+            $this->createMock(SettingsService::class),
+            $this->createMock(ClassementService::class)
         );
 
         $retour = [

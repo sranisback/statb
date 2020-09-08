@@ -2,12 +2,12 @@
 
 namespace App\Service;
 
+use App\Entity\ClassementGeneral;
 use App\Entity\Coaches;
 use App\Entity\GameDataPlayers;
 use App\Entity\GameDataStadium;
 use App\Entity\Players;
 use App\Entity\Races;
-use App\Entity\Setting;
 use App\Entity\Stades;
 use App\Entity\Teams;
 use App\Entity\Matches;
@@ -63,11 +63,11 @@ class EquipeService
         $this->settingsService = $settingsService;
     }
 
-     /**
-     * @param Teams $equipe
-     * @param PlayerService $playerService
-     * @return int
-     */
+    /**
+    * @param Teams $equipe
+    * @param PlayerService $playerService
+    * @return int
+    */
     public function tvDelEquipe(Teams $equipe, PlayerService $playerService)
     {
         $coutTotalJoueur = $playerService->coutTotalJoueurs($equipe);
@@ -104,7 +104,7 @@ class EquipeService
      * @param array<Matches> $matchesCollection
      * @return array<string,int>
      */
-    public function resultatsDelEquipe(Teams $equipe, Array $matchesCollection): array
+    public function resultatsDelEquipe(Teams $equipe, array $matchesCollection): array
     {
         $TotalWin = 0;
         $Totaldraw = 0;
@@ -119,6 +119,11 @@ class EquipeService
         }
 
         return ['win' => $TotalWin, 'draw' => $Totaldraw, 'loss' => $Totalloss];
+    }
+
+    public function resultatsEtDetailsDeLequipe(Teams $equipe, array $matchesCollection)
+    {
+        return array_merge($this->resultatsDelEquipe($equipe, $matchesCollection), $this->detailsScoreEquipe($equipe));
     }
 
     /**
@@ -589,5 +594,25 @@ class EquipeService
         $this->doctrineEntityManager->persist($equipe);
 
         $this->doctrineEntityManager->flush();
+    }
+
+    /**
+     *
+     */
+    public function detailsScoreEquipe(Teams $equipe)
+    {
+        /** @var ClassementGeneral $detailsPoints */
+        $detailsPoints = $this->doctrineEntityManager->getRepository(ClassementGeneral::class)->findOneBy(['equipe' => $equipe->getTeamId()]);
+
+        return [
+                'bonus' => $detailsPoints->getBonus(),
+                'tdMis' => $detailsPoints->getTdPour(),
+                'tdPris' => $detailsPoints->getTdContre(),
+                'sortiesPour' => $detailsPoints->getCasPour(),
+                'sortiesContre' => $detailsPoints->getCasContre(),
+                'score' => $detailsPoints->getPoints(),
+                'penalite' => $detailsPoints->getPenalite()
+            ]
+        ;
     }
 }

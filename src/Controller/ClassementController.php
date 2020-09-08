@@ -280,6 +280,25 @@ class ClassementController extends AbstractController
     {
         $classementService->sauvegardeClassementGeneral($classementService->toutesLesEquipesPourLeClassementGeneral($annee, $this->settingsService->pointsEnCours($annee)));
 
+        $labelAnnee = (new AnneeEnum)->numeroToAnnee();
+
+        $this->addFlash('success', 'Classement Calculé! Année: '. $labelAnnee[$annee]);
+
+        return $this->redirectToRoute('index');
+    }
+
+    /**
+     * @route("/recalculTousLesClassement/{zob}")
+     * @param ClassementService $classementService
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function recalculTousLesClassement($zob,ClassementService $classementService)
+    {
+        for ($annee = 0; $annee < ($this->settingsService->anneeCourante())+1; $annee++) {
+            $classementService->sauvegardeClassementGeneral($classementService->toutesLesEquipesPourLeClassementGeneral($annee, $this->settingsService->pointsEnCours($annee)));
+        }
+        $this->addFlash('success', 'Classements Recalculés!');
+
         return $this->redirectToRoute('index');
     }
 }

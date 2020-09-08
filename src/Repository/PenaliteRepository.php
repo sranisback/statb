@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Penalite;
+use App\Entity\Teams;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -26,6 +27,14 @@ class PenaliteRepository extends ServiceEntityRepository
             ->where('teams.year = ' . $annee)
             ->getQuery()
             ->getResult();
+    }
+
+    public function penaliteDuneEquipe(Teams $equipe)
+    {
+        return $this->createQueryBuilder('penalite')
+            ->select('SUM(penalite.points) malus')
+            ->where('penalite.equipe = ' . $equipe->getTeamId())
+            ->getQuery()->getSingleScalarResult();
     }
 
     // /**
