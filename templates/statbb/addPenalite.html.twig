@@ -1,0 +1,27 @@
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#penalite">
+    Ajouter Une Penalite
+</button>
+
+<div class="modal fade" id="penalite">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Ajouter une Pénalité</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    {{ form_start(form, {'action': path('ajoutPenalite')})}}
+                    {{ form_errors(form) }}
+                    {{ form_row(form.points) }}
+                    {{ form_row(form.equipe) }}
+                    {{ form_row(form.motif) }}
+                </div>
+            </div>
+            <div class="modal-footer">
+                {{ form_widget(form.submit) }}{{ form_widget(form.cancel) }}
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+</div>

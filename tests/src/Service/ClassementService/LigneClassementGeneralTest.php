@@ -4,6 +4,7 @@
 namespace App\Tests\src\Service\ClassementService;
 
 use App\Entity\Matches;
+use App\Entity\Penalite;
 use App\Entity\Teams;
 use App\Service\ClassementService;
 use App\Service\EquipeService;
@@ -52,8 +53,27 @@ class LigneClassementGeneralTest extends TestCase
             ]
         );
 
+        $penaliteRepoMock = $this->getMockBuilder(Penalite::class)
+            ->setMethods(['penaliteDuneEquipe'])
+            ->getMock();
+        $penaliteRepoMock->method('penaliteDuneEquipe')->willReturn(2);
+
         $objectManager = $this->createMock(EntityManagerInterface::class);
-        $objectManager->method('getRepository')->willReturn($matchRepoMock);
+        $objectManager->method('getRepository')->will(
+            $this->returnCallback(
+                function ($entityName) use ($penaliteRepoMock, $matchRepoMock) {
+                    if ($entityName === 'App\Entity\Penalite') {
+                        return $penaliteRepoMock;
+                    }
+
+                    if ($entityName === 'App\Entity\Matches') {
+                        return $matchRepoMock;
+                    }
+
+                    return true;
+                }
+            )
+        );
 
         $equipeServiceMock = $this->createMock(EquipeService::class);
         $equipeServiceMock->method('resultatsDelEquipe')->willReturn(['win' => 1, 'draw' => 1, 'loss' => 1]);
@@ -83,7 +103,8 @@ class LigneClassementGeneralTest extends TestCase
                 'tdMis' => 3,
                 'tdPris' => 0,
                 'sortiesPour' => 8,
-                'sortiesContre' => 0
+                'sortiesContre' => 0,
+                'penalite' => 2
             ],
             $classementService->ligneClassementGeneral($equipeMock0,[8,3,-3])
         );

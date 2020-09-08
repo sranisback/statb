@@ -64,6 +64,15 @@ $(document).ready(function () {
             null,
             null,
             null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
             {
                 "orderable": false
             }
@@ -98,6 +107,12 @@ $(document).ready(function () {
     });
 
     $('#TableDefis').DataTable({
+        "lengthChange": false,
+        "pageLength": 20,
+        "info": false
+    });
+
+    $('#TablePenalite').DataTable({
         "lengthChange": false,
         "pageLength": 20,
         "info": false

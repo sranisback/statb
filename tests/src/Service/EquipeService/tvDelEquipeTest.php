@@ -3,10 +3,9 @@
 namespace App\Tests\src\Service\EquipeService;
 
 
-use App\Entity\GameDataPlayers;
-use App\Entity\Players;
 use App\Entity\Races;
 use App\Entity\Teams;
+use App\Service\ClassementService;
 use App\Service\EquipeService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
@@ -34,7 +33,8 @@ class tvDelEquipeTest extends KernelTestCase
 
         $equipeService = new EquipeService(
             $objectManager,
-            $this->createMock(SettingsService::class)
+            $this->createMock(SettingsService::class),
+            $this->createMock(ClassementService::class)
         );
 
         $this->assertEquals(300_000, $equipeService->tvDelEquipe($equipeTest, $playerServiceMock));

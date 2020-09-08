@@ -5,6 +5,7 @@ namespace App\src\Service\EquipeService;
 use App\Entity\Matches;
 use App\Entity\Races;
 use App\Entity\Teams;
+use App\Service\ClassementService;
 use App\Service\EquipeService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
@@ -36,7 +37,8 @@ class AjoutInducementTest extends KernelTestCase
 
         $equipeServiceTest = new EquipeService(
             $objectManager,
-            $this->createMock(SettingsService::class)
+            $this->createMock(SettingsService::class),
+            $this->createMock(ClassementService::class)
         );
 
         $resultatAttendu = [
@@ -77,7 +79,8 @@ class AjoutInducementTest extends KernelTestCase
 
         $equipeServiceTest = new EquipeService(
             $objectManager,
-            $this->createMock(SettingsService::class)
+            $this->createMock(SettingsService::class),
+            $this->createMock(ClassementService::class)
         );
 
         $resultatAttendu = [
@@ -116,7 +119,8 @@ class AjoutInducementTest extends KernelTestCase
 
         $equipeServiceTest = new EquipeService(
             $objectManager,
-            $this->createMock(SettingsService::class)
+            $this->createMock(SettingsService::class),
+            $this->createMock(ClassementService::class)
         );
 
         $resultatAttendu = [

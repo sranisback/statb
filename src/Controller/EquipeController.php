@@ -87,7 +87,7 @@ class EquipeController extends AbstractController
         foreach ($equipeService->listeDesAnciennesEquipes($coachActif, $annee) as $equipe) {
             $compilEquipes[] = [
                 'equipe' => $equipe,
-                'resultats' => $equipeService->resultatsDelEquipe(
+                'resultats' => $equipeService->resultatsEtDetailsDeLequipe(
                     $equipe,
                     $this->getDoctrine()->getRepository(Matches::class)->listeDesMatchs($equipe)
                 ),
@@ -122,10 +122,10 @@ class EquipeController extends AbstractController
         ) as $equipe) {
             $equipesEtResultatsDuCoach[] = [
                 'equipe' => $equipe,
-                'resultats' => $equipeService->resultatsDelEquipe(
+                'resultats' => $equipeService->resultatsEtDetailsDeLequipe(
                     $equipe,
                     $this->getDoctrine()->getRepository(Matches::class)->listeDesMatchs($equipe)
-                ),
+                )
             ];
         }
 
@@ -554,7 +554,6 @@ class EquipeController extends AbstractController
         } else {
             $equipe->setFranchise(0);
         }
-
 
         $this->getDoctrine()->getManager()->persist($equipe);
         $this->getDoctrine()->getManager()->flush();

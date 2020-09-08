@@ -4,6 +4,7 @@ namespace App\Tests\src\Service\EquipeService;
 
 
 use App\Entity\Teams;
+use App\Service\ClassementService;
 use App\Service\EquipeService;
 use App\Service\SettingsService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -48,7 +49,8 @@ class listeDesAnciennesEquipesTest extends KernelTestCase
         $settingServiceMock = $this->createMock(SettingsService::class);
         $settingServiceMock->method('anneeCourante')->willReturn(3);
 
-        $equipeService = new EquipeService($objectManager, $settingServiceMock );
+        $equipeService = new EquipeService($objectManager, $settingServiceMock,
+            $this->createMock(ClassementService::class) );
 
         $this->assertEquals(4, count($equipeService->listeDesAnciennesEquipes(0, 3)));
     }
@@ -70,7 +72,8 @@ class listeDesAnciennesEquipesTest extends KernelTestCase
         $settingServiceMock = $this->createMock(SettingsService::class);
         $settingServiceMock->expects($this->any())->method('anneeCourante')->willReturn(3);
 
-        $equipeService = new EquipeService($objectManager, $settingServiceMock );
+        $equipeService = new EquipeService($objectManager, $settingServiceMock ,
+            $this->createMock(ClassementService::class));
 
         $this->assertEquals(0, count($equipeService->listeDesAnciennesEquipes(0, 3)));
     }
@@ -109,7 +112,8 @@ class listeDesAnciennesEquipesTest extends KernelTestCase
         $settingServiceMock = $this->createMock(SettingsService::class);
         $settingServiceMock->expects($this->any())->method('anneeCourante')->willReturn(3);
 
-        $equipeService = new EquipeService($objectManager, $settingServiceMock );
+        $equipeService = new EquipeService($objectManager, $settingServiceMock ,
+            $this->createMock(ClassementService::class));
 
         $this->assertEquals(3, count($equipeService->listeDesAnciennesEquipes(0, 3)));
     }

@@ -13,6 +13,7 @@
                     <th>Sort -</th>
                     <th>Sort Average</th>
                     <th>Pts Bonus</th>
+                    <th>Penalités</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -28,6 +29,7 @@
                         <td>{{ ligne.total.casContre }}</td>
                         <td>{{ ligne.casAverage }}</td>
                         <td>{{ ligne.total.bonus }}</td>
+                        <td>{% if(ligne.total.penalite != 0) %} - {% endif %} {{ ligne.total.penalite }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

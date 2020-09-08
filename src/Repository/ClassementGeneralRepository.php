@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\ClassementGeneral;
+use App\Entity\Teams;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -23,9 +24,10 @@ class ClassementGeneralRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('cg')
             ->select(
-                'cg total','cg.gagne+cg.egalite+cg.perdu nbr', 'cg.points + cg.bonus pointTotaux')
+                'cg total','cg.gagne+cg.egalite+cg.perdu nbr', 'cg.points + cg.bonus-cg.penalite pointTotaux')
             ->join('cg.equipe', 'equipe')
             ->where('equipe.year =' . $annee)
+            ->andWhere('cg.gagne+cg.egalite+cg.perdu > 0' )
             ->addOrderBy('pointTotaux','DESC')
             ->addOrderBy('nbr','ASC')
             ->getQuery()->execute();
@@ -40,6 +42,21 @@ class ClassementGeneralRepository extends ServiceEntityRepository
             ->where('equipe.year =' . $annee)
             ->addOrderBy('equipe.name','ASC')
             ->getQuery()->execute();
+    }
+
+    public function scoreDuneEquipe(Teams $equipe)
+    {
+        return $this->createQueryBuilder('cg')
+            ->select('cg.points')
+            ->where('cg.equipe = ' . $equipe->getTeamId())
+            ->getQuery()->getSingleScalarResult();
+    }
+
+    public function scoreDetailDuneEquipe(Teams $equipe)
+    {
+        return $this->createQueryBuilder('cg')
+            ->where('cg.equipe = ' . $equipe->getTeamId())
+            ->getQuery()->getResult();
     }
 
     // /**

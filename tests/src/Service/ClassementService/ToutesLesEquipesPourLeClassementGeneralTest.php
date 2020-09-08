@@ -4,6 +4,7 @@
 namespace App\Tests\src\Service\ClassementService;
 
 use App\Entity\Matches;
+use App\Entity\Penalite;
 use App\Entity\Teams;
 use App\Service\ClassementService;
 use App\Service\EquipeService;
@@ -48,16 +49,25 @@ class ToutesLesEquipesPourLeClassementGeneralTest extends TestCase
             $listeEquipe
         );
 
+        $penaliteRepoMock = $this->getMockBuilder(Penalite::class)
+            ->setMethods(['penaliteDuneEquipe'])
+            ->getMock();
+        $penaliteRepoMock->method('penaliteDuneEquipe')->willReturnOnConsecutiveCalls(4,3,2,1);
+
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->will(
             $this->returnCallback(
-                function ($entityName) use ($teamRepoMock, $matchRepoMock) {
+                function ($entityName) use ($teamRepoMock, $matchRepoMock,$penaliteRepoMock) {
                     if ($entityName === 'App\Entity\Teams') {
                         return $teamRepoMock;
                     }
 
                     if ($entityName === 'App\Entity\Matches') {
                         return $matchRepoMock;
+                    }
+
+                    if ($entityName === 'App\Entity\Penalite') {
+                        return $penaliteRepoMock;
                     }
 
                     return true;
@@ -72,7 +82,6 @@ class ToutesLesEquipesPourLeClassementGeneralTest extends TestCase
             ['win' => 0, 'draw' => 2, 'loss' => 0],
             ['win' => 0, 'draw' => 0, 'loss' => 2]
         );
-
 
         $classementService = new ClassementService(
             $objectManager,
@@ -95,6 +104,7 @@ class ToutesLesEquipesPourLeClassementGeneralTest extends TestCase
                     'tdPris' => 0,
                     'sortiesPour' => 0,
                     'sortiesContre' => 0,
+                    'penalite' => 4
                 ],
                 [
                     'gagne' => 2,
@@ -106,7 +116,8 @@ class ToutesLesEquipesPourLeClassementGeneralTest extends TestCase
                     'tdMis' => 0,
                     'tdPris' => 0,
                     'sortiesPour' => 0,
-                    'sortiesContre' => 0
+                    'sortiesContre' => 0,
+                    'penalite' => 3
                 ],
                 [
                     'gagne' => 0,
@@ -118,7 +129,8 @@ class ToutesLesEquipesPourLeClassementGeneralTest extends TestCase
                     'tdMis' => 0,
                     'tdPris' => 0,
                     'sortiesPour' => 0,
-                    'sortiesContre' => 0
+                    'sortiesContre' => 0,
+                    'penalite' => 2
                 ],
                 [
                     'gagne' => 0,
@@ -131,6 +143,7 @@ class ToutesLesEquipesPourLeClassementGeneralTest extends TestCase
                     'tdPris' => 0,
                     'sortiesPour' => 0,
                     'sortiesContre' => 0,
+                    'penalite' => 1
                 ]
             ],
             $resultat
