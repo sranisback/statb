@@ -30,17 +30,17 @@ class Races
 
     /**
      *
-     * @ORM\Column(name="cost_rr", type="integer", nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="cost_rr", type="integer", nullable=true, options={"unsigned"=true})
      * @var int|null
      */
-    private ?int $costRr;
+    private ?int $costRr = null;
 
     /**
      *
      * @ORM\Column(name="icon", type="string", length=45, nullable=true)
      * @var string|null
      */
-    private ?string $icon;
+    private ?string $icon = null;
 
     public function getRaceId(): int
     {

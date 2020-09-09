@@ -80,15 +80,16 @@ class DefisService
 
     public function verificationDefis(Matches $matches): ?\App\Entity\Defis
     {
+        $defiEnCours = null;
+
         if (!empty($matches->getTeam1()) && !empty($matches->getTeam2())) {
             /** @var Defis $defiEnCours */
             $defiEnCours = $this->doctrineEntityManager->getRepository(Defis::class)->listeDeDefisActifPourLeMatch(
                 $matches->getTeam1()->getTeamId(),
                 $matches->getTeam2()->getTeamId()
             );
-        } else {
-            throw new \Exception('pas d\'équipe dans le match');
         }
+
         if (!empty($defiEnCours)) {
                 $defiEnCours->setMatchDefi($matches);
                 $defiEnCours->setDefieRealise(true);

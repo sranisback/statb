@@ -121,7 +121,12 @@ class EquipeService
         return ['win' => $TotalWin, 'draw' => $Totaldraw, 'loss' => $Totalloss];
     }
 
-    public function resultatsEtDetailsDeLequipe(Teams $equipe, array $matchesCollection)
+    /**
+     * @param Teams $equipe
+     * @param array<Matches> $matchesCollection
+     * @return array<mixed>
+     */
+    public function resultatsEtDetailsDeLequipe(Teams $equipe, array $matchesCollection) : array
     {
         return array_merge($this->resultatsDelEquipe($equipe, $matchesCollection), $this->detailsScoreEquipe($equipe));
     }
@@ -197,7 +202,7 @@ class EquipeService
      * @param Teams $equipe
      * @param string $type
      * @param PlayerService $playerService
-     * @return array<string,int>
+     * @return array<string,int|null>
      */
     public function ajoutInducement(Teams $equipe, string $type, PlayerService $playerService): array
     {
@@ -292,7 +297,7 @@ class EquipeService
      * @param Teams $equipe
      * @param string $type
      * @param PlayerService $playerService
-     * @return array<string,int>
+     * @return array<string,int|null>
      */
     public function supprInducement(Teams $equipe, string $type, PlayerService $playerService): array
     {
@@ -597,12 +602,14 @@ class EquipeService
     }
 
     /**
-     *
+     * @param Teams $equipe
+     * @return array<mixed>
      */
-    public function detailsScoreEquipe(Teams $equipe)
+    public function detailsScoreEquipe(Teams $equipe):array
     {
         /** @var ClassementGeneral $detailsPoints */
-        $detailsPoints = $this->doctrineEntityManager->getRepository(ClassementGeneral::class)->findOneBy(['equipe' => $equipe->getTeamId()]);
+        $detailsPoints = $this->doctrineEntityManager
+            ->getRepository(ClassementGeneral::class)->findOneBy(['equipe' => $equipe->getTeamId()]);
 
         return [
                 'bonus' => $detailsPoints->getBonus(),

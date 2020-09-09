@@ -11,11 +11,11 @@ class Defis
 {
     /**
      * @ORM\Id
-     * @var int|null
+     * @var int
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private ?int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Teams", cascade={"persist"})

@@ -46,7 +46,7 @@ class JoueurController extends AbstractController
     }
 
     /**
-     * @Route("/player/{playerid}", name="Player", options = { "expose" = true })
+     * @Route("/player/{playerid}", name="Player")
      * @param int $playerid
      * @param PlayerService $playerService
      * @return Response
@@ -167,7 +167,7 @@ class JoueurController extends AbstractController
     }
 
     /**
-     * @Route("/addPlayer", name="addPlayer",options = { "expose" = true })
+     * @Route("/addPlayer", name="addPlayer", options = { "expose" = true })
      * @param PlayerService $playerService
      * @param EquipeService $equipeService
      * @param Request $request
@@ -200,7 +200,7 @@ class JoueurController extends AbstractController
 
                 $cout = $position->getCost();
 
-                if($playerService->leJoueurEstDisposable($joueur)) {
+                if ($playerService->leJoueurEstDisposable($joueur)) {
                     $cout = 0;
                 }
 
@@ -214,7 +214,7 @@ class JoueurController extends AbstractController
 
                 $coutjoueur = $joueur->getValue();
 
-                if($playerService->leJoueurEstDisposable($joueur)) {
+                if ($playerService->leJoueurEstDisposable($joueur)) {
                     $coutjoueur = 0;
                 }
 
@@ -286,7 +286,7 @@ class JoueurController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
 
         /** @var Players $player */
-        $player = $this->getDoctrine()->getRepository(players::class)->findOneBy(['playerId' => $playerid]);
+        $player = $this->getDoctrine()->getRepository(\App\Entity\Players::class)->findOneBy(['playerId' => $playerid]);
 
         $player->setNr($newnr);
 
@@ -301,7 +301,7 @@ class JoueurController extends AbstractController
             $playerTeamId = $playerTeam->getTeamId();
         }
         $response = new Response();
-        $response->setContent($playerTeamId);
+        $response->setContent((string) $playerTeamId);
         $response->setStatusCode(200);
 
         return $response;
@@ -318,7 +318,7 @@ class JoueurController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
 
         /** @var Players $player */
-        $player = $this->getDoctrine()->getRepository(players::class)->findOneBy(['playerId' => $playerid]);
+        $player = $this->getDoctrine()->getRepository(\App\Entity\Players::class)->findOneBy(['playerId' => $playerid]);
 
         $player->setName($newname);
 
@@ -333,14 +333,14 @@ class JoueurController extends AbstractController
             $playerTeamId = $playerTeam->getTeamId();
         }
         $response = new Response();
-        $response->setContent($playerTeamId);
+        $response->setContent((string) $playerTeamId);
         $response->setStatusCode(200);
 
         return $response;
     }
 
     /**
-     * @Route("/skillmodal/{playerid}", name="skillmodal", options = { "expose" = true })
+     * @Route("/skillmodal/{playerid}", name="skillmodal")
      * @param int $playerid
      * @return Response
      */
@@ -354,7 +354,7 @@ class JoueurController extends AbstractController
     }
 
     /**
-     * @Route("/ajoutComp/{playerid}", name="ajoutComp", options={"expose":true})
+     * @Route("/ajoutComp/{playerid}", name="ajoutComp")
      * @param Request $request
      * @param PlayerService $playerService
      * @param int $playerid
@@ -365,7 +365,7 @@ class JoueurController extends AbstractController
         $form = $request->request->get('ajout_competence');
 
         /** @var Players $joueur */
-        $joueur = $this->getDoctrine()->getRepository(players::class)->findOneBy(['playerId' => $playerid]);
+        $joueur = $this->getDoctrine()->getRepository(\App\Entity\Players::class)->findOneBy(['playerId' => $playerid]);
 
         /** @var GameDataSkills $competence */
         $competence = $this->getDoctrine()->getRepository(GameDataSkills::class)->findOneBy(
@@ -412,14 +412,14 @@ class JoueurController extends AbstractController
         /** @var Teams $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $donnees['equipeId']]);
         if (!empty($equipe)) {
-            return new Response($playerService->numeroLibreDelEquipe($equipe));
+            return new Response((string)$playerService->numeroLibreDelEquipe($equipe));
         }
 
-        return new Response(99);
+        return new Response((string)99);
     }
 
     /**
-     * @Route("/uploadPhoto/{joueurId}", name= "uploadPhoto")
+     * @Route("/uploadPhoto/{joueurId}", name="uploadPhoto")
      * @param Request $request
      * @param int $joueurId
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -446,7 +446,7 @@ class JoueurController extends AbstractController
     }
 
     /**
-     * @route("/supprimePhoto/{joueurId}", name= "supprimePhoto",  options = { "expose" = true })
+     * @route("/supprimePhoto/{joueurId}", name="supprimePhoto", options = { "expose" = true })
      * @param int $joueurId
      * @return Response
      */

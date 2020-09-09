@@ -42,12 +42,12 @@ class ClassementController extends AbstractController
             'classement' => $this->getDoctrine()->getRepository(ClassementGeneral::class)->classementGeneral($annee),
             'annee' => $annee,
             'etiquette' => $etiquette
-        ]
+            ]
         );
     }
 
     /**
-     * @Route("/classement/detail/{annee}", name="classGenDetail", options = { "expose" = true })
+     * @Route("/classement/detail/{annee}", name="classGenDetail")
      * @param ClassementService $classementService
      * @return Response
      */
@@ -57,7 +57,9 @@ class ClassementController extends AbstractController
         return $this->render(
             'statbb/tabs/ligue/classementDetail.html.twig',
             [
-                'classementDet' => $this->getDoctrine()->getRepository(ClassementGeneral::class)->classementGeneralDetail($annee)
+                'classementDet' => $this->getDoctrine()
+                        ->getRepository(ClassementGeneral::class)
+                        ->classementGeneralDetail($annee)
             ]
         );
     }
@@ -109,7 +111,7 @@ class ClassementController extends AbstractController
     }
 
     /**
-     * @Route("/totalcas/{annee}", options = { "expose" = true })
+     * @Route("/totalcas/{annee}", options = { "expose" = true }))
      */
     public function affichetotalCas(ClassementService $classementService, int $annee)
     : \Symfony\Component\HttpFoundation\Response
@@ -123,7 +125,7 @@ class ClassementController extends AbstractController
     }
 
     /**
-     * @Route("/cinqDernierMatch/", options = { "expose" = true })
+     * @Route("/cinqDernierMatch/")
      * @param ClassementService $classementService
      * @return Response
      */
@@ -136,7 +138,7 @@ class ClassementController extends AbstractController
     }
 
     /**
-     * @Route("/cinqDernierMatchPourEquipe/{equipeId}", options = { "expose" = true })
+     * @Route("/cinqDernierMatchPourEquipe/{equipeId}")
      * @param ClassementService $classementService
      * @param integer $equipeId
      * @return Response
@@ -151,7 +153,7 @@ class ClassementController extends AbstractController
     }
 
     /**
-     * @Route("/tousLesMatchesPourEquipe/{equipeId}", options = { "expose" = true })
+     * @Route("/tousLesMatchesPourEquipe/{equipeId}")
      * @param ClassementService $classementService
      * @param integer $equipeId
      * @return Response
@@ -168,7 +170,7 @@ class ClassementController extends AbstractController
     }
 
     /**
-     * @Route("/montreLeCimetierre", name="montreLeCimetierre", options = { "expose" = true })
+     * @Route("/montreLeCimetierre", name="montreLeCimetierre")
      * @return Response
      */
     public function montreLeCimetiere(): \Symfony\Component\HttpFoundation\Response
@@ -176,7 +178,7 @@ class ClassementController extends AbstractController
         return $this->render(
             'statbb/tabs/ligue/cimetiere.html.twig',
             [
-                'joueurCollection' => $this->getDoctrine()->getRepository(players::class)->mortPourlAnnee(
+                'joueurCollection' => $this->getDoctrine()->getRepository(\App\Entity\Players::class)->mortPourlAnnee(
                     $this->settingsService->anneeCourante()
                 ),
             ]
@@ -184,7 +186,7 @@ class ClassementController extends AbstractController
     }
 
     /**
-     * @Route("/montreClassementELO", name="montreClassementELO", options = { "expose" = true })
+     * @Route("/montreClassementELO", name="montreClassementELO")
      * @return Response
      */
     public function montreClassementELO(): \Symfony\Component\HttpFoundation\Response
@@ -200,7 +202,7 @@ class ClassementController extends AbstractController
     }
 
     /**
-     * @Route("/montreConfrontation", name="montreConfrontation", options = { "expose" = true })
+     * @Route("/montreConfrontation", name="montreConfrontation")
      * @param ClassementService $classementService
      * @param EquipeService $equipeService
      * @return Response
@@ -275,29 +277,20 @@ class ClassementController extends AbstractController
      * @route("/calculClassementGen/{annee}")
      * @param int $annee
      * @param ClassementService $classementService
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function calculClassementGen(int $annee, ClassementService $classementService)
     {
-        $classementService->sauvegardeClassementGeneral($classementService->toutesLesEquipesPourLeClassementGeneral($annee, $this->settingsService->pointsEnCours($annee)));
+        $classementService->sauvegardeClassementGeneral(
+            $classementService->toutesLesEquipesPourLeClassementGeneral(
+                $annee,
+                $this->settingsService->pointsEnCours($annee)
+            )
+        );
 
         $labelAnnee = (new AnneeEnum)->numeroToAnnee();
 
         $this->addFlash('success', 'Classement Calculé! Année: '. $labelAnnee[$annee]);
-
-        return $this->redirectToRoute('index');
-    }
-
-    /**
-     * @route("/recalculTousLesClassement/{zob}")
-     * @param ClassementService $classementService
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function recalculTousLesClassement($zob,ClassementService $classementService)
-    {
-        for ($annee = 0; $annee < ($this->settingsService->anneeCourante())+1; $annee++) {
-            $classementService->sauvegardeClassementGeneral($classementService->toutesLesEquipesPourLeClassementGeneral($annee, $this->settingsService->pointsEnCours($annee)));
-        }
-        $this->addFlash('success', 'Classements Recalculés!');
 
         return $this->redirectToRoute('index');
     }

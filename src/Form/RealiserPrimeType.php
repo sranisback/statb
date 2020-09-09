@@ -22,10 +22,9 @@ class RealiserPrimeType extends AbstractType
                 EntityType::class,
                 [
                     'class' => Primes::class,
-                    'query_builder' => function (EntityRepository $entityRepository) {
-                        return $entityRepository->createQueryBuilder('Primes')
-                            ->where('Primes.actif = 1');
-                    },
+                    'query_builder' =>
+                        fn(EntityRepository $entityRepository) => $entityRepository->createQueryBuilder('Primes')
+                        ->where('Primes.actif = 1'),
                     'choice_label' => function (Primes $prime) {
                         $joueur = $prime->getPlayers();
                         if (!empty($joueur)) {
@@ -43,10 +42,8 @@ class RealiserPrimeType extends AbstractType
                         if (!empty($joueur)) {
                             $positionJoueur = $joueur->getFPos();
                             $equipe = $joueur->getOwnedByTeam();
-                            if (!empty($joueur->getName())) {
-                                if (strlen($joueur->getName()) != 2) {
-                                    $nomDuJoueur = $joueur->getName();
-                                }
+                            if (!empty($joueur->getName()) && strlen($joueur->getName()) != 2) {
+                                $nomDuJoueur = $joueur->getName();
                             }
                         }
 
@@ -66,10 +63,9 @@ class RealiserPrimeType extends AbstractType
                 [
                     'class' => Teams::class,
                     'choice_label' => 'name',
-                    'query_builder' => function (EntityRepository $entityRepository) use ($options) {
-                        return $entityRepository->createQueryBuilder('Teams')
-                            ->where('Teams.year ='.$options['year']);
-                    },
+                    'query_builder' =>
+                        fn(EntityRepository $entityRepository) => $entityRepository->createQueryBuilder('Teams')
+                        ->where('Teams.year ='.$options['year']),
                     'group_by' => function (Teams $equipe) {
                         $coach = $equipe->getOwnedByCoach();
                         if (!empty($coach)) {

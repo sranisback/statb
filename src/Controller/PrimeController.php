@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PrimeController extends AbstractController
 {
     /**
-     * @Route("/ajoutPrimeForm/{coachId}/{primeId}", name="ajoutPrimeForm", options = { "expose" = true })
+     * @Route("/ajoutPrimeForm/{coachId}/{primeId}", name="ajoutPrimeForm")
      * @param int $coachId
      * @param null $primeId
      * @return Response
@@ -34,7 +34,7 @@ class PrimeController extends AbstractController
     }
 
     /**
-     * @Route("/ajoutPrime/{coachId}", name="ajoutPrime", options = { "expose" = true })
+     * @Route("/ajoutPrime/{coachId}", name="ajoutPrime")
      * @param Request $request
      * @param PrimeService $primeService
      * @param int $coachId
@@ -51,7 +51,7 @@ class PrimeController extends AbstractController
     }
 
     /**
-     * @Route("/montrePrimesEnCours", name="montrePrimesEnCours", options = { "expose" = true })
+     * @Route("/montrePrimesEnCours", name="montrePrimesEnCours")
      * @param SettingsService $settingsService
      * @return Response
      */
@@ -68,7 +68,7 @@ class PrimeController extends AbstractController
     }
 
     /**
-     * @Route("/supprimerPrime/{primeId}", name="supprimerPrime", options = { "expose" = true })
+     * @Route("/supprimerPrime/{primeId}", name="supprimerPrime")
      * @param PrimeService $primeService
      * @param int $primeId
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -84,7 +84,7 @@ class PrimeController extends AbstractController
     }
 
     /**
-     * @Route("/realiserPrimeForm", name="realiserPrimeForm", options = { "expose" = true })
+     * @Route("/realiserPrimeForm", name="realiserPrimeForm")
      * @return Response
      */
     public function realiserPrimeForm(): \Symfony\Component\HttpFoundation\Response
@@ -95,7 +95,7 @@ class PrimeController extends AbstractController
     }
 
     /**
-     * @Route("/realiserPrime", name="realiserPrime", options = { "expose" = true })
+     * @Route("/realiserPrime", name="realiserPrime")
      * @param Request $request
      * @param PrimeService $primeService
      * @return \Symfony\Component\HttpFoundation\RedirectResponse

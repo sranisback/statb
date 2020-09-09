@@ -15,63 +15,63 @@ class ClassementGeneral
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $gagne;
+    private int $gagne = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $egalite;
+    private int $egalite = 0;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $perdu;
+    private int $perdu = 0;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $points;
+    private int $points = 0;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $bonus;
+    private int $bonus = 0;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $tdPour;
+    private int $tdPour = 0;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $tdContre;
+    private int $tdContre = 0;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $casPour;
+    private int $casPour = 0;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $casContre;
+    private int $casContre = 0;
 
     /**
      * @ORM\OneToOne(targetEntity=Teams::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn( referencedColumnName="team_id", nullable=true)
      */
-    private $equipe;
+    private ?\App\Entity\Teams $equipe = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $penalite;
+    private int $penalite = 0;
 
     public function getId(): ?int
     {

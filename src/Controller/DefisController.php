@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DefisController extends AbstractController
 {
     /**
-     * @Route("/ajoutDefisForm/{coachId}", name="ajoutDefisForm", options = { "expose" = true })
+     * @Route("/ajoutDefisForm/{coachId}", name="ajoutDefisForm")
      * @param int $coachId
      * @return Response
      */
@@ -29,15 +29,17 @@ class DefisController extends AbstractController
     }
 
     /**
-     * @Route("/ajoutDefis", name="ajoutDefis", options = { "expose" = true })
+     * @Route("/ajoutDefis", name="ajoutDefis")
      * @param Request $request
      * @param DefisService $defisService
      * @param SettingsService $settingService
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function ajoutDefis(Request $request, defisService $defisService, SettingsService $settingService)
-    : \Symfony\Component\HttpFoundation\RedirectResponse
-    {
+    public function ajoutDefis(
+        Request $request,
+        \App\Service\DefisService $defisService,
+        SettingsService $settingService
+    ) : \Symfony\Component\HttpFoundation\RedirectResponse {
         $datas = $request->request->get('ajout_defis');
 
         /** @var Teams $equipe */
@@ -76,7 +78,7 @@ class DefisController extends AbstractController
     }
 
     /**
-     * @Route("/afficherPeriodeDefisActuelle", name="afficherPeriodeDefisActuelle", options = { "expose" = true })
+     * @Route("/afficherPeriodeDefisActuelle", name="afficherPeriodeDefisActuelle")
      * @param SettingsService $settingsService
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -93,7 +95,7 @@ class DefisController extends AbstractController
     }
 
     /**
-     * @Route("/supprimerDefis/{defisId}", name="supprimerDefis", options = { "expose" = true })
+     * @Route("/supprimerDefis/{defisId}", name="supprimerDefis")
      * @param DefisService $defisService
      * @param int $defisId
      * @return \Symfony\Component\HttpFoundation\RedirectResponse

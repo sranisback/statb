@@ -17,7 +17,7 @@ class Teams
 {
     /**
      *
-     * @ORM\Column(name="team_id", type="integer", nullable=false, options={"unsigned":true})
+     * @ORM\Column(name="team_id", type="integer", nullable=false, options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @var int
@@ -47,7 +47,7 @@ class Teams
 
     /**
      *
-     * @ORM\Column(name="rerolls", type="integer", nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="rerolls", type="integer", nullable=true, options={"unsigned"=true})
      * @var int
      */
     private int $rerolls = 0;
@@ -61,14 +61,14 @@ class Teams
 
     /**
      *
-     * @ORM\Column(name="ass_coaches", type="integer", nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="ass_coaches", type="integer", nullable=true, options={"unsigned"=true})
      * @var int
      */
     private int $assCoaches = 0;
 
     /**
      *
-     * @ORM\Column(name="cheerleaders", type="integer", nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="cheerleaders", type="integer", nullable=true, options={"unsigned"=true})
      * @var int
      */
     private int $cheerleaders = 0;
@@ -92,7 +92,7 @@ class Teams
      * @ORM\Column(name="elo", type="float", precision=10, scale=0, nullable=true)
      * @var float|null
      */
-    private ?float $elo;
+    private ?float $elo = null;
 
 
     /**
@@ -137,7 +137,7 @@ class Teams
      * @ORM\Column(type="string", length=255, nullable=true)
      * @var string|null
      */
-    private ?string $logo;
+    private ?string $logo = null;
 
     /**
      * @ORM\Column(type="boolean")
@@ -147,7 +147,7 @@ class Teams
     /**
      * @ORM\OneToMany(targetEntity=Penalite::class, mappedBy="equipe", orphanRemoval=true)
      */
-    private $penalite;
+    private \Doctrine\Common\Collections\Collection $penalite;
 
     public function __construct()
     {

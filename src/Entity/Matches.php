@@ -28,7 +28,7 @@ class Matches
 
     /**
      *
-     * @ORM\Column(name="fans", type="integer", nullable=false, options={"unsigned":true})
+     * @ORM\Column(name="fans", type="integer", nullable=false, options={"unsigned"=true})
      * @var int
      */
     private int $fans = 0;
@@ -66,7 +66,7 @@ class Matches
      * @ORM\Column(name="date_created", type="datetime", nullable=true)
      * @var \DateTimeInterface|null
      */
-    private ?\DateTimeInterface $dateCreated;
+    private ?\DateTimeInterface $dateCreated = null;
 
     /**
      *
@@ -132,12 +132,12 @@ class Matches
      * @ORM\OneToMany(targetEntity="App\Entity\HistoriqueBlessure", mappedBy="fmatch", fetch="EAGER")
      * @var \App\Entity\HistoriqueBlessure[]|\Doctrine\Common\Collections\Collection
      */
-    private $blessuresMatch;
+    private \Doctrine\Common\Collections\Collection $blessuresMatch;
 /**
      * @ORM\Column(type="integer", nullable=true)
      * @var int|null
      */
-    private ?int $stadeAcceuil;
+    private ?int $stadeAcceuil = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)

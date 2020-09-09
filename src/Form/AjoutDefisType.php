@@ -30,13 +30,12 @@ class AjoutDefisType extends AbstractType
                     'class' => Teams::class,
                     'choice_label' => 'name',
                     'label' => 'Quelle Equipe ?',
-                    'query_builder' => function (EntityRepository $entityRepository) use ($options) {
-                        return $entityRepository->createQueryBuilder('Teams')
-                            ->join('Teams.ownedByCoach', 'Coaches')
-                            ->where('Teams.year ='.$this->settingsService->anneeCourante())
-                            ->andWhere('Teams.ownedByCoach ='.$options['coach'])
-                            ->orderBy('Coaches.name', 'ASC');
-                    },
+                    'query_builder' =>
+                        fn(EntityRepository $entityRepository) => $entityRepository->createQueryBuilder('Teams')
+                        ->join('Teams.ownedByCoach', 'Coaches')
+                        ->where('Teams.year ='.$this->settingsService->anneeCourante())
+                        ->andWhere('Teams.ownedByCoach ='.$options['coach'])
+                        ->orderBy('Coaches.name', 'ASC'),
                 ]
             )
             ->add(
@@ -46,13 +45,12 @@ class AjoutDefisType extends AbstractType
                     'class' => Teams::class,
                     'choice_label' => 'name',
                     'label' => 'Defier quelle Equipe/Coach',
-                    'query_builder' => function (EntityRepository $entityRepository) use ($options) {
-                        return $entityRepository->createQueryBuilder('Teams')
-                            ->join('Teams.ownedByCoach', 'Coaches')
-                            ->where('Teams.year ='.$this->settingsService->anneeCourante())
-                            ->andWhere('Teams.ownedByCoach !='.$options['coach'])
-                            ->orderBy('Coaches.name', 'ASC');
-                    },
+                    'query_builder' =>
+                        fn(EntityRepository $entityRepository) => $entityRepository->createQueryBuilder('Teams')
+                        ->join('Teams.ownedByCoach', 'Coaches')
+                        ->where('Teams.year ='.$this->settingsService->anneeCourante())
+                        ->andWhere('Teams.ownedByCoach !='.$options['coach'])
+                        ->orderBy('Coaches.name', 'ASC'),
                     'group_by' => function (Teams $team) {
                         if (!empty($team->getOwnedByCoach())) {
                             return $team->getOwnedByCoach()->getName();

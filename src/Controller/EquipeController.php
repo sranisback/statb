@@ -49,7 +49,7 @@ class EquipeController extends AbstractController
     }
 
     /**
-     * @Route("/montreLesEquipes", name="showteams", options = { "expose" = true })
+     * @Route("/montreLesEquipes", name="showteams")
      * @param SettingsService $settingsService
      * @return response
      */
@@ -66,7 +66,7 @@ class EquipeController extends AbstractController
     }
 
     /**
-     * @Route("/montreLesAnciennesEquipes/{coachActif}", name="showOldTeams", options = { "expose" = true})
+     * @Route("/montreLesAnciennesEquipes/{coachActif}", name="showOldTeams")
      * @param SettingsService $settingsService
      * @param EquipeService $equipeService
      * @param integer $coachActif
@@ -102,7 +102,7 @@ class EquipeController extends AbstractController
     }
 
     /**
-     * @Route("/showuserteams", name="showuserteams", options = { "expose" = true })
+     * @Route("/showuserteams", name="showuserteams")
      * @param SettingsService $settingsService
      * @param EquipeService $equipeService
      * @return response
@@ -270,7 +270,7 @@ class EquipeController extends AbstractController
     }
 
     /**
-     * @Route("/createTeam", name="createTeam", options = { "expose" = true })
+     * @Route("/createTeam", name="createTeam")
      * @param Request $request
      * @param EquipeService $equipeService
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -298,7 +298,7 @@ class EquipeController extends AbstractController
     }
 
     /**
-     * @Route("/choixRace", options = { "expose" = true })
+     * @Route("/choixRace")
      * @return Response
      */
     public function choixRace(): \Symfony\Component\HttpFoundation\Response
@@ -311,7 +311,7 @@ class EquipeController extends AbstractController
     }
 
     /**
-     * @Route("/retTeam/{teamId}", options = { "expose" = true })
+     * @Route("/retTeam/{teamId}")
      * @param int $teamId
      * @return JsonResponse
      */
@@ -330,7 +330,7 @@ class EquipeController extends AbstractController
     }
 
     /**
-     * @Route("/gestionInducement/{action}/{teamId}/{type}", name="gestionInducement",  options = { "expose" = true })
+     * @Route("/gestionInducement/{action}/{teamId}/{type}", name="gestionInducement", options = { "expose" = true })
      * @param EquipeService $equipeService
      * @param PlayerService $playerService
      * @param string $action
@@ -368,7 +368,7 @@ class EquipeController extends AbstractController
     }
 
     /**
-     * @Route("/chkteam/{teamId}", name="Chkteam", options = { "expose" = true })
+     * @Route("/chkteam/{teamId}", name="Chkteam")
      * @param int $teamId
      * @param EquipeService $equipeService
      * @param PlayerService $playerService
@@ -408,14 +408,14 @@ class EquipeController extends AbstractController
         $stadeService->renommerStade($equipe, $nouveauNomStade);
 
         $response = new Response();
-        $response->setContent($equipeId);
+        $response->setContent((string) $equipe->getTeamId());
         $response->setStatusCode(200);
 
         return $response;
     }
 
     /**
-     * @Route("/ajoutStadeModal/{equipeId}", name="ajoutStadeModal", options = { "expose" = true })
+     * @Route("/ajoutStadeModal/{equipeId}", name="ajoutStadeModal")
      * @param int $equipeId
      * @return Response
      */
@@ -435,7 +435,7 @@ class EquipeController extends AbstractController
     }
 
     /**
-     * @Route("/ajoutStade/{equipeId}", name="ajoutStade", options = { "expose" = true })
+     * @Route("/ajoutStade/{equipeId}", name="ajoutStade")
      * @param Request $request
      * @param StadeService $stadeService
      * @param int $equipeId
@@ -477,7 +477,7 @@ class EquipeController extends AbstractController
     }
 
     /**
-     * @Route("/recalculerTV", name="recalculerTV", options = { "expose" = true })
+     * @Route("/recalculerTV", name="recalculerTV")
      * @param EquipeService $equipeService
      * @param PlayerService $playerService
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -500,7 +500,7 @@ class EquipeController extends AbstractController
     }
 
     /**
-     * @Route("/listeDesJoueurs/{equipe}", name="listeDesJoueurs", options = { "expose" = true })
+     * @Route("/listeDesJoueurs/{equipe}", name="listeDesJoueurs")
      * @param Teams $equipe
      * @return Response
      */
@@ -517,7 +517,7 @@ class EquipeController extends AbstractController
     }
 
     /**
-     * @route("/supprimeLogo/{equipeId}", name="supprimeLogo",  options = { "expose" = true })
+     * @route("/supprimeLogo/{equipeId}", name="supprimeLogo", options = { "expose" = true })
      * @param int $equipeId
      * @return Response
      */

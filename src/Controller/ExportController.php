@@ -16,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ExportController extends AbstractController
 {
     /**
-     * @Route("/pdfTeam/{id}", name="pdfTeam", options = { "expose" = true })
+     * @Route("/pdfTeam/{id}", name="pdfTeam")
      * @param PlayerService $playerService
      * @param EquipeService $equipeService
      * @param int $id
@@ -99,7 +99,7 @@ class ExportController extends AbstractController
     }
 
     /**
-     * @Route("/pdfTournois", name="pdfTournois", options = { "expose" = true })
+     * @Route("/pdfTournois", name="pdfTournois")
      * @param Request $request
      * @return Response
      */

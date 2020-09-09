@@ -37,7 +37,7 @@ class UtilisateurController extends AbstractController
     }
 
     /**
-     * @Route("/usercontrol/", name="usercontrol", options ={"expose"= true})
+     * @Route("/usercontrol/", name="usercontrol")
      * @return Response
      */
     public function interfaceUtilisateur(): \Symfony\Component\HttpFoundation\Response
@@ -50,7 +50,7 @@ class UtilisateurController extends AbstractController
     }
 
     /**
-     * @Route("/ajoutCitation", name="ajoutCitation", options = { "expose" = true })
+     * @Route("/ajoutCitation", name="ajoutCitation")
      * @param Request $request
      * @param CitationService $citationService
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -64,38 +64,5 @@ class UtilisateurController extends AbstractController
         $this->addFlash('success', 'Citation Ajoutée!');
 
         return $this->redirectToRoute('frontUser');
-    }
-
-    /**
-     * @route("/estAutorise/{equipeId}", defaults={"equipeId"=null}, name="estAutorise", options = { "expose" = true })
-     * @param int $equipeId
-     * @param SettingsService $settingsService
-     * @return JsonResponse
-     */
-    public function estAutorise($equipeId, SettingsService $settingsService)
-    {
-        /** @var Coaches $coach */
-        $coach = $this->getUser();
-        if ($coach != null) {
-            $role = $coach->getRoles();
-
-            if ($role['role'] == 'ROLE_ADMIN') {
-                return $this->transformeEnJson(true);
-            }
-
-            if ($role['role'] == "ROLE_USER") {
-                if ($equipeId != null) {
-                    /** @var  Teams $equipe */
-                    $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
-                    if ($equipe->getOwnedByCoach() == $coach
-                        && $equipe->getRetired() == 0
-                        && $equipe->getYear() == $settingsService->anneeCourante()
-                    ) {
-                        return $this->transformeEnJson(true);
-                    }
-                }
-            }
-        }
-        return $this->transformeEnJson(false);
     }
 }

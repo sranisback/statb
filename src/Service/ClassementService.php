@@ -22,8 +22,11 @@ class ClassementService
 
     private MatchDataService $matchDataService;
 
-    public function __construct(EntityManagerInterface $doctrineEntityManager, EquipeService $equipeService, MatchDataService $matchDataService)
-    {
+    public function __construct(
+        EntityManagerInterface $doctrineEntityManager,
+        EquipeService $equipeService,
+        MatchDataService $matchDataService
+    ) {
         $this->doctrineEntityManager = $doctrineEntityManager;
         $this->equipeService = $equipeService;
         $this->matchDataService = $matchDataService;
@@ -49,7 +52,7 @@ class ClassementService
     {
         $matchesAreatourner = [];
 
-        $total = sizeof($matches);
+        $total = count($matches);
         if ($total > 5) {
             $total = 5;
         }
@@ -352,12 +355,15 @@ class ClassementService
 
     /**
      * @param Teams $equipe
-     * @param array $point
-     * @return array
+     * @param array<int> $point
+     * @return array<string, mixed>
      */
     public function ligneClassementGeneral(Teams $equipe, array $point)
     {
-        $resultatEquipe = $this->equipeService->resultatsDelEquipe($equipe, $this->doctrineEntityManager->getRepository(Matches::class)->listeDesMatchs($equipe));
+        $resultatEquipe = $this->equipeService->resultatsDelEquipe(
+            $equipe,
+            $this->doctrineEntityManager->getRepository(Matches::class)->listeDesMatchs($equipe)
+        );
 
         $points = 0;
 
@@ -394,16 +400,25 @@ class ClassementService
         ];
     }
 
-    public function toutesLesEquipesPourLeClassementGeneral(int $annee, array $point)
+    /**
+     * @param int $annee
+     * @param array<mixed> $point
+     * @return array<mixed>
+     */
+    public function toutesLesEquipesPourLeClassementGeneral(int $annee, array $point) : array
     {
-        foreach ($this->doctrineEntityManager->getRepository(Teams::class)->findBy(['year' => $annee, 'retired' => 0]) as $equipe) {
+        $table = [];
+
+        foreach ($this->doctrineEntityManager
+                     ->getRepository(Teams::class)
+                     ->findBy(['year' => $annee, 'retired' => 0]) as $equipe) {
             $table[] = $this->ligneClassementGeneral($equipe, $point);
         }
 
         return $table;
     }
 
-    public function calculPointsBonus(Teams $equipe)
+    public function calculPointsBonus(Teams $equipe): int
     {
         $totalPointBonus = 0;
 
@@ -423,18 +438,19 @@ class ClassementService
                 }
 
                 //bonus intrépide diff de tv >= 250 avec victoire
-                if (($equipe === $match->getTeam1() && (($match->getTv2()/1000) - ($match->getTv1()/1000) >= 250))
-                        || ($equipe === $match->getTeam2() && (($match->getTv1()/1000) - ($match->getTv2()/1000) >= 250))
+                if (($equipe === $match->getTeam1() && (($match->getTv2()/1_000) - ($match->getTv1()/1_000) >= 250))
+                        ||
+                    ($equipe === $match->getTeam2() && (($match->getTv1()/1_000) - ($match->getTv2()/1_000) >= 250))
                 ) {
                     $totalPointBonus++;
                 }
             }
 
             //bonus Defense 1 seul TD pris aved défaite
-            if ($tableResult['loss'] == 1) {
-                if (($equipe == $match->getTeam1() && $match->getTeam2Score()==1) || ($equipe == $match->getTeam2() && $match->getTeam1Score()===1)) {
-                    $totalPointBonus++;
-                }
+            if ($tableResult['loss'] == 1 &&
+                (($equipe == $match->getTeam1() && $match->getTeam2Score()==1)
+                    || ($equipe == $match->getTeam2() && $match->getTeam1Score()===1))) {
+                $totalPointBonus++;
             }
         }
 
@@ -442,10 +458,15 @@ class ClassementService
         return $totalPointBonus;
     }
 
-    public function sauvegardeClassementGeneral($tableauClassementGeneral)
+    /**
+     * @param array<mixed> $tableauClassementGeneral
+     */
+    public function sauvegardeClassementGeneral(array $tableauClassementGeneral) : void
     {
         foreach ($tableauClassementGeneral as $ligne) {
-            $ligneClassement = $this->doctrineEntityManager->getRepository(ClassementGeneral::class)->findOneBy(['equipe' => $ligne['equipe']->getTeamId()]);
+            $ligneClassement = $this->doctrineEntityManager
+                ->getRepository(ClassementGeneral::class)
+                ->findOneBy(['equipe' => $ligne['equipe']->getTeamId()]);
 
             if ($ligneClassement === null) {
                 $ligneClassement = new ClassementGeneral();

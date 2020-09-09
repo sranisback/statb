@@ -26,7 +26,7 @@ class Setting
      * @ORM\Column(type="string", length=255, nullable=true)
      * @var string|null
      */
-    private ?string $value;
+    private ?string $value = null;
 
     /**
      * @return int

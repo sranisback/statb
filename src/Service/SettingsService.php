@@ -126,10 +126,11 @@ class SettingsService
     }
 
     /**
-     *
+     * @param int $anne
+     * @return array<int, string>
      */
-    public function pointsEnCours(int $anne)
+    public function pointsEnCours(int $anne) : array
     {
-        return explode(';',$this->doctrineEntityManager->getRepository(Setting::class)->findByName('points_' . $anne));
+        return explode(';', $this->doctrineEntityManager->getRepository(Setting::class)->findByName('points_' . $anne));
     }
 }

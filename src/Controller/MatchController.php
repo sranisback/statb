@@ -98,7 +98,7 @@ class MatchController extends AbstractController
     }
 
     /**
-     * @Route("/ajoutMatch", name="ajoutMatch", options = { "expose" = true })
+     * @Route("/ajoutMatch", name="ajoutMatch")
      * @param SettingsService $settingsService
      * @return Response
      */
@@ -119,7 +119,7 @@ class MatchController extends AbstractController
     }
 
     /**
-     * @Route("/match/{matchId}", name="match", options ={"expose"= true})
+     * @Route("/match/{matchId}", name="match")
      * @param PlayerService $playerService
      * @param integer $matchId
      * @return Response
@@ -149,7 +149,7 @@ class MatchController extends AbstractController
     }
 
     /**
-     * @Route("/anciensMatchs/{coachActif}", name ="anciensMatchs" )
+     * @Route("/anciensMatchs/{coachActif}", name="anciensMatchs" )
      * @param int $coachActif
      * @return Response
      */
@@ -166,7 +166,7 @@ class MatchController extends AbstractController
     }
 
     /**
-     * @Route("/matchsAnnee", name ="matchsAnnee" )
+     * @Route("/matchsAnnee", name="matchsAnnee" )
      * @param SettingsService $settingsService
      * @return Response
      */

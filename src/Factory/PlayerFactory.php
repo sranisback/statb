@@ -27,7 +27,7 @@ class PlayerFactory
         Teams $equipe,
         int $type,
         string $nom = null,
-        entityManagerInterface $entityManager
+        \Doctrine\ORM\EntityManagerInterface $entityManager
     ): \App\Entity\Players {
         $dateBoughtFormat = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
 

@@ -16,7 +16,7 @@ class Coaches implements UserInterface
 {
     /**
      *
-     * @ORM\Column(name="coach_id", type="integer", nullable=false, options={"unsigned":true})
+     * @ORM\Column(name="coach_id", type="integer", nullable=false, options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @var int

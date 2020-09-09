@@ -45,7 +45,7 @@ class TournoisController extends AbstractController
     }
 
     /**
-     * @Route("/listePosition/{raceId}", name="listePosition", options = { "expose" = true } )
+     * @Route("/listePosition/{raceId}", name="listePosition", options = { "expose" = true })
      * @param integer $raceId
      * @return JsonResponse
      */
@@ -59,7 +59,7 @@ class TournoisController extends AbstractController
     }
 
     /**
-     * @Route("/nombreVersComp/{positionId}", name="nombreVersComp", options = { "expose" = true } )
+     * @Route("/nombreVersComp/{positionId}", name="nombreVersComp", options = { "expose" = true })
      * @param PlayerService $playerService
      * @param integer $positionId
      * @return Response
@@ -77,7 +77,7 @@ class TournoisController extends AbstractController
     }
 
     /**
-     * @Route("/classeLesComp/{norm}/{doub}", name="classeLesComp", options={"expose" = true })
+     * @Route("/classeLesComp/{norm}/{doub}", name="classeLesComp", options = { "expose" = true })
      * @param string $norm
      * @param string $doub
      * @return JsonResponse

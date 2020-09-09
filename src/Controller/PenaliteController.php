@@ -3,7 +3,6 @@
 
 namespace App\Controller;
 
-
 use App\Entity\Penalite;
 use App\Entity\Teams;
 use App\Form\AjoutPenaliteForm;
@@ -18,7 +17,6 @@ class PenaliteController extends AbstractController
 {
     /**
      * @Route("/ajoutPenaliteForm", name="ajoutPenaliteForm")
-     * @param int $teamId
      * @return Response
      */
     public function ajoutPenaliteForm(): \Symfony\Component\HttpFoundation\Response
@@ -46,11 +44,8 @@ class PenaliteController extends AbstractController
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $datas['equipe']]);
 
         if (!empty($equipe)) {
-                if($penaliteService->creerUnePenalite($datas)){
-                $this->addFlash('success', 'Penalité Ajouté!');
-            } else {
-                $this->addFlash('fail', 'Echec Ajout pénalité');
-            }
+            $penaliteService->creerUnePenalite($datas);
+            $this->addFlash('success', 'Penalité Ajouté!');
         }
 
         return $this->redirectToRoute('frontUser');

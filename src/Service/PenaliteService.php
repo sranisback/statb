@@ -3,7 +3,6 @@
 
 namespace App\Service;
 
-
 use App\Entity\Penalite;
 use App\Entity\Teams;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,7 +20,11 @@ class PenaliteService
         $this->doctrineEntityManager = $doctrineEntityManager;
     }
 
-    public function creerUnePenalite(array $datas)
+    /**
+     * @param array<mixed> $datas
+     * @return Penalite
+     */
+    public function creerUnePenalite(array $datas): Penalite
     {
         $penalite = new Penalite();
         $penalite->setEquipe($this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(
@@ -36,5 +39,4 @@ class PenaliteService
 
         return $penalite;
     }
-
 }

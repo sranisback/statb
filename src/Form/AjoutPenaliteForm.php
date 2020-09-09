@@ -22,7 +22,7 @@ class AjoutPenaliteForm extends AbstractType
         $this->settingsService = $settingsService;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options) : void
     {
         $builder
             ->add('points')
@@ -34,11 +34,10 @@ class AjoutPenaliteForm extends AbstractType
                     'class' => Teams::class,
                     'choice_label' => 'name',
                     'label' => 'Quelle Equipe ?',
-                    'query_builder' => function (EntityRepository $entityRepository) use ($options) {
-                        return $entityRepository->createQueryBuilder('Teams')
-                            ->where('Teams.year ='.$this->settingsService->anneeCourante())
-                            ->orderBy('Teams.name', 'ASC');
-                    },
+                    'query_builder' =>
+                        fn(EntityRepository $entityRepository) => $entityRepository->createQueryBuilder('Teams')
+                        ->where('Teams.year ='.$this->settingsService->anneeCourante())
+                        ->orderBy('Teams.name', 'ASC'),
                 ]
             )
             ->add('submit', SubmitType::class, array('label' => 'Ajouter'))
@@ -46,7 +45,7 @@ class AjoutPenaliteForm extends AbstractType
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver) : void
     {
         $resolver->setDefaults([
             'data_class' => Penalite::class,

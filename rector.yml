@@ -2,7 +2,7 @@ parameters:
   sets:
     - 'code-quality'
     - 'php74'
-    - 'symfony44'
+    - 'symfony50'
   paths:
     - 'src'
     - 'tests'

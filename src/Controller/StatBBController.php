@@ -69,7 +69,7 @@ class StatBBController extends AbstractController
     }
 
     /**
-     * @Route("/login", name="login", options = { "expose" = true })
+     * @Route("/login", name="login")
      * @return Response
      */
     public function login(SettingsService $settingsService): \Symfony\Component\HttpFoundation\Response
@@ -87,7 +87,7 @@ class StatBBController extends AbstractController
     }
 
     /**
-     * @Route("/citation", options = { "expose" = true })
+     * @Route("/citation")
      * @param SettingsService $settingsService
      * @return Response
      */
@@ -97,7 +97,7 @@ class StatBBController extends AbstractController
     }
 
     /**
-     * @Route("/dyk", name="dyk", options = { "expose" = true })
+     * @Route("/dyk", name="dyk")
      * @param SettingsService $settingsService
      * @return Response
      */
@@ -107,7 +107,7 @@ class StatBBController extends AbstractController
     }
 
     /**
-     * @Route("/frontUser", name="frontUser", options = { "expose" = true })
+     * @Route("/frontUser", name="frontUser")
      */
     public function frontUser(): \Symfony\Component\HttpFoundation\Response
     {

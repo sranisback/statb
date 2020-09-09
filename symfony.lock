@@ -161,6 +161,9 @@
     "phpspec/prophecy": {
         "version": "1.9.0"
     },
+    "phpstan/extension-installer": {
+        "version": "1.0.5"
+    },
     "phpstan/phpdoc-parser": {
         "version": "0.4.3"
     },

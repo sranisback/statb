@@ -24,12 +24,15 @@ class ClassementGeneralRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('cg')
             ->select(
-                'cg total','cg.gagne+cg.egalite+cg.perdu nbr', 'cg.points + cg.bonus-cg.penalite pointTotaux')
+                'cg total',
+                'cg.gagne+cg.egalite+cg.perdu nbr',
+                'cg.points + cg.bonus-cg.penalite pointTotaux'
+            )
             ->join('cg.equipe', 'equipe')
             ->where('equipe.year =' . $annee)
-            ->andWhere('cg.gagne+cg.egalite+cg.perdu > 0' )
-            ->addOrderBy('pointTotaux','DESC')
-            ->addOrderBy('nbr','ASC')
+            ->andWhere('cg.gagne+cg.egalite+cg.perdu > 0')
+            ->addOrderBy('pointTotaux', 'DESC')
+            ->addOrderBy('nbr', 'ASC')
             ->getQuery()->execute();
     }
 
@@ -37,10 +40,13 @@ class ClassementGeneralRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('cg')
             ->select(
-                'cg total','cg.tdPour - cg.tdContre tdAverage', 'cg.casPour - cg.casContre casAverage')
+                'cg total',
+                'cg.tdPour - cg.tdContre tdAverage',
+                'cg.casPour - cg.casContre casAverage'
+            )
             ->join('cg.equipe', 'equipe')
             ->where('equipe.year =' . $annee)
-            ->addOrderBy('equipe.name','ASC')
+            ->addOrderBy('equipe.name', 'ASC')
             ->getQuery()->execute();
     }
 

@@ -17,7 +17,7 @@ class GameDataPlayers
 {
     /**
      *
-     * @ORM\Column(name="pos_id", type="smallint", nullable=false, options={"unsigned":true})
+     * @ORM\Column(name="pos_id", type="smallint", nullable=false, options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @var int
@@ -29,70 +29,70 @@ class GameDataPlayers
      * @ORM\Column(name="pos", type="string", length=60, nullable=true)
      * @var string|null
      */
-    private ?string $pos;
+    private ?string $pos = null;
 
     /**
      *
-     * @ORM\Column(name="cost", type="integer", nullable=true, options={"unsigned":true})
-     * @var int|null
+     * @ORM\Column(name="cost", type="integer", nullable=true, options={"unsigned"=true})
+     * @var int
      */
-    private ?int $cost;
+    private ?int $cost = 0;
 
     /**
      *
      * @ORM\Column(name="qty", type="integer", nullable=true)
-     * @var int|null
+     * @var int
      */
-    private ?int $qty;
+    private ?int $qty = null;
 
     /**
      *
      * @ORM\Column(name="ma", type="integer", nullable=true)
      * @var int|null
      */
-    private ?int $ma;
+    private ?int $ma = 0;
 
     /**
      *
      * @ORM\Column(name="st", type="integer", nullable=true)
      * @var int|null
      */
-    private ?int $st;
+    private ?int $st = 0;
 
     /**
      *
      * @ORM\Column(name="ag", type="integer", nullable=true)
      * @var int|null
      */
-    private ?int $ag;
+    private ?int $ag = 0;
 
     /**
      *
      * @ORM\Column(name="av", type="integer", nullable=true)
      * @var int|null
      */
-    private ?int $av;
+    private ?int $av = 0;
 
     /**
      *
      * @ORM\Column(name="skills", type="string", length=79, nullable=true)
      * @var string|null
      */
-    private ?string $skills;
+    private ?string $skills = null;
 
     /**
      *
      * @ORM\Column(name="norm", type="string", length=6, nullable=true)
      * @var string|null
      */
-    private ?string $norm;
+    private ?string $norm = null;
 
     /**
      *
      * @ORM\Column(name="doub", type="string", length=6, nullable=true)
      * @var string|null
      */
-    private ?string $doub;
+    private ?string $doub = null;
 
     /**
      *
@@ -102,7 +102,7 @@ class GameDataPlayers
      * })
      * @var \App\Entity\Races|null
      */
-    private ?\App\Entity\Races $fRace;
+    private ?\App\Entity\Races $fRace = null;
 
     public function getPosId(): int
     {

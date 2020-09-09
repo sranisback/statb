@@ -43,7 +43,7 @@ class Players
 
     /**
      *
-     * @ORM\Column(name="nr", type="integer", nullable=true, options={"unsigned":true})
+     * @ORM\Column(name="nr", type="integer", nullable=true, options={"unsigned"=true})
      * @var int|null
      */
     private ?int $nr = null;
@@ -53,14 +53,14 @@ class Players
      * @ORM\Column(name="date_bought", type="datetime", nullable=true)
      * @var \DateTimeInterface|null
      */
-    private ?\DateTimeInterface $dateBought;
+    private ?\DateTimeInterface $dateBought = null;
 
     /**
      *
      * @ORM\Column(name="date_sold", type="datetime", nullable=true)
      * @var \DateTimeInterface|null
      */
-    private ?\DateTimeInterface $dateSold;
+    private ?\DateTimeInterface $dateSold = null;
 
     /**
      *
@@ -109,7 +109,7 @@ class Players
      * @ORM\Column(name="value", type="integer", nullable=true)
      * @var int|null
      */
-    private ?int $value;
+    private ?int $value = null;
 
     /**
      *
@@ -123,7 +123,7 @@ class Players
      * @ORM\Column(name="date_died", type="datetime", nullable=true)
      * @var \DateTimeInterface|null
      */
-    private ?\DateTimeInterface $dateDied;
+    private ?\DateTimeInterface $dateDied = null;
 
     /**
      *
@@ -202,13 +202,13 @@ class Players
      * @ORM\Column(type="string", length=255, nullable=true)
      * @var string|null
      */
-    private ?string $photo;
+    private ?string $photo = null;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\HistoriqueBlessure", mappedBy="Player", orphanRemoval=true)
      * @var \App\Entity\HistoriqueBlessure[]|\Doctrine\Common\Collections\Collection
      */
-    private $historiqueBlessures;
+    private \Doctrine\Common\Collections\Collection $historiqueBlessures;
 
     public function __construct()
     {

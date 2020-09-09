@@ -72,17 +72,26 @@ class MatchDataService
         return $ligneDuMatch;
     }
 
-    public function nombreDeSortiesDunMatch(Teams $equipe, Matches $match)
+    /**
+     * @param Teams $equipe
+     * @param Matches $match
+     * @return int
+     */
+    public function nombreDeSortiesDunMatch(Teams $equipe, Matches $match) : int
     {
         $total = 0;
 
-        foreach ( $this->doctrineEntityManager->getRepository(Players::class)->listeDesJoueursPourlEquipe($equipe) as $joueur) {
+        foreach ($this->doctrineEntityManager
+                     ->getRepository(Players::class)->listeDesJoueursPourlEquipe($equipe) as $joueur) {
             $ligneMatchData = $this->doctrineEntityManager->getRepository(MatchData::class)->findOneBy([
                 'fPlayer' => $joueur->getPlayerId(),
                 'fMatch' => $match->getMatchId()
             ]);
             if (!empty($ligneMatchData)) {
-                $total += $ligneMatchData->getBh() + $ligneMatchData->getSi() + $ligneMatchData->getKi() + $ligneMatchData->getAgg();
+                $total += $ligneMatchData->getBh() +
+                    $ligneMatchData->getSi() +
+                    $ligneMatchData->getKi() +
+                    $ligneMatchData->getAgg();
             }
         }
 

@@ -14,7 +14,7 @@ class GameDataSkills
 {
     /**
      *
-     * @ORM\Column(name="skill_id", type="smallint", nullable=false, options={"unsigned":true})
+     * @ORM\Column(name="skill_id", type="smallint", nullable=false, options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @var int
@@ -26,7 +26,7 @@ class GameDataSkills
      * @ORM\Column(name="name", type="string", length=60, nullable=true)
      * @var string|null
      */
-    private ?string $name;
+    private ?string $name = null;
 
     /**
      *

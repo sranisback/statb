@@ -97,7 +97,7 @@ class MatchData
      * })
      * @var \App\Entity\Players|null
      */
-    private ?\App\Entity\Players $fPlayer;
+    private ?\App\Entity\Players $fPlayer = null;
 
     /**
      *
@@ -107,7 +107,7 @@ class MatchData
      * })
      * @var \App\Entity\Matches|null
      */
-    private ?\App\Entity\Matches $fMatch;
+    private ?\App\Entity\Matches $fMatch = null;
 
     public function getId(): int
     {

@@ -15,28 +15,28 @@ class Penalite
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $points;
+    private int $points = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity=Teams::class, inversedBy="penalite")
      * @ORM\JoinColumn(referencedColumnName="team_id", nullable=false)
      */
-    private $equipe;
+    private \App\Entity\Teams $equipe;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $motif;
+    private ?string $motif = null;
 
     /**
      * @ORM\Column(type="date")
      */
-    private $date;
+    private \DateTimeInterface $date;
 
     public function getId(): ?int
     {
