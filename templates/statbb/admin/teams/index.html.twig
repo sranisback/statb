@@ -1,0 +1,73 @@
+{% extends 'statbb/base.html.twig' %}
+
+{% block title %}Teams index{% endblock %}
+
+{% block body %}
+    <div class="m-2">
+        <div class="card">
+            <h1>Teams index</h1>
+
+            <table class="table" id="AdminTeams">
+                <thead>
+                <tr>
+                    <th>TeamId</th>
+                    <th>Name</th>
+                    <th>Race</th>
+                    <th>Proprietaire</th>
+                    <th>Treasury</th>
+                    <th>Apothecary</th>
+                    <th>Rerolls</th>
+                    <th>FfBought</th>
+                    <th>AssCoaches</th>
+                    <th>Cheerleaders</th>
+                    <th>Retired</th>
+                    <th>Ff</th>
+                    <th>Elo</th>
+                    <th>Tv</th>
+                    <th>Year</th>
+                    <th>Logo</th>
+                    <th>Franchise</th>
+                    <th>actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for team in teams %}
+                    <tr>
+                        <td>{{ team.teamId }}</td>
+                        <td><a href="{{ path('team', {'teamid': team.teamId }) }}">{{ team.name }}</a></td>
+                        <td>{{ team.fRace.name }}</td>
+                        <td>{{ team.ownedByCoach.name }}</td>
+                        <td>{{ team.treasury }}</td>
+                        <td>{{ team.apothecary }}</td>
+                        <td>{{ team.rerolls }}</td>
+                        <td>{{ team.ffBought }}</td>
+                        <td>{{ team.assCoaches }}</td>
+                        <td>{{ team.cheerleaders }}</td>
+                        <td>{{ team.retired ? 'Yes' : 'No' }}</td>
+                        <td>{{ team.ff }}</td>
+                        <td>{{ team.elo }}</td>
+                        <td>{{ team.tv }}</td>
+                        <td>{{ etiquetteAnne[team.year] }}</td>
+                        <td>
+                            {% if (team.logo != null) %}
+                            <img class="img-fluid" src="{{ asset('uploads/logo_equipe/' ~ team.logo) }}">
+                            {% endif %}
+                        </td>
+                        <td>{{ team.franchise ? 'Yes' : 'No' }}</td>
+                        <td>
+                            <a href="{{ path('teams_show', {'teamId': team.teamId}) }}">show</a>
+                            <a href="{{ path('teams_edit', {'teamId': team.teamId}) }}">edit</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="16">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <a href="{{ path('teams_new') }}">Create new</a>
+        </div>
+    </div>
+{% endblock %}
