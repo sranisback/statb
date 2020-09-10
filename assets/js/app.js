@@ -28,12 +28,19 @@ $(document).ready(function () {
     //switch (process.env.ENV) {
     /*  case 'dev':
           */
-    Routing.setRoutingData(routes_dev);
+  //  Routing.setRoutingData(routes_dev);
       //      break;
        // case 'prod':*/
-     //Routing.setRoutingData(routes_prod);
+    Routing.setRoutingData(routes_prod);
     /* break;
 }*/
+
+    $('#AdminTeams').DataTable({
+            "lengthChange": false,
+            "pageLength": 20,
+            "info": false,
+            "responsive": true
+    });
 
     $('#classgen').DataTable({
         "lengthChange": false,

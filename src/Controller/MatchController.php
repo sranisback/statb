@@ -26,7 +26,7 @@ use Symfony\Component\Serializer\Serializer;
 class MatchController extends AbstractController
 {
     /**
-     * @Route("/dropdownPlayer/{teamId}/{nbr}", options = { "expose" = true })
+     * @Route("/dropdownPlayer/{teamId}/{nbr}", name="dropdownPlayer", options = { "expose" = true })
      * @param int $teamId
      * @param int $nbr
      * @return JsonResponse
@@ -69,7 +69,7 @@ class MatchController extends AbstractController
     }
 
     /**
-     * @Route("/addGame", options = { "expose" = true })
+     * @Route("/addGame", name="addGame",options = { "expose" = true })
      * @param MatchesService $matchesService
      * @param Request $request
      * @return JsonResponse
