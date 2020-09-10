@@ -1,11 +1,15 @@
-{% extends 'base.html.twig' %}
+{% extends 'statbb/base.html.twig' %}
 
 {% block title %}New Teams{% endblock %}
 
 {% block body %}
+<div class="m-2">
+    <div class="card">
     <h1>Create new Teams</h1>
 
-    {{ include('teams/_form.html.twig') }}
+    {{ include('statbb/admin/teams/_form.html.twig') }}
 
     <a href="{{ path('teams_index') }}">back to list</a>
+    </div>
+</div>
 {% endblock %}

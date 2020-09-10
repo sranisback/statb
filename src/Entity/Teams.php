@@ -371,14 +371,14 @@ class Teams
     }
 
     /**
-     * @return integer
+     * @return boolean
      */
-    public function getFranchise(): int
+    public function getFranchise(): bool
     {
         return $this->franchise;
     }
 
-    public function setFranchise(int $franchise): self
+    public function setFranchise(bool $franchise): self
     {
         $this->franchise = $franchise;
 
