@@ -22,7 +22,7 @@ class Teams
      * @ORM\GeneratedValue(strategy="AUTO")
      * @var int
      */
-    private int $teamId = 0;
+    private ?int $teamId = 0;
 
     /**
      *
@@ -127,7 +127,7 @@ class Teams
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="Stades")
+     * @ORM\OneToOne(targetEntity="Stades", cascade={"remove"})
      * @ORM\JoinColumn(name="f_stade_id", referencedColumnName="id", nullable=true)
      * @var \App\Entity\Stades|null
      */
