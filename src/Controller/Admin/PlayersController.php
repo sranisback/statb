@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\GameDataPlayers;
 use App\Entity\Players;
 use App\Form\admin\PlayersType;
 use App\Repository\PlayersRepository;
@@ -36,6 +37,16 @@ class PlayersController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            $datas = $request->request->get('players');
+            $player->setType($datas['type']);
+
+            /** @var GameDataPlayers $position */
+            $position = $entityManager->getRepository(GameDataPlayers::class)->findOneBy(['posId' => $datas['fPos']]);
+            $player->setValue($position->getCost());
+
+            $player->setStatus(1);
+
             $entityManager->persist($player);
             $entityManager->flush();
 
@@ -57,6 +68,9 @@ class PlayersController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $datas = $request->request->get('players');
+            $player->setType($datas['type']);
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('players_index');

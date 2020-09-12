@@ -9,6 +9,8 @@ use App\Entity\Races;
 use App\Entity\Teams;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,11 +19,16 @@ class PlayersType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('type')
+            ->add('type', ChoiceType::class,
+                [
+                    'choices' => ['Regulier' => 1, 'Journalier' => 2],
+                    'mapped' => false,
+                    'label' => 'Type',
+                ])
             ->add('name')
             ->add('nr')
-            ->add('dateBought')
-            ->add('dateSold')
+            ->add('dateBought', DateTimeType::class, ['empty_data' => null])
+            ->add('dateSold', DateTimeType::class, ['empty_data' => null])
             ->add('achMa')
             ->add('achSt')
             ->add('achAg')
@@ -30,7 +37,7 @@ class PlayersType extends AbstractType
             ->add('extraVal')
             ->add('value')
             ->add('status')
-            ->add('dateDied')
+            ->add('dateDied', DateTimeType::class, ['empty_data' => null])
             ->add('injMa')
             ->add('injSt')
             ->add('injAg')
