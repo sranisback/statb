@@ -145,7 +145,7 @@ class Teams
     private int $franchise = 0;
 
     /**
-     * @ORM\OneToMany(targetEntity=Penalite::class, mappedBy="equipe", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Penalite::class, mappedBy="equipe", orphanRemoval=true, cascade={"remove"})
      */
     private \Doctrine\Common\Collections\Collection $penalite;
 

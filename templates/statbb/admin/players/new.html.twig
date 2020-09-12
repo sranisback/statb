@@ -1,0 +1,15 @@
+{% extends 'statbb/base.html.twig' %}
+
+{% block title %}New Players{% endblock %}
+
+{% block body %}
+<div class="m-2">
+    <div class="card">
+    <h1>Create new Players</h1>
+
+    {{ include('statbb/admin/players/_form.html.twig') }}
+
+    <a href="{{ path('players_index') }}">back to list</a>
+    </div>
+</div>
+{% endblock %}

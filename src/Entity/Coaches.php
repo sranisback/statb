@@ -53,7 +53,7 @@ class Coaches implements UserInterface
     private $equipes;
 
     /**
-     * @OneToMany(targetEntity="Primes", mappedBy="Coaches", cascade={"remove"})
+     * @OneToMany(targetEntity="Primes", mappedBy="coaches", cascade={"remove"})
      */
     private $primes;
 

@@ -1,0 +1,60 @@
+{% extends 'statbb/base.html.twig' %}
+
+{% block title %}Players index{% endblock %}
+
+{% block body %}
+<div class="m-2">
+    <div class="card">
+    <h1>Players index</h1>
+
+    <table class="table" id="Admin">
+        <thead>
+            <tr>
+                <th>PlayerId</th>
+                <th>Nr</th>
+                <th>Name</th>
+                <th>Team</th>
+                <th>Position</th>
+                <th>Status</th>
+                <th>Value</th>
+                <th>Photo</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for player in players %}
+            <tr>
+                <td>{{ player.playerId }}</td>
+                <td>{{ player.nr }}</td>
+                <td>{{ player.name }}</td>
+                <td>{{ player.ownedByTeam.name }}</td>
+                <td>{{ player.fPos.pos }}</td>
+            {% if player.status == 1 %}
+                    <td><strong class="text-success">Ok</strong></td>
+            {% elseif player.status == 9 %}
+                    <td><strong class="text-warning">En attente de monter de niveau</strong></td>
+            {% elseif player.status == 8 %}
+                    <td><strong class="text-danger">Mort</strong></td>
+            {% elseif player.status == 7 %}
+                    <td><strong class="text-primary">Vendu</strong></td>
+            {% elseif player.injrpm == 1 %}
+                    <td><strong class="text-warning">Blessé</strong></td>
+            {% endif %}
+                <td>{{ player.value }}</td>
+                <td>{{ player.photo }}</td>
+                <td>
+                   <a href="{{ path('players_edit', {'playerId': player.playerId}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="23">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('players_new') }}">Create new</a>
+    </div>
+</div>
+{% endblock %}

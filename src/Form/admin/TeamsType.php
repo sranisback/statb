@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\admin;
 
 use App\Entity\Coaches;
 use App\Entity\Races;
