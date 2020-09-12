@@ -111,7 +111,7 @@ class Teams
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="Coaches")
+     * @ORM\ManyToOne(targetEntity="Coaches", inversedBy="equipes")
      *   @ORM\JoinColumn  (name="owned_by_coach_id",  referencedColumnName="coach_id")
      * @var \App\Entity\Coaches|null
      */

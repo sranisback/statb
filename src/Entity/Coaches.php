@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OneToMany;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -44,6 +46,53 @@ class Coaches implements UserInterface
      * @var mixed[]
      */
     private array $roles;
+
+    /**
+     * @OneToMany(targetEntity="Teams", mappedBy="ownedByCoach", cascade={"remove"})
+     */
+    private $equipes;
+
+    /**
+     * @OneToMany(targetEntity="Primes", mappedBy="Coaches", cascade={"remove"})
+     */
+    private $primes;
+
+    public function __construct() {
+        $this->equipes = new ArrayCollection();
+        $this->primes = new ArrayCollection();
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getPrimes(): ArrayCollection
+    {
+        return $this->primes;
+    }
+
+    /**
+     * @param ArrayCollection $primes
+     */
+    public function setPrimes(ArrayCollection $primes): void
+    {
+        $this->primes = $primes;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getEquipes(): ArrayCollection
+    {
+        return $this->equipes;
+    }
+
+    /**
+     * @param ArrayCollection $equipes
+     */
+    public function setEquipes(ArrayCollection $equipes): void
+    {
+        $this->equipes = $equipes;
+    }
 
     public function getCoachId(): int
     {

@@ -46,7 +46,7 @@ class SettingsService
 
         $nbrAuHasard = rand(1, count($citations) - 1);
 
-        return  $citations[$nbrAuHasard];
+        return  $citations[15];
     }
 
     /**
