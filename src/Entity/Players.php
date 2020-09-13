@@ -185,7 +185,7 @@ class Players
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="Teams")
+     * @ORM\ManyToOne(targetEntity="Teams", inversedBy="joueurs")
      *  @ORM\JoinColumn (name="owned_by_team_id", referencedColumnName="team_id")
      * @var \App\Entity\Teams|null
      */

@@ -149,9 +149,31 @@ class Teams
      */
     private \Doctrine\Common\Collections\Collection $penalite;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Players::class, mappedBy="ownedByTeam", orphanRemoval=true, cascade={"remove"})
+     */
+    private $joueurs;
+
     public function __construct()
     {
+        $this->joueurs = new ArrayCollection();
         $this->penalite = new ArrayCollection();
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getJoueurs(): ArrayCollection
+    {
+        return $this->joueurs;
+    }
+
+    /**
+     * @param ArrayCollection $joueurs
+     */
+    public function setJoueurs(ArrayCollection $joueurs): void
+    {
+        $this->joueurs = $joueurs;
     }
 
     /**
