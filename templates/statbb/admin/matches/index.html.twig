@@ -1,0 +1,70 @@
+{% extends 'statbb/base.html.twig' %}
+
+{% block title %}Matches index{% endblock %}
+
+{% block body %}
+<div class="m-2">
+    <div class="card">
+    <h1>Matches index</h1>
+
+    <table class="table" id="Admin">
+        <thead>
+            <tr>
+                <th>MatchId</th>
+                <th>Team 1</th>
+                <th>Team 2</th>
+                <th>Fans</th>
+                <th>Ffactor1</th>
+                <th>Ffactor2</th>
+                <th>Income1</th>
+                <th>Income2</th>
+                <th>Team1Score</th>
+                <th>Team2Score</th>
+                <th>Tv1</th>
+                <th>Tv2</th>
+                <th>Depense1</th>
+                <th>Depense2</th>
+                <th>StadeAcceuil</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for match in matches %}
+            <tr>
+                <td>{{ match.matchId }}</td>
+                <td>{{ match.team1.name }}</td>
+                <td>{{ match.team2.name }}</td>
+                <td>{{ match.fans }}</td>
+                <td>{{ match.ffactor1 }}</td>
+                <td>{{ match.ffactor2 }}</td>
+                <td>{{ match.income1 }}</td>
+                <td>{{ match.income2 }}</td>
+                <td>{{ match.team1Score }}</td>
+                <td>{{ match.team2Score }}</td>
+                <td>{{ match.tv1 }}</td>
+                <td>{{ match.tv2 }}</td>
+                <td>{{ match.depense1 }}</td>
+                <td>{{ match.depense2 }}</td>
+                {% if (match.stadeAcceuil == 1) %}
+                    <td>{{ match.team1.name }}</td>
+                {% elseif  (match.stadeAcceuil == 2) %}
+                    <td>{{ match.team2.name }}</td>
+                {% else %}
+                    <td>Personne</td>
+                {% endif %}
+                <td>
+                    <a href="{{ path('matches_edit', {'matchId': match.matchId}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="15">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('matches_new') }}">Create new</a>
+    </div>
+</div>
+{% endblock %}

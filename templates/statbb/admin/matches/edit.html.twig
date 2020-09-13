@@ -1,0 +1,17 @@
+{% extends 'statbb/base.html.twig' %}
+
+{% block title %}Edit Matches{% endblock %}
+
+{% block body %}
+<div class="m-2">
+    <div class="card">
+    <h1>Edit Matches</h1>
+
+    {{ include('statbb/admin/matches/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('matches_index') }}">back to list</a>
+
+    {{ include('statbb/admin/matches/_delete_form.html.twig') }}
+    </div>
+</div>
+{% endblock %}
