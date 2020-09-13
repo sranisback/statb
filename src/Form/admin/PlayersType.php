@@ -22,7 +22,6 @@ class PlayersType extends AbstractType
             ->add('type', ChoiceType::class,
                 [
                     'choices' => ['Regulier' => 1, 'Journalier' => 2],
-                    'mapped' => false,
                     'label' => 'Type',
                 ])
             ->add('name')
@@ -36,7 +35,11 @@ class PlayersType extends AbstractType
             ->add('extraSpp')
             ->add('extraVal')
             ->add('value')
-            ->add('status')
+            ->add('status', ChoiceType::class,
+                [
+                    'choices' => ['Ok' => 1, 'Vendu' => 7, 'Mort' => 8, 'Xp' => 9],
+                    'label' => 'Status',
+                ])
             ->add('dateDied', DateTimeType::class, ['empty_data' => null])
             ->add('injMa')
             ->add('injSt')
