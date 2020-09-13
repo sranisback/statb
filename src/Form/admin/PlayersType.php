@@ -10,7 +10,7 @@ use App\Entity\Teams;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -26,8 +26,8 @@ class PlayersType extends AbstractType
                 ])
             ->add('name')
             ->add('nr')
-            ->add('dateBought', DateTimeType::class, ['empty_data' => null])
-            ->add('dateSold', DateTimeType::class, ['empty_data' => null])
+            ->add('dateBought', DateType::class, ['widget'=>'single_text', 'html5' => true])
+            ->add('dateSold', DateType::class, ['widget'=>'single_text', 'html5' => true])
             ->add('achMa')
             ->add('achSt')
             ->add('achAg')
@@ -40,7 +40,7 @@ class PlayersType extends AbstractType
                     'choices' => ['Ok' => 1, 'Vendu' => 7, 'Mort' => 8, 'Xp' => 9],
                     'label' => 'Status',
                 ])
-            ->add('dateDied', DateTimeType::class, ['empty_data' => null])
+            ->add('dateDied', DateType::class, ['widget'=>'single_text', 'html5' => true])
             ->add('injMa')
             ->add('injSt')
             ->add('injAg')
