@@ -186,7 +186,7 @@ class Players
     /**
      *
      * @ORM\ManyToOne(targetEntity="Teams", inversedBy="joueurs")
-     *  @ORM\JoinColumn (name="owned_by_team_id", referencedColumnName="team_id")
+     * @ORM\JoinColumn (name="owned_by_team_id", referencedColumnName="team_id")
      * @var \App\Entity\Teams|null
      */
     private ?\App\Entity\Teams $ownedByTeam = null;
@@ -210,9 +210,32 @@ class Players
      */
     private \Doctrine\Common\Collections\Collection $historiqueBlessures;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\MatchData", mappedBy="fPlayer", orphanRemoval=true, cascade={"remove"})
+     * @var \App\Entity\MatchData[]|\Doctrine\Common\Collections\Collection
+     */
+    private $matchData;
+
     public function __construct()
     {
         $this->historiqueBlessures = new ArrayCollection();
+        $this->matchData = new ArrayCollection();
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getMatchData(): ArrayCollection
+    {
+        return $this->matchData;
+    }
+
+    /**
+     * @param ArrayCollection $matchData
+     */
+    public function setMatchData(ArrayCollection $matchData): void
+    {
+        $this->matchData = $matchData;
     }
 
     public function getPlayerId(): ?int
