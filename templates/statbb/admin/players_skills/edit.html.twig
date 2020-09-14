@@ -1,0 +1,17 @@
+{% extends 'statbb/base.html.twig' %}
+
+{% block title %}Edit PlayersSkills{% endblock %}
+
+{% block body %}
+<div class="m-2">
+    <div class="card">
+    <h1>Edit PlayersSkills</h1>
+
+    {{ include('statbb/admin/players_skills/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('players_skills_index') }}">back to list</a>
+
+    {{ include('statbb/admin/players_skills/_delete_form.html.twig') }}
+    </div>
+</div>
+{% endblock %}

@@ -39,7 +39,11 @@ class MatchesType extends AbstractType
             ->add('team1', EntityType::class, ['class' => Teams::class,'choice_label' =>'name'])
             ->add('team2', EntityType::class, ['class' => Teams::class,'choice_label' =>'name'])
             ->add('fMeteo', EntityType::class, ['class' => Meteo::class,'choice_label' =>'nom'])
-            ->add('fStade', EntityType::class, ['class' => GameDataStadium::class,'choice_label' =>'type'])
+            ->add('fStade', EntityType::class, [
+                'class' => GameDataStadium::class,
+                'choice_label' =>'type',
+                'group_by' => 'famille'
+            ])
         ;
     }
 

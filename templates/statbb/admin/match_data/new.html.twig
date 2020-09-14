@@ -1,11 +1,15 @@
-{% extends 'base.html.twig' %}
+{% extends 'statbb/base.html.twig' %}
 
 {% block title %}New MatchData{% endblock %}
 
 {% block body %}
+<div class="m-2">
+    <div class="card">
     <h1>Create new MatchData</h1>
 
-    {{ include('match_data/_form.html.twig') }}
+    {{ include('statbb/admin/match_data/_form.html.twig') }}
 
     <a href="{{ path('match_data_index') }}">back to list</a>
+    </div>
+</div>
 {% endblock %}

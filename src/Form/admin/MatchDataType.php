@@ -24,8 +24,12 @@ class MatchDataType extends AbstractType
             ->add('ki')
             ->add('inj')
             ->add('agg')
-            ->add('fPlayer', EntityType::class, ['class' => Players::class,'choice_label' =>'name'])
-            ->add('fMatch', EntityType::class, ['class' => Matches::class,'choice_label' =>'match_id'])
+            ->add('fPlayer', EntityType::class, [
+                'class' => Players::class,
+                'choice_label' =>'name',
+                'group_by' =>  'ownedByTeam.name'
+            ])
+            ->add('fMatch', EntityType::class, ['class' => Matches::class, 'choice_label' =>'match_id'])
         ;
     }
 

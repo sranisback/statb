@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -216,10 +215,17 @@ class Players
      */
     private $matchData;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PlayersSkills", mappedBy="fPid", orphanRemoval=true, cascade={"remove"})
+     * @var \App\Entity\PlayersSkills[]|\Doctrine\Common\Collections\Collection
+     */
+    private $skills;
+
     public function __construct()
     {
         $this->historiqueBlessures = new ArrayCollection();
         $this->matchData = new ArrayCollection();
+        $this->skills = new ArrayCollection();
     }
 
     /**

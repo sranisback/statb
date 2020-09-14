@@ -48,10 +48,18 @@ class PlayersType extends AbstractType
             ->add('injNi')
             ->add('injRpm')
             ->add('photo')
-            ->add('fPos', EntityType::class, ['class' => GameDataPlayers::class,'choice_label' =>'pos'])
+            ->add('fPos', EntityType::class, [
+                'class' => GameDataPlayers::class,
+                'choice_label' =>'pos',
+                'group_by' => 'fRace.name'
+            ])
             ->add('fRid', EntityType::class, ['class' => Races::class,'choice_label' =>'name'])
-            ->add('ownedByTeam', EntityType::class, ['class' => Teams::class,'choice_label' =>'name'])
-            ->add('icon', EntityType::class, ['class' => PlayersIcons::class,'choice_label' =>'icon_name'])
+            ->add('ownedByTeam', EntityType::class, ['class' => Teams::class, 'choice_label' =>'name'])
+            ->add('icon', EntityType::class, [
+                'class' => PlayersIcons::class,
+                'choice_label' =>'icon_name',
+                'group_by' => 'position.pos'
+            ])
         ;
     }
 

@@ -42,7 +42,7 @@ class MatchDataController extends AbstractController
             return $this->redirectToRoute('match_data_index');
         }
 
-        return $this->render('match_data/new.html.twig', [
+        return $this->render('statbb/admin/match_data/new.html.twig', [
             'match_datum' => $matchDatum,
             'form' => $form->createView(),
         ]);
