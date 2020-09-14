@@ -1,0 +1,58 @@
+{% extends 'statbb/base.html.twig' %}
+
+{% block title %}MatchData index{% endblock %}
+
+{% block body %}
+<div class="m-2">
+    <div class="card">
+    <h1>MatchData index</h1>
+
+    <table class="table" id="Admin">
+        <thead>
+            <tr>
+                <th>Match Id</th>
+                <th>Equipe</th>
+                <th>Joueur</th>
+                <th>Mvp</th>
+                <th>Cp</th>
+                <th>Td</th>
+                <th>Intcpt</th>
+                <th>Bh</th>
+                <th>Si</th>
+                <th>Ki</th>
+                <th>Inj</th>
+                <th>Agg</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for match_datum in match_datas %}
+            <tr>
+                <td>{{ match_datum.fMatch.matchId }}</td>
+                <td>{{ match_datum.fPlayer.ownedByTeam.name }}</td>
+                <td>{{ match_datum.fPlayer.name }}</td>
+                <td>{{ match_datum.mvp }}</td>
+                <td>{{ match_datum.cp }}</td>
+                <td>{{ match_datum.td }}</td>
+                <td>{{ match_datum.intcpt }}</td>
+                <td>{{ match_datum.bh }}</td>
+                <td>{{ match_datum.si }}</td>
+                <td>{{ match_datum.ki }}</td>
+                <td>{{ match_datum.inj }}</td>
+                <td>{{ match_datum.agg }}</td>
+                <td>
+                    <a href="{{ path('match_data_edit', {'id': match_datum.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('match_data_new') }}">Create new</a>
+    </div>
+</div>
+{% endblock %}
