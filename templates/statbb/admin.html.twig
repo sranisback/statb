@@ -1,2 +1,20 @@
-<h1>Administration</h1>
+{% extends 'statbb/base.html.twig' %}
 
+{% block title %}Admin{% endblock %}
+
+{% block body %}
+<div class="m-2">
+    <div class="card">
+        <h1>Liens de l'admin</h1>
+        <a href="{{ path('coaches_index') }}">Coaches</a>
+        <a href="{{ path('defis_index') }}">Défis</a>
+        <a href="{{ path('historique_blessure_index') }}">Historique blessures</a>
+        <a href="{{ path('match_data_index') }}">Matchs data</a>
+        <a href="{{ path('matches_index') }}">Matchs</a>
+        <a href="{{ path('players_index') }}">Players</a>
+        <a href="{{ path('players_skills_index') }}">Players Skills</a>
+        <a href="{{ path('teams_index') }}">Teams</a>
+        <a href="{{ path('calcul_classement_gen', {'annee':annee}) }}">Recalcul classement gen année en cours</a>
+    </div>
+</div>
+{% endblock %}

@@ -52,30 +52,8 @@ class Coaches implements UserInterface
      */
     private $equipes;
 
-    /**
-     * @OneToMany(targetEntity="Primes", mappedBy="coaches", cascade={"remove"})
-     */
-    private $primes;
-
     public function __construct() {
         $this->equipes = new ArrayCollection();
-        $this->primes = new ArrayCollection();
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getPrimes(): ArrayCollection
-    {
-        return $this->primes;
-    }
-
-    /**
-     * @param ArrayCollection $primes
-     */
-    public function setPrimes(ArrayCollection $primes): void
-    {
-        $this->primes = $primes;
     }
 
     /**
