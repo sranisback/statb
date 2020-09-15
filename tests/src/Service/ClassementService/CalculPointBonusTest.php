@@ -102,7 +102,7 @@ class CalculPointBonusTest extends TestCase
     /**
      * @test
      */
-    public function le_bonus_defense_est_bien_calcule()
+    public function le_bonus_defense_et_petite_defaite_est_bien_calcule()
     {
         $equipeMock = $this->createMock(Teams::class);
 
@@ -142,7 +142,7 @@ class CalculPointBonusTest extends TestCase
             $this->createMock(MatchDataService::class)
         );
 
-        $this->assertEquals(1,$classementService->calculPointsBonus($equipeMock));
+        $this->assertEquals(2,$classementService->calculPointsBonus($equipeMock));
     }
 
     /**

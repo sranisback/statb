@@ -452,6 +452,13 @@ class ClassementService
                     || ($equipe == $match->getTeam2() && $match->getTeam1Score()===1))) {
                 $totalPointBonus++;
             }
+
+            //bonus petite defaite
+            if ($tableResult['loss'] == 1 &&
+                (($equipe == $match->getTeam1() && $match->getTeam2Score()-$match->getTeam1Score() ==1 )
+                    || ($equipe == $match->getTeam2() && $match->getTeam1Score()-$match->getTeam2Score()==1))) {
+                $totalPointBonus++;
+            }
         }
 
 
