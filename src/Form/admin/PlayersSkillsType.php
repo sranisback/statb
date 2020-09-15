@@ -42,7 +42,9 @@ class PlayersSkillsType extends AbstractType
             ])
             ->add('fPid', EntityType::class, [
                 'class' => Players::class,
-                'choice_label' =>'name',
+                'choice_label' =>function (Players $joueur) {
+                    return $joueur->getNr() . ', ' . $joueur->getName() . ', ' ;
+                },
                 'group_by' =>  'ownedByTeam.name'
             ])
         ;

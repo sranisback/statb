@@ -24,12 +24,25 @@ class MatchDataType extends AbstractType
             ->add('ki')
             ->add('inj')
             ->add('agg')
-            ->add('fPlayer', EntityType::class, [
+            ->add('fPlayer', EntityType::class,
+                [
                 'class' => Players::class,
-                'choice_label' =>'name',
+                'choice_label' =>function (Players $joueur) {
+                    return $joueur->getNr() . ', ' . $joueur->getName() . ', ' . $joueur->getFPos()->getPos() .
+                        ($joueur->getType() == 2 ? 'Journalier' : '' );
+                },
                 'group_by' =>  'ownedByTeam.name'
             ])
-            ->add('fMatch', EntityType::class, ['class' => Matches::class, 'choice_label' =>'match_id'])
+            ->add('fMatch', EntityType::class,
+                [
+                    'class' => Matches::class,
+                    'choice_label' => function ( Matches $match) {
+                        return $match->getMatchId() . ' - ' .
+                            $match->getTeam1()->getName() . ' vs ' .
+                            $match->getTeam2()->getName();
+                    }
+                ]
+            )
         ;
     }
 

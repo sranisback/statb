@@ -13,7 +13,7 @@ class BlessuresEnum
         return [
             30 => 'Commotion',
             40 => 'Blessure Grave non notée',
-            50 => 'Perte de Stat non notées',
+            50 => 'Perte de Stat non notée',
             41 => 'Mâchoire Fracassée',
             42 => 'Côtes cassées',
             43 => 'Bras fracturé',

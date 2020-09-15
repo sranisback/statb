@@ -1,0 +1,46 @@
+{% extends 'statbb/base.html.twig' %}
+
+{% block title %}HistoriqueBlessure index{% endblock %}
+
+{% block body %}
+<div class="m-2">
+    <div class="card">
+    <h1>HistoriqueBlessure index</h1>
+
+    <table class="table" id="Admin">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Joueur</th>
+                <th>Equipe</th>
+                <th>Match Id</th>
+                <th>Blessure</th>
+                <th>Date</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for historique_blessure in historique_blessures %}
+            <tr>
+                <td>{{ historique_blessure.id }}</td>
+                <td>{{ historique_blessure.player.name }}</td>
+                <td>{{ historique_blessure.player.ownedByTeam.name }}</td>
+                <td>{{ historique_blessure.fmatch.matchId }}</td>
+                <td>{{ etiquette[historique_blessure.blessure] }} ( {{ historique_blessure.blessure }} )</td>
+                <td>{{ historique_blessure.date ? historique_blessure.date|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('historique_blessure_edit', {'id': historique_blessure.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('historique_blessure_new') }}">Create new</a>
+    </div>
+</div>
+{% endblock %}

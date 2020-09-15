@@ -1,0 +1,15 @@
+{% extends 'statbb/base.html.twig' %}
+
+{% block title %}New HistoriqueBlessure{% endblock %}
+
+{% block body %}
+<div class="m-2">
+    <div class="card">
+    <h1>Create new HistoriqueBlessure</h1>
+
+    {{ include('statbb/admin/historique_blessure/_form.html.twig') }}
+
+    <a href="{{ path('historique_blessure_index') }}">back to list</a>
+    </div>
+</div>
+{% endblock %}
