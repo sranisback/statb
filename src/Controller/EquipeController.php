@@ -549,10 +549,10 @@ class EquipeController extends AbstractController
         /** @var Teams $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
 
-        if ($equipe->getFranchise() === 0) {
-            $equipe->setFranchise(1);
+        if ($equipe->getFranchise() == false) {
+            $equipe->setFranchise(true);
         } else {
-            $equipe->setFranchise(0);
+            $equipe->setFranchise(false);
         }
 
         $this->getDoctrine()->getManager()->persist($equipe);

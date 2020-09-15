@@ -3,7 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\MatchData;
-use App\Form\admin\MatchDataType;
+use App\Form\Admin\MatchDataType;
 use App\Repository\MatchDataRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

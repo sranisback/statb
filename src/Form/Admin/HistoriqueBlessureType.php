@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\admin;
+namespace App\Form\Admin;
 
 use App\Entity\HistoriqueBlessure;
 use App\Entity\Matches;
@@ -15,8 +15,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class HistoriqueBlessureType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options) : void
     {
+        $tableauBlessure = null;
+
         foreach ((new BlessuresEnum())->numeroToBlessure() as $key => $ligne) {
             $tableauBlessure[$key] = $key . ', ' . $ligne;
         }
@@ -45,7 +47,7 @@ class HistoriqueBlessureType extends AbstractType
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver) : void
     {
         $resolver->setDefaults([
             'data_class' => HistoriqueBlessure::class,

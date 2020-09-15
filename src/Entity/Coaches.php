@@ -50,7 +50,7 @@ class Coaches implements UserInterface
     /**
      * @OneToMany(targetEntity="Teams", mappedBy="ownedByCoach", cascade={"remove"})
      */
-    private $equipes;
+    private ArrayCollection $equipes;
 
     public function __construct() {
         $this->equipes = new ArrayCollection();

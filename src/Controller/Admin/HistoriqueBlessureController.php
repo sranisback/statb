@@ -4,7 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\HistoriqueBlessure;
 use App\Enum\BlessuresEnum;
-use App\Form\admin\HistoriqueBlessureType;
+use App\Form\Admin\HistoriqueBlessureType;
 use App\Repository\HistoriqueBlessureRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

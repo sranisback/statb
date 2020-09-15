@@ -4,7 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\GameDataPlayers;
 use App\Entity\Players;
-use App\Form\admin\PlayersType;
+use App\Form\Admin\PlayersType;
 use App\Repository\PlayersRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
