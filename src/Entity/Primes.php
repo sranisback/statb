@@ -24,13 +24,6 @@ class Primes
     private ?int $montant = 0;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Coaches" , inversedBy="primes")
-     * @ORM\JoinColumn(name="coach_id", referencedColumnName="coach_id", nullable=false)
-     * @var \App\Entity\Coaches|null
-     */
-    private ?\App\Entity\Coaches $coaches = null;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Players")
      * @ORM\JoinColumn(name="player_id", referencedColumnName="player_id")
      * @var \App\Entity\Players|null
@@ -38,23 +31,27 @@ class Primes
     private ?\App\Entity\Players $players  = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Teams")
-     * @ORM\JoinColumn(name="team_id", referencedColumnName="team_id")
+     * @ORM\OneToOne(targetEntity="App\Entity\Teams")
+     * @ORM\JoinColumn(name="equipe_prime", referencedColumnName="team_id", nullable=true)
      * @var \App\Entity\Teams|null
      */
-    private ?\App\Entity\Teams $teams = null;
+    private ?\App\Entity\Teams $equipePrime  = null;
 
     /**
-     * @ORM\Column(type="datetime")
-     * @var \DateTimeInterface|null
+     * @return Teams|null
      */
-    private ?\DateTimeInterface $dateAjoutee = null;
+    public function getEquipePrime(): ?Teams
+    {
+        return $this->equipePrime;
+    }
 
     /**
-     * @ORM\Column(type="integer")
-     * @var int
+     * @param Teams|null $equipePrime
      */
-    private int $actif=1;
+    public function setEquipePrime(?Teams $equipePrime): void
+    {
+        $this->equipePrime = $equipePrime;
+    }
 
     public function getId(): ?int
     {
@@ -73,18 +70,6 @@ class Primes
         return $this;
     }
 
-    public function getCoaches(): ?\App\Entity\Coaches
-    {
-        return $this->coaches;
-    }
-
-    public function setCoaches(?Coaches $Coaches): self
-    {
-        $this->coaches = $Coaches;
-
-        return $this;
-    }
-
     public function getPlayers(): ?Players
     {
         return $this->players;
@@ -95,49 +80,5 @@ class Primes
         $this->players = $players;
 
         return $this;
-    }
-
-    public function getDateAjoutee(): ?\DateTimeInterface
-    {
-        return $this->dateAjoutee;
-    }
-
-    public function setDateAjoutee(\DateTimeInterface $dateAjoutee): self
-    {
-        $this->dateAjoutee = $dateAjoutee;
-
-        return $this;
-    }
-
-    public function getTeams(): ?\App\Entity\Teams
-    {
-        return $this->teams;
-    }
-
-    /**
-     * @param Teams $teams
-     * @return $this
-     */
-    public function setTeams(Teams $teams): self
-    {
-        $this->teams = $teams;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getActif(): int
-    {
-        return $this->actif;
-    }
-
-    /**
-     * @param integer $actif
-     */
-    public function setActif(int $actif): void
-    {
-        $this->actif = $actif;
     }
 }

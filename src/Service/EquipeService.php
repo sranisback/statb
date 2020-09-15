@@ -613,15 +613,15 @@ class EquipeService
 
         if (!empty($detailsPoints)) {
             return [
-                    'bonus' => $detailsPoints->getBonus(),
-                    'tdMis' => $detailsPoints->getTdPour(),
-                    'tdPris' => $detailsPoints->getTdContre(),
-                    'sortiesPour' => $detailsPoints->getCasPour(),
-                    'sortiesContre' => $detailsPoints->getCasContre(),
-                    'score' => $detailsPoints->getPoints(),
-                    'penalite' => $detailsPoints->getPenalite()
-                ]
-            ;
+                'bonus' => $detailsPoints->getBonus(),
+                'tdMis' => $detailsPoints->getTdPour(),
+                'tdPris' => $detailsPoints->getTdContre(),
+                'sortiesPour' => $detailsPoints->getCasPour(),
+                'sortiesContre' => $detailsPoints->getCasContre(),
+                'score' => $detailsPoints->getPoints(),
+                'penalite' => $detailsPoints->getPenalite()
+            ]
+                ;
         }
         return [
             'bonus' => 0,

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Primes;
 use App\Entity\Teams;
+use App\Service\SettingsService;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -14,6 +15,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RealiserPrimeType extends AbstractType
 {
+    private settingsService $settingsService;
+
+    public function __construct(SettingsService $settingsService)
+    {
+        $this->settingsService = $settingsService;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -24,7 +32,10 @@ class RealiserPrimeType extends AbstractType
                     'class' => Primes::class,
                     'query_builder' =>
                         fn(EntityRepository $entityRepository) => $entityRepository->createQueryBuilder('Primes')
-                        ->where('Primes.actif = 1'),
+                            ->join('Primes.players', 'Players')
+                            ->join('Players.ownedByTeam', 'Teams')
+                        ->where('Primes.equipePrime IS NULL')
+                        ->andWhere('Teams.year ='. $this->settingsService->anneeCourante()),
                     'choice_label' => function (Primes $prime) {
                         $joueur = $prime->getPlayers();
                         if (!empty($joueur)) {
@@ -57,24 +68,12 @@ class RealiserPrimeType extends AbstractType
                     'mapped' => false,
                 ]
             )
-            ->add(
-                'Teams',
-                EntityType::class,
-                [
-                    'class' => Teams::class,
-                    'choice_label' => 'name',
-                    'query_builder' =>
-                        fn(EntityRepository $entityRepository) => $entityRepository->createQueryBuilder('Teams')
-                        ->where('Teams.year ='.$options['year']),
-                    'group_by' => function (Teams $equipe) {
-                        $coach = $equipe->getOwnedByCoach();
-                        if (!empty($coach)) {
-                            return $coach->getName();
-                        }
-                        return '';
-                    },
-                ]
-            )
+            ->add('Teams', EntityType::class,             [
+                'class' => Teams::class,
+                'choice_label' => 'name',
+                'label' => 'Choisir une Equipe',
+                'mapped' => false
+            ])
             ->add('submit', SubmitType::class, ['label' => 'Realiser'])
             ->add('cancel', ButtonType::class, ['label' => 'Annuler', 'attr' => ['data-dismiss' => 'modal']])
             ->getForm();

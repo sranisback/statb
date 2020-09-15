@@ -15,12 +15,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class PrimeController extends AbstractController
 {
     /**
-     * @Route("/ajoutPrimeForm/{coachId}/{primeId}", name="ajoutPrimeForm")
-     * @param int $coachId
+     * @Route("/ajoutPrimeForm/{primeId}", name="ajoutPrimeForm")
      * @param null $primeId
      * @return Response
      */
-    public function ajoutPrimeForm(int $coachId, $primeId = null): \Symfony\Component\HttpFoundation\Response
+    public function ajoutPrimeForm($primeId = null): \Symfony\Component\HttpFoundation\Response
     {
         $prime = new Primes();
 
@@ -28,22 +27,22 @@ class PrimeController extends AbstractController
             $prime = $this->getDoctrine()->getRepository(Primes::class)->findOneBy(['id' => $primeId]);
         }
 
-        $form = $this->createForm(PrimeType::class, $prime, ['coach' => $coachId]);
+        $form = $this->createForm(PrimeType::class, $prime);
 
-        return $this->render('statbb/ajoutPrime.html.twig', ['form' => $form->createView(), 'coachId' => $coachId]);
+        return $this->render('statbb/ajoutPrime.html.twig', ['form' => $form->createView()]);
     }
 
     /**
-     * @Route("/ajoutPrime/{coachId}", name="ajoutPrime")
+     * @Route("/ajoutPrime", name="ajoutPrime")
      * @param Request $request
      * @param PrimeService $primeService
-     * @param int $coachId
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function ajoutPrime(Request $request, PrimeService $primeService, int $coachId)
-    : \Symfony\Component\HttpFoundation\RedirectResponse
-    {
-        if ($primeService->creationPrime($coachId, $request->request->get('prime')) !== '') {
+    public function ajoutPrime(
+        Request $request,
+        PrimeService $primeService
+    ): \Symfony\Component\HttpFoundation\RedirectResponse {
+        if ($primeService->creationPrime( $request->request->get('prime'))) {
             $this->addFlash('success', 'Prime Ajoutée');
         }
 
@@ -73,9 +72,10 @@ class PrimeController extends AbstractController
      * @param int $primeId
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function supprimerPrime(PrimeService $primeService, int $primeId)
-    : \Symfony\Component\HttpFoundation\RedirectResponse
-    {
+    public function supprimerPrime(
+        PrimeService $primeService,
+        int $primeId
+    ): \Symfony\Component\HttpFoundation\RedirectResponse {
         if ($primeService->supprimerPrime($primeId) !== '') {
             $this->addFlash('success', 'Prime Supprimée');
         }
@@ -100,9 +100,10 @@ class PrimeController extends AbstractController
      * @param PrimeService $primeService
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function realiserPrime(Request $request, PrimeService $primeService)
-    : \Symfony\Component\HttpFoundation\RedirectResponse
-    {
+    public function realiserPrime(
+        Request $request,
+        PrimeService $primeService
+    ): \Symfony\Component\HttpFoundation\RedirectResponse {
         if ($primeService->realiserPrime($request->request->get('realiser_prime')) !== '') {
             $this->addFlash('success', 'Prime Réalisée');
         }

@@ -22,7 +22,8 @@ class PrimesRepository extends ServiceEntityRepository
     public function listePrimeEnCours($annee)
     {
         return $this->createQueryBuilder('Primes')
-            ->join('Primes.teams', 'teams')
+            ->join('Primes.players', 'players')
+            ->join('players.ownedByTeam', 'teams')
             ->where('teams.year = '.$annee)
             ->getQuery()
             ->getResult();

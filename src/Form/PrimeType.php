@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Players;
-use App\Entity\Teams;
+use App\Entity\Primes;
 use App\Service\SettingsService;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -54,7 +54,6 @@ class PrimeType extends AbstractType
                             ->where('teams.year ='.$this->settingsService->anneeCourante())
                             ->andWhere('players.type = 1')
                             ->andWhere('players.status = 1 OR players.status = 9')
-                            ->andWhere('teams.ownedByCoach !='.$options['coach'])
                             ->orderBy('players.nr');
                     },
                     'group_by' => function (Players $joueur) {
@@ -77,24 +76,6 @@ class PrimeType extends AbstractType
                 IntegerType::class,
                 ['label' => 'Montant de la prime', 'data' => '0', 'attr' => ['step' => 10000, 'min' => 0]]
             )
-            ->add(
-                'teams',
-                EntityType::class,
-                [
-                    'class' => Teams::class,
-                    'choice_label' => function (Teams $equipe) {
-                        return $equipe->getName().', '.$equipe->getTreasury().' PO';
-                    },
-                    'label' => 'De la part de ',
-                    'query_builder' => function (EntityRepository $entityRepository) use ($options) {
-                        return $entityRepository->createQueryBuilder('teams')
-                            ->where('teams.year ='.$this->settingsService->anneeCourante())
-                            ->andWhere('teams.ownedByCoach ='.$options['coach'])
-                            ->orderBy('teams.name');
-                    },
-                    'placeholder' => 'Choisir une équipe',
-                ]
-            )
             ->add('submit', SubmitType::class, ['label' => 'Ajouter'])
             ->add('cancel', ButtonType::class, ['label' => 'Annuler', 'attr' => ['data-dismiss' => 'modal']])
             ->getForm();
@@ -103,7 +84,7 @@ class PrimeType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'coach' => 0,
+                'data_class' => Primes::class,
             ]
         );
     }
