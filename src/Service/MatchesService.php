@@ -59,7 +59,7 @@ class MatchesService
      * @return array<string,mixed>
      * @throws \Exception
      */
-    public function enregistrerMatch(array $donnneesMatch): array
+    public function enregistrerMatch(array $donnneesMatch, ClassementService $classementService): array
     {
         $match = $this->creationEnteteMatch($donnneesMatch);
 

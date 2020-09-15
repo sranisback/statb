@@ -274,7 +274,7 @@ class ClassementController extends AbstractController
     }
 
     /**
-     * @route("/calculClassementGen/{annee}")
+     * @route("/calculClassementGen/{annee}", name="calcul_classement_gen" )
      * @param int $annee
      * @param ClassementService $classementService
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
