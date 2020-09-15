@@ -90,7 +90,7 @@ class MatchController extends AbstractController
             $url = $this->generateUrl('match', ['matchId' => $resultat['enregistrement']]);
             $this->addFlash('admin', 'Match enregistré, <a href= "'.$url.'"> Voir </a>');
         }
-        if ($resultat['defis'] !== []) {
+        if ($resultat['defis'] !== null) {
             $this->addFlash('admin', 'Un defis a été réalisé');
         }
 

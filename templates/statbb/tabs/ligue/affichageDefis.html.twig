@@ -1,4 +1,4 @@
-Période Défis actuelle : {{ render(controller('App\\Controller\\DefisController::afficherPeriodeDefisActuelle')) }}
+Période Défis actuelle : {{ render(controller('App\\Controller\\DefisIhmController::afficherPeriodeDefisActuelle')) }}
 <div class="table-responsive">
     <table class="table" id="TableDefis" style="width: 100%">
         <thead>
@@ -46,4 +46,4 @@ Période Défis actuelle : {{ render(controller('App\\Controller\\DefisControlle
         </tbody>
     </table>
 </div>
-{{ render(controller('App\\Controller\\DefisController::ajoutDefisForm',{'coachId':app.user.coachId} )) }}
+{{ render(controller('App\\Controller\\DefisIhmController::ajoutDefisForm',{'coachId':app.user.coachId} )) }}
