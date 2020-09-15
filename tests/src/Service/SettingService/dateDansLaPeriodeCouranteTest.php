@@ -22,10 +22,10 @@ class dateDansLaPeriodeCouranteTest extends TestCase
         $setting->setValue('07/25/2019');
 
         $settingRepoMock = $this->createMock(ObjectRepository::class);
-        $settingRepoMock->expects($this->any())->method('findOneBy')->willReturn($setting);
+        $settingRepoMock->method('findOneBy')->willReturn($setting);
 
         $objectManager = $this->createMock(EntityManagerInterface::class);
-        $objectManager->expects($this->any())->method('getRepository')->willReturn($settingRepoMock);
+        $objectManager->method('getRepository')->willReturn($settingRepoMock);
 
         $settingsService = new SettingsService($objectManager);
 

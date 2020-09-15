@@ -3,8 +3,8 @@
         <thead>
         <tr>
             <td>Cible</td>
-            <td>De</td>
             <td>Montant</td>
+            <td>Equipe bénéficiaire</td>
             {% if app.user.roles["role"] == 'ROLE_ADMIN' %}
                 <td>Action</td>
             {% endif %}
@@ -12,7 +12,7 @@
         </thead>
         <tbody>
         {% for prime in primeCollection %}
-            {% if(prime.actif==0) %}
+            {% if(prime.equipePrime != null) %}
                 <tr style="text-decoration : line-through;">
             {% else %}
                 <tr>
@@ -29,11 +29,13 @@
                 {% endif %}, {{ prime.players.OwnedByTeam.fRace.name }}
                 <a
                         class="fas fa-search"
-                        href="{{ path('Player', {'playerid': prime.players.playerId,'type':'n' }) }}"></a></td>
-            <td>{{ prime.teams.name }}                    {% if prime.teams.franchise == true %}
-                <span class="fas fa-tag text-success"></span>
-                {% endif %}, {{ prime.teams.fRace.name }} de {{ prime.Coaches.name }}</td>
+                        href="{{ path('Player', {'playerid': prime.players.playerId }) }}"></a></td>
             <td>{{ prime.montant }}</td>
+            <td>
+                {% if(prime.equipePrime != null) %}
+                {{ prime.equipePrime.name }}
+                {% endif %}
+            </td>
             {% if app.user.roles["role"] == 'ROLE_ADMIN' %}
                 <td><i class="fas fa-times text-danger" id="enleve_prime_{{ prime.id }}" primeId="{{ prime.id }}"></i>
                 </td>
@@ -43,7 +45,7 @@
         </tbody>
     </table>
 </div>
-{{ render(controller('App\\Controller\\PrimeController::ajoutPrimeForm',{'coachId':app.user.coachId} )) }}
 {% if app.user.roles["role"] == 'ROLE_ADMIN' %}
+    {{ render(controller('App\\Controller\\PrimeController::ajoutPrimeForm')) }}
     {{ render(controller('App\\Controller\\PrimeController::realiserPrimeForm')) }}
 {% endif %}
