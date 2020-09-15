@@ -3,11 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Citations;
-use App\Entity\Coaches;
-use App\Entity\Teams;
 use App\Form\AjoutCitationType;
 use App\Service\CitationService;
-use App\Service\SettingsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

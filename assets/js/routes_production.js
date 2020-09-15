@@ -113,6 +113,14 @@ const routes_prod = {
             "methods": [],
             "schemes": []
         },
+        "app_classement_calculclassementgen": {
+            "tokens": [["variable", "\/", "[^\/]++", "annee"], ["text", "\/calculClassementGen"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
         "ajoutDefisForm": {
             "tokens": [["variable", "\/", "[^\/]++", "coachId"], ["text", "\/ajoutDefisForm"]],
             "defaults": [],
@@ -417,7 +425,7 @@ const routes_prod = {
             "methods": [],
             "schemes": []
         },
-        "app_match_dropdownplayer": {
+        "dropdownPlayer": {
             "tokens": [["variable", "\/", "[^\/]++", "nbr"], ["variable", "\/", "[^\/]++", "teamId"], ["text", "\/dropdownPlayer"]],
             "defaults": [],
             "requirements": [],
@@ -425,7 +433,7 @@ const routes_prod = {
             "methods": [],
             "schemes": []
         },
-        "app_match_addgame": {
+        "addGame": {
             "tokens": [["text", "\/addGame"]],
             "defaults": [],
             "requirements": [],
@@ -459,6 +467,30 @@ const routes_prod = {
         },
         "matchsAnnee": {
             "tokens": [["text", "\/matchsAnnee"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "ajoutPenaliteForm": {
+            "tokens": [["text", "\/ajoutPenaliteForm"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "ajoutPenalite": {
+            "tokens": [["text", "\/ajoutPenalite"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "afficherPenalite": {
+            "tokens": [["text", "\/afficherPenalite"]],
             "defaults": [],
             "requirements": [],
             "hosttokens": [],
@@ -644,14 +676,6 @@ const routes_prod = {
         "ajoutCitation": {
             "tokens": [["text", "\/ajoutCitation"]],
             "defaults": [],
-            "requirements": [],
-            "hosttokens": [],
-            "methods": [],
-            "schemes": []
-        },
-        "estAutorise": {
-            "tokens": [["variable", "\/", "[^\/]++", "equipeId"], ["text", "\/estAutorise"]],
-            "defaults": {"equipeId": null},
             "requirements": [],
             "hosttokens": [],
             "methods": [],

@@ -24,11 +24,11 @@ class Primes
     private ?int $montant = 0;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Coaches")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Coaches" , inversedBy="primes")
      * @ORM\JoinColumn(name="coach_id", referencedColumnName="coach_id", nullable=false)
      * @var \App\Entity\Coaches|null
      */
-    private ?\App\Entity\Coaches $Coaches = null;
+    private ?\App\Entity\Coaches $coaches = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Players")
@@ -75,12 +75,12 @@ class Primes
 
     public function getCoaches(): ?\App\Entity\Coaches
     {
-        return $this->Coaches;
+        return $this->coaches;
     }
 
     public function setCoaches(?Coaches $Coaches): self
     {
-        $this->Coaches = $Coaches;
+        $this->coaches = $Coaches;
 
         return $this;
     }

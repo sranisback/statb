@@ -109,9 +109,7 @@ class Matches
     /**
      *
      * @ORM\ManyToOne(targetEntity="Teams", fetch="EAGER")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="team2_id", referencedColumnName="team_id")
-     * })
+     * @ORM\JoinColumn(name="team2_id", referencedColumnName="team_id")
      * @var null|\App\Entity\Teams
      */
     private ?\App\Entity\Teams $team2 = null;
@@ -123,13 +121,13 @@ class Matches
     private ?\App\Entity\Meteo $fMeteo = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\GameDataStadium", fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="App\Entity\GameDataStadium")
      * @ORM\JoinColumn(nullable=false)
      */
     private ?\App\Entity\GameDataStadium $fStade = null;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\HistoriqueBlessure", mappedBy="fmatch", fetch="EAGER")
+     * @ORM\OneToMany(targetEntity="App\Entity\HistoriqueBlessure", mappedBy="fmatch")
      * @var \App\Entity\HistoriqueBlessure[]|\Doctrine\Common\Collections\Collection
      */
     private \Doctrine\Common\Collections\Collection $blessuresMatch;

@@ -611,15 +611,27 @@ class EquipeService
         $detailsPoints = $this->doctrineEntityManager
             ->getRepository(ClassementGeneral::class)->findOneBy(['equipe' => $equipe->getTeamId()]);
 
+        if (!empty($detailsPoints)) {
+            return [
+                    'bonus' => $detailsPoints->getBonus(),
+                    'tdMis' => $detailsPoints->getTdPour(),
+                    'tdPris' => $detailsPoints->getTdContre(),
+                    'sortiesPour' => $detailsPoints->getCasPour(),
+                    'sortiesContre' => $detailsPoints->getCasContre(),
+                    'score' => $detailsPoints->getPoints(),
+                    'penalite' => $detailsPoints->getPenalite()
+                ]
+            ;
+        }
         return [
-                'bonus' => $detailsPoints->getBonus(),
-                'tdMis' => $detailsPoints->getTdPour(),
-                'tdPris' => $detailsPoints->getTdContre(),
-                'sortiesPour' => $detailsPoints->getCasPour(),
-                'sortiesContre' => $detailsPoints->getCasContre(),
-                'score' => $detailsPoints->getPoints(),
-                'penalite' => $detailsPoints->getPenalite()
-            ]
-        ;
+            'bonus' => 0,
+            'tdMis' => 0,
+            'tdPris' => 0,
+            'sortiesPour' => 0,
+            'sortiesContre' => 0,
+            'score' => 0,
+            'penalite' => 0
+        ]
+            ;
     }
 }

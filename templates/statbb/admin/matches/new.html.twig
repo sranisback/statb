@@ -1,0 +1,15 @@
+{% extends 'statbb/base.html.twig' %}
+
+{% block title %}New Matches{% endblock %}
+
+{% block body %}
+<div class="m-2">
+    <div class="card">
+    <h1>Create new Matches</h1>
+
+    {{ include('statbb/admin/matches/_form.html.twig') }}
+
+    <a href="{{ path('matches_index') }}">back to list</a>
+    </div>
+</div>
+{% endblock %}

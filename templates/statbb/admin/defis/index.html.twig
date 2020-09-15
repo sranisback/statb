@@ -1,0 +1,44 @@
+{% extends 'statbb/base.html.twig' %}
+
+{% block title %}Defis index{% endblock %}
+
+{% block body %}
+<div class="m-2">
+    <div class="card">
+    <h1>Defis index</h1>
+
+    <table class="table" id="Admin">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Equipe Origine</th>
+                <th>Equipe Défiée</th>
+                <th>DefieRealise</th>
+                <th>DateDefi</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for defi in defis %}
+            <tr>
+                <td>{{ defi.id }}</td>
+                <td>{{ defi.equipeOrigine.name }}</td>
+                <td>{{ defi.equipeDefiee.name }}</td>
+                <td>{{ defi.defieRealise ? 'Yes' : 'No' }}</td>
+                <td>{{ defi.dateDefi ? defi.dateDefi|date('d/m/Y') : '' }}</td>
+                <td>
+                    <a href="{{ path('defis_edit', {'id': defi.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('defis_new') }}">Create new</a>
+    </div>
+</div>
+{% endblock %}

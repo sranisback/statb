@@ -1,0 +1,42 @@
+{% extends 'statbb/base.html.twig' %}
+
+{% block title %}Coaches index{% endblock %}
+
+{% block body %}
+<div class="m-2">
+    <div class="card">
+    <h1>Coaches index</h1>
+
+    <table class="table" id="Admin">
+        <thead>
+            <tr>
+                <th>CoachId</th>
+                <th>Name</th>
+                <th>Passwd</th>
+                <th>Roles</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for coach in coaches %}
+            <tr>
+                <td>{{ coach.coachId }}</td>
+                <td>{{ coach.name }}</td>
+                <td>{{ coach.passwd }}</td>
+                <td>{{ coach.roles ? coach.roles|json_encode : '' }}</td>
+                <td>
+                    <a href="{{ path('coaches_edit', {'coachId': coach.coachId}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('coaches_new') }}">Create new</a>
+    </div>
+</div>
+{% endblock %}

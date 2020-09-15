@@ -1,0 +1,15 @@
+{% extends 'statbb/base.html.twig' %}
+
+{% block title %}New Defis{% endblock %}
+
+{% block body %}
+<div class="m-2">
+    <div class="card">
+    <h1>Create new Defis</h1>
+
+    {{ include('statbb/admin/defis/_form.html.twig') }}
+
+    <a href="{{ path('defis_index') }}">back to list</a>
+    </div>
+</div>
+{% endblock %}

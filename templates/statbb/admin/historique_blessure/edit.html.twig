@@ -1,0 +1,17 @@
+{% extends 'statbb/base.html.twig' %}
+
+{% block title %}Edit HistoriqueBlessure{% endblock %}
+
+{% block body %}
+<div class="m-2">
+    <div class="card">
+    <h1>Edit HistoriqueBlessure</h1>
+
+    {{ include('statbb/admin/historique_blessure/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('historique_blessure_index') }}">back to list</a>
+
+    {{ include('statbb/admin/historique_blessure/_delete_form.html.twig') }}
+    </div>
+</div>
+{% endblock %}

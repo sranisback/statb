@@ -31,20 +31,16 @@ class PlayersSkills
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="GameDataSkills", fetch="EAGER")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="f_skill_id", referencedColumnName="skill_id")
-     * })
+     * @ORM\ManyToOne(targetEntity="GameDataSkills")
+     * @ORM\JoinColumn(name="f_skill_id", referencedColumnName="skill_id")
      * @var \App\Entity\GameDataSkills|null
      */
     private ?\App\Entity\GameDataSkills $fSkill = null;
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="Players", fetch="EAGER")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="f_pid", referencedColumnName="player_id")
-     * })
+     * @ORM\ManyToOne(targetEntity="Players", inversedBy="skills")
+     * @ORM\JoinColumn(name="f_pid", referencedColumnName="player_id")
      * @var \App\Entity\Players|null
      */
     private ?\App\Entity\Players $fPid = null;

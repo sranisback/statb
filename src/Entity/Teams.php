@@ -22,7 +22,7 @@ class Teams
      * @ORM\GeneratedValue(strategy="AUTO")
      * @var int
      */
-    private int $teamId = 0;
+    private ?int $teamId = 0;
 
     /**
      *
@@ -111,7 +111,7 @@ class Teams
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="Coaches")
+     * @ORM\ManyToOne(targetEntity="Coaches", inversedBy="equipes")
      *   @ORM\JoinColumn  (name="owned_by_coach_id",  referencedColumnName="coach_id")
      * @var \App\Entity\Coaches|null
      */
@@ -127,7 +127,7 @@ class Teams
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="Stades")
+     * @ORM\OneToOne(targetEntity="Stades", cascade={"remove"})
      * @ORM\JoinColumn(name="f_stade_id", referencedColumnName="id", nullable=true)
      * @var \App\Entity\Stades|null
      */
@@ -145,13 +145,35 @@ class Teams
     private int $franchise = 0;
 
     /**
-     * @ORM\OneToMany(targetEntity=Penalite::class, mappedBy="equipe", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Penalite::class, mappedBy="equipe", orphanRemoval=true, cascade={"remove"})
      */
     private \Doctrine\Common\Collections\Collection $penalite;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Players::class, mappedBy="ownedByTeam", orphanRemoval=true, cascade={"remove"})
+     */
+    private $joueurs;
+
     public function __construct()
     {
+        $this->joueurs = new ArrayCollection();
         $this->penalite = new ArrayCollection();
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getJoueurs(): ArrayCollection
+    {
+        return $this->joueurs;
+    }
+
+    /**
+     * @param ArrayCollection $joueurs
+     */
+    public function setJoueurs(ArrayCollection $joueurs): void
+    {
+        $this->joueurs = $joueurs;
     }
 
     /**
@@ -371,14 +393,14 @@ class Teams
     }
 
     /**
-     * @return integer
+     * @return boolean
      */
-    public function getFranchise(): int
+    public function getFranchise(): bool
     {
         return $this->franchise;
     }
 
-    public function setFranchise(int $franchise): self
+    public function setFranchise(bool $franchise): self
     {
         $this->franchise = $franchise;
 
