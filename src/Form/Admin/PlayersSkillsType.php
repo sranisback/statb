@@ -16,11 +16,13 @@ class PlayersSkillsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options) : void
     {
         $builder
-            ->add('type',
+            ->add(
+                'type',
                 ChoiceType::class,
                 [
                     'choices' => ['Normal' => 'N', 'Double' => 'D'],
-                ])
+                ]
+            )
             ->add('fSkill', EntityType::class, [
                 'class' => GameDataSkills::class,
                 'choice_label' =>'name',
@@ -38,7 +40,7 @@ class PlayersSkillsType extends AbstractType
                             ];
 
                         return $listeCategoriesCompetences[$comp->getCat()];
-                    }
+                }
             ])
             ->add('fPid', EntityType::class, [
                 'class' => Players::class,

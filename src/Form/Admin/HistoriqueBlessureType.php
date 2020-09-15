@@ -38,7 +38,7 @@ class HistoriqueBlessureType extends AbstractType
             ])
             ->add('fmatch', EntityType::class, [
                 'class' => Matches::class,
-                'choice_label' => function ( Matches $match) {
+                'choice_label' => function (Matches $match) {
                     return $match->getMatchId() . ' - ' .
                         $match->getTeam1()->getName() . ' vs ' .
                         $match->getTeam2()->getName();

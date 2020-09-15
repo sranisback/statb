@@ -28,12 +28,14 @@ class MatchesType extends AbstractType
             ->add('team2Score')
             ->add('tv1')
             ->add('tv2')
-            ->add('stadeAcceuil',
+            ->add(
+                'stadeAcceuil',
                 ChoiceType::class,
                 [
                     'choices' => ['Equipe 1' => 1, 'Equipe 2 ' => 2, 'Personne' => 3],
                     'label' => 'Stade Acceuil',
-                ])
+                ]
+            )
             ->add('depense1')
             ->add('depense2')
             ->add('team1', EntityType::class, ['class' => Teams::class,'choice_label' =>'name'])

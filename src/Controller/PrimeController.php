@@ -42,7 +42,7 @@ class PrimeController extends AbstractController
         Request $request,
         PrimeService $primeService
     ): \Symfony\Component\HttpFoundation\RedirectResponse {
-        $primeService->creationPrime( $request->request->get('prime'));
+        $primeService->creationPrime($request->request->get('prime'));
         $this->addFlash('success', 'Prime Ajoutée');
 
         return $this->redirectToRoute('frontUser');

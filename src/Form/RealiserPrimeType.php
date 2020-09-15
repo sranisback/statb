@@ -68,7 +68,7 @@ class RealiserPrimeType extends AbstractType
                     'mapped' => false,
                 ]
             )
-            ->add('Teams', EntityType::class,             [
+            ->add('Teams', EntityType::class, [
                 'class' => Teams::class,
                 'choice_label' => 'name',
                 'label' => 'Choisir une Equipe',
