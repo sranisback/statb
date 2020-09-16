@@ -1,5 +1,6 @@
 parameters:
     checkGenericClassInNonGenericObjectType: false
+    checkMissingIterableValueType: false
     symfony:
         container_xml_path: '%rootDir%/../../../var/cache/dev/App_KernelDevDebugContainer.xml'
     excludes_analyse:
@@ -16,20 +17,13 @@ parameters:
         - '#.+listeDesMatchs.+#'
         - '#.+listeDefisEnCours.+#'
         - '#.+object::getCoachId\(\).+#'
-        - '#.+object::getPasswd\(\).+#'
-        - '#.+object::setPasswd\(\).+#'
-        - '#.+UserPasswordEncoder::encodePassword\(\).+#'
         - '#Argument of an invalid type .+ supplied for foreach.+#'
         - '#tousLesMatchDuneAnneClassementChrono.+#'
         - '#toutesLesEquipesDunCoachParAnnee.+#'
         - '#toutesLesIconesDunePosition.+#'
         - '#requeteEquipeLike.+#'
         - '#tousLesMatchsDeDeuxCoach.+#'
-        - '#blessuresMatch.+#'
-        - '#getBlessuresMatch.+#'
-        - '#historiqueBlessures.+#'
         - '#getHistoriqueBlessures.+#'
-        - '#pointsBonus.+#'
         - '#sousClassementJoueur.+#'
         - '#sousClassementEquipeFournisseurDeCadavre.+#'
         - '#sousClassementEquipe.+#'
@@ -41,8 +35,7 @@ parameters:
         - '#listeDesJournaliersDeLequipe.+#'
         - '#listeDesJoueursdUnMatch.+#'
         - '#listePenaliteEnCours.+#'
-        - '#scoreDuneEquipe.+#'
-        - '#scoreDetailDuneEquipe.+#'
         - '#penaliteDuneEquipe.+#'
         - '#setDate.+#'
         - '#findByName.+#'
+        - '#getEquipes.+#'

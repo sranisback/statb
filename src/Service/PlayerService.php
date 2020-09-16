@@ -436,7 +436,7 @@ class PlayerService
 
             $coutPosition = $position->getCost();
 
-            if ($this->leJoueurEstDisposable($joueur)) {
+            if ($this->leJoueurEstDisposable($joueur) || $this->leJoueurEstFanFavorite($joueur)) {
                 $coutPosition = 0;
             }
 
@@ -692,5 +692,25 @@ class PlayerService
             ->getRepository(GameDataSkills::class)->findOneBy(['name' => 'Disposable']);
 
         return !empty($disposable) && in_array($disposable->getSkillId(), explode(',', $joueur->getFPos()->getSkills()));
+    }
+
+    /**
+     * @param Players $joueur
+     * @return bool
+     */
+    public function leJoueurEstFanFavorite(Players $joueur) : bool
+    {
+        $playersSkill = false;
+
+        /** @var GameDataSkills $fanFavourite */
+        $fanFavourite = $this->doctrineEntityManager
+            ->getRepository(GameDataSkills::class)->findOneBy(['name' => 'Fan Favorite']);
+
+        if (!empty($fanFavourite)) {
+            /** @var PlayersSkills $playersSkill */
+            $playersSkill = $this->doctrineEntityManager->getRepository(PlayersSkills::class)->findOneBy(['fPid' => $joueur->getPlayerId(), 'fSkill' => $fanFavourite->getSkillId()]);
+        }
+
+        return !empty($fanFavourite) && $playersSkill != false;
     }
 }

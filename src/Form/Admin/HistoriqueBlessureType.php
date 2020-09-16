@@ -30,7 +30,9 @@ class HistoriqueBlessureType extends AbstractType
             ->add('date', DateType::class, ['widget'=>'single_text', 'html5' => true])
             ->add('Player', EntityType::class, [
                 'class' => Players::class,
-                'choice_label' => fn (Players $joueur) =>  $joueur->getNr() . ', ' . $joueur->getName() . ', ' . $joueur->getFPos()->getPos() .
+                'choice_label' => fn (Players $joueur) =>  $joueur->getNr()
+                    . ', ' . $joueur->getName()
+                    . ', ' . $joueur->getFPos()->getPos() .
                         ($joueur->getType() == 2 ? ', Journalier' : ''),
                 'group_by' =>  'ownedByTeam.name'
             ])

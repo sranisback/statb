@@ -200,7 +200,7 @@ class JoueurController extends AbstractController
 
                 $cout = $position->getCost();
 
-                if ($playerService->leJoueurEstDisposable($joueur)) {
+                if ($playerService->leJoueurEstDisposable($joueur) || $playerService->leJoueurEstFanFavorite($joueur)) {
                     $cout = 0;
                 }
 
@@ -214,7 +214,7 @@ class JoueurController extends AbstractController
 
                 $coutjoueur = $joueur->getValue();
 
-                if ($playerService->leJoueurEstDisposable($joueur)) {
+                if ($playerService->leJoueurEstDisposable($joueur) || $playerService->leJoueurEstFanFavorite($playerService)) {
                     $coutjoueur = 0;
                 }
 
