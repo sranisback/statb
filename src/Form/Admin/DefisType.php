@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\admin;
+namespace App\Form\Admin;
 
 use App\Entity\Defis;
 use App\Entity\Matches;
@@ -13,26 +13,28 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DefisType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options) : void
     {
         $builder
             ->add('defieRealise')
             ->add('dateDefi', DateType::class, ['widget'=>'single_text', 'html5' => true])
             ->add('equipeDefiee', EntityType::class, ['class' => Teams::class, 'choice_label' =>'name'])
-            ->add('matchDefi',EntityType::class,
+            ->add(
+                'matchDefi',
+                EntityType::class,
                 [
                     'class' => Matches::class,
-                    'choice_label' => function ( Matches $match) {
-                        return $match->getMatchId() . ' - ' .
+                    'choice_label' => fn (Matches $match) =>  $match->getMatchId() . ' - ' .
                             $match->getTeam1()->getName() . ' vs ' .
-                            $match->getTeam2()->getName();
-                    }
-                ])
+                            $match->getTeam2()->getName()
+
+                ]
+            )
             ->add('equipeOrigine', EntityType::class, ['class' => Teams::class, 'choice_label' =>'name'])
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver) : void
     {
         $resolver->setDefaults([
             'data_class' => Defis::class,

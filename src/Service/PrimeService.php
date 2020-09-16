@@ -22,9 +22,8 @@ class PrimeService
     }
 
     /**
-     * @param integer $coach
      * @param array<string,mixed> $data
-     * @return string
+     * @return Primes
      */
     public function creationPrime(array $data): Primes
     {
@@ -32,7 +31,7 @@ class PrimeService
             ->getRepository(Primes::class)
             ->findOneBy(['players' => $data['players']]);
 
-        if ( $prime == false ){
+        if ($prime == false) {
             $prime = new Primes();
         }
 

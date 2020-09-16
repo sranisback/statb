@@ -6,7 +6,7 @@ use App\Entity\GameDataStadium;
 use App\Entity\Stades;
 use App\Entity\Teams;
 use App\Enum\AnneeEnum;
-use App\Form\admin\TeamsType;
+use App\Form\Admin\TeamsType;
 use App\Repository\TeamRepository;
 use App\Service\SettingsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

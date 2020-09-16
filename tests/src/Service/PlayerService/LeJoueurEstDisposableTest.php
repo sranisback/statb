@@ -31,13 +31,13 @@ class LeJoueurEstDisposableTest extends TestCase
         $joueurTest = new Players();
         $joueurTest->setFPos($positionTest);
 
-        $gameDataSkillRepoMock = $this->getMockBuilder(Players::class)
+        $playerRepoMock = $this->getMockBuilder(Players::class)
             ->setMethods(['findOneBy'])
             ->getMock();
-        $gameDataSkillRepoMock->method('findOneBy')->willReturn($gameDataSkillsTest);
+        $playerRepoMock->method('findOneBy')->willReturn($gameDataSkillsTest);
 
         $objectManager = $this->createMock(EntityManagerInterface::class);
-        $objectManager->method('getRepository')->willReturn($gameDataSkillRepoMock);
+        $objectManager->method('getRepository')->willReturn($playerRepoMock);
 
         $playerServiceTest = new PlayerService(
             $objectManager,
@@ -64,13 +64,13 @@ class LeJoueurEstDisposableTest extends TestCase
         $joueurTest = new Players();
         $joueurTest->setFPos($positionTest);
 
-        $gameDataSkillRepoMock = $this->getMockBuilder(Players::class)
+        $playerRepoMock = $this->getMockBuilder(Players::class)
             ->setMethods(['findOneBy'])
             ->getMock();
-        $gameDataSkillRepoMock->method('findOneBy')->willReturn($gameDataSkillsTest);
+        $playerRepoMock->method('findOneBy')->willReturn($gameDataSkillsTest);
 
         $objectManager = $this->createMock(EntityManagerInterface::class);
-        $objectManager->method('getRepository')->willReturn($gameDataSkillRepoMock);
+        $objectManager->method('getRepository')->willReturn($playerRepoMock);
 
         $playerServiceTest = new PlayerService(
             $objectManager,

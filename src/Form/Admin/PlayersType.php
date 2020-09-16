@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\admin;
+namespace App\Form\Admin;
 
 use App\Entity\GameDataPlayers;
 use App\Entity\Players;
@@ -16,14 +16,17 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PlayersType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options) : void
     {
         $builder
-            ->add('type', ChoiceType::class,
+            ->add(
+                'type',
+                ChoiceType::class,
                 [
                     'choices' => ['Regulier' => 1, 'Journalier' => 2],
                     'label' => 'Type',
-                ])
+                ]
+            )
             ->add('name')
             ->add('nr')
             ->add('dateBought', DateType::class, ['widget'=>'single_text', 'html5' => true])
@@ -35,11 +38,14 @@ class PlayersType extends AbstractType
             ->add('extraSpp')
             ->add('extraVal')
             ->add('value')
-            ->add('status', ChoiceType::class,
+            ->add(
+                'status',
+                ChoiceType::class,
                 [
                     'choices' => ['Ok' => 1, 'Vendu' => 7, 'Mort' => 8, 'Xp' => 9],
                     'label' => 'Status',
-                ])
+                ]
+            )
             ->add('dateDied', DateType::class, ['widget'=>'single_text', 'html5' => true])
             ->add('injMa')
             ->add('injSt')
@@ -63,7 +69,7 @@ class PlayersType extends AbstractType
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver) : void
     {
         $resolver->setDefaults([
             'data_class' => Players::class,

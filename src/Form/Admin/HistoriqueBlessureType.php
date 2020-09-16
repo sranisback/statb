@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\admin;
+namespace App\Form\Admin;
 
 use App\Entity\HistoriqueBlessure;
 use App\Entity\Matches;
@@ -15,8 +15,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class HistoriqueBlessureType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options) : void
     {
+        $tableauBlessure = null;
+
         foreach ((new BlessuresEnum())->numeroToBlessure() as $key => $ligne) {
             $tableauBlessure[$key] = $key . ', ' . $ligne;
         }
@@ -28,24 +30,22 @@ class HistoriqueBlessureType extends AbstractType
             ->add('date', DateType::class, ['widget'=>'single_text', 'html5' => true])
             ->add('Player', EntityType::class, [
                 'class' => Players::class,
-                'choice_label' => function (Players $joueur) {
-                    return $joueur->getNr() . ', ' . $joueur->getName() . ', ' . $joueur->getFPos()->getPos() .
-                        ($joueur->getType() == 2 ? ', Journalier' : '' );
-                },
+                'choice_label' => fn (Players $joueur) =>  $joueur->getNr()
+                    . ', ' . $joueur->getName()
+                    . ', ' . $joueur->getFPos()->getPos() .
+                        ($joueur->getType() == 2 ? ', Journalier' : ''),
                 'group_by' =>  'ownedByTeam.name'
             ])
             ->add('fmatch', EntityType::class, [
                 'class' => Matches::class,
-                'choice_label' => function ( Matches $match) {
-                    return $match->getMatchId() . ' - ' .
+                'choice_label' => fn (Matches $match) => $match->getMatchId() . ' - ' .
                         $match->getTeam1()->getName() . ' vs ' .
-                        $match->getTeam2()->getName();
-                }
+                        $match->getTeam2()->getName()
                 ])
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver) : void
     {
         $resolver->setDefaults([
             'data_class' => HistoriqueBlessure::class,

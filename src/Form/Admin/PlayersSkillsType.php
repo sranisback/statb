@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\admin;
+namespace App\Form\Admin;
 
 use App\Entity\GameDataSkills;
 use App\Entity\Players;
@@ -13,14 +13,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PlayersSkillsType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options) : void
     {
         $builder
-            ->add('type',
+            ->add(
+                'type',
                 ChoiceType::class,
                 [
                     'choices' => ['Normal' => 'N', 'Double' => 'D'],
-                ])
+                ]
+            )
             ->add('fSkill', EntityType::class, [
                 'class' => GameDataSkills::class,
                 'choice_label' =>'name',
@@ -38,19 +40,17 @@ class PlayersSkillsType extends AbstractType
                             ];
 
                         return $listeCategoriesCompetences[$comp->getCat()];
-                    }
+                }
             ])
             ->add('fPid', EntityType::class, [
                 'class' => Players::class,
-                'choice_label' =>function (Players $joueur) {
-                    return $joueur->getNr() . ', ' . $joueur->getName() . ', ' ;
-                },
+                'choice_label' =>fn (Players $joueur) => $joueur->getNr() . ', ' . $joueur->getName(),
                 'group_by' =>  'ownedByTeam.name'
             ])
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver) : void
     {
         $resolver->setDefaults([
             'data_class' => PlayersSkills::class,

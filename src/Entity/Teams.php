@@ -142,17 +142,17 @@ class Teams
     /**
      * @ORM\Column(type="boolean")
      */
-    private int $franchise = 0;
+    private bool $franchise = false;
 
     /**
      * @ORM\OneToMany(targetEntity=Penalite::class, mappedBy="equipe", orphanRemoval=true, cascade={"remove"})
      */
-    private \Doctrine\Common\Collections\Collection $penalite;
+    private Collection $penalite;
 
     /**
      * @ORM\OneToMany(targetEntity=Players::class, mappedBy="ownedByTeam", orphanRemoval=true, cascade={"remove"})
      */
-    private $joueurs;
+    private Collection $joueurs;
 
     public function __construct()
     {
@@ -161,9 +161,9 @@ class Teams
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getJoueurs(): ArrayCollection
+    public function getJoueurs(): Collection
     {
         return $this->joueurs;
     }

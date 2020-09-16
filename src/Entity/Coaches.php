@@ -3,8 +3,10 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\PersistentCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -50,16 +52,17 @@ class Coaches implements UserInterface
     /**
      * @OneToMany(targetEntity="Teams", mappedBy="ownedByCoach", cascade={"remove"})
      */
-    private $equipes;
+    private Collection $equipes;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->equipes = new ArrayCollection();
     }
 
     /**
-     * @return ArrayCollection
+     * @return PersistentCollection
      */
-    public function getEquipes(): ArrayCollection
+    public function getEquipes(): PersistentCollection
     {
         return $this->equipes;
     }
