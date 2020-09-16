@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -213,13 +214,13 @@ class Players
      * @ORM\OneToMany(targetEntity="App\Entity\MatchData", mappedBy="fPlayer", orphanRemoval=true, cascade={"remove"})
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $matchData;
+    private Collection $matchData;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\PlayersSkills", mappedBy="fPid", orphanRemoval=true, cascade={"remove"})
      * @var \App\Entity\PlayersSkills[]|\Doctrine\Common\Collections\Collection
      */
-    private $skills;
+    private Collection $skills;
 
     public function __construct()
     {

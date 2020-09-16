@@ -33,10 +33,8 @@ class PrimeType extends AbstractType
                     'class' => Players::class,
                     'choice_label' => function (Players $joueur) {
                         $nomDuJoueur = 'Inconnu';
-                        if (!empty($joueur->getName())) {
-                            if (strlen($joueur->getName()) != 2) {
-                                $nomDuJoueur = $joueur->getName();
-                            }
+                        if (!empty($joueur->getName()) && strlen($joueur->getName()) != 2) {
+                            $nomDuJoueur = $joueur->getName();
                         }
 
                         if (!empty($joueur)) {
@@ -48,14 +46,12 @@ class PrimeType extends AbstractType
                         return '';
                     },
                     'label' => 'Choisir un joueur',
-                    'query_builder' => function (EntityRepository $entityRepository) {
-                        return $entityRepository->createQueryBuilder('players')
+                    'query_builder' => fn (EntityRepository $entityRepository) => $entityRepository->createQueryBuilder('players')
                             ->join('players.ownedByTeam', 'teams')
                             ->where('teams.year ='.$this->settingsService->anneeCourante())
                             ->andWhere('players.type = 1')
                             ->andWhere('players.status = 1 OR players.status = 9')
-                            ->orderBy('players.nr');
-                    },
+                            ->orderBy('players.nr'),
                     'group_by' => function (Players $joueur) {
                         $equipe = $joueur->getOwnedByTeam();
                         if (!empty($equipe)) {
@@ -74,7 +70,7 @@ class PrimeType extends AbstractType
             ->add(
                 'montant',
                 IntegerType::class,
-                ['label' => 'Montant de la prime', 'data' => '0', 'attr' => ['step' => 10000, 'min' => 0]]
+                ['label' => 'Montant de la prime', 'data' => '0', 'attr' => ['step' => 10_000, 'min' => 0]]
             )
             ->add('submit', SubmitType::class, ['label' => 'Ajouter'])
             ->add('cancel', ButtonType::class, ['label' => 'Annuler', 'attr' => ['data-dismiss' => 'modal']])

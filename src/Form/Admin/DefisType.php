@@ -24,11 +24,10 @@ class DefisType extends AbstractType
                 EntityType::class,
                 [
                     'class' => Matches::class,
-                    'choice_label' => function (Matches $match) {
-                        return $match->getMatchId() . ' - ' .
+                    'choice_label' => fn (Matches $match) =>  $match->getMatchId() . ' - ' .
                             $match->getTeam1()->getName() . ' vs ' .
-                            $match->getTeam2()->getName();
-                    }
+                            $match->getTeam2()->getName()
+
                 ]
             )
             ->add('equipeOrigine', EntityType::class, ['class' => Teams::class, 'choice_label' =>'name'])

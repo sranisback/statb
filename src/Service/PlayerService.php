@@ -691,10 +691,6 @@ class PlayerService
         $disposable = $this->doctrineEntityManager
             ->getRepository(GameDataSkills::class)->findOneBy(['name' => 'Disposable']);
 
-        if (!empty($disposable) && in_array($disposable->getSkillId(), explode(',', $joueur->getFPos()->getSkills()))) {
-            return true;
-        }
-
-        return false;
+        return !empty($disposable) && in_array($disposable->getSkillId(), explode(',', $joueur->getFPos()->getSkills()));
     }
 }
