@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Admin;
+namespace App\Form\admin;
 
 use App\Entity\Coaches;
 use Symfony\Component\Form\AbstractType;
