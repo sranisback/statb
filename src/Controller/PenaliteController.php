@@ -17,38 +17,35 @@ class PenaliteController extends AbstractController
 {
     /**
      * @Route("/ajoutPenaliteForm", name="ajoutPenaliteForm")
+     * @param Request $request
+     * @param PenaliteService $penaliteService
      * @return Response
      */
-    public function ajoutPenaliteForm(): \Symfony\Component\HttpFoundation\Response
+    public function ajoutPenaliteForm(
+        Request $request,
+        PenaliteService $penaliteService
+    ): Response
     {
         $penalite = new Penalite();
 
         $form = $this->createForm(AjoutPenaliteForm::class, $penalite);
+        $form->handleRequest($request);
 
-        return $this->render('statbb/addPenalite.html.twig', ['form' => $form->createView()]);
-    }
+        if($form->isSubmitted() && $form->isValid()) {
+            $datas = $request->request->get('ajout_penalite_form');
 
-    /**
-     * @Route("/ajoutPenalite", name="ajoutPenalite")
-     * @param Request $request
-     * @param PenaliteService $penaliteService
-     * @param SettingsService $settingService
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function ajoutPenalite(Request $request, PenaliteService $penaliteService, SettingsService $settingService)
-    : \Symfony\Component\HttpFoundation\RedirectResponse
-    {
-        $datas = $request->request->get('ajout_penalite_form');
+            /** @var Teams $equipe */
+            $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $datas['equipe']]);
 
-        /** @var Teams $equipe */
-        $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $datas['equipe']]);
+            if (!empty($equipe)) {
+                $penaliteService->creerUnePenalite($datas);
+                $this->addFlash('success', 'Penalité Ajouté!');
+            }
 
-        if (!empty($equipe)) {
-            $penaliteService->creerUnePenalite($datas);
-            $this->addFlash('success', 'Penalité Ajouté!');
+            return $this->redirectToRoute('frontUser');
         }
 
-        return $this->redirectToRoute('frontUser');
+        return $this->render('statbb/addPenalite.html.twig', ['form' => $form->createView(), 'penalite' => $penalite]);
     }
 
     /**
@@ -56,7 +53,7 @@ class PenaliteController extends AbstractController
      * @param SettingsService $settingsService
      * @return Response
      */
-    public function afficherPenalite(SettingsService $settingsService): \Symfony\Component\HttpFoundation\Response
+    public function afficherPenalite(SettingsService $settingsService): Response
     {
         return $this->render(
             'statbb/tabs/ligue/affichagePenalite.html.twig',
