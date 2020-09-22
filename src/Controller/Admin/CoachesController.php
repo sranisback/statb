@@ -3,8 +3,9 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Coaches;
-use App\Form\Admin\CoachesType;
+use App\Form\admin\CoachesType;
 use App\Repository\CoachesRepository;
+use App\Service\AdminService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -96,5 +97,16 @@ class CoachesController extends AbstractController
         }
 
         return $this->redirectToRoute('coaches_index');
+    }
+
+    /**
+     * @param Request $request
+     * @Route("/updateEditableCoach", name="updateEditableCoach", options = { "expose" = true })
+     */
+    public function updateEditableCoach(Request $request, UserPasswordEncoderInterface $encoder, AdminService $adminService)
+    {
+        $adminService->traiteModification($request->request->all(), Coaches::class, $encoder);
+
+        return new Response();
     }
 }

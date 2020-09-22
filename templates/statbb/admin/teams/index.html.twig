@@ -6,8 +6,8 @@
     <div class="m-2">
         <div class="card">
             <h1>Teams index</h1>
-
-            <table class="table" id="Admin">
+            <a href="{{ path('Admin') }}">Retour</a>
+            <table class="table" id="Admin" entity="Teams">
                 <thead>
                 <tr>
                     <th>TeamId</th>
@@ -34,19 +34,19 @@
                 {% for team in teams %}
                     <tr>
                         <td>{{ team.teamId }}</td>
-                        <td><a href="{{ path('team', {'teamid': team.teamId }) }}">{{ team.name }}</a></td>
+                        <td><a href="#" data-type="text" data-pk="{{ team.teamId }}" data-name="Name" id="admin_teams_name_{{ loop.index }}"> {{ team.name }}</a></td>
                         <td>{{ team.fRace.name }}</td>
                         <td>{{ team.ownedByCoach.name }}</td>
-                        <td>{{ team.treasury }}</td>
-                        <td>{{ team.apothecary }}</td>
-                        <td>{{ team.rerolls }}</td>
-                        <td>{{ team.ffBought }}</td>
-                        <td>{{ team.assCoaches }}</td>
-                        <td>{{ team.cheerleaders }}</td>
+                        <td><a href="#" data-type="number" data-pk="{{ team.teamId }}" data-name="Treasury" id="admin_teams_treasury_{{ loop.index }}"> {{ team.treasury }}</a></td>
+                        <td><a href="#" data-type="number" data-pk="{{ team.teamId }}" data-name="Apothecary" id="admin_teams_apo_{{ loop.index }}"> {{ team.apothecary }}</a></td>
+                        <td><a href="#" data-type="number" data-pk="{{ team.teamId }}" data-name="Rerolls" id="admin_teams_apo_{{ loop.index }}">{{ team.rerolls }}</a></td>
+                        <td><a href="#" data-type="number" data-pk="{{ team.teamId }}" data-name="FfBought" id="admin_teams_ffb_{{ loop.index }}">{{ team.ffBought }}</a></td>
+                        <td><a href="#" data-type="number" data-pk="{{ team.teamId }}" data-name="AssCoaches" id="admin_teams_Asscoaches_{{ loop.index }}">{{ team.assCoaches }}</a></td>
+                        <td><a href="#" data-type="number" data-pk="{{ team.teamId }}" data-name="Cheerleaders" id="admin_teams_cheers_{{ loop.index }}">{{ team.cheerleaders }}</a></td>
                         <td>{{ team.retired ? 'Yes' : 'No' }}</td>
-                        <td>{{ team.ff }}</td>
+                        <td><a href="#" data-type="number" data-pk="{{ team.teamId }}" data-name="Ff" id="admin_teams_ff_{{ loop.index }}">{{ team.ff }}</a></td>
                         <td>{{ team.elo }}</td>
-                        <td>{{ team.tv }}</td>
+                        <td><a href="#" data-type="number" data-pk="{{ team.teamId }}" data-name="Tv" id="admin_teams_tv_{{ loop.index }}">{{ team.tv }}</a></td>
                         <td>{{ etiquetteAnne[team.year] }}</td>
                         <td>
                             {% if (team.logo != null) %}

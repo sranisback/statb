@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Matches;
 use App\Form\Admin\MatchesType;
 use App\Repository\MatchesRepository;
+use App\Service\AdminService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -80,5 +81,16 @@ class MatchesController extends AbstractController
         }
 
         return $this->redirectToRoute('matches_index');
+    }
+
+    /**
+     * @param Request $request
+     * @Route("/updateEditableMatch", name="updateEditableMatch", options = { "expose" = true })
+     */
+    public function updateEditableMatch(Request $request, AdminService $adminService)
+    {
+        $adminService->traiteModification($request->request->all(), Matches::class);
+
+        return new Response();
     }
 }

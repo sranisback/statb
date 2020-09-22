@@ -6,6 +6,7 @@ use App\Entity\GameDataPlayers;
 use App\Entity\Players;
 use App\Form\Admin\PlayersType;
 use App\Repository\PlayersRepository;
+use App\Service\AdminService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -88,5 +89,16 @@ class PlayersController extends AbstractController
         }
 
         return $this->redirectToRoute('players_index');
+    }
+
+    /**
+     * @param Request $request
+     * @Route("/updateEditablePlayers", name="updateEditablePlayers", options = { "expose" = true })
+     */
+    public function updateEditablePlayers(Request $request, AdminService $adminService)
+    {
+        $adminService->traiteModification($request->request->all(), Players::class);
+
+        return new Response();
     }
 }

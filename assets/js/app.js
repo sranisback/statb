@@ -3,6 +3,8 @@ import './jquery.serializeToJSON.js';
 import './jquery.dataTables.min.js';
 import './library.js';
 import './feuilleTournois.js';
+import './jquery-editable.js'
+import './admin.js'
 
 import routes_dev from './routes_dev.js';
 import routes_prod from './routes_production.js';
@@ -35,12 +37,6 @@ $(document).ready(function () {
     /* break;
 }*/
 
-    $('#Admin').DataTable({
-            "lengthChange": false,
-            "pageLength": 20,
-            "info": false,
-            "responsive": true
-    });
 
     $('#classgen').DataTable({
         "lengthChange": false,
@@ -505,6 +501,22 @@ $(document).ready(function () {
             function () {
                 window.location.reload();
             });
+    });
+
+    /////admin
+
+    let routeName = 'updateEditable' + $('#Admin').attr('entity')
+
+    $('[id^=admin_]').editable({
+        mode: 'inline',
+        url: Routing.generate(routeName)
+    });
+
+    $('#Admin').DataTable({
+        "lengthChange": false,
+        "pageLength": 20,
+        "info": false,
+        "responsive": true
     });
 });
 

@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 class AdminController extends AbstractController
 {
     /**
-     * @Route("/admin", name="admin")
+     * @Route("/Admin", name="Admin")
      */
     public function index(SettingsService $settingsService) : Response
     {

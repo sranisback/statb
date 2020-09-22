@@ -6,8 +6,8 @@
 <div class="m-2">
     <div class="card">
     <h1>Matches index</h1>
-
-    <table class="table" id="Admin">
+        <a href="{{ path('Admin') }}">Retour</a>
+    <table class="table" id="Admin" entity="Match">
         <thead>
             <tr>
                 <th>MatchId</th>
@@ -34,17 +34,17 @@
                 <td>{{ match.matchId }}</td>
                 <td>{{ match.team1.name }}</td>
                 <td>{{ match.team2.name }}</td>
-                <td>{{ match.fans }}</td>
-                <td>{{ match.ffactor1 }}</td>
-                <td>{{ match.ffactor2 }}</td>
-                <td>{{ match.income1 }}</td>
-                <td>{{ match.income2 }}</td>
-                <td>{{ match.team1Score }}</td>
-                <td>{{ match.team2Score }}</td>
-                <td>{{ match.tv1 }}</td>
-                <td>{{ match.tv2 }}</td>
-                <td>{{ match.depense1 }}</td>
-                <td>{{ match.depense2 }}</td>
+                <td><a href="#" data-type="number" data-pk="{{ match.matchId }}" data-name="Fans" id="admin_match_fans_{{ loop.index }}">{{ match.fans }}</td>
+                <td><a href="#" data-type="number" data-pk="{{ match.matchId }}" data-name="Ffactor1" id="admin_match_ff1_{{ loop.index }}">{{ match.ffactor1 }}</a></td>
+                <td><a href="#" data-type="number" data-pk="{{ match.matchId }}" data-name="Ffactor2" id="admin_match_ff2_{{ loop.index }}">{{ match.ffactor2 }}</a></td>
+                <td><a href="#" data-type="number" data-pk="{{ match.matchId }}" data-name="Income1" id="admin_match_inc1_{{ loop.index }}">{{ match.income1 }}</a></td>
+                <td><a href="#" data-type="number" data-pk="{{ match.matchId }}" data-name="Income2" id="admin_match_inc2_{{ loop.index }}">{{ match.income2 }}</a></td>
+                <td><a href="#" data-type="number" data-pk="{{ match.matchId }}" data-name="Team1Score" id="admin_match_score1_{{ loop.index }}">{{ match.team1Score }}</a></td>
+                <td><a href="#" data-type="number" data-pk="{{ match.matchId }}" data-name="Team2Score" id="admin_match_score2_{{ loop.index }}">{{ match.team2Score }}</a></td>
+                <td><a href="#" data-type="number" data-pk="{{ match.matchId }}" data-name="Tv1" id="admin_match_tv1_{{ loop.index }}">{{ match.tv1 }}</a></td>
+                <td><a href="#" data-type="number" data-pk="{{ match.matchId }}" data-name="Tv2" id="admin_match_tv2_{{ loop.index }}">{{ match.tv2 }}</a></td>
+                <td><a href="#" data-type="number" data-pk="{{ match.matchId }}" data-name="Depense1" id="admin_match_depense1_{{ loop.index }}">{{ match.depense1 }}</a></td>
+                <td><a href="#" data-type="number" data-pk="{{ match.matchId }}" data-name="Depense2" id="admin_match_depense2_{{ loop.index }}">{{ match.depense2 }}</a></td>
                 {% if (match.stadeAcceuil == 1) %}
                     <td>{{ match.team1.name }}</td>
                 {% elseif  (match.stadeAcceuil == 2) %}
