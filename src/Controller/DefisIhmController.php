@@ -15,49 +15,48 @@ use Symfony\Component\Routing\Annotation\Route;
 class DefisIhmController extends AbstractController
 {
     /**
-     * @Route("/ajoutDefisForm/{coachId}", name="ajoutDefisForm")
-     * @param int $coachId
-     * @return Response
-     */
-    public function ajoutDefisForm(int $coachId): \Symfony\Component\HttpFoundation\Response
-    {
-        $defis = new Defis();
-
-        $form = $this->createForm(AjoutDefisType::class, $defis, ['coach' => $coachId]);
-
-        return $this->render('statbb/addDefis.html.twig', ['form' => $form->createView(), 'coachId' => $coachId]);
-    }
-
-    /**
-     * @Route("/ajoutDefis", name="ajoutDefis")
+     * @Route("/ajoutDefisForm/", name="ajoutDefisForm")
      * @param Request $request
      * @param DefisService $defisService
      * @param SettingsService $settingService
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
-    public function ajoutDefis(
+    public function ajoutDefisForm(
         Request $request,
-        \App\Service\DefisService $defisService,
+        DefisService $defisService,
         SettingsService $settingService
-    ) : \Symfony\Component\HttpFoundation\RedirectResponse {
-        $datas = $request->request->get('ajout_defis');
+        ): \Symfony\Component\HttpFoundation\Response {
+        $defis = new Defis();
 
-        /** @var Teams $equipe */
-        $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $datas['equipeOrigine']]);
+        $form = $this->createForm(AjoutDefisType::class, $defis);
+        $form->handleRequest($request);
 
-        if (!empty($equipe)) {
-            if ($defisService->defiAutorise(
-                $equipe,
-                $settingService
-            )) {
-                $defisService->creerDefis($datas);
-                $this->addFlash('success', 'Défis Ajouté!');
-            } else {
-                $this->addFlash('fail', 'Plus de défis pour cette période');
+        if($form->isSubmitted() && $form->isValid()) {
+            $datas = $request->request->get('ajout_defis');
+
+            /** @var Teams $equipe */
+            $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $datas['equipeOrigine']]);
+
+            if (!empty($equipe)) {
+                if ($defisService->defiAutorise(
+                    $equipe,
+                    $settingService
+                )) {
+                    $defisService->creerDefis($datas);
+                    $this->addFlash('success', 'Défis Ajouté!');
+                } else {
+                    $this->addFlash('fail', 'Plus de défis pour cette période');
+                }
             }
+
+            return $this->redirectToRoute('frontUser');
         }
 
-        return $this->redirectToRoute('frontUser');
+        return $this->render('statbb/addDefis.html.twig',
+            [
+                'form' => $form->createView(),
+                'defis' => $defis
+            ]);
     }
 
     /**

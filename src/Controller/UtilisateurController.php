@@ -34,32 +34,26 @@ class UtilisateurController extends AbstractController
     }
 
     /**
-     * @Route("/usercontrol/", name="usercontrol")
+     * @Route("/usercontrol", name="usercontrol")
+     * @param Request $request
+     * @param CitationService $citationService
      * @return Response
      */
-    public function interfaceUtilisateur(): \Symfony\Component\HttpFoundation\Response
+    public function interfaceUtilisateur(Request $request, CitationService $citationService): Response
     {
         $citation = new Citations();
 
         $form = $this->createForm(AjoutCitationType::class, $citation);
+        $form->handleRequest($request);
 
-        return $this->render('statbb/tabs/parametres/addcitation.html.twig', ['form' => $form->createView()]);
-    }
+        if($form->isSubmitted() && $form->isValid()) {
+            $citationService->enregistrerCitation($request->request->get('ajout_citation'));
 
-    /**
-     * @Route("/ajoutCitation", name="ajoutCitation")
-     * @param Request $request
-     * @param CitationService $citationService
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function interfaceUtilisateurRetour(
-        Request $request,
-        CitationService $citationService
-    ): \Symfony\Component\HttpFoundation\RedirectResponse {
-        $citationService->enregistrerCitation($request->request->get('ajout_citation'));
+            $this->addFlash('success', 'Citation Ajoutée!');
 
-        $this->addFlash('success', 'Citation Ajoutée!');
+            return $this->redirectToRoute('frontUser');
+        }
 
-        return $this->redirectToRoute('frontUser');
+        return $this->render('statbb/tabs/parametres/addcitation.html.twig', ['form' => $form->createView(), 'citation' => $citation]);
     }
 }

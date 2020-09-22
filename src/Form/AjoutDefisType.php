@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Coaches;
 use App\Entity\Teams;
 use App\Service\SettingsService;
 use Doctrine\ORM\EntityRepository;
@@ -11,17 +12,25 @@ use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Security;
 
 class AjoutDefisType extends AbstractType
 {
     private settingsService $settingsService;
 
-    public function __construct(SettingsService $settingsService)
+    private $security;
+
+    public function __construct(Security $security, SettingsService $settingsService)
     {
         $this->settingsService = $settingsService;
+        $this->security = $security;
     }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        /** @var Coaches $coach */
+        $coach = $this->security->getUser();
+
         $builder
             ->add(
                 'equipeOrigine',
@@ -31,11 +40,13 @@ class AjoutDefisType extends AbstractType
                     'choice_label' => 'name',
                     'label' => 'Quelle Equipe ?',
                     'query_builder' =>
-                        fn(EntityRepository $entityRepository) => $entityRepository->createQueryBuilder('Teams')
-                        ->join('Teams.ownedByCoach', 'Coaches')
-                        ->where('Teams.year ='.$this->settingsService->anneeCourante())
-                        ->andWhere('Teams.ownedByCoach ='.$options['coach'])
-                        ->orderBy('Coaches.name', 'ASC'),
+                        function (EntityRepository $entityRepository) use($coach) {
+                            return $entityRepository->createQueryBuilder('Teams')
+                                ->join('Teams.ownedByCoach', 'Coaches')
+                                ->where('Teams.year =' . $this->settingsService->anneeCourante())
+                                ->andWhere('Teams.ownedByCoach =' . $coach->getCoachId())
+                                ->orderBy('Coaches.name', 'ASC');
+                        }
                 ]
             )
             ->add(
@@ -46,11 +57,13 @@ class AjoutDefisType extends AbstractType
                     'choice_label' => 'name',
                     'label' => 'Defier quelle Equipe/Coach',
                     'query_builder' =>
-                        fn(EntityRepository $entityRepository) => $entityRepository->createQueryBuilder('Teams')
-                        ->join('Teams.ownedByCoach', 'Coaches')
-                        ->where('Teams.year ='.$this->settingsService->anneeCourante())
-                        ->andWhere('Teams.ownedByCoach !='.$options['coach'])
-                        ->orderBy('Coaches.name', 'ASC'),
+                        function (EntityRepository $entityRepository) use($coach) {
+                            return $entityRepository->createQueryBuilder('Teams')
+                                ->join('Teams.ownedByCoach', 'Coaches')
+                                ->where('Teams.year =' . $this->settingsService->anneeCourante())
+                                ->andWhere('Teams.ownedByCoach !=' . $coach->getCoachId())
+                                ->orderBy('Coaches.name', 'ASC');
+                            },
                     'group_by' => function (Teams $team) {
                         if (!empty($team->getOwnedByCoach())) {
                             return $team->getOwnedByCoach()->getName();

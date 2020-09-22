@@ -8,6 +8,7 @@ use App\Form\RealiserPrimeType;
 use App\Service\PrimeService;
 use App\Service\SettingsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,37 +16,25 @@ use Symfony\Component\Routing\Annotation\Route;
 class PrimeController extends AbstractController
 {
     /**
-     * @Route("/ajoutPrimeForm/{primeId}", name="ajoutPrimeForm")
-     * @param null $primeId
+     * @Route("/ajoutPrimeForm", name="ajoutPrimeForm")
      * @return Response
      */
-    public function ajoutPrimeForm($primeId = null): \Symfony\Component\HttpFoundation\Response
-    {
-        $prime = new Primes();
-
-        if ($primeId === null) {
-            $prime = $this->getDoctrine()->getRepository(Primes::class)->findOneBy(['id' => $primeId]);
-        }
-
-        $form = $this->createForm(PrimeType::class, $prime);
-
-        return $this->render('statbb/ajoutPrime.html.twig', ['form' => $form->createView()]);
-    }
-
-    /**
-     * @Route("/ajoutPrime", name="ajoutPrime")
-     * @param Request $request
-     * @param PrimeService $primeService
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function ajoutPrime(
+    public function ajoutPrimeForm(
         Request $request,
         PrimeService $primeService
-    ): \Symfony\Component\HttpFoundation\RedirectResponse {
-        $primeService->creationPrime($request->request->get('prime'));
-        $this->addFlash('success', 'Prime Ajoutée');
+    ): \Symfony\Component\HttpFoundation\Response {
+        $prime = new Primes();
+        $form = $this->createForm(PrimeType::class, $prime);
+        $form->handleRequest($request);
 
-        return $this->redirectToRoute('frontUser');
+        if ($form->isSubmitted() && $form->isValid()) {
+            $primeService->creationPrime($request->request->get('prime'));
+            $this->addFlash('success', 'Prime Ajoutée');
+
+            return $this->redirectToRoute('frontUser');
+        }
+
+        return $this->render('statbb/ajoutPrime.html.twig', ['form' => $form->createView(), 'prime' => $prime]);
     }
 
     /**
@@ -74,7 +63,7 @@ class PrimeController extends AbstractController
     public function supprimerPrime(
         PrimeService $primeService,
         int $primeId
-    ): \Symfony\Component\HttpFoundation\RedirectResponse {
+    ): RedirectResponse {
         if ($primeService->supprimerPrime($primeId) !== '') {
             $this->addFlash('success', 'Prime Supprimée');
         }
@@ -84,29 +73,24 @@ class PrimeController extends AbstractController
 
     /**
      * @Route("/realiserPrimeForm", name="realiserPrimeForm")
+     * @param Request $request
+     * @param PrimeService $primeService
      * @return Response
      */
-    public function realiserPrimeForm(): \Symfony\Component\HttpFoundation\Response
+    public function realiserPrimeForm(Request $request, PrimeService $primeService): Response
     {
         $prime = new Primes();
         $form = $this->createForm(RealiserPrimeType::class, $prime);
-        return $this->render('statbb/realisationPrime.html.twig', ['form' => $form->createView()]);
-    }
+        $form->handleRequest($request);
 
-    /**
-     * @Route("/realiserPrime", name="realiserPrime")
-     * @param Request $request
-     * @param PrimeService $primeService
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function realiserPrime(
-        Request $request,
-        PrimeService $primeService
-    ): \Symfony\Component\HttpFoundation\RedirectResponse {
-        if ($primeService->realiserPrime($request->request->get('realiser_prime')) !== '') {
+        if ($form->isSubmitted() && $form->isValid()) {
+            $primeService->realiserPrime($request->request->get('realiser_prime'));
             $this->addFlash('success', 'Prime Réalisée');
+
+            return $this->redirectToRoute('frontUser');
         }
 
-        return $this->redirectToRoute('frontUser');
+
+        return $this->render('statbb/realisationPrime.html.twig', ['prime'=> $prime, 'form' => $form->createView()]);
     }
 }

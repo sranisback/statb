@@ -7,12 +7,12 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Creer un Défis</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 <div>
-                    {{ form_start(form, {'action': path('ajoutDefis')})}}
+                    {{ form_start(form, {'action': path('ajoutDefisForm')})}}
                     {{ form_errors(form) }}
                     {{ form_row(form.equipeOrigine) }}
                     {{ form_row(form.equipeDefiee) }}
