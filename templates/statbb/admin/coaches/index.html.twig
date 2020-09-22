@@ -6,8 +6,8 @@
 <div class="m-2">
     <div class="card">
     <h1>Coaches index</h1>
-
-    <table class="table" id="Admin">
+    <a href="{{ path('Admin') }}">Retour</a>
+    <table class="table" id="Admin" entity="Coach">
         <thead>
             <tr>
                 <th>CoachId</th>
@@ -20,10 +20,10 @@
         <tbody>
         {% for coach in coaches %}
             <tr>
-                <td>{{ coach.coachId }}</td>
-                <td>{{ coach.name }}</td>
-                <td>{{ coach.passwd }}</td>
-                <td>{{ coach.roles ? coach.roles|json_encode : '' }}</td>
+                <td> {{ coach.coachId }}</td>
+                <td><a href="#" data-type="text" data-pk="{{ coach.coachId }}" data-name="Name" id="admin_coach_name_{{ loop.index }}"> {{ coach.name }}</a></td>
+                <td><a href="#" data-type="password" data-pk="{{ coach.coachId }}" data-name="Passwd" id="admin_coach_pass_{{ loop.index }}">{{ coach.passwd }}</a></td>
+                <td><a href="#" data-type="select" data-pk="{{ coach.coachId }}" data-name="Roles" data-source='{"ADMIN": "Administrateur", "USER":"Utilisateur"}' id="admin_coach_role_{{ loop.index }}">{{ coach.roles ? coach.roles|json_encode : '' }}</a></td>
                 <td>
                     <a href="{{ path('coaches_edit', {'coachId': coach.coachId}) }}">edit</a>
                 </td>

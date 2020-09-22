@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Defis;
 use App\Form\Admin\DefisType;
 use App\Repository\DefisRepository;
+use App\Service\AdminService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -80,5 +81,16 @@ class DefisController extends AbstractController
         }
 
         return $this->redirectToRoute('defis_index');
+    }
+
+    /**
+     * @param Request $request
+     * @Route("/updateEditableDefis", name="updateEditableDefis", options = { "expose" = true })
+     */
+    public function updateEditableDefis(Request $request, AdminService $adminService)
+    {
+        $adminService->traiteModification($request->request->all(), Defis::class);
+
+        return new Response();
     }
 }

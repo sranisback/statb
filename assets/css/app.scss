@@ -1,5 +1,6 @@
 @import "~bootstrap/scss/bootstrap.scss";
 @import url("https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js");
+@import "jquery-editable.css";
 
 @-moz-document url-prefix() {
   fieldset {
@@ -112,12 +113,6 @@ $dropDown       : false;
   .dropdown-item.active {
     color: $colHighlight;
     background-color: $bgHighlight; }}
-
-ulink {
-  border-bottom: 1px dashed #000;
-  border-color: #00ccff;
-  text-decoration: none;
-}
 
 @media print {
 }

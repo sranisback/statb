@@ -6,8 +6,8 @@
 <div class="m-2">
     <div class="card">
     <h1>Players index</h1>
-
-    <table class="table" id="Admin">
+        <a href="{{ path('Admin') }}">Retour</a>
+    <table class="table" id="Admin" entity="Players">
         <thead>
             <tr>
                 <th>PlayerId</th>
@@ -26,22 +26,24 @@
         {% for player in players %}
             <tr>
                 <td>{{ player.playerId }}</td>
-                <td>{{ player.nr }}</td>
-                <td>{{ player.name }}</td>
+                <td><a href="#" data-type="number" data-pk="{{ player.playerId }}" data-name="Nr" id="admin_player_number_{{ loop.index }}"> {{ player.nr }}</a></td>
+                <td><a href="#" data-type="text" data-pk="{{ player.playerId }}" data-name="Name" id="admin_player_name_{{ loop.index }}"> {{ player.name }}</a></td>
                 <td>{{ player.ownedByTeam.name }}</td>
                 <td>{{ player.fPos.pos }}</td>
+                <td>
             {% if player.status == 1 %}
-                    <td><strong class="text-success">Ok</strong></td>
+                    <strong class="text-success">Ok</strong>
             {% elseif player.status == 9 %}
-                    <td><strong class="text-warning">En attente de monter de niveau</strong></td>
+                    <strong class="text-warning">En attente de monter de niveau</strong>
             {% elseif player.status == 8 %}
-                    <td><strong class="text-danger">Mort</strong></td>
+                    <strong class="text-danger">Mort</strong>
             {% elseif player.status == 7 %}
-                    <td><strong class="text-primary">Vendu</strong></td>
+                    <strong class="text-primary">Vendu</strong>
             {% elseif player.injrpm == 1 %}
-                    <td><strong class="text-warning">Blessé</strong></td>
+                    <strong class="text-warning">Blessé</strong>
             {% endif %}
-                <td>{{ player.value }}</td>
+                </td>
+                <td><a href="#" data-type="number" data-pk="{{ player.playerId }}" data-name="value" id="admin_player_value_{{ loop.index }}">{{ player.value }}</a></td>
                 <td>{{ player.photo }}</td>
                 <td><img src="{{ asset('build/'~app.environment~'/images/player_icons/'~player.icon.iconName~'.gif') }}" class=".img-responsive"></td>
                 <td>

@@ -250,7 +250,7 @@ const routes_dev = {
             "schemes": []
         },
         "changeNomStade": {
-            "tokens": [["variable", "\/", "[^\/]++", "nouveauNomStade"], ["variable", "\/", "[^\/]++", "equipeId"], ["text", "\/changeNomStade"]],
+            "tokens": [["text", "\/changeNomStade"]],
             "defaults": [],
             "requirements": [],
             "hosttokens": [],
@@ -361,8 +361,8 @@ const routes_dev = {
             "methods": [],
             "schemes": []
         },
-        "changeNr": {
-            "tokens": [["variable", "\/", "[^\/]++", "playerid"], ["variable", "\/", "[^\/]++", "newnr"], ["text", "\/changeNr"]],
+        "changeNomEtNumero": {
+            "tokens": [["text", "\/changeNomEtNumero"]],
             "defaults": [],
             "requirements": [],
             "hosttokens": [],
@@ -675,6 +675,62 @@ const routes_dev = {
         },
         "ajoutCitation": {
             "tokens": [["text", "\/ajoutCitation"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "updateEditableCoach": {
+            "tokens": [["text", "\/Admin\/coaches\/updateEditableCoach"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "updateEditableDefis": {
+            "tokens": [["text", "\/Admin\/defis\/updateEditableDefis"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "updateEditableHisto": {
+            "tokens": [["text", "\/Admin\/historique\/blessure\/updateEditableHisto"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "updateEditableMatchData": {
+            "tokens": [["text", "\/Admin\/match\/data\/updateEditableMatchData"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "updateEditableMatch": {
+            "tokens": [["text", "\/Admin\/matches\/updateEditableMatch"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "updateEditablePlayers": {
+            "tokens": [["text", "\/Admin\/players\/updateEditablePlayers"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
+        "updateEditableTeams": {
+            "tokens": [["text", "\/Admin\/teams\/updateEditableTeams"]],
             "defaults": [],
             "requirements": [],
             "hosttokens": [],

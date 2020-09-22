@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\MatchData;
 use App\Form\Admin\MatchDataType;
 use App\Repository\MatchDataRepository;
+use App\Service\AdminService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -80,5 +81,16 @@ class MatchDataController extends AbstractController
         }
 
         return $this->redirectToRoute('match_data_index');
+    }
+
+    /**
+     * @param Request $request
+     * @Route("/updateEditableMatchData", name="updateEditableMatchData", options = { "expose" = true })
+     */
+    public function updateEditableMatchData(Request $request, AdminService $adminService)
+    {
+        $adminService->traiteModification($request->request->all(), MatchData::class);
+
+        return new Response();
     }
 }

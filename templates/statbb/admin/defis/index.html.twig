@@ -6,8 +6,8 @@
 <div class="m-2">
     <div class="card">
     <h1>Defis index</h1>
-
-    <table class="table" id="Admin">
+        <a href="{{ path('Admin') }}">Retour</a>
+    <table class="table" id="Admin" entity="Defis">
         <thead>
             <tr>
                 <th>Id</th>
@@ -24,7 +24,7 @@
                 <td>{{ defi.id }}</td>
                 <td>{{ defi.equipeOrigine.name }}</td>
                 <td>{{ defi.equipeDefiee.name }}</td>
-                <td>{{ defi.defieRealise ? 'Yes' : 'No' }}</td>
+                <td><a href="#" data-type="select" data-pk="{{ defi.Id }}" data-name="DefieRealise" data-source='{"true": "Yes", "false":"No"}'  id="admin_defis_realise_{{ loop.index }}"> {{ defi.defieRealise ? 'Yes' : 'No' }}</a></td>
                 <td>{{ defi.dateDefi ? defi.dateDefi|date('d/m/Y') : '' }}</td>
                 <td>
                     <a href="{{ path('defis_edit', {'id': defi.id}) }}">edit</a>

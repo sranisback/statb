@@ -6,6 +6,7 @@ use App\Entity\HistoriqueBlessure;
 use App\Enum\BlessuresEnum;
 use App\Form\Admin\HistoriqueBlessureType;
 use App\Repository\HistoriqueBlessureRepository;
+use App\Service\AdminService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -82,5 +83,16 @@ class HistoriqueBlessureController extends AbstractController
         }
 
         return $this->redirectToRoute('historique_blessure_index');
+    }
+
+    /**
+     * @param Request $request
+     * @Route("/updateEditableHisto", name="updateEditableHisto", options = { "expose" = true })
+     */
+    public function updateEditableHisto(Request $request, AdminService $adminService)
+    {
+        $adminService->traiteModification($request->request->all(), HistoriqueBlessure::class);
+
+        return new Response();
     }
 }

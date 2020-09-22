@@ -6,11 +6,13 @@ use App\Entity\Coaches;
 use App\Entity\GameDataStadium;
 use App\Entity\Matches;
 use App\Entity\Players;
+use App\Entity\Stades;
 use App\Entity\Teams;
 use App\Enum\AnneeEnum;
 use App\Enum\NiveauStadeEnum;
 use App\Form\CreerStadeType;
 use App\Form\LogoEnvoiType;
+use App\Service\AdminService;
 use App\Service\EquipeService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
@@ -392,26 +394,14 @@ class EquipeController extends AbstractController
     }
 
     /**
-     * @Route("/changeNomStade/{equipeId}/{nouveauNomStade}", name="changeNomStade", options = { "expose" = true })
-     * @param StadeService $stadeService
-     * @param int $equipeId
-     * @param string $nouveauNomStade
+     * @Route("/changeNomStade", name="changeNomStade", options = { "expose" = true })
      * @return Response
      */
-    public function changeNomStade(
-        StadeService $stadeService,
-        int $equipeId,
-        string $nouveauNomStade
-    ): \Symfony\Component\HttpFoundation\Response {
-        /** @var Teams $equipe */
-        $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
-        $stadeService->renommerStade($equipe, $nouveauNomStade);
+    public function changeNomStade(Request $request, AdminService $adminService): \Symfony\Component\HttpFoundation\Response
+    {
+        $adminService->traiteModification($request->request->all(), Stades::class);
 
-        $response = new Response();
-        $response->setContent((string) $equipe->getTeamId());
-        $response->setStatusCode(200);
-
-        return $response;
+        return new Response();
     }
 
     /**

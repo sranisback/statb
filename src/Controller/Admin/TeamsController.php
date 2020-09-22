@@ -8,6 +8,7 @@ use App\Entity\Teams;
 use App\Enum\AnneeEnum;
 use App\Form\Admin\TeamsType;
 use App\Repository\TeamRepository;
+use App\Service\AdminService;
 use App\Service\SettingsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -99,5 +100,16 @@ class TeamsController extends AbstractController
         }
 
         return $this->redirectToRoute('teams_index');
+    }
+
+    /**
+     * @param Request $request
+     * @Route("/updateEditableTeams", name="updateEditableTeams", options = { "expose" = true })
+     */
+    public function updateEditableCoach(Request $request, AdminService $adminService)
+    {
+        $adminService->traiteModification($request->request->all(), Teams::class);
+
+        return new Response();
     }
 }

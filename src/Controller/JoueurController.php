@@ -12,6 +12,7 @@ use App\Entity\Teams;
 use App\Form\AjoutCompetenceType;
 use App\Form\AjoutJoueurType;
 use App\Form\JoueurPhotoEnvoiType;
+use App\Service\AdminService;
 use App\Service\EquipeService;
 use App\Service\PlayerService;
 use App\Tools\randomNameGenerator;
@@ -214,7 +215,7 @@ class JoueurController extends AbstractController
 
                 $coutjoueur = $joueur->getValue();
 
-                if ($playerService->leJoueurEstDisposable($joueur) || $playerService->leJoueurEstFanFavorite($playerService)) {
+                if ($playerService->leJoueurEstDisposable($joueur) || $playerService->leJoueurEstFanFavorite($joueur)) {
                     $coutjoueur = 0;
                 }
 
@@ -276,67 +277,14 @@ class JoueurController extends AbstractController
     }
 
     /**
-     * @Route("/changeNr/{newnr}/{playerid}", name="changeNr", options = { "expose" = true })
-     * @param int $newnr
-     * @param int $playerid
+     * @Route("/changeNomEtNumero", name="changeNomEtNumero", options = { "expose" = true })
      * @return Response
      */
-    public function changeNr(int $newnr, int $playerid): \Symfony\Component\HttpFoundation\Response
+    public function changeNomEtNumero(Request $request, AdminService $adminService): \Symfony\Component\HttpFoundation\Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $adminService->traiteModification($request->request->all(), Players::class);
 
-        /** @var Players $player */
-        $player = $this->getDoctrine()->getRepository(\App\Entity\Players::class)->findOneBy(['playerId' => $playerid]);
-
-        $player->setNr($newnr);
-
-        $entityManager->persist($player);
-        $entityManager->flush();
-
-        $playerTeamId = 0;
-
-        $playerTeam = $player->getOwnedByTeam();
-
-        if ($playerTeam !== null) {
-            $playerTeamId = $playerTeam->getTeamId();
-        }
-        $response = new Response();
-        $response->setContent((string) $playerTeamId);
-        $response->setStatusCode(200);
-
-        return $response;
-    }
-
-    /**
-     * @Route("/changeName/{newname}/{playerid}", name="changeName", options = { "expose" = true })
-     * @param string $newname
-     * @param int $playerid
-     * @return Response
-     */
-    public function changeName(string $newname, int $playerid): \Symfony\Component\HttpFoundation\Response
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-
-        /** @var Players $player */
-        $player = $this->getDoctrine()->getRepository(\App\Entity\Players::class)->findOneBy(['playerId' => $playerid]);
-
-        $player->setName($newname);
-
-        $entityManager->persist($player);
-        $entityManager->flush();
-
-        $playerTeamId = 0;
-
-        $playerTeam = $player->getOwnedByTeam();
-
-        if ($playerTeam !== null) {
-            $playerTeamId = $playerTeam->getTeamId();
-        }
-        $response = new Response();
-        $response->setContent((string) $playerTeamId);
-        $response->setStatusCode(200);
-
-        return $response;
+        return new Response();
     }
 
     /**
