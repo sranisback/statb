@@ -2,371 +2,382 @@
 
 
 {% block body %}
-    <div class="m-2">
-        <div class="card">
-            <div class="card-header">
-                <div class="d-flex ">
-                    <div>
-                        {% if (app.user != null) %}
-                            {% if (team.logo) %}
-                                <img class="img-fluid" src="{{ asset('uploads/logo_equipe/' ~ team.logo) }}">
-                                {% if (app.user == team.ownedByCoach and team.year == annee) or app.user.roles["role"] == 'ROLE_ADMIN' %}
-                                    <br/>
-                                    <span class="fas fa-trash-alt" teamId="{{ team.teamId }}" id="supprimeLogo"></span>
-                                {% endif %}
-                            {% else %}
-                                <img class="img-fluid" alt="Logo Race"
-                                     src="{{ asset('build/'~app.environment~'/images/race_icons/'~team.fRace.icon~'.png') }}">
+<div class="m-2">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex ">
+                <div>
+                    {% if (app.user != null) %}
+                        {% if (team.logo) %}
+                            <img class="img-fluid" src="{{ asset('uploads/logo_equipe/' ~ team.logo) }}">
+                            {% if (app.user == team.ownedByCoach and team.year == annee) or app.user.roles["role"] == 'ROLE_ADMIN' %}
+                                <br/>
+                                <span class="fas fa-trash-alt" teamId="{{ team.teamId }}" id="supprimeLogo"></span>
                             {% endif %}
                         {% else %}
                             <img class="img-fluid" alt="Logo Race"
                                  src="{{ asset('build/'~app.environment~'/images/race_icons/'~team.fRace.icon~'.png') }}">
                         {% endif %}
-                    </div>
-                    <div><h1 class="display-4"><strong>{{ team.name }}</strong></h1> {% if team.franchise == true %}
-                            <span class="fas fa-tag text-success"></span>
-                        {% endif %}</div>
+                    {% else %}
+                        <img class="img-fluid" alt="Logo Race"
+                             src="{{ asset('build/'~app.environment~'/images/race_icons/'~team.fRace.icon~'.png') }}">
+                    {% endif %}
                 </div>
-
-                <div class="d-inline-flex my-2">
-                    <div class="p-2">
-                        <button type="button" id="showall_btn" class="btn btn-primary">
-                            Tous les joueurs
-                        </button>
-                        {% if (app.user != null) %}
-                        {% if  (app.user == team.ownedByCoach and team.year == annee) or app.user.roles["role"] == 'ROLE_ADMIN' %}
-                            <button type="button" id="recalculNum" class="btn btn-primary" teamId="{{ team.teamId }}" >
-                                Recalculer Numéros
-                            </button>
-                        {%  endif %}
-                        {% endif %}
-                    </div>
-                </div>
+                <div><h1 class="display-4"><strong>{{ team.name }}</strong></h1> {% if team.franchise == true %}
+                        <span class="fas fa-tag text-success"></span>
+                    {% endif %}</div>
             </div>
 
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table" id="teamsheet">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th>Nr</th>
-                            <th>Nom</th>
-                            <th>Position</th>
-                            <th>MA</th>
-                            <th>ST</th>
-                            <th>AG</th>
-                            <th>AV</th>
-                            <th>Comp</th>
-                            <th>NbrM</th>
-                            <th>Stat</th>
-                            <th>Cp</th>
-                            <th>Td</th>
-                            <th>Int</th>
-                            <th>Cas</th>
-                            <th>Mvp</th>
-                            <th>Agg</th>
-                            <th>Spp</th>
-                            <th class="text-right">Coût</th>
-                        </tr>
-                        </thead>
-                        <tbody id="teamBody">
-                        {% for player in players %}
+            <div class="d-inline-flex my-2">
+                <div class="p-2">
+                    <button type="button" id="showall_btn" class="btn btn-primary">
+                        Tous les joueurs
+                    </button>
+                    {% if (app.user != null) %}
+                        {% if  (app.user == team.ownedByCoach and team.year == annee) or app.user.roles["role"] == 'ROLE_ADMIN' %}
+                            <button type="button" id="recalculNum" class="btn btn-primary" teamId="{{ team.teamId }}">
+                                Recalculer Numéros
+                            </button>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
 
-                            {% if (player.status == 8) %}
-                            <tr teamId="{{ team.teamId }}" class="table-danger" style="display: none;">
-                            {% elseif player.status == 7 %}
-                            <tr teamId="{{ team.teamId }}" class="table-info" style="display: none;">
-                            {% elseif (player.injrpm == 1  or player.status ==9) %}
-                            <tr teamId="{{ team.teamId }}" class="table-warning">
-                            {% else %}
-                                <tr teamId="{{ team.teamId }}">
-                            {% endif %}
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table" id="teamsheet">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Nr</th>
+                        <th>Nom</th>
+                        <th>Position</th>
+                        <th>MA</th>
+                        <th>ST</th>
+                        <th>AG</th>
+                        <th>AV</th>
+                        <th>Comp</th>
+                        <th>NbrM</th>
+                        <th>Stat</th>
+                        <th>Cp</th>
+                        <th>Td</th>
+                        <th>Int</th>
+                        <th>Cas</th>
+                        <th>Mvp</th>
+                        <th>Agg</th>
+                        <th>Spp</th>
+                        <th class="text-right">Coût</th>
+                    </tr>
+                    </thead>
+                    <tbody id="teamBody">
+                    {% for player in players %}
 
-                            {% if (app.user != null) %}
-                                {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee  )or app.user.roles["role"] == 'ROLE_ADMIN' %}
-                                    <td><span class="fas fa-times text-danger"
-                                              playerId="{{ player.playerId }}"
-                                              id="remove_pl_{{ player.playerId }}"></span>
-                                    </td>
-                                {% else %}
-                                    <td></td>
-                                {% endif %}
+                        {% if (player.status == 8) %}
+                        <tr teamId="{{ team.teamId }}" class="table-danger" style="display: none;">
+                        {% elseif player.status == 7 %}
+                        <tr teamId="{{ team.teamId }}" class="table-info" style="display: none;">
+                        {% elseif (player.injrpm == 1  or player.status ==9) %}
+                        <tr teamId="{{ team.teamId }}" class="table-warning">
+                        {% else %}
+                            <tr teamId="{{ team.teamId }}">
+                        {% endif %}
+
+                        {% if (app.user != null) %}
+                            {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee  )or app.user.roles["role"] == 'ROLE_ADMIN' %}
+                                <td><span class="fas fa-times text-danger"
+                                          playerId="{{ player.playerId }}"
+                                          id="remove_pl_{{ player.playerId }}"></span>
+                                </td>
                             {% else %}
                                 <td></td>
                             {% endif %}
-                            <td>
-                                    {% if (app.user != null) %}
-                                        {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
-                                            <a href="#" data-type="number" data-pk="{{ player.playerId }}" data-name="Nr" id="editable_joueur_{{ loop.index }}"> {{ player.nr }}</a>
-                                        {% endif %}
-                                    {% else %}
+                        {% else %}
+                            <td></td>
+                        {% endif %}
+                        <td>
+                            {% if (app.user != null) %}
+                                {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
+                                    <a href="#" data-type="number" data-pk="{{ player.playerId }}" data-name="Nr"
+                                       id="editable_joueur_{{ loop.index }}"> {{ player.nr }}</a>
+                                {% else %}
+                                    {{ player.nr }}
+                                {% endif %}
+                            {% else %}
                                 {{ player.nr }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if (app.user != null) %}
+                                {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
+                                    <a href="#" data-type="text" data-pk="{{ player.playerId }}" data-name="Name"
+                                       id="editable_joueur_{{ loop.index }}"> {{ player.name }}</a>
+                                {% else %}
+                                    {{ player.name }}
                                 {% endif %}
-                            </td>
-                            <td>
-                                        {% if (app.user != null) %}
-                                            {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
-                                                <a href="#" data-type="text" data-pk="{{ player.playerId }}" data-name="Name" id="editable_joueur_{{ loop.index }}"> {{ player.name }}</a>
-                                            {% endif %}
-                                        {% else %}
+                            {% else %}
                                 {{ player.name }}
-                                {% endif %}
+                            {% endif %}
                             <a class="fas fa-search" href="{{ path('Player', {'playerid': player.playerId }) }}"></a>
-                                {% if player.type == 2 %}
-                                    <p class="fas fa-euro-sign"/>
-                                {% endif %}
-                                {% if player.status == 9 %}
-                                    <p class="fas fa-arrow-up"/>
-                                {% endif %}
-                            </td>
-                            <td>
-                                <img src="{{ asset('build/'~app.environment~'/images/player_icons/'~player.icon.iconName~'.gif') }}">{{ player.fpos.pos }}
-                            </td>
-                            {% if player.achMa>0 %}
-                                <td class="table-success">{{ player.fpos.ma + player.achMa - player.injMa }}</td>
-                            {% elseif  player.injMa>0 %}
-                                <td class="table-danger">{{ player.fpos.ma + player.achMa - player.injMa }}</td>
-                            {% else %}
-                                <td>{{ player.fpos.ma + player.achMa - player.injMa }}</td>
+                            {% if player.type == 2 %}
+                                <p class="fas fa-euro-sign"/>
                             {% endif %}
-
-                            {% if player.achSt>0 %}
-                                <td class="table-success">{{ player.fpos.st + player.achSt - player.injSt }}</td>
-                            {% elseif  player.injSt>0 %}
-                                <td class="table-danger">{{ player.fpos.st + player.achSt - player.injSt }}</td>
-                            {% else %}
-                                <td>{{ player.fpos.st + player.achSt - player.injSt }}</td>
+                            {% if player.status == 9 %}
+                                <p class="fas fa-arrow-up"/>
                             {% endif %}
+                        </td>
+                        <td>
+                            <img src="{{ asset('build/'~app.environment~'/images/player_icons/'~player.icon.iconName~'.gif') }}">{{ player.fpos.pos }}
+                        </td>
+                        {% if player.achMa>0 %}
+                            <td class="table-success">{{ player.fpos.ma + player.achMa - player.injMa }}</td>
+                        {% elseif  player.injMa>0 %}
+                            <td class="table-danger">{{ player.fpos.ma + player.achMa - player.injMa }}</td>
+                        {% else %}
+                            <td>{{ player.fpos.ma + player.achMa - player.injMa }}</td>
+                        {% endif %}
 
-                            {% if player.achAg>0 %}
-                                <td class="table-success">{{ player.fpos.ag + player.achAg - player.injAg }}</td>
-                            {% elseif  player.injAg>0 %}
-                                <td class="table-danger">{{ player.fpos.ag + player.achAg - player.injAg }}</td>
-                            {% else %}
-                                <td>{{ player.fpos.ag + player.achAg - player.injAg }}</td>
-                            {% endif %}
+                        {% if player.achSt>0 %}
+                            <td class="table-success">{{ player.fpos.st + player.achSt - player.injSt }}</td>
+                        {% elseif  player.injSt>0 %}
+                            <td class="table-danger">{{ player.fpos.st + player.achSt - player.injSt }}</td>
+                        {% else %}
+                            <td>{{ player.fpos.st + player.achSt - player.injSt }}</td>
+                        {% endif %}
 
-                            {% if player.achAv>0 %}
-                                <td class="table-success">{{ player.fpos.av + player.achAv - player.injAv }}</td>
-                            {% elseif  player.injAv>0 %}
-                                <td class="table-danger">{{ player.fpos.av + player.achAv - player.injAv }}</td>
-                            {% else %}
-                                <td>{{ player.fpos.av + player.achAv - player.injAv }}</td>
-                            {% endif %}
+                        {% if player.achAg>0 %}
+                            <td class="table-success">{{ player.fpos.ag + player.achAg - player.injAg }}</td>
+                        {% elseif  player.injAg>0 %}
+                            <td class="table-danger">{{ player.fpos.ag + player.achAg - player.injAg }}</td>
+                        {% else %}
+                            <td>{{ player.fpos.ag + player.achAg - player.injAg }}</td>
+                        {% endif %}
 
-                            {% for data in pdata %}
-                                {% if data.pid == player.playerId %}
-                                    <td>{{ data.skill|raw }}</td>
-                                    <td>{{ data.nbrm }}</td>
-                                    {% if (app.user != null) %}
-                                        {% if (data.status=='XP' and app.user == team.ownedByCoach and team.year == annee) or ( app.user.roles["role"] == 'ROLE_ADMIN' and data.status=='XP') %}
-                                            <td>{{ render(controller('App\\Controller\\JoueurController::skillmodal',{'playerid':player.playerId} )) }}</td>
-                                        {% else %}
-                                            <td>{{ data.status }}</td>
-                                        {% endif %}
+                        {% if player.achAv>0 %}
+                            <td class="table-success">{{ player.fpos.av + player.achAv - player.injAv }}</td>
+                        {% elseif  player.injAv>0 %}
+                            <td class="table-danger">{{ player.fpos.av + player.achAv - player.injAv }}</td>
+                        {% else %}
+                            <td>{{ player.fpos.av + player.achAv - player.injAv }}</td>
+                        {% endif %}
+
+                        {% for data in pdata %}
+                            {% if data.pid == player.playerId %}
+                                <td>{{ data.skill|raw }}</td>
+                                <td>{{ data.nbrm }}</td>
+                                {% if (app.user != null) %}
+                                    {% if (data.status=='XP' and app.user == team.ownedByCoach and team.year == annee) or ( app.user.roles["role"] == 'ROLE_ADMIN' and data.status=='XP') %}
+                                        <td>{{ render(controller('App\\Controller\\JoueurController::skillmodal',{'playerid':player.playerId} )) }}</td>
                                     {% else %}
                                         <td>{{ data.status }}</td>
                                     {% endif %}
-                                    <td>{{ data.cp }}</td>
-                                    <td>{{ data.td }}</td>
-                                    <td>{{ data.int }}</td>
-                                    <td>{{ data.cas }}</td>
-                                    <td>{{ data.mvp }}</td>
-                                    <td>{{ data.agg }}</td>
-                                    <td>{{ data.spp }}</td>
-                                    <td class="text-right">{{ data.cost }}</td>
+                                {% else %}
+                                    <td>{{ data.status }}</td>
                                 {% endif %}
-                            {% endfor %}
-
-                            </tr>
-                        {% endfor %}
-                    </table>
-                </div>
-                {% if (app.user != null) %}
-                    {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee) or app.user.roles["role"] == 'ROLE_ADMIN' %}
-                        {{ render(controller('App\\Controller\\JoueurController::playerAdder', {'equipe' : team})) }}
-                        <a type="button" class="btn btn-primary" href="{{ path('Chkteam', {'teamId': team.teamId} ) }}">Check
-                            Equipe</a>
-                        <a type="button" class="btn btn-primary" href="{{ path('pdfTeam', {'id': team.teamId} ) }}">Exporter
-                            en PDF</a>
-                        <button type="button" class="btn btn-primary" data-toggle="modal"
-                                data-target="#modal_uploadLogo">
-                            Uploader un logo
-                        </button>
-                        <a type="button" class="btn btn-primary" equipeId="{{ team.teamId }}" href="{{ path('mettreEnFranchise', {'equipeId': team.teamId} ) }}">
-                            {% if team.franchise == false %}
-                                <span class="far fa-square"></span>
-                            {% else %}
-                                <span class="far fa-check-square"></span>
+                                <td>{{ data.cp }}</td>
+                                <td>{{ data.td }}</td>
+                                <td>{{ data.int }}</td>
+                                <td>{{ data.cas }}</td>
+                                <td>{{ data.mvp }}</td>
+                                <td>{{ data.agg }}</td>
+                                <td>{{ data.spp }}</td>
+                                <td class="text-right">{{ data.cost }}</td>
                             {% endif %}
-                            Equipe Franchisee ?
-                        </a>
-                        {% if app.user == team.ownedByCoach and team.retired == 0 %}
-                            {{ render(controller('App\\Controller\\EquipeController::ajoutStadeModal',{'equipeId':team.teamId} )) }}
+                        {% endfor %}
+
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            {% if (app.user != null) %}
+                {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee) or app.user.roles["role"] == 'ROLE_ADMIN' %}
+                    {{ render(controller('App\\Controller\\JoueurController::playerAdder', {'equipe' : team})) }}
+                    <a type="button" class="btn btn-primary" href="{{ path('Chkteam', {'teamId': team.teamId} ) }}">Check
+                        Equipe</a>
+                    <a type="button" class="btn btn-primary" href="{{ path('pdfTeam', {'id': team.teamId} ) }}">Exporter
+                        en PDF</a>
+                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#modal_uploadLogo">
+                        Uploader un logo
+                    </button>
+                    <a type="button" class="btn btn-primary" equipeId="{{ team.teamId }}"
+                       href="{{ path('mettreEnFranchise', {'equipeId': team.teamId} ) }}">
+                        {% if team.franchise == false %}
+                            <span class="far fa-square"></span>
+                        {% else %}
+                            <span class="far fa-check-square"></span>
                         {% endif %}
-                        <div class="modal fade" id="modal_uploadLogo">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-body">
-                                        {{ form_start(form , {'action': path('uploadLogo',{'equipeId': team.teamId})}) }}
-                                        {{ form_row(form.logo,{'attr' : {'accept' : '.png, .jpg'}}) }}
-                                        {{ form_end(form) }}
-                                    </div>
+                        Equipe Franchisee ?
+                    </a>
+                    {% if app.user == team.ownedByCoach and team.retired == 0 %}
+                        {{ render(controller('App\\Controller\\EquipeController::ajoutStadeModal',{'equipeId':team.teamId} )) }}
+                    {% endif %}
+                    <div class="modal fade" id="modal_uploadLogo">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    {{ form_start(form , {'action': path('uploadLogo',{'equipeId': team.teamId})}) }}
+                                    {{ form_row(form.logo,{'attr' : {'accept' : '.png, .jpg'}}) }}
+                                    {{ form_end(form) }}
                                 </div>
                             </div>
                         </div>
-                    {% endif %}
+                    </div>
                 {% endif %}
-                <div class="table-responsive">
-                    <table class="table">
-                        <tr>
-                            <td colspan=7 rowspan=7></td>
-                            <td rowspan=7><img
-                                        src="{{ asset('build/'~app.environment~'/images/race_icons/'~team.fRace.icon~'.png') }}">
-                            </td>
-                            <td colspan=4>Coach : {{ team.ownedByCoach.name }}</td>
-                            <td colspan=5 class="text-right">Valeur totale des joueurs :</td>
-                            <td class="text-right" id="totalPV">{{ tdata.playersCost }}</td>
-                        </tr>
-                        <tr>
-                            <td colspan=4>Races : {{ team.fRace.name }}</td>
-                            <td colspan=5 class="text-right"> Relance :
-                                {% if (app.user != null) %}
-                                    {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
-                                        <span class="fas fa-plus text-success" id="add_rr" type="rr"
-                                              teamId="{{ team.teamId }}"></span>
-                                    {% endif %}
+            {% endif %}
+            <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                        <td colspan=7 rowspan=7></td>
+                        <td rowspan=7><img
+                                    src="{{ asset('build/'~app.environment~'/images/race_icons/'~team.fRace.icon~'.png') }}">
+                        </td>
+                        <td colspan=4>Coach : {{ team.ownedByCoach.name }}</td>
+                        <td colspan=5 class="text-right">Valeur totale des joueurs :</td>
+                        <td class="text-right" id="totalPV">{{ tdata.playersCost }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan=4>Races : {{ team.fRace.name }}</td>
+                        <td colspan=5 class="text-right"> Relance :
+                            {% if (app.user != null) %}
+                                {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
+                                    <span class="fas fa-plus text-success" id="add_rr" type="rr"
+                                          teamId="{{ team.teamId }}"></span>
                                 {% endif %}
-                                <span id="rr">{{ team.rerolls }}</span>
-                                {% if (app.user != null) %}
-                                    {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
-                                        <span class="fas fa-minus text-danger" id="rem_rr" type="rr"
-                                              teamId="{{ team.teamId }}"></span>
-                                    {% endif %}
+                            {% endif %}
+                            <span id="rr">{{ team.rerolls }}</span>
+                            {% if (app.user != null) %}
+                                {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
+                                    <span class="fas fa-minus text-danger" id="rem_rr" type="rr"
+                                          teamId="{{ team.teamId }}"></span>
                                 {% endif %}
-                                x {{ team.fRace.costRr }}</td>
-                            <td class="text-right" id="trr">{{ tdata.rerolls }}</td>
-                        </tr>
-                        <tr>
-                            <td colspan=4>Trésor : <span id="tresor">{{ team.treasury }}</span></td>
-                            <td colspan=5 class="text-right"> Popularité :
-                                {% if (app.user != null) %}
-                                    {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
-                                        <span class="fas fa-plus text-success" id="add_pop" type="pop"
-                                              teamId="{{ team.teamId }}"></span>
-                                    {% endif %}
+                            {% endif %}
+                            x {{ team.fRace.costRr }}</td>
+                        <td class="text-right" id="trr">{{ tdata.rerolls }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan=4>Trésor : <span id="tresor">{{ team.treasury }}</span></td>
+                        <td colspan=5 class="text-right"> Popularité :
+                            {% if (app.user != null) %}
+                                {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
+                                    <span class="fas fa-plus text-success" id="add_pop" type="pop"
+                                          teamId="{{ team.teamId }}"></span>
                                 {% endif %}
-                                <span id="pop">{{ team.ff + team.ffBought }}</span>
-                                {% if (app.user != null) %}
-                                    {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
-                                        <span class="fas fa-minus text-danger" id="rem_pop" type="pop"
-                                              teamId="{{ team.teamId }}"></span>
-                                    {% endif %}
+                            {% endif %}
+                            <span id="pop">{{ team.ff + team.ffBought }}</span>
+                            {% if (app.user != null) %}
+                                {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
+                                    <span class="fas fa-minus text-danger" id="rem_pop" type="pop"
+                                          teamId="{{ team.teamId }}"></span>
                                 {% endif %}
-                                x 10000
-                            </td>
-                            <td class="text-right" id="tpop">{{ tdata.pop }}</td>
-                        </tr>
-                        <tr>
-                            <td colspan=4>TV : <span id="pTv">{{ tdata.tv/1000 }}</span></td>
-                            <td colspan=5 class="text-right"> Ass. Coach :
-                                {% if (app.user != null) %}
-                                    {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
-                                        <span class="fas fa-plus text-success" id="add_ac" type="ac"
-                                              teamId="{{ team.teamId }}"></span>
-                                    {% endif %}
+                            {% endif %}
+                            x 10000
+                        </td>
+                        <td class="text-right" id="tpop">{{ tdata.pop }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan=4>TV : <span id="pTv">{{ tdata.tv/1000 }}</span></td>
+                        <td colspan=5 class="text-right"> Ass. Coach :
+                            {% if (app.user != null) %}
+                                {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
+                                    <span class="fas fa-plus text-success" id="add_ac" type="ac"
+                                          teamId="{{ team.teamId }}"></span>
                                 {% endif %}
-                                <span id="ac">{{ team.assCoaches }}</span>
-                                {% if (app.user != null) %}
-                                    {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
-                                        <span class="fas fa-minus text-danger" id="rem_ac" type="ac"
-                                              teamId="{{ team.teamId }}"></span>
-                                    {% endif %}
+                            {% endif %}
+                            <span id="ac">{{ team.assCoaches }}</span>
+                            {% if (app.user != null) %}
+                                {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
+                                    <span class="fas fa-minus text-danger" id="rem_ac" type="ac"
+                                          teamId="{{ team.teamId }}"></span>
                                 {% endif %}
-                                x 10000
-                            </td>
-                            <td class="text-right" id="tac">{{ tdata.asscoaches }}</td>
-                        </tr>
-                        <tr>
-                            <td colspan=4>ELO : {{ team.elo }}</td>
-                            <td colspan=5 class="text-right"> Cheerleaders :
-                                {% if (app.user != null) %}
-                                    {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
-                                        <span class="fas fa-plus text-success" id="add_chl" type="chl"
-                                              teamId="{{ team.teamId }}"></span>
-                                    {% endif %}
+                            {% endif %}
+                            x 10000
+                        </td>
+                        <td class="text-right" id="tac">{{ tdata.asscoaches }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan=4>ELO : {{ team.elo }}</td>
+                        <td colspan=5 class="text-right"> Cheerleaders :
+                            {% if (app.user != null) %}
+                                {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
+                                    <span class="fas fa-plus text-success" id="add_chl" type="chl"
+                                          teamId="{{ team.teamId }}"></span>
                                 {% endif %}
-                                <span id="chl">{{ team.cheerleaders }}</span>
-                                {% if (app.user != null) %}
-                                    {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
-                                        <span class="fas fa-minus text-danger" id="rem_chl" type="chl"
-                                              teamId="{{ team.teamId }}"></span>
-                                    {% endif %}
+                            {% endif %}
+                            <span id="chl">{{ team.cheerleaders }}</span>
+                            {% if (app.user != null) %}
+                                {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
+                                    <span class="fas fa-minus text-danger" id="rem_chl" type="chl"
+                                          teamId="{{ team.teamId }}"></span>
                                 {% endif %}
-                                x 10000
-                            </td>
-                            <td class="text-right" id="tchl">{{ tdata.cheerleader }}</td>
-                        </tr>
-                        <tr>
-                            <td colspan=4>Stade :
-                                        {% if (app.user != null) %}
-                                            {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
-                                                <a href="#" data-type="text" data-pk="{{ team.fStades.id }}" data-name="Nom" id="editable_stade"> {{ team.fStades.nom }}</a>
-                                            {% endif %}
-                                        {% else %}
+                            {% endif %}
+                            x 10000
+                        </td>
+                        <td class="text-right" id="tchl">{{ tdata.cheerleader }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan=4>Stade :
+                            {% if (app.user != null) %}
+                                {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
+                                    <a href="#" data-type="text" data-pk="{{ team.fStades.id }}" data-name="Nom"
+                                       id="editable_stade"> {{ team.fStades.nom }}</a>
+                                {% endif %}
+                            {% else %}
+                                {% if ( team.fStades) %}
                                     {{ team.fStades.nom }}, {{ niveauStade[team.fStades.niveau] }}
-                                        {% endif %}
-                                ,
-                                Type: {{ team.fStades.FtypeStade.type }},
-                                payement en cours :
-                                {% if (app.user != null) %}
-                                    {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
-                                        <span class="fas fa-plus text-success" id="add_pay" type="pay"
-                                              teamId="{{ team.teamId }}"></span>
-                                    {% endif %}
                                 {% endif %}
-                                <span id="pay">{{ team.fStades.TotalPayement }}</span>
-                                {% if (app.user != null) %}
-                                    {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
-                                        <span class="fas fa-minus text-danger" id="rem_pay" type="pay"
-                                              teamId="{{ team.teamId }}"></span>
-                                    {% endif %}
+                            {% endif %}
+                            {% if ( team.fStades) %}
+                            , Type: {{ team.fStades.FtypeStade.type }},
+                            payement en cours :
+                            {% if (app.user != null) %}
+                                {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
+                                    <span class="fas fa-plus text-success" id="add_pay" type="pay"
+                                          teamId="{{ team.teamId }}"></span>
                                 {% endif %}
-                            </td>
-                            <td colspan=5 class="text-right"> Apothicaire :
-                                {% if (app.user != null) %}
-                                    {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
-                                        <span class="fas fa-plus text-success" id="add_apo" type="apo"
-                                              teamId="{{ team.teamId }}"></span>
-                                    {% endif %}
+                            {% endif %}
+                            <span id="pay">{{ team.fStades.TotalPayement }}</span>
+                            {% endif %}
+                            {% if (app.user != null) %}
+                                {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
+                                    <span class="fas fa-minus text-danger" id="rem_pay" type="pay"
+                                          teamId="{{ team.teamId }}"></span>
                                 {% endif %}
-                                <span id="apo">{{ team.apothecary }}</span>
-                                {% if (app.user != null) %}
-                                    {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
-                                        <span class="fas fa-minus text-danger" id="rem_apo" type="apo"
-                                              teamId="{{ team.teamId }}"></span>
-                                    {% endif %}
+                            {% endif %}
+                        </td>
+                        <td colspan=5 class="text-right"> Apothicaire :
+                            {% if (app.user != null) %}
+                                {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
+                                    <span class="fas fa-plus text-success" id="add_apo" type="apo"
+                                          teamId="{{ team.teamId }}"></span>
                                 {% endif %}
-                                x 50000
-                            </td>
-                            <td class="text-right" id="tapo">{{ tdata.apo }}</td>
-                        </tr>
-                        <tr>
-                            <td colspan=4 rowspan=1></td>
-                            <td colspan=5 class="text-right">Total :</td>
-                            <td class="text-right" id="caseTv">{{ tdata.tv }}</td>
-                        </tr>
-                    </table>
-                </div>
-                Lien direct vers l'équipe : <a
-                        href="{{ url('montreEquipe', {'nomEquipe': team.name }) }}">{{ url('montreEquipe', {'nomEquipe': team.name }) }}</a>
+                            {% endif %}
+                            <span id="apo">{{ team.apothecary }}</span>
+                            {% if (app.user != null) %}
+                                {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
+                                    <span class="fas fa-minus text-danger" id="rem_apo" type="apo"
+                                          teamId="{{ team.teamId }}"></span>
+                                {% endif %}
+                            {% endif %}
+                            x 50000
+                        </td>
+                        <td class="text-right" id="tapo">{{ tdata.apo }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan=4 rowspan=1></td>
+                        <td colspan=5 class="text-right">Total :</td>
+                        <td class="text-right" id="caseTv">{{ tdata.tv }}</td>
+                    </tr>
+                </table>
             </div>
+            Lien direct vers l'équipe : <a
+                    href="{{ url('montreEquipe', {'nomEquipe': team.name }) }}">{{ url('montreEquipe', {'nomEquipe': team.name }) }}</a>
         </div>
     </div>
-    <div class="d-flex flex-xl-row flex-sm-column m-2 align-content-center justify-content-center">
-        <div class="card">
-            <div class="card-body">{{ render(controller('App\\Controller\\ClassementController::tousLesMatchesPourEquipe',{ 'equipeId':team.teamId } )) }}</div>
-        </div>
+</div>
+<div class="d-flex flex-xl-row flex-sm-column m-2 align-content-center justify-content-center">
+    <div class="card">
+        <div class="card-body">{{ render(controller('App\\Controller\\ClassementController::tousLesMatchesPourEquipe',{ 'equipeId':team.teamId } )) }}</div>
     </div>
+</div>
 {% endblock %}
