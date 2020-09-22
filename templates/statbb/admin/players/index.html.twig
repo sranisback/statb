@@ -26,7 +26,7 @@
         {% for player in players %}
             <tr>
                 <td>{{ player.playerId }}</td>
-                <td><a href="#" data-type="number" data-pk="{{ player.playerId }}" data-name="nr" id="admin_player_number_{{ loop.index }}"> {{ player.nr }}</a></td>
+                <td><a href="#" data-type="number" data-pk="{{ player.playerId }}" data-name="Nr" id="admin_player_number_{{ loop.index }}"> {{ player.nr }}</a></td>
                 <td><a href="#" data-type="text" data-pk="{{ player.playerId }}" data-name="Name" id="admin_player_name_{{ loop.index }}"> {{ player.name }}</a></td>
                 <td>{{ player.ownedByTeam.name }}</td>
                 <td>{{ player.fPos.pos }}</td>

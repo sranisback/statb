@@ -250,7 +250,7 @@ const routes_dev = {
             "schemes": []
         },
         "changeNomStade": {
-            "tokens": [["variable", "\/", "[^\/]++", "nouveauNomStade"], ["variable", "\/", "[^\/]++", "equipeId"], ["text", "\/changeNomStade"]],
+            "tokens": [["text", "\/changeNomStade"]],
             "defaults": [],
             "requirements": [],
             "hosttokens": [],
@@ -361,8 +361,8 @@ const routes_dev = {
             "methods": [],
             "schemes": []
         },
-        "changeNr": {
-            "tokens": [["variable", "\/", "[^\/]++", "playerid"], ["variable", "\/", "[^\/]++", "newnr"], ["text", "\/changeNr"]],
+        "changeNomEtNumero": {
+            "tokens": [["text", "\/changeNomEtNumero"]],
             "defaults": [],
             "requirements": [],
             "hosttokens": [],

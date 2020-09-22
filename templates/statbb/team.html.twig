@@ -96,25 +96,23 @@
                                 <td></td>
                             {% endif %}
                             <td>
-                                <div
-                                        {% if (app.user != null) %}
-                                            {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
-                                                id="number_{{ player.playerId }}" onClick='changeNr(this)'
-                                            {% endif %}
+                                    {% if (app.user != null) %}
+                                        {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
+                                            <a href="#" data-type="number" data-pk="{{ player.playerId }}" data-name="Nr" id="editable_joueur_{{ loop.index }}"> {{ player.nr }}</a>
                                         {% endif %}
-                                        playerid="{{ player.playerId }}">
-                                    <ulink>{{ player.nr }}</ulink>
-                                </div>
+                                    {% else %}
+                                {{ player.nr }}
+                                {% endif %}
                             </td>
-                            <td><span
+                            <td>
                                         {% if (app.user != null) %}
                                             {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
-                                                id="name_{{ player.playerId }}"
+                                                <a href="#" data-type="text" data-pk="{{ player.playerId }}" data-name="Name" id="editable_joueur_{{ loop.index }}"> {{ player.name }}</a>
                                             {% endif %}
-                                        {% endif %}
-                                    playerid="{{ player.playerId }}"><ulink>{{ player.name }}</ulink></span><a
-                                        class="fas fa-search"
-                                        href="{{ path('Player', {'playerid': player.playerId }) }}"></a>
+                                        {% else %}
+                                {{ player.name }}
+                                {% endif %}
+                            <a class="fas fa-search" href="{{ path('Player', {'playerid': player.playerId }) }}"></a>
                                 {% if player.type == 2 %}
                                     <p class="fas fa-euro-sign"/>
                                 {% endif %}
@@ -311,13 +309,14 @@
                             <td class="text-right" id="tchl">{{ tdata.cheerleader }}</td>
                         </tr>
                         <tr>
-                            <td colspan=4>Stade : <span
+                            <td colspan=4>Stade :
                                         {% if (app.user != null) %}
                                             {% if (app.user == team.ownedByCoach and team.retired == 0 and team.year == annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
-                                                id="stade_name"
+                                                <a href="#" data-type="text" data-pk="{{ team.fStades.id }}" data-name="Nom" id="editable_stade"> {{ team.fStades.nom }}</a>
                                             {% endif %}
+                                        {% else %}
+                                    {{ team.fStades.nom }}, {{ niveauStade[team.fStades.niveau] }}
                                         {% endif %}
-                                    teamId="{{ team.teamId }}"><ulink>{{ team.fStades.nom }}</ulink></span>, {{ niveauStade[team.fStades.niveau] }}
                                 ,
                                 Type: {{ team.fStades.FtypeStade.type }},
                                 payement en cours :

@@ -37,7 +37,6 @@ $(document).ready(function () {
     /* break;
 }*/
 
-
     $('#classgen').DataTable({
         "lengthChange": false,
         "pageLength": 20,
@@ -433,60 +432,6 @@ $(document).ready(function () {
             }, "json");
     });
 
-    /**
-     * renommer le stade
-     */
-
-    $("#stade_name").click(function () {
-        let id = $(this).attr("teamId");
-
-        $(this).replaceWith('<input type="text" id="teamId_' + id + '" placeholder="' + $(this).text() + '" teamId="' + id + '" value="' + $(this).text() + '" data-toggle="tooltip" title="Appuyez sur enter pour valider">').focus();
-
-        $('#teamId_' + id).keypress(function (e) {
-            if (e.which == 13) {
-                $('#teamId_' + id).after($('#loadingmessage'));
-                $('#loadingmessage').show();
-                $.post(Routing.generate('changeNomStade', {
-                        nouveauNomStade: $(this).val(),
-                        equipeId: $(this).attr('teamId')
-                    }),
-                    {},
-                    function () {
-                        $('#teamId_' + id).replaceWith('<div id="#stade_name" playerid="' + $('#teamId_' + id).attr('teamId') + '">' + $('#teamId_' + id).val() + '</div>');
-
-                        window.location.reload();
-                    });
-            }
-
-        });
-    })
-
-    /**
-     * Renommer joueur
-     */
-
-    $("[id^='name_']").click(function () {
-        let id = $(this).attr('id').substring($(this).attr('id').indexOf('_') + 1, $(this).attr('id').length);
-
-        $(this).replaceWith('<input type="text" id="inp_name_' + id + '" placeholder="' + $(this).text() + '" playerid="' + $(this).attr('playerid') + '" value="' + $(this).text() + '" data-toggle="tooltip" title="Appuyez sur enter pour valider" >').focus();
-
-        $('#inp_name_' + id).keypress(function (e) {
-            if (e.which == 13) {
-
-                $('#inp_name_' + id).after($('#loadingmessage'));
-                $('#loadingmessage').show();
-
-                $.post(Routing.generate('changeName', {newname: $(this).val(), playerid: $(this).attr('playerid')}),
-                    {},
-                    function (result) {
-
-                        $('#inp_name_' + id).replaceWith('<div id="name_' + $('#inp_name_' + id).val() + '" playerid="' + $('#inp_name_' + id).attr('playerid') + '">' + $('#inp_name_' + id).val() + '</div>')
-                        window.location.reload();
-                    });
-            }
-        });
-    });
-
     $('#supprimePhoto').click(function () {
         $.post(Routing.generate('supprimePhoto', {joueurId: $(this).attr('joueurId')}),
             {},
@@ -501,6 +446,16 @@ $(document).ready(function () {
             function () {
                 window.location.reload();
             });
+    });
+
+    $('[id^=editable_joueur]').editable({
+        mode: 'inline',
+        url: Routing.generate('changeNomEtNumero')
+    });
+
+    $('#editable_stade').editable({
+        mode: 'inline',
+        url: Routing.generate('changeNomStade')
     });
 
     /////admin

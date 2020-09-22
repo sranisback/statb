@@ -22,24 +22,6 @@ class StadeService
 
     /**
      * @param Teams $equipe
-     * @param string $nouveauNomStade
-     */
-    public function renommerStade(Teams $equipe, string $nouveauNomStade): void
-    {
-        /** @var Stades $stade */
-        $stade = $equipe->getFStades();
-
-        /** @var Stades $stade */
-        $stade->setNom($nouveauNomStade);
-
-        $this->doctrineEntityManager->persist($stade);
-        $this->doctrineEntityManager->persist($equipe);
-
-        $this->doctrineEntityManager->flush();
-    }
-
-    /**
-     * @param Teams $equipe
      * @param string $nomDuStade
      * @param GameDataStadium $typeStade
      * @param int $niveauAatteindre
