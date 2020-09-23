@@ -425,7 +425,7 @@ class ClassementService
         /** @var Matches $match */
         foreach ($this->doctrineEntityManager->getRepository(Matches::class)->listeDesMatchs($equipe) as $match) {
             //bonus nombre de sorties > 4 sorties
-            if ($this->matchDataService->nombreDeSortiesDunMatch($equipe, $match)>4) {
+            if ($this->matchDataService->nombreDeSortiesDunMatch($equipe, $match)>=4) {
                 $totalPointBonus++;
             }
 

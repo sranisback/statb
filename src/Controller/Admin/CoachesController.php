@@ -3,7 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Coaches;
-use App\Form\admin\CoachesType;
+use App\Form\Admin\CoachesType;
 use App\Repository\CoachesRepository;
 use App\Service\AdminService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

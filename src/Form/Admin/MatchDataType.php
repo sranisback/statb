@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\admin;
+namespace App\Form\Admin;
 
 use App\Entity\MatchData;
 use App\Entity\Matches;
