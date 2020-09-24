@@ -23,6 +23,9 @@
     "doctrine/common": {
         "version": "v2.9.0"
     },
+    "doctrine/data-fixtures": {
+        "version": "1.4.4"
+    },
     "doctrine/dbal": {
         "version": "v2.8.0"
     },
@@ -34,6 +37,18 @@
             "version": "1.6",
             "ref": "ae205d5114e719deb64d2110f56ef910787d1e04"
         }
+    },
+    "doctrine/doctrine-fixtures-bundle": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "e5b542d4ef47d8a003c91beb35650c76907f7e53"
+        },
+        "files": [
+            "./src/DataFixtures/AppFixtures.php"
+        ]
     },
     "doctrine/doctrine-migrations-bundle": {
         "version": "1.2",
@@ -100,6 +115,9 @@
     },
     "laminas/laminas-zendframework-bridge": {
         "version": "1.0.0"
+    },
+    "liip/functional-test-bundle": {
+        "version": "4.2.0"
     },
     "migrify/migrify-kernel": {
         "version": "0.3.34"

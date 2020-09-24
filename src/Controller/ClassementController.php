@@ -124,7 +124,7 @@ class ClassementController extends AbstractController
     }
 
     /**
-     * @Route("/cinqDernierMatch/")
+     * @Route("/cinqDernierMatch")
      * @param ClassementService $classementService
      * @return Response
      */
