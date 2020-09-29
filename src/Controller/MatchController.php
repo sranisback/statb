@@ -149,17 +149,16 @@ class MatchController extends AbstractController
     }
 
     /**
-     * @Route("/anciensMatchs/{coachActif}", name="anciensMatchs" )
-     * @param int $coachActif
+     * @Route("/anciensMatchs", name="anciensMatchs" )
      * @return Response
      */
-    public function matchsDunCoach(MatchesService $matchesService, int $coachActif)
+    public function matchsDunCoach(MatchesService $matchesService)
     : \Symfony\Component\HttpFoundation\Response
     {
         return $this->render(
             'statbb/tabs/coach/anciensMatchs.html.twig',
             [
-                'listeMatchesParAns' => $matchesService->tousLesMatchesDunCoachParAnnee($coachActif),
+                'listeMatchesParAns' => $matchesService->tousLesMatchesDunCoachParAnnee($this->getUser()),
                 'EtiquettesAnnees' => (new AnneeEnum)->numeroToAnnee(),
             ]
         );

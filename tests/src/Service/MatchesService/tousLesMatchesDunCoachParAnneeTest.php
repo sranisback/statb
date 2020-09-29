@@ -2,7 +2,7 @@
 
 namespace App\Tests\src\Service\MatchesService;
 
-
+use App\Entity\Coaches;
 use App\Entity\Matches;
 use App\Entity\Teams;
 use App\Service\DefisService;
@@ -20,6 +20,9 @@ class tousLesMatchesDunCoachParAnneeTest extends KernelTestCase
      */
     public function un_match_par_equipe_par_an(): void
     {
+        $coachMock = $this->createMock(Coaches::class);
+        $coachMock->method('getCoachId')->willReturn(0);
+
         $equipeMock0 = $this->createMock(Teams::class);
         $equipeMock0->method('getYear')->willReturn(0);
 
@@ -39,7 +42,7 @@ class tousLesMatchesDunCoachParAnneeTest extends KernelTestCase
         $matchMock4 = $this->createMock(Matches::class);
 
         $equipeRepoMock = $this->getMockBuilder(Teams::class)
-            ->setMethods(['toutesLesEquipesDunCoachParAnnee'])
+            ->addMethods(['toutesLesEquipesDunCoachParAnnee'])
             ->getMock();
 
         $equipeRepoMock->method('toutesLesEquipesDunCoachParAnnee')->willReturnOnConsecutiveCalls(
@@ -50,7 +53,7 @@ class tousLesMatchesDunCoachParAnneeTest extends KernelTestCase
         );
 
         $matchRepoMock = $this->getMockBuilder(Matches::class)
-            ->setMethods(['listeDesMatchs'])
+            ->addMethods(['listeDesMatchs'])
             ->getMock();
 
         $matchRepoMock->method('listeDesMatchs')->willReturnOnConsecutiveCalls(
@@ -95,7 +98,7 @@ class tousLesMatchesDunCoachParAnneeTest extends KernelTestCase
             "2018 - 2019" => [$matchMock4]
         ];
 
-        $test = $matchServiceTest->tousLesMatchesDunCoachParAnnee(0);
+        $test = $matchServiceTest->tousLesMatchesDunCoachParAnnee($coachMock);
 
         $this->assertEquals($retourAttendu, $test);
     }
@@ -105,6 +108,9 @@ class tousLesMatchesDunCoachParAnneeTest extends KernelTestCase
      */
     public function deux_equipes_deux_match_par_an(): void
     {
+        $coachMock = $this->createMock(Coaches::class);
+        $coachMock->method('getCoachId')->willReturn(0);
+
         $equipeMock0 = $this->createMock(Teams::class);
         $equipeMock0->method('getYear')->willReturn(0);
 
@@ -117,7 +123,7 @@ class tousLesMatchesDunCoachParAnneeTest extends KernelTestCase
         $matchMock3 = $this->createMock(Matches::class);
 
         $equipeRepoMock = $this->getMockBuilder(Teams::class)
-            ->setMethods(['toutesLesEquipesDunCoachParAnnee'])
+            ->addMethods(['toutesLesEquipesDunCoachParAnnee'])
             ->getMock();
 
         $equipeRepoMock->method('toutesLesEquipesDunCoachParAnnee')->willReturnOnConsecutiveCalls(
@@ -128,7 +134,7 @@ class tousLesMatchesDunCoachParAnneeTest extends KernelTestCase
         );
 
         $matchRepoMock = $this->getMockBuilder(Matches::class)
-            ->setMethods(['listeDesMatchs'])
+            ->addMethods(['listeDesMatchs'])
             ->getMock();
 
         $matchRepoMock->method('listeDesMatchs')->willReturnOnConsecutiveCalls(
@@ -173,7 +179,7 @@ class tousLesMatchesDunCoachParAnneeTest extends KernelTestCase
             "2018 - 2019" => []
         ];
 
-        $test = $matchServiceTest->tousLesMatchesDunCoachParAnnee(0);
+        $test = $matchServiceTest->tousLesMatchesDunCoachParAnnee($coachMock);
 
         $this->assertEquals($retourAttendu, $test);
     }
@@ -183,6 +189,9 @@ class tousLesMatchesDunCoachParAnneeTest extends KernelTestCase
      */
     public function une_annee_est_vide(): void
     {
+        $coachMock = $this->createMock(Coaches::class);
+        $coachMock->method('getCoachId')->willReturn(0);
+
         $equipeMock0 = $this->createMock(Teams::class);
         $equipeMock0->method('getYear')->willReturn(0);
 
@@ -195,7 +204,7 @@ class tousLesMatchesDunCoachParAnneeTest extends KernelTestCase
         $matchMock3 = $this->createMock(Matches::class);
 
         $equipeRepoMock = $this->getMockBuilder(Teams::class)
-            ->setMethods(['toutesLesEquipesDunCoachParAnnee'])
+            ->addMethods(['toutesLesEquipesDunCoachParAnnee'])
             ->getMock();
 
         $equipeRepoMock->method('toutesLesEquipesDunCoachParAnnee')->willReturnOnConsecutiveCalls(
@@ -206,7 +215,7 @@ class tousLesMatchesDunCoachParAnneeTest extends KernelTestCase
         );
 
         $matchRepoMock = $this->getMockBuilder(Matches::class)
-            ->setMethods(['listeDesMatchs'])
+            ->addMethods(['listeDesMatchs'])
             ->getMock();
 
         $matchRepoMock->method('listeDesMatchs')->willReturnOnConsecutiveCalls(
@@ -249,7 +258,7 @@ class tousLesMatchesDunCoachParAnneeTest extends KernelTestCase
             "2018 - 2019" => []
         ];
 
-        $test = $matchServiceTest->tousLesMatchesDunCoachParAnnee(0);
+        $test = $matchServiceTest->tousLesMatchesDunCoachParAnnee($coachMock);
 
         $this->assertEquals($retourAttendu, $test);
     }
@@ -259,8 +268,11 @@ class tousLesMatchesDunCoachParAnneeTest extends KernelTestCase
      */
     public function il_n_y_a_pas_de_donnees(): void
     {
+        $coachMock = $this->createMock(Coaches::class);
+        $coachMock->method('getCoachId')->willReturn(0);
+
         $equipeRepoMock = $this->getMockBuilder(Teams::class)
-            ->setMethods(['toutesLesEquipesDunCoachParAnnee'])
+            ->addMethods(['toutesLesEquipesDunCoachParAnnee'])
             ->getMock();
 
         $equipeRepoMock->method('toutesLesEquipesDunCoachParAnnee')->willReturn(
@@ -288,7 +300,7 @@ class tousLesMatchesDunCoachParAnneeTest extends KernelTestCase
             "2018 - 2019" => []
         ];
 
-        $test = $matchServiceTest->tousLesMatchesDunCoachParAnnee(0);
+        $test = $matchServiceTest->tousLesMatchesDunCoachParAnnee($coachMock);
 
         $this->assertEquals($retourAttendu, $test);
     }
@@ -298,6 +310,9 @@ class tousLesMatchesDunCoachParAnneeTest extends KernelTestCase
      */
     public function il_y_a_plusieur_equipes_dans_une_annee(): void
     {
+        $coachMock = $this->createMock(Coaches::class);
+        $coachMock->method('getCoachId')->willReturn(0);
+
         $equipeMock0 = $this->createMock(Teams::class);
         $equipeMock0->method('getYear')->willReturn(0);
 
@@ -373,9 +388,8 @@ class tousLesMatchesDunCoachParAnneeTest extends KernelTestCase
             "2018 - 2019" => [$matchMock4]
         ];
 
-        $test = $matchServiceTest->tousLesMatchesDunCoachParAnnee(0);
+        $test = $matchServiceTest->tousLesMatchesDunCoachParAnnee($coachMock);
 
         $this->assertEquals($retourAttendu, $test);
     }
-
 }

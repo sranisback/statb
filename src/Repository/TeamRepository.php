@@ -1,6 +1,7 @@
 <?php
 namespace App\Repository;
 
+use App\Entity\Coaches;
 use App\Entity\Teams;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\DBALException;
@@ -175,10 +176,10 @@ FROM teams t
             ->getResult())/2;
     }
 
-    public function toutesLesEquipesDunCoachParAnnee($coachId, $annee)
+    public function toutesLesEquipesDunCoachParAnnee(Coaches $coach, $annee)
     {
         return $this->createQueryBuilder('Teams')
-            ->where('Teams.ownedByCoach =' . $coachId)
+            ->where('Teams.ownedByCoach =' . $coach->getCoachId())
             ->andWhere('Teams.year =' . $annee)
             ->getQuery()
             ->getResult();

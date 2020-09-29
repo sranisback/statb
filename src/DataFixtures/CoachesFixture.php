@@ -22,6 +22,24 @@ class CoachesFixture extends Fixture
         $manager->flush();
 
         $this->addReference(self::COACH_FIXTURE, $this->coachFixture);
+
+        return $this->coachFixture;
+    }
+
+    public function loadMultiCoach(ObjectManager $manager, $nombre)
+    {
+        for($compteur = 0; $compteur < $nombre; $compteur++){
+            $coach = new Coaches();
+            $coach->setName('test_' . $compteur);
+            $coach->setRoles(['role' => 'ROLE_USER']);
+
+            $coachFixtures[] = $coach;
+
+            $manager->persist($coach);
+            $manager->flush();
+        }
+
+        return $coachFixtures;
     }
 
     public function deleteFixture(ObjectManager $manager)

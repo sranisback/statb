@@ -56,8 +56,7 @@
             {% if ligne.equipe.retired == 1 %}
                 <td> Retirée</td>
             {% else %}
-                <td><span class="fas fa-times text-danger" teamId="{{ ligne.equipe.teamId }}"
-                          id="retire_{{ ligne.equipe.teamId }}"></span></td>
+                <td><a href="{{ path('retireEquipe', {'teamId': ligne.equipe.teamId }) }}"><span class="fas fa-times text-danger"></span></a></td>
             {% endif %}
             </tr>
         {% endfor %}
@@ -67,4 +66,4 @@
 <button type="button" id="showall_btn" class="btn btn-primary">
     Montrer les équipes retirées
 </button>
-{{ render(controller('App\\Controller\\EquipeController::choixRace' )) }}
+{{ render(controller('App\\Controller\\EquipeController::createTeam' )) }}

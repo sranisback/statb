@@ -327,7 +327,7 @@ $(document).ready(function () {
 
     /**
      * Recalcul Num
-     */
+     *//*
     $("#recalculNum").click(function () {
         let table = [];
         $('#teamBody tr').map(function () {
@@ -359,7 +359,7 @@ $(document).ready(function () {
                     });
             }
         });
-    });
+    });*/
 
     /**
      * cpt modal ajout de joueur
@@ -370,15 +370,6 @@ $(document).ready(function () {
 
     $("#addplayer").on('hide.bs.modal', function () {
         window.location.reload();
-    });
-
-    $("[id^='retire_']").click(function () {
-        let clicked = $(this).parent().parent();
-        $.post(Routing.generate('retTeam', {teamId: $(this).attr("teamId")}),
-            {},
-            function () {
-                clicked.addClass("danger hidden")
-            });
     });
 
     /*
@@ -460,19 +451,21 @@ $(document).ready(function () {
 
     /////admin
 
-    let routeName = 'updateEditable' + $('#Admin').attr('entity')
+    if ($('#Admin').attr('entity')) {
+        let routeName = 'updateEditable' + $('#Admin').attr('entity')
 
-    $('[id^=admin_]').editable({
-        mode: 'inline',
-        url: Routing.generate(routeName)
-    });
+        $('[id^=admin_]').editable({
+            mode: 'inline',
+            url: Routing.generate(routeName)
+        });
 
-    $('#Admin').DataTable({
-        "lengthChange": false,
-        "pageLength": 20,
-        "info": false,
-        "responsive": true
-    });
+        $('#Admin').DataTable({
+            "lengthChange": false,
+            "pageLength": 20,
+            "info": false,
+            "responsive": true
+        });
+    }
 });
 
 

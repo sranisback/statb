@@ -18,6 +18,8 @@ class CitationFixture extends Fixture
 
         $manager->persist($this->citationFixture);
         $manager->flush();
+
+        return $this->citationFixture;
     }
 
     public function deleteFixture(ObjectManager $manager)

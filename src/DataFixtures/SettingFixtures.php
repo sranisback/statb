@@ -18,6 +18,8 @@ class SettingFixtures extends Fixture
 
         $manager->persist($this->settingFixture);
         $manager->flush();
+
+        return $this->settingFixture;
     }
 
     public function deleteFixture(ObjectManager $manager)

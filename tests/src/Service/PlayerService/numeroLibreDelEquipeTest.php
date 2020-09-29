@@ -31,7 +31,7 @@ class numeroLibreDelEquipeTest extends KernelTestCase
         $joueur4->setNr(6);
 
         $joueurRepoMock = $this->getMockBuilder(Players::class)
-            ->setMethods(['listeDesJoueursPourlEquipe'])
+            ->addMethods(['listeDesJoueursPourlEquipe'])
             ->getMock();
         $joueurRepoMock->method('listeDesJoueursPourlEquipe')->willReturn(
             [$joueur0, $joueur1, $joueur2, $joueur3, $joueur4]

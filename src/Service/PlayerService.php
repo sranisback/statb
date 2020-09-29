@@ -708,7 +708,9 @@ class PlayerService
 
         if (!empty($fanFavourite)) {
             /** @var PlayersSkills $playersSkill */
-            $playersSkill = $this->doctrineEntityManager->getRepository(PlayersSkills::class)->findOneBy(['fPid' => $joueur->getPlayerId(), 'fSkill' => $fanFavourite->getSkillId()]);
+            $playersSkill = $this->doctrineEntityManager
+                ->getRepository(PlayersSkills::class)
+                ->findOneBy(['fPid' => $joueur->getPlayerId(), 'fSkill' => $fanFavourite->getSkillId()]);
         }
 
         return !empty($fanFavourite) && $playersSkill != false;

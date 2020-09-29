@@ -74,13 +74,17 @@ class SettingsService
     {
         $setting = $this->doctrineEntityManager->getRepository(Setting::class)->findOneBy(['name' => 'periodeDefis']);
 
-        return [
-            'debut' => DateTime::createFromFormat("m/d/Y", $setting->getValue()),
-            'fin' => DateTime::createFromFormat(
-                "d/m/Y",
-                date('d/m/Y', (int)strtotime($setting->getValue().'+2 months'))
-            ),
-        ];
+        if (isset($setting)) {
+            return [
+                'debut' => DateTime::createFromFormat("m/d/Y", $setting->getValue()),
+                'fin' => DateTime::createFromFormat(
+                    "d/m/Y",
+                    date('d/m/Y', (int)strtotime($setting->getValue().'+2 months'))
+                ),
+            ];
+        }
+
+        return [];
     }
 
     /**

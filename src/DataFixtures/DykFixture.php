@@ -17,6 +17,8 @@ class DykFixture extends Fixture
 
         $manager->persist($this->dykFixture);
         $manager->flush();
+
+        return $this->dykFixture;
     }
 
     public function deleteFixture(ObjectManager $manager)

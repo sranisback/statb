@@ -11,35 +11,25 @@ use App\Tests\src\Functionnal;
 
 class indexTest extends Functionnal
 {
-    private $settingFixture;
-    private $dykFixture;
-    private $coachFixture;
-    private $citationFixture;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->settingFixture = new SettingFixtures();
-        $this->settingFixture->load($this->entityManager);
-
-        $this->dykFixture = new DykFixture();
-        $this->dykFixture->load($this->entityManager);
-
-        $this->coachFixture = new CoachesFixture();
-        $this->coachFixture->setReferenceRepository($this->referenceRepo);
-        $this->coachFixture->load($this->entityManager);
-
-        $this->citationFixture = new CitationFixture();
-        $this->citationFixture->setReferenceRepository($this->referenceRepo);
-        $this->citationFixture->load($this->entityManager);
-    }
-
     /**
      * @test
      */
     public function l_admin_s_affiche_correctement()
     {
+        $settingFixture = new SettingFixtures();
+        $settingFixture->load($this->entityManager);
+
+        $dykFixture = new DykFixture();
+        $dykFixture->load($this->entityManager);
+
+        $coachFixture = new CoachesFixture();
+        $coachFixture->setReferenceRepository($this->referenceRepo);
+        $coachFixture->load($this->entityManager);
+
+        $citationFixture = new CitationFixture();
+        $citationFixture->setReferenceRepository($this->referenceRepo);
+        $citationFixture->load($this->entityManager);
+
         $this->client->request('GET', '/Admin');
 
         $this->assertResponseIsSuccessful();
