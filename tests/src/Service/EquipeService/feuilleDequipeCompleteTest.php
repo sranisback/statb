@@ -20,14 +20,19 @@ class feuilleDequipeCompleteTest extends TestCase
      */
     public function une_feuille_d_equipe_est_generee()
     {
-        $retourTableStat = [
-            'NbrMatch' => 0,
+        $pData  = [
+            'pid' => null,
+            'nbrm' => 0,
             'cp' => 0,
             'td' => 0,
             'int' => 0,
             'cas' => 0,
             'mvp' => 0,
-            'agg' => 0
+            'agg' => 0,
+            'skill' => '',
+            'spp' => 0,
+            'cost' => 50000,
+            'status' => ''
         ];
 
         $joueurMock0 = $this->createMock(Players::class);
@@ -46,10 +51,7 @@ class feuilleDequipeCompleteTest extends TestCase
         $settingServiceMock->method('anneeCourante')->willReturn(2);
 
         $playerServiceMock = $this->createMock(PlayerService::class);
-        $playerServiceMock->method('statsDuJoueur')->willReturn(['comp' => '', 'actions' => $retourTableStat]);
-        $playerServiceMock->method('xpDuJoueur')->willReturn(0);
-        $playerServiceMock->method('valeurDunJoueur')->willReturn(50000);
-        $playerServiceMock->method('statutDuJoueur')->willReturn('');
+        $playerServiceMock->method('ligneJoueur')->willReturn([$pData,$pData,$pData,$pData,$pData]);
         $playerServiceMock->method('coutTotalJoueurs')->willReturn(500000);
 
         $joueurRepoMock = $this->getMockBuilder(Players::class)
@@ -66,21 +68,6 @@ class feuilleDequipeCompleteTest extends TestCase
             $objectManager,
             $settingServiceMock
         );
-
-        $pData  = [
-            'pid' => null,
-            'nbrm' => 0,
-            'cp' => 0,
-            'td' => 0,
-            'int' => 0,
-            'cas' => 0,
-            'mvp' => 0,
-            'agg' => 0,
-            'skill' => '',
-            'spp' => 0,
-            'cost' => 50000,
-            'status' => ''
-        ];
 
         $attendu = [
             'players' => [$joueurMock0, $joueurMock1, $joueurMock2, $joueurMock3, $joueurMock4],

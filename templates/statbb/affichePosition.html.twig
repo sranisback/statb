@@ -1,0 +1,25 @@
+<table class="table" id="pos_table">
+    <thead>
+    <tr>
+        <th>Quantité</th>
+        <th>MA</th>
+        <th>ST</th>
+        <th>AG</th>
+        <th>AV</th>
+        <th>Comp</th>
+        <th>Cost</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>0 - {{ position.qty }}</td>
+        <td>{{ position.ma }}</td>
+        <td>{{ position.st }}</td>
+        <td>{{ position.ag }}</td>
+        <td>{{ position.av }}</td>
+        <td>{{ competence|raw }}</td>
+        <td>{{ position.cost }}</td>
+    </tr>
+    </tbody>
+</table>

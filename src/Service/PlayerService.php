@@ -17,6 +17,7 @@ use App\Enum\BlessuresEnum;
 use App\Factory\PlayerFactory;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class PlayerService
 {
@@ -144,7 +145,7 @@ class PlayerService
         $coutTotal = 0;
         $listCompGagnee = '';
 
-        if ($compSupplementaire !== []) {
+        if ($compSupplementaire !== false) {
             foreach ($compSupplementaire as $comp) {
                 if ($comp->getType() == 'N') {
                     $coutTotal += 20_000;
@@ -691,7 +692,8 @@ class PlayerService
         $disposable = $this->doctrineEntityManager
             ->getRepository(GameDataSkills::class)->findOneBy(['name' => 'Disposable']);
 
-        return !empty($disposable) && in_array($disposable->getSkillId(), explode(',', $joueur->getFPos()->getSkills()));
+        return !empty($disposable) &&
+            in_array($disposable->getSkillId(), explode(',', $joueur->getFPos()->getSkills()));
     }
 
     /**
@@ -714,5 +716,104 @@ class PlayerService
         }
 
         return !empty($fanFavourite) && $playersSkill != false;
+    }
+
+    /**
+     * @param Players $players
+     * @param PlayerService $playerService
+     * @return array
+     */
+    public function ligneJoueur(Array $players): array
+    {
+        $count = 0;
+
+        /** @var Players $joueur */
+        if (!empty($players)) {
+            foreach ($players as $joueur) {
+                $ficheJoueur = $this->statsDuJoueur($joueur);
+
+                $pdata[$count]['pid'] = $joueur->getPlayerId();
+                $pdata[$count]['nbrm'] = $ficheJoueur['actions']['NbrMatch'];
+                $pdata[$count]['cp'] = $ficheJoueur['actions']['cp'];
+                $pdata[$count]['td'] = $ficheJoueur['actions']['td'];
+                $pdata[$count]['int'] = $ficheJoueur['actions']['int'];
+                $pdata[$count]['cas'] = $ficheJoueur['actions']['cas'];
+                $pdata[$count]['mvp'] = $ficheJoueur['actions']['mvp'];
+                $pdata[$count]['agg'] = $ficheJoueur['actions']['agg'];
+                $pdata[$count]['skill'] = $ficheJoueur['comp'];
+                $pdata[$count]['spp'] = $this->xpDuJoueur($joueur);
+                $pdata[$count]['cost'] = $this->valeurDunJoueur($joueur);
+                $pdata[$count]['status'] = $this->statutDuJoueur($joueur);
+
+                if (!$joueur->getName()) {
+                    $joueur->setName('Inconnu');
+                }
+
+                $count++;
+            }
+            return $pdata;
+        }
+        return [];
+    }
+
+    /**
+     * @param Players $joueur
+     * @return array
+     */
+    public function listesDesActionsDunJoueurParMatches(
+        Players $joueur
+    ): array {
+        $listeMatches = $this->doctrineEntityManager->getRepository(MatchData::class)->listeDesMatchsdUnJoueur($joueur);
+        $count = 0;
+
+        if (!empty($listeMatches)) {
+            foreach ($listeMatches as $match) {
+                $msdata[$count]["mId"] = $match->getMatchId();
+                if (!empty($joueur)) {
+                    $actions = $this->actionDuJoueurDansUnMatch($match, $joueur);
+                }
+                $msdata[$count]["data"] = !empty($actions) ? substr($actions, 0, strlen($actions) - 2) : '';
+
+                $count++;
+            }
+        }
+
+        if ($count === 0) {
+            $msdata[$count]["mId"] = 0;
+            $msdata[$count]["data"] = '';
+        }
+        return array($listeMatches, $msdata);
+    }
+
+
+    /**
+     * @param $request
+     * @param $joueurId
+     */
+    public function uploadPhotoJoueur($request, Players $joueur, $photoDirectory): void
+    {
+        $form = $request->files->all();
+
+        /** @var UploadedFile $photo */
+        $photo = $form['joueur_photo_envoi']['photo'];
+        $photo->move($photoDirectory, $photo->getClientOriginalName());
+
+        $joueur->setPhoto($photo->getClientOriginalName());
+
+        $this->doctrineEntityManager->persist($joueur);
+        $this->doctrineEntityManager->flush();
+
+        $this->doctrineEntityManager->refresh($joueur);
+    }
+
+    /**
+     * @param GameDataPlayers $position
+     */
+    public function competencesDunePositon(GameDataPlayers $position)
+    {
+        $competences = $this->listeDesCompdUnePosition($position);
+        $competences = substr($competences, 0, strlen($competences) - 2);
+
+        return $competences;
     }
 }

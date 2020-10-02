@@ -32,7 +32,7 @@ class ToutesLesEquipesPourLeClassementGeneralTest extends TestCase
         $equipeMock3->method('getTeamId')->willReturn(3);
 
         $matchRepoMock = $this->getMockBuilder(Matches::class)
-            ->setMethods(['listeDesMatchs'])
+            ->addMethods(['listeDesMatchs'])
             ->getMock();
 
         $matchRepoMock->method('listeDesMatchs')->willReturn(

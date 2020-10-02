@@ -36,7 +36,7 @@ class renvoisOuSuppressionJoueurTest extends TestCase
         $matchDataTest->setFPlayer($playerTest);
 
         $matchDataRepoMock = $this->getMockBuilder(Players::class)
-            ->setMethods(['listeDesMatchsdUnJoueur'])
+            ->addMethods(['listeDesMatchsdUnJoueur'])
             ->getMock();
         $matchDataRepoMock->method('listeDesMatchsdUnJoueur')->willReturn(
             [$matchDataTest]

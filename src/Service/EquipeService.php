@@ -699,7 +699,7 @@ class EquipeService
             ->getRepository(Players::class)
             ->listeDesJoueursPourlEquipe($equipe);
 
-        $pdata = $this->ligneJoueur($players, $playerService);
+        $pdata = $playerService->ligneJoueur($players);
 
         $tdata = $this->calculsInducementEquipe($equipe, $playerService);
 
@@ -711,44 +711,6 @@ class EquipeService
             'annee' => $this->settingsService->anneeCourante(),
             'niveauStade' => (new NiveauStadeEnum)->numeroVersNiveauDeStade()
         ];
-    }
-
-    /**
-     * @param Players $players
-     * @param PlayerService $playerService
-     * @return array
-     */
-    public function ligneJoueur(Array $players, PlayerService $playerService): array
-    {
-        $count = 0;
-
-        /** @var Players $joueur */
-        if (!empty($players)) {
-            foreach ($players as $joueur) {
-                $ficheJoueur = $playerService->statsDuJoueur($joueur);
-
-                $pdata[$count]['pid'] = $joueur->getPlayerId();
-                $pdata[$count]['nbrm'] = $ficheJoueur['actions']['NbrMatch'];
-                $pdata[$count]['cp'] = $ficheJoueur['actions']['cp'];
-                $pdata[$count]['td'] = $ficheJoueur['actions']['td'];
-                $pdata[$count]['int'] = $ficheJoueur['actions']['int'];
-                $pdata[$count]['cas'] = $ficheJoueur['actions']['cas'];
-                $pdata[$count]['mvp'] = $ficheJoueur['actions']['mvp'];
-                $pdata[$count]['agg'] = $ficheJoueur['actions']['agg'];
-                $pdata[$count]['skill'] = $ficheJoueur['comp'];
-                $pdata[$count]['spp'] = $playerService->xpDuJoueur($joueur);
-                $pdata[$count]['cost'] = $playerService->valeurDunJoueur($joueur);
-                $pdata[$count]['status'] = $playerService->statutDuJoueur($joueur);
-
-                if (!$joueur->getName()) {
-                    $joueur->setName('Inconnu');
-                }
-
-                $count++;
-            }
-            return $pdata;
-        }
-        return [];
     }
 
     /**

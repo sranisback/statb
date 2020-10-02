@@ -68,15 +68,15 @@
                     {% endif %}
                     <tr>
                         <td>Spp :</td>
-                        <td>{{ pdata.spp }}</td>
+                        <td>{{ pdata[0].spp }}</td>
                     </tr>
                     <tr>
                         <td>Nbr de matchs :</td>
-                        <td>{{ pdata.nbrm }}</td>
+                        <td>{{ pdata[0].nbrm }}</td>
                     </tr>
                     <tr>
                         <td>Salaire :</td>
-                        <td>{{ pdata.cost }}</td>
+                        <td>{{ pdata[0].cost }}</td>
                     </tr>
                     <tr>
                         <td colspan=2>
@@ -131,13 +131,13 @@
                                     {% else %}
                                         <td>{{ player.fpos.av + player.achAv - player.injAv }}</td>
                                     {% endif %}
-                                    <td>{{ pdata.skill|raw }}</td>
-                                    <td>{{ pdata.cp }}</td>
-                                    <td>{{ pdata.td }}</td>
-                                    <td>{{ pdata.int }}</td>
-                                    <td>{{ pdata.cas }}</td>
-                                    <td>{{ pdata.mvp }}</td>
-                                    <td>{{ pdata.agg }}</td>
+                                    <td>{{ pdata[0].skill|raw }}</td>
+                                    <td>{{ pdata[0].cp }}</td>
+                                    <td>{{ pdata[0].td }}</td>
+                                    <td>{{ pdata[0].int }}</td>
+                                    <td>{{ pdata[0].cas }}</td>
+                                    <td>{{ pdata[0].mvp }}</td>
+                                    <td>{{ pdata[0].agg }}</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -180,21 +180,7 @@
                 </div>
                 {% if app.user == player.ownedByTeam.ownedByCoach %}
                 <div class="d-flex">
-                    <button type="button" class="btn btn-primary" data-toggle="modal"
-                            data-target="#modal_uploadLogo">
-                        Uploader une photo
-                    </button>
-                    <div class="modal fade" id="modal_uploadLogo">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-body">
-                                    {{ form_start(form , {'action': path('uploadPhoto',{'joueurId': player.playerId})}) }}
-                                    {{ form_row(form.photo,{'attr' : {'accept' : '.png, .jpg'}}) }}
-                                    {{ form_end(form) }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {{ render(controller('App\\Controller\\JoueurController::uploadPhoto', {'joueurId' : player.playerId} )) }}
                 </div>
                 {%  endif %}
             </div>
