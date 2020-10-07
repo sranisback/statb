@@ -127,12 +127,6 @@ $(document).ready(function () {
         "order": [[7, "asc"], [0, "asc"]]
     });
 
-    function stripHtml(html) {
-        var temporalDivElement = document.createElement("div");
-        temporalDivElement.innerHTML = html;
-        return temporalDivElement.textContent || temporalDivElement.innerText || "";
-    }
-
     /*
      * retirer prime
      */
