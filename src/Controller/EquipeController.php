@@ -217,7 +217,6 @@ class EquipeController extends AbstractController
         int $teamId,
         string $type
     ): \Symfony\Component\HttpFoundation\JsonResponse {
-
         return TransformeEnJSON::transforme(
             $equipeService->gestionInducement($teamId, $action, $type, $playerService)
         );
@@ -279,7 +278,7 @@ class EquipeController extends AbstractController
         $form = $this->createForm(CreerStadeType::class, $stade);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $stadeService->creerStade($request, $equipe);
 
             return $this->redirectToRoute('team', ['teamid' => $equipe->getTeamId()]);
