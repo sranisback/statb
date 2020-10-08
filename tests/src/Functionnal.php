@@ -3,9 +3,9 @@
 
 namespace App\Tests\src;
 
-
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\Common\DataFixtures\ReferenceRepository;
+use Doctrine\ORM\Tools\SchemaTool;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class Functionnal extends WebTestCase
@@ -23,9 +23,10 @@ class Functionnal extends WebTestCase
         $doctrine = $container->get('doctrine');
         $this->entityManager = $doctrine->getManager();
 
-        $purger = new ORMPurger($this->entityManager);
-        $purger->setPurgeMode(1);
-        $purger->purge();
+        $schemaTool = new SchemaTool($this->entityManager);
+        $metadata = $this->entityManager->getMetadataFactory()->getAllMetadata();
+        $schemaTool->dropSchema($metadata);
+        $schemaTool->createSchema($metadata);
 
         $this->referenceRepo = new ReferenceRepository($this->entityManager);
     }
@@ -35,7 +36,7 @@ class Functionnal extends WebTestCase
         parent::tearDown();
 
         $purger = new ORMPurger($this->entityManager);
-        $purger->setPurgeMode(1);
+        $purger->setPurgeMode(ORMPurger::PURGE_MODE_DELETE);
         $purger->purge();
     }
 }

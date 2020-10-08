@@ -153,11 +153,10 @@ class ClassementController extends AbstractController
 
     /**
      * @Route("/tousLesMatchesPourEquipe/{equipeId}")
-     * @param ClassementService $classementService
      * @param integer $equipeId
      * @return Response
      */
-    public function tousLesMatchesPourEquipe(ClassementService $classementService, int $equipeId)
+    public function tousLesMatchesPourEquipe(int $equipeId)
     : \Symfony\Component\HttpFoundation\Response
     {
         return $this->render(
