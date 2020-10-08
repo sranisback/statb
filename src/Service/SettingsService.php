@@ -43,9 +43,13 @@ class SettingsService
     {
         $citations = $this->doctrineEntityManager->getRepository(Citations::class)->findAll();
 
-        $nbrAuHasard = rand(1, count($citations) - 1);
+        if($citations !== false) {
+            $nbrAuHasard = rand(0, count($citations) - 1);
 
-        return  $citations[$nbrAuHasard];
+            return  $citations[$nbrAuHasard];
+        }
+
+        return new Citations();
     }
 
     /**
@@ -55,9 +59,12 @@ class SettingsService
     {
         $dyk = $this->doctrineEntityManager->getRepository(Dyk::class)->findAll();
 
-        $nbrAuHasard = rand(1, count($dyk) - 1);
+        if ( $dyk !== false) {
+            $nbrAuHasard = rand(0, count($dyk) - 1);
 
-        return '<b>Did you know ?</b> <i>'.$dyk[$nbrAuHasard]->getDykText().'</i>';
+            return '<b>Did you know ?</b> <i>'.$dyk[$nbrAuHasard]->getDykText().'</i>';
+        }
+        return '<b>Did you know ?</b> <i>Dyk vide</i>';
     }
 
     /**
@@ -67,13 +74,17 @@ class SettingsService
     {
         $setting = $this->doctrineEntityManager->getRepository(Setting::class)->findOneBy(['name' => 'periodeDefis']);
 
-        return [
-            'debut' => DateTime::createFromFormat("m/d/Y", $setting->getValue()),
-            'fin' => DateTime::createFromFormat(
-                "d/m/Y",
-                date('d/m/Y', (int)strtotime($setting->getValue().'+2 months'))
-            ),
-        ];
+        if (isset($setting)) {
+            return [
+                'debut' => DateTime::createFromFormat("m/d/Y", $setting->getValue()),
+                'fin' => DateTime::createFromFormat(
+                    "d/m/Y",
+                    date('d/m/Y', (int)strtotime($setting->getValue().'+2 months'))
+                ),
+            ];
+        }
+
+        return [];
     }
 
     /**

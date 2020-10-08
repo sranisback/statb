@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Races;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
@@ -19,7 +20,15 @@ class CreerEquipeType extends AbstractType
             ->add(
                 'fRace',
                 EntityType::class,
-                ['class'=> Races::class,'choice_label' =>'name','label'=>'Choisir une Race']
+                [
+                    'class'=> Races::class,
+                    'query_builder' => function (EntityRepository $entityRepository) {
+                        return $entityRepository
+                            ->createQueryBuilder('Race')
+                            ->orderBy('Race.name', 'ASC');
+                    },
+                    'choice_label' =>'name',
+                    'label'=>'Choisir une Race']
             )
             ->add('submit', SubmitType::class, ['label' => 'Créer'])
             ->add('cancel', ButtonType::class, ['label'=>'Annuler','attr'=>['data-dismiss'=>'modal']])

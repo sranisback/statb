@@ -22,10 +22,10 @@
                 {{ render(controller('App\\Controller\\EquipeController::showUserTeams' )) }}
             </div>
             <div id="AnciensMatchs" class="tab-pane fade show">
-                {{ render(controller('App\\Controller\\MatchController::matchsDunCoach',{'coachActif':app.user.coachId})) }}
+                {{ render(controller('App\\Controller\\MatchController::matchsDunCoach')) }}
             </div>
             <div id="AncienneEquipes" class="tab-pane fade show">
-                {{ render(controller('App\\Controller\\EquipeController::montreLesAnciennesEquipes',{'coachActif':app.user.coachId})) }}
+                {{ render(controller('App\\Controller\\EquipeController::montreLesAnciennesEquipes',{'coachActif':app.user})) }}
             </div>
             <div id="confrontations" class="tab-pane fade show">
                 {{ render(controller('App\\Controller\\ClassementController::afficheConfrontation')) }}

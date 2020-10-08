@@ -12,11 +12,16 @@ use App\Entity\Stades;
 use App\Entity\Teams;
 use App\Entity\Matches;
 
+use App\Enum\AnneeEnum;
+use App\Enum\NiveauStadeEnum;
 use App\Factory\PlayerFactory;
 use App\Factory\TeamsFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use Nette\Utils\DateTime;
-
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Gumlet\ImageResize;
 class EquipeService
 {
 
@@ -160,9 +165,9 @@ class EquipeService
      * @param string $teamname
      * @param int $coachid
      * @param int $raceid
-     * @return int
+     * @return int|null
      */
-    public function createTeam(string $teamname, int $coachid, int $raceid): int
+    public function createTeam(string $teamname, int $coachid, int $raceid)
     {
         $race = $this->doctrineEntityManager->getRepository(Races::class)->findOneBy(['raceId' => $raceid]);
         $coach = $this->doctrineEntityManager->getRepository(Coaches::class)->findOneBy(array('coachId' => $coachid));
@@ -195,7 +200,7 @@ class EquipeService
             return $equipeId;
         }
 
-        return 0;
+        return null;
     }
 
     /**
@@ -454,7 +459,7 @@ class EquipeService
      * @param int $annee
      * @return mixed[]
      */
-    public function listeDesAnciennesEquipes(int $coachActif, int $annee): array
+    public function listeDesAnciennesEquipes(Coaches $coachActif, int $annee): array
     {
         $anciennesEquipes = [];
 
@@ -633,5 +638,191 @@ class EquipeService
             'penalite' => 0
         ]
             ;
+    }
+
+    public function compileLesEquipes(Coaches $coachActif)
+    {
+        $annee = $this->settingsService->anneeCourante();
+
+        $etiquetteAnne = (new AnneeEnum)->numeroToAnnee();
+
+        $compilEquipes = [];
+
+        /** @var Teams $equipe */
+        foreach ($this->listeDesAnciennesEquipes($coachActif, $annee) as $equipe) {
+            $compilEquipes[] = [
+                'equipe' => $equipe,
+                'resultats' => $this->resultatsEtDetailsDeLequipe(
+                    $equipe,
+                    $this->doctrineEntityManager->getRepository(Matches::class)->listeDesMatchs($equipe)
+                ),
+                'annee' => $etiquetteAnne[$equipe->getYear()],
+            ];
+        }
+
+        return $compilEquipes;
+    }
+
+    public function compileEquipesAnneeEnCours(Coaches $coach)
+    {
+        $annee = $this->settingsService->anneeCourante();
+
+        $equipesEtResultatsDuCoach = [];
+
+        foreach ($this->doctrineEntityManager->getRepository(Teams::class)->toutesLesEquipesDunCoachParAnnee(
+            $coach,
+            $annee
+        ) as $equipe) {
+            $equipesEtResultatsDuCoach[] = [
+                'equipe' => $equipe,
+                'resultats' => $this->resultatsEtDetailsDeLequipe(
+                    $equipe,
+                    $this->doctrineEntityManager->getRepository(Matches::class)->listeDesMatchs($equipe)
+                )
+            ];
+        }
+
+        return $equipesEtResultatsDuCoach;
+    }
+
+    /**
+     * @param Teams $equipe
+     * @param PlayerService $playerService
+     * @return array
+     */
+    public function feuilleDequipeComplete(Teams $equipe, PlayerService $playerService)
+    {
+        $pdata = [];
+
+        /** @var Players $players */
+        $players = $this->doctrineEntityManager
+            ->getRepository(Players::class)
+            ->listeDesJoueursPourlEquipe($equipe);
+
+        $pdata = $playerService->ligneJoueur($players);
+
+        $tdata = $this->calculsInducementEquipe($equipe, $playerService);
+
+        return  [
+            'players' => $players,
+            'team' => $equipe,
+            'pdata' => $pdata,
+            'tdata' => $tdata,
+            'annee' => $this->settingsService->anneeCourante(),
+            'niveauStade' => (new NiveauStadeEnum)->numeroVersNiveauDeStade()
+        ];
+    }
+
+    /**
+     * @param Teams $equipe
+     * @param PlayerService $playerService
+     * @return mixed
+     */
+    public function calculsInducementEquipe(Teams $equipe, PlayerService $playerService)
+    {
+        $inducement = $this->valeurInducementDelEquipe($equipe);
+
+        $tdata['playersCost'] = $playerService->coutTotalJoueurs($equipe);
+        $tdata['rerolls'] = $inducement['rerolls'];
+        $tdata['pop'] = $inducement['pop'];
+        $tdata['asscoaches'] = $inducement['asscoaches'];
+        $tdata['cheerleader'] = $inducement['cheerleader'];
+        $tdata['apo'] = $inducement['apo'];
+        $tdata['tv'] = $this->tvDelEquipe($equipe, $playerService);
+        return $tdata;
+    }
+
+    /**
+     * @param Request $request
+     * @param $logoDirectory
+     * @param Teams $equipe
+     * @throws \Gumlet\ImageResizeException
+     */
+    public function enregistreLogo(Request $request, $logoDirectory, Teams $equipe)
+    {
+        $logoUpload = $request->files->all();
+
+        /** @var UploadedFile $logo */
+        $logo = $logoUpload['logo_envoi']['logo'];
+
+        $logo->move($logoDirectory, $logo->getClientOriginalName());
+
+        $image = new ImageResize($logoDirectory . '/' . $logo->getClientOriginalName());
+        $image->resizeToBestFit(200, 114);
+        $image->save($logoDirectory. '/' . $logo->getClientOriginalName());
+
+        $equipe->setLogo($logo->getClientOriginalName());
+
+        $this->doctrineEntityManager->persist($equipe);
+        $this->doctrineEntityManager->flush();
+
+        $this->doctrineEntityManager->refresh($equipe);
+    }
+
+    /**
+     * @param int $teamId
+     * @param string $action
+     * @param string $type
+     * @param PlayerService $playerService
+     * @return array
+     */
+    public function gestionInducement(
+        int $teamId,
+        string $action,
+        string $type,
+        PlayerService $playerService
+    ): array {
+        /** @var Teams $equipe */
+        $equipe = $this->doctrineEntityManager
+            ->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
+
+        if ($action === 'add') {
+            $coutEtnbr = $this->ajoutInducement($equipe, $type, $playerService);
+        } else {
+            $coutEtnbr = $this->supprInducement($equipe, $type, $playerService);
+        }
+        $tv = $this->tvDelEquipe($equipe, $playerService);
+
+        return [
+            "tv" => $tv,
+            "ptv" => $tv / 1_000,
+            "tresor" => $equipe->getTreasury(),
+            "inducost" => $coutEtnbr['inducost'],
+            "type" => $type,
+            "nbr" => $coutEtnbr['nbr'],
+        ];
+    }
+
+    /**
+     * @param Teams $equipe
+     * @param $logoDirectory
+     */
+    public function supprimerLogo(Teams $equipe, $logoDirectory)
+    {
+        $fileSystem = new Filesystem();
+        $fileSystem->remove( $logoDirectory . '/' . $equipe->getLogo());
+
+        $equipe->setLogo(null);
+
+        $this->doctrineEntityManager->persist($equipe);
+        $this->doctrineEntityManager->flush();
+
+        $this->doctrineEntityManager->refresh($equipe);
+    }
+
+    /**
+     * @param Teams $equipe
+     */
+    public function mettreEnFranchise(Teams $equipe)
+    {
+        if ($equipe->getFranchise() == false) {
+            $equipe->setFranchise(true);
+        } else {
+            $equipe->setFranchise(false);
+        }
+
+        $this->doctrineEntityManager->persist($equipe);
+        $this->doctrineEntityManager->flush();
+        $this->doctrineEntityManager->refresh($equipe);
     }
 }

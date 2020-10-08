@@ -25,17 +25,19 @@ class DefisIhmController extends AbstractController
         Request $request,
         DefisService $defisService,
         SettingsService $settingService
-        ): \Symfony\Component\HttpFoundation\Response {
+    ): \Symfony\Component\HttpFoundation\Response {
         $defis = new Defis();
 
         $form = $this->createForm(AjoutDefisType::class, $defis);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $datas = $request->request->get('ajout_defis');
 
             /** @var Teams $equipe */
-            $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $datas['equipeOrigine']]);
+            $equipe = $this->getDoctrine()
+                ->getRepository(Teams::class)
+                ->findOneBy(['teamId' => $datas['equipeOrigine']]);
 
             if (!empty($equipe)) {
                 if ($defisService->defiAutorise(
@@ -52,11 +54,13 @@ class DefisIhmController extends AbstractController
             return $this->redirectToRoute('frontUser');
         }
 
-        return $this->render('statbb/addDefis.html.twig',
+        return $this->render(
+            'statbb/addDefis.html.twig',
             [
                 'form' => $form->createView(),
                 'defis' => $defis
-            ]);
+            ]
+        );
     }
 
     /**
@@ -86,11 +90,13 @@ class DefisIhmController extends AbstractController
     {
         $periode = $settingsService->periodeDefisCourrante();
 
-        if ($periode['debut'] != false && $periode['fin'] != false) {
-            return new Response($periode['debut']->format('d/m/Y') . ' - ' . $periode['fin']->format('d/m/Y'));
+        if (!empty($periode)) {
+            if ($periode['debut'] != false && $periode['fin'] != false) {
+                return new Response($periode['debut']->format('d/m/Y') . ' - ' . $periode['fin']->format('d/m/Y'));
+            }
         }
 
-        return new Response('Error');
+        return new Response('Periode defis pas configurée/abscente !');
     }
 
     /**
@@ -99,7 +105,7 @@ class DefisIhmController extends AbstractController
      * @param int $defisId
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function supprimerPrime(DefisService $defisService, int $defisId)
+    public function supprimerDefis(DefisService $defisService, int $defisId)
     : \Symfony\Component\HttpFoundation\RedirectResponse
     {
         if ($defisService->supprimerDefis($defisId) !== '') {

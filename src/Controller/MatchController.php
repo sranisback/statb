@@ -13,15 +13,12 @@ use App\Enum\NiveauStadeEnum;
 use App\Service\MatchesService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
+use App\Tools\TransformeEnJSON;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 
 class MatchController extends AbstractController
 {
@@ -49,23 +46,7 @@ class MatchController extends AbstractController
             ),
         ];
 
-        return self::transformeEnJson($response);
-    }
-
-    /**
-     * @param  mixed $response
-     * @return JsonResponse
-     */
-    public static function transformeEnJson($response): JsonResponse
-    {
-        $encoders = array(new XmlEncoder(), new JsonEncoder());
-        $normalizers = array(new ObjectNormalizer());
-
-        $serializer = new Serializer($normalizers, $encoders);
-
-        $jsonContent = $serializer->serialize($response, 'json');
-
-        return new JsonResponse($jsonContent);
+        return TransformeEnJSON::transforme($response);
     }
 
     /**
@@ -94,7 +75,7 @@ class MatchController extends AbstractController
             $this->addFlash('admin', 'Un defis a été réalisé');
         }
 
-        return self::transformeEnJson('ok');
+        return TransformeEnJSON::transforme('ok');
     }
 
     /**
@@ -149,17 +130,16 @@ class MatchController extends AbstractController
     }
 
     /**
-     * @Route("/anciensMatchs/{coachActif}", name="anciensMatchs" )
-     * @param int $coachActif
+     * @Route("/anciensMatchs", name="anciensMatchs" )
      * @return Response
      */
-    public function matchsDunCoach(MatchesService $matchesService, int $coachActif)
+    public function matchsDunCoach(MatchesService $matchesService)
     : \Symfony\Component\HttpFoundation\Response
     {
         return $this->render(
             'statbb/tabs/coach/anciensMatchs.html.twig',
             [
-                'listeMatchesParAns' => $matchesService->tousLesMatchesDunCoachParAnnee($coachActif),
+                'listeMatchesParAns' => $matchesService->tousLesMatchesDunCoachParAnnee($this->getUser()),
                 'EtiquettesAnnees' => (new AnneeEnum)->numeroToAnnee(),
             ]
         );

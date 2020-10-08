@@ -3,10 +3,9 @@
 namespace App\Service;
 
 use App\Entity\GameDataStadium;
-use App\Entity\Stades;
 use App\Entity\Teams;
 use Doctrine\ORM\EntityManagerInterface;
-use phpDocumentor\Reflection\Types\Integer;
+use Symfony\Component\HttpFoundation\Request;
 
 class StadeService
 {
@@ -85,6 +84,36 @@ class StadeService
         $this->doctrineEntityManager->persist($stade);
         $this->doctrineEntityManager->persist($equipe);
         $this->doctrineEntityManager->flush();
+
+        return true;
+    }
+
+    public function creerStade(Request $request, Teams $equipe)
+    {
+        $form = $request->request->get('creer_stade');
+
+        /** @var GameDataStadium $typeStade */
+        $typeStade = $this
+            ->doctrineEntityManager
+            ->getRepository(GameDataStadium::class)
+            ->findOneBy(['id' => $form['fTypeStade']]);
+
+        if ($form['niveau'] === '5') {
+            $this->emenagerResidence(
+                $equipe,
+                $form['nom'],
+                $typeStade
+            );
+
+            return true;
+        }
+
+        $this->construireStade(
+            $equipe,
+            $form['nom'],
+            $typeStade,
+            $form['niveau']
+        );
 
         return true;
     }

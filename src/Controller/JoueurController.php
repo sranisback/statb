@@ -4,8 +4,6 @@ namespace App\Controller;
 
 use App\Entity\GameDataPlayers;
 use App\Entity\GameDataSkills;
-use App\Entity\MatchData;
-use App\Entity\Matches;
 use App\Entity\Players;
 use App\Entity\PlayersSkills;
 use App\Entity\Teams;
@@ -16,36 +14,16 @@ use App\Service\AdminService;
 use App\Service\EquipeService;
 use App\Service\PlayerService;
 use App\Tools\randomNameGenerator;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use App\Tools\TransformeEnJSON;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Filesystem\Filesystem;
 
 class JoueurController extends AbstractController
 {
-    /**
-     * @param mixed $response
-     * @return JsonResponse
-     */
-    public static function transformeEnJson($response): JsonResponse
-    {
-        $encoders = array(new XmlEncoder(), new JsonEncoder());
-        $normalizers = array(new ObjectNormalizer());
-
-        $serializer = new Serializer($normalizers, $encoders);
-
-        $jsonContent = $serializer->serialize($response, 'json');
-
-        return new JsonResponse($jsonContent);
-    }
-
     /**
      * @Route("/player/{playerid}", name="Player")
      * @param int $playerid
@@ -54,105 +32,43 @@ class JoueurController extends AbstractController
      */
     public function showPlayer(int $playerid, PlayerService $playerService): \Symfony\Component\HttpFoundation\Response
     {
-        $msdata = [];
-        $pdata = [];
-        $mdata = '';
-
-        /** @var Players $joueur */
         $joueur = $this->getDoctrine()->getRepository(Players::class)->findOneBy(['playerId' => $playerid]);
 
-        $ficheJoueur = $playerService->statsDuJoueur($joueur);
-
-        $pdata['nbrm'] = $ficheJoueur['actions']['NbrMatch'];
-        $pdata['cp'] = $ficheJoueur['actions']['cp'];
-        $pdata['td'] = $ficheJoueur['actions']['td'];
-        $pdata['int'] = $ficheJoueur['actions']['int'];
-        $pdata['cas'] = $ficheJoueur['actions']['cas'];
-        $pdata['mvp'] = $ficheJoueur['actions']['mvp'];
-        $pdata['agg'] = $ficheJoueur['actions']['agg'];
-        $pdata['skill'] = substr($ficheJoueur['comp'], 0, strlen($ficheJoueur['comp']) - 2);
-        $pdata['spp'] = $playerService->xpDuJoueur($joueur);
-        $pdata['cost'] = $playerService->valeurDunJoueur($joueur);
-
-        if (!$joueur->getName()) {
-            $joueur->setName('Inconnu');
-        }
-
-        $listeMatches = $this->getDoctrine()->getRepository(MatchData::class)->listeDesMatchsdUnJoueur($joueur);
-        $count = 0;
-
-        if (!empty($listeMatches)) {
-            foreach ($listeMatches as $match) {
-                $msdata[$count]["mId"] = $match->getMatchId();
-                if (!empty($joueur)) {
-                    $actions = $playerService->actionDuJoueurDansUnMatch($match, $joueur);
-                }
-                $msdata[$count]["data"] = !empty($actions) ? substr($actions, 0, strlen($actions) - 2) : '';
-
-                $count++;
-            }
-        }
-
-        if ($count === 0) {
-            $msdata[$count]["mId"] = 0;
-            $msdata[$count]["data"] = '';
-        }
-
-        $form = $this->createForm(JoueurPhotoEnvoiType::class, $joueur);
+        list($listeMatches, $msdata) = $playerService->listesDesActionsDunJoueurParMatches($joueur);
 
         return $this->render(
             'statbb/player.html.twig',
             [
                 'player' => $joueur,
-                'pdata' => $pdata,
+                'pdata' => $playerService->ligneJoueur([$joueur]),
                 'matches' => $listeMatches,
-                'mdata' => $msdata,
-                'form' => $form->createView()
+                'mdata' => $msdata
             ]
         );
     }
 
     /**
      * @Route("/getposstat/{posId}", name="getposstat", options = { "expose" = true })
-     * @param PlayerService $playerService
      * @param int $posId
+     * @param PlayerService $playerService
      * @return Response
      */
-    public function getposstat(PlayerService $playerService, int $posId): \Symfony\Component\HttpFoundation\Response
+    public function getposstat(int $posId, PlayerService $playerService): \Symfony\Component\HttpFoundation\Response
     {
-        /** @var GameDataPlayers $position */
-        $position = $this->getDoctrine()->getRepository(GameDataPlayers::class)->findOneBy(['posId' => $posId]);
+        $position = $this->getDoctrine()
+            ->getManager()
+            ->getRepository(GameDataPlayers::class)
+            ->findOneBy(['posId' => $posId]);
 
-        $competences = $playerService->listeDesCompdUnePosition($position);
-        $competences = substr($competences, 0, strlen($competences) - 2);
+        $html = $this->render(
+            'statbb/affichePosition.html.twig',
+            [
+                'position' => $position,
+                'competence' => $playerService->competencesDunePositon($position)
+            ]
+        );
 
-        $render = '<table class="table" id="pos_table">
-                                <thead>
-                                    <tr>
-                                        <th>Quantité</th>
-                                        <th>MA</th>
-                                        <th>ST</th>
-                                        <th>AG</th>
-                                        <th>AV</th>
-                                        <th>Comp</th>
-                                        <th>Cost</th>
-
-                                    </tr>
-                                </thead>
-                            <tbody>
-                                    <tr>
-                                        <td>0 - ' . $position->getQty() . '</td>	
-                                        <td>' . $position->getMa() . '</td>										
-                                        <td>' . $position->getSt() . '</td>										
-                                        <td>' . $position->getAg() . '</td>										
-                                        <td>' . $position->getAv() . '</td>										
-                                        <td>' . $competences . '</td>
-                                        <td>' . $position->getCost() . '</td>	
-                                    </tr>
-                                </tbody>
-                            </table>';
-
-        return new Response($render);
+        return new response($html->getContent());
     }
 
     /**
@@ -174,9 +90,11 @@ class JoueurController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function addPlayer(PlayerService $playerService, EquipeService $equipeService, Request $request)
-    : \Symfony\Component\HttpFoundation\JsonResponse
-    {
+    public function addPlayer(
+        PlayerService $playerService,
+        EquipeService $equipeService,
+        Request $request
+    ): \Symfony\Component\HttpFoundation\JsonResponse {
         $donneesPourAjout = $request->request->all();
         $resultat = $playerService->ajoutJoueur(
             $donneesPourAjout['idPosition'],
@@ -247,7 +165,7 @@ class JoueurController extends AbstractController
             "reponse" => $reponse,
         ];
 
-        return self::transformeEnJson($response);
+        return TransformeEnJSON::transforme($response);
     }
 
     /**
@@ -256,9 +174,10 @@ class JoueurController extends AbstractController
      * @param int $playerId
      * @return JsonResponse
      */
-    public function remPlayer(PlayerService $playerService, int $playerId)
-    : \Symfony\Component\HttpFoundation\JsonResponse
-    {
+    public function remPlayer(
+        PlayerService $playerService,
+        int $playerId
+    ): \Symfony\Component\HttpFoundation\JsonResponse {
         $resultat[''] = '';
         /** @var Players $joueur */
         $joueur = $this->getDoctrine()->getRepository(Players::class)->findOneBy(['playerId' => $playerId]);
@@ -273,15 +192,17 @@ class JoueurController extends AbstractController
             "reponse" => $resultat['reponse'],
         );
 
-        return self::transformeEnJson($response);
+        return TransformeEnJSON::transforme($response);
     }
 
     /**
      * @Route("/changeNomEtNumero", name="changeNomEtNumero", options = { "expose" = true })
      * @return Response
      */
-    public function changeNomEtNumero(Request $request, AdminService $adminService): \Symfony\Component\HttpFoundation\Response
-    {
+    public function changeNomEtNumero(
+        Request $request,
+        AdminService $adminService
+    ): \Symfony\Component\HttpFoundation\Response {
         $adminService->traiteModification($request->request->all(), Players::class);
 
         return new Response();
@@ -353,9 +274,10 @@ class JoueurController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function genereNumero(PlayerService $playerService, Request $request)
-    : \Symfony\Component\HttpFoundation\Response
-    {
+    public function genereNumero(
+        PlayerService $playerService,
+        Request $request
+    ): \Symfony\Component\HttpFoundation\Response {
         $donnees = $request->request->all();
         /** @var Teams $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $donnees['equipeId']]);
@@ -370,27 +292,27 @@ class JoueurController extends AbstractController
      * @Route("/uploadPhoto/{joueurId}", name="uploadPhoto")
      * @param Request $request
      * @param int $joueurId
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function uploadPhoto(Request $request, int $joueurId): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function uploadPhoto(Request $request, int $joueurId, PlayerService $playerService)
     {
-        $form = $request->files->all();
-
-        /** @var UploadedFile $photo */
-        $photo = $form['joueur_photo_envoi']['photo'];
-        $photo->move($this->getParameter('photo_directory'), $photo->getClientOriginalName());
-
-        /** @var Players $joueur */
         $joueur = $this->getDoctrine()->getRepository(Players::class)->findOneBy(['playerId' => $joueurId]);
 
-        $joueur->setPhoto($photo->getClientOriginalName());
+        $form = $this->createForm(
+            JoueurPhotoEnvoiType::class,
+            $joueur
+        );
 
-        $this->getDoctrine()->getManager()->persist($joueur);
-        $this->getDoctrine()->getManager()->flush();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $playerService->uploadPhotoJoueur($request, $joueur, $this->getParameter('photo_directory'));
+            return $this->redirectToRoute('Player', ['playerid' => $joueur->getPlayerId()]);
+        }
 
-        $this->getDoctrine()->getManager()->refresh($joueur);
-
-        return $this->redirectToRoute('Player', ['playerid' => $joueur->getPlayerId()]);
+        return $this->render('statbb/addPhoto.html.twig', [
+                'joueur' => $joueur,
+                'form' => $form->createView()
+            ]
+        );
     }
 
     /**

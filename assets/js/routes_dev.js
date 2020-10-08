@@ -225,8 +225,8 @@ const routes_dev = {
             "methods": [],
             "schemes": []
         },
-        "app_equipe_retteam": {
-            "tokens": [["variable", "\/", "[^\/]++", "teamId"], ["text", "\/retTeam"]],
+        "retireEquipe": {
+            "tokens": [["variable", "\/", "[^\/]++", "teamId"], ["text", "\/retireEquipe"]],
             "defaults": [],
             "requirements": [],
             "hosttokens": [],

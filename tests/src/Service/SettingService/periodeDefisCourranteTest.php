@@ -35,4 +35,20 @@ class periodeDefisCourranteTest extends TestCase
             $periode['fin']
         );
     }
+
+    /**
+     * @test
+     */
+    public function il_n_y_a_pas_de_periode_configuree()
+    {
+        $settingRepoMock = $this->createMock(ObjectRepository::class);
+        $settingRepoMock->expects($this->any())->method('findOneBy')->willReturn(null);
+
+        $objectManager = $this->createMock(EntityManagerInterface::class);
+        $objectManager->expects($this->any())->method('getRepository')->willReturn($settingRepoMock);
+
+        $settingsService = new SettingsService($objectManager);
+
+        $this->assertEmpty($settingsService->periodeDefisCourrante());
+    }
 }

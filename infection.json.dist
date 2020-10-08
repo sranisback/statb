@@ -2,12 +2,15 @@
     "timeout": 10,
     "source": {
         "directories": [
-            "src\/",
-            "src\/kernel.php"
+            "src\/"
         ],
         "excludes": [
             "Entity",
-            "Repository"
+            "Repository",
+            "Migrations",
+            "Controller",
+            "DataFixtures",
+            "Enum"
         ]
     },
     "logs": {

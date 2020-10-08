@@ -10,9 +10,6 @@
                 Trésorerie restante : <span id="tresor2">{{ equipe.treasury }}</span>
             </div>
             <div class="modal-body">
-{#                <div>
-                    {{ render(controller('App\\Controller\\EquipeController::listeDesJoueurs',{'equipe' : equipe} )) }}
-                </div>#}
                 {{ form_start(form) }}
                 {{ form_errors(form) }}
                 {{ form_row(form.name, { 'id': 'player_futur_nom' }) }}

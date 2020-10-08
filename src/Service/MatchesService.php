@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Coaches;
 use App\Entity\GameDataStadium;
 use App\Entity\HistoriqueBlessure;
 use App\Entity\MatchData;
@@ -278,10 +279,10 @@ class MatchesService
     }
 
     /**
-     * @param int $coachId
+     * @param Coaches $coach
      * @return mixed[][]
      */
-    public function tousLesMatchesDunCoachParAnnee(int $coachId): array
+    public function tousLesMatchesDunCoachParAnnee(Coaches $coach): array
     {
         $anneeEnCours = $this->settingService->anneeCourante();
         $anneeEtiquette = (new AnneeEnum)->numeroToAnnee();
@@ -292,7 +293,7 @@ class MatchesService
         for ($x = 0; $x < $anneeEnCours; $x++) {
             $equipesParAnnees[$x] = $this->doctrineEntityManager->getRepository(
                 Teams::class
-            )->toutesLesEquipesDunCoachParAnnee($coachId, $x);
+            )->toutesLesEquipesDunCoachParAnnee($coach, $x);
         }
 
         foreach ($equipesParAnnees as $nbrAnnee => $listeEquipeDelAnnee) {
