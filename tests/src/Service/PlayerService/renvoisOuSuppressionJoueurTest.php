@@ -8,6 +8,7 @@ use App\Entity\MatchData;
 use App\Entity\Players;
 use App\Entity\Teams;
 use App\Service\EquipeService;
+use App\Service\InfosService;
 use App\Service\MatchDataService;
 use App\Service\PlayerService;
 use Doctrine\Persistence\ObjectRepository;
@@ -80,7 +81,8 @@ class renvoisOuSuppressionJoueurTest extends TestCase
         $playerServiceTest = new PlayerService(
             $objectManager,
             $equipeServiceMock,
-            $this->createMock(MatchDataService::class)
+            $this->createMock(MatchDataService::class),
+            $this->createMock(InfosService::class)
         );
 
         $reponseTest = [
@@ -155,7 +157,8 @@ class renvoisOuSuppressionJoueurTest extends TestCase
         $playerServiceTest = new PlayerService(
             $objectManager,
             $equipeServiceMock,
-            $this->createMock(MatchDataService::class)
+            $this->createMock(MatchDataService::class),
+            $this->createMock(InfosService::class)
         );
 
         $reponseTest = [

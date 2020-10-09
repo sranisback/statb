@@ -8,6 +8,7 @@ use App\Entity\GameDataSkills;
 use App\Entity\Players;
 use App\Entity\PlayersSkills;
 use App\Service\EquipeService;
+use App\Service\InfosService;
 use App\Service\MatchDataService;
 use App\Service\PlayerService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -61,7 +62,8 @@ class LeJoueurEstFanFavoriteTest extends TestCase
         $playerServiceTest = new PlayerService(
             $objectManager,
             $this->createMock(EquipeService::class),
-            $this->createMock(MatchDataService::class)
+            $this->createMock(MatchDataService::class),
+            $this->createMock(InfosService::class)
         );
 
         $this->assertTrue($playerServiceTest->leJoueurEstFanFavorite($joueurMock));
@@ -106,7 +108,8 @@ class LeJoueurEstFanFavoriteTest extends TestCase
         $playerServiceTest = new PlayerService(
             $objectManager,
             $this->createMock(EquipeService::class),
-            $this->createMock(MatchDataService::class)
+            $this->createMock(MatchDataService::class),
+            $this->createMock(InfosService::class)
         );
 
         $this->assertFalse($playerServiceTest->leJoueurEstFanFavorite($joueurMock));

@@ -8,6 +8,7 @@ use App\Entity\GameDataSkills;
 use App\Entity\Players;
 use App\Entity\PlayersSkills;
 use App\Service\EquipeService;
+use App\Service\InfosService;
 use App\Service\MatchDataService;
 use App\Service\PlayerService;
 use Doctrine\Persistence\ObjectRepository;
@@ -62,7 +63,8 @@ class toutesLesCompsdunJoueurTest extends TestCase
         $playerService = new PlayerService(
             $objectManager,
             $this->createMock(EquipeService::class),
-            $this->createMock(MatchDataService::class)
+            $this->createMock(MatchDataService::class),
+            $this->createMock(InfosService::class)
         );
 
         $retourAttendu = '<text class="test-primary">Test</text>, <text class="text-danger">Test</text>, ';
@@ -106,7 +108,8 @@ class toutesLesCompsdunJoueurTest extends TestCase
         $playerService = new PlayerService(
             $objectManager,
             $this->createMock(EquipeService::class),
-            $this->createMock(MatchDataService::class)
+            $this->createMock(MatchDataService::class),
+            $this->createMock(InfosService::class)
         );
 
         $this->assertEquals('', $playerService->toutesLesCompsdUnJoueur($joueurTest));

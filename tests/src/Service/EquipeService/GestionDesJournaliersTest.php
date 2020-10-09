@@ -9,8 +9,8 @@ use App\Entity\Players;
 use App\Entity\PlayersIcons;
 use App\Entity\Races;
 use App\Entity\Teams;
-use App\Service\ClassementService;
 use App\Service\EquipeService;
+use App\Service\InfosService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
 use Doctrine\Persistence\ObjectRepository;
@@ -139,7 +139,7 @@ class GestionDesJournaliersTest extends TestCase
         $equipeService = new EquipeService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(ClassementService::class)
+            $this->createMock(InfosService::class)
         );
 
         $retourTest['vendu'] = 1;
@@ -260,7 +260,7 @@ class GestionDesJournaliersTest extends TestCase
         $equipeService = new EquipeService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(ClassementService::class)
+            $this->createMock(InfosService::class)
         );
 
         $retourTest['ajout'] = 1;

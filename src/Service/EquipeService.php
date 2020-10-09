@@ -26,13 +26,15 @@ class EquipeService
 {
 
     /**
-     * @var \Doctrine\ORM\EntityManagerInterface
+     * @var EntityManagerInterface
      */
-    private \Doctrine\ORM\EntityManagerInterface $doctrineEntityManager;
+    private EntityManagerInterface $doctrineEntityManager;
     /**
-     * @var \App\Service\SettingsService
+     * @var SettingsService
      */
-    private \App\Service\SettingsService $settingsService;
+    private SettingsService $settingsService;
+
+    private InfosService $infoService;
 
     /**
      * @var int
@@ -62,8 +64,12 @@ class EquipeService
 
     private const MORTS_VIVANTS = 'Morts vivants';
 
-    public function __construct(EntityManagerInterface $doctrineEntityManager, SettingsService $settingsService)
-    {
+    public function __construct(
+        EntityManagerInterface $doctrineEntityManager,
+        SettingsService $settingsService,
+        InfosService $infoService
+    ) {
+        $this->infoService = $infoService;
         $this->doctrineEntityManager = $doctrineEntityManager;
         $this->settingsService = $settingsService;
     }
@@ -190,6 +196,8 @@ class EquipeService
             $race,
             $coach
         );
+
+        $this->infoService->infosEquipeEstCree($equipe);
 
         $this->doctrineEntityManager->persist($equipe);
         $this->doctrineEntityManager->flush();

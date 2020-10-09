@@ -5,6 +5,7 @@ namespace App\Tests\src\Service\PlayerService;
 use App\Entity\Players;
 use App\Entity\Teams;
 use App\Service\EquipeService;
+use App\Service\InfosService;
 use App\Service\MatchDataService;
 use App\Service\PlayerService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -45,7 +46,8 @@ class numeroLibreDelEquipeTest extends KernelTestCase
         $playerService = new PlayerService(
             $objectManager,
             $this->createMock(EquipeService::class),
-            $matchDataService
+            $matchDataService,
+            $this->createMock(InfosService::class)
         );
 
         $this->assertEquals(3, $playerService->numeroLibreDelEquipe($equipeMock));
