@@ -38,11 +38,11 @@ class CreationPrimeTest extends TestCase
         $objectManager->method('getRepository')->willReturn(
             $this->returnCallback(
                 function ($entityName) use ($playerRepoMock, $primeRepoMock) {
-                    if ($entityName === 'App\Entity\Players') {
+                    if ($entityName === Players::class) {
                         return $playerRepoMock;
                     }
 
-                    if ($entityName === 'App\Entity\Primes') {
+                    if ($entityName === Primes::class) {
                         return $primeRepoMock;
                     }
 
@@ -94,11 +94,11 @@ class CreationPrimeTest extends TestCase
         $objectManager->method('getRepository')->willReturn(
             $this->returnCallback(
                 function ($entityName) use ($playerRepoMock, $primeRepoMock) {
-                    if ($entityName === 'App\Entity\Players') {
+                    if ($entityName === Players::class) {
                         return $playerRepoMock;
                     }
 
-                    if ($entityName === 'App\Entity\Primes') {
+                    if ($entityName === Primes::class) {
                         return $primeRepoMock;
                     }
 
@@ -117,7 +117,6 @@ class CreationPrimeTest extends TestCase
             'players' => 1
         ];
 
-        /** @var Primes $prime */
         $prime = $primeService->creationPrime($datasDuForm);
 
         $this->assertEquals(40000, $prime->getMontant());
