@@ -13,13 +13,16 @@ use Doctrine\ORM\EntityManagerInterface;
 class DefisService
 {
     /**
-     * @var \Doctrine\ORM\EntityManagerInterface
+     * @var EntityManagerInterface
      */
-    private \Doctrine\ORM\EntityManagerInterface $doctrineEntityManager;
+    private EntityManagerInterface $doctrineEntityManager;
 
-    public function __construct(EntityManagerInterface $doctrineEntityManager)
+    public InfosService $infoService;
+
+    public function __construct(EntityManagerInterface $doctrineEntityManager, InfosService $infoService)
     {
         $this->doctrineEntityManager = $doctrineEntityManager;
+        $this->infoService = $infoService;
     }
 
     /**
@@ -39,6 +42,8 @@ class DefisService
 
         $this->doctrineEntityManager->persist($defis);
         $this->doctrineEntityManager->flush();
+
+        $this->infoService->defisEstLance($defis);
 
         return $defis;
     }

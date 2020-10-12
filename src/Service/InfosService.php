@@ -3,6 +3,7 @@
 
 namespace App\Service;
 
+use App\Entity\Defis;
 use App\Entity\Infos;
 use App\Entity\Matches;
 use App\Entity\Players;
@@ -88,7 +89,21 @@ class InfosService
     {
         return $this->publierUnMessage(
             $joueur->getName() . ', ' . $joueur->getFPos()->getPos() . ' '  . $joueur->getFRid()->getName() .
-            ' de <a href="/team/' . $joueur->getOwnedByTeam()->getTeamId() . '">' . $joueur->getOwnedByTeam()->getName() . '</a> est mort !'
+            ' de <a href="/team/' . $joueur->getOwnedByTeam()->getTeamId() . '">' .
+            $joueur->getOwnedByTeam()->getName() . '</a> est mort !'
+        );
+    }
+
+    /**
+     * @param Defis $defis
+     * @return Infos
+     */
+    public function defisEstLance(Defis $defis)
+    {
+        return $this->publierUnMessage(
+            '<a href="/team/' . $defis->getEquipeOrigine()->getTeamId() . '">' .
+            $defis->getEquipeOrigine()->getName() . '</a> défie <a href="/team/' .
+            $defis->getEquipeDefiee()->getTeamId() . '">' . $defis->getEquipeDefiee()->getName() . '</a>'
         );
     }
 }
