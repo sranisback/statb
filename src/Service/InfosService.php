@@ -7,6 +7,7 @@ use App\Entity\Defis;
 use App\Entity\Infos;
 use App\Entity\Matches;
 use App\Entity\Players;
+use App\Entity\Primes;
 use App\Entity\Teams;
 use Doctrine\ORM\EntityManagerInterface;
 use Nette\Utils\DateTime;
@@ -107,6 +108,10 @@ class InfosService
         );
     }
 
+    /**
+     * @param Defis $defis
+     * @return Infos
+     */
     public function defisRealise(Defis $defis)
     {
         return $this->publierUnMessage(
@@ -114,6 +119,28 @@ class InfosService
             $defis->getEquipeOrigine()->getName() . '</a> contre ' . '<a href="/team/' .
             $defis->getEquipeDefiee()->getTeamId() . '">' . $defis->getEquipeDefiee()->getName() .
             '</a> a été réalisé : <a href="/match/' . $defis->getMatchDefi()->getMatchId()  . '">Voir</a>'
+        );
+    }
+
+    /**
+     * @param Primes $prime
+     * @return Infos
+     */
+    public function primeMise(Primes $prime)
+    {
+        return $this->publierUnMessage(
+            $prime->getPlayers()->getName() . ', ' . $prime->getPlayers()->getFPos()->getPos() . ' ' .
+            $prime->getPlayers()->getFRid()->getName() . ' de ' . $prime->getPlayers()->getOwnedByTeam()->getName() .
+            ' a une prime de ' . $prime->getMontant() . ' Po'
+        );
+    }
+
+    public function primeGagnee(Primes $prime)
+    {
+        return $this->publierUnMessage(
+            $prime->getEquipePrime()->getName() . ' a touché la prime de ' . $prime->getMontant() . 'Po sur ' .
+            $prime->getPlayers()->getName()  . ', ' . $prime->getPlayers()->getFPos()->getPos() . ' ' .
+            $prime->getPlayers()->getFRid()->getName()
         );
     }
 }
