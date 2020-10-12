@@ -106,4 +106,14 @@ class InfosService
             $defis->getEquipeDefiee()->getTeamId() . '">' . $defis->getEquipeDefiee()->getName() . '</a>'
         );
     }
+
+    public function defisRealise(Defis $defis)
+    {
+        return $this->publierUnMessage(
+            'Le défis ' . '<a href="/team/' . $defis->getEquipeOrigine()->getTeamId() . '">' .
+            $defis->getEquipeOrigine()->getName() . '</a> contre ' . '<a href="/team/' .
+            $defis->getEquipeDefiee()->getTeamId() . '">' . $defis->getEquipeDefiee()->getName() .
+            '</a> a été réalisé : <a href="/match/' . $defis->getMatchDefi()->getMatchId()  . '">Voir</a>'
+        );
+    }
 }

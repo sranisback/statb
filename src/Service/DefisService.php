@@ -96,11 +96,13 @@ class DefisService
         }
 
         if (!empty($defiEnCours)) {
-                $defiEnCours->setMatchDefi($matches);
-                $defiEnCours->setDefieRealise(true);
+            $defiEnCours->setMatchDefi($matches);
+            $defiEnCours->setDefieRealise(true);
 
-                $this->doctrineEntityManager->persist($defiEnCours);
-                $this->doctrineEntityManager->flush();
+            $this->doctrineEntityManager->persist($defiEnCours);
+            $this->doctrineEntityManager->flush();
+
+            $this->infoService->defisRealise($defiEnCours);
         }
 
         return $defiEnCours;
