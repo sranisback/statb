@@ -196,12 +196,13 @@ class EquipeService
             $race,
             $coach
         );
-
-        $this->infoService->equipeEstCree($equipe);
-
+        
         $this->doctrineEntityManager->persist($equipe);
         $this->doctrineEntityManager->flush();
         $this->doctrineEntityManager->refresh($equipe);
+
+        $this->infoService->equipeEstCree($equipe);
+
         $equipeId = $equipe->getTeamId();
 
         if (!empty($equipeId)) {

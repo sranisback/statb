@@ -42,6 +42,11 @@
         </div>
         <div class="d-flex flex-column">
             <div class="card m-2">
+                <div class="card-body">
+                    {{ render(controller('App\\Controller\\InfosController::infos')) }}
+                </div>
+            </div>
+            <div class="card m-2">
                 <div class="card-body" id="card_classgen">
                     {{ render(controller('App\\Controller\\ClassementController::classGen', {'annee': annee, 'etiquette': null} )) }}
                 </div>

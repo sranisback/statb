@@ -19,6 +19,15 @@ class InfosRepository extends ServiceEntityRepository
         parent::__construct($registry, Infos::class);
     }
 
+    public function cinqDernieresNews()
+    {
+        return $this->createQueryBuilder('infos')
+            ->setMaxResults(5)
+            ->orderBy('infos.date', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Infos[] Returns an array of Infos objects
     //  */
