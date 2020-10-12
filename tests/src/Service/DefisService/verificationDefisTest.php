@@ -7,6 +7,7 @@ use App\Entity\Defis;
 use App\Entity\Matches;
 use App\Entity\Teams;
 use App\Service\DefisService;
+use App\Service\InfosService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -48,7 +49,10 @@ class verificationDefisTest extends KernelTestCase
             }
         ));
 
-        $defisService = new DefisService($objectManager);
+        $defisService = new DefisService(
+            $objectManager,
+            $this->createMock(InfosService::class)
+        );
 
         $testDefis = $defisService->verificationDefis($matchMock);
 
@@ -86,7 +90,10 @@ class verificationDefisTest extends KernelTestCase
             }
         ));
 
-        $defisService = new DefisService($objectManager);
+        $defisService = new DefisService(
+            $objectManager,
+            $this->createMock(InfosService::class)
+        );
 
         $this->assertNull($defisService->verificationDefis($matchMock));
     }

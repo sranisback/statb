@@ -2,11 +2,11 @@
 
 namespace App\Tests\src\Service\DefisService;
 
-
 use App\Entity\Coaches;
 use App\Entity\Defis;
 use App\Entity\Teams;
 use App\Service\DefisService;
+use App\Service\InfosService;
 use App\Service\SettingsService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
@@ -74,9 +74,12 @@ class defiAutoriseTest extends TestCase
         $settingServiceMock->expects($this->any())->method('anneeCourante')->willReturn(3);
         $settingServiceMock->expects($this->any())->method('dateDansLaPeriodeCourante')->willReturn(false);
 
-        $defisService = new DefisService($objectManager);
+        $defisService = new DefisService(
+            $objectManager,
+            $this->createMock(InfosService::class)
+        );
 
-        $this->assertTrue($defisService->defiAutorise($teamMock,$settingServiceMock));
+        $this->assertTrue($defisService->defiAutorise($teamMock, $settingServiceMock));
     }
 
     /**
@@ -140,8 +143,11 @@ class defiAutoriseTest extends TestCase
         $settingServiceMock->expects($this->any())->method('anneeCourante')->willReturn(3);
         $settingServiceMock->expects($this->any())->method('dateDansLaPeriodeCourante')->willReturn(true);
 
-        $defisService = new DefisService($objectManager);
+        $defisService = new DefisService(
+            $objectManager,
+            $this->createMock(InfosService::class)
+        );
 
-        $this->assertFalse($defisService->defiAutorise($teamMock,$settingServiceMock));
+        $this->assertFalse($defisService->defiAutorise($teamMock, $settingServiceMock));
     }
 }
