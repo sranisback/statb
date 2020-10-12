@@ -11,7 +11,7 @@ use App\Service\InfosService;
 use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\TestCase;
 
-class infosEquipeEstCreeTest extends TestCase
+class equipeEstCreeTest extends TestCase
 {
     /**
      * @test
@@ -34,7 +34,7 @@ class infosEquipeEstCreeTest extends TestCase
             $this->createMock(EntityManager::class)
         );
 
-        $attentdu = $infosServiceTest->infosEquipeEstCree($equipeMock);
+        $attentdu = $infosServiceTest->equipeEstCree($equipeMock);
 
         $this->assertIsObject($attentdu);
         $this->assertEquals('Zorro a crée l\'équipe <a href="/team/1">test</a>(Hobbit)', $attentdu->getMessages());

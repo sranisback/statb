@@ -4,6 +4,7 @@
 namespace App\Service;
 
 use App\Entity\Infos;
+use App\Entity\Matches;
 use App\Entity\Players;
 use App\Entity\Teams;
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,6 +12,9 @@ use Nette\Utils\DateTime;
 
 class InfosService
 {
+    /**
+     * @var EntityManagerInterface
+     */
     private $doctrineEntityManager;
 
     public function __construct(EntityManagerInterface $doctrineEntityManager)
@@ -18,6 +22,10 @@ class InfosService
         $this->doctrineEntityManager = $doctrineEntityManager;
     }
 
+    /**
+     * @param $text
+     * @return Infos
+     */
     public function publierUnMessage($text)
     {
         $message = new Infos();
@@ -30,7 +38,11 @@ class InfosService
         return $message;
     }
 
-    public function infosEquipeEstCree(Teams $equipe)
+    /**
+     * @param Teams $equipe
+     * @return Infos
+     */
+    public function equipeEstCree(Teams $equipe)
     {
         return $this->publierUnMessage(
             $equipe->getOwnedByCoach()->getName() .
@@ -41,13 +53,42 @@ class InfosService
         );
     }
 
-    public function infosJoueurEngage(Players $joueur)
+    /**
+     * @param Players $joueur
+     * @return Infos
+     */
+    public function joueurEngage(Players $joueur)
     {
         return $this->publierUnMessage(
             $joueur->getName() . ', ' . $joueur->getFPos()->getPos() . ' ' .$joueur->getFRid()->getName() .
             ' a été engagé par <a href="/team/' . $joueur->getOwnedByTeam()->getTeamId() . '">' .
             $joueur->getOwnedByTeam()->getName() . '</a>' .
             ' de ' . $joueur->getOwnedByTeam()->getOwnedByCoach()->getName()
+        );
+    }
+
+    /**
+     * @param Matches $matches
+     * @return Infos
+     */
+    public function matchEnregistre(Matches $matches)
+    {
+        return $this->publierUnMessage(
+            'Match(' . $matches->getMatchId() . '): ' .
+            $matches->getTeam1()->getName() . ' VS ' . $matches->getTeam2()->getName() . ' enregistré.' .
+            '<a href="/match/' . $matches->getMatchId() . '">voir</a>'
+        );
+    }
+
+    /**
+     * @param Players $joueur
+     * @return Infos
+     */
+    public function mortDunJoueur(Players $joueur)
+    {
+        return $this->publierUnMessage(
+            $joueur->getName() . ', ' . $joueur->getFPos()->getPos() . ' '  . $joueur->getFRid()->getName() .
+            ' de <a href="/team/' . $joueur->getOwnedByTeam()->getTeamId() . '">' . $joueur->getOwnedByTeam()->getName() . '</a> est mort !'
         );
     }
 }

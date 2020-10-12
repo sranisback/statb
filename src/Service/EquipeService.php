@@ -197,7 +197,7 @@ class EquipeService
             $coach
         );
 
-        $this->infoService->infosEquipeEstCree($equipe);
+        $this->infoService->equipeEstCree($equipe);
 
         $this->doctrineEntityManager->persist($equipe);
         $this->doctrineEntityManager->flush();

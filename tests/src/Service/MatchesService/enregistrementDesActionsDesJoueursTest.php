@@ -2,12 +2,12 @@
 
 namespace App\Tests\src\Service\MatchesService;
 
-
 use App\Entity\Matches;
 use App\Entity\Players;
 use App\Factory\MatchDataFactory;
 use App\Service\DefisService;
 use App\Service\EquipeService;
+use App\Service\InfosService;
 use App\Service\MatchesService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
@@ -41,7 +41,8 @@ class enregistrementDesActionsDesJoueursTest extends TestCase
             $this->createMock(EquipeService::class),
             $this->createMock(PlayerService::class),
             $this->createMock(SettingsService::class),
-            $this->createMock(DefisService::class)
+            $this->createMock(DefisService::class),
+            $this->createMock(InfosService::class)
         );
 
         $actionTest = [
@@ -80,7 +81,8 @@ class enregistrementDesActionsDesJoueursTest extends TestCase
             $this->createMock(EquipeService::class),
             $this->createMock(PlayerService::class),
             $this->createMock(SettingsService::class),
-            $this->createMock(DefisService::class)
+            $this->createMock(DefisService::class),
+            $this->createMock(InfosService::class)
         );
 
         $actionTest = [
@@ -123,7 +125,8 @@ class enregistrementDesActionsDesJoueursTest extends TestCase
             $this->createMock(EquipeService::class),
             $this->createMock(PlayerService::class),
             $this->createMock(SettingsService::class),
-            $this->createMock(DefisService::class)
+            $this->createMock(DefisService::class),
+            $this->createMock(InfosService::class)
         );
 
         $actionTest = [
@@ -158,7 +161,8 @@ class enregistrementDesActionsDesJoueursTest extends TestCase
             $this->createMock(EquipeService::class),
             $this->createMock(PlayerService::class),
             $this->createMock(SettingsService::class),
-            $this->createMock(DefisService::class)
+            $this->createMock(DefisService::class),
+            $this->createMock(InfosService::class)
         );
 
         $actionTest = [
@@ -196,7 +200,7 @@ class enregistrementDesActionsDesJoueursTest extends TestCase
         $matchDataTest1 = (new MatchDataFactory)->ligneVide($joueurMock1, $matchMock);
 
         $matchDataRepo = $this->createMock(ObjectRepository::class);
-        $matchDataRepo->method('findOneBy')->willReturnOnConsecutiveCalls($matchDataTest0,$matchDataTest1);
+        $matchDataRepo->method('findOneBy')->willReturnOnConsecutiveCalls($matchDataTest0, $matchDataTest1);
 
         $playerRepo = $this->createMock(ObjectRepository::class);
         $playerRepo->method('findOneBy')->willReturnOnConsecutiveCalls($joueurMock0, $joueurMock1);
@@ -221,7 +225,8 @@ class enregistrementDesActionsDesJoueursTest extends TestCase
             $this->createMock(EquipeService::class),
             $this->createMock(PlayerService::class),
             $this->createMock(SettingsService::class),
-            $this->createMock(DefisService::class)
+            $this->createMock(DefisService::class),
+            $this->createMock(InfosService::class)
         );
 
         $actionTest = [

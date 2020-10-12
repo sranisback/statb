@@ -246,7 +246,7 @@ class PlayerService
      * @param Players $joueur
      * @return string
      */
-    public function statutDuJoueur(Players $joueur): string //TODO a remplacer par une enum
+    public function statutDuJoueur(Players $joueur): string
     {
         switch ($joueur->getStatus()) {
             case 7:
@@ -337,7 +337,7 @@ class PlayerService
                         $this->doctrineEntityManager
                     );
 
-                    $this->infoService->infosJoueurEngage($joueur);
+                    $this->infoService->joueurEngage($joueur);
 
                     $this->doctrineEntityManager->persist($joueur);
 

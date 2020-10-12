@@ -7,6 +7,7 @@ use App\Entity\Matches;
 use App\Entity\Teams;
 use App\Service\DefisService;
 use App\Service\EquipeService;
+use App\Service\InfosService;
 use App\Service\MatchesService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
@@ -88,7 +89,8 @@ class tousLesMatchesDunCoachParAnneeTest extends KernelTestCase
             $this->createMock(EquipeService::class),
             $this->createMock(PlayerService::class),
             $settingServiceMock,
-            $this->createMock(DefisService::class)
+            $this->createMock(DefisService::class),
+            $this->createMock(InfosService::class)
         );
 
         $retourAttendu = [
@@ -169,7 +171,8 @@ class tousLesMatchesDunCoachParAnneeTest extends KernelTestCase
             $this->createMock(EquipeService::class),
             $this->createMock(PlayerService::class),
             $settingServiceMock,
-            $this->createMock(DefisService::class)
+            $this->createMock(DefisService::class),
+            $this->createMock(InfosService::class)
         );
 
         $retourAttendu = [
@@ -248,7 +251,8 @@ class tousLesMatchesDunCoachParAnneeTest extends KernelTestCase
             $this->createMock(EquipeService::class),
             $this->createMock(PlayerService::class),
             $settingServiceMock,
-            $this->createMock(DefisService::class)
+            $this->createMock(DefisService::class),
+            $this->createMock(InfosService::class)
         );
 
         $retourAttendu = [
@@ -290,7 +294,8 @@ class tousLesMatchesDunCoachParAnneeTest extends KernelTestCase
             $this->createMock(EquipeService::class),
             $this->createMock(PlayerService::class),
             $settingServiceMock,
-            $this->createMock(DefisService::class)
+            $this->createMock(DefisService::class),
+            $this->createMock(InfosService::class)
         );
 
         $retourAttendu = [
@@ -378,7 +383,8 @@ class tousLesMatchesDunCoachParAnneeTest extends KernelTestCase
             $this->createMock(EquipeService::class),
             $this->createMock(PlayerService::class),
             $settingServiceMock,
-            $this->createMock(DefisService::class)
+            $this->createMock(DefisService::class),
+            $this->createMock(InfosService::class)
         );
 
         $retourAttendu = [
