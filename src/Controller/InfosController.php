@@ -17,4 +17,14 @@ class InfosController extends AbstractController
             'news' => $this->getDoctrine()->getRepository(Infos::class)->cinqDernieresNews(),
         ]);
     }
+
+    /**
+     * @Route ("/infosCompletes", name="infosCompletes")
+     */
+    public function infosCompletes()
+    {
+        return $this->render('statbb/infosCompletes.html.twig', [
+            'news' => $this->getDoctrine()->getRepository(Infos::class)->findAll()
+        ]);
+    }
 }
