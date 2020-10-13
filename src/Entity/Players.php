@@ -205,7 +205,7 @@ class Players
     private ?string $photo = null;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\HistoriqueBlessure", mappedBy="Player", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\HistoriqueBlessure", mappedBy="Player", orphanRemoval=true, cascade={"persist"})
      * @var \Doctrine\Common\Collections\Collection
      */
     private \Doctrine\Common\Collections\Collection $historiqueBlessures;
@@ -394,10 +394,10 @@ class Players
         return $this;
     }
 
-//1 - ok
-//7 - vendu
-//8 - mort
-//9 - px
+    //1 - ok
+    //7 - vendu
+    //8 - mort
+    //9 - px
 
     public function getStatus(): ?int
     {

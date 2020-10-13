@@ -36,7 +36,7 @@ class matchEnregistreTest extends TestCase
 
         $this->assertIsObject($attentdu);
         $this->assertEquals(
-            'Match(5): Test Equipe 1 VS Test Equipe 2 enregistré.<a href="/match/5">voir</a>',
+            'Match(5): Test Equipe 1 VS Test Equipe 2 enregistré. <a href="/match/5">voir</a>',
             $attentdu->getMessages()
         );
 

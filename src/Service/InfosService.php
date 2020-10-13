@@ -77,7 +77,7 @@ class InfosService
     {
         return $this->publierUnMessage(
             'Match(' . $matches->getMatchId() . '): ' .
-            $matches->getTeam1()->getName() . ' VS ' . $matches->getTeam2()->getName() . ' enregistré.' .
+            $matches->getTeam1()->getName() . ' VS ' . $matches->getTeam2()->getName() . ' enregistré. ' .
             '<a href="/match/' . $matches->getMatchId() . '">voir</a>'
         );
     }
@@ -103,8 +103,9 @@ class InfosService
     {
         return $this->publierUnMessage(
             '<a href="/team/' . $defis->getEquipeOrigine()->getTeamId() . '">' .
-            $defis->getEquipeOrigine()->getName() . '</a> défie <a href="/team/' .
-            $defis->getEquipeDefiee()->getTeamId() . '">' . $defis->getEquipeDefiee()->getName() . '</a>'
+            $defis->getEquipeOrigine()->getName() . '</a> (' . $defis->getEquipeOrigine()->getFRace()->getName() .
+            ') défie <a href="/team/' . $defis->getEquipeDefiee()->getTeamId() . '">' .
+            $defis->getEquipeDefiee()->getName() . '</a> (' . $defis->getEquipeDefiee()->getFRace()->getName() . ')'
         );
     }
 

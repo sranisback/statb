@@ -22,6 +22,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Gumlet\ImageResize;
+
 class EquipeService
 {
 
@@ -196,7 +197,7 @@ class EquipeService
             $race,
             $coach
         );
-        
+
         $this->doctrineEntityManager->persist($equipe);
         $this->doctrineEntityManager->flush();
         $this->doctrineEntityManager->refresh($equipe);
@@ -809,7 +810,7 @@ class EquipeService
     public function supprimerLogo(Teams $equipe, $logoDirectory)
     {
         $fileSystem = new Filesystem();
-        $fileSystem->remove( $logoDirectory . '/' . $equipe->getLogo());
+        $fileSystem->remove($logoDirectory . '/' . $equipe->getLogo());
 
         $equipe->setLogo(null);
 
