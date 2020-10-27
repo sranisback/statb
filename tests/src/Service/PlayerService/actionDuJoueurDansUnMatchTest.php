@@ -6,6 +6,7 @@ use App\Entity\MatchData;
 use App\Entity\Matches;
 use App\Entity\Players;
 use App\Service\EquipeService;
+use App\Service\InfosService;
 use App\Service\MatchDataService;
 use App\Service\PlayerService;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -40,7 +41,8 @@ class actionDuJoueurDansUnMatchTest extends TestCase
         $playerService = new PlayerService(
             $objectManager,
             $this->createMock(EquipeService::class),
-            $matchDataService
+            $matchDataService,
+            $this->createMock(InfosService::class)
         );
         $this->assertEquals(
             'MVP: 1, TD: 1, ',
@@ -74,7 +76,8 @@ class actionDuJoueurDansUnMatchTest extends TestCase
         $playerService = new PlayerService(
             $objectManager,
             $this->createMock(EquipeService::class),
-            $matchDataService
+            $matchDataService,
+            $this->createMock(InfosService::class)
         );
         $this->assertEquals(
             '',

@@ -8,6 +8,7 @@ use App\Entity\Matches;
 use App\Entity\Players;
 use App\Entity\Teams;
 use App\Service\EquipeService;
+use App\Service\InfosService;
 use App\Service\MatchDataService;
 use App\Service\PlayerService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -51,7 +52,8 @@ class toutesLesActionsDeLequipeDansUnMatchTest extends KernelTestCase
         $playerService = new PlayerService(
             $objectManager,
             $this->createMock(EquipeService::class),
-            $matchDataService
+            $matchDataService,
+            $this->createMock(InfosService::class)
         );
 
         $this->assertEquals(
@@ -95,7 +97,8 @@ class toutesLesActionsDeLequipeDansUnMatchTest extends KernelTestCase
         $playerService = new PlayerService(
             $objectManager,
             $this->createMock(EquipeService::class),
-            $matchDataService
+            $matchDataService,
+            $this->createMock(InfosService::class)
         );
 
         $this->assertEquals(
@@ -138,7 +141,8 @@ class toutesLesActionsDeLequipeDansUnMatchTest extends KernelTestCase
         $playerService = new PlayerService(
             $objectManager,
             $this->createMock(EquipeService::class),
-            $matchDataService
+            $matchDataService,
+            $this->createMock(InfosService::class)
         );
 
         $this->assertEquals('', $playerService->toutesLesActionsDeLequipeDansUnMatch($match, $equipe));

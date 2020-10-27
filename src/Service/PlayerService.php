@@ -22,26 +22,30 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class PlayerService
 {
     /**
-     * @var \Doctrine\ORM\EntityManagerInterface
+     * @var EntityManagerInterface
      */
-    private \Doctrine\ORM\EntityManagerInterface $doctrineEntityManager;
+    private EntityManagerInterface $doctrineEntityManager;
     /**
-     * @var \App\Service\EquipeService
+     * @var EquipeService
      */
-    private \App\Service\EquipeService $equipeService;
+    private EquipeService $equipeService;
     /**
-     * @var \App\Service\MatchDataService
+     * @var MatchDataService
      */
-    private \App\Service\MatchDataService $matchDataService;
+    private MatchDataService $matchDataService;
+
+    private InfosService $infoService;
 
     public function __construct(
         EntityManagerInterface $doctrineEntityManager,
         EquipeService $equipeService,
-        MatchDataService $matchDataService
+        MatchDataService $matchDataService,
+        InfosService $infosService
     ) {
         $this->doctrineEntityManager = $doctrineEntityManager;
         $this->equipeService = $equipeService;
         $this->matchDataService = $matchDataService;
+        $this->infoService = $infosService;
     }
 
     public function remplirMatchDataDeLigneAzero(Teams $equipe, Matches $match): void
@@ -242,7 +246,7 @@ class PlayerService
      * @param Players $joueur
      * @return string
      */
-    public function statutDuJoueur(Players $joueur): string //TODO a remplacer par une enum
+    public function statutDuJoueur(Players $joueur): string
     {
         switch ($joueur->getStatus()) {
             case 7:
@@ -333,12 +337,13 @@ class PlayerService
                         $this->doctrineEntityManager
                     );
 
+                    $this->infoService->joueurEngage($joueur);
+
                     $this->doctrineEntityManager->persist($joueur);
 
                     $equipe->setTv($this->equipeService->tvDelEquipe($equipe, $this));
 
                     $this->doctrineEntityManager->persist($equipe);
-
                     $this->doctrineEntityManager->flush();
 
                     return ['resultat' => 'ok', 'joueur' => $joueur];
@@ -723,7 +728,7 @@ class PlayerService
      * @param PlayerService $playerService
      * @return array
      */
-    public function ligneJoueur(Array $players): array
+    public function ligneJoueur(array $players): array
     {
         $count = 0;
 

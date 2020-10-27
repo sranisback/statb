@@ -5,8 +5,8 @@ namespace App\Tests\src\Service\EquipeService;
 
 use App\Entity\Coaches;
 use App\Entity\Teams;
-use App\Service\ClassementService;
 use App\Service\EquipeService;
+use App\Service\InfosService;
 use App\Service\SettingsService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -52,8 +52,11 @@ class listeDesAnciennesEquipesTest extends KernelTestCase
         $settingServiceMock = $this->createMock(SettingsService::class);
         $settingServiceMock->method('anneeCourante')->willReturn(3);
 
-        $equipeService = new EquipeService($objectManager, $settingServiceMock,
-            $this->createMock(ClassementService::class) );
+        $equipeService = new EquipeService(
+            $objectManager,
+            $settingServiceMock,
+            $this->createMock(InfosService::class)
+        );
 
         $this->assertEquals(4, count($equipeService->listeDesAnciennesEquipes($coach, 3)));
     }
@@ -77,8 +80,11 @@ class listeDesAnciennesEquipesTest extends KernelTestCase
         $settingServiceMock = $this->createMock(SettingsService::class);
         $settingServiceMock->method('anneeCourante')->willReturn(3);
 
-        $equipeService = new EquipeService($objectManager, $settingServiceMock ,
-            $this->createMock(ClassementService::class));
+        $equipeService = new EquipeService(
+            $objectManager,
+            $settingServiceMock ,
+            $this->createMock(InfosService::class)
+        );
 
         $this->assertEquals(0, count($equipeService->listeDesAnciennesEquipes($coach, 3)));
     }
@@ -119,8 +125,11 @@ class listeDesAnciennesEquipesTest extends KernelTestCase
         $settingServiceMock = $this->createMock(SettingsService::class);
         $settingServiceMock->method('anneeCourante')->willReturn(3);
 
-        $equipeService = new EquipeService($objectManager, $settingServiceMock ,
-            $this->createMock(ClassementService::class));
+        $equipeService = new EquipeService(
+            $objectManager,
+            $settingServiceMock,
+            $this->createMock(InfosService::class)
+        );
 
         $this->assertEquals(3, count($equipeService->listeDesAnciennesEquipes($coach, 3)));
     }

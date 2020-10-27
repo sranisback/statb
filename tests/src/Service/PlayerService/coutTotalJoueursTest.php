@@ -9,6 +9,7 @@ use App\Entity\Players;
 use App\Entity\PlayersSkills;
 use App\Entity\Teams;
 use App\Service\EquipeService;
+use App\Service\InfosService;
 use App\Service\MatchDataService;
 use App\Service\PlayerService;
 use Doctrine\Persistence\ObjectRepository;
@@ -77,7 +78,8 @@ class coutTotalJoueursTest extends TestCase
         $playerService = new PlayerService(
             $objectManager,
             $this->createMock(EquipeService::class),
-            $matchDataService
+            $matchDataService,
+            $this->createMock(InfosService::class)
         );
 
         $this->assertEquals('130000', $playerService->coutTotalJoueurs($equipeMock));

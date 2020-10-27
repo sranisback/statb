@@ -7,6 +7,7 @@ namespace App\Tests\src\Service\EquipeService;
 use App\Entity\Races;
 use App\Entity\Teams;
 use App\Service\EquipeService;
+use App\Service\InfosService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
 use Doctrine\ORM\EntityManager;
@@ -30,7 +31,8 @@ class calculsInducementEquipeTest extends TestCase
 
         $equipeServiceTest = new EquipeService(
             $this->createMock(EntityManager::class),
-            $this->createMock(SettingsService::class)
+            $this->createMock(SettingsService::class),
+            $this->createMock(InfosService::class)
         );
 
         $attendu = [

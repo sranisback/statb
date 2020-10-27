@@ -5,6 +5,7 @@ namespace App\Tests\src\Service\PlayerService;
 use App\Entity\MatchData;
 use App\Entity\Players;
 use App\Service\EquipeService;
+use App\Service\InfosService;
 use App\Service\MatchDataService;
 use App\Service\PlayerService;
 use Doctrine\Persistence\ObjectRepository;
@@ -37,7 +38,8 @@ class xpDuJoueurTest extends KernelTestCase
         $playerServiceTest = new PlayerService(
             $objectManager,
             $this->createMock(EquipeService::class),
-            $this->createMock(MatchDataService::class)
+            $this->createMock(MatchDataService::class),
+            $this->createMock(InfosService::class)
         );
 
         $this->assertEquals(13, $playerServiceTest->xpDuJoueur($joueurTest));
@@ -59,7 +61,8 @@ class xpDuJoueurTest extends KernelTestCase
         $playerServiceTest = new PlayerService(
             $objectManager,
             $this->createMock(EquipeService::class),
-            $this->createMock(MatchDataService::class)
+            $this->createMock(MatchDataService::class),
+            $this->createMock(InfosService::class)
         );
 
         $this->assertEquals(0, $playerServiceTest->xpDuJoueur($joueurTest));
@@ -85,7 +88,8 @@ class xpDuJoueurTest extends KernelTestCase
         $playerServiceTest = new PlayerService(
             $objectManager,
             $this->createMock(EquipeService::class),
-            $this->createMock(MatchDataService::class)
+            $this->createMock(MatchDataService::class),
+            $this->createMock(InfosService::class)
         );
 
         $this->assertEquals(0, $playerServiceTest->xpDuJoueur($joueurTest));

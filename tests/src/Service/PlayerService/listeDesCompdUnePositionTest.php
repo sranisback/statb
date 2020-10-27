@@ -5,6 +5,7 @@ namespace App\Tests\src\Service\PlayerService;
 use App\Entity\GameDataPlayers;
 use App\Entity\GameDataSkills;
 use App\Service\EquipeService;
+use App\Service\InfosService;
 use App\Service\MatchDataService;
 use App\Service\PlayerService;
 use Doctrine\Persistence\ObjectRepository;
@@ -48,7 +49,8 @@ class listeDesCompdUnePositionTest extends TestCase
         $playerService = new PlayerService(
             $objectManager,
             $this->createMock(EquipeService::class),
-            $matchDataService
+            $matchDataService,
+            $this->createMock(InfosService::class)
         );
 
         $retour = '<text class="test-primary">Frenzy</text>, <text class="test-primary">Dodge</text>, <text class="test-primary">Jump Up</text>, ';

@@ -6,6 +6,7 @@ namespace App\Tests\src\Service\PlayerService;
 use App\Entity\GameDataSkills;
 use App\Entity\Players;
 use App\Service\EquipeService;
+use App\Service\InfosService;
 use App\Service\MatchDataService;
 use App\Service\PlayerService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,7 +30,8 @@ class ajoutCompetenceTest extends KernelTestCase
         $playerService = new PlayerService(
             $objectManager,
             $this->createMock(EquipeService::class),
-            $this->createMock(MatchDataService::class)
+            $this->createMock(MatchDataService::class),
+            $this->createMock(InfosService::class)
         );
 
         $playerService->ajoutCompetence($joueurTest, $gameDataSkillTest);

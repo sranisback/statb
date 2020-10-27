@@ -1,0 +1,14 @@
+{% extends "statbb/base.html.twig" %}
+
+{% block body %}
+    <div class="card">
+        <h1 class="text-center">Toutes les news</h1>
+        <div class="card">
+            <ul class="list-group list-group-flush">
+                {% for new in news %}
+                    <li class="list-group-item">{{ new.date|date("d/m/Y") }} - {{ new.messages|raw }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

@@ -4,6 +4,7 @@ namespace App\Tests\src\Service\PlayerService;
 use App\Entity\MatchData;
 use App\Entity\Players;
 use App\Service\EquipeService;
+use App\Service\InfosService;
 use App\Service\MatchDataService;
 use App\Service\PlayerService;
 use Doctrine\Persistence\ObjectRepository;
@@ -44,7 +45,8 @@ class actionsDuJoueurTest extends TestCase
         $playerService = new PlayerService(
             $objectManager,
             $this->createMock(EquipeService::class),
-            $matchDataService
+            $matchDataService,
+            $this->createMock(InfosService::class)
         );
 
         $this->assertEquals($retour, $playerService->actionsDuJoueur($playerMock));

@@ -8,6 +8,7 @@ use App\Entity\Coaches;
 use App\Entity\Matches;
 use App\Entity\Teams;
 use App\Service\EquipeService;
+use App\Service\InfosService;
 use App\Service\SettingsService;
 use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\TestCase;
@@ -72,7 +73,8 @@ class compileLesEquipesTest extends TestCase
 
         $equipeServiceTest = new EquipeService(
             $objectManager,
-            $settingServiceMock
+            $settingServiceMock,
+            $this->createMock(InfosService::class)
         );
 
         $resultats = [

@@ -3,9 +3,9 @@
 
 namespace App\Tests\src\Service\PrimeService;
 
-
 use App\Entity\Players;
 use App\Entity\Primes;
+use App\Service\InfosService;
 use App\Service\PrimeService;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
@@ -21,14 +21,14 @@ class CreationPrimeTest extends TestCase
         $playersMock = $this->createMock(Players::class);
 
         $primeRepoMock = $this->getMockBuilder(Primes::class)
-            ->setMethods(['FindOneBy'])
+            ->addMethods(['FindOneBy'])
             ->getMock();
         $primeRepoMock->method('FindOneBy')->willReturn(
             false
         );
 
         $playerRepoMock = $this->getMockBuilder(Players::class)
-            ->setMethods(['FindOneBy'])
+            ->addMethods(['FindOneBy'])
             ->getMock();
         $playerRepoMock->method('FindOneBy')->willReturn(
             $playersMock
@@ -38,11 +38,11 @@ class CreationPrimeTest extends TestCase
         $objectManager->method('getRepository')->willReturn(
             $this->returnCallback(
                 function ($entityName) use ($playerRepoMock, $primeRepoMock) {
-                    if ($entityName === 'App\Entity\Players') {
+                    if ($entityName === Players::class) {
                         return $playerRepoMock;
                     }
 
-                    if ($entityName === 'App\Entity\Primes') {
+                    if ($entityName === Primes::class) {
                         return $primeRepoMock;
                     }
 
@@ -52,7 +52,8 @@ class CreationPrimeTest extends TestCase
         );
 
         $primeService = new PrimeService(
-            $objectManager
+            $objectManager,
+            $this->createMock(InfosService::class)
         );
 
         $datasDuForm = [
@@ -60,7 +61,6 @@ class CreationPrimeTest extends TestCase
             'players' => 1
         ];
 
-        /** @var Primes $prime */
         $prime = $primeService->creationPrime($datasDuForm);
 
         $this->assertEquals(30000, $prime->getMontant());
@@ -77,14 +77,14 @@ class CreationPrimeTest extends TestCase
         $prime->setMontant(10000);
 
         $primeRepoMock = $this->getMockBuilder(Primes::class)
-            ->setMethods(['FindOneBy'])
+            ->addMethods(['FindOneBy'])
             ->getMock();
         $primeRepoMock->method('FindOneBy')->willReturn(
             $prime
         );
 
         $playerRepoMock = $this->getMockBuilder(Players::class)
-            ->setMethods(['FindOneBy'])
+            ->addMethods(['FindOneBy'])
             ->getMock();
         $playerRepoMock->method('FindOneBy')->willReturn(
             $playersMock
@@ -94,11 +94,11 @@ class CreationPrimeTest extends TestCase
         $objectManager->method('getRepository')->willReturn(
             $this->returnCallback(
                 function ($entityName) use ($playerRepoMock, $primeRepoMock) {
-                    if ($entityName === 'App\Entity\Players') {
+                    if ($entityName === Players::class) {
                         return $playerRepoMock;
                     }
 
-                    if ($entityName === 'App\Entity\Primes') {
+                    if ($entityName === Primes::class) {
                         return $primeRepoMock;
                     }
 
@@ -108,7 +108,8 @@ class CreationPrimeTest extends TestCase
         );
 
         $primeService = new PrimeService(
-            $objectManager
+            $objectManager,
+            $this->createMock(InfosService::class)
         );
 
         $datasDuForm = [
@@ -116,7 +117,6 @@ class CreationPrimeTest extends TestCase
             'players' => 1
         ];
 
-        /** @var Primes $prime */
         $prime = $primeService->creationPrime($datasDuForm);
 
         $this->assertEquals(40000, $prime->getMontant());

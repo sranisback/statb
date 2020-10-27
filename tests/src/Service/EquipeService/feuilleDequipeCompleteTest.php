@@ -8,6 +8,7 @@ use App\Entity\Players;
 use App\Entity\Races;
 use App\Entity\Teams;
 use App\Service\EquipeService;
+use App\Service\InfosService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
 use Doctrine\ORM\EntityManager;
@@ -66,7 +67,8 @@ class feuilleDequipeCompleteTest extends TestCase
 
         $equipeServiceTest = new EquipeService(
             $objectManager,
-            $settingServiceMock
+            $settingServiceMock,
+            $this->createMock(InfosService::class)
         );
 
         $attendu = [

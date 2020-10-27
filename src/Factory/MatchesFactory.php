@@ -49,8 +49,12 @@ class MatchesFactory
             $match->setFStade($stade);
             $match->setDateCreated($dateMatch);
             $match->setStadeAcceuil($donnees['stadeAccueil']);
-            $match->setDepense1((int) -$donnees['depense1']);
-            $match->setDepense2((int) -$donnees['depense2']);
+            if (!empty($donnees['depense1'])) {
+                $match->setDepense1((int) -$donnees['depense1']);
+            }
+            if (!empty($donnees['depense2'])) {
+                $match->setDepense2((int) -$donnees['depense2']);
+            }
         }
 
         return $match;

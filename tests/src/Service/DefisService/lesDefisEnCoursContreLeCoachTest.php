@@ -7,6 +7,7 @@ use App\Entity\Coaches;
 use App\Entity\Defis;
 use App\Entity\Teams;
 use App\Service\DefisService;
+use App\Service\InfosService;
 use App\Service\SettingsService;
 use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -64,7 +65,10 @@ class lesDefisEnCoursContreLeCoachTest extends TestCase
 
         $reponse = [['defiee' => 'titi', 'par' => 'toto'],['defiee' => 'coco', 'par' => 'zozo']];
 
-        $defisService = new DefisService($objectManager);
+        $defisService = new DefisService(
+            $objectManager,
+            $this->createMock(InfosService::class)
+        );
         $this->assertEquals($reponse, $defisService->lesDefisEnCoursContreLeCoach($settingServiceMock, $coachMock));
     }
 }

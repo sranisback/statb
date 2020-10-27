@@ -4,9 +4,8 @@ namespace App\Tests\src\Service\EquipeService;
 
 use App\Entity\Players;
 use App\Entity\Teams;
-use App\Service\ClassementService;
 use App\Service\EquipeService;
-use App\Service\PlayerService;
+use App\Service\InfosService;
 use App\Service\SettingsService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -35,7 +34,7 @@ class suppressionDesJournaliersTest extends KernelTestCase
         $equipeService = new EquipeService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(ClassementService::class)
+            $this->createMock(InfosService::class)
         );
 
         $this->assertEquals(
@@ -71,7 +70,7 @@ class suppressionDesJournaliersTest extends KernelTestCase
         $equipeService = new EquipeService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(ClassementService::class)
+            $this->createMock(InfosService::class)
         );
 
         $this->assertEquals(
@@ -111,7 +110,7 @@ class suppressionDesJournaliersTest extends KernelTestCase
         $equipeService = new EquipeService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(ClassementService::class)
+            $this->createMock(InfosService::class)
         );
 
         $this->assertEquals(
@@ -153,7 +152,7 @@ class suppressionDesJournaliersTest extends KernelTestCase
         $equipeService = new EquipeService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(ClassementService::class)
+            $this->createMock(InfosService::class)
         );
 
         $this->assertEquals(

@@ -21,38 +21,44 @@ class MatchesService
 {
 
     /**
-     * @var \Doctrine\ORM\EntityManagerInterface
+     * @var EntityManagerInterface
      */
-    private \Doctrine\ORM\EntityManagerInterface $doctrineEntityManager;
+    private EntityManagerInterface $doctrineEntityManager;
     /**
-     * @var \App\Service\EquipeService
+     * @var EquipeService
      */
-    private \App\Service\EquipeService $equipeService;
+    private EquipeService $equipeService;
     /**
-     * @var \App\Service\PlayerService
+     * @var PlayerService
      */
-    private \App\Service\PlayerService $playerService;
+    private PlayerService $playerService;
     /**
-     * @var \App\Service\SettingsService
+     * @var SettingsService
      */
-    private \App\Service\SettingsService $settingService;
+    private SettingsService $settingService;
     /**
-     * @var \App\Service\DefisService
+     * @var DefisService
      */
-    private \App\Service\DefisService $defisService;
+    private DefisService $defisService;
+    /**
+     * @var InfosService
+     */
+    private InfosService $infoService;
 
     public function __construct(
         EntityManagerInterface $doctrineEntityManager,
         EquipeService $equipeService,
         PlayerService $playerService,
         SettingsService $settingService,
-        DefisService $defisService
+        DefisService $defisService,
+        InfosService $infoService
     ) {
         $this->doctrineEntityManager = $doctrineEntityManager;
         $this->equipeService = $equipeService;
         $this->playerService = $playerService;
         $this->settingService = $settingService;
         $this->defisService = $defisService;
+        $this->infoService = $infoService;
     }
 
     /**
@@ -83,6 +89,8 @@ class MatchesService
             $this->playerService->controleNiveauDesJoueursDelEquipe($team2);
 
             $this->equipeService->eloDesEquipes($this->settingService->anneeCourante());
+
+            $this->infoService->matchEnregistre($match);
         }
 
         return ['enregistrement' => $match->getMatchId(), 'defis' => $this->defisService->verificationDefis($match)];
@@ -138,8 +146,6 @@ class MatchesService
             ),
             $typeStade
         );
-
-
         $this->doctrineEntityManager->persist($match);
 
         return $match;
@@ -263,6 +269,7 @@ class MatchesService
                     $joueur->setStatus(8);
                     $histoBlessure->setBlessure(60);
                     $joueur->addHistoriqueBlessure($histoBlessure);
+                    $this->infoService->mortDunJoueur($joueur);
                     break;
                 case 'COMO':
                     $histoBlessure->setBlessure(30);

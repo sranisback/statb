@@ -4,6 +4,7 @@ namespace App\Tests\src\Service\PlayerService;
 
 use App\Entity\Players;
 use App\Service\EquipeService;
+use App\Service\InfosService;
 use App\Service\MatchDataService;
 use App\Service\PlayerService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,7 +27,8 @@ class listenivSpeciauxEtSurcoutTest extends KernelTestCase
         $playerService = new PlayerService(
             $objectManager,
             $this->createMock(EquipeService::class),
-            $matchDataService
+            $matchDataService,
+            $this->createMock(InfosService::class)
         );
 
         $retour = ['nivspec' => '<text class="text-success">+1 St</text>, ', 'cout' => 50_000];

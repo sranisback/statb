@@ -8,6 +8,7 @@ use App\Entity\GameDataPlayers;
 use App\Entity\GameDataSkills;
 use App\Entity\Players;
 use App\Service\EquipeService;
+use App\Service\InfosService;
 use App\Service\MatchDataService;
 use App\Service\PlayerService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -42,7 +43,8 @@ class LeJoueurEstDisposableTest extends TestCase
         $playerServiceTest = new PlayerService(
             $objectManager,
             $this->createMock(EquipeService::class),
-            $this->createMock(MatchDataService::class)
+            $this->createMock(MatchDataService::class),
+            $this->createMock(InfosService::class)
         );
 
         $this->assertTrue($playerServiceTest->leJoueurEstDisposable($joueurTest));
@@ -65,7 +67,7 @@ class LeJoueurEstDisposableTest extends TestCase
         $joueurTest->setFPos($positionTest);
 
         $playerRepoMock = $this->getMockBuilder(Players::class)
-            ->setMethods(['findOneBy'])
+            ->addMethods(['findOneBy'])
             ->getMock();
         $playerRepoMock->method('findOneBy')->willReturn($gameDataSkillsTest);
 
@@ -75,7 +77,8 @@ class LeJoueurEstDisposableTest extends TestCase
         $playerServiceTest = new PlayerService(
             $objectManager,
             $this->createMock(EquipeService::class),
-            $this->createMock(MatchDataService::class)
+            $this->createMock(MatchDataService::class),
+            $this->createMock(InfosService::class)
         );
 
         $this->assertFalse($playerServiceTest->leJoueurEstDisposable($joueurTest));

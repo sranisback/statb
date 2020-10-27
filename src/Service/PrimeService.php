@@ -12,13 +12,16 @@ use Doctrine\ORM\EntityManagerInterface;
 class PrimeService
 {
     /**
-     * @var \Doctrine\ORM\EntityManagerInterface
+     * @var EntityManagerInterface
      */
-    private \Doctrine\ORM\EntityManagerInterface $doctrineEntityManager;
+    private EntityManagerInterface $doctrineEntityManager;
 
-    public function __construct(EntityManagerInterface $doctrineEntityManager)
+    public InfosService $infoService;
+
+    public function __construct(EntityManagerInterface $doctrineEntityManager, InfosService $infoService)
     {
         $this->doctrineEntityManager = $doctrineEntityManager;
+        $this->infoService = $infoService;
     }
 
     /**
@@ -42,6 +45,8 @@ class PrimeService
 
         $this->doctrineEntityManager->persist($prime);
         $this->doctrineEntityManager->flush();
+
+        $this->infoService->primeMise($prime);
 
         return $prime;
     }
@@ -79,6 +84,8 @@ class PrimeService
         $this->doctrineEntityManager->persist($prime);
         $this->doctrineEntityManager->persist($equipe);
         $this->doctrineEntityManager->flush();
+
+        $this->infoService->primeGagnee($prime);
 
         return 'ok';
     }
