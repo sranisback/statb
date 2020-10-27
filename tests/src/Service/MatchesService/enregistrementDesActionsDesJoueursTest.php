@@ -28,7 +28,7 @@ class enregistrementDesActionsDesJoueursTest extends TestCase
         $matchMock = $this->createMock(Matches::class);
         $matchMock->method('getMatchId')->willReturn(10);
 
-        $matchDataTest = (new MatchDataFactory)->ligneVide($joueurMock, $matchMock);
+        $matchDataTest = MatchDataFactory::ligneVide($joueurMock, $matchMock);
 
         $matchDataRepo = $this->createMock(ObjectRepository::class);
         $matchDataRepo->method('findOneBy')->willReturn($matchDataTest);
@@ -68,7 +68,7 @@ class enregistrementDesActionsDesJoueursTest extends TestCase
         $matchMock = $this->createMock(Matches::class);
         $matchMock->method('getMatchId')->willReturn(10);
 
-        $matchDataTest = (new MatchDataFactory)->ligneVide($joueurMock, $matchMock);
+        $matchDataTest = MatchDataFactory::ligneVide($joueurMock, $matchMock);
 
         $matchDataRepo = $this->createMock(ObjectRepository::class);
         $matchDataRepo->method('findOneBy')->willReturn($matchDataTest);
@@ -112,7 +112,7 @@ class enregistrementDesActionsDesJoueursTest extends TestCase
         $matchMock = $this->createMock(Matches::class);
         $matchMock->method('getMatchId')->willReturn(10);
 
-        $matchDataTest = (new MatchDataFactory)->ligneVide($joueurMock, $matchMock);
+        $matchDataTest = MatchDataFactory::ligneVide($joueurMock, $matchMock);
 
         $matchDataRepo = $this->createMock(ObjectRepository::class);
         $matchDataRepo->method('findOneBy')->willReturn($matchDataTest);

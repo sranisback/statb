@@ -7,7 +7,6 @@ use App\Entity\Defis;
 use App\Entity\Matches;
 use App\Entity\Teams;
 use App\Factory\DefiFactory;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 
 class DefisService
@@ -31,7 +30,7 @@ class DefisService
      */
     public function creerDefis(array $datas): \App\Entity\Defis
     {
-        $defis = (new DefiFactory)->lancerDefis(
+        $defis = DefiFactory::lancerDefis(
             $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(
                 ['teamId' => $datas['equipeDefiee']]
             ),
