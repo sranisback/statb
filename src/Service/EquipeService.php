@@ -578,7 +578,7 @@ class EquipeService
 
         for ($x = 0; $x < $nbrDeJournalier; $x++) {
             /** @var Players $journalier */
-            $journalier = (new PlayerFactory)->nouveauJoueur(
+            $journalier = PlayerFactory::nouveauJoueur(
                 $positionJournalier,
                 $playerService->numeroLibreDelEquipe($equipe),
                 $equipe,

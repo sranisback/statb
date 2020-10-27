@@ -26,7 +26,7 @@ class nouveauJoueurTest extends KernelTestCase
         $gameDataPlayersMock->method('getFRace')->willReturn($raceMock);
         $gameDataPlayersMock->method('getCost')->willReturn(50_000);
 
-        $playerIconMock = $this->createMock(PlayersIcons::class);
+        $this->createMock(PlayersIcons::class);
 
         $coachMock = $this->createMock(Coaches::class);
 
@@ -34,7 +34,7 @@ class nouveauJoueurTest extends KernelTestCase
         $equipeMock->method('getOwnedByCoach')->willReturn($coachMock);
 
         $playerIconRepoMock = $this->getMockBuilder(PlayersIcons::class)
-            ->setMethods(['toutesLesIconesDunePosition'])
+            ->addMethods(['toutesLesIconesDunePosition'])
             ->getMock();
         $playerIconRepoMock->method('toutesLesIconesDunePosition')
             ->willReturn([$this->createMock(PlayersIcons::class)]);
@@ -42,11 +42,9 @@ class nouveauJoueurTest extends KernelTestCase
         $entityManagerMock = $this->createMock(EntityManager::class);
         $entityManagerMock->method('getRepository')->willReturn($playerIconRepoMock);
 
-        $playerFactory = new PlayerFactory();
-
         $this->assertInstanceOf(
             Players::class,
-            $playerFactory->nouveauJoueur(
+            PlayerFactory::nouveauJoueur(
                 $gameDataPlayersMock,
                 1,
                 $equipeMock,
@@ -77,7 +75,7 @@ class nouveauJoueurTest extends KernelTestCase
         $equipeMock->method('getOwnedByCoach')->willReturn($coachMock);
 
         $playerIconRepoMock = $this->getMockBuilder(PlayersIcons::class)
-            ->setMethods(['toutesLesIconesDunePosition', 'findOneBy'])
+            ->addMethods(['toutesLesIconesDunePosition', 'findOneBy'])
             ->getMock();
         $playerIconRepoMock->method('toutesLesIconesDunePosition')
             ->willReturn([]);
@@ -86,9 +84,7 @@ class nouveauJoueurTest extends KernelTestCase
         $entityManagerMock = $this->createMock(EntityManager::class);
         $entityManagerMock->method('getRepository')->willReturn($playerIconRepoMock);
 
-        $playerFactory = new PlayerFactory();
-
-        $playerTest = $playerFactory->nouveauJoueur(
+        $playerTest = PlayerFactory::nouveauJoueur(
             $gameDataPlayersMock,
             1,
             $equipeMock,
