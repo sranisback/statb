@@ -135,7 +135,7 @@ class MatchesService
                 break;
         }
 
-        $match = (new MatchesFactory)->creerUnMatch(
+        $match = MatchesFactory::creerUnMatch(
             $donneesMatch,
             $equipe1,
             $equipe2,
