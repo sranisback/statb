@@ -19,7 +19,7 @@ class TeamsFactory
      * @param Coaches $coach
      * @return Teams
      */
-    public function lancerEquipe(
+    public static function lancerEquipe(
         int $tresorDepart,
         string $nom,
         int $baseElo,
@@ -27,7 +27,7 @@ class TeamsFactory
         int $annee,
         Races $race,
         Coaches $coach
-    ): \App\Entity\Teams {
+    ): Teams {
         $equipe = new Teams();
 
         $equipe->setTreasury($tresorDepart);

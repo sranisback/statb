@@ -25,7 +25,7 @@ class construireStadeTest extends KernelTestCase
         $race = new Races();
         $coach = new Coaches();
 
-        $equipe = (new TeamsFactory)->lancerEquipe(
+        $equipe = TeamsFactory::lancerEquipe(
             1000000,
             'Test',
             150,
@@ -58,7 +58,7 @@ class construireStadeTest extends KernelTestCase
         $race = new Races();
         $coach = new Coaches();
 
-        $equipe = (new TeamsFactory)->lancerEquipe(
+        $equipe = TeamsFactory::lancerEquipe(
             0,
             'Test',
             150,
@@ -91,7 +91,7 @@ class construireStadeTest extends KernelTestCase
         $race = new Races();
         $coach = new Coaches();
 
-        $equipe = (new TeamsFactory)->lancerEquipe(
+        $equipe = TeamsFactory::lancerEquipe(
             250000,
             'Test',
             150,
@@ -126,7 +126,7 @@ class construireStadeTest extends KernelTestCase
         $race = new Races();
         $coach = new Coaches();
 
-        $equipe = (new TeamsFactory)->lancerEquipe(
+        $equipe = TeamsFactory::lancerEquipe(
             50000,
             'Test',
             150,
@@ -161,7 +161,7 @@ class construireStadeTest extends KernelTestCase
         $race = new Races();
         $coach = new Coaches();
 
-        $equipe = (new TeamsFactory)->lancerEquipe(
+        $equipe = TeamsFactory::lancerEquipe(
             0,
             'Test',
             150,
@@ -195,7 +195,7 @@ class construireStadeTest extends KernelTestCase
         $race = new Races();
         $coach = new Coaches();
 
-        $equipe = (new TeamsFactory)->lancerEquipe(
+        $equipe = TeamsFactory::lancerEquipe(
             50000,
             'Test',
             150,

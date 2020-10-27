@@ -26,7 +26,7 @@ class emenagerResidenceTest extends KernelTestCase
         $race = new Races();
         $coach = new Coaches();
 
-        $equipe = (new TeamsFactory)->lancerEquipe(
+        $equipe = TeamsFactory::lancerEquipe(
             1_000_000,
             'Test',
             150,
