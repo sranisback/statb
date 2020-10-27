@@ -20,7 +20,7 @@ class MatchesFactory
      * @param GameDataStadium $stade
      * @return Matches
      */
-    public function creerUnMatch(
+    public static function creerUnMatch(
         Array $donnees,
         Teams $equipe1,
         Teams $equipe2,

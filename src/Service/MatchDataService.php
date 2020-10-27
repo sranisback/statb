@@ -24,7 +24,7 @@ class MatchDataService
 
     public function creationLigneVideDonneeMatch(Players $joueur, Matches $match): void
     {
-        $this->doctrineEntityManager->persist((new MatchDataFactory)->ligneVide($joueur, $match));
+        $this->doctrineEntityManager->persist(MatchDataFactory::ligneVide($joueur, $match));
 
         $this->doctrineEntityManager->flush();
     }

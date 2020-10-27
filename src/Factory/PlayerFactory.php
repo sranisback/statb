@@ -21,7 +21,7 @@ class PlayerFactory
      * @param EntityManagerInterface $entityManager
      * @return Players
      */
-    public function nouveauJoueur(
+    public static function nouveauJoueur(
         GameDataPlayers $position,
         int $numero,
         Teams $equipe,

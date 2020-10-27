@@ -15,11 +15,9 @@ class lancerDefisTest extends KernelTestCase
      */
     public function lancer_un_defi(): void
     {
-        $defiFactoryTest = new DefiFactory();
-
         $teamMock0 = $this->createMock(Teams::class);
         $teamMock1 = $this->createMock(Teams::class);
 
-        $this->assertInstanceOf(Defis::class, $defiFactoryTest->lancerDefis($teamMock0, $teamMock1));
+        $this->assertInstanceOf(Defis::class, DefiFactory::lancerDefis($teamMock0, $teamMock1));
     }
 }

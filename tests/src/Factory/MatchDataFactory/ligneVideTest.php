@@ -14,9 +14,7 @@ class ligneVideTest extends KernelTestCase
      */
     public function creation_ligne_vide(): void
     {
-        $matchDataFactory = new MatchDataFactory();
-
-        $this->assertInstanceOf(MatchData::class, $matchDataFactory->ligneVide(
+        $this->assertInstanceOf(MatchData::class, MatchDataFactory::ligneVide(
             $this->createMock(Players::class),
             $this->createMock(Matches::class)
         ));

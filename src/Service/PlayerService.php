@@ -328,7 +328,7 @@ class PlayerService
                     $tresors = $equipe->getTreasury() - $position->getCost();
                     $equipe->setTreasury($tresors);
 
-                    $joueur = (new PlayerFactory)->nouveauJoueur(
+                    $joueur = PlayerFactory::nouveauJoueur(
                         $position,
                         (int)$numero,
                         $equipe,

@@ -188,7 +188,7 @@ class EquipeService
         $stade->setNiveau(0);
         $this->doctrineEntityManager->persist($stade);
 
-        $equipe = (new TeamsFactory)->lancerEquipe(
+        $equipe = TeamsFactory::lancerEquipe(
             $this->settingsService->recupererTresorDepart(),
             $teamname,
             $this->baseElo,
@@ -578,7 +578,7 @@ class EquipeService
 
         for ($x = 0; $x < $nbrDeJournalier; $x++) {
             /** @var Players $journalier */
-            $journalier = (new PlayerFactory)->nouveauJoueur(
+            $journalier = PlayerFactory::nouveauJoueur(
                 $positionJournalier,
                 $playerService->numeroLibreDelEquipe($equipe),
                 $equipe,

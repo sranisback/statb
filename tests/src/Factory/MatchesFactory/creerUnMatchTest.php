@@ -17,8 +17,6 @@ class creerUnMatchTest extends KernelTestCase
      */
     public function un_match_est_cree(): void
     {
-        $matchFactory = new MatchesFactory();
-
         $donnees = [
             'gain1' => '10000',
             'score1' => '5',
@@ -36,7 +34,7 @@ class creerUnMatchTest extends KernelTestCase
 
         $this->assertInstanceOf(
             Matches::class,
-            $matchFactory->creerUnMatch(
+            MatchesFactory::creerUnMatch(
                 $donnees,
                 $this->createMock(Teams::class),
                 $this->createMock(Teams::class),
@@ -53,8 +51,6 @@ class creerUnMatchTest extends KernelTestCase
      */
     public function le_stade_de_l_equipe_1_est_utilise()
     {
-        $matchFactory = new MatchesFactory();
-
         $stade = new Stades();
         $stade->setNiveau(2);
 
@@ -76,7 +72,7 @@ class creerUnMatchTest extends KernelTestCase
             'depense2' => 0
         ];
 
-        $matchTest = $matchFactory->creerUnMatch(
+        $matchTest = MatchesFactory::creerUnMatch(
             $donnees,
             $equipe1Test,
             $this->createMock(Teams::class),
@@ -99,8 +95,6 @@ class creerUnMatchTest extends KernelTestCase
      */
     public function les_depenses_sont_a_double_quote()
     {
-        $matchFactory = new MatchesFactory();
-
         $stade = new Stades();
         $stade->setNiveau(2);
 
@@ -122,7 +116,7 @@ class creerUnMatchTest extends KernelTestCase
             'depense2' => ''
         ];
 
-        $matchTest = $matchFactory->creerUnMatch(
+        $matchTest = MatchesFactory::creerUnMatch(
             $donnees,
             $equipe1Test,
             $this->createMock(Teams::class),
