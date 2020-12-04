@@ -120,7 +120,7 @@ class MatchController extends AbstractController
                         'match' => $match,
                         'actionEquipe1' => $playerService->toutesLesActionsDeLequipeDansUnMatch($match, $team1),
                         'actionEquipe2' => $playerService->toutesLesActionsDeLequipeDansUnMatch($match, $team2),
-                        'niveauStade' => (new NiveauStadeEnum)->numeroVersNiveauDeStade()
+                        'niveauStade' => NiveauStadeEnum::numeroVersNiveauDeStade()
                     ]
                 );
             }

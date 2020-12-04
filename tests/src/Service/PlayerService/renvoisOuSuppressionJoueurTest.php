@@ -110,10 +110,10 @@ class renvoisOuSuppressionJoueurTest extends TestCase
         $playerTest = new Players();
         $playerTest->setFPos($positionTest);
         $playerTest->setOwnedByTeam($equipeTest);
-        $playerTest->setType(1);
+        $playerTest->setJournalier(false);
 
         $matchDataRepoMock = $this->getMockBuilder(Players::class)
-            ->setMethods(['listeDesMatchsdUnJoueur'])
+            ->addMethods(['listeDesMatchsdUnJoueur'])
             ->getMock();
         $matchDataRepoMock->method('listeDesMatchsdUnJoueur')->willReturn(
             []

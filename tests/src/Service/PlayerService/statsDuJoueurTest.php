@@ -27,7 +27,7 @@ class statsDuJoueurTest extends TestCase
 
         $joueurMock = $this->createMock(Players::class);
         $joueurMock->method('getFPos')->willReturn($positionmock);
-        $joueurMock->method('getType')->willReturn(1);
+        $joueurMock->method('getJournalier')->willReturn(false);
 
         $matchDataMock0 = $this->createMock(MatchData::class);
         $matchDataMock0->method('getMvp')->willReturn(1);

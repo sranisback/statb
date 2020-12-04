@@ -87,7 +87,7 @@ class PlayerService
 
         $toutesLesCompsDuJoueur .= $statpec['nivspec'];
 
-        if ($joueur->getType() != 1) {
+        if ($joueur->getJournalier() == true) {
             $toutesLesCompsDuJoueur .= '<text class="text-danger">Loner</text>, ';
         }
 
@@ -395,7 +395,7 @@ class PlayerService
             $matchjoues = $this->doctrineEntityManager->getRepository(MatchData::class)->listeDesMatchsdUnJoueur(
                 $joueur
             );
-            if (!$matchjoues && $joueur->getType() === 1) {
+            if (!$matchjoues && $joueur->getJournalier() === false) {
                 $effect = "rm";
                 $equipe->setTreasury($equipe->getTreasury() + $position->getCost());
                 $this->doctrineEntityManager->remove($joueur);

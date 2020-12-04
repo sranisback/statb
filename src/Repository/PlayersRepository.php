@@ -84,7 +84,7 @@ class PlayersRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('players')
             ->select('teams.teamId, teams.name, COUNT(players) AS score')
             ->join('players.ownedByTeam', 'teams')
-            ->where('players.status =8 AND players.type = 1 AND teams.retired = 0 AND teams.year ='.$year)
+            ->where('players.status =8 AND players.journalier = FALSE AND teams.retired = 0 AND teams.year ='.$year)
             ->groupBy('teams.name')
             ->having('score > 0')
             ->addOrderBy('score', 'DESC')

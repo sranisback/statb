@@ -7,6 +7,7 @@ use App\Entity\Players;
 use App\Entity\Stades;
 use App\Entity\Teams;
 use App\Enum\AnneeEnum;
+use App\Enum\NiveauStadeEnum;
 use App\Form\CreerStadeType;
 use App\Form\LogoEnvoiType;
 use App\Service\AdminService;
@@ -91,7 +92,8 @@ class EquipeController extends AbstractController
         return $this->render(
             'statbb/team.html.twig',
             [
-                'feuille' => $equipeService->feuilleDequipeComplete($equipe, $playerService)
+                'feuille' => $equipeService->feuilleDequipeComplete($equipe, $playerService),
+                'niveauStade' => NiveauStadeEnum::numeroVersNiveauDeStade()
             ]
         );
     }

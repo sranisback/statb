@@ -63,7 +63,7 @@
             <tr>
                 <td>{{ player.nr }}</td>
                 <td>{{ player.name }}
-                    {% if player.type == 2 %}
+                    {% if player.journalier == true %}
                         <p class="fas fa-euro-sign"/>
                     {% endif %}
                     {% if player.status == 9 %}

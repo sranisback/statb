@@ -49,7 +49,7 @@ class PrimeType extends AbstractType
                     'query_builder' => fn (EntityRepository $entityRepository) => $entityRepository->createQueryBuilder('players')
                             ->join('players.ownedByTeam', 'teams')
                             ->where('teams.year ='.$this->settingsService->anneeCourante())
-                            ->andWhere('players.type = 1')
+                            ->andWhere('players.journalier = FALSE')
                             ->andWhere('players.status = 1 OR players.status = 9')
                             ->orderBy('players.nr'),
                     'group_by' => function (Players $joueur) {

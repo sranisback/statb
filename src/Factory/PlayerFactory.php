@@ -16,7 +16,7 @@ class PlayerFactory
      * @param GameDataPlayers $position
      * @param int $numero
      * @param Teams $equipe
-     * @param int $type
+     * @param bool $journalier
      * @param string|null $nom
      * @param EntityManagerInterface $entityManager
      * @return Players
@@ -25,7 +25,7 @@ class PlayerFactory
         GameDataPlayers $position,
         int $numero,
         Teams $equipe,
-        int $type,
+        bool $journalier,
         string $nom = null,
         \Doctrine\ORM\EntityManagerInterface $entityManager
     ): \App\Entity\Players {
@@ -69,7 +69,7 @@ class PlayerFactory
         $joueur->setFPos($position);
         $joueur->setOwnedByTeam($equipe);
         $joueur->setNr($numero);
-        $joueur->setType($type);
+        $joueur->setJournalier($journalier);
         $joueur->setStatus(1);
 
         return $joueur;

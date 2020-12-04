@@ -82,7 +82,7 @@ class GestionDesJournaliersTest extends TestCase
         $joueurTest10 = new Players();
         $joueurTest10->setOwnedByTeam($equipeTest);
         $joueurTest10->setNr(11);
-        $joueurTest10->setType(2);
+        $joueurTest10->setJournalier(true);
 
         $joueurTest11 = new Players();
         $joueurTest11->setOwnedByTeam($equipeTest);

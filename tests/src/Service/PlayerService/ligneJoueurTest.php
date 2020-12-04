@@ -23,7 +23,7 @@ class ligneJoueurTest extends TestCase
     {
         $joueurMock = $this->createMock(Players::class);
         $joueurMock->method('getPlayerId')->willReturn(1);
-        $joueurMock->method('getType')->willReturn(1);
+        $joueurMock->method('getJournalier')->willReturn(false);
 
         $playersSkillsRepoMock = $this->createMock(ObjectRepository::class);
         $playersSkillsRepoMock->method('findBy')->willReturn(false);
@@ -84,7 +84,7 @@ class ligneJoueurTest extends TestCase
     {
         $joueurMock = $this->createMock(Players::class);
         $joueurMock->method('getPlayerId')->willReturn(1);
-        $joueurMock->method('getType')->willReturn(1);
+        $joueurMock->method('getJournalier')->willReturn(false);
 
         $playerServiceTest = new PlayerService(
             $this->createMock(EntityManager::class),

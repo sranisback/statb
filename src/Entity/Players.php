@@ -29,10 +29,10 @@ class Players
 
     /**
      *
-     * @ORM\Column(name="type", type="integer", nullable=true)
-     * @var int|null
+     * @ORM\Column(name="journalier", type="boolean", nullable=false)
+     * @var boolean|null
      */
-    private ?int $type = null;
+    private bool $journalier = false;
 
     /**
      *
@@ -250,14 +250,14 @@ class Players
         return $this->playerId;
     }
 
-    public function getType(): ?int
+    public function getJournalier(): bool
     {
-        return $this->type;
+        return $this->journalier;
     }
 
-    public function setType(int $type): self
+    public function setJournalier(bool $journalier): self
     {
-        $this->type = $type;
+        $this->journalier = $journalier;
 
         return $this;
     }
