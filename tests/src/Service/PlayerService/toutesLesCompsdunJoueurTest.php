@@ -33,7 +33,7 @@ class toutesLesCompsdunJoueurTest extends TestCase
         $positionTest->setSkills('1');
 
         $joueurTest = new Players();
-        $joueurTest->setType(1);
+        $joueurTest->setJournalier(false);
         $joueurTest->setFPos($positionTest);
 
         $playersSkillsTest = new PlayersSkills();
@@ -81,7 +81,7 @@ class toutesLesCompsdunJoueurTest extends TestCase
         $positionTest->setSkills(null);
 
         $joueurTest = new Players();
-        $joueurTest->setType(1);
+        $joueurTest->setJournalier(false);
         $joueurTest->setFPos($positionTest);
 
         $playersSkillsRepoMock = $this->createMock(ObjectRepository::class);

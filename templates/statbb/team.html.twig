@@ -119,7 +119,7 @@
                                 {{ player.name }}
                             {% endif %}
                             <a class="fas fa-search" href="{{ path('Player', {'playerid': player.playerId }) }}"></a>
-                            {% if player.type == 2 %}
+                            {% if player.journalier == true %}
                                 <p class="fas fa-euro-sign"/>
                             {% endif %}
                             {% if player.status == 9 %}

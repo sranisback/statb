@@ -64,6 +64,7 @@ class EquipeService
     private int $payementStade = 70_000;
 
     private const MORTS_VIVANTS = 'Morts vivants';
+    private const OWA = 'OWA';
 
     public function __construct(
         EntityManagerInterface $doctrineEntityManager,
@@ -497,13 +498,21 @@ class EquipeService
         /** @var Races $race */
         $race = $equipe->getFRace();
 
-        if ($race->getName() == EquipeService::MORTS_VIVANTS) {
-            return $this->doctrineEntityManager->getRepository(GameDataPlayers::class)
-                ->findOneBy(['posId' => '171']);
-        } else {
-            return $this->doctrineEntityManager->getRepository(GameDataPlayers::class)->findOneBy(
-                ['fRace' => $equipe->getFRace(), 'qty' => '16']
-            );
+        switch ($race->getName()) {
+            case EquipeService::MORTS_VIVANTS:
+                return $this->doctrineEntityManager->getRepository(GameDataPlayers::class)
+                    ->findOneBy(['posId' => '171']);
+            case EquipeService::OWA:
+                return $this->doctrineEntityManager->getRepository(GameDataPlayers::class)->findOneBy(
+                    ['fRace' => $equipe->getFRace(), 'qty' => '12']
+                );
+            default:
+                $test = $this->doctrineEntityManager->getRepository(GameDataPlayers::class)->findOneBy(
+                    ['fRace' => $equipe->getFRace(), 'qty' => '16']
+                );
+                return $this->doctrineEntityManager->getRepository(GameDataPlayers::class)->findOneBy(
+                    ['fRace' => $equipe->getFRace(), 'qty' => '16']
+                );
         }
     }
 
@@ -582,7 +591,7 @@ class EquipeService
                 $positionJournalier,
                 $playerService->numeroLibreDelEquipe($equipe),
                 $equipe,
-                2,
+                true,
                 null,
                 $this->doctrineEntityManager
             );
@@ -719,7 +728,7 @@ class EquipeService
             'pdata' => $pdata,
             'tdata' => $tdata,
             'annee' => $this->settingsService->anneeCourante(),
-            'niveauStade' => (new NiveauStadeEnum)->numeroVersNiveauDeStade()
+            'niveauStade' => NiveauStadeEnum::numeroVersNiveauDeStade()
         ];
     }
 

@@ -24,7 +24,7 @@ class listesDesActionsDunJoueurParMatchesTest extends TestCase
     {
         $joueurMock = $this->createMock(Players::class);
         $joueurMock->method('getPlayerId')->willReturn(1);
-        $joueurMock->method('getType')->willReturn(1);
+        $joueurMock->method('getJournalier')->willReturn(false);
 
         $matchDataMock = $this->createMock(MatchData::class);
 
@@ -82,7 +82,7 @@ class listesDesActionsDunJoueurParMatchesTest extends TestCase
     {
         $joueurMock = $this->createMock(Players::class);
         $joueurMock->method('getPlayerId')->willReturn(1);
-        $joueurMock->method('getType')->willReturn(1);
+        $joueurMock->method('getJournalier')->willReturn(false);
 
         $matchDataMock = $this->createMock(MatchData::class);
 
