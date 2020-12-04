@@ -65,6 +65,7 @@ class EquipeService
 
     private const MORTS_VIVANTS = 'Morts vivants';
     private const OWA = 'OWA';
+    private const BAS_FOND = 'Bas fonds';
 
     public function __construct(
         EntityManagerInterface $doctrineEntityManager,
@@ -503,13 +504,11 @@ class EquipeService
                 return $this->doctrineEntityManager->getRepository(GameDataPlayers::class)
                     ->findOneBy(['posId' => '171']);
             case EquipeService::OWA:
+            case EquipeService::BAS_FOND:
                 return $this->doctrineEntityManager->getRepository(GameDataPlayers::class)->findOneBy(
                     ['fRace' => $equipe->getFRace(), 'qty' => '12']
                 );
             default:
-                $test = $this->doctrineEntityManager->getRepository(GameDataPlayers::class)->findOneBy(
-                    ['fRace' => $equipe->getFRace(), 'qty' => '16']
-                );
                 return $this->doctrineEntityManager->getRepository(GameDataPlayers::class)->findOneBy(
                     ['fRace' => $equipe->getFRace(), 'qty' => '16']
                 );
