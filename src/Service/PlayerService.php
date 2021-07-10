@@ -115,25 +115,16 @@ class PlayerService
      */
     public function listeDesCompdUnePosition(GameDataPlayers $position): string
     {
-        if ($position->getSkills() != '') {
-            $idcompCollection = explode(",", (string)$position->getSkills());
-        }
+        $listeCompBase = $position->getBaseSkills();
+        $listeCompBaseEnHtml = '';
 
-        $listeCompDeBase = '';
-
-        if (!empty($idcompCollection)) {
-            foreach ($idcompCollection as $idComp) {
-                $comp = $this->doctrineEntityManager->getRepository(GameDataSkills::class)->findOneBy(
-                    ['skillId' => $idComp]
-                );
-
-                $listeCompDeBase .= '<text class="test-primary">' . $comp->getName() . '</text>, ';
+        if (!$listeCompBase->isEmpty()) {
+            foreach ($listeCompBase as $comp) {
+                $listeCompBaseEnHtml .= '<text class="test-primary">' . $comp->getName() . '</text>, ';
             }
-
-            return $listeCompDeBase;
         }
 
-        return '';
+        return $listeCompBaseEnHtml;
     }
 
     /**
@@ -142,22 +133,15 @@ class PlayerService
      */
     public function listeDesCompEtSurcoutGagnedUnJoueur(Players $joueur): array
     {
-        $compSupplementaire = $this->doctrineEntityManager->getRepository(PlayersSkills::class)->findBy(
-            ['fPid' => $joueur->getPlayerId()]
-        );
-
         $coutTotal = 0;
         $listCompGagnee = '';
-
-        if ($compSupplementaire !== false) {
-            foreach ($compSupplementaire as $comp) {
-                if ($comp->getType() == 'N') {
-                    $coutTotal += 20_000;
-                    $listCompGagnee .= '<text class="text-success">' . $comp->getFSkill()->getName() . '</text>, ';
-                } else {
-                    $coutTotal += 30_000;
-                    $listCompGagnee .= '<text class="text-danger">' . $comp->getFSkill()->getName() . '</text>, ';
-                }
+        foreach ($joueur->getSkills() as $comp) {
+            if ($comp->getType() == 'N') {
+                $coutTotal += 20_000;
+                $listCompGagnee .= '<text class="text-success">' . $comp->getFSkill()->getName() . '</text>, ';
+            } else {
+                $coutTotal += 30_000;
+                $listCompGagnee .= '<text class="text-danger">' . $comp->getFSkill()->getName() . '</text>, ';
             }
         }
 
@@ -420,7 +404,7 @@ class PlayerService
 
             return [
                 'reponse' => $effect,
-                'tv' => $equipe->getTv()/1_000,
+                'tv' => $equipe->getTv() / 1_000,
                 'tresor' => $equipe->getTreasury(),
                 'playercost' => $this->valeurDunJoueur($joueur),
             ];
@@ -691,21 +675,21 @@ class PlayerService
      * @param Players $joueur
      * @return bool
      */
-    public function leJoueurEstDisposable(Players $joueur) : bool
+    public function leJoueurEstDisposable(Players $joueur): bool
     {
         /** @var GameDataSkills $disposable */
         $disposable = $this->doctrineEntityManager
             ->getRepository(GameDataSkills::class)->findOneBy(['name' => 'Disposable']);
 
         return !empty($disposable) &&
-            in_array($disposable->getSkillId(), explode(',', $joueur->getFPos()->getSkills()));
+            in_array($disposable, $joueur->getFPos()->getBaseSkills()->toArray());
     }
 
     /**
      * @param Players $joueur
      * @return bool
      */
-    public function leJoueurEstFanFavorite(Players $joueur) : bool
+    public function leJoueurEstFanFavorite(Players $joueur): bool
     {
         $playersSkill = false;
 

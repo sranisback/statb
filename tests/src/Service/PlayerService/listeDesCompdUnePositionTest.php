@@ -8,7 +8,7 @@ use App\Service\EquipeService;
 use App\Service\InfosService;
 use App\Service\MatchDataService;
 use App\Service\PlayerService;
-use Doctrine\Persistence\ObjectRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -19,12 +19,6 @@ class listeDesCompdUnePositionTest extends TestCase
      */
     public function toutes_les_comps_sont_retournees(): void
     {
-        $positionmock = $this->createMock(GameDataPlayers::class);
-        $positionmock->method('getSkills')->willReturn('5,23,24');
-
-        $gameDataSkillRepoMock = $this->createMock(ObjectRepository::class);
-        $gameDataSkillRepoMock->method('findOneBy')->willReturn($positionmock);
-
         $gameDataSkillMock0 = $this->createMock(GameDataSkills::class);
         $gameDataSkillMock0->method('getName')->willReturnOnConsecutiveCalls('Frenzy');
 
@@ -34,15 +28,14 @@ class listeDesCompdUnePositionTest extends TestCase
         $gameDataSkillMock2 = $this->createMock(GameDataSkills::class);
         $gameDataSkillMock2->method('getName')->willReturnOnConsecutiveCalls('Jump Up');
 
-        $gameDataSkillRepoMock = $this->createMock(ObjectRepository::class);
-        $gameDataSkillRepoMock->method('findOneBy')->willReturnOnConsecutiveCalls(
-            $gameDataSkillMock0,
-            $gameDataSkillMock1,
-            $gameDataSkillMock2
+        $testbaseSkills = new ArrayCollection([$gameDataSkillMock0, $gameDataSkillMock1, $gameDataSkillMock2]);
+
+        $positionmock = $this->createMock(GameDataPlayers::class);
+        $positionmock->method('getBaseSkills')->willReturn(
+            $testbaseSkills
         );
 
         $objectManager = $this->createMock(EntityManagerInterface::class);
-        $objectManager->method('getRepository')->willReturn($gameDataSkillRepoMock);
 
         $matchDataService = new MatchDataService($objectManager);
 

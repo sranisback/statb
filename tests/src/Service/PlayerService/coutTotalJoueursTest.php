@@ -12,6 +12,7 @@ use App\Service\EquipeService;
 use App\Service\InfosService;
 use App\Service\MatchDataService;
 use App\Service\PlayerService;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
@@ -25,63 +26,66 @@ class coutTotalJoueursTest extends TestCase
     {
         $equipeMock = $this->createMock(Teams::class);
 
+        $baseSkillsTest = new ArrayCollection();
+
         $positionMock = $this->createMock(GameDataPlayers::class);
         $positionMock->method('getCost')->willReturn(110_000);
-
-        $joueurMock = $this->createMock(Players::class);
-        $joueurMock->method('getFPos')->willReturn($positionMock);
+        $positionMock->method('getBaseSkills')->willReturn($baseSkillsTest);
 
         $gameDataSkillMock = $this->createMock(GameDataSkills::class);
-        $gameDataSkillMock->method('getName')->willReturn('block');
+
+        $gameDataSkillsMockDisposable = $this->createMock(GameDataSkills::class);
+
+        $gameDataSkillRepoMock = $this->getMockBuilder(Players::class)
+            ->addMethods(['findOneBy'])
+            ->getMock();
+        $gameDataSkillRepoMock->method('findOneBy')->willReturn($gameDataSkillsMockDisposable);
 
         $playersSkillMock = $this->createMock(PlayersSkills::class);
         $playersSkillMock->method('getType')->willReturn('N');
         $playersSkillMock->method('getFSkill')->willReturn($gameDataSkillMock);
 
-        $playerSkillRepoMock = $this->createMock(ObjectRepository::class);
-        $playerSkillRepoMock->method('findBy')->willReturn([$playersSkillMock]);
+        $playerSkillsTest = new ArrayCollection();
+        $playerSkillsTest->add($playersSkillMock);
 
-        $joueurRepoMock = $this->getMockBuilder(Players::class)
-            ->setMethods(['listeDesJoueursPourlEquipe'])
+        $joueurMock = $this->createMock(Players::class);
+        $joueurMock->method('getFPos')->willReturn($positionMock);
+        $joueurMock->method('getInjRpm')->willReturn(0);
+        $joueurMock->method('getSkills')->willReturn($playerSkillsTest);
+
+        $playerRepoMock = $this->getMockBuilder(Players::class)
+            ->addMethods(['listeDesJoueursPourlEquipe'])
             ->getMock();
-        $joueurRepoMock->method('listeDesJoueursPourlEquipe')->willReturn([$joueurMock]);
-
-        $gameDataSkillsTest = $this->createMock(GameDataSkills::class);
-        $gameDataSkillsTest->method('getName')->willReturn('Disposable');
-        $gameDataSkillsTest->method('getSkillId')->willReturn(1);
-
-        $gameDataSkillRepoMock = $this->getMockBuilder(Players::class)
-            ->setMethods(['findOneBy'])
-            ->getMock();
-        $gameDataSkillRepoMock->method('findOneBy')->willReturn($gameDataSkillsTest);
+        $playerRepoMock->method('listeDesJoueursPourlEquipe')->willReturn(
+            [$joueurMock]
+        );
 
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->will($this->returnCallback(
-            function ($entityName) use ($joueurRepoMock, $playerSkillRepoMock,$gameDataSkillRepoMock) {
+            function ($entityName) use ($playerRepoMock,$gameDataSkillRepoMock) {
                 if ($entityName === 'App\Entity\Players') {
-                    return $joueurRepoMock;
-                }
-
-                if ($entityName === 'App\Entity\PlayersSkills') {
-                    return $playerSkillRepoMock;
+                    return $playerRepoMock;
                 }
 
                 if ($entityName === 'App\Entity\GameDataSkills') {
                     return $gameDataSkillRepoMock;
                 }
+
+                if ($entityName === 'App\Entity\PlayersSkills') {
+                    return $this->createMock(ObjectRepository::class);
+                }
+
                 return true;
             }
         ));
 
-        $matchDataService = new MatchDataService($objectManager);
-
-        $playerService = new PlayerService(
+        $playerServiceTest = new PlayerService(
             $objectManager,
             $this->createMock(EquipeService::class),
-            $matchDataService,
+            $this->createMock(MatchDataService::class),
             $this->createMock(InfosService::class)
         );
 
-        $this->assertEquals('130000', $playerService->coutTotalJoueurs($equipeMock));
+        $this->assertEquals('130000', $playerServiceTest->coutTotalJoueurs($equipeMock));
     }
 }
