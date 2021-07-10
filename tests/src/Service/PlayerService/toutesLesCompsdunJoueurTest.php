@@ -11,6 +11,7 @@ use App\Service\EquipeService;
 use App\Service\InfosService;
 use App\Service\MatchDataService;
 use App\Service\PlayerService;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
@@ -23,27 +24,30 @@ class toutesLesCompsdunJoueurTest extends TestCase
      */
     public function toutes_les_comps_sont_retournees(): void
     {
-        $gameDataSkillTest0 = new GameDataSkills();
-        $gameDataSkillTest0->setName('Test');
+        $gameDataSkillMock0 = $this->createMock(GameDataSkills::class);
+        $gameDataSkillMock0->method('getName')->willReturn('Test');
 
-        $gameDataSkillTest1 = new GameDataSkills();
-        $gameDataSkillTest1->setName('Test');
+        $gameDataSkillMock1 = $this->createMock(GameDataSkills::class);
+        $gameDataSkillMock1->method('getName')->willReturn('Test');
 
-        $positionTest = new GameDataPlayers();
-        $positionTest->setSkills('1');
+        $playerSkillMock = $this->createMock(PlayersSkills::class);
+        $playerSkillMock->method('getFSkill')->willReturn($gameDataSkillMock1);
 
-        $joueurTest = new Players();
-        $joueurTest->setJournalier(false);
-        $joueurTest->setFPos($positionTest);
+        $baseCompMock = new ArrayCollection([$gameDataSkillMock0]);
+        $skillAdded = new ArrayCollection([$playerSkillMock]);
 
-        $playersSkillsTest = new PlayersSkills();
-        $playersSkillsTest->setFSkill($gameDataSkillTest0);
+        $positionMock = $this->createMock(GameDataPlayers::class);
+        $positionMock->method('getBaseSkills')->willReturn($baseCompMock);
+
+        $joueurMock = $this->createMock(Players::class);
+        $joueurMock->method('getFPos')->willReturn($positionMock);
+        $joueurMock->method('getSkills')->willReturn($skillAdded);
 
         $playersSkillsRepoMock = $this->createMock(ObjectRepository::class);
-        $playersSkillsRepoMock->method('findBy')->willReturnOnConsecutiveCalls([$playersSkillsTest]);
+        $playersSkillsRepoMock->method('findBy')->willReturnOnConsecutiveCalls([$playerSkillMock]);
 
         $gameDataSkillRepoMock = $this->createMock(ObjectRepository::class);
-        $gameDataSkillRepoMock->method('findOneBy')->willReturn($gameDataSkillTest1);
+        $gameDataSkillRepoMock->method('findOneBy')->willReturn($gameDataSkillMock0);
 
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->will($this->returnCallback(
@@ -69,7 +73,7 @@ class toutesLesCompsdunJoueurTest extends TestCase
 
         $retourAttendu = '<text class="test-primary">Test</text>, <text class="text-danger">Test</text>, ';
 
-        $this->assertEquals($retourAttendu, $playerService->toutesLesCompsdUnJoueur($joueurTest));
+        $this->assertEquals($retourAttendu, $playerService->toutesLesCompsdUnJoueur($joueurMock));
     }
 
     /**

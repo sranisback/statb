@@ -230,6 +230,23 @@ class Players
     }
 
     /**
+     * @return PlayersSkills[]|Collection
+     */
+    public function getSkills()
+    {
+        return $this->skills;
+    }
+
+    public function addSkills(PlayersSkills $skills): self
+    {
+        if (!$this->skills->contains($skills)) {
+            $this->skills[] = $skills;
+        }
+
+        return $this;
+    }
+
+    /**
      * @return \Doctrine\Common\Collections\Collection
      */
     public function getMatchData(): \Doctrine\Common\Collections\Collection

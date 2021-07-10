@@ -52,15 +52,15 @@ class valeurDunJoueurTest extends TestCase
         $positionTest = new GameDataPlayers();
         $positionTest->setCost(50_000);
 
-        $joueurTest = new Players();
-        $joueurTest->setFPos($positionTest);
-
         $gameDataSkillTest = new GameDataSkills();
-        $gameDataSkillTest->setName('test skill');
 
         $playerSkillTest = new PlayersSkills();
         $playerSkillTest->setType('N');
         $playerSkillTest->setFSkill($gameDataSkillTest);
+
+        $joueurTest = new Players();
+        $joueurTest->setFPos($positionTest);
+        $joueurTest->addSkills($playerSkillTest);
 
         $playerSkillRepoMock = $this->createMock(ObjectRepository::class);
         $playerSkillRepoMock->method('findBy')->willReturn([$playerSkillTest]);
@@ -86,15 +86,15 @@ class valeurDunJoueurTest extends TestCase
         $positionTest = new GameDataPlayers();
         $positionTest->setCost(50_000);
 
-        $joueurTest = new Players();
-        $joueurTest->setFPos($positionTest);
-
         $gameDataSkillTest = new GameDataSkills();
-        $gameDataSkillTest->setName('test skill');
 
         $playerSkillTest = new PlayersSkills();
         $playerSkillTest->setType('D');
         $playerSkillTest->setFSkill($gameDataSkillTest);
+
+        $joueurTest = new Players();
+        $joueurTest->setFPos($positionTest);
+        $joueurTest->addSkills($playerSkillTest);
 
         $playerSkillRepoMock = $this->createMock(ObjectRepository::class);
         $playerSkillRepoMock->method('findBy')->willReturn([$playerSkillTest]);
@@ -151,9 +151,6 @@ class valeurDunJoueurTest extends TestCase
         $positionTest = new GameDataPlayers();
         $positionTest->setCost(50_000);
 
-        $joueurTest = new Players();
-        $joueurTest->setFPos($positionTest);
-
         $gameDataSkillTest = new GameDataSkills();
         $gameDataSkillTest->setName('test skill');
 
@@ -164,6 +161,11 @@ class valeurDunJoueurTest extends TestCase
         $playerSkillTest1 = new PlayersSkills();
         $playerSkillTest1->setType('D');
         $playerSkillTest1->setFSkill($gameDataSkillTest);
+
+        $joueurTest = new Players();
+        $joueurTest->setFPos($positionTest);
+        $joueurTest->addSkills($playerSkillTest0);
+        $joueurTest->addSkills($playerSkillTest1);
 
         $playerSkillRepoMock = $this->createMock(ObjectRepository::class);
         $playerSkillRepoMock->method('findBy')->willReturn([$playerSkillTest0,$playerSkillTest1]);
@@ -192,7 +194,7 @@ class valeurDunJoueurTest extends TestCase
 
         $positionTest = new GameDataPlayers();
         $positionTest->setCost(50_000);
-        $positionTest->setSkills(1);
+        $positionTest->addBaseSkill($gameDataSkillsTest);
 
         $joueurTest = new Players();
         $joueurTest->setFPos($positionTest);
@@ -201,7 +203,7 @@ class valeurDunJoueurTest extends TestCase
         $playerSkillRepoMock->method('findBy')->willReturn([]);
 
         $gameDataSkillRepoMock = $this->getMockBuilder(Players::class)
-            ->setMethods(['findOneBy'])
+            ->addMethods(['findOneBy'])
             ->getMock();
         $gameDataSkillRepoMock->method('findOneBy')->willReturn($gameDataSkillsTest);
 

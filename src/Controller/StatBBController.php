@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Coaches;
+use App\Entity\GameDataPlayers;
+use App\Entity\GameDataSkills;
 use App\Entity\Players;
 use App\Entity\PlayersIcons;
 use App\Service\DefisService;
@@ -179,6 +181,26 @@ class StatBBController extends AbstractController
                 $joueur->setName($nom[0]);
 
                 $this->getDoctrine()->getManager()->persist($joueur);
+
+                $this->getDoctrine()->getManager()->flush();
+            }
+        }
+        return new Response('ok');
+    }
+
+    /**
+     * @Route("/majBaseSkill")
+     */
+    public function majBaseSkills()
+    {
+        /** @var GameDataPlayers $position */
+        foreach ($this->getDoctrine()->getRepository(GameDataPlayers::class)->findAll() as $position) {
+            foreach (explode(',',$position->getSkills()) as $skillId) {
+                $position->addBaseSkill($this->getDoctrine()
+                    ->getRepository(GameDataSkills::class)
+                    ->findOneBy(['skillId' => $skillId]));
+
+                $this->getDoctrine()->getManager()->persist($position);
 
                 $this->getDoctrine()->getManager()->flush();
             }

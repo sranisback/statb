@@ -10,6 +10,7 @@ use App\Service\EquipeService;
 use App\Service\InfosService;
 use App\Service\MatchDataService;
 use App\Service\PlayerService;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
@@ -21,20 +22,18 @@ class StatPositionsTest extends TestCase
      */
     public function la_position_a_une_seul_comp()
     {
-        $gameDataPlayerTest = $this->createMock(GameDataPlayers::class);
-        $gameDataPlayerTest->method('getSkills')->willReturn('1');
+        $baseSkillsTest = new ArrayCollection();
 
-        $gameDateSkillTest = $this->createMock(GameDataSkills::class);
-        $gameDateSkillTest->method('getName')->willReturn('Block');
+        $gameDataPlayerMock = $this->createMock(GameDataPlayers::class);
+        $gameDataPlayerMock->method('getBaseSkills')->willReturn($baseSkillsTest);
 
-        $gameDataSkillRepoMock = $this->createMock(ObjectRepository::class);
-        $gameDataSkillRepoMock->method('findOneBy')->willReturn($gameDateSkillTest);
+        $gameDateSkillMock = $this->createMock(GameDataSkills::class);
+        $gameDateSkillMock->method('getName')->willReturn('Block');
 
-        $objectManager = $this->createMock(EntityManager::class);
-        $objectManager->method('getRepository')->willReturn($gameDataSkillRepoMock);
+        $baseSkillsTest->add($gameDateSkillMock);
 
         $playerServiceTest = new PlayerService(
-            $objectManager,
+            $this->createMock(EntityManager::class),
             $this->createMock(EquipeService::class),
             $this->createMock(MatchDataService::class),
             $this->createMock(InfosService::class)
@@ -42,7 +41,7 @@ class StatPositionsTest extends TestCase
 
         $this->assertEquals(
             '<text class="test-primary">Block</text>',
-            $playerServiceTest->competencesDunePositon($gameDataPlayerTest)
+            $playerServiceTest->competencesDunePositon($gameDataPlayerMock)
         );
     }
 
@@ -51,26 +50,22 @@ class StatPositionsTest extends TestCase
      */
     public function la_position_a_plusieur_comp()
     {
-        $gameDataPlayerTest = $this->createMock(GameDataPlayers::class);
-        $gameDataPlayerTest->method('getSkills')->willReturn('1,2');
+        $baseSkillsTest = new ArrayCollection();
 
-        $gameDateSkillTest0 = $this->createMock(GameDataSkills::class);
-        $gameDateSkillTest0->method('getName')->willReturn('Block');
+        $gameDataPlayerMock = $this->createMock(GameDataPlayers::class);
+        $gameDataPlayerMock->method('getBaseSkills')->willReturn($baseSkillsTest);
 
-        $gameDateSkillTest1 = $this->createMock(GameDataSkills::class);
-        $gameDateSkillTest1->method('getName')->willReturn('Guard');
+        $gameDateSkillMock0 = $this->createMock(GameDataSkills::class);
+        $gameDateSkillMock0->method('getName')->willReturn('Block');
 
-        $gameDataSkillRepoMock = $this->createMock(ObjectRepository::class);
-        $gameDataSkillRepoMock->method('findOneBy')->willReturnOnConsecutiveCalls(
-            $gameDateSkillTest0,
-            $gameDateSkillTest1
-        );
+        $gameDateSkillMock1 = $this->createMock(GameDataSkills::class);
+        $gameDateSkillMock1->method('getName')->willReturn('Guard');
 
-        $objectManager = $this->createMock(EntityManager::class);
-        $objectManager->method('getRepository')->willReturn($gameDataSkillRepoMock);
+        $baseSkillsTest->add($gameDateSkillMock0);
+        $baseSkillsTest->add($gameDateSkillMock1);
 
         $playerServiceTest = new PlayerService(
-            $objectManager,
+            $this->createMock(EntityManager::class),
             $this->createMock(EquipeService::class),
             $this->createMock(MatchDataService::class),
             $this->createMock(InfosService::class)
@@ -78,7 +73,7 @@ class StatPositionsTest extends TestCase
 
         $this->assertEquals(
             '<text class="test-primary">Block</text>, <text class="test-primary">Guard</text>',
-            $playerServiceTest->competencesDunePositon($gameDataPlayerTest)
+            $playerServiceTest->competencesDunePositon($gameDataPlayerMock)
         );
     }
 
@@ -87,8 +82,10 @@ class StatPositionsTest extends TestCase
      */
     public function la_position_n_a_pas_de_comp()
     {
-        $gameDataPlayerTest = $this->createMock(GameDataPlayers::class);
-        $gameDataPlayerTest->method('getSkills')->willReturn('');
+        $baseSkillsTest = new ArrayCollection();
+
+        $gameDataPlayerMock = $this->createMock(GameDataPlayers::class);
+        $gameDataPlayerMock->method('getBaseSkills')->willReturn($baseSkillsTest);
 
         $playerServiceTest = new PlayerService(
             $this->createMock(EntityManager::class),
@@ -99,7 +96,7 @@ class StatPositionsTest extends TestCase
 
         $this->assertEquals(
             '',
-            $playerServiceTest->competencesDunePositon($gameDataPlayerTest)
+            $playerServiceTest->competencesDunePositon($gameDataPlayerMock)
         );
     }
 }

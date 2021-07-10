@@ -104,6 +104,20 @@ class GameDataPlayers
      */
     private ?\App\Entity\Races $fRace = null;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=GameDataSkills::class)
+     * @ORM\JoinTable(name="GameDataPlayer_GameDataSkills",
+     *      joinColumns={@ORM\JoinColumn(name="position", referencedColumnName="pos_id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="skill_id", referencedColumnName="skill_id")}
+     *      )
+     */
+    private $baseSkills;
+
+    public function __construct()
+    {
+        $this->baseSkills = new ArrayCollection();
+    }
+
     public function getPosId(): int
     {
         return $this->posId;
@@ -237,6 +251,32 @@ class GameDataPlayers
     public function setFRace(Races $fRace): self
     {
         $this->fRace = $fRace;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|GameDataSkills[]
+     */
+    public function getBaseSkills(): Collection
+    {
+        return $this->baseSkills;
+    }
+
+    public function addBaseSkill(GameDataSkills $baseSkill): self
+    {
+        if (!$this->baseSkills->contains($baseSkill)) {
+            $this->baseSkills[] = $baseSkill;
+        }
+
+        return $this;
+    }
+
+    public function removeBaseSkill(GameDataSkills $baseSkill): self
+    {
+        if ($this->baseSkills->contains($baseSkill)) {
+            $this->baseSkills->removeElement($baseSkill);
+        }
 
         return $this;
     }
