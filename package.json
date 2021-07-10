@@ -21,7 +21,7 @@
     },
     "dependencies": {
         "bootstrap-sass": "^3.4.1",
-        "datatables.net": "^1.10.19",
+        "datatables.net": "^1.10.22",
         "html2canvas": "^1.0.0-rc.5",
         "html2canvas-webpack": "^0.5.0-beta4",
         "html2pdf": "0.0.11",
