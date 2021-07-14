@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\GameDataPlayers;
+use App\Entity\GameDataPlayersBb2020;
 use App\Entity\PlayersIcons;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -24,6 +25,15 @@ class PlayerIconsRepository extends ServiceEntityRepository
      * @return \App\Entity\PlayersIcons[]
      */
     public function toutesLesIconesDunePosition(GameDataPlayers $position): array
+    {
+        return $this->findBy(['position' => $position]);
+    }
+
+    /**
+     * @param GameDataPlayersBb2020 $position
+     * @return PlayersIcons[]
+     */
+    public function toutesLesIconesDunePositionBb2020(GameDataPlayersBb2020 $position): array
     {
         return $this->findBy(['position' => $position]);
     }

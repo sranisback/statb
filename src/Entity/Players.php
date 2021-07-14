@@ -90,19 +90,18 @@ class Players
      */
     private int $achAv = 0;
 
+
+    /**
+     * @ORM\Column(name="ach_cp", type="integer", nullable=true)
+     */
+    private int $achCp = 0;
+
     /**
      *
      * @ORM\Column(name="extra_spp", type="integer", nullable=true)
      * @var int|null
      */
-    private ?int $extraSpp = null;
-
-    /**
-     *
-     * @ORM\Column(name="extra_val", type="integer", nullable=false)
-     * @var int
-     */
-    private int $extraVal = 0;
+    private ?int $sppRestants = null;
 
     /**
      *
@@ -168,6 +167,11 @@ class Players
     private int $injRpm = 0;
 
     /**
+     * @ORM\Column(name="inj_cp", type="integer")
+     */
+    private int $injCp = 0;
+
+    /**
      *
      * @ORM\ManyToOne(targetEntity="GameDataPlayers")
      * @ORM\JoinColumn(name="f_pos_id", referencedColumnName="pos_id")
@@ -177,11 +181,62 @@ class Players
 
     /**
      *
+     * @ORM\ManyToOne(targetEntity="App\Entity\GameDataPlayersBb2020")
+     * @ORM\JoinColumn(name="pos_id_bb2020", referencedColumnName="id")
+     * @var null|\App\Entity\GameDataPlayersBb2020
+     */
+    private ?\App\Entity\GameDataPlayersBb2020 $fPosBb2020 = null;
+
+    /**
+     *
      * @ORM\ManyToOne(targetEntity="Races")
      * @ORM\JoinColumn(name="f_rid", referencedColumnName="race_id")
      * @var \App\Entity\Races|null
      */
     private ?\App\Entity\Races $fRid = null;
+
+    /**
+     * @return GameDataPlayersBb2020|null
+     */
+    public function getFPosBb2020(): ?GameDataPlayersBb2020
+    {
+        return $this->fPosBb2020;
+    }
+
+    /**
+     * @param GameDataPlayersBb2020|null $fPosBb2020
+     */
+    public function setFPosBb2020(?GameDataPlayersBb2020 $fPosBb2020): void
+    {
+        $this->fPosBb2020 = $fPosBb2020;
+    }
+
+    /**
+     * @return RacesBb2020|null
+     */
+    public function getFRidBb2020()
+    {
+        return $this->fRidBb2020;
+    }
+
+    /**
+     * @param RacesBb2020|null $fRidBb2020
+     * @return $this
+     */
+    public function setFRidBb2020(?RacesBb2020 $fRidBb2020): self
+    {
+        $this->fRidBb2020 = $fRidBb2020;
+
+        return $this;
+    }
+
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="RacesBb2020")
+     * @ORM\JoinColumn(name="f_rid_bb2020", referencedColumnName="id")
+     * @var \App\Entity\RacesBb2020|null
+     */
+    private ?\App\Entity\RacesBb2020 $fRidBb2020 = null;
 
     /**
      *
@@ -221,6 +276,11 @@ class Players
      * @var \App\Entity\PlayersSkills[]|\Doctrine\Common\Collections\Collection
      */
     private Collection $skills;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $Ruleset;
 
     public function __construct()
     {
@@ -375,26 +435,14 @@ class Players
         return $this;
     }
 
-    public function getExtraSpp(): ?int
+    public function getSppRestants(): ?int
     {
-        return $this->extraSpp;
+        return $this->sppRestants;
     }
 
-    public function setExtraSpp(int $extraSpp): self
+    public function setSppRestants(int $sppRestants): self
     {
-        $this->extraSpp = $extraSpp;
-
-        return $this;
-    }
-
-    public function getExtraVal(): int
-    {
-        return $this->extraVal;
-    }
-
-    public function setExtraVal(int $extraVal): self
-    {
-        $this->extraVal = $extraVal;
+        $this->sppRestants = $sppRestants;
 
         return $this;
     }
@@ -603,6 +651,42 @@ class Players
                 $historiqueBlessure->setPlayer(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRuleset(): ?int
+    {
+        return $this->Ruleset;
+    }
+
+    public function setRuleset(int $Ruleset): self
+    {
+        $this->Ruleset = $Ruleset;
+
+        return $this;
+    }
+
+    public function getAchCp(): ?int
+    {
+        return $this->achCp;
+    }
+
+    public function setAchCp(?int $achCp): self
+    {
+        $this->achCp = $achCp;
+
+        return $this;
+    }
+
+    public function getInjCp(): ?int
+    {
+        return $this->injCp;
+    }
+
+    public function setInjCp(int $injCp): self
+    {
+        $this->injCp = $injCp;
 
         return $this;
     }

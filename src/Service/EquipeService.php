@@ -67,6 +67,8 @@ class EquipeService
     private const OWA = 'OWA';
     private const BAS_FOND = 'Bas fonds';
 
+    private const BB_2016 = '2016';
+
     public function __construct(
         EntityManagerInterface $doctrineEntityManager,
         SettingsService $settingsService,
@@ -585,14 +587,13 @@ class EquipeService
         $positionJournalier = $this->positionDuJournalier($equipe);
 
         for ($x = 0; $x < $nbrDeJournalier; $x++) {
-            /** @var Players $journalier */
             $journalier = PlayerFactory::nouveauJoueur(
                 $positionJournalier,
                 $playerService->numeroLibreDelEquipe($equipe),
                 $equipe,
                 true,
-                null,
-                $this->doctrineEntityManager
+                $this->doctrineEntityManager,
+                self::BB_2016
             );
 
             $journalier->setOwnedByTeam($equipe);
