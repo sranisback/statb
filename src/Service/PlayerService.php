@@ -71,7 +71,9 @@ class PlayerService
 
         $actions = $this->actionsDuJoueur($joueur);
 
-        $toutesLesCompsDuJoueur = substr($toutesLesCompsDuJoueur, 0, strlen($toutesLesCompsDuJoueur) - 2);
+        if (!empty($toutesLesCompsDuJoueur)) {
+            $toutesLesCompsDuJoueur = substr($toutesLesCompsDuJoueur, 0, strlen($toutesLesCompsDuJoueur) - 2);
+        }
 
         return ['comp' => $toutesLesCompsDuJoueur, 'actions' => $actions];
     }
@@ -215,6 +217,7 @@ class PlayerService
         $tmvp = 0;
         $tagg = 0;
         $tMatch = 0;
+        $tBonus = 0;
 
         foreach ($mdata as $game) {
             $tcp += $game->getCp();
@@ -223,6 +226,7 @@ class PlayerService
             $tcas += ($game->getBh() + $game->getSi() + $game->getKi());
             $tmvp += $game->getMvp();
             $tagg += $game->getAgg();
+            $tBonus += $game->getBonusSpp();
             $tMatch++;
         }
 
@@ -234,6 +238,7 @@ class PlayerService
             'cas' => $tcas,
             'mvp' => $tmvp,
             'agg' => $tagg,
+            'bonus' => $tBonus
         ];
     }
 
@@ -599,7 +604,7 @@ class PlayerService
         $actions = $this->actionsDuJoueur($joueur);
 
         return $actions['cp'] + ($actions['td'] * 3)
-            + ($actions['int'] * 2) + ($actions['cas'] * 2) + ($actions['mvp'] * 5);
+            + ($actions['int'] * 2) + ($actions['cas'] * 2) + ($actions['mvp'] * 5) + ($actions['bonus']);
     }
 
     /**
@@ -740,6 +745,7 @@ class PlayerService
                 $pdata[$count]['cas'] = $ficheJoueur['actions']['cas'];
                 $pdata[$count]['mvp'] = $ficheJoueur['actions']['mvp'];
                 $pdata[$count]['agg'] = $ficheJoueur['actions']['agg'];
+                $pdata[$count]['bonus'] = $ficheJoueur['actions']['bonus'];
                 $pdata[$count]['skill'] = $ficheJoueur['comp'];
                 $pdata[$count]['spp'] = $this->xpDuJoueur($joueur);
                 $pdata[$count]['cost'] = $this->valeurDunJoueur($joueur);

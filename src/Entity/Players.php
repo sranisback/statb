@@ -99,7 +99,7 @@ class Players
 
     /**
      *
-     * @ORM\Column(name="extra_spp", type="integer", nullable=true)
+     * @ORM\Column(name="spp_restants", type="integer", nullable=true)
      * @var int|null
      */
     private ?int $sppRestants = null;

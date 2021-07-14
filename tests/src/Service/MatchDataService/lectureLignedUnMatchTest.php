@@ -27,4 +27,18 @@ class lectureLignedUnMatchTest extends TestCase
         $this->assertEquals('CP: 1, CAS: 1, MVP: 1, ',$matchDateService->lectureLignedUnMatch($ligneMatch));
     }
 
+
+    /**
+     * @test
+     */
+    public function le_bonus_xp_est_pris_en_compte()
+    {
+        $ligneMatch = new MatchData();
+
+        $ligneMatch->setBonusSpp(1);
+
+        $matchDateService = new MatchDataService($this->createMock(EntityManagerInterface::class));
+
+        $this->assertEquals('BONUS: 1, ',$matchDateService->lectureLignedUnMatch($ligneMatch));
+    }
 }

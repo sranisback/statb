@@ -69,6 +69,10 @@ class MatchDataService
             $ligneDuMatch .= 'AGG: ' . $matchData->getAgg() . ', ';
         }
 
+        if ($matchData->getBonusSpp() > 0) {
+            $ligneDuMatch .= 'BONUS: ' . $matchData->getBonusSpp() . ', ';
+        }
+
         return $ligneDuMatch;
     }
 
