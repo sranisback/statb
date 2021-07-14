@@ -150,7 +150,7 @@ class GestionDesJournaliersTest extends TestCase
     /**
      * @test
      */
-    public function un_journalier_est_ajoute(): void
+    public function un_journalier_est_ajoute_Bb2016(): void
     {
         $coachTest = new Coaches();
 

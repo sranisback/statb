@@ -24,6 +24,8 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class JoueurController extends AbstractController
 {
+    private const BB_2020 = 1;
+
     /**
      * @Route("/player/{playerid}", name="Player")
      * @param int $playerid

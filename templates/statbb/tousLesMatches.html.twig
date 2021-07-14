@@ -10,7 +10,13 @@
                             {% if game.team1.logo %}
                                 <img src="{{ asset('uploads/logo_equipe/' ~ game.team1.logo) }}" class="img-fluid">
                             {% else %}
-                                <img src="{{ asset('build/'~app.environment~'/images/race_icons/'~game.team1.fRace.icon~'.png') }}"
+                                <img src="
+                                    {% if game.team1.ruleset == 0 %}
+                                        {{ asset('build/'~app.environment~'/images/race_icons/'~game.team1.fRace.icon~'.png') }}
+                                    {% else %}
+                                        {{ asset('build/'~app.environment~'/images/race_icons/'~game.team1.race.icon~'.png') }}
+                                    {% endif %}
+                                    "
                                      class="img-fluid pull-left">
                             {% endif %}
                         </td>
@@ -29,19 +35,35 @@
                             {% if game.team2.logo %}
                                 <img src="{{ asset('uploads/logo_equipe/' ~ game.team2.logo) }}" class="img-fluid">
                             {% else %}
-                                <img src="{{ asset('build/'~app.environment~'/images/race_icons/'~game.team2.fRace.icon~'.png') }}"
+                                <img src="
+                                {% if game.team2.ruleset == 0 %}
+                                    {{ asset('build/'~app.environment~'/images/race_icons/'~game.team2.fRace.icon~'.png') }}
+                                {% else %}
+                                    {{ asset('build/'~app.environment~'/images/race_icons/'~game.team2.race.icon~'.png') }}
+                                {% endif %}
+                                "
                                      class="img-fluid pull-right">
                             {% endif %}
                         </td>
                     </tr>
                     <tr>
                         <td class="text-right text-nowrap">{{ game.team1.ownedByCoach.name }}
-                            , {{ game.team1.fRace.name }}
+                            ,
+                            {% if game.team1.ruleset == 0 %}
+                                {{ game.team1.fRace.name }}
+                            {% else %}
+                                {{ game.team1.race.name }}
+                            {% endif %}
                             , {{ game.tv1/1000 }} </td>
                         <td class="text-center text-nowrap"><a
                                     href="{{ path('match', {'matchId': game.matchId}) }}">Voir</a></td>
                         <td class="text-left text-nowrap">{{ game.team2.ownedByCoach.name }}
-                            , {{ game.team2.fRace.name }}
+                            ,
+                            {% if game.team2.ruleset == 0 %}
+                                {{ game.team2.fRace.name }}
+                            {% else %}
+                                {{ game.team2.race.name }}
+                            {% endif %}
                             , {{ game.tv2/1000 }}</td>
                     </tr>
                 {% endif %}
@@ -66,7 +88,13 @@
                                         <img src="{{ asset('uploads/logo_equipe/' ~ game.team1.logo) }}"
                                              class="img-fluid">
                                     {% else %}
-                                        <img src="{{ asset('build/'~app.environment~'/images/race_icons/'~game.team1.fRace.icon~'.png') }}"
+                                        <img src="
+                                    {% if game.team1.ruleset == 0 %}
+                                        {{ asset('build/'~app.environment~'/images/race_icons/'~game.team1.fRace.icon~'.png') }}
+                                    {% else %}
+                                        {{ asset('build/'~app.environment~'/images/race_icons/'~game.team1.race.icon~'.png') }}
+                                    {% endif %}
+                                       "
                                              class="img-fluid pull-left">
                                     {% endif %}
                                 </td>
@@ -86,19 +114,35 @@
                                         <img src="{{ asset('uploads/logo_equipe/' ~ game.team2.logo) }}"
                                              class="img-fluid">
                                     {% else %}
-                                        <img src="{{ asset('build/'~app.environment~'/images/race_icons/'~game.team2.fRace.icon~'.png') }}"
+                                        <img src="
+                                    {% if game.team2.ruleset == 0 %}
+                                        {{ asset('build/'~app.environment~'/images/race_icons/'~game.team2.fRace.icon~'.png') }}
+                                    {% else %}
+                                        {{ asset('build/'~app.environment~'/images/race_icons/'~game.team2.race.icon~'.png') }}
+                                    {% endif %}
+                                    "
                                              class="img-fluid pull-right">
                                     {% endif %}
                                 </td>
                             </tr>
                             <tr>
                                 <td class="text-right text-nowrap">{{ game.team1.ownedByCoach.name }}
-                                    , {{ game.team1.fRace.name }}
+                                    ,
+                                    {% if game.team1.ruleset == 0 %}
+                                        {{ game.team1.fRace.name }}
+                                    {% else %}
+                                        {{ game.team1.race.name }}
+                                    {% endif %}
                                     , {{ game.tv1/1000 }} </td>
                                 <td class="text-center text-nowrap"><a
                                             href="{{ path('match', {'matchId': game.matchId}) }}">Voir</a></td>
                                 <td class="text-left text-nowrap">{{ game.team2.ownedByCoach.name }}
-                                    , {{ game.team2.fRace.name }}
+                                    ,
+                                    {% if game.team2.ruleset == 0 %}
+                                        {{ game.team2.fRace.name }}
+                                    {% else %}
+                                        {{ game.team2.race.name }}
+                                    {% endif %}
                                     , {{ game.tv2/1000 }}</td>
                             </tr>
                         {% endif %}

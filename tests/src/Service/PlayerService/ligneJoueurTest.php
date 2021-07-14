@@ -22,7 +22,7 @@ class ligneJoueurTest extends TestCase
     /**
      * @test
      */
-    public function une_ligne_est_generee()
+    public function une_ligne_est_generee_bb2016()
     {
         $baseSkillsTest = new ArrayCollection();
 
@@ -36,6 +36,7 @@ class ligneJoueurTest extends TestCase
         $joueurMock->method('getJournalier')->willReturn(false);
         $joueurMock->method('getFpos')->willReturn($positionMock);
         $joueurMock->method('getSkills')->willReturn($gameDataSkillMock);
+        $joueurMock->method('getRuleset')->willReturn(0);
 
         $matchDataRepoMock = $this->createMock(ObjectRepository::class);
         $matchDataRepoMock->method('findBy')->willReturn([]);
@@ -90,7 +91,8 @@ class ligneJoueurTest extends TestCase
                 'skill' => '',
                 'spp' => 0,
                 'cost' => 0,
-                'status' => ''
+                'status' => '',
+                'bonus' => 0
             ]
         ];
 
@@ -116,5 +118,86 @@ class ligneJoueurTest extends TestCase
         $attendu = [];
 
         $this->assertEquals($attendu, $playerServiceTest->ligneJoueur([]));
+    }
+
+
+    /**
+     * @test
+     */
+    public function une_ligne_est_generee_bb2020()
+    {
+        $baseSkillsTest = new ArrayCollection();
+
+        $gameDataSkillMock = $this->createMock(GameDataSkills::class);
+
+        $positionMock = $this->createMock(GameDataPlayers::class);
+        $positionMock->method('getBaseSkills')->willReturn($baseSkillsTest);
+
+        $joueurMock = $this->createMock(Players::class);
+        $joueurMock->method('getPlayerId')->willReturn(1);
+        $joueurMock->method('getJournalier')->willReturn(false);
+        $joueurMock->method('getFpos')->willReturn($positionMock);
+        $joueurMock->method('getSkills')->willReturn($gameDataSkillMock);
+        $joueurMock->method('getRuleset')->willReturn(1);
+
+        $matchDataRepoMock = $this->createMock(ObjectRepository::class);
+        $matchDataRepoMock->method('findBy')->willReturn([]);
+
+        $gameDataSkillsMockDisposable = $this->createMock(GameDataSkills::class);
+
+        $gameDataSkillRepoMock = $this->getMockBuilder(Players::class)
+            ->addMethods(['findOneBy'])
+            ->getMock();
+        $gameDataSkillRepoMock->method('findOneBy')->willReturn($gameDataSkillsMockDisposable);
+
+        $playersSkillsRepoMock = $this->createMock(ObjectRepository::class);
+        $playersSkillsRepoMock->method('findBy')->willReturn(false);
+
+        $objectManager = $this->createMock(EntityManager::class);
+        $objectManager->method('getRepository')->will(
+            $this->returnCallback(
+                function ($entityName) use ($matchDataRepoMock, $gameDataSkillRepoMock, $playersSkillsRepoMock) {
+                    if ($entityName === MatchData::class) {
+                        return $matchDataRepoMock;
+                    }
+
+                    if ($entityName === 'App\Entity\GameDataSkills') {
+                        return $gameDataSkillRepoMock;
+                    }
+
+                    if ($entityName === PlayersSkills::class) {
+                        return $playersSkillsRepoMock;
+                    }
+                    return true;
+                }
+            )
+        );
+
+        $playerServiceTest = new PlayerService(
+            $objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class),
+            $this->createMock(InfosService::class)
+        );
+
+        $attendu = [
+            [
+                'pid' => 1,
+                'nbrm' => 0,
+                'cp' => 0,
+                'td' => 0,
+                'int' => 0,
+                'cas' => 0,
+                'mvp' => 0,
+                'agg' => 0,
+                'skill' => '',
+                'spp' => 0,
+                'cost' => 0,
+                'status' => '',
+                'bonus' => 0
+            ]
+        ];
+
+        $this->assertEquals($attendu, $playerServiceTest->ligneJoueur([$joueurMock]));
     }
 }

@@ -105,6 +105,11 @@ class MatchData
      */
     private ?\App\Entity\Matches $fMatch = null;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $bonusSpp = 0;
+
     public function getId(): int
     {
         return $this->id;
@@ -238,6 +243,18 @@ class MatchData
     public function setFMatch(Matches $fMatch): self
     {
         $this->fMatch = $fMatch;
+
+        return $this;
+    }
+
+    public function getBonusSpp(): ?int
+    {
+        return $this->bonusSpp;
+    }
+
+    public function setBonusSpp(?int $bonusSpp): self
+    {
+        $this->bonusSpp = $bonusSpp;
 
         return $this;
     }

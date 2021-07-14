@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\ClassementGeneral;
 use App\Entity\Coaches;
 use App\Entity\GameDataPlayers;
+use App\Entity\GameDataPlayersBb2020;
 use App\Entity\GameDataStadium;
 use App\Entity\Players;
 use App\Entity\Races;
@@ -67,6 +68,9 @@ class EquipeService
     private const OWA = 'OWA';
     private const BAS_FOND = 'Bas fonds';
 
+    private const BB_2016 = 0;
+    private const BB_2020 = 1;
+
     public function __construct(
         EntityManagerInterface $doctrineEntityManager,
         SettingsService $settingsService,
@@ -97,7 +101,14 @@ class EquipeService
      */
     public function valeurInducementDelEquipe(Teams $equipe): array
     {
-        $equipeRace = $equipe->getFRace();
+        switch ($equipe->getRuleset()) {
+            case self::BB_2016 :
+                $equipeRace = $equipe->getFRace();
+                break;
+            case self::BB_2020:
+                $equipeRace = $equipe->getRace();
+                break;
+        }
 
         if ($equipeRace !== null) {
             $inducement['rerolls'] = $equipe->getRerolls() * $equipeRace->getCostRr();
@@ -585,14 +596,13 @@ class EquipeService
         $positionJournalier = $this->positionDuJournalier($equipe);
 
         for ($x = 0; $x < $nbrDeJournalier; $x++) {
-            /** @var Players $journalier */
             $journalier = PlayerFactory::nouveauJoueur(
                 $positionJournalier,
                 $playerService->numeroLibreDelEquipe($equipe),
                 $equipe,
                 true,
-                null,
-                $this->doctrineEntityManager
+                $this->doctrineEntityManager,
+                self::BB_2016
             );
 
             $journalier->setOwnedByTeam($equipe);
@@ -842,5 +852,19 @@ class EquipeService
         $this->doctrineEntityManager->persist($equipe);
         $this->doctrineEntityManager->flush();
         $this->doctrineEntityManager->refresh($equipe);
+    }
+
+    /**
+     * @param Teams $teams
+     * @return string
+     */
+    public function getRulesetFromTeamForDataPlayerRepo(Teams $teams)
+    {
+        switch ($teams->getRuleset()){
+            case self::BB_2016:
+                return GameDataPlayers::class;
+            case self::BB_2020:
+                return GameDataPlayersBb2020::class;
+        }
     }
 }

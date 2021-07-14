@@ -26,6 +26,7 @@ class actionsDuJoueurTest extends TestCase
             'cas' => 0,
             'mvp' => 1,
             'agg' => 0,
+            'bonus' => 0
         ];
 
         $playerMock = $this->createMock(Players::class);
