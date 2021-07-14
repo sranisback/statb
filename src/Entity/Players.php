@@ -93,6 +93,7 @@ class Players
 
     /**
      * @ORM\Column(name="ach_cp", type="integer", nullable=true)
+     * @var int|null
      */
     private int $achCp = 0;
 

@@ -45,17 +45,17 @@ class GameDataPlayersBb2020
     private $st;
 
     /**
-     * @ORM\Column(type="string", length=5)
+     * @ORM\Column(type="integer")
      */
     private $ag;
 
     /**
-     * @ORM\Column(type="string", length=5, nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $cp;
 
     /**
-     * @ORM\Column(type="string", length=5)
+     * @ORM\Column(type="integer")
      */
     private $av;
 

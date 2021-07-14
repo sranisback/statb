@@ -21,6 +21,10 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class PlayerService
 {
+    private const BB_2016 = 0;
+
+    private const BB_2020 = 1;
+
     /**
      * @var EntityManagerInterface
      */
@@ -100,7 +104,14 @@ class PlayerService
      */
     public function listeDesCompdDeBasedUnJoueur(Players $joueur): string
     {
-        $position = $joueur->getFPos();
+        switch ($joueur->getRuleset()) {
+            case self::BB_2016:
+                $position = $joueur->getFPos();
+                break;
+            case self::BB_2020:
+                $position = $joueur->getFPosBb2020();
+                break;
+        }
 
         if ($position !== null) {
             return $this->listeDesCompdUnePosition($position);
@@ -110,10 +121,10 @@ class PlayerService
     }
 
     /**
-     * @param GameDataPlayers $position
+     * @param $position
      * @return string
      */
-    public function listeDesCompdUnePosition(GameDataPlayers $position): string
+    public function listeDesCompdUnePosition($position): string
     {
         $listeCompBase = $position->getBaseSkills();
         $listeCompBaseEnHtml = '';

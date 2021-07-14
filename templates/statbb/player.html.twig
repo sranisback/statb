@@ -28,12 +28,17 @@
                         <td>Coach :</td>
                         <td>{{ player.ownedByTeam.ownedByCoach.name }}</td>
                     </tr>
-                    <tr>
+                   <tr>
                         <td>Poste :</td>
                         <td>
-                            <img src="{{ asset('build/'~app.environment~'/images/player_icons/'~player.icon.iconName~'.gif') }}">{{ player.fPos.pos }}
+                            <img src="{{ asset('build/'~app.environment~'/images/player_icons/'~player.icon.iconName~'.gif') }}">
+                            {% if player.ruleset == 0%}
+                                {{ player.fPos.pos }}
+                            {% else %}
+                                {{ player.fPosBb2020.pos }}
+                            {% endif %}
                         </td>
-                    </tr>
+                 </tr>
                     <tr>
                         <td>Engagé le :</td>
                         <td>{{ player.dateBought|date("d/m/Y") }}</td>
@@ -87,6 +92,9 @@
                                     <th>MA</th>
                                     <th>ST</th>
                                     <th>AG</th>
+                                    {% if player.ruleset == 1 %}
+                                        <th>CP</th>
+                                    {% endif %}
                                     <th>AV</th>
                                     <th>Comp</th>
                                     <th>Cp</th>
@@ -101,36 +109,73 @@
                                 <tr>
                                     <td>{{ player.nr }}</td>
                                     {% if player.achMa>0 %}
-                                        <td class="success">{{ player.fpos.ma + player.achMa - player.injMa }}</td>
+                                        <td class="success">
                                     {% elseif  player.injMa>0 %}
-                                        <td class="danger">{{ player.fpos.ma + player.achMa - player.injMa }}</td>
+                                        <td class="danger">
                                     {% else %}
-                                        <td>{{ player.fpos.ma + player.achMa - player.injMa }}</td>
+                                        <td>
                                     {% endif %}
+                                            {% if player.ruleset == 0%}
+                                                {{ player.fpos.ma + player.achMa - player.injMa }}
+                                            {% else %}
+                                                {{ player.fPosBb2020.ma + player.achMa - player.injMa }}
+                                            {% endif %}
+                                        </td>
 
                                     {% if player.achSt>0 %}
-                                        <td class="success">{{ player.fpos.st + player.achSt - player.injSt }}</td>
+                                        <td class="success">
                                     {% elseif  player.injSt>0 %}
-                                        <td class="danger">{{ player.fpos.st + player.achSt - player.injSt }}</td>
+                                        <td class="danger">
                                     {% else %}
-                                        <td>{{ player.fpos.st + player.achSt - player.injSt }}</td>
+                                        <td>
                                     {% endif %}
+                                        {% if player.ruleset == 0%}
+                                            {{ player.fpos.st + player.achSt - player.injSt }}
+                                        {% else %}
+                                            {{ player.fPosBb2020.st + player.achSt - player.injSt }}
+                                        {% endif %}
+                                        </td>
 
                                     {% if player.achAg>0 %}
-                                        <td class="success">{{ player.fpos.ag + player.achAg - player.injAg }}</td>
+                                        <td class="success">
                                     {% elseif  player.injAg>0 %}
-                                        <td class="danger">{{ player.fpos.ag + player.achAg - player.injAg }}</td>
+                                        <td class="danger">
                                     {% else %}
-                                        <td>{{ player.fpos.ag + player.achAg - player.injAg }}</td>
+                                        <td>
+                                    {% endif %}
+                                            {% if player.ruleset == 0%}
+                                                {{ player.fpos.ag + player.achAg - player.injAg }}
+                                            {% else %}
+                                                {{ player.fPosBb2020.ag + player.achAg - player.injAg}}+
+                                            {% endif %}
+                                        </td>
+
+                                    {% if player.ruleset == 1%}
+                                        {% if player.achCp>0 %}
+                                            <td class="success">
+                                        {% elseif  player.injCp>0 %}
+                                            <td class="danger">
+                                        {% else %}
+                                            <td>
+                                        {% endif %}
+                                                {{ player.fPosBb2020.cp + player.achCp - player.injCp }}+
+                                            </td>
                                     {% endif %}
 
                                     {% if player.achAv>0 %}
-                                        <td class="success">{{ player.fpos.av + player.achAv - player.injAv }}</td>
+                                        <td class="success">
                                     {% elseif  player.injAv>0 %}
-                                        <td class="danger">{{ player.fpos.av + player.achAv - player.injAv }}</td>
+                                        <td class="danger">
                                     {% else %}
-                                        <td>{{ player.fpos.av + player.achAv - player.injAv }}</td>
+                                        <td>
                                     {% endif %}
+                                            {% if player.ruleset == 0%}
+                                                {{ player.fpos.av + player.achAv - player.injAv }}
+                                            {% else %}
+                                                {{ player.fPosBb2020.av + player.achAv - player.injAv }}+
+                                            {% endif %}
+                                        </td>
+
                                     <td>{{ pdata[0].skill|raw }}</td>
                                     <td>{{ pdata[0].cp }}</td>
                                     <td>{{ pdata[0].td }}</td>
