@@ -4,6 +4,7 @@
 namespace App\Service;
 
 use App\Entity\GameDataPlayers;
+use App\Entity\GameDataSkillsBb2020;
 use App\Entity\HistoriqueBlessure;
 use App\Entity\MatchData;
 
@@ -106,14 +107,7 @@ class PlayerService
      */
     public function listeDesCompdDeBasedUnJoueur(Players $joueur): string
     {
-        switch ($joueur->getRuleset()) {
-            case self::BB_2016:
-                $position = $joueur->getFPos();
-                break;
-            case self::BB_2020:
-                $position = $joueur->getFPosBb2020();
-                break;
-        }
+        $position = $this->getRulesetFromPlayerForPosition($joueur);
 
         if ($position !== null) {
             return $this->listeDesCompdUnePosition($position);
@@ -146,15 +140,36 @@ class PlayerService
      */
     public function listeDesCompEtSurcoutGagnedUnJoueur(Players $joueur): array
     {
+        //bb2016 N - 20k N - 30k
+        //b2020 PA - 10k P&SA - 20k S- 40k
         $coutTotal = 0;
         $listCompGagnee = '';
         foreach ($joueur->getSkills() as $comp) {
-            if ($comp->getType() == 'N') {
-                $coutTotal += 20_000;
-                $listCompGagnee .= '<text class="text-success">' . $comp->getFSkill()->getName() . '</text>, ';
-            } else {
-                $coutTotal += 30_000;
-                $listCompGagnee .= '<text class="text-danger">' . $comp->getFSkill()->getName() . '</text>, ';
+            switch ($comp->getType()) {
+                case 'PA':
+                    $coutTotal += 10_000;
+                    $listCompGagnee .= '<text class="text-danger">' . $comp->getFSkillBb2020()->getName() . '</text>, ';
+                    break;
+                case 'P':
+                    $coutTotal += 20_000;
+                    $listCompGagnee .= '<text class="text-success">' . $comp->getFSkillBb2020()->getName() . '</text>, ';
+                    break;
+                case 'N':
+                    $coutTotal += 20_000;
+                    $listCompGagnee .= '<text class="text-success">' . $comp->getFSkill()->getName() . '</text>, ';
+                    break;
+                case 'SA':
+                    $coutTotal += 20_000;
+                    $listCompGagnee .= '<text class="text-danger">' . $comp->getFSkillBb2020()->getName() . '</text>, ';
+                    break;
+                case 'D':
+                    $coutTotal += 30_000;
+                    $listCompGagnee .= '<text class="text-danger">' . $comp->getFSkill()->getName() . '</text>, ';
+                    break;
+                case 'S':
+                    $coutTotal += 40_000;
+                    $listCompGagnee .= '<text class="text-danger">' . $comp->getFSkillBb2020()->getName() . '</text>, ';
+                    break;
             }
         }
 
@@ -435,7 +450,8 @@ class PlayerService
      */
     public function valeurDunJoueur(Players $joueur)
     {
-        $position = $joueur->getFPos();
+        $position = $this->getRulesetFromPlayerForPosition($joueur);
+
         if ($position !== null) {
             $coutCompetencesGagnee = $this->listeDesCompEtSurcoutGagnedUnJoueur($joueur);
             $coutNiveauSpeciaux = $this->listenivSpeciauxEtSurcout($joueur);
@@ -695,10 +711,12 @@ class PlayerService
     {
         /** @var GameDataSkills $disposable */
         $disposable = $this->doctrineEntityManager
-            ->getRepository(GameDataSkills::class)->findOneBy(['name' => 'Disposable']);
+            ->getRepository($this->getRulesetFromPlayerForSkillRepo($joueur))->findOneBy(['name' => 'Disposable']);
+
+        $position = $this->getRulesetFromPlayerForPosition($joueur);
 
         return !empty($disposable) &&
-            in_array($disposable, $joueur->getFPos()->getBaseSkills()->toArray());
+            in_array($disposable, $position->getBaseSkills()->toArray());
     }
 
     /**
@@ -709,15 +727,23 @@ class PlayerService
     {
         $playersSkill = false;
 
-        /** @var GameDataSkills $fanFavourite */
         $fanFavourite = $this->doctrineEntityManager
-            ->getRepository(GameDataSkills::class)->findOneBy(['name' => 'Fan Favorite']);
+            ->getRepository($this->getRulesetFromPlayerForSkillRepo($joueur))->findOneBy(['name' => 'Fan Favorite']);
+
+        switch ($joueur->getRuleset()) {
+            case self::BB_2016:
+                $fanFavouriteId = $fanFavourite->getSkillId();
+                break;
+            case self::BB_2020:
+                $fanFavouriteId = $fanFavourite->getId();
+                break;
+        }
 
         if (!empty($fanFavourite)) {
             /** @var PlayersSkills $playersSkill */
             $playersSkill = $this->doctrineEntityManager
                 ->getRepository(PlayersSkills::class)
-                ->findOneBy(['fPid' => $joueur->getPlayerId(), 'fSkill' => $fanFavourite->getSkillId()]);
+                ->findOneBy(['fPid' => $joueur->getPlayerId(), 'fSkill' => $fanFavouriteId]);
         }
 
         return !empty($fanFavourite) && $playersSkill != false;
@@ -821,5 +847,35 @@ class PlayerService
         $competences = substr($competences, 0, strlen($competences) - 2);
 
         return $competences;
+    }
+
+    private function getRulesetFromPlayerForPosition(Players $player)
+    {
+        switch ($player->getRuleset()){
+            case self::BB_2016:
+                return $player->getFPos();
+            case self::BB_2020:
+                return $player->getFPosBb2020();
+        }
+    }
+
+    private function getRulesetFromPlayerForSkillRepo(Players $player)
+    {
+        switch ($player->getRuleset()){
+            case self::BB_2016:
+                return GameDataSkills::class;
+            case self::BB_2020:
+                return GameDataSkillsBb2020::class;
+        }
+    }
+
+    private function getRulesetFromPlayerForDataPlayerRepo(Players $player)
+    {
+        switch ($player->getRuleset()){
+            case self::BB_2016:
+                return GameDataPlayers::class;
+            case self::BB_2020:
+                return GameDataSkillsBb2020::class;
+        }
     }
 }

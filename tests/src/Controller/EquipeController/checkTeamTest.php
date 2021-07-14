@@ -5,9 +5,9 @@ namespace App\Tests\src\Controller\EquipeController;
 
 
 use App\DataFixtures\GameDataPlayersFixture;
+use App\DataFixtures\GameDataSkillFanFavoriteFixture;
 use App\DataFixtures\PlayersIconsFixture;
 use App\DataFixtures\TeamFixture;
-use App\Entity\PlayersIcons;
 use App\Tests\src\Functionnal;
 
 class checkTeamTest extends Functionnal
@@ -27,6 +27,9 @@ class checkTeamTest extends Functionnal
 
         $playerIconFixture = new PlayersIconsFixture();
         $playerIconFixture->load($this->entityManager);
+
+        $gameDataPlayerFixture = new GameDataSkillFanFavoriteFixture();
+        $gameDataPlayerFixture->load($this->entityManager);
 
         $this->client->request('GET', '/checkteam/' . $equipeTest->getTeamId() );
 

@@ -12,9 +12,9 @@ use Nette\Utils\DateTime;
 
 class PlayerFactory
 {
-    private const BB_2016 = '2016';
+    private const BB_2016 = 0;
 
-    private const BB_2020 = '2020';
+    private const BB_2020 = 1;
 
     /**
      * @param $position
@@ -32,7 +32,7 @@ class PlayerFactory
         Teams $equipe,
         bool $journalier,
         EntityManagerInterface $entityManager,
-        string $ruleset,
+        int $ruleset,
         string $nom = null
     ): Players {
         $joueur = new Players();
@@ -74,7 +74,7 @@ class PlayerFactory
         $joueur->setJournalier($journalier);
         $joueur->setStatus(1);
 
-        $joueur->setRuleset(RulesetEnum::stringVersNumeroBdd()[$ruleset]);
+        $joueur->setRuleset($ruleset);
 
         return $joueur;
     }

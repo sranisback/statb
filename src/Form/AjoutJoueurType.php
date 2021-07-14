@@ -2,8 +2,8 @@
 
 namespace App\Form;
 
-use App\Entity\GameDataPlayers;
 use App\Entity\Teams;
+use App\Service\EquipeService;
 use App\Service\PlayerService;
 use App\Tools\randomNameGenerator;
 use Doctrine\ORM\EntityRepository;
@@ -22,35 +22,45 @@ class AjoutJoueurType extends AbstractType
      */
     private \App\Service\PlayerService $playerService;
 
-    public function __construct(PlayerService $playerService)
+    /**
+     * @var EquipeService
+     */
+    private \App\Service\EquipeService $equipeService;
+
+    public function __construct(PlayerService $playerService, EquipeService $equipeService)
     {
         $this->playerService = $playerService;
+        $this->equipeService = $equipeService;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         /** @var Teams $equipe */
         $equipe = $options['equipe'];
-        $race = $equipe->getFRace();
+        $race = $equipe->getRuleset() == 1 ? $equipe->getRace() : $equipe->getFRace();
+        $raceId = $equipe->getRuleset() == 1 ? $race->getId() : $race->getRaceId();
 
         $generateurDeNom = new randomNameGenerator();
         $nom = $generateurDeNom->generateNames(1);
 
         $numeroAProposer = $this->playerService->numeroLibreDelEquipe($equipe);
 
+        $champ = $equipe->getRuleset() == 1 ? 'race' : 'fRace';
+        $champ2 = $equipe->getRuleset() == 1 ? 'fPosBb2020' : 'fPos';
+
         if (!empty($race)) {
             $builder
                 ->add(
-                    'fPos',
+                    $champ2,
                     EntityType::class,
                     [
-                        'class' => GameDataPlayers::class,
+                        'class' => $this->equipeService->getRulesetFromTeamForDataPlayerRepo($equipe),
                         'choice_label' => 'pos',
                         'label' => 'Choisir une position',
                         'query_builder' =>
                             fn(EntityRepository $entityRepository) =>
                             $entityRepository->createQueryBuilder('Position')
-                            ->where('Position.fRace ='.$race->getRaceId()),
+                            ->where('Position.' . $champ . ' =' . $raceId),
                         'placeholder' => 'Choisir un joueur',
                         'required' => true
                     ]

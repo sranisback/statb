@@ -71,9 +71,9 @@ class GameDataPlayersBb2020
 
     /**
      * @ORM\ManyToOne(targetEntity=RacesBb2020::class)
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(name="race_id", referencedColumnName="id", nullable=true)
      */
-    private $race;
+    public ?RacesBb2020 $race;
 
     /**
      * @ORM\ManyToMany(targetEntity=GameDataSkillsBb2020::class)

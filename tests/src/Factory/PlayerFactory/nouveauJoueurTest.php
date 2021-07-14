@@ -17,9 +17,9 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class nouveauJoueurTest extends KernelTestCase
 {
-    private const BB_2016 = '2016';
+    private const BB_2016 = 0;
 
-    private const BB_2020 = '2020';
+    private const BB_2020 = 1;
 
     /**
      * @test

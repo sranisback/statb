@@ -24,16 +24,7 @@ class PlayerIconsRepository extends ServiceEntityRepository
     /**
      * @return \App\Entity\PlayersIcons[]
      */
-    public function toutesLesIconesDunePosition(GameDataPlayers $position): array
-    {
-        return $this->findBy(['position' => $position]);
-    }
-
-    /**
-     * @param GameDataPlayersBb2020 $position
-     * @return PlayersIcons[]
-     */
-    public function toutesLesIconesDunePositionBb2020(GameDataPlayersBb2020 $position): array
+    public function toutesLesIconesDunePosition($position): array
     {
         return $this->findBy(['position' => $position]);
     }

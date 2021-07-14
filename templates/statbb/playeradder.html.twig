@@ -14,7 +14,11 @@
                 {{ form_errors(form) }}
                 {{ form_row(form.name, { 'id': 'player_futur_nom' }) }}
                 {{ form_row(form.nr, { 'id': 'player_futur_numero' }) }}
-                {{ form_row(form.fPos) }}
+                {% if equipe.ruleset == 0 %}
+                    {{ form_row(form.fPos) }}
+                {% else %}
+                    {{ form_row(form.fPosBb2020) }}
+                {% endif %}
             </div>
             <div class="modal-footer">
                 {{ form_widget(form.submit , { 'id': 'btn_addplayer' }) }}{{ form_widget(form.cancel) }}

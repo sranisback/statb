@@ -24,7 +24,7 @@ class PlayersSkills
 
     /**
      *
-     * @ORM\Column(name="type", type="string", length=1, nullable=true)
+     * @ORM\Column(name="type", type="string", length=2, nullable=true)
      * @var null|string
      */
     private ?string $type = null;
@@ -44,6 +44,12 @@ class PlayersSkills
      * @var \App\Entity\Players|null
      */
     private ?\App\Entity\Players $fPid = null;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=GameDataSkillsBb2020::class)
+     * @ORM\JoinColumn(name="f_skillBb2020_id", referencedColumnName="id")
+     */
+    private $fSkillBb2020;
 
     public function getId(): int
     {
@@ -82,6 +88,18 @@ class PlayersSkills
     public function setFPid(Players $fPid): self
     {
         $this->fPid = $fPid;
+
+        return $this;
+    }
+
+    public function getFSkillBb2020(): ?GameDataSkillsBb2020
+    {
+        return $this->fSkillBb2020;
+    }
+
+    public function setFSkillBb2020(?GameDataSkillsBb2020 $fSkillBb2020): self
+    {
+        $this->fSkillBb2020 = $fSkillBb2020;
 
         return $this;
     }
