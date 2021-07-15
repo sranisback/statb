@@ -162,19 +162,24 @@ $(document).ready(function () {
     /**
      * selection de joueur
      */
-    $("#ajout_joueur_fPos").change(function () {
+    $("#player_position").change(function () {
         $("#pos_table").remove();
         if ($(this).val() !== '') {
-            $.post(Routing.generate('getposstat', {posId: $(this).val()}),
-                {},
+            $.post(Routing.generate('getposstat',
+                {
+                    posId: $(this).val()
+                }),
+                {
+                    ruleset : $("#ruleset").val()
+                },
                 function (result) {
                     $("#loadingmessage").hide();
                     $("#pos_table").remove();
-                    $("#ajout_joueur_fPos").after(result);
+                    $("#player_position").after(result);
                     $('btn_addplayer').prop('disabled', true);
                 })
             $("#pos_table").remove();
-            $("#ajout_joueur_fPos").after($('#loadingmessage'));
+            $("#player_position").after($('#loadingmessage'));
             $('#loadingmessage').show();
         }
     });
@@ -186,14 +191,14 @@ $(document).ready(function () {
         if ($("#player_futur_nom").val() !== '' && $("#player_futur_numero").val() !== '' && $("#ajout_joueur_fPos").val() !== '') {
             $("#teamsheet").after($('#loadingmessage'));
             $('#loadingmessage').show();
-            var teamId = $(this).attr('teamId')
 
             $.post(Routing.generate('addPlayer'),
                 {
-                    idPosition: $("#ajout_joueur_fPos").val(),
-                    teamId: teamId,
+                    idPosition: $("#player_position").val(),
+                    teamId: $("#equipe_Id").val(),
                     nom: $("#player_futur_nom").val(),
-                    nr: $("#player_futur_numero").val()
+                    nr: $("#player_futur_numero").val(),
+                    ruleset : $("#ruleset").val()
                 },
                 function (result) {
                     $("#loadingmessage").hide();
@@ -202,7 +207,6 @@ $(document).ready(function () {
                     $('#res').remove();
 
                     if (result.reponse == "ok") {
-
                         $("#player_futur_nom").after($('#loadingmessage'));
                         $('#loadingmessage').show();
                         $.post(Routing.generate('genereNom'), {}, function (nom) {
@@ -212,7 +216,7 @@ $(document).ready(function () {
 
                         $("#player_futur_numero").after($('#loadingmessage'));
                         $('#loadingmessage').show();
-                        $.post(Routing.generate('genereNumero'), {equipeId: teamId}, function (num) {
+                        $.post(Routing.generate('genereNumero'), {equipeId: $("#equipe_Id").val()}, function (num) {
                             $("#loadingmessage").hide();
                             $("#player_futur_numero").attr('value', num);
                         });
@@ -224,7 +228,6 @@ $(document).ready(function () {
                         totalltv.text(Number(totalltv.text()) + result.playercost);
                         $("#tresor").text(result.tresor);
                         $("#tresor2").text(result.tresor);
-
                     } else {
                         $('#res').remove();
                         $(".modal-body").prepend('<div id="res" class="alert alert-danger">' + result.html + '</div>');

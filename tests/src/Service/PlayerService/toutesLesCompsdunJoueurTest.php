@@ -9,6 +9,7 @@ use App\Entity\GameDataSkills;
 use App\Entity\GameDataSkillsBb2020;
 use App\Entity\Players;
 use App\Entity\PlayersSkills;
+use App\Enum\RulesetEnum;
 use App\Service\EquipeService;
 use App\Service\InfosService;
 use App\Service\MatchDataService;
@@ -20,10 +21,6 @@ use PHPUnit\Framework\TestCase;
 
 class toutesLesCompsdunJoueurTest extends TestCase
 {
-    private const BB_2016 = 0;
-
-    private const BB_2020 = 1;
-
     /**
      * @test
      */
@@ -48,7 +45,7 @@ class toutesLesCompsdunJoueurTest extends TestCase
         $joueurMock = $this->createMock(Players::class);
         $joueurMock->method('getFPos')->willReturn($positionMock);
         $joueurMock->method('getSkills')->willReturn($skillAdded);
-        $joueurMock->method('getRuleset')->willReturn(self::BB_2016);
+        $joueurMock->method('getRuleset')->willReturn(RulesetEnum::BB_2016);
 
         $playersSkillsRepoMock = $this->createMock(ObjectRepository::class);
         $playersSkillsRepoMock->method('findBy')->willReturnOnConsecutiveCalls([$playerSkillMock]);
@@ -94,7 +91,7 @@ class toutesLesCompsdunJoueurTest extends TestCase
         $joueurTest = new Players();
         $joueurTest->setJournalier(false);
         $joueurTest->setFPos($positionTest);
-        $joueurTest->setRuleset(self::BB_2016);
+        $joueurTest->setRuleset(RulesetEnum::BB_2016);
 
         $playersSkillsRepoMock = $this->createMock(ObjectRepository::class);
         $playersSkillsRepoMock->method('findBy')->willReturnOnConsecutiveCalls(false);
@@ -151,7 +148,7 @@ class toutesLesCompsdunJoueurTest extends TestCase
         $joueurMock = $this->createMock(Players::class);
         $joueurMock->method('getFPosBb2020')->willReturn($positionMock);
         $joueurMock->method('getSkills')->willReturn($skillAdded);
-        $joueurMock->method('getRuleset')->willReturn(self::BB_2020);
+        $joueurMock->method('getRuleset')->willReturn(RulesetEnum::BB_2020);
 
         $playersSkillsRepoMock = $this->createMock(ObjectRepository::class);
         $playersSkillsRepoMock->method('findBy')->willReturnOnConsecutiveCalls([$playerSkillMock]);

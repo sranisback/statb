@@ -3,18 +3,15 @@
 
 namespace App\Service;
 
-use App\Entity\GameDataPlayers;
-use App\Entity\GameDataSkillsBb2020;
+use App\Entity\GameDataSkills;
 use App\Entity\HistoriqueBlessure;
 use App\Entity\MatchData;
-
 use App\Entity\Matches;
-use App\Entity\Teams;
-
 use App\Entity\Players;
 use App\Entity\PlayersSkills;
-use App\Entity\GameDataSkills;
+use App\Entity\Teams;
 use App\Enum\BlessuresEnum;
+use App\Enum\RulesetEnum;
 use App\Factory\PlayerFactory;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,10 +19,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class PlayerService
 {
-    private const BB_2016 = 0;
-
-    private const BB_2020 = 1;
-
     /**
      * @var EntityManagerInterface
      */
@@ -107,7 +100,7 @@ class PlayerService
      */
     public function listeDesCompdDeBasedUnJoueur(Players $joueur): string
     {
-        $position = $this->getRulesetFromPlayerForPosition($joueur);
+        $position = RulesetEnum::getPositionFromPlayerByRuleset($joueur);
 
         if ($position !== null) {
             return $this->listeDesCompdUnePosition($position);
@@ -311,20 +304,24 @@ class PlayerService
      * @param int $teamId
      * @param string $nom
      * @param string $numero
+     * @param int $ruleset
      * @return array<string,mixed>
      */
-    public function ajoutJoueur(int $positionId, int $teamId, string $nom, string $numero): array
+    public function ajoutJoueur(int $positionId, int $teamId, string $nom, string $numero, int $ruleset): array
     {
+        $repo = RulesetEnum::getGameDataPlayersRepoFromIntRuleset($ruleset);
+        $champ = RulesetEnum::champIdGameDataPlayerFromIntRuleset($ruleset);
+
         $position = $this->doctrineEntityManager->getRepository(
-            GameDataPlayers::class
-        )->findOneBy(['posId' => $positionId]);
+            $repo
+        )->findOneBy([$champ => $positionId]);
 
         $equipe = $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
 
         $count = 0;
 
         $joueursParPositionCollection = $this->doctrineEntityManager->getRepository(Players::class)->findBy(
-            ['fPos' => $position, 'ownedByTeam' => $equipe]
+            [RulesetEnum::champPositionFromIntRuleset($ruleset) => $position, 'ownedByTeam' => $equipe]
         );
 
         foreach ($joueursParPositionCollection as $joueurParPosition) {
@@ -347,9 +344,10 @@ class PlayerService
                         $position,
                         (int)$numero,
                         $equipe,
-                        1,
-                        $nom,
-                        $this->doctrineEntityManager
+                        false,
+                        $this->doctrineEntityManager,
+                        $ruleset,
+                        $nom
                     );
 
                     $this->infoService->joueurEngage($joueur);
@@ -388,8 +386,6 @@ class PlayerService
         foreach ($joueurCollection as $joueur) {
             if ($numero == $joueur->getNr()) {
                 $numero++;
-            } else {
-                continue;
             }
         }
 
@@ -450,7 +446,7 @@ class PlayerService
      */
     public function valeurDunJoueur(Players $joueur)
     {
-        $position = $this->getRulesetFromPlayerForPosition($joueur);
+        $position = RulesetEnum::getPositionFromPlayerByRuleset($joueur);
 
         if ($position !== null) {
             $coutCompetencesGagnee = $this->listeDesCompEtSurcoutGagnedUnJoueur($joueur);
@@ -711,9 +707,9 @@ class PlayerService
     {
         /** @var GameDataSkills $disposable */
         $disposable = $this->doctrineEntityManager
-            ->getRepository($this->getRulesetFromPlayerForSkillRepo($joueur))->findOneBy(['name' => 'Disposable']);
+            ->getRepository(RulesetEnum::getGameDataSkillRepoFromPlayerByRuleset($joueur))->findOneBy(['name' => 'Disposable']);
 
-        $position = $this->getRulesetFromPlayerForPosition($joueur);
+        $position = RulesetEnum::getPositionFromPlayerByRuleset($joueur);
 
         return !empty($disposable) &&
             in_array($disposable, $position->getBaseSkills()->toArray());
@@ -728,16 +724,9 @@ class PlayerService
         $playersSkill = false;
 
         $fanFavourite = $this->doctrineEntityManager
-            ->getRepository($this->getRulesetFromPlayerForSkillRepo($joueur))->findOneBy(['name' => 'Fan Favorite']);
+            ->getRepository(RulesetEnum::getGameDataSkillRepoFromPlayerByRuleset($joueur))->findOneBy(['name' => 'Fan Favorite']);
 
-        switch ($joueur->getRuleset()) {
-            case self::BB_2016:
-                $fanFavouriteId = $fanFavourite->getSkillId();
-                break;
-            case self::BB_2020:
-                $fanFavouriteId = $fanFavourite->getId();
-                break;
-        }
+        $fanFavouriteId = RulesetEnum::getIdFromGameDataSetByRuleset($joueur, $fanFavourite);
 
         if (!empty($fanFavourite)) {
             /** @var PlayersSkills $playersSkill */
@@ -839,43 +828,13 @@ class PlayerService
     }
 
     /**
-     * @param GameDataPlayers $position
+     * @param $position
      */
-    public function competencesDunePositon(GameDataPlayers $position)
+    public function competencesDunePositon($position)
     {
         $competences = $this->listeDesCompdUnePosition($position);
         $competences = substr($competences, 0, strlen($competences) - 2);
 
         return $competences;
-    }
-
-    private function getRulesetFromPlayerForPosition(Players $player)
-    {
-        switch ($player->getRuleset()){
-            case self::BB_2016:
-                return $player->getFPos();
-            case self::BB_2020:
-                return $player->getFPosBb2020();
-        }
-    }
-
-    private function getRulesetFromPlayerForSkillRepo(Players $player)
-    {
-        switch ($player->getRuleset()){
-            case self::BB_2016:
-                return GameDataSkills::class;
-            case self::BB_2020:
-                return GameDataSkillsBb2020::class;
-        }
-    }
-
-    private function getRulesetFromPlayerForDataPlayerRepo(Players $player)
-    {
-        switch ($player->getRuleset()){
-            case self::BB_2016:
-                return GameDataPlayers::class;
-            case self::BB_2020:
-                return GameDataSkillsBb2020::class;
-        }
     }
 }

@@ -9,6 +9,7 @@ use App\Entity\GameDataSkills;
 use App\Entity\GameDataSkillsBb2020;
 use App\Entity\Players;
 use App\Entity\PlayersSkills;
+use App\Enum\RulesetEnum;
 use App\Service\EquipeService;
 use App\Service\InfosService;
 use App\Service\MatchDataService;
@@ -19,10 +20,6 @@ use PHPUnit\Framework\TestCase;
 
 class valeurDunJoueurTest extends TestCase
 {
-    private const BB_2016 = 0;
-
-    private const BB_2020 = 1;
-
     /**
      * @test
      */
@@ -33,7 +30,7 @@ class valeurDunJoueurTest extends TestCase
 
         $joueurTest = new Players();
         $joueurTest->setFPos($positionTest);
-        $joueurTest->setRuleset(self::BB_2016);
+        $joueurTest->setRuleset(RulesetEnum::BB_2016);
 
         $gameDataSkillFanFavorite = $this->createMock(GameDataSkills::class);
         $gameDataSkillFanFavorite->method('getSkillId')->willReturn(1);
@@ -80,7 +77,7 @@ class valeurDunJoueurTest extends TestCase
 
         $joueurTest = new Players();
         $joueurTest->setFPosBb2020($positionTest);
-        $joueurTest->setRuleset(self::BB_2020);
+        $joueurTest->setRuleset(RulesetEnum::BB_2020);
 
         $gameDataSkillFanFavorite = $this->createMock(GameDataSkillsBb2020::class);
         $gameDataSkillFanFavorite->method('getId')->willReturn(1);
@@ -134,7 +131,7 @@ class valeurDunJoueurTest extends TestCase
         $joueurTest = new Players();
         $joueurTest->setFPos($positionTest);
         $joueurTest->addSkills($playerSkillTest);
-        $joueurTest->setRuleset(self::BB_2016);
+        $joueurTest->setRuleset(RulesetEnum::BB_2016);
 
         $playerSkillRepoMock = $this->createMock(ObjectRepository::class);
         $playerSkillRepoMock->method('findBy')->willReturn([$playerSkillTest]);
@@ -188,7 +185,7 @@ class valeurDunJoueurTest extends TestCase
         $joueurTest = new Players();
         $joueurTest->setFPosBb2020($positionTest);
         $joueurTest->addSkills($playerSkillTest);
-        $joueurTest->setRuleset(self::BB_2020);
+        $joueurTest->setRuleset(RulesetEnum::BB_2020);
 
         $playerSkillRepoMock = $this->createMock(ObjectRepository::class);
         $playerSkillRepoMock->method('findBy')->willReturn([$playerSkillTest]);
@@ -242,7 +239,7 @@ class valeurDunJoueurTest extends TestCase
         $joueurTest = new Players();
         $joueurTest->setFPos($positionTest);
         $joueurTest->addSkills($playerSkillTest);
-        $joueurTest->setRuleset(self::BB_2016);
+        $joueurTest->setRuleset(RulesetEnum::BB_2016);
 
         $playerSkillRepoMock = $this->createMock(ObjectRepository::class);
         $playerSkillRepoMock->method('findBy')->willReturn([$playerSkillTest]);
@@ -296,7 +293,7 @@ class valeurDunJoueurTest extends TestCase
         $joueurTest = new Players();
         $joueurTest->setFPosBb2020($positionTest);
         $joueurTest->addSkills($playerSkillTest);
-        $joueurTest->setRuleset(self::BB_2020);
+        $joueurTest->setRuleset(RulesetEnum::BB_2020);
 
         $playerSkillRepoMock = $this->createMock(ObjectRepository::class);
         $playerSkillRepoMock->method('findBy')->willReturn([$playerSkillTest]);
@@ -348,7 +345,7 @@ class valeurDunJoueurTest extends TestCase
         $joueurTest->setAchAg(1);
         $joueurTest->setAchSt(1);
         $joueurTest->setAchAv(1);
-        $joueurTest->setRuleset(self::BB_2016);
+        $joueurTest->setRuleset(RulesetEnum::BB_2016);
 
         $playerSkillRepoMock = $this->createMock(ObjectRepository::class);
         $playerSkillRepoMock->method('findBy')->willReturn([]);
@@ -408,7 +405,7 @@ class valeurDunJoueurTest extends TestCase
         $joueurTest->setFPos($positionTest);
         $joueurTest->addSkills($playerSkillTest0);
         $joueurTest->addSkills($playerSkillTest1);
-        $joueurTest->setRuleset(self::BB_2016);
+        $joueurTest->setRuleset(RulesetEnum::BB_2016);
 
         $playerSkillRepoMock = $this->createMock(ObjectRepository::class);
         $playerSkillRepoMock->method('findBy')->willReturn([$playerSkillTest0,$playerSkillTest1]);
@@ -467,7 +464,7 @@ class valeurDunJoueurTest extends TestCase
         $joueurTest->setFPosBb2020($positionTest);
         $joueurTest->addSkills($playerSkillTest0);
         $joueurTest->addSkills($playerSkillTest1);
-        $joueurTest->setRuleset(self::BB_2020);
+        $joueurTest->setRuleset(RulesetEnum::BB_2020);
 
         $playerSkillRepoMock = $this->createMock(ObjectRepository::class);
         $playerSkillRepoMock->method('findBy')->willReturn([$playerSkillTest0,$playerSkillTest1]);
@@ -519,7 +516,7 @@ class valeurDunJoueurTest extends TestCase
 
         $joueurTest = new Players();
         $joueurTest->setFPos($positionTest);
-        $joueurTest->setRuleset(self::BB_2016);
+        $joueurTest->setRuleset(RulesetEnum::BB_2016);
 
         $playerSkillRepoMock = $this->createMock(ObjectRepository::class);
         $playerSkillRepoMock->method('findBy')->willReturn([]);
@@ -571,7 +568,7 @@ class valeurDunJoueurTest extends TestCase
 
         $joueurTest = new Players();
         $joueurTest->setFPosBb2020($positionTest);
-        $joueurTest->setRuleset(self::BB_2020);
+        $joueurTest->setRuleset(RulesetEnum::BB_2020);
 
         $playerSkillRepoMock = $this->createMock(ObjectRepository::class);
         $playerSkillRepoMock->method('findBy')->willReturn([]);

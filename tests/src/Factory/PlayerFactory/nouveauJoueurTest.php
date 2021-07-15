@@ -11,16 +11,13 @@ use App\Entity\PlayersIcons;
 use App\Entity\Races;
 use App\Entity\RacesBb2020;
 use App\Entity\Teams;
+use App\Enum\RulesetEnum;
 use App\Factory\PlayerFactory;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class nouveauJoueurTest extends KernelTestCase
 {
-    private const BB_2016 = 0;
-
-    private const BB_2020 = 1;
-
     /**
      * @test
      */
@@ -56,7 +53,7 @@ class nouveauJoueurTest extends KernelTestCase
                 $equipeMock,
                 1,
                 $entityManagerMock,
-                self::BB_2016,
+                RulesetEnum::BB_2016,
                 'Test'
             )
         );
@@ -97,7 +94,7 @@ class nouveauJoueurTest extends KernelTestCase
                 $equipeMock,
                 1,
                 $entityManagerMock,
-                self::BB_2020,
+                RulesetEnum::BB_2020,
                 'Test'
             )
         );
@@ -138,7 +135,7 @@ class nouveauJoueurTest extends KernelTestCase
             $equipeMock,
             1,
             $entityManagerMock,
-            self::BB_2016,
+            RulesetEnum::BB_2016,
             'test'
         );
 

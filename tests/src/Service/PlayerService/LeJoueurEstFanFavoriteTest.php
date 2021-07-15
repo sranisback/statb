@@ -8,6 +8,7 @@ use App\Entity\GameDataSkills;
 use App\Entity\GameDataSkillsBb2020;
 use App\Entity\Players;
 use App\Entity\PlayersSkills;
+use App\Enum\RulesetEnum;
 use App\Service\EquipeService;
 use App\Service\InfosService;
 use App\Service\MatchDataService;
@@ -17,10 +18,6 @@ use PHPUnit\Framework\TestCase;
 
 class LeJoueurEstFanFavoriteTest extends TestCase
 {
-    private const BB_2016 = 0;
-
-    private const BB_2020 = 1;
-
     /**
      * @test
      */
@@ -37,7 +34,7 @@ class LeJoueurEstFanFavoriteTest extends TestCase
         $playerSkillMock->method('getFPid')->willReturn($joueurMock);
 
         $joueurMock->method('getPlayerId')->willReturn(1);
-        $joueurMock->method('getRuleset')->willReturn(self::BB_2016);
+        $joueurMock->method('getRuleset')->willReturn(RulesetEnum::BB_2016);
         $joueurMock->method('getSkills')->willReturn($playerSkillMock);
 
         $gameDataSkillsRepoMock = $this->getMockBuilder(GameDataSkills::class)
@@ -88,7 +85,7 @@ class LeJoueurEstFanFavoriteTest extends TestCase
 
         $joueurMock = $this->createMock(Players::class);
         $joueurMock->method('getPlayerId')->willReturn(1);
-        $joueurMock->method('getRuleset')->willReturn(self::BB_2016);
+        $joueurMock->method('getRuleset')->willReturn(RulesetEnum::BB_2016);
 
        $gameDataSkillsRepoMock = $this->getMockBuilder(GameDataSkills::class)
             ->addMethods(['findOneBy'])
@@ -138,7 +135,7 @@ class LeJoueurEstFanFavoriteTest extends TestCase
 
         $joueurMock = $this->createMock(Players::class);
         $joueurMock->method('getPlayerId')->willReturn(1);
-        $joueurMock->method('getRuleset')->willReturn(self::BB_2020);
+        $joueurMock->method('getRuleset')->willReturn(RulesetEnum::BB_2020);
 
         $playerSkillMock = $this->createMock(PlayersSkills::class);
         $playerSkillMock->method('getFSkillBb2020')->willReturn($gameDataSkillsMock);
@@ -192,7 +189,7 @@ class LeJoueurEstFanFavoriteTest extends TestCase
 
         $joueurMock = $this->createMock(Players::class);
         $joueurMock->method('getPlayerId')->willReturn(1);
-        $joueurMock->method('getRuleset')->willReturn(self::BB_2020);
+        $joueurMock->method('getRuleset')->willReturn(RulesetEnum::BB_2020);
 
         $gameDataSkillsRepoMock = $this->getMockBuilder(GameDataSkillsBb2020::class)
             ->addMethods(['findOneBy'])

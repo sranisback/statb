@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\GameDataPlayers;
 use App\Entity\GameDataSkills;
 use App\Entity\Players;
 use App\Entity\PlayersSkills;
 use App\Entity\Teams;
+use App\Enum\RulesetEnum;
 use App\Form\AjoutCompetenceType;
 use App\Form\AjoutJoueurType;
 use App\Form\JoueurPhotoEnvoiType;
@@ -15,17 +15,15 @@ use App\Service\EquipeService;
 use App\Service\PlayerService;
 use App\Tools\randomNameGenerator;
 use App\Tools\TransformeEnJSON;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class JoueurController extends AbstractController
 {
-    private const BB_2020 = 1;
-
     /**
      * @Route("/player/{playerid}", name="Player")
      * @param int $playerid
@@ -55,18 +53,24 @@ class JoueurController extends AbstractController
      * @param PlayerService $playerService
      * @return Response
      */
-    public function getposstat(int $posId, PlayerService $playerService): \Symfony\Component\HttpFoundation\Response
+    public function getposstat(int $posId, PlayerService $playerService, Request $request): \Symfony\Component\HttpFoundation\Response
     {
+        $donneesRuleset = $request->request->all();
+
+        $repo = RulesetEnum::getGameDataPlayersRepoFromIntRuleset($donneesRuleset['ruleset']);
+        $champ = RulesetEnum::champIdGameDataPlayerFromIntRuleset($donneesRuleset['ruleset']);
+
         $position = $this->getDoctrine()
             ->getManager()
-            ->getRepository(GameDataPlayers::class)
-            ->findOneBy(['posId' => $posId]);
+            ->getRepository($repo)
+            ->findOneBy([$champ => $posId]);
 
         $html = $this->render(
             'statbb/affichePosition.html.twig',
             [
                 'position' => $position,
-                'competence' => $playerService->competencesDunePositon($position)
+                'competence' => $playerService->competencesDunePositon($position),
+                'ruleset' => $donneesRuleset['ruleset']
             ]
         );
 
@@ -102,7 +106,8 @@ class JoueurController extends AbstractController
             $donneesPourAjout['idPosition'],
             $donneesPourAjout['teamId'],
             $donneesPourAjout['nom'],
-            $donneesPourAjout['nr']
+            $donneesPourAjout['nr'],
+            $donneesPourAjout['ruleset']
         );
         $tresors = 0;
         $html = '';
@@ -113,7 +118,7 @@ class JoueurController extends AbstractController
         if ($resultat['resultat'] == 'ok') {
             /** @var Players $joueur */
             $joueur = $resultat['joueur'];
-            $position = $joueur->getFPos();
+            $position = RulesetEnum::getPositionFromPlayerByRuleset($joueur);
             if ($position !== null) {
                 $competences = $playerService->listeDesCompdDeBasedUnJoueur($joueur);
 

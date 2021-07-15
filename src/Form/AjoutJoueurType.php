@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Teams;
+use App\Enum\RulesetEnum;
 use App\Service\EquipeService;
 use App\Service\PlayerService;
 use App\Tools\randomNameGenerator;
@@ -10,6 +11,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -54,7 +56,7 @@ class AjoutJoueurType extends AbstractType
                     $champ2,
                     EntityType::class,
                     [
-                        'class' => $this->equipeService->getRulesetFromTeamForDataPlayerRepo($equipe),
+                        'class' => RulesetEnum::getGameDataPlayerRepoFromTeamByRuleset($equipe),
                         'choice_label' => 'pos',
                         'label' => 'Choisir une position',
                         'query_builder' =>
@@ -85,7 +87,9 @@ class AjoutJoueurType extends AbstractType
                         'required' => true
                     ]
                 )
-                ->add('submit', ButtonType::class, ['label' => 'Ajouter', 'attr' => ['teamId' => $equipe->getTeamId()]])
+                ->add('ruleset', HiddenType::class, ['data' => $equipe->getRuleset()])
+                ->add('ownedByTeam', HiddenType::class, ['data' => $equipe->getTeamId()])
+                ->add('submit', ButtonType::class, ['label' => 'Ajouter'])
                 ->add('cancel', ButtonType::class, ['label' => 'Quitter', 'attr' => ['data-dismiss' => 'modal']])
                 ->getForm();
         }

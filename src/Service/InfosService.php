@@ -9,6 +9,7 @@ use App\Entity\Matches;
 use App\Entity\Players;
 use App\Entity\Primes;
 use App\Entity\Teams;
+use App\Enum\RulesetEnum;
 use Doctrine\ORM\EntityManagerInterface;
 use Nette\Utils\DateTime;
 
@@ -62,7 +63,8 @@ class InfosService
     public function joueurEngage(Players $joueur)
     {
         return $this->publierUnMessage(
-            $joueur->getName() . ', ' . $joueur->getFPos()->getPos() . ' ' .$joueur->getFRid()->getName() .
+            $joueur->getName() . ', ' . RulesetEnum::getPositionFromPlayerByRuleset($joueur)->getPos() . ' ' .
+            RulesetEnum::getRaceFromJoueurByRuleset($joueur)->getName() .
             ' a été engagé par <a href="/team/' . $joueur->getOwnedByTeam()->getTeamId() . '">' .
             $joueur->getOwnedByTeam()->getName() . '</a>' .
             ' de ' . $joueur->getOwnedByTeam()->getOwnedByCoach()->getName()

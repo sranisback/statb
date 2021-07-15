@@ -12,10 +12,6 @@ use Nette\Utils\DateTime;
 
 class PlayerFactory
 {
-    private const BB_2016 = 0;
-
-    private const BB_2020 = 1;
-
     /**
      * @param $position
      * @param int $numero
@@ -36,8 +32,7 @@ class PlayerFactory
         string $nom = null
     ): Players {
         $joueur = new Players();
-
-        $joueur = self::attribuerIcone($joueur,$entityManager, $position, $ruleset);
+        $joueur->setRuleset($ruleset);
 
         $cost = $position->getCost();
 
@@ -47,16 +42,9 @@ class PlayerFactory
 
         $dateBoughtFormat = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
 
-        switch ($ruleset) {
-            case self::BB_2016:
-                $joueur = self::attributPositionEtRaceBb2016($position, $joueur);
-                break;
+        $joueur = RulesetEnum::setPositionAndRaceJoueurByRuleset($joueur,$position);
 
-            case self::BB_2020:
-                $joueur = self::attributPositionEtRaceBb2020($position, $joueur);
-                break;
-        }
-
+        $joueur = self::attribuerIcone($joueur, $entityManager);
 
         if ($dateBoughtFormat) {
             $joueur->setDateBought($dateBoughtFormat);
@@ -74,8 +62,6 @@ class PlayerFactory
         $joueur->setJournalier($journalier);
         $joueur->setStatus(1);
 
-        $joueur->setRuleset($ruleset);
-
         return $joueur;
     }
 
@@ -84,17 +70,9 @@ class PlayerFactory
      * @param $position
      * @return Players
      */
-    private static function attribuerIcone(Players $joueur,EntityManagerInterface $entityManager, $position, $ruleset): Players
+    private static function attribuerIcone(Players $joueur, EntityManagerInterface $entityManager): Players
     {
-        switch ($ruleset) {
-            case self::BB_2016:
-                $listeIcones = $entityManager->getRepository(PlayersIcons::class)->toutesLesIconesDunePosition($position);
-                break;
-
-            case self::BB_2020:
-                $listeIcones = $entityManager->getRepository(PlayersIcons::class)->toutesLesIconesDunePositionBb2020($position);
-                break;
-        }
+        $listeIcones = RulesetEnum::getIconeListeFromPlayerByRuleset($joueur, $entityManager);
 
         if ($listeIcones) {
             $joueur->setIcon($listeIcones[rand(0, count($listeIcones) - 1)]);

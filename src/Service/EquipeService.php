@@ -15,6 +15,7 @@ use App\Entity\Matches;
 
 use App\Enum\AnneeEnum;
 use App\Enum\NiveauStadeEnum;
+use App\Enum\RulesetEnum;
 use App\Factory\PlayerFactory;
 use App\Factory\TeamsFactory;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,7 +27,6 @@ use Gumlet\ImageResize;
 
 class EquipeService
 {
-
     /**
      * @var EntityManagerInterface
      */
@@ -68,9 +68,6 @@ class EquipeService
     private const OWA = 'OWA';
     private const BAS_FOND = 'Bas fonds';
 
-    private const BB_2016 = 0;
-    private const BB_2020 = 1;
-
     public function __construct(
         EntityManagerInterface $doctrineEntityManager,
         SettingsService $settingsService,
@@ -101,14 +98,7 @@ class EquipeService
      */
     public function valeurInducementDelEquipe(Teams $equipe): array
     {
-        switch ($equipe->getRuleset()) {
-            case self::BB_2016 :
-                $equipeRace = $equipe->getFRace();
-                break;
-            case self::BB_2020:
-                $equipeRace = $equipe->getRace();
-                break;
-        }
+        $equipeRace = RulesetEnum::getRaceFromEquipeByRuleset($equipe);
 
         if ($equipeRace !== null) {
             $inducement['rerolls'] = $equipe->getRerolls() * $equipeRace->getCostRr();
@@ -602,7 +592,7 @@ class EquipeService
                 $equipe,
                 true,
                 $this->doctrineEntityManager,
-                self::BB_2016
+                RulesetEnum::BB_2016
             );
 
             $journalier->setOwnedByTeam($equipe);
@@ -852,19 +842,5 @@ class EquipeService
         $this->doctrineEntityManager->persist($equipe);
         $this->doctrineEntityManager->flush();
         $this->doctrineEntityManager->refresh($equipe);
-    }
-
-    /**
-     * @param Teams $teams
-     * @return string
-     */
-    public function getRulesetFromTeamForDataPlayerRepo(Teams $teams)
-    {
-        switch ($teams->getRuleset()){
-            case self::BB_2016:
-                return GameDataPlayers::class;
-            case self::BB_2020:
-                return GameDataPlayersBb2020::class;
-        }
     }
 }

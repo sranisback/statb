@@ -15,12 +15,14 @@
                 {{ form_row(form.name, { 'id': 'player_futur_nom' }) }}
                 {{ form_row(form.nr, { 'id': 'player_futur_numero' }) }}
                 {% if equipe.ruleset == 0 %}
-                    {{ form_row(form.fPos) }}
+                    {{ form_row(form.fPos, { 'id': 'player_position' }) }}
                 {% else %}
-                    {{ form_row(form.fPosBb2020) }}
+                    {{ form_row(form.fPosBb2020, { 'id': 'player_position' }) }}
                 {% endif %}
             </div>
             <div class="modal-footer">
+                {{ form_row(form.ruleset,  { 'id': 'ruleset' }) }}
+                {{ form_row(form.ownedByTeam, { 'id': 'equipe_Id' }) }}
                 {{ form_widget(form.submit , { 'id': 'btn_addplayer' }) }}{{ form_widget(form.cancel) }}
                 {{ form_end(form)}}
             </div>

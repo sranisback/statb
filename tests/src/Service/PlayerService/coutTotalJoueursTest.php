@@ -10,6 +10,7 @@ use App\Entity\GameDataSkillsBb2020;
 use App\Entity\Players;
 use App\Entity\PlayersSkills;
 use App\Entity\Teams;
+use App\Enum\RulesetEnum;
 use App\Service\EquipeService;
 use App\Service\InfosService;
 use App\Service\MatchDataService;
@@ -21,9 +22,6 @@ use PHPUnit\Framework\TestCase;
 
 class coutTotalJoueursTest extends TestCase
 {
-    private const BB_2016 = 0;
-
-    private const BB_2020 = 1;
     /**
      * @test
      */
@@ -57,7 +55,7 @@ class coutTotalJoueursTest extends TestCase
         $joueurMock->method('getFPos')->willReturn($positionMock);
         $joueurMock->method('getInjRpm')->willReturn(0);
         $joueurMock->method('getSkills')->willReturn($playerSkillsTest);
-        $joueurMock->method('getRuleset')->willReturn(self::BB_2016);
+        $joueurMock->method('getRuleset')->willReturn(RulesetEnum::BB_2016);
 
         $playerRepoMock = $this->getMockBuilder(Players::class)
             ->addMethods(['listeDesJoueursPourlEquipe'])
@@ -130,7 +128,7 @@ class coutTotalJoueursTest extends TestCase
         $joueurMock->method('getFPosBb2020')->willReturn($positionMock);
         $joueurMock->method('getInjRpm')->willReturn(0);
         $joueurMock->method('getSkills')->willReturn($playerSkillsTest);
-        $joueurMock->method('getRuleset')->willReturn(self::BB_2020);
+        $joueurMock->method('getRuleset')->willReturn(RulesetEnum::BB_2020);
 
         $playerRepoMock = $this->getMockBuilder(Players::class)
             ->addMethods(['listeDesJoueursPourlEquipe'])

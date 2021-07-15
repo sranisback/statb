@@ -30,6 +30,12 @@ class PlayersIcons
      */
     private ?\App\Entity\GameDataPlayers $position = null;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=GameDataPlayersBb2020::class)
+     * @ORM\JoinColumn(name="pos_id", referencedColumnName="id")
+     */
+    private $positionBb2020;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -55,6 +61,18 @@ class PlayersIcons
     public function setPosition(?GameDataPlayers $position): self
     {
         $this->position = $position;
+
+        return $this;
+    }
+
+    public function getPositionBb2020(): ?GameDataPlayersBb2020
+    {
+        return $this->positionBb2020;
+    }
+
+    public function setPositionBb2020(?GameDataPlayersBb2020 $positionBb2020): self
+    {
+        $this->positionBb2020 = $positionBb2020;
 
         return $this;
     }
