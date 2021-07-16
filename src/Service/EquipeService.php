@@ -177,9 +177,9 @@ class EquipeService
      * @param int $raceid
      * @return int|null
      */
-    public function createTeam(string $teamname, int $coachid, int $raceid)
+    public function createTeam(string $teamname, int $coachid, int $raceid, int $ruleset)
     {
-        $race = $this->doctrineEntityManager->getRepository(Races::class)->findOneBy(['raceId' => $raceid]);
+        $race = $this->doctrineEntityManager->getRepository(RulesetEnum::getRaceRepoFromIntByRuleset($ruleset))->findOneBy([RulesetEnum::getRaceIdFromIntByRuleset($ruleset) => $raceid]);
         $coach = $this->doctrineEntityManager->getRepository(Coaches::class)->findOneBy(array('coachId' => $coachid));
 
         $stade = new Stades();
@@ -198,7 +198,8 @@ class EquipeService
             $stade,
             $this->settingsService->anneeCourante(),
             $race,
-            $coach
+            $coach,
+            $ruleset
         );
 
         $this->doctrineEntityManager->persist($equipe);

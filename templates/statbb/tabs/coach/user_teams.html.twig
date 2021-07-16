@@ -8,17 +8,18 @@
             <th>G</th>
             <th>E</th>
             <th>P</th>
-            <th>Td Mis</th>
-            <th>Td Contre</th>
-            <th>Td Avrg</th>
-            <th>Sorties faites</th>
-            <th>Sorties prises</th>
-            <th>Sorties Avrg</th>
+            <th>Td+</th>
+            <th>Td-</th>
+            <th>Td Av</th>
+            <th>CAS+</th>
+            <th>CAS-</th>
+            <th>CAS Av</th>
             <th>% victoire</th>
             <th>Points</th>
             <th>Bonus</th>
             <th>Penalite</th>
             <th>ELO</th>
+            <th>Ruleset</th>
             <th>Retirer ?</th>
         </tr>
         </thead>
@@ -33,7 +34,13 @@
                 <span class="fas fa-tag text-success"></span>
                 {% endif %}
             </td>
-            <td>{{ ligne.equipe.frace.name }}</td>
+            <td>
+                {% if (ligne.equipe.ruleset == 0) %}
+                    {{ ligne.equipe.frace.name }}
+                {% else %}
+                    {{ ligne.equipe.race.name }}
+                {% endif %}
+            </td>
             <td>{{ ligne.equipe.tv/1000 }}</td>
             <td>{{ ligne.resultats.win }}</td>
             <td>{{ ligne.resultats.draw }}</td>
@@ -53,6 +60,7 @@
             <td>{{ ligne.resultats.bonus }}</td>
             <td>{{ ligne.resultats.penalite }}</td>
             <td>{{ ligne.equipe.elo }}</td>
+            <td>{{ etiquettes[ligne.equipe.ruleset] }}</td>
             {% if ligne.equipe.retired == 1 %}
                 <td> Retirée</td>
             {% else %}

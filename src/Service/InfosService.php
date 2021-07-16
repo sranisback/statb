@@ -51,7 +51,7 @@ class InfosService
             $equipe->getOwnedByCoach()->getName() .
             ' a crée l\'équipe <a href="/team/' . $equipe->getTeamId() .
             '">' . $equipe->getName() . '</a>' .
-            '(' . $equipe->getFRace()->getName() .
+            '(' . RulesetEnum::getRaceFromEquipeByRuleset($equipe)->getName() .
             ')'
         );
     }

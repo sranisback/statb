@@ -14,13 +14,25 @@
             <td>{{ match.team1.name }} {% if match.team1.franchise == true %}
                 <span class="fas fa-tag text-success"></span>
                 {% endif %}
-                ( {{ match.team1.fRace.name }}, {{ match.tv1/1000 }}
+                (
+                {% if match.team1.ruleset == 0 %}
+                    {{ match.team1.fRace.name }}
+                {% else %}
+                    {{ match.team1.Race.name }}
+                {% endif %}
+                , {{ match.tv1/1000 }}
                 de {{ match.team1.ownedByCoach.name }} )
             </td>
             <td> Vs</td>
             <td>{{ match.team2.name }} {% if match.team2.franchise == true %}
                 <span class="fas fa-tag text-success"></span>
-                {% endif %}( {{ match.team2.fRace.name }}, {{ match.tv2/1000 }}
+                {% endif %}(
+                {% if match.team2.ruleset == 0 %}
+                    {{ match.team2.fRace.name }}
+                {% else %}
+                    {{ match.team2.Race.name }}
+                {% endif %}
+                , {{ match.tv2/1000 }}
                 de {{ match.team2.ownedByCoach.name }} )
             </td>
             <td>{{ match.team1Score }} - {{ match.team2Score }}</td>

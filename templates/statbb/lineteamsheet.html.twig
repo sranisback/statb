@@ -5,11 +5,18 @@
     <td><img src="{{ asset('build/'~app.environment~'/images/player_icons/'~player.icon.iconName~'.gif') }}" class=".img-responsive">{{position.pos}}</td>
     <td>{{position.ma}}</td>
     <td>{{position.st}}</td>
-    <td>{{position.ag}}</td>
-    <td>{{position.av}}</td>
+    {% if (player.ruleset == 0) %}
+        <td>{{position.ag}}</td>
+        <td>{{position.av}}</td>
+    {% else %}
+        <td>{{position.ag}}+</td>
+        <td>{{position.cp}}+</td>
+        <td>{{position.av}}+</td>
+    {% endif %}
     <td>{{skill|raw}}</td>
     <td>0</td>
     <td></td>
+    <td>0</td>
     <td>0</td>
     <td>0</td>
     <td>0</td>

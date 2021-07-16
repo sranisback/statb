@@ -19,6 +19,12 @@ class calculClassementGenTest extends Functionnal
 
         $settingTest->setName('points_6');
         $this->entityManager->persist($settingTest);
+
+        $settingFixture = new SettingFixtures();
+        $settingTest = $settingFixture->load($this->entityManager);
+        $settingTest->setName('currentRuleset');
+        $settingTest->setValue('0');
+        $this->entityManager->persist($settingTest);
         $this->entityManager->flush();
 
         $this->client->request('GET', '/calculClassementGen/6');

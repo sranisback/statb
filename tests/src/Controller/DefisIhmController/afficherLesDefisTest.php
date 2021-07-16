@@ -34,6 +34,7 @@ class afficherLesDefisTest extends Functionnal
         $settingTestPeriodeDefis->setName('periodeDefis');
         $settingTestPeriodeDefis->setValue('08/01/2020');
         $this->entityManager->persist($settingTestPeriodeDefis);
+
         $this->entityManager->flush();
 
         $this->client->request('GET', '/afficherDefis');

@@ -21,7 +21,13 @@
                     <a
                             class="glyphicon glyphicon-search"
                             href="{{ path('Player', {'playerid': joueur.playerId,'type':'n' }) }}"></a></td>
-                <td>{{ joueur.fPos.pos }}</td>
+                <td>
+                    {% if joueur.ruleset == 0 %}
+                        {{ joueur.fPos.pos }}
+                    {% else %}
+                        {{ joueur.fPosBb2020.pos }}
+                    {% endif %}
+                </td>
                 <td>
                     {{ joueur.ownedByTeam.name }}
                     {% if joueur.ownedByTeam.franchise == true %}

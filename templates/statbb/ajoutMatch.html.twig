@@ -22,7 +22,13 @@
                     <select class="form-control" id="selectedTeam_1" name="team_1" side="1">
                         <option value="" selected>Choisir une équipe</option>
                         {% for team in teams %}
-                            <option value="{{ team.teamId }}">{{ team.name }}({{ team.fRace.name }}),{{ team.tv/1000 }}
+                            <option value="{{ team.teamId }}">{{ team.name }}(
+                                {% if team.ruleset == 0 %}
+                                    {{ team.fRace.name }}
+                                {% else %}
+                                    {{ team.race.name }}
+                                {% endif %}
+                                ),{{ team.tv/1000 }}
                                 de {{ team.ownedByCoach.name }}</option>
                         {% endfor %}
                     </select>
@@ -71,7 +77,13 @@
                             side="2">
                         <option value="" selected>Choisir une équipe</option>
                         {% for team in teams %}
-                            <option value="{{ team.teamId }}">{{ team.name }}({{ team.fRace.name }}),{{ team.tv/1000 }}
+                            <option value="{{ team.teamId }}">{{ team.name }}(
+                                {% if team.ruleset == 0 %}
+                                    {{ team.fRace.name }}
+                                {% else %}
+                                    {{ team.race.name }}
+                                {% endif %}
+                                ),{{ team.tv/1000 }}
                                 de {{ team.ownedByCoach.name }}</option>
                         {% endfor %}
                     </select>

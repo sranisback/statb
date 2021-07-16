@@ -10,6 +10,8 @@ use App\Entity\GameDataSkills;
 use App\Entity\GameDataSkillsBb2020;
 use App\Entity\Players;
 use App\Entity\PlayersIcons;
+use App\Entity\Races;
+use App\Entity\RacesBb2020;
 use App\Entity\Teams;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -21,11 +23,11 @@ class RulesetEnum
     /**
      * @return array<int, string>
      */
-    public static function stringVersNumeroBdd()
+    public static function numeroVersEtiquette()
     {
         return [
-            '2016' => 0,
-            '2020' => 1
+            0 => 'Bb 2016',
+            1 => 'Bb 2020'
         ];
     }
 
@@ -156,6 +158,46 @@ class RulesetEnum
                 return $entityManager->getRepository(PlayersIcons::class)->toutesLesIconesDunePosition($joueur->getFPos());
             case RulesetEnum::BB_2020:
                 return $entityManager->getRepository(PlayersIcons::class)->toutesLesIconesDunePositionBb2020($joueur->getFPosBb2020());
+        }
+    }
+
+    public static function setTeamRaceFromTeamByRuleset(Teams $team, $race)
+    {
+        switch ($team->getRuleset()){
+            case RulesetEnum::BB_2016:
+                return $team->setfRace($race);
+            case RulesetEnum::BB_2020:
+                return $team->setRace($race);
+        }
+    }
+
+    public static function getChampRaceFromIntByRuleset(int $ruleset)
+    {
+        switch ($ruleset){
+            case RulesetEnum::BB_2016:
+                return 'fRace';
+            case RulesetEnum::BB_2020:
+                return 'race';
+        }
+    }
+
+    public static function getRaceRepoFromIntByRuleset(int $ruleset)
+    {
+        switch ($ruleset){
+            case RulesetEnum::BB_2016:
+                return Races::class;
+            case RulesetEnum::BB_2020:
+                return RacesBb2020::class;
+        }
+    }
+
+    public static function getRaceIdFromIntByRuleset(int $ruleset)
+    {
+        switch ($ruleset){
+            case RulesetEnum::BB_2016:
+                return 'raceId';
+            case RulesetEnum::BB_2020:
+                return 'id';
         }
     }
 }

@@ -24,15 +24,9 @@ class AjoutJoueurType extends AbstractType
      */
     private \App\Service\PlayerService $playerService;
 
-    /**
-     * @var EquipeService
-     */
-    private \App\Service\EquipeService $equipeService;
-
     public function __construct(PlayerService $playerService, EquipeService $equipeService)
     {
         $this->playerService = $playerService;
-        $this->equipeService = $equipeService;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
