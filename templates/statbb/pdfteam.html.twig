@@ -23,7 +23,13 @@
                 <h5>{{ team.name }}</h5></td>
         </tr>
         <tr style="font-size: 9px;">
-            <td style="text-align: center;">Race : {{ team.fRace.name }}</td>
+            <td style="text-align: center;">Race :
+                {% if(team.ruleset == 0) %}
+                    {{ team.fRace.name }}
+                {% else %}
+                    {{ team.race.name }}
+                {% endif %}
+            </td>
             <td style="text-align: center;">Coach : {{ team.ownedByCoach.name }}</td>
         </tr>
         <tr style="font-size: 9px;">
@@ -42,6 +48,9 @@
             <td>Ma</td>
             <td>St</td>
             <td>Ag</td>
+            {% if(team.ruleset == 1) %}
+                <td>Cp</td>
+            {% endif %}
             <td>Av</td>
             <td>Compétences</td>
             <td>Status</td>
@@ -49,6 +58,9 @@
             <td>Td</td>
             <td>Int</td>
             <td>Cas</td>
+            {% if(team.ruleset == 1) %}
+                <td>Bonus Xp</td>
+            {% endif %}
             <td>Mvp</td>
             <td>Agg</td>
             <td>Spp</td>
@@ -70,39 +82,81 @@
                         <p class="fas fa-arrow-up"/>
                     {% endif %}
                 </td>
-                <td>{{ player.fpos.pos }}</td>
+                <td>
+                    {% if(player.ruleset == 0) %}
+                        {{ player.fpos.pos }}
+                    {% else %}
+                        {{ player.fposBb2020.pos  }}
+                    {% endif %}
+                </td>
 
                 {% if player.achMa>0 %}
-                    <td class="success">{{ player.fpos.ma + player.achMa - player.injMa }}</td>
-                {% elseif  player.injMa>0 %}
-                    <td class="danger">{{ player.fpos.ma + player.achMa - player.injMa }}</td>
-                {% else %}
-                    <td>{{ player.fpos.ma + player.achMa - player.injMa }}</td>
-                {% endif %}
+                <td class="text-success font-weight-bolder">
+            {% elseif  player.injMa>0 %}
+            <td class="text-danger font-weight-bolder">
+            {% else %}
+                <td>
+                    {% endif %}
+                    {% if player.ruleset == 0%}
+                        {{ player.fpos.ma + player.achMa - player.injMa }}
+                    {% else %}
+                        {{ player.fPosBb2020.ma + player.achMa - player.injMa }}
+                    {% endif %}
+                </td>
 
                 {% if player.achSt>0 %}
-                    <td class="success">{{ player.fpos.st + player.achSt - player.injSt }}</td>
-                {% elseif  player.injSt>0 %}
-                    <td class="danger">{{ player.fpos.st + player.achSt - player.injSt }}</td>
-                {% else %}
-                    <td>{{ player.fpos.st + player.achSt - player.injSt }}</td>
-                {% endif %}
+                <td class="text-success font-weight-bolder">
+            {% elseif player.injSt>0 %}
+            <td class="text-danger font-weight-bolder">
+            {% else %}
+                <td>
+                    {% endif %}
+                    {% if player.ruleset == 0%}
+                        {{ player.fpos.st + player.achSt - player.injSt }}
+                    {% else %}
+                        {{ player.fPosBb2020.st + player.achSt - player.injSt }}
+                    {% endif %}
+                </td>
 
                 {% if player.achAg>0 %}
-                    <td class="success">{{ player.fpos.ag + player.achAg - player.injAg }}</td>
-                {% elseif  player.injAg>0 %}
-                    <td class="danger">{{ player.fpos.ag + player.achAg - player.injAg }}</td>
-                {% else %}
-                    <td>{{ player.fpos.ag + player.achAg - player.injAg }}</td>
+                <td class="text-success font-weight-bolder">
+            {% elseif player.injAg>0 %}
+            <td class="text-danger font-weight-bolder">
+            {% else %}
+                <td>
+                    {% endif %}
+                    {% if player.ruleset == 0%}
+                        {{ player.fpos.ag + player.achAg - player.injAg }}
+                    {% else %}
+                        {{ player.fPosBb2020.ag - player.achAg + player.injAg}}+
+                    {% endif %}
+                </td>
+
+                {% if player.ruleset == 1%}
+                    {% if player.achCp>0 %}
+                        <td class="text-success font-weight-bolder">
+                    {% elseif  player.injCp>0 %}
+                        <td class="text-danger font-weight-bolder">
+                    {% else %}
+                        <td>
+                    {% endif %}
+                    {{ player.fPosBb2020.cp - player.achCp + player.injCp }}+
+                    </td>
                 {% endif %}
 
                 {% if player.achAv>0 %}
-                    <td class="success">{{ player.fpos.av + player.achAv - player.injAv }}</td>
-                {% elseif  player.injAv>0 %}
-                    <td class="danger">{{ player.fpos.av + player.achAv - player.injAv }}</td>
-                {% else %}
-                    <td>{{ player.fpos.av + player.achAv - player.injAv }}</td>
-                {% endif %}
+                <td class="text-success font-weight-bolder">
+            {% elseif player.injAv>0 %}
+            <td class="text-danger font-weight-bolder">
+            {% else %}
+                <td>
+                    {% endif %}
+                    {% if player.ruleset == 0%}
+                        {{ player.fpos.av + player.achAv - player.injAv }}
+                    {% else %}
+                        {{ player.fPosBb2020.av + player.achAv - player.injAv }}+
+                    {% endif %}
+                </td>
 
                 {% for data in pdata %}
                     {% if data.pid == player.playerId %}
@@ -112,6 +166,9 @@
                         <td>{{ data.td }}</td>
                         <td>{{ data.int }}</td>
                         <td>{{ data.cas }}</td>
+                        {% if(team.ruleset == 1) %}
+                            <td>{{ data.bonusXP }}</td>
+                        {% endif %}
                         <td>{{ data.mvp }}</td>
                         <td>{{ data.agg }}</td>
                         <td>{{ data.spp }}</td>
@@ -122,47 +179,58 @@
 
         {% endif %}
         {% endfor %}
+        {% if (team.ruleset == 0 ) %}
+            {% set colspan = 16 %}
+        {% else %}
+            {% set colspan = 18 %}
+        {% endif %}
         <tr>
-            <td colspan=16 style="text-align:right;">Total joueurs :</td>
+            <td colspan={{ colspan }} style="text-align:right;">Total joueurs :</td>
             <td style="text-align:right;">{{ tdata.playersCost }}</td>
         </tr>
         <tr>
-            <td colspan=13 style="text-align:right;">Popularité :</td>
+            <td colspan={{ colspan-3 }} style="text-align:right;">Popularité :</td>
             <td>{{ team.ff + team.ffBought }}</td>
             <td>X</td>
             <td>10000</td>
             <td style="text-align:right;">{{ tdata.pop }} </td>
         </tr>
         <tr>
-            <td colspan=13 style="text-align:right;">Relances :</td>
+            <td colspan={{ colspan-3 }}  style="text-align:right;">Relances :</td>
             <td>{{ team.rerolls }}</td>
             <td>X</td>
-            <td>{{ team.fRace.costRr }}</td>
+            <td>
+                {% if(team.ruleset == 0) %}
+                    {{ team.fRace.costRr }}
+                {% else %}
+                    {{ team.race.costRr }}
+                {% endif %}
+            </td>
             <td style="text-align:right;">{{ tdata.rerolls }}</td>
         </tr>
         <tr>
-            <td colspan=13 style="text-align:right;">Assistants :</td>
+            <td colspan={{ colspan-3 }}  style="text-align:right;">Assistants :</td>
             <td>{{ team.assCoaches }}</td>
             <td>X</td>
             <td>10000</td>
             <td style="text-align:right;">{{ tdata.asscoaches }}</td>
         </tr>
         <tr>
-            <td colspan=13 style="text-align:right;">Pompom girls :</td>
+            <td colspan={{ colspan-3 }}  style="text-align:right;">Pompom girls :</td>
             <td>{{ team.cheerleaders }}</td>
             <td>X</td>
             <td>10000</td>
             <td style="text-align:right;">{{ tdata.cheerleader }}</td>
         </tr>
         <tr>
-            <td colspan=13 style="text-align:right;">Apoticaire :</td>
+            <td colspan={{ colspan-3 }}  style="text-align:right;">Apoticaire :</td>
             <td>{{ team.apothecary }}</td>
             <td>X</td>
             <td>50000</td>
             <td style="text-align:right;">{{ tdata.apo }}</td>
         </tr>
         <tr>
-            <td colspan=16 style="text-align:right;">Tv Totale :</td>
+            <td colspan={{ colspan }}  style="text-align:right;">Tv Totale :</td>
             <td style="text-align:right;">{{  tdata.tv }}</td>
         </tr>
 

@@ -98,9 +98,9 @@
                                 <tr>
                                     <td>{{ player.nr }}</td>
                                     {% if player.achMa>0 %}
-                                        <td class="success">
+                                        <td class="text-success font-weight-bolder">
                                     {% elseif  player.injMa>0 %}
-                                        <td class="danger">
+                                        <td class="text-danger font-weight-bolder">
                                     {% else %}
                                         <td>
                                     {% endif %}
@@ -112,9 +112,9 @@
                                         </td>
 
                                     {% if player.achSt>0 %}
-                                        <td class="success">
+                                        <td class="text-success font-weight-bolder">
                                     {% elseif player.injSt>0 %}
-                                        <td class="danger">
+                                        <td class="text-danger font-weight-bolder">
                                     {% else %}
                                         <td>
                                     {% endif %}
@@ -126,42 +126,42 @@
                                         </td>
 
                                     {% if player.achAg>0 %}
-                                        <td class="success">
+                                        <td class="text-success font-weight-bolder">
                                     {% elseif player.injAg>0 %}
-                                        <td class="danger">
+                                        <td class="text-danger font-weight-bolder">
                                     {% else %}
                                         <td>
                                     {% endif %}
                                             {% if player.ruleset == 0%}
                                                 {{ player.fpos.ag + player.achAg - player.injAg }}
                                             {% else %}
-                                                {{ player.fPosBb2020.ag + player.achAg - player.injAg}}+
+                                                {{ player.fPosBb2020.ag - player.achAg + player.injAg}}+
                                             {% endif %}
                                         </td>
 
                                     {% if player.ruleset == 1%}
                                         {% if player.achCp>0 %}
-                                            <td class="success">
+                                            <td class="text-success font-weight-bolder">
                                         {% elseif  player.injCp>0 %}
-                                            <td class="danger">
+                                            <td class="text-danger font-weight-bolder">
                                         {% else %}
                                             <td>
                                         {% endif %}
-                                                {{ player.fPosBb2020.cp + player.achCp - player.injCp }}+
+                                                {{ player.fPosBb2020.cp - player.achCp + player.injCp }}+
                                             </td>
                                     {% endif %}
 
                                     {% if player.achAv>0 %}
-                                        <td class="success">
+                                        <td class="text-success font-weight-bolder">
                                     {% elseif player.injAv>0 %}
-                                        <td class="danger">
+                                        <td class="text-danger font-weight-bolder">
                                     {% else %}
                                         <td>
                                     {% endif %}
                                             {% if player.ruleset == 0%}
                                                 {{ player.fpos.av + player.achAv - player.injAv }}
                                             {% else %}
-                                                {{ player.fPosBb2020.av + player.achAv - player.injAv }}+
+                                                {{ player.fPosBb2020.av - player.achAv + player.injAv }}+
                                             {% endif %}
                                         </td>
 

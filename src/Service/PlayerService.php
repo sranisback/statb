@@ -179,30 +179,32 @@ class PlayerService
         $cout = 0;
 
         if ($joueur->getInjNi() > 0) {
-            $listSupp .= '<text class="text-danger">+1 Ni</text>, ';
+            $listSupp .= '<text class="text-danger">+' . $joueur->getInjNi() . ' Ni</text>, ';
         }
 
         if ($joueur->getAchMa() > 0) {
-            $listSupp .= '<text class="text-success">+1 Ma</text>, ';
-            $cout += 30_000;
+            $listSupp .= '<text class="text-success">+' . $joueur->getAchMa() . ' Ma</text>, ';
+            $cout += $joueur->getRuleset() == 0 ? 30_000 : 20_000;
         }
 
         if ($joueur->getAchSt() > 0) {
-            $listSupp .= '<text class="text-success">+1 St</text>, ';
-
-            $cout += 50_000;
+            $listSupp .= '<text class="text-success">+' . $joueur->getAchSt() . ' St</text>, ';
+            $cout += $joueur->getRuleset() == 0 ? 50_000 : 80_000;
         }
 
         if ($joueur->getAchAg() > 0) {
-            $listSupp .= '<text class="text-success">+1 Ag</text>, ';
-
+            $listSupp .= $joueur->getRuleset() == 0 ? '<text class="text-success">+' . $joueur->getAchAg() . ' Ag</text>, ' : '<text class="text-success">-' . $joueur->getAchAg() . ' Ag</text>, ' ;
             $cout += 40_000;
         }
 
         if ($joueur->getAchAv() > 0) {
-            $listSupp .= '<text class="text-success">+1 Av</text>, ';
+            $listSupp .= '<text class="text-success">+' . $joueur->getAchAv() . ' Av</text>, ';
+            $cout += $joueur->getRuleset() == 0 ? 30_000 : 10_000;
+        }
 
-            $cout += 30_000;
+        if ($joueur->getAchCp() >0) {
+            $listSupp .= '<text class="text-success">- ' . $joueur->getAchCp()  . ' Cp</text>, ';
+            $cout += 20_000;
         }
 
         return ['nivspec' => $listSupp, 'cout' => $cout];

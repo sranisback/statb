@@ -232,7 +232,7 @@ class EquipeService
 
         switch ($type) {
             case "rr":
-                $race = $equipe->getFRace();
+                $race = RulesetEnum::getRaceFromEquipeByRuleset($equipe);
 
                 if ($race !== null) {
                     $coutRR = $race->getCostRr();
@@ -494,26 +494,42 @@ class EquipeService
 
     /**
      * @param Teams $equipe
-     * @return GameDataPlayers
      */
-    public function positionDuJournalier(Teams $equipe): ?\App\Entity\GameDataPlayers
+    public function positionDuJournalier(Teams $equipe)
     {
-        /** @var Races $race */
-        $race = $equipe->getFRace();
+        $race = RulesetEnum::getRaceFromEquipeByRuleset($equipe);
 
-        switch ($race->getName()) {
-            case EquipeService::MORTS_VIVANTS:
-                return $this->doctrineEntityManager->getRepository(GameDataPlayers::class)
-                    ->findOneBy(['posId' => '171']);
-            case EquipeService::OWA:
-            case EquipeService::BAS_FOND:
-                return $this->doctrineEntityManager->getRepository(GameDataPlayers::class)->findOneBy(
-                    ['fRace' => $equipe->getFRace(), 'qty' => '12']
-                );
-            default:
-                return $this->doctrineEntityManager->getRepository(GameDataPlayers::class)->findOneBy(
-                    ['fRace' => $equipe->getFRace(), 'qty' => '16']
-                );
+        if ($equipe->getRuleset() == RulesetEnum::BB_2016) {
+            switch ($race->getName()) {
+                case EquipeService::MORTS_VIVANTS:
+                    return $this->doctrineEntityManager->getRepository(GameDataPlayers::class)
+                        ->findOneBy(['posId' => '171']);
+                case EquipeService::OWA:
+                case EquipeService::BAS_FOND:
+                    return $this->doctrineEntityManager->getRepository(GameDataPlayers::class)->findOneBy(
+                        ['fRace' => $equipe->getFRace(), 'qty' => '12']
+                    );
+                default:
+                    return $this->doctrineEntityManager->getRepository(GameDataPlayers::class)->findOneBy(
+                        ['fRace' => $equipe->getFRace(), 'qty' => '16']
+                    );
+            }
+        }
+
+        if ($equipe->getRuleset() == RulesetEnum::BB_2020) {
+            switch ($race->getName()) {
+                case EquipeService::MORTS_VIVANTS:
+                    return $this->doctrineEntityManager->getRepository(GameDataPlayersBb2020::class)
+                        ->findOneBy(['id' => '74']);
+                default:
+                    $position = $this->doctrineEntityManager->getRepository(GameDataPlayersBb2020::class)->findOneBy(
+                        ['race' => $equipe->getRace(), 'qty' => '12']);
+                    if(!$position) {
+                        return $this->doctrineEntityManager->getRepository(GameDataPlayersBb2020::class)->findOneBy(
+                            ['race' => $equipe->getRace(), 'qty' => '16']);
+                    }
+                    return $position;
+            }
         }
     }
 
@@ -593,7 +609,7 @@ class EquipeService
                 $equipe,
                 true,
                 $this->doctrineEntityManager,
-                RulesetEnum::BB_2016
+                $equipe->getRuleset()
             );
 
             $journalier->setOwnedByTeam($equipe);
