@@ -220,6 +220,9 @@ class MatchesService
                 case 'CAS - KI':
                     $ligneMatchData->setKi($ligneMatchData->getKi() + 1);
                     break;
+                case 'BONUS XP':
+                    $ligneMatchData->setBonusSpp($ligneMatchData->getBonusSpp() + 1);
+                    break;
                 case 'MVP':
                     $ligneMatchData->setMvp($ligneMatchData->getMvp() + 1);
                     break;
@@ -229,37 +232,37 @@ class MatchesService
                 case '-1 Ma':
                     $joueur->setInjMa($joueur->getInjMa() + 1);
                     $joueur->setInjRpm(1);
-                    $histoBlessure->setBlessure(rand(53, 54));
-                    $joueur->addHistoriqueBlessure($histoBlessure);
+                    $this->enregistreHistoriqueBlessure(rand(53, 54), $joueur, $histoBlessure);
                     break;
                 case '-1 St':
                     $joueur->setInjSt($joueur->getInjSt() + 1);
                     $joueur->setInjRpm(1);
-                    $histoBlessure->setBlessure(58);
-                    $joueur->addHistoriqueBlessure($histoBlessure);
+                    $this->enregistreHistoriqueBlessure(58, $joueur, $histoBlessure);
                     break;
+                case '+1 Ag':
                 case '-1 Ag':
                     $joueur->setInjAg($joueur->getInjAg() + 1);
                     $joueur->setInjRpm(1);
-                    $histoBlessure->setBlessure(57);
-                    $joueur->addHistoriqueBlessure($histoBlessure);
+                    $this->enregistreHistoriqueBlessure(57, $joueur, $histoBlessure);
+                    break;
+                case '+1 Cp':
+                    $joueur->setInjCp($joueur->getInjCp() + 1);
+                    $joueur->setInjRpm(1);
+                    $this->enregistreHistoriqueBlessure(59, $joueur, $histoBlessure);
                     break;
                 case '-1 Av':
                     $joueur->setInjAv($joueur->getInjAv() + 1);
                     $joueur->setInjRpm(1);
-                    $histoBlessure->setBlessure(rand(55, 56));
-                    $joueur->addHistoriqueBlessure($histoBlessure);
+                    $this->enregistreHistoriqueBlessure(rand(55, 56), $joueur, $histoBlessure);
                     break;
                 case 'Ni':
                     $joueur->setInjNi($joueur->getInjNi() + 1);
                     $joueur->setInjRpm(1);
-                    $histoBlessure->setBlessure(rand(51, 52));
-                    $joueur->addHistoriqueBlessure($histoBlessure);
+                    $this->enregistreHistoriqueBlessure(rand(51, 52), $joueur, $histoBlessure);
                     break;
                 case 'RPM':
                     $joueur->setInjRpm(1);
-                    $histoBlessure->setBlessure(rand(41, 48));
-                    $joueur->addHistoriqueBlessure($histoBlessure);
+                    $this->enregistreHistoriqueBlessure(rand(41,48), $joueur, $histoBlessure);
                     break;
                 case 'Tué':
                     $date = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
@@ -283,6 +286,12 @@ class MatchesService
             $this->doctrineEntityManager->persist($joueur);
             $this->doctrineEntityManager->persist($ligneMatchData);
         }
+    }
+
+    private function enregistreHistoriqueBlessure(int $nbr, Players $joueur, HistoriqueBlessure $histoBlessure)
+    {
+        $histoBlessure->setBlessure($nbr);
+        $joueur->addHistoriqueBlessure($histoBlessure);
     }
 
     /**

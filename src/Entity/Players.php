@@ -99,10 +99,10 @@ class Players
 
     /**
      *
-     * @ORM\Column(name="spp_restants", type="integer", nullable=true)
+     * @ORM\Column(name="spp_depenses", type="integer", nullable=true)
      * @var int|null
      */
-    private ?int $sppRestants = null;
+    private ?int $sppDepense = null;
 
     /**
      *
@@ -436,14 +436,14 @@ class Players
         return $this;
     }
 
-    public function getSppRestants(): ?int
+    public function getSppDepense(): ?int
     {
-        return $this->sppRestants;
+        return $this->sppDepense;
     }
 
-    public function setSppRestants(int $sppRestants): self
+    public function setSppDepense(int $sppDepense): self
     {
-        $this->sppRestants = $sppRestants;
+        $this->sppDepense = $sppDepense;
 
         return $this;
     }

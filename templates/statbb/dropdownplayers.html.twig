@@ -4,8 +4,12 @@
         <select class="form-control" id="selected_player_{{ teamId }}_{{ nbr }}" name="player[{{ nbr }}].id">
             <option selected></option>
             {% for player in players %}
-                <option value="{{ player.playerId }}">{{ player.nr }}.{{ player.name }}({{ player.fRid.name }}
-                    , {{ player.fPos.pos }})
+                <option value="{{ player.playerId }}">{{ player.nr }}.{{ player.name }}(
+                    {% if(player.ruleset == 0) %}
+                        {{ player.fRid.name }}, {{ player.fPos.pos }})
+                    {% else %}
+                        {{ player.fRidBb2020.name }}, {{ player.fPosBb2020.pos }})
+                    {% endif %}
                 </option>
             {% endfor %}
         </select>
@@ -19,12 +23,22 @@
             <option>CAS - BH</option>
             <option>CAS - SI</option>
             <option>CAS - KI</option>
+            {% if(ruleset == 1) %}
+                <option>BONUS XP</option>
+            {% endif %}
             <option>MVP</option>
             <option>AGG</option>
             <option>COMO</option>
             <option>-1 Ma</option>
             <option>-1 St</option>
-            <option>-1 Ag</option>
+            {% if(ruleset == 0) %}
+                <option>-1 Ag</option>
+            {% else %}
+                <option>+1 Ag</option>
+            {% endif %}
+            {% if(ruleset == 1) %}
+                <option>+1 Cp</option>
+            {% endif %}
             <option>-1 Av</option>
             <option>Ni</option>
             <option>RPM</option>

@@ -4,6 +4,7 @@
 namespace App\Service;
 
 use App\Entity\GameDataSkills;
+use App\Entity\GameDataSkillsBb2020;
 use App\Entity\HistoriqueBlessure;
 use App\Entity\MatchData;
 use App\Entity\Matches;
@@ -12,6 +13,7 @@ use App\Entity\PlayersSkills;
 use App\Entity\Teams;
 use App\Enum\BlessuresEnum;
 use App\Enum\RulesetEnum;
+use App\Enum\XpEnum;
 use App\Factory\PlayerFactory;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -134,12 +136,12 @@ class PlayerService
     public function listeDesCompEtSurcoutGagnedUnJoueur(Players $joueur): array
     {
         //bb2016 N - 20k N - 30k
-        //b2020 PA - 10k P&SA - 20k S- 40k
+        //b2020 PH - 10k P&SH - 20k S- 40k
         $coutTotal = 0;
         $listCompGagnee = '';
         foreach ($joueur->getSkills() as $comp) {
             switch ($comp->getType()) {
-                case 'PA':
+                case 'PH':
                     $coutTotal += 10_000;
                     $listCompGagnee .= '<text class="text-danger">' . $comp->getFSkillBb2020()->getName() . '</text>, ';
                     break;
@@ -151,7 +153,7 @@ class PlayerService
                     $coutTotal += 20_000;
                     $listCompGagnee .= '<text class="text-success">' . $comp->getFSkill()->getName() . '</text>, ';
                     break;
-                case 'SA':
+                case 'SH':
                     $coutTotal += 20_000;
                     $listCompGagnee .= '<text class="text-danger">' . $comp->getFSkillBb2020()->getName() . '</text>, ';
                     break;
@@ -285,7 +287,7 @@ class PlayerService
     public function actionDuJoueurDansUnMatch(Matches $match, Players $joueur): string
     {
         $actions = '';
-        $labelBlessure = (new BlessuresEnum())->numeroToBlessure();
+        $labelBlessure = BlessuresEnum::numeroToBlessure();
 
         foreach ($this->doctrineEntityManager->getRepository(MatchData::class)->findBy(
             ['fPlayer' => $joueur->getPlayerId(), 'fMatch' => $match]
@@ -470,12 +472,10 @@ class PlayerService
      * @param Players $joueur
      * @param GameDataSkills $competenceGagnee
      */
-    public function ajoutCompetence(Players $joueur, GameDataSkills $competenceGagnee): void
+    public function ajoutCompetence(Players $joueur, GameDataSkills $competenceGagnee)
     {
         $competenceGagneeParLeJoueur = new PlayersSkills();
-
         $competenceGagneeParLeJoueur->setFPid($joueur);
-
         $competenceGagneeParLeJoueur->setFSkill($competenceGagnee);
 
         if ($competenceGagnee->getCat() == 'C') {
@@ -505,16 +505,12 @@ class PlayerService
             }
 
             $pos = stripos((string)$normale, (string)$competenceGagnee->getCat());
-
-            if ($pos === false) {
-            } else {
+            if ($pos) {
                 $competenceGagneeParLeJoueur->setType('N');
             }
 
             $pos = stripos((string)$double, (string)$competenceGagnee->getCat());
-
-            if ($pos === false) {
-            } else {
+            if ($pos) {
                 $competenceGagneeParLeJoueur->setType('D');
             }
 
@@ -526,6 +522,101 @@ class PlayerService
 
         $this->doctrineEntityManager->persist($joueur);
         $this->doctrineEntityManager->flush();
+
+        return 'ok';
+    }
+
+    /**
+     * @param Players $joueur
+     * @param GameDataSkills $competenceGagnee
+     */
+    public function ajoutCompetenceBb2020(Players $joueur, GameDataSkillsBb2020 $competenceGagnee, bool $hasard)
+    {
+        $nbrSkill = $this->nbrCompetencesEtAugmentationsGagnee($joueur);
+        $tableCompPourLeNiveau = XpEnum::tableauXpParNiveau();
+
+        $spp = $this->xpDuJoueur($joueur);
+        $sppRestant = $spp - $joueur->getSppDepense();
+
+        if ($competenceGagnee->getCat() == 'C') {
+            $coutDelaComp = $tableCompPourLeNiveau[$nbrSkill][$competenceGagnee->getCat()];
+
+            if($sppRestant < $coutDelaComp) {
+                return 'Pas assez de points d\'XP';
+            }
+
+            switch ($competenceGagnee->getId()) {
+                case 79:
+                    $joueur->setAchMa($joueur->getAchMa() + 1);
+                    break;
+                case 80:
+                    $joueur->setAchSt($joueur->getAchSt() + 1);
+                    break;
+                case 81:
+                    $joueur->setAchAg($joueur->getAchAg() + 1);
+                    break;
+                case 82:
+                    $joueur->setAchAv($joueur->getAchAv() + 1);
+                    break;
+                case 280:
+                    $joueur->setAchCp($joueur->getAchCp() + 1);
+                    break;
+            }
+
+            $joueur->setStatus(1);
+            $joueur->setSppDepense($joueur->getSppDepense() + $coutDelaComp);
+
+            $this->doctrineEntityManager->persist($joueur);
+            $this->doctrineEntityManager->flush();
+
+            return 'ok';
+        }
+
+        $competenceGagneeParLeJoueur = new PlayersSkills();
+
+        $positionDuJoueur = $joueur->getFPosBb2020();
+
+        $principale = '';
+        $secondaire = '';
+
+        if ($positionDuJoueur !== null) {
+            $secondaire = $positionDuJoueur->getSecondaires();
+            $principale = $positionDuJoueur->getPrincipales();
+        }
+
+        $pos = stripos((string)$principale, (string)$competenceGagnee->getCat());
+        if ($pos !== false) {
+            $hasard == false ? $competenceGagneeParLeJoueur->setType('P') : $competenceGagneeParLeJoueur->setType('PH');
+        }
+
+        $pos = stripos((string)$secondaire, (string)$competenceGagnee->getCat());
+        if ($pos !== false) {
+            $hasard == false ? $competenceGagneeParLeJoueur->setType('S') : $competenceGagneeParLeJoueur->setType('SH');
+        }
+
+        if($nbrSkill < 6) {
+            $type = $competenceGagneeParLeJoueur->getType() == 'SH' || $competenceGagneeParLeJoueur->getType() == 'P'? 'PSH' : $competenceGagneeParLeJoueur->getType();
+            $coutDelaComp = $tableCompPourLeNiveau[$nbrSkill][$type];
+            if($sppRestant < $coutDelaComp) {
+                return 'Pas assez de points d\'XP';
+            }
+        } else {
+            return 'Niveau Max Atteint';
+        }
+
+        $competenceGagneeParLeJoueur->setFPid($joueur);
+        $competenceGagneeParLeJoueur->setFSkillBb2020($competenceGagnee);
+
+        $this->doctrineEntityManager->persist($competenceGagneeParLeJoueur);
+        $this->doctrineEntityManager->flush();
+
+        $joueur->setStatus(1);
+        $joueur->setSppDepense($joueur->getSppDepense() + $coutDelaComp);
+
+        $this->doctrineEntityManager->persist($joueur);
+        $this->doctrineEntityManager->flush();
+
+        return 'ok';
     }
 
     /**
@@ -585,26 +676,28 @@ class PlayerService
      */
     public function controleNiveauDesJoueursDelEquipe(Teams $equipe): void
     {
-        $tableComp = [
-            0 => 5,
-            1 => 15,
-            2 => 30,
-            3 => 50,
-            4 => 75
-        ];
+        $tableComp = $equipe->getRuleset() == RulesetEnum::BB_2016 ? XpEnum::tableauXpBb2016() : XpEnum::tableauXpParNiveau();
 
         foreach ($this->doctrineEntityManager->getRepository(Players::class)->listeDesJoueursActifsPourlEquipe(
             $equipe
         ) as $joueur) {
             /** @var Players $joueur */
-            $spp = $this->xpDuJoueur($joueur);
-
             $nbrSkill = $this->nbrCompetencesEtAugmentationsGagnee($joueur);
 
-            if ($spp > $tableComp[$nbrSkill]) {
-                $joueur->setStatus(9);
-            }
+            $spp = $this->xpDuJoueur($joueur);
 
+            switch ($equipe->getRuleset()){
+                case RulesetEnum::BB_2016:
+                    if ($spp > $tableComp[$nbrSkill]) {
+                        $joueur->setStatus(9);
+                    }
+                    break;
+                case RulesetEnum::BB_2020:
+                    if(($spp - $joueur->getSppDepense()) >= $tableComp[$nbrSkill]['PH']) {
+                        $joueur->setStatus(9);
+                    }
+                    break;
+            }
             $this->doctrineEntityManager->persist($joueur);
         }
     }
@@ -646,9 +739,13 @@ class PlayerService
 
                 $actions = $this->actionDuJoueurDansUnMatch($match, $listeActionsDunJoueur->getFPlayer());
 
+                $joueur = $listeActionsDunJoueur->getFPlayer();
+
+                $position = RulesetEnum::getPositionFromPlayerByRuleset($joueur);
+
                 $textAction .= $name .
                     ', ' .
-                    $listeActionsDunJoueur->getFPlayer()->getFPos()->getPos() .
+                    $position->getPos() .
                     '(' .
                     $listeActionsDunJoueur->getFPlayer()->getNr() .
                     '): ' .
@@ -680,12 +777,12 @@ class PlayerService
     public function toutesLesBlessureDuMatch(Matches $match): string
     {
         $listeBlessure = '<div class="text-center">';
-        $labelBlessure = (new BlessuresEnum())->numeroToBlessure();
+        $labelBlessure = BlessuresEnum::numeroToBlessure();
         /** @var HistoriqueBlessure $blessure */
         foreach ($match->getBlessuresMatch() as $blessure) {
             $joueur = $blessure->getPlayer();
             if (!empty($joueur)) {
-                $position = $joueur->getFPos();
+                $position = RulesetEnum::getPositionFromPlayerByRuleset($joueur);
                 $equipe = $joueur->getOwnedByTeam();
             }
 

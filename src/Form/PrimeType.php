@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Players;
 use App\Entity\Primes;
+use App\Enum\RulesetEnum;
 use App\Service\SettingsService;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -38,7 +39,7 @@ class PrimeType extends AbstractType
                         }
 
                         if (!empty($joueur)) {
-                            $position = $joueur->getFPos();
+                            $position = RulesetEnum::getPositionFromPlayerByRuleset($joueur);
                             if (!empty($position)) {
                                 return $joueur->getNr().'. '.$nomDuJoueur.', '.$position->getPos();
                             }
@@ -55,7 +56,7 @@ class PrimeType extends AbstractType
                     'group_by' => function (Players $joueur) {
                         $equipe = $joueur->getOwnedByTeam();
                         if (!empty($equipe)) {
-                            $raceEquipe = $equipe->getFRace();
+                            $raceEquipe = RulesetEnum::getRaceFromEquipeByRuleset($equipe);
                             $coach = $equipe->getOwnedByCoach();
                         }
 
@@ -70,7 +71,7 @@ class PrimeType extends AbstractType
             ->add(
                 'montant',
                 IntegerType::class,
-                ['label' => 'Montant de la prime', 'data' => '0', 'attr' => ['step' => 10_000, 'min' => 0]]
+                ['label' => 'Montant de la prime', 'data' => '0', 'attr' => ['step' => 5_000, 'min' => 0]]
             )
             ->add('submit', SubmitType::class, ['label' => 'Ajouter'])
             ->add('cancel', ButtonType::class, ['label' => 'Annuler', 'attr' => ['data-dismiss' => 'modal']])

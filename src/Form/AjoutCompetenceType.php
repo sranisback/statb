@@ -2,25 +2,34 @@
 
 namespace App\Form;
 
-use App\Entity\GameDataSkills;
+use App\Enum\RulesetEnum;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AjoutCompetenceType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
+        $form = $builder
             ->add(
-                'fSkill',
+                RulesetEnum::getChampSkillFromIntByRuleset($options['ruleset']),
                 EntityType::class,
                 [
-                    'class' => GameDataSkills::class,
+                    'class' => RulesetEnum::getGameDataSkillRepoFromIntByRuleset($options['ruleset']),
                     'choice_label' => 'name',
-                    'group_by' => function (GameDataSkills $comp): string {
+                    'query_builder' =>
+                        function (EntityRepository $entityRepository)  {
+                            return $entityRepository->createQueryBuilder('Skills')
+                                ->where('Skills.cat <> \'E\'')
+                                ->orderBy('Skills.name', 'ASC');
+                        },
+                    'group_by' => function ($comp): string {
                         $listeCategoriesCompetences =
                             [
                                 '' => '',
@@ -39,7 +48,22 @@ class AjoutCompetenceType extends AbstractType
                 ]
             )
             ->add('submit', SubmitType::class, ['label' => 'Ajouter'])
-            ->add('cancel', ButtonType::class, ['label' => 'Annuler', 'attr' => ['data-dismiss' => 'modal']])
-            ->getForm();
+            ->add('cancel', ButtonType::class, ['label' => 'Annuler', 'attr' => ['data-dismiss' => 'modal']]);
+
+            switch ($options['ruleset']) {
+                case RulesetEnum::BB_2020:
+                        $form->add('hasard', CheckboxType::class, ['label' => 'Tirée au hasard ?', 'mapped' => false, 'required' => false]);
+                    break;
+            }
+            $form->getForm();
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults(
+            [
+                'ruleset' => 0
+            ]
+        );
     }
 }

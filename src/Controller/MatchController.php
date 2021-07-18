@@ -42,6 +42,7 @@ class MatchController extends AbstractController
                     )->listeDesJoueursActifsPourlEquipe($equipe),
                     'teamId' => $teamId,
                     'nbr' => $nbr,
+                    'ruleset' => $equipe->getRuleset()
                 ]
             ),
         ];

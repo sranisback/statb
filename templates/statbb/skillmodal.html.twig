@@ -18,7 +18,12 @@
                 <div class="modal-body">
                     {{ form_start(form, {'action': path('ajoutComp',{'playerid':playerId})}) }}
                     {{ form_errors(form) }}
-                    {{ form_row(form.fSkill) }}
+                    {% if(ruleset == 0) %}
+                        {{ form_row(form.fSkill) }}
+                    {% else %}
+                        {{ form_row(form.fSkillBb2020) }}
+                        {{ form_row(form.hasard) }}
+                    {% endif %}
                 </div>
                 <div class="modal-footer">
                     {{ form_widget(form.submit) }}{{ form_widget(form.cancel) }}

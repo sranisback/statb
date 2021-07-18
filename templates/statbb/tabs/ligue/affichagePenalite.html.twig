@@ -14,7 +14,12 @@
                 <td>
                     {{ penalite.equipe.name }} {% if penalite.equipe.franchise == true %}
                         <span class="fas fa-tag text-success"></span>
-                    {% endif %} de {{ penalite.equipe.ownedByCoach.name }}, {{ penalite.equipe.fRace.name }}
+                    {% endif %} de {{ penalite.equipe.ownedByCoach.name }},
+                    {% if(penalite.equipe.ruleset == 0) %}
+                        {{ penalite.equipe.fRace.name }}
+                    {% else %}
+                        {{ penalite.equipe.race.name }}
+                    {% endif %}
                 </td>
                 <td>
                     {{ penalite.points }}

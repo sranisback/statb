@@ -23,10 +23,20 @@
                 {% else %}
                     {{ prime.players.name }}
                 {% endif %}
-                , {{ prime.players.Fpos.pos }}
+                ,
+                {% if (prime.players.ruleset == 0) %}
+                    {{ prime.players.Fpos.pos }}
+                {% else %}
+                    {{ prime.players.FposBb2020.pos }}
+                {% endif %}
                 de {{ prime.players.OwnedByTeam.name }}{% if prime.players.OwnedByTeam.franchise == true %}
                 <span class="fas fa-tag text-success"></span>
-                {% endif %}, {{ prime.players.OwnedByTeam.fRace.name }}
+                {% endif %},
+                {% if(prime.players.OwnedByTeam.ruleset == 0) %}
+                    {{ prime.players.OwnedByTeam.fRace.name }}
+                {% else %}
+                    {{ prime.players.OwnedByTeam.race.name }}
+                {% endif %}
                 <a
                         class="fas fa-search"
                         href="{{ path('Player', {'playerid': prime.players.playerId }) }}"></a></td>

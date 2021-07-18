@@ -6,6 +6,7 @@ use App\Entity\MatchData;
 use App\Entity\Matches;
 use App\Entity\Players;
 use App\Entity\Teams;
+use App\Enum\RulesetEnum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -25,19 +26,28 @@ class MatchDataRepository extends ServiceEntityRepository
      * @param int $limit
      * @return mixed
      */
-    public function sousClassementEquipe(int $year, string $type, int $limit = 0)
+    public function sousClassementEquipe(int $year, string $type, int $limit = 0, int $ruleset)
     {
         $query = $this->createQueryBuilder('Matchdata')
             ->select('teams.teamId, teams.name ,race.icon')
             ->join('Matchdata.fPlayer', 'players')
             ->join('players.ownedByTeam', 'teams')
-            ->join('players.fPos', 'game_data_players')
-            ->join('teams.fRace', 'race')
             ->where('teams.retired = 0 AND teams.year ='.$year)
             ->groupBy('teams.teamId')
             ->addOrderBy('score', 'DESC')
             ->addOrderBy('teams.tv', 'DESC')
             ->having('score > 0');
+
+        switch ($ruleset) {
+            case RulesetEnum::BB_2016:
+                $query->join('players.fPos', 'game_data_players')
+                    ->join('teams.fRace', 'race');
+                break;
+            case RulesetEnum::BB_2020:
+                $query->join('players.fPosBb2020', 'game_data_players')
+                    ->join('teams.race', 'race');
+                break;
+        }
 
         switch ($type) {
             case 'bash':
@@ -71,7 +81,7 @@ class MatchDataRepository extends ServiceEntityRepository
      * @param int $limit
      * @return mixed
      */
-    public function sousClassementJoueur(int $year, string $type, int $limit = 0)
+    public function sousClassementJoueur(int $year, string $type, int $limit = 0, int $ruleset)
     {
         $query = $this->createQueryBuilder('Matchdata')
             ->select(
@@ -82,14 +92,23 @@ class MatchDataRepository extends ServiceEntityRepository
             )
             ->join('Matchdata.fPlayer', 'players')
             ->join('players.ownedByTeam', 'teams')
-            ->join('players.fPos', 'game_data_players')
             ->join('players.icon', 'playersIcons')
-            ->join('teams.fRace', 'race')
             ->where('teams.retired = 0 AND teams.year ='.$year)
             ->groupBy('players.playerId')
             ->addOrderBy('score', 'DESC')
             ->addOrderBy('players.value', 'DESC')
             ->having('score > 0');
+
+        switch ($ruleset) {
+            case RulesetEnum::BB_2016:
+                $query->join('players.fPos', 'game_data_players')
+                    ->join('teams.fRace', 'race');
+                break;
+            case RulesetEnum::BB_2020:
+                $query->join('players.fPosBb2020', 'game_data_players')
+                    ->join('teams.race', 'race');
+                break;
+        }
 
         switch ($type) {
             case 'bash':
@@ -103,7 +122,7 @@ class MatchDataRepository extends ServiceEntityRepository
             case 'xp':
                 $query->addSelect(
                     'SUM(Matchdata.cp) + (SUM(Matchdata.td)*3)+ (SUM(Matchdata.intcpt)*3)+ 
-                    (SUM(Matchdata.bh+Matchdata.si+Matchdata.ki)*2)+(SUM(Matchdata.mvp)*5) AS score'
+                    (SUM(Matchdata.bh+Matchdata.si+Matchdata.ki)*2)+(SUM(Matchdata.mvp)*5)+ SUM(Matchdata.bonusSpp) AS score'
                 );
                 break;
 

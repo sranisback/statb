@@ -75,6 +75,7 @@ $(document).ready(function () {
             null,
             null,
             null,
+            null,
             {
                 "orderable": false
             }
@@ -335,14 +336,12 @@ $(document).ready(function () {
     /*
     * gestion du form match dynamique
      */
-
     $("[id^='selectedTeam']").change(function () {
         let boutonAmodifier = $("#valideteam" + $(this).attr("side"))
 
         boutonAmodifier.attr("teamId", $(this).val())
         boutonAmodifier.attr("side", $(this).attr("side"))
     });
-
 
     $("[id^='valideteam']").click(function () {
         let clicked = $(this);

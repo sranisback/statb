@@ -95,6 +95,16 @@ class RulesetEnum
         }
     }
 
+    public static function getGameDataSkillRepoFromIntByRuleset(int $ruleset): string
+    {
+        switch ($ruleset){
+            case RulesetEnum::BB_2016:
+                return GameDataSkills::class;
+            case RulesetEnum::BB_2020:
+                return GameDataSkillsBb2020::class;
+        }
+    }
+
     public static function getGameDataPlayerRepoFromPlayerByRuleset(Players $player): string
     {
         switch ($player->getRuleset()){
@@ -102,6 +112,16 @@ class RulesetEnum
                 return GameDataPlayers::class;
             case RulesetEnum::BB_2020:
                 return GameDataPlayersBb2020::class;
+        }
+    }
+
+    public static function getGameDataPlayerChampIdFromPlayerByRuleset(Players $player): string
+    {
+        switch ($player->getRuleset()){
+            case RulesetEnum::BB_2016:
+                return 'skillId';
+            case RulesetEnum::BB_2020:
+                return 'id';
         }
     }
 
@@ -198,6 +218,16 @@ class RulesetEnum
                 return 'raceId';
             case RulesetEnum::BB_2020:
                 return 'id';
+        }
+    }
+
+    public static function getChampSkillFromIntByRuleset(int $ruleset)
+    {
+        switch ($ruleset){
+            case RulesetEnum::BB_2016:
+                return 'fSkill';
+            case RulesetEnum::BB_2020:
+                return 'fSkillBb2020';
         }
     }
 }

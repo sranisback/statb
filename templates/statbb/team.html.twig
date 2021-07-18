@@ -236,7 +236,11 @@
                                 <td>{{ data.mvp }}</td>
                                 <td>{{ data.bonus }}</td>
                                 <td>{{ data.agg }}</td>
-                                <td>{{ data.spp }}</td>
+                                {% if feuille.team.ruleset == 0 %}
+                                    <td>{{ data.spp }}</td>
+                                {% else %}
+                                    <td>{{ data.spp - player.sppDepense}}</td>
+                                {% endif %}
                                 <td class="text-right">{{ data.cost }}</td>
                             {% endif %}
                         {% endfor %}

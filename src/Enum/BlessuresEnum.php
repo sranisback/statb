@@ -3,12 +3,12 @@
 
 namespace App\Enum;
 
-class BlessuresEnum
+class   BlessuresEnum
 {
     /**
      * @return string[]
      */
-    public function numeroToBlessure(): array
+    public static function numeroToBlessure(): array
     {
         return [
             30 => 'Commotion',
@@ -30,7 +30,20 @@ class BlessuresEnum
             56 => 'Commotion grave',
             57 => 'Cou brisé',
             58 => 'Clavicule défoncée',
+            59 => 'Bras cassé',
             60 => 'Mort'
+        ];
+    }
+
+    public static function numeroToBlessureBb2020()
+    {
+        return [
+            1 => 'Traumatisme crânien',
+            2 => 'Traumatisme crânien',
+            3 => 'Genou Déboîté',
+            4 => 'Bras cassé',
+            5 => 'Cou brisé',
+            6 => 'Epaule Disloquée'
         ];
     }
 }

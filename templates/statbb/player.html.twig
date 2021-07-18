@@ -60,8 +60,13 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Spp :</td>
-                        <td>{{ pdata[0].spp }}</td>
+                        {% if (player.ruleset == 0) %}
+                            <td>Spp :</td>
+                            <td>{{ pdata[0].spp }}</td>
+                        {% else %}
+                            <td>Spp Restant:</td>
+                            <td>{{ pdata[0].spp - player.sppDepense }}</td>
+                        {% endif %}
                     </tr>
                     <tr>
                         <td>Nbr de matchs :</td>

@@ -19,7 +19,7 @@ class HistoriqueBlessureType extends AbstractType
     {
         $tableauBlessure = null;
 
-        foreach ((new BlessuresEnum())->numeroToBlessure() as $key => $ligne) {
+        foreach (BlessuresEnum::numeroToBlessure() as $key => $ligne) {
             $tableauBlessure[$key] = $key . ', ' . $ligne;
         }
 

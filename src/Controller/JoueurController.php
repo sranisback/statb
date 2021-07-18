@@ -2,11 +2,12 @@
 
 namespace App\Controller;
 
-use App\Entity\GameDataSkills;
 use App\Entity\Players;
 use App\Entity\PlayersSkills;
+use App\Entity\Setting;
 use App\Entity\Teams;
 use App\Enum\RulesetEnum;
+use App\Form\AjoutCompetenceBb2020Type;
 use App\Form\AjoutCompetenceType;
 use App\Form\AjoutJoueurType;
 use App\Form\JoueurPhotoEnvoiType;
@@ -224,9 +225,11 @@ class JoueurController extends AbstractController
     {
         $competence = new PlayersSkills();
 
-        $form = $this->createForm(AjoutCompetenceType::class, $competence);
+        $currentRuleset = $this->getDoctrine()->getRepository(Setting::class)->findOneBy(['name' => 'currentRuleset']);
 
-        return $this->render('statbb/skillmodal.html.twig', ['playerId' => $playerid, 'form' => $form->createView()]);
+        $form = $this->createForm(AjoutCompetenceType::class, $competence, ['ruleset' => $currentRuleset->getValue()]);
+
+        return $this->render('statbb/skillmodal.html.twig', ['playerId' => $playerid, 'form' => $form->createView(), 'ruleset' => $currentRuleset->getValue()]);
     }
 
     /**
@@ -243,17 +246,22 @@ class JoueurController extends AbstractController
         /** @var Players $joueur */
         $joueur = $this->getDoctrine()->getRepository(\App\Entity\Players::class)->findOneBy(['playerId' => $playerid]);
 
-        /** @var GameDataSkills $competence */
-        $competence = $this->getDoctrine()->getRepository(GameDataSkills::class)->findOneBy(
-            ['skillId' => $form['fSkill']]
+        $competence = $this->getDoctrine()->getRepository(RulesetEnum::getGameDataSkillRepoFromPlayerByRuleset($joueur))->findOneBy(
+            [RulesetEnum::getGameDataPlayerChampIdFromPlayerByRuleset($joueur) => $form[$joueur->getRuleset() == 0 ? 'fSkill' : 'fSkillBb2020']]
         );
-
-        if (!empty($competence) && !empty($joueur)) {
-            $playerService->ajoutCompetence($joueur, $competence);
-        }
 
         if (!empty($joueur)) {
             $equipe = $joueur->getOwnedByTeam();
+        }
+
+        if (!empty($competence)) {
+            $retour = $joueur->getRuleset() == 0 ?
+                $playerService->ajoutCompetence($joueur, $competence) :
+                $playerService->ajoutCompetenceBb2020($joueur, $competence, array_key_exists('hasard', $form) ? $form['hasard'] : false);
+
+            if($retour != 'ok') {
+                $this->addFlash('fail', $retour);
+            }
         }
 
         if (!empty($equipe)) {
