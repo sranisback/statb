@@ -6,6 +6,7 @@ use App\Entity\HistoriqueBlessure;
 use App\Entity\Matches;
 use App\Entity\Players;
 use App\Enum\BlessuresEnum;
+use App\Enum\RulesetEnum;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -32,8 +33,8 @@ class HistoriqueBlessureType extends AbstractType
                 'class' => Players::class,
                 'choice_label' => fn (Players $joueur) =>  $joueur->getNr()
                     . ', ' . $joueur->getName()
-                    . ', ' . $joueur->getFPos()->getPos() .
-                        ($joueur->getType() == 2 ? ', Journalier' : ''),
+                    . ', ' . ($joueur->getFPos() ? $joueur->getFPos()->getPos() : $joueur->getFPosBb2020()->getPos()) .
+                        ($joueur->getJournalier() == true ? ', Journalier' : '') . ', ' . RulesetEnum::numeroVersEtiquette()[$joueur->getRuleset()],
                 'group_by' =>  'ownedByTeam.name'
             ])
             ->add('fmatch', EntityType::class, [

@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\GameDataPlayers;
 use App\Entity\Players;
+use App\Enum\RulesetEnum;
 use App\Form\Admin\PlayersType;
 use App\Repository\PlayersRepository;
 use App\Service\AdminService;
@@ -24,6 +25,7 @@ class PlayersController extends AbstractController
     {
         return $this->render('statbb/admin/players/index.html.twig', [
             'players' => $playersRepository->findAll(),
+            'etiquetteRuleset' => RulesetEnum::numeroVersEtiquette()
         ]);
     }
 
