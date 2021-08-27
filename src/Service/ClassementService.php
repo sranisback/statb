@@ -10,6 +10,7 @@ use App\Entity\Penalite;
 use App\Entity\Players;
 use App\Entity\Setting;
 use App\Entity\Teams;
+use App\Enum\RulesetEnum;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ClassementService
@@ -125,13 +126,15 @@ class ClassementService
         $classement = '';
         $titre = '';
 
-        $currentRuleset = $this->doctrineEntityManager->getRepository(Setting::class)->findOneBy(['name' => 'currentRuleset']);
+        $currentYear = $this->doctrineEntityManager->getRepository(Setting::class)->findOneBy(['name' => 'year']);
+
+        $ruleset = RulesetEnum::rulesetParAnnee()[$currentYear->getValue()];
 
         $matchData = $this->doctrineEntityManager->getRepository(MatchData::class)->sousClassementJoueur(
             $annee,
             $type,
             $limit,
-            $currentRuleset->getValue()
+            $ruleset
         );
 
         switch ($type) {
@@ -196,7 +199,9 @@ class ClassementService
         $classement = '';
         $titre = '';
 
-        $currentRuleset = $this->doctrineEntityManager->getRepository(Setting::class)->findOneBy(['name' => 'currentRuleset']);
+        $currentYear = $this->doctrineEntityManager->getRepository(Setting::class)->findOneBy(['name' => 'year']);
+
+        $ruleset = RulesetEnum::rulesetParAnnee()[$currentYear->getValue()];
 
         if ($type === 'dead') {
             $matchData = $this->doctrineEntityManager->getRepository(
@@ -210,7 +215,7 @@ class ClassementService
                 $annee,
                 $type,
                 $limit,
-                $currentRuleset->getValue()
+                $ruleset
             );
         }
 

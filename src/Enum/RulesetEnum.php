@@ -30,6 +30,20 @@ class RulesetEnum
             1 => 'Bb 2020'
         ];
     }
+    
+    public static function rulesetParAnnee()
+    {
+        return [
+            0 => 0,
+            1 => 0,
+            2 => 0,
+            3 => 0,
+            4 => 0,
+            5 => 0,
+            6 => 0,
+            7 => 1
+        ];
+    }
 
     public static function getGameDataPlayersRepoFromIntRuleset(int $ruleset)
     {
