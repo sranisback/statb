@@ -16,11 +16,21 @@
                             {% endif %}
                         {% else %}
                             <img class="img-fluid" alt="Logo Race"
+                                 {% if feuille.team.ruleset == 0 %}
                                  src="{{ asset('build/'~app.environment~'/images/race_icons/'~feuille.team.fRace.icon~'.png') }}">
+                                 {% else %}
+                                     src="{{ asset('build/'~app.environment~'/images/race_icons/'~feuille.team.Race.icon~'.png') }}">
+                                     {% endif %}
                         {% endif %}
                     {% else %}
                         <img class="img-fluid" alt="Logo Race"
-                             src="{{ asset('build/'~app.environment~'/images/race_icons/'~feuille.team.fRace.icon~'.png') }}">
+                             src="
+                                {% if feuille.team.ruleset == 0 %}
+                                    {{ asset('build/'~app.environment~'/images/race_icons/'~feuille.team.fRace.icon~'.png') }}
+                                {% else %}
+                                    {{ asset('build/'~app.environment~'/images/race_icons/'~feuille.team.race.icon~'.png') }}
+                                {% endif %}
+                                ">
                     {% endif %}
                 </div>
                 <div><h1 class="display-4"><strong>{{ feuille.team.name }}</strong></h1> {% if feuille.team.franchise == true %}
@@ -56,6 +66,9 @@
                         <th>MA</th>
                         <th>ST</th>
                         <th>AG</th>
+                        {% if feuille.team.ruleset == 1 %}
+                            <th>CP</th>
+                        {% endif %}
                         <th>AV</th>
                         <th>Comp</th>
                         <th>NbrM</th>
@@ -65,6 +78,7 @@
                         <th>Int</th>
                         <th>Cas</th>
                         <th>Mvp</th>
+                        <th>Bonus XP</th>
                         <th>Agg</th>
                         <th>Spp</th>
                         <th class="text-right">Coût</th>
@@ -127,39 +141,80 @@
                             {% endif %}
                         </td>
                         <td>
-                            <img src="{{ asset('build/'~app.environment~'/images/player_icons/'~player.icon.iconName~'.gif') }}">{{ player.fpos.pos }}
+                            {% if player.ruleset == 0 %}
+                                <img src="{{ asset('build/'~app.environment~'/images/player_icons/'~player.icon.iconName~'.gif') }}">{{ player.fpos.pos }}
+                            {% elseif player.ruleset == 1 %}
+                                <img src="{{ asset('build/'~app.environment~'/images/player_icons/'~player.icon.iconName~'.gif') }}">{{ player.fPosBb2020.pos }}
+                            {% endif %}
                         </td>
+
                         {% if player.achMa>0 %}
-                            <td class="table-success">{{ player.fpos.ma + player.achMa - player.injMa }}</td>
+                            <td class="text-success font-weight-bolder">
                         {% elseif  player.injMa>0 %}
-                            <td class="table-danger">{{ player.fpos.ma + player.achMa - player.injMa }}</td>
+                            <td class="text-danger font-weight-bolder">
                         {% else %}
-                            <td>{{ player.fpos.ma + player.achMa - player.injMa }}</td>
+                            <td>
                         {% endif %}
+                        {% if player.ruleset == 0%}
+                            {{ player.fpos.ma + player.achMa - player.injMa }}
+                        {% else %}
+                            {{ player.fPosBb2020.ma + player.achMa - player.injMa }}
+                        {% endif %}
+                        </td>
 
                         {% if player.achSt>0 %}
-                            <td class="table-success">{{ player.fpos.st + player.achSt - player.injSt }}</td>
-                        {% elseif  player.injSt>0 %}
-                            <td class="table-danger">{{ player.fpos.st + player.achSt - player.injSt }}</td>
+                            <td class="text-success font-weight-bolder">
+                        {% elseif player.injSt>0 %}
+                            <td class="text-danger font-weight-bolder">
                         {% else %}
-                            <td>{{ player.fpos.st + player.achSt - player.injSt }}</td>
+                            <td>
                         {% endif %}
+                        {% if player.ruleset == 0%}
+                            {{ player.fpos.st + player.achSt - player.injSt }}
+                        {% else %}
+                            {{ player.fPosBb2020.st + player.achSt - player.injSt }}
+                        {% endif %}
+                        </td>
 
                         {% if player.achAg>0 %}
-                            <td class="table-success">{{ player.fpos.ag + player.achAg - player.injAg }}</td>
-                        {% elseif  player.injAg>0 %}
-                            <td class="table-danger">{{ player.fpos.ag + player.achAg - player.injAg }}</td>
+                            <td class="text-success font-weight-bolder">
+                        {% elseif player.injAg>0 %}
+                            <td class="text-danger font-weight-bolder">
                         {% else %}
-                            <td>{{ player.fpos.ag + player.achAg - player.injAg }}</td>
+                        <td>
+                        {% endif %}
+                        {% if player.ruleset == 0%}
+                            {{ player.fpos.ag + player.achAg - player.injAg }}
+                        {% else %}
+                            {{ player.fPosBb2020.ag - player.achAg + player.injAg}}+
+                        {% endif %}
+                        </td>
+
+                        {% if player.ruleset == 1%}
+                            {% if player.achCp>0 %}
+                                <td class="text-success font-weight-bolder">
+                            {% elseif  player.injCp>0 %}
+                                <td class="text-danger font-weight-bolder">
+                            {% else %}
+                                <td>
+                            {% endif %}
+                            {{ player.fPosBb2020.cp - player.achCp + player.injCp }}+
+                            </td>
                         {% endif %}
 
                         {% if player.achAv>0 %}
-                            <td class="table-success">{{ player.fpos.av + player.achAv - player.injAv }}</td>
-                        {% elseif  player.injAv>0 %}
-                            <td class="table-danger">{{ player.fpos.av + player.achAv - player.injAv }}</td>
+                            <td class="text-success font-weight-bolder">
+                        {% elseif player.injAv>0 %}
+                            <td class="text-danger font-weight-bolder">
                         {% else %}
-                            <td>{{ player.fpos.av + player.achAv - player.injAv }}</td>
+                        <td>
                         {% endif %}
+                        {% if player.ruleset == 0%}
+                            {{ player.fpos.av + player.achAv - player.injAv }}
+                        {% else %}
+                            {{ player.fPosBb2020.av + player.achAv - player.injAv }}+
+                        {% endif %}
+                        </td>
 
                         {% for data in feuille.pdata %}
                             {% if data.pid == player.playerId %}
@@ -179,8 +234,13 @@
                                 <td>{{ data.int }}</td>
                                 <td>{{ data.cas }}</td>
                                 <td>{{ data.mvp }}</td>
+                                <td>{{ data.bonus }}</td>
                                 <td>{{ data.agg }}</td>
-                                <td>{{ data.spp }}</td>
+                                {% if feuille.team.ruleset == 0 %}
+                                    <td>{{ data.spp }}</td>
+                                {% else %}
+                                    <td>{{ data.spp - player.sppDepense}}</td>
+                                {% endif %}
                                 <td class="text-right">{{ data.cost }}</td>
                             {% endif %}
                         {% endfor %}
@@ -218,14 +278,24 @@
                     <tr>
                         <td colspan=7 rowspan=7></td>
                         <td rowspan=7><img
-                                    src="{{ asset('build/'~app.environment~'/images/race_icons/'~feuille.team.fRace.icon~'.png') }}">
+                                    {% if feuille.team.ruleset == 0 %}
+                                        src="{{ asset('build/'~app.environment~'/images/race_icons/'~feuille.team.fRace.icon~'.png') }}">
+                                    {% else %}
+                                        src="{{ asset('build/'~app.environment~'/images/race_icons/'~feuille.team.race.icon~'.png') }}">
+                                    {% endif %}
                         </td>
                         <td colspan=4>Coach : {{ feuille.team.ownedByCoach.name }}</td>
                         <td colspan=5 class="text-right">Valeur totale des joueurs :</td>
                         <td class="text-right" id="totalPV">{{ feuille.tdata.playersCost }}</td>
                     </tr>
                     <tr>
-                        <td colspan=4>Races : {{ feuille.team.fRace.name }}</td>
+                        <td colspan=4>Races :
+                            {% if feuille.team.ruleset == 0 %}
+                                {{ feuille.team.fRace.name }}
+                            {% else %}
+                                {{ feuille.team.race.name }}
+                            {% endif %}
+                        </td>
                         <td colspan=5 class="text-right"> Relance :
                             {% if (app.user != null) %}
                                 {% if (app.user == feuille.team.ownedByCoach and feuille.team.retired == 0 and feuille.team.year == feuille.annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
@@ -240,7 +310,13 @@
                                           teamId="{{ feuille.team.teamId }}"></span>
                                 {% endif %}
                             {% endif %}
-                            x {{ feuille.team.fRace.costRr }}</td>
+                            x
+                            {% if feuille.team.ruleset == 0 %}
+                                {{ feuille.team.fRace.costRr }}
+                            {% else %}
+                                {{ feuille.team.race.costRr }}
+                            {% endif %}
+                        </td>
                         <td class="text-right" id="trr">{{ feuille.tdata.rerolls }}</td>
                     </tr>
                     <tr>
@@ -306,7 +382,8 @@
                     <tr>
                         <td colspan=4>Stade :
                             {% if (app.user != null) %}
-                                {% if (app.user == feuille.team.ownedByCoach and feuille.team.retired == 0 and feuille.team.year == feuille.annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
+                                {% if (feuille.team.fStades != null) %}
+                                {% if (app.user == feuille.team.ownedByCoach and feuille.team.retired == 0 and feuille.team.year == feuille.annee )or app.user.roles["role"] == 'ROLE_ADMIN'%}
                                     <a href="#" data-type="text" data-pk="{{ feuille.team.fStades.id }}" data-name="Nom"
                                        id="editable_stade"> {{ feuille.team.fStades.nom }}</a>
                                 {% endif %}
@@ -331,6 +408,7 @@
                                     <span class="fas fa-minus text-danger" id="rem_pay" type="pay"
                                           teamId="{{ feuille.team.teamId }}"></span>
                                 {% endif %}
+                            {% endif %}
                             {% endif %}
                         </td>
                         <td colspan=5 class="text-right"> Apothicaire :

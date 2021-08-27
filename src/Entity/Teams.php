@@ -120,7 +120,7 @@ class Teams
     /**
      *
      * @ORM\ManyToOne(targetEntity="Races")
-     * @ORM\JoinColumn(name="f_race_id", referencedColumnName="race_id", nullable=false)
+     * @ORM\JoinColumn(name="f_race_id", referencedColumnName="race_id", nullable=true)
      * @var \App\Entity\Races|null
      */
     private ?\App\Entity\Races $fRace = null;
@@ -153,6 +153,17 @@ class Teams
      * @ORM\OneToMany(targetEntity=Players::class, mappedBy="ownedByTeam", orphanRemoval=true, cascade={"remove"})
      */
     private Collection $joueurs;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $ruleset = 0;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=RacesBb2020::class)
+     * @ORM\JoinColumn(name="race_id", referencedColumnName="id", nullable=true)
+     */
+    private $race;
 
     public function __construct()
     {
@@ -434,6 +445,30 @@ class Teams
                 $penalite->setEquipe(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRuleset(): ?int
+    {
+        return $this->ruleset;
+    }
+
+    public function setRuleset(int $ruleset): self
+    {
+        $this->ruleset = $ruleset;
+
+        return $this;
+    }
+
+    public function getRace(): ?RacesBb2020
+    {
+        return $this->race;
+    }
+
+    public function setRace(?RacesBb2020 $race): self
+    {
+        $this->race = $race;
 
         return $this;
     }

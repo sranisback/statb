@@ -24,7 +24,7 @@ class HistoriqueBlessureController extends AbstractController
     {
         return $this->render('statbb/admin/historique_blessure/index.html.twig', [
             'historique_blessures' => $historiqueBlessureRepository->findAll(),
-            'etiquette' => (new BlessuresEnum())->numeroToBlessure()
+            'etiquette' => BlessuresEnum::numeroToBlessure()
         ]);
     }
 

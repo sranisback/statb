@@ -4,10 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Coaches;
 use App\Entity\Players;
+use App\Entity\Setting;
 use App\Entity\Stades;
 use App\Entity\Teams;
 use App\Enum\AnneeEnum;
 use App\Enum\NiveauStadeEnum;
+use App\Enum\RulesetEnum;
 use App\Form\CreerStadeType;
 use App\Form\LogoEnvoiType;
 use App\Service\AdminService;
@@ -55,7 +57,10 @@ class EquipeController extends AbstractController
     ): \Symfony\Component\HttpFoundation\Response {
         return $this->render(
             'statbb/tabs/coach/anciennesEquipes.html.twig',
-            ['listeEquipe' => $equipeService->compileLesEquipes($this->getUser())]
+            [
+                'listeEquipe' => $equipeService->compileLesEquipes($this->getUser()),
+                'etiquettes' => RulesetEnum::numeroVersEtiquette()
+            ]
         );
     }
 
@@ -70,7 +75,10 @@ class EquipeController extends AbstractController
     ): \Symfony\Component\HttpFoundation\Response {
         return $this->render(
             'statbb/tabs/coach/user_teams.html.twig',
-            ['listeEquipe' => $equipeService->compileEquipesAnneeEnCours($this->getUser())]
+            [
+                'listeEquipe' => $equipeService->compileEquipesAnneeEnCours($this->getUser()),
+                'etiquettes' => RulesetEnum::numeroVersEtiquette()
+            ]
         );
     }
 
@@ -166,14 +174,21 @@ class EquipeController extends AbstractController
     ) {
         $equipe = new Teams();
 
-        $form = $this->createForm(CreerEquipeType::class, $equipe);
+        $currentRuleset = $this->getDoctrine()->getRepository(Setting::class)->findOneBy(['name' => 'currentRuleset']);
+
+        $form = $this->createForm(CreerEquipeType::class, $equipe,['ruleset'=>$currentRuleset->getValue()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $datas = $request->request->get('creer_equipe');
 
             /** @var Coaches $coach */
-            $teamid = $equipeService->createTeam($datas['Name'], $this->getUser()->getCoachId(), $datas['fRace']);
+            $teamid = $equipeService->createTeam(
+                $datas['Name'],
+                $this->getUser()->getCoachId(),
+                $datas[RulesetEnum::getChampRaceFromIntByRuleset($currentRuleset->getValue())],
+                $currentRuleset->getValue()
+            );
 
             if ($teamid !== 0) {
                 $this->addFlash('success', 'Equipe Ajoutée!');
@@ -182,7 +197,7 @@ class EquipeController extends AbstractController
             return $this->redirectToRoute('team', ['teamid' => $teamid]);
         }
 
-        return $this->render('statbb/addteam.html.twig', ['form' => $form->createView()]);
+        return $this->render('statbb/addteam.html.twig', ['form' => $form->createView(), 'ruleset' => $currentRuleset->getValue()]);
     }
 
     /**

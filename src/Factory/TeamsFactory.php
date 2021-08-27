@@ -3,9 +3,9 @@
 namespace App\Factory;
 
 use App\Entity\Coaches;
-use App\Entity\Races;
 use App\Entity\Stades;
 use App\Entity\Teams;
+use App\Enum\RulesetEnum;
 
 class TeamsFactory
 {
@@ -15,7 +15,7 @@ class TeamsFactory
      * @param int $baseElo
      * @param Stades $stade
      * @param int $annee
-     * @param Races $race
+     * @param $race
      * @param Coaches $coach
      * @return Teams
      */
@@ -25,8 +25,9 @@ class TeamsFactory
         int $baseElo,
         Stades $stade,
         int $annee,
-        Races $race,
-        Coaches $coach
+        $race,
+        Coaches $coach,
+        int $ruleset
     ): Teams {
         $equipe = new Teams();
 
@@ -36,7 +37,10 @@ class TeamsFactory
         $equipe->setTv(0);
         $equipe->setFStades($stade);
         $equipe->setYear($annee);
-        $equipe->setFRace($race);
+        $equipe->setRuleset($ruleset);
+
+        RulesetEnum::setTeamRaceFromTeamByRuleset($equipe,$race);
+
         $equipe->setOwnedByCoach($coach);
 
         return $equipe;

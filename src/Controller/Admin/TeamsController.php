@@ -3,9 +3,11 @@
 namespace App\Controller\Admin;
 
 use App\Entity\GameDataStadium;
+use App\Entity\Setting;
 use App\Entity\Stades;
 use App\Entity\Teams;
 use App\Enum\AnneeEnum;
+use App\Enum\RulesetEnum;
 use App\Form\Admin\TeamsType;
 use App\Repository\TeamRepository;
 use App\Service\AdminService;
@@ -27,7 +29,8 @@ class TeamsController extends AbstractController
     {
         return $this->render('statbb/admin/teams/index.html.twig', [
             'teams' => $teamRepository->findAll(),
-            'etiquetteAnne' => (new AnneeEnum)->numeroToAnnee()
+            'etiquetteAnne' => (new AnneeEnum)->numeroToAnnee(),
+            'etiquetteRuleset' => RulesetEnum::numeroVersEtiquette()
         ]);
     }
 

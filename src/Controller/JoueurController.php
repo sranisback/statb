@@ -2,11 +2,12 @@
 
 namespace App\Controller;
 
-use App\Entity\GameDataPlayers;
-use App\Entity\GameDataSkills;
 use App\Entity\Players;
 use App\Entity\PlayersSkills;
+use App\Entity\Setting;
 use App\Entity\Teams;
+use App\Enum\RulesetEnum;
+use App\Form\AjoutCompetenceBb2020Type;
 use App\Form\AjoutCompetenceType;
 use App\Form\AjoutJoueurType;
 use App\Form\JoueurPhotoEnvoiType;
@@ -15,12 +16,12 @@ use App\Service\EquipeService;
 use App\Service\PlayerService;
 use App\Tools\randomNameGenerator;
 use App\Tools\TransformeEnJSON;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class JoueurController extends AbstractController
 {
@@ -53,18 +54,24 @@ class JoueurController extends AbstractController
      * @param PlayerService $playerService
      * @return Response
      */
-    public function getposstat(int $posId, PlayerService $playerService): \Symfony\Component\HttpFoundation\Response
+    public function getposstat(int $posId, PlayerService $playerService, Request $request): \Symfony\Component\HttpFoundation\Response
     {
+        $donneesRuleset = $request->request->all();
+
+        $repo = RulesetEnum::getGameDataPlayersRepoFromIntRuleset($donneesRuleset['ruleset']);
+        $champ = RulesetEnum::champIdGameDataPlayerFromIntRuleset($donneesRuleset['ruleset']);
+
         $position = $this->getDoctrine()
             ->getManager()
-            ->getRepository(GameDataPlayers::class)
-            ->findOneBy(['posId' => $posId]);
+            ->getRepository($repo)
+            ->findOneBy([$champ => $posId]);
 
         $html = $this->render(
             'statbb/affichePosition.html.twig',
             [
                 'position' => $position,
-                'competence' => $playerService->competencesDunePositon($position)
+                'competence' => $playerService->competencesDunePositon($position),
+                'ruleset' => $donneesRuleset['ruleset']
             ]
         );
 
@@ -100,7 +107,8 @@ class JoueurController extends AbstractController
             $donneesPourAjout['idPosition'],
             $donneesPourAjout['teamId'],
             $donneesPourAjout['nom'],
-            $donneesPourAjout['nr']
+            $donneesPourAjout['nr'],
+            $donneesPourAjout['ruleset']
         );
         $tresors = 0;
         $html = '';
@@ -111,7 +119,7 @@ class JoueurController extends AbstractController
         if ($resultat['resultat'] == 'ok') {
             /** @var Players $joueur */
             $joueur = $resultat['joueur'];
-            $position = $joueur->getFPos();
+            $position = RulesetEnum::getPositionFromPlayerByRuleset($joueur);
             if ($position !== null) {
                 $competences = $playerService->listeDesCompdDeBasedUnJoueur($joueur);
 
@@ -217,9 +225,11 @@ class JoueurController extends AbstractController
     {
         $competence = new PlayersSkills();
 
-        $form = $this->createForm(AjoutCompetenceType::class, $competence);
+        $currentRuleset = $this->getDoctrine()->getRepository(Setting::class)->findOneBy(['name' => 'currentRuleset']);
 
-        return $this->render('statbb/skillmodal.html.twig', ['playerId' => $playerid, 'form' => $form->createView()]);
+        $form = $this->createForm(AjoutCompetenceType::class, $competence, ['ruleset' => $currentRuleset->getValue()]);
+
+        return $this->render('statbb/skillmodal.html.twig', ['playerId' => $playerid, 'form' => $form->createView(), 'ruleset' => $currentRuleset->getValue()]);
     }
 
     /**
@@ -236,17 +246,22 @@ class JoueurController extends AbstractController
         /** @var Players $joueur */
         $joueur = $this->getDoctrine()->getRepository(\App\Entity\Players::class)->findOneBy(['playerId' => $playerid]);
 
-        /** @var GameDataSkills $competence */
-        $competence = $this->getDoctrine()->getRepository(GameDataSkills::class)->findOneBy(
-            ['skillId' => $form['fSkill']]
+        $competence = $this->getDoctrine()->getRepository(RulesetEnum::getGameDataSkillRepoFromPlayerByRuleset($joueur))->findOneBy(
+            [RulesetEnum::getGameDataPlayerChampIdFromPlayerByRuleset($joueur) => $form[$joueur->getRuleset() == 0 ? 'fSkill' : 'fSkillBb2020']]
         );
-
-        if (!empty($competence) && !empty($joueur)) {
-            $playerService->ajoutCompetence($joueur, $competence);
-        }
 
         if (!empty($joueur)) {
             $equipe = $joueur->getOwnedByTeam();
+        }
+
+        if (!empty($competence)) {
+            $retour = $joueur->getRuleset() == 0 ?
+                $playerService->ajoutCompetence($joueur, $competence) :
+                $playerService->ajoutCompetenceBb2020($joueur, $competence, array_key_exists('hasard', $form) ? $form['hasard'] : false);
+
+            if($retour != 'ok') {
+                $this->addFlash('fail', $retour);
+            }
         }
 
         if (!empty($equipe)) {

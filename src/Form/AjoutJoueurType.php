@@ -2,14 +2,16 @@
 
 namespace App\Form;
 
-use App\Entity\GameDataPlayers;
 use App\Entity\Teams;
+use App\Enum\RulesetEnum;
+use App\Service\EquipeService;
 use App\Service\PlayerService;
 use App\Tools\randomNameGenerator;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -22,7 +24,7 @@ class AjoutJoueurType extends AbstractType
      */
     private \App\Service\PlayerService $playerService;
 
-    public function __construct(PlayerService $playerService)
+    public function __construct(PlayerService $playerService, EquipeService $equipeService)
     {
         $this->playerService = $playerService;
     }
@@ -31,26 +33,30 @@ class AjoutJoueurType extends AbstractType
     {
         /** @var Teams $equipe */
         $equipe = $options['equipe'];
-        $race = $equipe->getFRace();
+        $race = $equipe->getRuleset() == 1 ? $equipe->getRace() : $equipe->getFRace();
+        $raceId = $equipe->getRuleset() == 1 ? $race->getId() : $race->getRaceId();
 
         $generateurDeNom = new randomNameGenerator();
         $nom = $generateurDeNom->generateNames(1);
 
         $numeroAProposer = $this->playerService->numeroLibreDelEquipe($equipe);
 
+        $champ = $equipe->getRuleset() == 1 ? 'race' : 'fRace';
+        $champ2 = $equipe->getRuleset() == 1 ? 'fPosBb2020' : 'fPos';
+
         if (!empty($race)) {
             $builder
                 ->add(
-                    'fPos',
+                    $champ2,
                     EntityType::class,
                     [
-                        'class' => GameDataPlayers::class,
+                        'class' => RulesetEnum::getGameDataPlayerRepoFromTeamByRuleset($equipe),
                         'choice_label' => 'pos',
                         'label' => 'Choisir une position',
                         'query_builder' =>
                             fn(EntityRepository $entityRepository) =>
                             $entityRepository->createQueryBuilder('Position')
-                            ->where('Position.fRace ='.$race->getRaceId()),
+                            ->where('Position.' . $champ . ' =' . $raceId),
                         'placeholder' => 'Choisir un joueur',
                         'required' => true
                     ]
@@ -75,7 +81,9 @@ class AjoutJoueurType extends AbstractType
                         'required' => true
                     ]
                 )
-                ->add('submit', ButtonType::class, ['label' => 'Ajouter', 'attr' => ['teamId' => $equipe->getTeamId()]])
+                ->add('ruleset', HiddenType::class, ['data' => $equipe->getRuleset()])
+                ->add('ownedByTeam', HiddenType::class, ['data' => $equipe->getTeamId()])
+                ->add('submit', ButtonType::class, ['label' => 'Ajouter'])
                 ->add('cancel', ButtonType::class, ['label' => 'Quitter', 'attr' => ['data-dismiss' => 'modal']])
                 ->getForm();
         }

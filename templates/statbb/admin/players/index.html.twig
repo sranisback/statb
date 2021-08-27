@@ -18,6 +18,7 @@
                 <th>Status</th>
                 <th>Value</th>
                 <th>Photo</th>
+                <th>Ruleset</th>
                 <th>icon</th>
                 <th>actions</th>
             </tr>
@@ -29,7 +30,13 @@
                 <td><a href="#" data-type="number" data-pk="{{ player.playerId }}" data-name="Nr" id="admin_player_number_{{ loop.index }}"> {{ player.nr }}</a></td>
                 <td><a href="#" data-type="text" data-pk="{{ player.playerId }}" data-name="Name" id="admin_player_name_{{ loop.index }}"> {{ player.name }}</a></td>
                 <td>{{ player.ownedByTeam.name }}</td>
-                <td>{{ player.fPos.pos }}</td>
+                <td>
+                    {% if(player.ruleset == 0) %}
+                        {{ player.fPos.pos }}
+                    {% else %}
+                        {{ player.fPosBb2020.pos }}
+                    {% endif %}
+                </td>
                 <td>
             {% if player.status == 1 %}
                     <strong class="text-success">Ok</strong>
@@ -45,6 +52,7 @@
                 </td>
                 <td><a href="#" data-type="number" data-pk="{{ player.playerId }}" data-name="value" id="admin_player_value_{{ loop.index }}">{{ player.value }}</a></td>
                 <td>{{ player.photo }}</td>
+                <td>{{ etiquetteRuleset[player.ruleset] }}</td>
                 <td><img src="{{ asset('build/'~app.environment~'/images/player_icons/'~player.icon.iconName~'.gif') }}" class=".img-responsive"></td>
                 <td>
                    <a href="{{ path('players_edit', {'playerId': player.playerId}) }}">edit</a>

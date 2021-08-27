@@ -2,15 +2,6 @@
     "composer/package-versions-deprecated": {
         "version": "1.11.99"
     },
-    "composer/semver": {
-        "version": "1.7.1"
-    },
-    "composer/xdebug-handler": {
-        "version": "1.4.3"
-    },
-    "danielstjules/stringy": {
-        "version": "3.1.0"
-    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -110,9 +101,6 @@
     "gumlet/php-image-resize": {
         "version": "1.9.2"
     },
-    "jean85/pretty-package-versions": {
-        "version": "1.5.1"
-    },
     "laminas/laminas-code": {
         "version": "3.4.1"
     },
@@ -121,18 +109,6 @@
     },
     "myclabs/deep-copy": {
         "version": "1.10.1"
-    },
-    "nette/caching": {
-        "version": "v3.1.1"
-    },
-    "nette/finder": {
-        "version": "v2.5.2"
-    },
-    "nette/neon": {
-        "version": "v3.2.2"
-    },
-    "nette/robot-loader": {
-        "version": "v3.3.1"
     },
     "nette/utils": {
         "version": "v2.5.3"
@@ -176,17 +152,11 @@
     "phpstan/extension-installer": {
         "version": "1.0.5"
     },
-    "phpstan/phpdoc-parser": {
-        "version": "0.4.9"
-    },
     "phpstan/phpstan": {
         "version": "0.11.2"
     },
     "phpstan/phpstan-doctrine": {
         "version": "0.11.1"
-    },
-    "phpstan/phpstan-phpunit": {
-        "version": "0.12.16"
     },
     "phpstan/phpstan-symfony": {
         "version": "0.11"
@@ -237,27 +207,6 @@
     },
     "rector/rector": {
         "version": "0.8.15"
-    },
-    "rector/rector-cakephp": {
-        "version": "0.10.4"
-    },
-    "rector/rector-doctrine": {
-        "version": "0.10.6"
-    },
-    "rector/rector-installer": {
-        "version": "0.10.2"
-    },
-    "rector/rector-laravel": {
-        "version": "0.10.2"
-    },
-    "rector/rector-nette": {
-        "version": "0.10.9"
-    },
-    "rector/rector-phpunit": {
-        "version": "0.10.8"
-    },
-    "rector/rector-symfony": {
-        "version": "0.10.6"
     },
     "sabberworm/php-css-parser": {
         "version": "8.1.0"
@@ -534,9 +483,6 @@
     "symfony/polyfill-php81": {
         "version": "v1.23.0"
     },
-    "symfony/process": {
-        "version": "v5.1.7"
-    },
     "symfony/profiler-pack": {
         "version": "v1.0.3"
     },
@@ -663,56 +609,11 @@
     "symfony/yaml": {
         "version": "v4.1.5"
     },
-    "symplify/astral": {
-        "version": "v9.3.4"
-    },
-    "symplify/autowire-array-parameter": {
-        "version": "8.3.32"
-    },
-    "symplify/composer-json-manipulator": {
-        "version": "8.3.32"
-    },
-    "symplify/console-color-diff": {
-        "version": "8.3.32"
-    },
-    "symplify/console-package-builder": {
-        "version": "v9.3.26"
-    },
-    "symplify/easy-testing": {
-        "version": "8.3.32"
-    },
-    "symplify/package-builder": {
-        "version": "8.3.32"
-    },
-    "symplify/rule-doc-generator-contracts": {
-        "version": "v9.3.26"
-    },
-    "symplify/set-config-resolver": {
-        "version": "8.3.32"
-    },
-    "symplify/simple-php-doc-parser": {
-        "version": "v9.3.26"
-    },
-    "symplify/skipper": {
-        "version": "v9.3.26"
-    },
-    "symplify/smart-file-system": {
-        "version": "8.3.32"
-    },
-    "symplify/symfony-php-config": {
-        "version": "v9.3.26"
-    },
-    "symplify/symplify-kernel": {
-        "version": "8.3.32"
-    },
     "thecodingmachine/phpstan-strict-rules": {
         "version": "v0.11.0"
     },
     "theseer/tokenizer": {
         "version": "1.2.0"
-    },
-    "tracy/tracy": {
-        "version": "v2.8.5"
     },
     "twbs/bootstrap": {
         "version": "v4.3.1"

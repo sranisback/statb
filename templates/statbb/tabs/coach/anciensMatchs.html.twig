@@ -20,7 +20,13 @@
                                 <tr>
                                     <td>{{ match.team1.name }}                {% if match.team1.franchise == true %}
                                             <span class="fas fa-tag text-success"></span>
-                                        {% endif %} ( {{ match.team1.fRace.name }}, {{ match.tv1/1000 }}
+                                        {% endif %} (
+                                        {% if(match.team1.ruleset == 0) %}
+                                            {{ match.team1.fRace.name }}
+                                        {% else %}
+                                            {{  match.team1.race.name  }}
+                                        {% endif %}
+                                        , {{ match.tv1/1000 }}
                                         de {{ match.team1.ownedByCoach.name }} )
                                     </td>
                                     <td> Vs</td>

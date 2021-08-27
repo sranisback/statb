@@ -8,7 +8,9 @@ use App\Entity\MatchData;
 use App\Entity\Matches;
 use App\Entity\Penalite;
 use App\Entity\Players;
+use App\Entity\Setting;
 use App\Entity\Teams;
+use App\Enum\RulesetEnum;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ClassementService
@@ -124,10 +126,15 @@ class ClassementService
         $classement = '';
         $titre = '';
 
+        $currentYear = $this->doctrineEntityManager->getRepository(Setting::class)->findOneBy(['name' => 'year']);
+
+        $ruleset = RulesetEnum::rulesetParAnnee()[$currentYear->getValue()];
+
         $matchData = $this->doctrineEntityManager->getRepository(MatchData::class)->sousClassementJoueur(
             $annee,
             $type,
-            $limit
+            $limit,
+            $ruleset
         );
 
         switch ($type) {
@@ -192,6 +199,10 @@ class ClassementService
         $classement = '';
         $titre = '';
 
+        $currentYear = $this->doctrineEntityManager->getRepository(Setting::class)->findOneBy(['name' => 'year']);
+
+        $ruleset = RulesetEnum::rulesetParAnnee()[$currentYear->getValue()];
+
         if ($type === 'dead') {
             $matchData = $this->doctrineEntityManager->getRepository(
                 Players::class
@@ -203,7 +214,8 @@ class ClassementService
             $matchData = $this->doctrineEntityManager->getRepository(MatchData::class)->sousClassementEquipe(
                 $annee,
                 $type,
-                $limit
+                $limit,
+                $ruleset
             );
         }
 
@@ -446,7 +458,7 @@ class ClassementService
                 }
             }
 
-            //bonus Defense 1 seul TD pris aved défaite
+            //bonus Defense 1 seul TD pris avec défaite
             if ($tableResult['loss'] == 1 &&
                 (($equipe == $match->getTeam1() && $match->getTeam2Score()==1)
                     || ($equipe == $match->getTeam2() && $match->getTeam1Score()===1))) {

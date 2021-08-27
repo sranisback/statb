@@ -12,7 +12,13 @@
                     <div> {% if team.logo %}
                             <img class="img-fluid" src="{{ asset('uploads/logo_equipe/' ~ team.logo) }}" >
                         {% else %}
-                            <img class="img-fluid" src="{{ asset('build/'~app.environment~'/images/race_icons/'~team.fRace.icon~'.png') }}">
+                            <img class="img-fluid" src="
+                            {% if team.ruleset == 0 %}
+                                {{ asset('build/'~app.environment~'/images/race_icons/'~team.fRace.icon~'.png') }}
+                            {% else %}
+                                {{ asset('build/'~app.environment~'/images/race_icons/'~team.race.icon~'.png') }}
+                            {% endif %}
+                            ">
                         {% endif %}
                     </div>
                 </div>

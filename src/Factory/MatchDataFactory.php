@@ -25,6 +25,7 @@ class MatchDataFactory
         $matchdata->setMvp(0);
         $matchdata->setSi(0);
         $matchdata->setTd(0);
+        $matchdata->setBonusSpp(0);
         $matchdata->setFMatch($match);
         $matchdata->setFPlayer($joueur);
 

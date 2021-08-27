@@ -15,7 +15,11 @@
                 {{ form_start(form, {'action': path('createTeam')}) }}
                 {{ form_errors(form) }}
                 {{ form_row(form.Name) }}
-                {{ form_row(form.fRace) }}
+                {% if ruleset == 0 %}
+                    {{ form_row(form.fRace) }}
+                {% else %}
+                    {{ form_row(form.race) }}
+                {% endif %}
             </div>
             <div class="modal-footer">
                 {{ form_widget(form.submit) }}{{ form_widget(form.cancel) }}

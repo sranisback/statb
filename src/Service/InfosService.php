@@ -9,6 +9,7 @@ use App\Entity\Matches;
 use App\Entity\Players;
 use App\Entity\Primes;
 use App\Entity\Teams;
+use App\Enum\RulesetEnum;
 use Doctrine\ORM\EntityManagerInterface;
 use Nette\Utils\DateTime;
 
@@ -50,7 +51,7 @@ class InfosService
             $equipe->getOwnedByCoach()->getName() .
             ' a crée l\'équipe <a href="/team/' . $equipe->getTeamId() .
             '">' . $equipe->getName() . '</a>' .
-            '(' . $equipe->getFRace()->getName() .
+            '(' . RulesetEnum::getRaceFromEquipeByRuleset($equipe)->getName() .
             ')'
         );
     }
@@ -62,7 +63,8 @@ class InfosService
     public function joueurEngage(Players $joueur)
     {
         return $this->publierUnMessage(
-            $joueur->getName() . ', ' . $joueur->getFPos()->getPos() . ' ' .$joueur->getFRid()->getName() .
+            $joueur->getName() . ', ' . RulesetEnum::getPositionFromPlayerByRuleset($joueur)->getPos() . ' ' .
+            RulesetEnum::getRaceFromJoueurByRuleset($joueur)->getName() .
             ' a été engagé par <a href="/team/' . $joueur->getOwnedByTeam()->getTeamId() . '">' .
             $joueur->getOwnedByTeam()->getName() . '</a>' .
             ' de ' . $joueur->getOwnedByTeam()->getOwnedByCoach()->getName()
@@ -89,7 +91,7 @@ class InfosService
     public function mortDunJoueur(Players $joueur)
     {
         return $this->publierUnMessage(
-            $joueur->getName() . ', ' . $joueur->getFPos()->getPos() . ' '  . $joueur->getFRid()->getName() .
+            $joueur->getName() . ', ' .  RulesetEnum::getPositionFromPlayerByRuleset($joueur)->getPos() . ' '  . RulesetEnum::getRaceFromJoueurByRuleset($joueur)->getName() .
             ' de <a href="/team/' . $joueur->getOwnedByTeam()->getTeamId() . '">' .
             $joueur->getOwnedByTeam()->getName() . '</a> est mort !'
         );
@@ -103,9 +105,9 @@ class InfosService
     {
         return $this->publierUnMessage(
             '<a href="/team/' . $defis->getEquipeOrigine()->getTeamId() . '">' .
-            $defis->getEquipeOrigine()->getName() . '</a> (' . $defis->getEquipeOrigine()->getFRace()->getName() .
+            $defis->getEquipeOrigine()->getName() . '</a> (' .  RulesetEnum::getRaceFromEquipeByRuleset($defis->getEquipeOrigine())->getName() .
             ') défie <a href="/team/' . $defis->getEquipeDefiee()->getTeamId() . '">' .
-            $defis->getEquipeDefiee()->getName() . '</a> (' . $defis->getEquipeDefiee()->getFRace()->getName() . ')'
+            $defis->getEquipeDefiee()->getName() . '</a> (' . RulesetEnum::getRaceFromEquipeByRuleset($defis->getEquipeDefiee())->getName() . ')'
         );
     }
 
@@ -130,8 +132,8 @@ class InfosService
     public function primeMise(Primes $prime)
     {
         return $this->publierUnMessage(
-            $prime->getPlayers()->getName() . ', ' . $prime->getPlayers()->getFPos()->getPos() . ' ' .
-            $prime->getPlayers()->getFRid()->getName() . ' de ' . $prime->getPlayers()->getOwnedByTeam()->getName() .
+            $prime->getPlayers()->getName() . ', ' . RulesetEnum::getPositionFromPlayerByRuleset($prime->getPlayers())->getPos()  . ' ' .
+            RulesetEnum::getRaceFromJoueurByRuleset($prime->getPlayers())->getName() . ' de ' . $prime->getPlayers()->getOwnedByTeam()->getName() .
             ' a une prime de ' . $prime->getMontant() . ' Po'
         );
     }
@@ -140,8 +142,8 @@ class InfosService
     {
         return $this->publierUnMessage(
             $prime->getEquipePrime()->getName() . ' a touché la prime de ' . $prime->getMontant() . 'Po sur ' .
-            $prime->getPlayers()->getName()  . ', ' . $prime->getPlayers()->getFPos()->getPos() . ' ' .
-            $prime->getPlayers()->getFRid()->getName()
+            $prime->getPlayers()->getName()  . ', ' . RulesetEnum::getPositionFromPlayerByRuleset($prime->getPlayers())->getPos() . ' ' .
+            RulesetEnum::getRaceFromJoueurByRuleset($prime->getPlayers())->getName()
         );
     }
 }

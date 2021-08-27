@@ -19,7 +19,13 @@
                         <span class="fas fa-tag text-success"></span>
                     {% endif %}
                 </td>
-                <td>{{ equipe.fRace.name }}</td>
+                <td>
+                    {% if equipe.ruleset == 0 %}
+                        {{ equipe.fRace.name }}
+                    {% else %}
+                        {{ equipe.race.name }}
+                    {% endif %}
+                </td>
                 <td>{{ equipe.tv/1000 }}</td>
                 <td>{{ equipe.elo}}</td>
             </tr>

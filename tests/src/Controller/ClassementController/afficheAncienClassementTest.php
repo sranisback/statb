@@ -6,6 +6,7 @@ namespace App\Tests\src\Controller\ClassementController;
 use App\DataFixtures\CitationFixture;
 use App\DataFixtures\CoachesFixture;
 use App\DataFixtures\DykFixture;
+use App\DataFixtures\SettingFixtures;
 use App\Tests\src\Functionnal;
 
 class afficheAncienClassementTest extends Functionnal
@@ -26,6 +27,14 @@ class afficheAncienClassementTest extends Functionnal
 
         $dykFixture = new DykFixture();
         $dykFixture->load($this->entityManager);
+
+        $settingFixture = new SettingFixtures();
+        $settingTest = $settingFixture->load($this->entityManager);
+        $settingTest->setName('currentRuleset');
+        $settingTest->setValue('0');
+
+        $this->entityManager->persist($settingTest);
+        $this->entityManager->flush();
 
         $this->client->request('GET', '/ancienClassement/3');
 

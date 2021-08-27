@@ -75,6 +75,14 @@ class montreEquipeTest extends Functionnal
      */
     public function aucune_equipe_est_trouvee()
     {
+        $settingFixture = new SettingFixtures();
+        $settingTest = $settingFixture->load($this->entityManager);
+        $settingTest->setName('currentRuleset');
+        $settingTest->setValue('0');
+
+        $this->entityManager->persist($settingTest);
+        $this->entityManager->flush();
+
         $this->client->request('GET', '/team/zatrg' );
 
         $this->assertResponseIsSuccessful();
@@ -86,6 +94,14 @@ class montreEquipeTest extends Functionnal
      */
     public function pas_de_string_en_entree() //bof bof
     {
+        $settingFixture = new SettingFixtures();
+        $settingTest = $settingFixture->load($this->entityManager);
+        $settingTest->setName('currentRuleset');
+        $settingTest->setValue('0');
+
+        $this->entityManager->persist($settingTest);
+        $this->entityManager->flush();
+
         $this->client->request('GET', '/team/ ' );
 
         $this->assertResponseIsSuccessful();

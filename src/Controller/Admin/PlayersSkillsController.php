@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\PlayersSkills;
+use App\Enum\RulesetEnum;
 use App\Form\Admin\PlayersSkillsType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,6 +26,7 @@ class PlayersSkillsController extends AbstractController
 
         return $this->render('statbb/admin/players_skills/index.html.twig', [
             'players_skills' => $playersSkills,
+            'etiquetteRuleset' => RulesetEnum::numeroVersEtiquette()
         ]);
     }
 

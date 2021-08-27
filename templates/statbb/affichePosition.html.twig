@@ -5,6 +5,9 @@
         <th>MA</th>
         <th>ST</th>
         <th>AG</th>
+        {% if ruleset == 1 %}
+            <th>CP</th>
+        {% endif %}
         <th>AV</th>
         <th>Comp</th>
         <th>Cost</th>
@@ -16,8 +19,14 @@
         <td>0 - {{ position.qty }}</td>
         <td>{{ position.ma }}</td>
         <td>{{ position.st }}</td>
-        <td>{{ position.ag }}</td>
-        <td>{{ position.av }}</td>
+        {% if ruleset == 0 %}
+            <td>{{ position.ag }}</td>
+            <td>{{ position.av }}</td>
+        {% else %}
+            <td>{{ position.ag }}+</td>
+            <td>{{ position.cp }}+</td>
+            <td>{{ position.av }}+</td>
+        {% endif %}
         <td>{{ competence|raw }}</td>
         <td>{{ position.cost }}</td>
     </tr>

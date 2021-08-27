@@ -40,10 +40,22 @@
                             {% if ligne.total.equipe.logo %}
                                 <img src="{{ asset('uploads/logo_equipe/' ~ ligne.total.equipe.logo) }}" class="img-fluid">
                             {% else %}
-                                <img src="{{ asset('build/'~app.environment~'/images/race_icons/'~ligne.total.equipe.frace.icon~'.png') }}">
+                                <img src="
+                                    {% if ligne.total.equipe.ruleset == 0 %}
+                                        {{ asset('build/'~app.environment~'/images/race_icons/'~ligne.total.equipe.frace.icon~'.png') }}
+                                    {% else %}
+                                        {{ asset('build/'~app.environment~'/images/race_icons/'~ligne.total.equipe.race.icon~'.png') }}
+                                    {% endif %}
+                                ">
                             {% endif %}
                         </td>
-                        <td>{{ ligne.total.equipe.frace.name }}</td>
+                        <td>
+                            {% if ligne.total.equipe.ruleset == 0 %}
+                                {{ ligne.total.equipe.frace.name }}
+                            {% else %}
+                                {{ ligne.total.equipe.race.name }}
+                            {% endif %}
+                        </td>
                         <td>{{ ligne.total.equipe.ownedByCoach.name }}</td>
                         <td>{{ ligne.total.gagne }}</td>
                         <td>{{ ligne.total.egalite }}</td>

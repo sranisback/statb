@@ -3,6 +3,7 @@
 namespace App\Form\Admin;
 
 use App\Entity\GameDataSkills;
+use App\Entity\GameDataSkillsBb2020;
 use App\Entity\Players;
 use App\Entity\PlayersSkills;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -20,7 +21,14 @@ class PlayersSkillsType extends AbstractType
                 'type',
                 ChoiceType::class,
                 [
-                    'choices' => ['Normal' => 'N', 'Double' => 'D'],
+                    'choices' => [
+                        'Normal' => 'N',
+                        'Double' => 'D',
+                        'Principale' => 'P',
+                        'Principale hasard' => 'PH',
+                        'Secondaire' => 'S',
+                        'Secondaire hasard' => 'SH'
+                    ],
                 ]
             )
             ->add('fSkill', EntityType::class, [
@@ -40,6 +48,25 @@ class PlayersSkillsType extends AbstractType
                             ];
 
                         return $listeCategoriesCompetences[$comp->getCat()];
+                }
+            ])
+            ->add('fSkillBb2020', EntityType::class, [
+                'class' => GameDataSkillsBb2020::class,
+                'choice_label' =>'name',
+                'group_by' =>  function (GameDataSkillsBb2020 $comp): string {
+                    $listeCategoriesCompetences =
+                        [
+                            '' => '',
+                            'G' => 'Générale',
+                            'A' => 'Agilité',
+                            'P' => 'Passe',
+                            'S' => 'Force',
+                            'M' => 'Mutations',
+                            'E' => 'Exceptionnelles',
+                            'C' => 'Statistiques',
+                        ];
+
+                    return $listeCategoriesCompetences[$comp->getCat()];
                 }
             ])
             ->add('fPid', EntityType::class, [

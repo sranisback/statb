@@ -17,6 +17,7 @@
                 <th>Team</th>
                 <th>Skill</th>
                 <th>Type</th>
+                <th>Ruleset</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -25,11 +26,34 @@
             <tr>
                 <td>{{ players_skill.id }}</td>
                 <td>{{ players_skill.fPid.name }}</td>
-                <td>{{ players_skill.fPid.fRid.name }}</td>
-                <td>{{ players_skill.fPid.fPos.pos }}</td>
+                <td>
+                    {% if(players_skill.fPid.ruleset == 0) %}
+                        {{ players_skill.fPid.fRid.name }}
+                    {% else %}
+                        {{ players_skill.fPid.fRidBb2020.name }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if(players_skill.fPid.ruleset == 0) %}
+                        {{ players_skill.fPid.fPos.pos }}
+                    {% else %}
+                        {{ players_skill.fPid.fPosBb2020.pos }}
+                    {% endif %}
+                </td>
                 <td>{{ players_skill.fPid.ownedByTeam.name }}</td>
-                <td>{{ players_skill.fSkill.name }}</td>
+                <td>
+                    {% if(players_skill.fPid.ruleset == 0) %}
+                        {{ players_skill.fSkill.name }}
+                    {% else %}
+                        {% if(players_skill.fSkillBb2020 == null) %}
+                            est nul !
+                        {% else %}
+                            {{ players_skill.fSkillBb2020.name }}
+                        {% endif %}
+                    {% endif %}
+                </td>
                 <td>{{ players_skill.type }}</td>
+                <td>{{ etiquetteRuleset[players_skill.fPid.ruleset] }}</td>
                 <td>
                     <a href="{{ path('players_skills_edit', {'id': players_skill.id}) }}">edit</a>
                 </td>

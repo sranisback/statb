@@ -35,8 +35,8 @@ class PlayersType extends AbstractType
             ->add('achSt')
             ->add('achAg')
             ->add('achAv')
-            ->add('extraSpp')
-            ->add('extraVal')
+            ->add('achCp')
+            ->add('sppDepense')
             ->add('value')
             ->add(
                 'status',
@@ -52,8 +52,14 @@ class PlayersType extends AbstractType
             ->add('injAg')
             ->add('injAv')
             ->add('injNi')
+            ->add('injCp')
             ->add('injRpm')
             ->add('photo')
+            ->add('fPos', EntityType::class, [
+                'class' => GameDataPlayers::class,
+                'choice_label' =>'pos',
+                'group_by' => 'fRace.name'
+            ])
             ->add('fPos', EntityType::class, [
                 'class' => GameDataPlayers::class,
                 'choice_label' =>'pos',
@@ -66,6 +72,11 @@ class PlayersType extends AbstractType
                 'choice_label' =>'icon_name',
                 'group_by' => 'position.pos'
             ])
+            ->add('ruleset',ChoiceType::class,
+                [
+                    'choices' => ['BB2016' => 0, 'BB2020' => 1],
+                    'label' => 'Ruleset',
+                ])
         ;
     }
 
