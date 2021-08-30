@@ -9,6 +9,7 @@ use App\Entity\Teams;
 use App\Service\InfosService;
 use Doctrine\ORM\EntityManager;
 use Monolog\Test\TestCase;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
 class matchEnregistreTest extends TestCase
 {
@@ -28,8 +29,12 @@ class matchEnregistreTest extends TestCase
         $matchMock->method('getTeam2')->willReturn($equipeMock1);
         $matchMock->method('getMatchId')->willReturn(5);
 
+        $envMock = $this->createMock(ContainerBagInterface::class);
+        $envMock->method('get')->willReturn('dev');
+
         $infosServiceTest = new InfosService(
-            $this->createMock(EntityManager::class)
+            $this->createMock(EntityManager::class),
+            $envMock
         );
 
         $attentdu = $infosServiceTest->matchEnregistre($matchMock);

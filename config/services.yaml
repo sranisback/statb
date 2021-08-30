@@ -8,6 +8,7 @@ parameters:
     logo_directory: '%kernel.project_dir%/public/uploads/logo_equipe'
     photo_directory: '%kernel.project_dir%/public/uploads/photo_joueur'
     pdf_directory: '%kernel.project_dir%/public/pdfTournois'
+    env : '%kernel.environment%'
 services:
     # default configuration for services in *this* file
     _defaults:

@@ -12,6 +12,7 @@ use App\Entity\Teams;
 use App\Enum\RulesetEnum;
 use Doctrine\ORM\EntityManagerInterface;
 use Nette\Utils\DateTime;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
 class InfosService
 {
@@ -19,10 +20,13 @@ class InfosService
      * @var EntityManagerInterface
      */
     private $doctrineEntityManager;
+    
+    private $urlPrefix;
 
-    public function __construct(EntityManagerInterface $doctrineEntityManager)
+    public function __construct(EntityManagerInterface $doctrineEntityManager, ContainerBagInterface $params)
     {
         $this->doctrineEntityManager = $doctrineEntityManager;
+        $this->urlPrefix = $params->get('env') == 'dev' ? '' : '/statb/public';
     }
 
     /**
@@ -40,7 +44,7 @@ class InfosService
 
         return $message;
     }
-
+    
     /**
      * @param Teams $equipe
      * @return Infos
@@ -49,7 +53,7 @@ class InfosService
     {
         return $this->publierUnMessage(
             $equipe->getOwnedByCoach()->getName() .
-            ' a crée l\'équipe <a href="/team/' . $equipe->getTeamId() .
+            ' a crée l\'équipe <a href="' . $this->urlPrefix . '/team/' . $equipe->getTeamId() .
             '">' . $equipe->getName() . '</a>' .
             '(' . RulesetEnum::getRaceFromEquipeByRuleset($equipe)->getName() .
             ')'
@@ -65,7 +69,7 @@ class InfosService
         return $this->publierUnMessage(
             $joueur->getName() . ', ' . RulesetEnum::getPositionFromPlayerByRuleset($joueur)->getPos() . ' ' .
             RulesetEnum::getRaceFromJoueurByRuleset($joueur)->getName() .
-            ' a été engagé par <a href="/team/' . $joueur->getOwnedByTeam()->getTeamId() . '">' .
+            ' a été engagé par <a href="' . $this->urlPrefix . '/team/' . $joueur->getOwnedByTeam()->getTeamId() . '">' .
             $joueur->getOwnedByTeam()->getName() . '</a>' .
             ' de ' . $joueur->getOwnedByTeam()->getOwnedByCoach()->getName()
         );
@@ -80,7 +84,7 @@ class InfosService
         return $this->publierUnMessage(
             'Match(' . $matches->getMatchId() . '): ' .
             $matches->getTeam1()->getName() . ' VS ' . $matches->getTeam2()->getName() . ' enregistré. ' .
-            '<a href="/match/' . $matches->getMatchId() . '">voir</a>'
+            '<a href="' . $this->urlPrefix . '/match/' . $matches->getMatchId() . '">voir</a>'
         );
     }
 
@@ -92,7 +96,7 @@ class InfosService
     {
         return $this->publierUnMessage(
             $joueur->getName() . ', ' .  RulesetEnum::getPositionFromPlayerByRuleset($joueur)->getPos() . ' '  . RulesetEnum::getRaceFromJoueurByRuleset($joueur)->getName() .
-            ' de <a href="/team/' . $joueur->getOwnedByTeam()->getTeamId() . '">' .
+            ' de <a href="' . $this->urlPrefix . '/team/' . $joueur->getOwnedByTeam()->getTeamId() . '">' .
             $joueur->getOwnedByTeam()->getName() . '</a> est mort !'
         );
     }
@@ -104,9 +108,9 @@ class InfosService
     public function defisEstLance(Defis $defis)
     {
         return $this->publierUnMessage(
-            '<a href="/team/' . $defis->getEquipeOrigine()->getTeamId() . '">' .
+            '<a href="' . $this->urlPrefix . '/team/' . $defis->getEquipeOrigine()->getTeamId() . '">' .
             $defis->getEquipeOrigine()->getName() . '</a> (' .  RulesetEnum::getRaceFromEquipeByRuleset($defis->getEquipeOrigine())->getName() .
-            ') défie <a href="/team/' . $defis->getEquipeDefiee()->getTeamId() . '">' .
+            ') défie <a href="' . $this->urlPrefix . '/team/' . $defis->getEquipeDefiee()->getTeamId() . '">' .
             $defis->getEquipeDefiee()->getName() . '</a> (' . RulesetEnum::getRaceFromEquipeByRuleset($defis->getEquipeDefiee())->getName() . ')'
         );
     }
@@ -118,10 +122,10 @@ class InfosService
     public function defisRealise(Defis $defis)
     {
         return $this->publierUnMessage(
-            'Le défis ' . '<a href="/team/' . $defis->getEquipeOrigine()->getTeamId() . '">' .
-            $defis->getEquipeOrigine()->getName() . '</a> contre ' . '<a href="/team/' .
+            'Le défis ' . '<a href="' . $this->urlPrefix . '/team/' . $defis->getEquipeOrigine()->getTeamId() . '">' .
+            $defis->getEquipeOrigine()->getName() . '</a> contre ' . '<a href="' . $this->urlPrefix . '/team/' .
             $defis->getEquipeDefiee()->getTeamId() . '">' . $defis->getEquipeDefiee()->getName() .
-            '</a> a été réalisé : <a href="/match/' . $defis->getMatchDefi()->getMatchId()  . '">Voir</a>'
+            '</a> a été réalisé : <a href="' . $this->urlPrefix . '/match/' . $defis->getMatchDefi()->getMatchId()  . '">Voir</a>'
         );
     }
 
