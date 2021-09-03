@@ -36,6 +36,14 @@ class afficheAncienClassementTest extends Functionnal
         $this->entityManager->persist($settingTest);
         $this->entityManager->flush();
 
+        $settingFixture = new SettingFixtures();
+        $settingTest = $settingFixture->load($this->entityManager);
+        $settingTest->setName('year');
+        $settingTest->setValue('1');
+
+        $this->entityManager->persist($settingTest);
+        $this->entityManager->flush();
+
         $this->client->request('GET', '/ancienClassement/3');
 
         $this->assertResponseIsSuccessful();
