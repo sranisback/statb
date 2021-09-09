@@ -7,23 +7,21 @@ use App\Entity\Coaches;
 use App\Entity\GameDataPlayers;
 use App\Entity\GameDataPlayersBb2020;
 use App\Entity\GameDataStadium;
+use App\Entity\Matches;
 use App\Entity\Players;
-use App\Entity\Races;
 use App\Entity\Stades;
 use App\Entity\Teams;
-use App\Entity\Matches;
-
 use App\Enum\AnneeEnum;
 use App\Enum\NiveauStadeEnum;
 use App\Enum\RulesetEnum;
 use App\Factory\PlayerFactory;
 use App\Factory\TeamsFactory;
 use Doctrine\ORM\EntityManagerInterface;
+use Gumlet\ImageResize;
 use Nette\Utils\DateTime;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Gumlet\ImageResize;
+use Symfony\Component\HttpFoundation\Request;
 
 class EquipeService
 {
@@ -327,7 +325,7 @@ class EquipeService
 
         switch ($type) {
             case "rr":
-                $race = $equipe->getFRace();
+                $race = RulesetEnum::getRaceFromEquipeByRuleset($equipe);
 
                 if ($race !== null && $equipe->getRerolls() > 0) {
                     $inducost = $race->getCostRr();

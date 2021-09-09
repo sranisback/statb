@@ -14,6 +14,7 @@ use App\Enum\RulesetEnum;
 use App\Service\InfosService;
 use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
 class joueurEngageTest extends TestCase
 {
@@ -44,8 +45,12 @@ class joueurEngageTest extends TestCase
         $joueurMock->method('getOwnedByTeam')->willReturn($equipeMock);
         $joueurMock->method('getRuleset')->willReturn(RulesetEnum::BB_2016);
 
+        $envMock = $this->createMock(ContainerBagInterface::class);
+        $envMock->method('get')->willReturn('dev');
+
         $infosServiceTest = new InfosService(
-            $this->createMock(EntityManager::class)
+            $this->createMock(EntityManager::class),
+            $envMock
         );
 
         $attentdu = $infosServiceTest->joueurEngage($joueurMock);
@@ -84,8 +89,12 @@ class joueurEngageTest extends TestCase
         $joueurMock->method('getOwnedByTeam')->willReturn($equipeMock);
         $joueurMock->method('getRuleset')->willReturn(RulesetEnum::BB_2020);
 
+        $envMock = $this->createMock(ContainerBagInterface::class);
+        $envMock->method('get')->willReturn('dev');
+
         $infosServiceTest = new InfosService(
-            $this->createMock(EntityManager::class)
+            $this->createMock(EntityManager::class),
+            $envMock
         );
 
         $attentdu = $infosServiceTest->joueurEngage($joueurMock);

@@ -11,6 +11,7 @@ use App\Enum\RulesetEnum;
 use App\Service\InfosService;
 use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
 class defisRealiseTest extends TestCase
 {
@@ -37,8 +38,12 @@ class defisRealiseTest extends TestCase
         $defisMock->method('getEquipeDefiee')->willReturn($equipeDefieeMock);
         $defisMock->method('getMatchDefi')->willReturn($matchmock);
 
+        $envMock = $this->createMock(ContainerBagInterface::class);
+        $envMock->method('get')->willReturn('dev');
+
         $infosServiceTest = new InfosService(
-            $this->createMock(EntityManager::class)
+            $this->createMock(EntityManager::class),
+            $envMock
         );
 
         $attendu = $infosServiceTest->defisRealise($defisMock);
@@ -73,8 +78,12 @@ class defisRealiseTest extends TestCase
         $defisMock->method('getEquipeDefiee')->willReturn($equipeDefieeMock);
         $defisMock->method('getMatchDefi')->willReturn($matchmock);
 
+        $envMock = $this->createMock(ContainerBagInterface::class);
+        $envMock->method('get')->willReturn('dev');
+
         $infosServiceTest = new InfosService(
-            $this->createMock(EntityManager::class)
+            $this->createMock(EntityManager::class),
+            $envMock
         );
 
         $attentdu = $infosServiceTest->defisRealise($defisMock);

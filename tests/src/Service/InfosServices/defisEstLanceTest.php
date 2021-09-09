@@ -11,6 +11,7 @@ use App\Enum\RulesetEnum;
 use App\Service\InfosService;
 use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
 class defisEstLanceTest extends TestCase
 {
@@ -38,8 +39,12 @@ class defisEstLanceTest extends TestCase
         $defisMock->method('getEquipeOrigine')->willReturn($equipeOrigineMock);
         $defisMock->method('getEquipeDefiee')->willReturn($equipeDefieeMock);
 
+        $envMock = $this->createMock(ContainerBagInterface::class);
+        $envMock->method('get')->willReturn('dev');
+
         $infosServiceTest = new InfosService(
-            $this->createMock(EntityManager::class)
+            $this->createMock(EntityManager::class),
+            $envMock
         );
 
         $attendu = $infosServiceTest->defisEstLance($defisMock);
@@ -75,8 +80,12 @@ class defisEstLanceTest extends TestCase
         $defisMock->method('getEquipeOrigine')->willReturn($equipeOrigineMock);
         $defisMock->method('getEquipeDefiee')->willReturn($equipeDefieeMock);
 
+        $envMock = $this->createMock(ContainerBagInterface::class);
+        $envMock->method('get')->willReturn('dev');
+
         $infosServiceTest = new InfosService(
-            $this->createMock(EntityManager::class)
+            $this->createMock(EntityManager::class),
+            $envMock
         );
 
         $attendu = $infosServiceTest->defisEstLance($defisMock);

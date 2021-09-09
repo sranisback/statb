@@ -403,7 +403,7 @@ class PlayerService
     public function renvoisOuSuppressionJoueur(Players $joueur): array
     {
         $equipe = $joueur->getOwnedByTeam();
-        $position = $joueur->getFPos();
+        $position = RulesetEnum::getPositionFromPlayerByRuleset($joueur);
         $effect = "nope";
 
         if ($equipe && $position) {

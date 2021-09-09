@@ -14,6 +14,7 @@ use App\Enum\RulesetEnum;
 use App\Service\InfosService;
 use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
 class primeGagneeTest extends TestCase
 {
@@ -46,8 +47,12 @@ class primeGagneeTest extends TestCase
         $primeMock->method('getMontant')->willReturn(50000);
         $primeMock->method('getEquipePrime')->willReturn($equipeGagnanteMock);
 
+        $envMock = $this->createMock(ContainerBagInterface::class);
+        $envMock->method('get')->willReturn('dev');
+
         $infosServiceTest = new InfosService(
-            $this->createMock(EntityManager::class)
+            $this->createMock(EntityManager::class),
+            $envMock
         );
 
         $attentdu = $infosServiceTest->primeGagnee($primeMock);
@@ -88,8 +93,12 @@ class primeGagneeTest extends TestCase
         $primeMock->method('getMontant')->willReturn(50000);
         $primeMock->method('getEquipePrime')->willReturn($equipeGagnanteMock);
 
+        $envMock = $this->createMock(ContainerBagInterface::class);
+        $envMock->method('get')->willReturn('dev');
+
         $infosServiceTest = new InfosService(
-            $this->createMock(EntityManager::class)
+            $this->createMock(EntityManager::class),
+            $envMock
         );
 
         $attentdu = $infosServiceTest->primeGagnee($primeMock);
