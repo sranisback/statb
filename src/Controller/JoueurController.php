@@ -192,13 +192,13 @@ class JoueurController extends AbstractController
 
         $resultat = $playerService->renvoisOuSuppressionJoueur($joueur);
 
-        $response = array(
+        $response = [
             "tv" => $resultat['tv'],
             "ptv" => ($resultat['tv'] / 1_000),
             "tresor" => $resultat['tresor'],
             "playercost" => $resultat['playercost'],
-            "reponse" => $resultat['reponse'],
-        );
+            "reponse" => $resultat['reponse']
+        ];
 
         return TransformeEnJSON::transforme($response);
     }

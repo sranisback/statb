@@ -193,7 +193,7 @@ class ClassementController extends AbstractController
             'statbb/tabs/ligue/classementELO.html.twig',
             [
                 'equipeCollection' => $this->getDoctrine()->getRepository(Teams::class)->findBy(
-                    ['year' => $this->settingsService->anneeCourante()]
+                    ['year' => $this->settingsService->anneeCourante(), 'retired' => false]
                 ),
             ]
         );

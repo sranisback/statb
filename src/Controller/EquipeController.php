@@ -40,7 +40,7 @@ class EquipeController extends AbstractController
             'statbb/tabs/ligue/showteams.html.twig',
             [
                 'teams' => $this->getDoctrine()->getRepository(Teams::class)->findBy(
-                    ['year' => $settingsService->anneeCourante()]
+                    ['year' => $settingsService->anneeCourante(), 'retired' => false]
                 ),
             ]
         );
