@@ -222,35 +222,36 @@ class PlayerService
             ['fPlayer' => $joueur->getPlayerId()]
         );
 
-        $tcp = 0;
-        $ttd = 0;
-        $tint = 0;
-        $tcas = 0;
-        $tmvp = 0;
-        $tagg = 0;
-        $tMatch = 0;
-        $tBonus = 0;
+        $totalPasse = 0;
+        $totalTd = 0;
+        $totalInt = 0;
+        $totalCas = 0;
+        $totalMvp = 0;
+        $totalAgg = 0;
+        $totalMatch = 0;
+        $totalBonus = 0;
 
+        /** @var MatchData $game */
         foreach ($mdata as $game) {
-            $tcp += $game->getCp();
-            $ttd += $game->getTd();
-            $tint += $game->getIntcpt();
-            $tcas += ($game->getBh() + $game->getSi() + $game->getKi());
-            $tmvp += $game->getMvp();
-            $tagg += $game->getAgg();
-            $tBonus += $game->getBonusSpp();
-            $tMatch++;
+            $totalPasse += $game->getCp() + $game->getLan() + $game->getDet();
+            $totalTd += $game->getTd();
+            $totalInt += $game->getIntcpt();
+            $totalCas += ($game->getBh() + $game->getSi() + $game->getKi());
+            $totalMvp += $game->getMvp();
+            $totalAgg += $game->getAgg();
+            $totalBonus += $game->getBonusSpp();
+            $totalMatch++;
         }
 
         return [
-            'NbrMatch' => $tMatch,
-            'cp' => $tcp,
-            'td' => $ttd,
-            'int' => $tint,
-            'cas' => $tcas,
-            'mvp' => $tmvp,
-            'agg' => $tagg,
-            'bonus' => $tBonus
+            'NbrMatch' => $totalMatch,
+            'cp' => $totalPasse,
+            'td' => $totalTd,
+            'int' => $totalInt,
+            'cas' => $totalCas,
+            'mvp' => $totalMvp,
+            'agg' => $totalAgg,
+            'bonus' => $totalBonus
         ];
     }
 
@@ -710,8 +711,13 @@ class PlayerService
     {
         $actions = $this->actionsDuJoueur($joueur);
 
-        return $actions['cp'] + ($actions['td'] * 3)
-            + ($actions['int'] * 2) + ($actions['cas'] * 2) + ($actions['mvp'] * 5) + ($actions['bonus']);
+        $xpParAction = XpEnum::tableauRecompenseXp();
+
+        return $actions['cp'] + ($actions['td'] * $xpParAction['TD'])
+            + ($actions['int'] * $xpParAction['INT'])
+            + ($actions['cas'] * $xpParAction['CAS'])
+            + ($actions['mvp'] * ($joueur->getRuleset() == RulesetEnum::BB_2016 ? $xpParAction['MVP2016'] : $xpParAction['MVP2020']))
+            + ($actions['bonus']);
     }
 
     /**

@@ -27,7 +27,6 @@ class lectureLignedUnMatchTest extends TestCase
         $this->assertEquals('CP: 1, CAS: 1, MVP: 1, ',$matchDateService->lectureLignedUnMatch($ligneMatch));
     }
 
-
     /**
      * @test
      */
@@ -40,5 +39,21 @@ class lectureLignedUnMatchTest extends TestCase
         $matchDateService = new MatchDataService($this->createMock(EntityManagerInterface::class));
 
         $this->assertEquals('BONUS: 1, ',$matchDateService->lectureLignedUnMatch($ligneMatch));
+    }
+
+    /**
+     * @test
+     */
+    public function le_lancer_et_deviation_est_pris_en_compte()
+    {
+        $ligneMatch = new MatchData();
+
+        $ligneMatch->setDet(1);
+
+        $ligneMatch->setLan(1);
+
+        $matchDateService = new MatchDataService($this->createMock(EntityManagerInterface::class));
+
+        $this->assertEquals('DET: 1, LAN: 1, ',$matchDateService->lectureLignedUnMatch($ligneMatch));
     }
 }

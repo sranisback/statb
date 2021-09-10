@@ -110,6 +110,21 @@ class MatchData
      */
     private $bonusSpp = 0;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $det = 0;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $lan = 0;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $cartonsRouge = 0;
+
     public function getId(): int
     {
         return $this->id;
@@ -255,6 +270,42 @@ class MatchData
     public function setBonusSpp(?int $bonusSpp): self
     {
         $this->bonusSpp = $bonusSpp;
+
+        return $this;
+    }
+
+    public function getDet(): ?int
+    {
+        return $this->det;
+    }
+
+    public function setDet(?int $det): self
+    {
+        $this->det = $det;
+
+        return $this;
+    }
+
+    public function getLan(): ?int
+    {
+        return $this->lan;
+    }
+
+    public function setLan(?int $lan): self
+    {
+        $this->lan = $lan;
+
+        return $this;
+    }
+
+    public function getCartonsRouge(): ?int
+    {
+        return $this->cartonsRouge;
+    }
+
+    public function setCartonsRouge(?int $cartonsRouge): self
+    {
+        $this->cartonsRouge = $cartonsRouge;
 
         return $this;
     }

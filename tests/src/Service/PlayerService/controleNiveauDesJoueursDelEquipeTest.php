@@ -97,6 +97,7 @@ class controleNiveauDesJoueursDelEquipeTest extends TestCase
         $matchData = new MatchData();
         $matchData->setMvp(1);
         $matchData->setBh(1);
+        $matchData->setDet(1);
 
         $matchDataRepoMock = $this->createMock(ObjectRepository::class);
         $matchDataRepoMock->method('findBy')->willReturn([$matchData]);

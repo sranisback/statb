@@ -48,6 +48,7 @@ class ajoutCompetenceBb2020Test extends TestCase
         $matchDataMock->method('getMvp')->willReturn(1);
         $matchDataMock->method('getBh')->willReturn(1);
         $matchDataMock->method('getTd')->willReturn(1);
+        $matchDataMock->method('getDet')->willReturn(1);
 
         $matchDataRepoMock = $this->createMock(ObjectRepository::class);
         $matchDataRepoMock->method('findBy')->willReturn([$matchDataMock]);
@@ -168,6 +169,7 @@ class ajoutCompetenceBb2020Test extends TestCase
         $matchDataMock->method('getMvp')->willReturn(2);
         $matchDataMock->method('getBh')->willReturn(1);
         $matchDataMock->method('getTd')->willReturn(1);
+        $matchDataMock->method('getDet')->willReturn(2);
 
         $matchDataRepoMock = $this->createMock(ObjectRepository::class);
         $matchDataRepoMock->method('findBy')->willReturn([$matchDataMock]);
@@ -472,7 +474,7 @@ class ajoutCompetenceBb2020Test extends TestCase
 
         $matchDataMock = $this->createMock(MatchData::class);
         $matchDataMock->method('getMvp')->willReturn(4);
-        $matchDataMock->method('getBh')->willReturn(1);
+        $matchDataMock->method('getBh')->willReturn(3);
         $matchDataMock->method('getTd')->willReturn(1);
 
         $matchDataRepoMock = $this->createMock(ObjectRepository::class);
