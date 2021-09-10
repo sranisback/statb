@@ -17,6 +17,20 @@ class XpEnum
         ];
     }
 
+    public static function tableauRecompenseXp()
+    {
+        return [
+            'LAN' => 1,
+            'REU' => 1,
+            'DET' => 1,
+            'INT' => 2,
+            'CAS' => 2,
+            'TD' => 3,
+            'MVP2020' => 4,
+            'MVP2016' => 5
+        ];
+    }
+
     public static function tableauXpBb2020()
     {
         return [

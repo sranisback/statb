@@ -184,6 +184,7 @@ class MatchesService
     public function enregistrementDesActionsDesJoueurs(array $actionsCollection, Matches $match): void
     {
         foreach ($actionsCollection as $action) {
+            /** @var MatchData $ligneMatchData */
             $ligneMatchData = $this->doctrineEntityManager->getRepository(MatchData::class)->findOneBy(
                 ['fPlayer' => $action['id'], 'fMatch' => $match->getMatchId()]
             );
@@ -202,6 +203,12 @@ class MatchesService
             $histoBlessure->setFmatch($match);
 
             switch ($action['action']) {
+                case 'LAN':
+                    $ligneMatchData->setLan($ligneMatchData->getLan() + 1);
+                    break;
+                case 'DET':
+                    $ligneMatchData->setDet($ligneMatchData->getDet() +1);
+                    break;
                 case 'COMP':
                     $ligneMatchData->setCp($ligneMatchData->getCp() + 1);
                     break;

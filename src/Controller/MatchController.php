@@ -84,7 +84,7 @@ class MatchController extends AbstractController
      * @param SettingsService $settingsService
      * @return Response
      */
-    public function ajoutMatch(SettingsService $settingsService): \Symfony\Component\HttpFoundation\Response
+    public function ajoutMatch(SettingsService $settingsService): Response
     {
         return $this->render(
             'statbb/ajoutMatch.html.twig',

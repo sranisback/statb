@@ -37,6 +37,14 @@ class MatchDataService
     {
         $ligneDuMatch = '';
 
+        if ($matchData->getDet() > 0) {
+            $ligneDuMatch .= 'DET: ' . $matchData->getDet() . ', ';
+        }
+
+        if ($matchData->getLan() > 0) {
+            $ligneDuMatch .= 'LAN: ' . $matchData->getLan() . ', ';
+        }
+
         if ($matchData->getCp() > 0) {
             $ligneDuMatch .= 'CP: ' . $matchData->getCp() . ', ';
         }

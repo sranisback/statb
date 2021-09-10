@@ -12,7 +12,7 @@ class MatchDataFactory
      * @param Matches $match
      * @return MatchData
      */
-    public static function ligneVide(Players $joueur, Matches $match): \App\Entity\MatchData
+    public static function ligneVide(Players $joueur, Matches $match): MatchData
     {
         $matchdata = new MatchData();
 
@@ -26,6 +26,8 @@ class MatchDataFactory
         $matchdata->setSi(0);
         $matchdata->setTd(0);
         $matchdata->setBonusSpp(0);
+        $matchdata->setDet(0);
+        $matchdata->setLan(0);
         $matchdata->setFMatch($match);
         $matchdata->setFPlayer($joueur);
 
