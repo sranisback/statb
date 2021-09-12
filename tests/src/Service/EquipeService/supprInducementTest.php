@@ -115,7 +115,7 @@ class supprInducementTest extends KernelTestCase
 
         $matchTest = new Matches();
 
-        $matchRepoMock = $this->getMockBuilder(Matches::class)->setMethods(['listeDesMatchs'])->getMock();
+        $matchRepoMock = $this->getMockBuilder(Matches::class)->addMethods(['listeDesMatchs'])->getMock();
         $matchRepoMock->method('listeDesMatchs')->willReturn([$matchTest]);
 
         $objectManager = $this->createMock(EntityManagerInterface::class);
@@ -158,7 +158,7 @@ class supprInducementTest extends KernelTestCase
 
         $matchTest = new Matches();
 
-        $matchRepoMock = $this->getMockBuilder(Matches::class)->setMethods(['listeDesMatchs'])->getMock();
+        $matchRepoMock = $this->getMockBuilder(Matches::class)->addMethods(['listeDesMatchs'])->getMock();
         $matchRepoMock->method('listeDesMatchs')->willReturn([$matchTest]);
 
         $objectManager = $this->createMock(EntityManagerInterface::class);
@@ -183,5 +183,45 @@ class supprInducementTest extends KernelTestCase
 
         $this->assertEquals(0, $equipeTest->getTreasury());
         $this->assertEquals(1, $equipeTest->getRerolls());
+    }
+
+    /**
+     * @test
+     */
+    public function si_ffbought_est_a_zero_alors_on_prend_ff(): void
+    {
+        $raceTest = new RacesBb2020();
+        $raceTest->setCostRr(50_000);
+
+        $equipeTest = new Teams();
+        $equipeTest->setRace($raceTest);
+        $equipeTest->setff(1);
+        $equipeTest->setRuleset(RulesetEnum::BB_2020);
+
+        $matchRepoMock = $this->getMockBuilder(Matches::class)->addMethods(['listeDesMatchs'])->getMock();
+        $matchRepoMock->method('listeDesMatchs')->willReturn([]);
+
+        $objectManager = $this->createMock(EntityManagerInterface::class);
+        $objectManager->method('getRepository')->willReturn($matchRepoMock);
+
+        $equipeServiceTest = new EquipeService(
+            $objectManager,
+            $this->createMock(SettingsService::class),
+            $this->createMock(InfosService::class)
+        );
+
+        $resultatAttendu = [
+            'inducost' => 10000,
+            'nbr' => 0
+        ];
+
+        $this->assertEquals($resultatAttendu, $equipeServiceTest->supprInducement(
+            $equipeTest,
+            'pop',
+            $this->createMock(PlayerService::class)
+        ));
+
+        $this->assertEquals(0, $equipeTest->getFf());
+        $this->assertEquals(0, $equipeTest->getFfBought());
     }
 }

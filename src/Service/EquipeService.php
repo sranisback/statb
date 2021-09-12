@@ -103,6 +103,9 @@ class EquipeService
         }
 
         $inducement['pop'] = ($equipe->getFf() + $equipe->getFfBought()) * 10_000;
+        if($equipe->getRuleset() == RulesetEnum::BB_2020) {
+            $inducement['pop'] = 0;
+        }
         $inducement['asscoaches'] = $equipe->getAssCoaches() * 10_000;
         $inducement['cheerleader'] = $equipe->getCheerleaders() * 10_000;
         $inducement['apo'] = $equipe->getApothecary() * 50_000;
@@ -339,6 +342,11 @@ class EquipeService
                     $inducost = $this->coutpop;
                     $nbr -= 1;
                     $equipe->setFfBought($equipe->getFfBought() - 1);
+                }
+                if(count($matches) === 0 && $equipe->getFfBought() == 0 && $equipe->getFf() > 0) {
+                    $inducost = $this->coutpop;
+                    $nbr -= 1;
+                    $equipe->setFf($equipe->getFf() - 1);
                 }
                 break;
             case "ac":
