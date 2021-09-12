@@ -65,16 +65,8 @@ class ExportController extends AbstractController
             $count++;
         }
 
-        $race = $equipe->getFRace();
-
-        $costRr = $race !== null ? $race->getCostRr() : 0;
-
+        $tdata = $equipeService->valeurInducementDelEquipe($equipe);
         $tdata['playersCost'] = $playerService->coutTotalJoueurs($equipe);
-        $tdata['rerolls'] = $equipe->getRerolls() * $costRr;
-        $tdata['pop'] = ($equipe->getFf() + $equipe->getFfBought()) * 10_000;
-        $tdata['asscoaches'] = $equipe->getAssCoaches() * 10_000;
-        $tdata['cheerleader'] = $equipe->getCheerleaders() * 10_000;
-        $tdata['apo'] = $equipe->getApothecary() * 50_000;
         $tdata['tv'] = $equipeService->tvDelEquipe($equipe, $playerService);
 
         $html = $this->renderView(

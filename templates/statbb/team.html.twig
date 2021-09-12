@@ -340,9 +340,13 @@
                                           teamId="{{ feuille.team.teamId }}"></span>
                                 {% endif %}
                             {% endif %}
-                            x 10000
+                                x 10000
                         </td>
-                        <td class="text-right" id="tpop">{{ feuille.tdata.pop }}</td>
+                        <td class="text-right" id="tpop">
+                            {% if feuille.team.ruleset == 0 %}
+                                {{ feuille.tdata.pop }}
+                            {% endif %}
+                        </td>
                     </tr>
                     <tr>
                         <td colspan=4>TV : <span id="pTv">{{ feuille.tdata.tv/1000 }}</span></td>

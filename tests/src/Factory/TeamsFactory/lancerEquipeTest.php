@@ -52,4 +52,42 @@ class lancerEquipeTest extends KernelTestCase
             )
         );
     }
+
+    /**
+     * @test
+     */
+    public function la_pop_de_depart_est_correcte_bb2016()
+    {
+        $equipe = TeamsFactory::lancerEquipe(
+            1_000_000,
+            'test team',
+            150,
+            $this->createMock(Stades::class),
+            4,
+            $this->createMock(Races::class),
+            $this->createMock(Coaches::class),
+            RulesetEnum::BB_2016
+        );
+
+        $this->assertEquals(0, $equipe->getFf());
+    }
+
+    /**
+     * @test
+     */
+    public function la_pop_de_depart_est_correcte_bb2020()
+    {
+        $equipe = TeamsFactory::lancerEquipe(
+            1_000_000,
+            'test team',
+            150,
+            $this->createMock(Stades::class),
+            4,
+            $this->createMock(RacesBb2020::class),
+            $this->createMock(Coaches::class),
+            RulesetEnum::BB_2020
+        );
+
+        $this->assertEquals(1, $equipe->getFf());
+    }
 }

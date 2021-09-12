@@ -198,7 +198,11 @@
             <td>{{ team.ff + team.ffBought }}</td>
             <td>X</td>
             <td>10000</td>
-            <td style="text-align:right;">{{ tdata.pop }} </td>
+            <td style="text-align:right;">
+                {% if team.ruleset == 0 %}
+                    {{ tdata.pop }}
+                {% endif %}
+            </td>
         </tr>
         <tr>
             <td colspan={{ colspan-3 }}  style="text-align:right;">Relances :</td>

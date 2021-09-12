@@ -205,6 +205,16 @@ class RulesetEnum
         }
     }
 
+    public static function setFanFactorFromTeamByRuleset(Teams $team)
+    {
+        switch ($team->getRuleset()){
+            case RulesetEnum::BB_2016:
+                return $team->setFf(0);
+            case RulesetEnum::BB_2020:
+                return $team->setFf(1);
+        }
+    }
+
     public static function getChampRaceFromIntByRuleset(int $ruleset)
     {
         switch ($ruleset){

@@ -40,6 +40,7 @@ class TeamsFactory
         $equipe->setRuleset($ruleset);
 
         RulesetEnum::setTeamRaceFromTeamByRuleset($equipe,$race);
+        RulesetEnum::setFanFactorFromTeamByRuleset($equipe);
 
         $equipe->setOwnedByCoach($coach);
 
