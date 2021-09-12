@@ -20,12 +20,15 @@ class MatchDataType extends AbstractType
             ->add('cp')
             ->add('td')
             ->add('intcpt')
+            ->add('det')
+            ->add('lan')
             ->add('bh')
             ->add('si')
             ->add('ki')
             ->add('bonus_spp')
             ->add('inj')
             ->add('agg')
+            ->add('cartonsRouge')
             ->add(
                 'fPlayer',
                 EntityType::class,

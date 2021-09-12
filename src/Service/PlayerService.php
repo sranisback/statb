@@ -230,6 +230,7 @@ class PlayerService
         $totalAgg = 0;
         $totalMatch = 0;
         $totalBonus = 0;
+        $totalCarton = 0;
 
         /** @var MatchData $game */
         foreach ($mdata as $game) {
@@ -240,6 +241,7 @@ class PlayerService
             $totalMvp += $game->getMvp();
             $totalAgg += $game->getAgg();
             $totalBonus += $game->getBonusSpp();
+            $totalCarton += $game->getCartonsRouge();
             $totalMatch++;
         }
 
@@ -251,6 +253,7 @@ class PlayerService
             'cas' => $totalCas,
             'mvp' => $totalMvp,
             'agg' => $totalAgg,
+            'exp' => $totalCarton,
             'bonus' => $totalBonus
         ];
     }
@@ -865,6 +868,7 @@ class PlayerService
                 $pdata[$count]['cas'] = $ficheJoueur['actions']['cas'];
                 $pdata[$count]['mvp'] = $ficheJoueur['actions']['mvp'];
                 $pdata[$count]['agg'] = $ficheJoueur['actions']['agg'];
+                $pdata[$count]['exp'] = $ficheJoueur['actions']['exp'];
                 $pdata[$count]['bonus'] = $ficheJoueur['actions']['bonus'];
                 $pdata[$count]['skill'] = $ficheJoueur['comp'];
                 $pdata[$count]['spp'] = $this->xpDuJoueur($joueur);

@@ -236,6 +236,9 @@ class MatchesService
                 case 'AGG':
                     $ligneMatchData->setAgg($ligneMatchData->getAgg() + 1);
                     break;
+                case 'EXP':
+                    $ligneMatchData->setCartonsRouge($ligneMatchData->getCartonsRouge() + 1);
+                    break;
                 case '-1 Ma':
                     $joueur->setInjMa($joueur->getInjMa() + 1);
                     $joueur->setInjRpm(1);

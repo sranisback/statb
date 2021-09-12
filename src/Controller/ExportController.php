@@ -51,6 +51,7 @@ class ExportController extends AbstractController
             $pdata[$count]['cas'] = $actionJoueur['cas'];
             $pdata[$count]['mvp'] = $actionJoueur['mvp'];
             $pdata[$count]['agg'] = $actionJoueur['agg'];
+            $pdata[$count]['exp'] = $actionJoueur['exp'];
             $pdata[$count]['bonusXP'] = $actionJoueur['bonus'];
             $pdata[$count]['skill'] = substr($listeCompetence, 0, strlen($listeCompetence) - 2);
             $pdata[$count]['spp'] = $playerService->xpDuJoueur($joueur);

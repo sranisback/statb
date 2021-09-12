@@ -78,7 +78,7 @@
                         <th>Int</th>
                         <th>Cas</th>
                         <th>Mvp</th>
-                        <th>Bonus XP</th>
+                        <th style="white-space: nowrap;">Bonus XP</th>
                         <th>Agg</th>
                         <th>Spp</th>
                         <th class="text-right">Coût</th>
@@ -235,7 +235,12 @@
                                 <td>{{ data.cas }}</td>
                                 <td>{{ data.mvp }}</td>
                                 <td>{{ data.bonus }}</td>
-                                <td>{{ data.agg }}</td>
+                                <td style="white-space: nowrap;">
+                                    {{ data.agg }}
+                                    {% if (data.exp > 0) %}
+                                        ({{ data.exp }})
+                                        {% endif %}
+                                </td>
                                 {% if feuille.team.ruleset == 0 %}
                                     <td>{{ data.spp }}</td>
                                 {% else %}

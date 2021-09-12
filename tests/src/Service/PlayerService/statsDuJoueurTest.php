@@ -82,7 +82,8 @@ class statsDuJoueurTest extends TestCase
             'cas' => 0,
             'mvp' => 1,
             'agg' => 0,
-            'bonus' => 0
+            'bonus' => 0,
+            'exp' => 0
         ];
 
         $this->assertEquals($retour, $playerService->statsDuJoueur($joueurMock));
