@@ -90,10 +90,8 @@ class DefisIhmController extends AbstractController
     {
         $periode = $settingsService->periodeDefisCourrante();
 
-        if (!empty($periode)) {
-            if ($periode['debut'] != false && $periode['fin'] != false) {
-                return new Response($periode['debut']->format('d/m/Y') . ' - ' . $periode['fin']->format('d/m/Y'));
-            }
+        if (!empty($periode) && ($periode['debut'] && $periode['fin'])) {
+            return new Response($periode['debut']->format('d/m/Y') . ' - ' . $periode['fin']->format('d/m/Y'));
         }
 
         return new Response('Periode defis pas configurée/abscente !');

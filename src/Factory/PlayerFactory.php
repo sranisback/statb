@@ -84,39 +84,4 @@ class PlayerFactory
         }
         return $joueur;
     }
-
-    /**
-     * @param $position
-     * @param Players $joueur
-     */
-    private static function attributPositionEtRaceBb2016($position, Players $joueur): Players
-    {
-        $race = $position->getFRace();
-
-        if (!empty($race)) {
-            $joueur->setFRid($race);
-        }
-
-        $joueur->setFPos($position);
-
-        return $joueur;
-    }
-
-    /**
-     * @param $position
-     * @param Players $joueur
-     * @return Players
-     */
-    private static function attributPositionEtRaceBb2020($position, Players $joueur): Players
-    {
-        $race = $position->getRace();
-
-        if (!empty($race)) {
-            $joueur->setFRidBb2020($race);
-        }
-
-        $joueur->setFPosBb2020($position);
-
-        return $joueur;
-    }
 }

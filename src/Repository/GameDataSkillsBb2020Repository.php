@@ -18,33 +18,4 @@ class GameDataSkillsBb2020Repository extends ServiceEntityRepository
     {
         parent::__construct($registry, GameDataSkillsBb2020::class);
     }
-
-    // /**
-    //  * @return GameDataSkillsBb2020[] Returns an array of GameDataSkillsBb2020 objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('g.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?GameDataSkillsBb2020
-    {
-        return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

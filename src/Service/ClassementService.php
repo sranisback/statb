@@ -133,8 +133,8 @@ class ClassementService
         $matchData = $this->doctrineEntityManager->getRepository(MatchData::class)->sousClassementJoueur(
             $annee,
             $type,
-            $limit,
-            $ruleset
+            $ruleset,
+            $limit
         );
 
         switch ($type) {
@@ -176,6 +176,11 @@ class ClassementService
                 $titre = 'Le Tortionnaire - Record Blessures Graves';
                 $classement = 'class_handi';
                 break;
+
+            default:
+                $titre = 'erreur';
+                $classement = 'erreur';
+                break;
         }
 
         return [
@@ -214,8 +219,8 @@ class ClassementService
             $matchData = $this->doctrineEntityManager->getRepository(MatchData::class)->sousClassementEquipe(
                 $annee,
                 $type,
-                $limit,
-                $ruleset
+                $ruleset,
+                $limit
             );
         }
 
@@ -243,6 +248,12 @@ class ClassementService
             case 'killer':
                 $titre = 'Les tueurs';
                 $classement = 'class_Tkill';
+                break;
+
+            default:
+                $titre = 'erreur';
+                $classement = 'erreur';
+                break;
         }
 
         return [
@@ -298,9 +309,11 @@ class ClassementService
      * @param EquipeService $equipeService
      * @return array<int,mixed>
      */
-    public function confrontationPourDeuxCoaches(Coaches $coach, Coaches $autreCoach, EquipeService $equipeService)
-    : array
-    {
+    public function confrontationPourDeuxCoaches(
+        Coaches $coach,
+        Coaches $autreCoach,
+        EquipeService $equipeService
+    ): array {
         $totalResultat = [
             'win' => 0,
             'draw' => 0,
@@ -329,9 +342,9 @@ class ClassementService
         }
         if (($totalResultat['loss'] + $totalResultat['win']) > 0) {
             $tableConfrontation[] = round(
-                ($totalResultat['win'] / ($totalResultat['loss'] + $totalResultat['win'])) * 100,
-                2
-            ).'%';
+                    ($totalResultat['win'] / ($totalResultat['loss'] + $totalResultat['win'])) * 100,
+                    2
+                ) . '%';
 
             $tableConfrontation[] = $totalResultat['win'];
             $tableConfrontation[] = $totalResultat['draw'];
@@ -390,6 +403,9 @@ class ClassementService
                 case 'loss':
                     $points += $nombreResultat * $point[2];
                     break;
+                default:
+                    $points += 0;
+                    break;
             }
         }
 
@@ -417,7 +433,7 @@ class ClassementService
      * @param array<mixed> $point
      * @return array<mixed>
      */
-    public function toutesLesEquipesPourLeClassementGeneral(int $annee, array $point) : array
+    public function toutesLesEquipesPourLeClassementGeneral(int $annee, array $point): array
     {
         $table = [];
 
@@ -436,51 +452,72 @@ class ClassementService
 
         /** @var Matches $match */
         foreach ($this->doctrineEntityManager->getRepository(Matches::class)->listeDesMatchs($equipe) as $match) {
-            //bonus nombre de sorties > 4 sorties
-            if ($this->matchDataService->nombreDeSortiesDunMatch($equipe, $match)>=4) {
-                $totalPointBonus++;
-            }
-
-            //bonus Gros Marqueur > 2 TD mis avec victoire
-            $tableResult = $this->equipeService->resultatDuMatch($equipe, $match);
-            if ($tableResult['win'] == 1) {
-                if (($equipe === $match->getTeam1() && $match->getTeam1Score()>2)
-                    || ($equipe === $match->getTeam2() && $match->getTeam2Score()>2)) {
-                    $totalPointBonus++;
-                }
-
-                //bonus intrépide diff de tv >= 250 avec victoire
-                if (($equipe === $match->getTeam1() && (($match->getTv2()/1_000) - ($match->getTv1()/1_000) >= 250))
-                        ||
-                    ($equipe === $match->getTeam2() && (($match->getTv1()/1_000) - ($match->getTv2()/1_000) >= 250))
-                ) {
-                    $totalPointBonus++;
-                }
-            }
-
-            //bonus Defense 1 seul TD pris avec défaite
-            if ($tableResult['loss'] == 1 &&
-                (($equipe == $match->getTeam1() && $match->getTeam2Score()==1)
-                    || ($equipe == $match->getTeam2() && $match->getTeam1Score()===1))) {
-                $totalPointBonus++;
-            }
-
-            //bonus petite defaite
-            if ($tableResult['loss'] == 1 &&
-                (($equipe == $match->getTeam1() && $match->getTeam2Score()-$match->getTeam1Score() ==1 )
-                    || ($equipe == $match->getTeam2() && $match->getTeam1Score()-$match->getTeam2Score()==1))) {
-                $totalPointBonus++;
-            }
+            $totalPointBonus = $this->bonusNombreDeSortie($equipe, $match, $totalPointBonus);
+            $totalPointBonus = $this->bonusGrosMarqueur($equipe, $match, $totalPointBonus);
+            $totalPointBonus = $this->bonusIntrepide($equipe, $match, $totalPointBonus);
+            $totalPointBonus = $this->bonusDefense($equipe, $match, $totalPointBonus);
+            $totalPointBonus = $this->bonusPetiteDefaite($equipe, $match, $totalPointBonus);
         }
 
+        return $totalPointBonus;
+    }
 
+    private function bonusNombreDeSortie($equipe, $match, $totalPointBonus)
+    {
+        if ($this->matchDataService->nombreDeSortiesDunMatch($equipe, $match) >= 4) {
+            return $totalPointBonus + 1;
+        }
+
+        return $totalPointBonus;
+    }
+
+    private function bonusGrosMarqueur($equipe, $match, $totalPointBonus)
+    {
+        $tableResult = $this->equipeService->resultatDuMatch($equipe, $match);
+        if ($tableResult['win'] == 1 && (($equipe === $match->getTeam1() && $match->getTeam1Score() > 2)
+                || ($equipe === $match->getTeam2() && $match->getTeam2Score() > 2))) {
+            return $totalPointBonus + 1;
+        }
+        return $totalPointBonus;
+    }
+
+    private function bonusIntrepide($equipe, $match, $totalPointBonus)
+    {
+        $tableResult = $this->equipeService->resultatDuMatch($equipe, $match);
+        if ($tableResult['win'] == 1 && (($equipe === $match->getTeam1() && (($match->getTv2() / 1_000) - ($match->getTv1() / 1_000) >= 250)) ||
+                ($equipe === $match->getTeam2() && (($match->getTv1() / 1_000) - ($match->getTv2() / 1_000) >= 250)))
+        ) {
+            return $totalPointBonus + 1;
+        }
+        return $totalPointBonus;
+    }
+
+    private function bonusDefense($equipe, $match, $totalPointBonus)
+    {
+        $tableResult = $this->equipeService->resultatDuMatch($equipe, $match);
+        if ($tableResult['loss'] == 1 &&
+            (($equipe == $match->getTeam1() && $match->getTeam2Score() == 1)
+                || ($equipe == $match->getTeam2() && $match->getTeam1Score() === 1))) {
+            return $totalPointBonus + 1;
+        }
+        return $totalPointBonus;
+    }
+
+    private function bonusPetiteDefaite($equipe, $match, $totalPointBonus)
+    {
+        $tableResult = $this->equipeService->resultatDuMatch($equipe, $match);
+        if ($tableResult['loss'] == 1 &&
+            (($equipe == $match->getTeam1() && $match->getTeam2Score() - $match->getTeam1Score() == 1)
+                || ($equipe == $match->getTeam2() && $match->getTeam1Score() - $match->getTeam2Score() == 1))) {
+            return $totalPointBonus + 1;
+        }
         return $totalPointBonus;
     }
 
     /**
      * @param array<mixed> $tableauClassementGeneral
      */
-    public function sauvegardeClassementGeneral(array $tableauClassementGeneral) : void
+    public function sauvegardeClassementGeneral(array $tableauClassementGeneral): void
     {
         foreach ($tableauClassementGeneral as $ligne) {
             $ligneClassement = $this->doctrineEntityManager

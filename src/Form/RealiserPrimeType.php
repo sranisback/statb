@@ -77,7 +77,6 @@ class RealiserPrimeType extends AbstractType
             ->add('submit', SubmitType::class, ['label' => 'Realiser'])
             ->add('cancel', ButtonType::class, ['label' => 'Annuler', 'attr' => ['data-dismiss' => 'modal']])
             ->getForm();
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -52,6 +52,8 @@ class RulesetEnum
                  return GameDataPlayers::class;
             case RulesetEnum::BB_2020:
                 return GameDataPlayersBb2020::class;
+            default:
+                return null;
         }
     }
 
@@ -62,6 +64,8 @@ class RulesetEnum
                 return 'posId';
             case RulesetEnum::BB_2020:
                 return'id';
+            default:
+                return null;
         }
     }
 
@@ -72,6 +76,8 @@ class RulesetEnum
                 return 'fPos';
             case RulesetEnum::BB_2020:
                 return 'fPosBb2020';
+            default:
+                return null;
         }
     }
 
@@ -86,6 +92,8 @@ class RulesetEnum
                 return GameDataPlayers::class;
             case RulesetEnum::BB_2020:
                 return GameDataPlayersBb2020::class;
+            default:
+                return 'erreur';
         }
     }
 
@@ -96,6 +104,8 @@ class RulesetEnum
                 return $player->getFPos();
             case RulesetEnum::BB_2020:
                 return $player->getFPosBb2020();
+            default:
+                return null;
         }
     }
 
@@ -106,6 +116,8 @@ class RulesetEnum
                 return GameDataSkills::class;
             case RulesetEnum::BB_2020:
                 return GameDataSkillsBb2020::class;
+            default:
+                return 'erreur';
         }
     }
 
@@ -116,6 +128,8 @@ class RulesetEnum
                 return GameDataSkills::class;
             case RulesetEnum::BB_2020:
                 return GameDataSkillsBb2020::class;
+            default:
+                return 'erreur';
         }
     }
 
@@ -126,6 +140,8 @@ class RulesetEnum
                 return GameDataPlayers::class;
             case RulesetEnum::BB_2020:
                 return GameDataPlayersBb2020::class;
+            default:
+                return 'erreur';
         }
     }
 
@@ -136,6 +152,8 @@ class RulesetEnum
                 return 'skillId';
             case RulesetEnum::BB_2020:
                 return 'id';
+            default:
+                return 'erreur';
         }
     }
 
@@ -146,6 +164,8 @@ class RulesetEnum
                 return $equipe->getFRace();
             case RulesetEnum::BB_2020:
                 return $equipe->getRace();
+            default:
+                return null;
         }
     }
 
@@ -156,6 +176,8 @@ class RulesetEnum
                 return $joueur->getFRid();
             case RulesetEnum::BB_2020:
                 return $joueur->getFRidBb2020();
+            default:
+                return null;
         }
     }
 
@@ -170,6 +192,8 @@ class RulesetEnum
                 $joueur->setFPosBb2020($position);
                 $joueur->setFRidBb2020($position->getRace());
                 break;
+            default:
+                break;
         }
 
         return $joueur;
@@ -182,6 +206,8 @@ class RulesetEnum
                  return $skill->getSkillId();
             case RulesetEnum::BB_2020:
                 return $skill->getId();
+            default:
+                return null;
         }
     }
 
@@ -192,6 +218,8 @@ class RulesetEnum
                 return $entityManager->getRepository(PlayersIcons::class)->toutesLesIconesDunePosition($joueur->getFPos());
             case RulesetEnum::BB_2020:
                 return $entityManager->getRepository(PlayersIcons::class)->toutesLesIconesDunePositionBb2020($joueur->getFPosBb2020());
+            default:
+                return null;
         }
     }
 
@@ -202,6 +230,8 @@ class RulesetEnum
                 return $team->setfRace($race);
             case RulesetEnum::BB_2020:
                 return $team->setRace($race);
+            default:
+                return null;
         }
     }
 
@@ -212,6 +242,8 @@ class RulesetEnum
                 return $team->setFf(0);
             case RulesetEnum::BB_2020:
                 return $team->setFf(1);
+            default:
+                return null;
         }
     }
 
@@ -222,6 +254,8 @@ class RulesetEnum
                 return 'fRace';
             case RulesetEnum::BB_2020:
                 return 'race';
+            default:
+                return null;
         }
     }
 
@@ -232,6 +266,8 @@ class RulesetEnum
                 return Races::class;
             case RulesetEnum::BB_2020:
                 return RacesBb2020::class;
+            default:
+                return null;
         }
     }
 
@@ -242,6 +278,8 @@ class RulesetEnum
                 return 'raceId';
             case RulesetEnum::BB_2020:
                 return 'id';
+            default:
+                return null;
         }
     }
 
@@ -252,6 +290,8 @@ class RulesetEnum
                 return 'fSkill';
             case RulesetEnum::BB_2020:
                 return 'fSkillBb2020';
+            default:
+                return null;
         }
     }
 }

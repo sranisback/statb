@@ -18,33 +18,4 @@ class HistoriqueBlessureRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, HistoriqueBlessure::class);
     }
-
-    // /**
-    //  * @return HistoriqueBlessure[] Returns an array of HistoriqueBlessure objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('h')
-            ->andWhere('h.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('h.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?HistoriqueBlessure
-    {
-        return $this->createQueryBuilder('h')
-            ->andWhere('h.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

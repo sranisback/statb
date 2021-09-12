@@ -277,8 +277,8 @@ class EquipeService
                 }
                 break;
             case "apo":
-                $equipe->getApothecary() == true ? $nbr = 1 : $nbr = 0;
-                if ($equipe->getTreasury() >= $this->coutApo && $equipe->getApothecary() == false) {
+                $equipe->getApothecary() === true ? $nbr = 1 : $nbr = 0;
+                if ($equipe->getTreasury() >= $this->coutApo && $equipe->getApothecary() === false) {
                     $nbr = 1;
                     $equipe->setApothecary(1);
                     $inducost = $this->coutApo;
@@ -295,6 +295,9 @@ class EquipeService
                     $this->doctrineEntityManager->persist($stadeDelEquipe);
                     $inducost = 70_000;
                 }
+                break;
+            default:
+                break;
         }
 
         $nouveauTresor = $equipe->getTreasury() - $inducost;
@@ -366,8 +369,8 @@ class EquipeService
                 }
                 break;
             case "apo":
-                $equipe->getApothecary() == true ? $nbr = 1 : $nbr = 0;
-                if ($equipe->getApothecary() == true) {
+                $equipe->getApothecary() === true ? $nbr = 1 : $nbr = 0;
+                if ($equipe->getApothecary() === true) {
                     $inducost = $this->coutApo;
                     $nbr = 0;
                     $equipe->setApothecary(0);
@@ -381,6 +384,8 @@ class EquipeService
                     $stadeDelEquipe->setTotalPayement($nbr);
                     $inducost = $this->payementStade;
                 }
+                break;
+            default:
                 break;
         }
 
@@ -427,7 +432,7 @@ class EquipeService
             if ($match->getTeam1Score() > $match->getTeam2Score()) {
                 $resultat1 = 1;
                 $resultat2 = 0;
-            } elseif ($match->getTeam1Score() > $match->getTeam2Score()) {
+            } elseif ($match->getTeam1Score() < $match->getTeam2Score()) {
                 $resultat1 = 0;
                 $resultat2 = 1;
             } else {
@@ -856,7 +861,7 @@ class EquipeService
      */
     public function mettreEnFranchise(Teams $equipe)
     {
-        if ($equipe->getFranchise() == false) {
+        if ($equipe->getFranchise() === false) {
             $equipe->setFranchise(true);
         } else {
             $equipe->setFranchise(false);

@@ -132,6 +132,7 @@ class Coaches implements UserInterface
 
     public function eraseCredentials(): void
     {
+        //a implementer...
     }
 
     /** @see \Serializable::serialize() */

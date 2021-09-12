@@ -96,6 +96,7 @@ SELECT team_id,ra.icon,t.name as team_name ,ra.name as race,co.name,t.tv as tv, 
             $stmt->execute();
             return $stmt->fetchAll();
         } catch (DBALException $e) {
+            return [];
         }
         return [];
     }
@@ -157,6 +158,7 @@ FROM teams t
             $stmt->execute();
             return $stmt->fetchAll();
         } catch (DBALException $e) {
+            return [];
         }
         return [];
     }

@@ -34,7 +34,7 @@ class HistoriqueBlessureType extends AbstractType
                 'choice_label' => fn (Players $joueur) =>  $joueur->getNr()
                     . ', ' . $joueur->getName()
                     . ', ' . ($joueur->getFPos() ? $joueur->getFPos()->getPos() : $joueur->getFPosBb2020()->getPos()) .
-                        ($joueur->getJournalier() == true ? ', Journalier' : '') . ', ' . RulesetEnum::numeroVersEtiquette()[$joueur->getRuleset()],
+                        ($joueur->getJournalier() === true ? ', Journalier' : '') . ', ' . RulesetEnum::numeroVersEtiquette()[$joueur->getRuleset()],
                 'group_by' =>  'ownedByTeam.name'
             ])
             ->add('fmatch', EntityType::class, [

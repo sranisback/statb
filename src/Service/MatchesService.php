@@ -45,6 +45,8 @@ class MatchesService
      */
     private InfosService $infoService;
 
+    private const DATE_FORMAT = "Y-m-d H:i:s";
+
     public function __construct(
         EntityManagerInterface $doctrineEntityManager,
         EquipeService $equipeService,
@@ -133,6 +135,8 @@ class MatchesService
                     $typeStade = $stade->getFTypeStade();
                 }
                 break;
+            default:
+                break;
         }
 
         $match = MatchesFactory::creerUnMatch(
@@ -195,7 +199,7 @@ class MatchesService
 
             $histoBlessure = new HistoriqueBlessure();
 
-            $dateBless = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
+            $dateBless = DateTime::createFromFormat(self::DATE_FORMAT, date(self::DATE_FORMAT));
 
             if (!empty($dateBless)) {
                 $histoBlessure->setDate($dateBless);
@@ -275,7 +279,7 @@ class MatchesService
                     $this->enregistreHistoriqueBlessure(rand(41,48), $joueur, $histoBlessure);
                     break;
                 case 'Tué':
-                    $date = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
+                    $date = DateTime::createFromFormat(self::DATE_FORMAT, date(self::DATE_FORMAT));
                     if (!empty($date)) {
                         $joueur->setDateDied($date);
                     }
@@ -287,6 +291,8 @@ class MatchesService
                 case 'COMO':
                     $histoBlessure->setBlessure(30);
                     $joueur->addHistoriqueBlessure($histoBlessure);
+                    break;
+                default:
                     break;
             }
 

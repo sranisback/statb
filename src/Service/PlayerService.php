@@ -89,7 +89,7 @@ class PlayerService
 
         $toutesLesCompsDuJoueur .= $statpec['nivspec'];
 
-        if ($joueur->getJournalier() == true) {
+        if ($joueur->getJournalier() === true) {
             $toutesLesCompsDuJoueur .= '<text class="text-danger">Loner</text>, ';
         }
 
@@ -164,6 +164,8 @@ class PlayerService
                 case 'S':
                     $coutTotal += 40_000;
                     $listCompGagnee .= '<text class="text-danger">' . $comp->getFSkillBb2020()->getName() . '</text>, ';
+                    break;
+                default:
                     break;
             }
         }
@@ -496,6 +498,8 @@ class PlayerService
                 case 120:
                     $joueur->setAchAv($joueur->getAchAv() + 1);
                     break;
+                default:
+                    break;
             }
         } else {
             $positionDuJoueur = $joueur->getFPos();
@@ -565,6 +569,8 @@ class PlayerService
                 case 280:
                     $joueur->setAchCp($joueur->getAchCp() + 1);
                     break;
+                default:
+                    break;
             }
 
             $joueur->setStatus(1);
@@ -590,12 +596,12 @@ class PlayerService
 
         $pos = stripos((string)$principale, (string)$competenceGagnee->getCat());
         if ($pos !== false) {
-            $hasard == false ? $competenceGagneeParLeJoueur->setType('P') : $competenceGagneeParLeJoueur->setType('PH');
+            $hasard === false ? $competenceGagneeParLeJoueur->setType('P') : $competenceGagneeParLeJoueur->setType('PH');
         }
 
         $pos = stripos((string)$secondaire, (string)$competenceGagnee->getCat());
         if ($pos !== false) {
-            $hasard == false ? $competenceGagneeParLeJoueur->setType('S') : $competenceGagneeParLeJoueur->setType('SH');
+            $hasard === false ? $competenceGagneeParLeJoueur->setType('S') : $competenceGagneeParLeJoueur->setType('SH');
         }
 
         if($nbrSkill < 6) {
@@ -700,6 +706,8 @@ class PlayerService
                     if(($spp - $joueur->getSppDepense()) >= $tableComp[$nbrSkill]['PH']) {
                         $joueur->setStatus(9);
                     }
+                    break;
+                default:
                     break;
             }
             $this->doctrineEntityManager->persist($joueur);
@@ -843,7 +851,7 @@ class PlayerService
                 ->findOneBy(['fPid' => $joueur->getPlayerId(), 'fSkill' => $fanFavouriteId]);
         }
 
-        return !empty($fanFavourite) && $playersSkill != false;
+        return !empty($fanFavourite) && $playersSkill !== false;
     }
 
     /**

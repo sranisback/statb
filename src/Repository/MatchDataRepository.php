@@ -18,15 +18,13 @@ class MatchDataRepository extends ServiceEntityRepository
         parent::__construct($registry, MatchData::class);
     }
 
-    //TODO : deux methodes a revoir pour éviter la duplication de code ?
-
     /**
      * @param int $year
      * @param string $type
      * @param int $limit
      * @return mixed
      */
-    public function sousClassementEquipe(int $year, string $type, int $limit = 0, int $ruleset)
+    public function sousClassementEquipe(int $year, string $type, int $ruleset, int $limit = 0)
     {
         $query = $this->createQueryBuilder('Matchdata')
             ->select('teams.teamId, teams.name ,race.icon')
@@ -47,6 +45,8 @@ class MatchDataRepository extends ServiceEntityRepository
                 $query->join('players.fPosBb2020', 'game_data_players')
                     ->join('teams.race', 'race');
                 break;
+            default:
+                break;
         }
 
         switch ($type) {
@@ -65,6 +65,9 @@ class MatchDataRepository extends ServiceEntityRepository
             case 'killer':
                 $query->addSelect('SUM(Matchdata.ki) AS score');
                 break;
+
+            default:
+                break;
         }
 
         if ($limit > 0) {
@@ -81,7 +84,7 @@ class MatchDataRepository extends ServiceEntityRepository
      * @param int $limit
      * @return mixed
      */
-    public function sousClassementJoueur(int $year, string $type, int $limit = 0, int $ruleset)
+    public function sousClassementJoueur(int $year, string $type, int $ruleset, int $limit = 0)
     {
         $query = $this->createQueryBuilder('Matchdata')
             ->select(
@@ -107,6 +110,8 @@ class MatchDataRepository extends ServiceEntityRepository
             case RulesetEnum::BB_2020:
                 $query->join('players.fPosBb2020', 'game_data_players')
                     ->join('teams.race', 'race');
+                break;
+            default:
                 break;
         }
 
@@ -140,6 +145,9 @@ class MatchDataRepository extends ServiceEntityRepository
 
             case 'handi':
                 $query->addSelect('SUM(Matchdata.si) AS score');
+                break;
+
+            default:
                 break;
         }
 
@@ -203,10 +211,7 @@ class MatchDataRepository extends ServiceEntityRepository
         foreach ($this->getEntityManager()->getRepository(MatchData::class)->findBy(
             ['fPlayer' => $joueur]
         ) as $dataMatches) {
-            try {
-                $matchJoue[] = $dataMatches->getFMatch();
-            } catch (ORMException $e) {
-            }
+            $matchJoue[] = $dataMatches->getFMatch();
         }
 
         return $matchJoue;

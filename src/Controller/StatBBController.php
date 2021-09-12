@@ -60,7 +60,6 @@ class StatBBController extends AbstractController
 
             if ($role['role'] == 'ROLE_ADMIN' && $settingsService->mettreaJourLaPeriode(date('m/d/Y'))) {
                 $this->addFlash('admin', 'Periode Mise à jour');
-                ;
             }
 
             foreach ($defisService->lesDefisEnCoursContreLeCoach($settingsService, $coach) as $defisEnCours) {

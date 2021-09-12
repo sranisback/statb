@@ -50,11 +50,10 @@ class AjoutCompetenceType extends AbstractType
             ->add('submit', SubmitType::class, ['label' => 'Ajouter'])
             ->add('cancel', ButtonType::class, ['label' => 'Annuler', 'attr' => ['data-dismiss' => 'modal']]);
 
-            switch ($options['ruleset']) {
-                case RulesetEnum::BB_2020:
-                        $form->add('hasard', CheckboxType::class, ['label' => 'Tirée au hasard ?', 'mapped' => false, 'required' => false]);
-                    break;
+            if($options['ruleset'] === RulesetEnum::BB_2020) {
+                $form->add('hasard', CheckboxType::class, ['label' => 'Tirée au hasard ?', 'mapped' => false, 'required' => false]);
             }
+
             $form->getForm();
     }
 
