@@ -170,7 +170,12 @@
                             <td>{{ data.bonusXP }}</td>
                         {% endif %}
                         <td>{{ data.mvp }}</td>
-                        <td>{{ data.agg }}</td>
+                        <td style="white-space: nowrap;">
+                            {{ data.agg }}
+                            {% if(data.exp > 0) %}
+                                ({{ data.exp }})
+                            {% endif %}
+                        </td>
                         <td>{{ data.spp }}</td>
                         <td class="text-right">{{ data.cost|raw }}</td>
                     {% endif %}

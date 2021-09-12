@@ -92,7 +92,8 @@ class ligneJoueurTest extends TestCase
                 'spp' => 0,
                 'cost' => 0,
                 'status' => '',
-                'bonus' => 0
+                'bonus' => 0,
+                'exp' => 0
             ]
         ];
 
@@ -194,7 +195,8 @@ class ligneJoueurTest extends TestCase
                 'spp' => 0,
                 'cost' => 0,
                 'status' => '',
-                'bonus' => 0
+                'bonus' => 0,
+                'exp' => 0
             ]
         ];
 

@@ -176,7 +176,12 @@
                                     <td>{{ pdata[0].int }}</td>
                                     <td>{{ pdata[0].cas }}</td>
                                     <td>{{ pdata[0].mvp }}</td>
-                                    <td>{{ pdata[0].agg }}</td>
+                                    <td style="white-space: nowrap;">
+                                        {{ pdata[0].agg }}
+                                        {% if(pdata[0].exp > 0) %}
+                                            ({{ pdata[0].exp }})
+                                        {% endif %}
+                                    </td>
                                     <td>{{ pdata[0].bonus }}</td>
                                 </tr>
                                 </tbody>

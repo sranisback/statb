@@ -17,12 +17,15 @@
                 <th>Cp</th>
                 <th>Td</th>
                 <th>Intcpt</th>
+                <th>Dev</th>
+                <th>Lan</th>
                 <th>Bh</th>
                 <th>Si</th>
                 <th>Ki</th>
                 <th>Bonus XP</th>
                 <th>Inj</th>
                 <th>Agg</th>
+                <th>Exp</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -36,12 +39,15 @@
                 <td><a href="#" data-type="number" data-pk="{{ match_datum.id }}" data-name="Cp" id="admin_Md_cp_{{ loop.index }}">{{ match_datum.cp }}</a></td>
                 <td><a href="#" data-type="number" data-pk="{{ match_datum.id }}" data-name="Td" id="admin_Md_td_{{ loop.index }}">{{ match_datum.td }}</a></td>
                 <td><a href="#" data-type="number" data-pk="{{ match_datum.id }}" data-name="Intcpt" id="admin_Md_intcpt_{{ loop.index }}">{{ match_datum.intcpt }}</a></td>
+                <td><a href="#" data-type="number" data-pk="{{ match_datum.id }}" data-name="det" id="admin_Md_det_{{ loop.index }}">{{ match_datum.det }}</a></td>
+                <td><a href="#" data-type="number" data-pk="{{ match_datum.id }}" data-name="lan" id="admin_Md_lan_{{ loop.index }}">{{ match_datum.lan }}</a></td>
                 <td><a href="#" data-type="number" data-pk="{{ match_datum.id }}" data-name="Bh" id="admin_Md_bh_{{ loop.index }}">{{ match_datum.bh }}</a></td>
                 <td><a href="#" data-type="number" data-pk="{{ match_datum.id }}" data-name="Si" id="admin_Md_si_{{ loop.index }}">{{ match_datum.si }}</a></td>
                 <td><a href="#" data-type="number" data-pk="{{ match_datum.id }}" data-name="Ki" id="admin_Md_ki_{{ loop.index }}">{{ match_datum.ki }}</a></td>
                 <td><a href="#" data-type="number" data-pk="{{ match_datum.id }}" data-name="bonusSpp" id="admin_Md_ki_{{ loop.index }}">{{ match_datum.bonusSpp }}</a></td>
                 <td><a href="#" data-type="number" data-pk="{{ match_datum.id }}" data-name="Inj" id="admin_Md_inj_{{ loop.index }}">{{ match_datum.inj }}</a></td>
                 <td><a href="#" data-type="number" data-pk="{{ match_datum.id }}" data-name="Agg" id="admin_Md_ki_{{ loop.index }}">{{ match_datum.agg }}</a></td>
+                <td><a href="#" data-type="number" data-pk="{{ match_datum.id }}" data-name="cartonsRouge" id="admin_Md_cartonsRouge_{{ loop.index }}">{{ match_datum.cartonsRouge }}</a></td>
                 <td>
                     <a href="{{ path('match_data_edit', {'id': match_datum.id}) }}">edit</a>
                 </td>

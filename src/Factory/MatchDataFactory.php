@@ -28,6 +28,7 @@ class MatchDataFactory
         $matchdata->setBonusSpp(0);
         $matchdata->setDet(0);
         $matchdata->setLan(0);
+        $matchdata->setCartonsRouge(0);
         $matchdata->setFMatch($match);
         $matchdata->setFPlayer($joueur);
 

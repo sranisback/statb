@@ -48,3 +48,4 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 /.env
 /phpcs.xml.dist
+/composer.lock
