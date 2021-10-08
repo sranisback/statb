@@ -35,12 +35,17 @@ class ExportController extends AbstractController
             $equipe
         );
 
+        /** @var Players $joueur */
         foreach ($joueurCollection as $joueur) {
             $listeCompetence = $playerService->toutesLesCompsdUnJoueur($joueur);
             $actionJoueur = $playerService->actionsDuJoueur($joueur);
 
             if (!$joueur->getName()) {
                 $joueur->setName('Inconnu');
+            }
+
+            if (empty($joueur->getSppDepense())) {
+                $joueur->setSppDepense(0);
             }
 
             $pdata[$count]['pid'] = $joueur->getPlayerId();
