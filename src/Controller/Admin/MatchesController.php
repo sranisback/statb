@@ -87,7 +87,7 @@ class MatchesController extends AbstractController
      * @param Request $request
      * @Route("/updateEditableMatch", name="updateEditableMatch", options = { "expose" = true })
      */
-    public function updateEditableMatch(Request $request, AdminService $adminService)
+    public function updateEditableMatch(Request $request, AdminService $adminService) : Response
     {
         $adminService->traiteModification($request->request->all(), Matches::class);
 

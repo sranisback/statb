@@ -25,13 +25,14 @@ class DefisIhmController extends AbstractController
         Request $request,
         DefisService $defisService,
         SettingsService $settingService
-    ): \Symfony\Component\HttpFoundation\Response {
+    ): Response {
         $defis = new Defis();
 
         $form = $this->createForm(AjoutDefisType::class, $defis);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var array $datas */
             $datas = $request->request->get('ajout_defis');
 
             /** @var Teams $equipe */

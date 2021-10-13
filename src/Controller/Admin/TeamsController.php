@@ -109,7 +109,7 @@ class TeamsController extends AbstractController
      * @param Request $request
      * @Route("/updateEditableTeams", name="updateEditableTeams", options = { "expose" = true })
      */
-    public function updateEditableCoach(Request $request, AdminService $adminService)
+    public function updateEditableCoach(Request $request, AdminService $adminService) : Response
     {
         $adminService->traiteModification($request->request->all(), Teams::class);
 

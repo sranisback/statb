@@ -9,7 +9,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class StadesFixture extends Fixture
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager) : Stades
     {
         $gameDataStadium = new GameDataStadium();
         $gameDataStadium->setFamille('zib');

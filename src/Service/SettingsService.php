@@ -13,9 +13,9 @@ use Doctrine\ORM\EntityManagerInterface;
 class SettingsService
 {
     /**
-     * @var \Doctrine\ORM\EntityManagerInterface
+     * @var EntityManagerInterface
      */
-    private \Doctrine\ORM\EntityManagerInterface $doctrineEntityManager;
+    private EntityManagerInterface $doctrineEntityManager;
 
     public function __construct(EntityManagerInterface $doctrineEntityManager)
     {
@@ -43,7 +43,7 @@ class SettingsService
     {
         $citations = $this->doctrineEntityManager->getRepository(Citations::class)->findAll();
 
-        if($citations !== false) {
+        if($citations) {
             $nbrAuHasard = rand(0, count($citations) - 1);
 
             return  $citations[$nbrAuHasard];
@@ -59,7 +59,7 @@ class SettingsService
     {
         $dyk = $this->doctrineEntityManager->getRepository(Dyk::class)->findAll();
 
-        if ( $dyk !== false) {
+        if ($dyk) {
             $nbrAuHasard = rand(0, count($dyk) - 1);
 
             return '<b>Did you know ?</b> <i>'.$dyk[$nbrAuHasard]->getDykText().'</i>';

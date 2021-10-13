@@ -20,7 +20,10 @@ class InfosService
      * @var EntityManagerInterface
      */
     private $doctrineEntityManager;
-    
+
+    /**
+     * @var string
+     */
     private $urlPrefix;
 
     private const TEAM_URL = '/team/';
@@ -33,10 +36,10 @@ class InfosService
     }
 
     /**
-     * @param $text
+     * @param string $text
      * @return Infos
      */
-    public function publierUnMessage($text)
+    public function publierUnMessage(string $text): Infos
     {
         $message = new Infos();
         $message->setMessages($text);
@@ -145,7 +148,11 @@ class InfosService
         );
     }
 
-    public function primeGagnee(Primes $prime)
+    /**
+     * @param Primes $prime
+     * @return Infos
+     */
+    public function primeGagnee(Primes $prime) : infos
     {
         return $this->publierUnMessage(
             $prime->getEquipePrime()->getName() . ' a touché la prime de ' . $prime->getMontant() . 'Po sur ' .

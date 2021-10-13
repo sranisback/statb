@@ -123,7 +123,7 @@ class ExportController extends AbstractController
 
         $request = $request->request->all();
 
-        $json = json_decode($request['post']);
+        $json = json_decode($request['post']); /* @phpstan-ignore-line */
 
         $json[1] = str_replace('<th class="first"></th>', '', $json[1]);
         $json[1] = str_replace(

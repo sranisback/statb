@@ -100,9 +100,9 @@ class GameDataPlayers
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="f_race_id", referencedColumnName="race_id", nullable=false)
      * })
-     * @var \App\Entity\Races|null
+     * @var Races|null
      */
-    private ?\App\Entity\Races $fRace = null;
+    private ?Races $fRace = null;
 
     /**
      * @ORM\ManyToMany(targetEntity=GameDataSkills::class)
@@ -111,7 +111,7 @@ class GameDataPlayers
      *      inverseJoinColumns={@ORM\JoinColumn(name="skill_id", referencedColumnName="skill_id")}
      *      )
      */
-    private $baseSkills;
+    private Collection $baseSkills;
 
     public function __construct()
     {

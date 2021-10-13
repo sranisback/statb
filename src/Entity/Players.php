@@ -30,7 +30,7 @@ class Players
     /**
      *
      * @ORM\Column(name="journalier", type="boolean", nullable=false)
-     * @var boolean|null
+     * @var boolean
      */
     private bool $journalier = false;
 
@@ -93,7 +93,7 @@ class Players
 
     /**
      * @ORM\Column(name="ach_cp", type="integer", nullable=true)
-     * @var int|null
+     * @var int
      */
     private int $achCp = 0;
 
@@ -280,6 +280,7 @@ class Players
 
     /**
      * @ORM\Column(type="integer")
+     * @var int
      */
     private $Ruleset;
 

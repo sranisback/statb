@@ -10,7 +10,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class GameDataSkillFixture extends Fixture
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager) : GameDataSkills
     {
         $gameDataSkillFixture = new GameDataSkills();
         $gameDataSkillFixture->setName('Comp test');

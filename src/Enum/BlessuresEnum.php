@@ -35,7 +35,7 @@ class   BlessuresEnum
         ];
     }
 
-    public static function numeroToBlessureBb2020()
+    public static function numeroToBlessureBb2020() : array
     {
         return [
             1 => 'Traumatisme crânien',

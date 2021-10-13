@@ -24,7 +24,7 @@ class CreationPrimeTest extends TestCase
             ->addMethods(['FindOneBy'])
             ->getMock();
         $primeRepoMock->method('FindOneBy')->willReturn(
-            false
+            null
         );
 
         $playerRepoMock = $this->getMockBuilder(Players::class)

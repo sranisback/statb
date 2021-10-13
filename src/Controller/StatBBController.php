@@ -190,7 +190,7 @@ class StatBBController extends AbstractController
     /**
      * @Route("/majBaseSkill")
      */
-    public function majBaseSkills()
+    public function majBaseSkills(): Response
     {
         /** @var GameDataPlayers $position */
         foreach ($this->getDoctrine()->getRepository(GameDataPlayers::class)->findAll() as $position) {

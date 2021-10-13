@@ -8,11 +8,11 @@ use Doctrine\Persistence\ObjectManager;
 
 class CoachesFixture extends Fixture
 {
-    private $coachFixture;
+    private Coaches $coachFixture;
 
     public const COACH_FIXTURE = 'coach-fixture';
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): Coaches
     {
         $this->coachFixture = new Coaches();
         $this->coachFixture->setName('test');
@@ -26,8 +26,15 @@ class CoachesFixture extends Fixture
         return $this->coachFixture;
     }
 
+    /**
+     * @param ObjectManager $manager
+     * @param int $nombre
+     * @return mixed
+     */
     public function loadMultiCoach(ObjectManager $manager, $nombre)
     {
+        $coachFixtures = null;
+
         for($compteur = 0; $compteur < $nombre; $compteur++){
             $coach = new Coaches();
             $coach->setName('test_' . $compteur);
@@ -42,7 +49,7 @@ class CoachesFixture extends Fixture
         return $coachFixtures;
     }
 
-    public function deleteFixture(ObjectManager $manager)
+    public function deleteFixture(ObjectManager $manager) : void
     {
         $manager->remove($this->coachFixture);
         $manager->flush();

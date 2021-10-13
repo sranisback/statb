@@ -16,56 +16,67 @@ class GameDataPlayersBb2020
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @var int
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=60)
+     * @var string
      */
     private $pos;
 
     /**
      * @ORM\Column(type="integer")
+     * @var int
      */
     private $cost;
 
     /**
      * @ORM\Column(type="integer")
+     * @var int
      */
     private $qty;
 
     /**
      * @ORM\Column(type="integer")
+     * @var int
      */
     private $ma;
 
     /**
      * @ORM\Column(type="integer")
+     * @var int
      */
     private $st;
 
     /**
      * @ORM\Column(type="integer")
+     * @var int
      */
     private $ag;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @var int
      */
     private $cp;
 
     /**
      * @ORM\Column(type="integer")
+     * @var int
      */
     private $av;
 
     /**
      * @ORM\Column(type="string", length=6)
+     * @var string
      */
     private $principales;
 
     /**
      * @ORM\Column(type="string", length=6)
+     * @var string
      */
     private $secondaires;
 
@@ -81,6 +92,7 @@ class GameDataPlayersBb2020
      *      joinColumns={@ORM\JoinColumn(name="position", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="skill_id", referencedColumnName="id")}
      *      )
+     * @var Collection
      */
     private $baseSkills;
 
@@ -154,19 +166,19 @@ class GameDataPlayersBb2020
         return $this;
     }
 
-    public function getAg(): ?string
+    public function getAg(): ?int
     {
         return $this->ag;
     }
 
-    public function setAg(string $ag): self
+    public function setAg(int $ag): self
     {
         $this->ag = $ag;
 
         return $this;
     }
 
-    public function getCp(): ?string
+    public function getCp(): ?int
     {
         return $this->cp;
     }
@@ -178,12 +190,12 @@ class GameDataPlayersBb2020
         return $this;
     }
 
-    public function getAv(): ?string
+    public function getAv(): ?int
     {
         return $this->av;
     }
 
-    public function setAv(string $av): self
+    public function setAv(int $av): self
     {
         $this->av = $av;
 

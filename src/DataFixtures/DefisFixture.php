@@ -8,7 +8,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class DefisFixture extends Fixture
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): Defis
     {
         $defisFixture = new Defis();
 

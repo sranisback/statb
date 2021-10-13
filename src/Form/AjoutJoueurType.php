@@ -2,6 +2,8 @@
 
 namespace App\Form;
 
+use App\Entity\Races;
+use App\Entity\RacesBb2020;
 use App\Entity\Teams;
 use App\Enum\RulesetEnum;
 use App\Service\EquipeService;
@@ -33,7 +35,9 @@ class AjoutJoueurType extends AbstractType
     {
         /** @var Teams $equipe */
         $equipe = $options['equipe'];
+
         $race = $equipe->getRuleset() == 1 ? $equipe->getRace() : $equipe->getFRace();
+        /* @phpstan-ignore-next-line */
         $raceId = $equipe->getRuleset() == 1 ? $race->getId() : $race->getRaceId();
 
         $generateurDeNom = new randomNameGenerator();

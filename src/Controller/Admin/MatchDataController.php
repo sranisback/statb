@@ -87,7 +87,7 @@ class MatchDataController extends AbstractController
      * @param Request $request
      * @Route("/updateEditableMatchData", name="updateEditableMatchData", options = { "expose" = true })
      */
-    public function updateEditableMatchData(Request $request, AdminService $adminService)
+    public function updateEditableMatchData(Request $request, AdminService $adminService) : Response
     {
         $adminService->traiteModification($request->request->all(), MatchData::class);
 

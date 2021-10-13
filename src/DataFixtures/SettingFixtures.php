@@ -8,9 +8,10 @@ use Doctrine\Persistence\ObjectManager;
 
 class SettingFixtures extends Fixture
 {
+    /** @var Setting $settingFixture */
     private $settingFixture;
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager) : Setting
     {
         $this->settingFixture = new Setting();
         $this->settingFixture->setValue('6');
@@ -22,7 +23,7 @@ class SettingFixtures extends Fixture
         return $this->settingFixture;
     }
 
-    public function deleteFixture(ObjectManager $manager)
+    public function deleteFixture(ObjectManager $manager) : void
     {
         $manager->remove($this->settingFixture);
         $manager->flush();

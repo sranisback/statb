@@ -21,6 +21,7 @@ use App\Form\CreerEquipeType;
 use App\Service\StadeService;
 use App\Tools\TransformeEnJSON;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,16 +50,15 @@ class EquipeController extends AbstractController
     /**
      * @Route("/montreLesAnciennesEquipes", name="showOldTeams")
      * @param EquipeService $equipeService
-     * @param Security $security
      * @return response
      */
     public function montreLesAnciennesEquipes(
         EquipeService $equipeService
-    ): \Symfony\Component\HttpFoundation\Response {
+    ): Response {
         return $this->render(
             'statbb/tabs/coach/anciennesEquipes.html.twig',
             [
-                'listeEquipe' => $equipeService->compileLesEquipes($this->getUser()),
+                'listeEquipe' => $equipeService->compileLesEquipes($this->getUser()), /* @phpstan-ignore-line */
                 'etiquettes' => RulesetEnum::numeroVersEtiquette()
             ]
         );
@@ -66,13 +66,12 @@ class EquipeController extends AbstractController
 
     /**
      * @Route("/showuserteams", name="showuserteams")
-     * @param SettingsService $settingsService
      * @param EquipeService $equipeService
      * @return response
      */
     public function showUserTeams(
         EquipeService $equipeService
-    ): \Symfony\Component\HttpFoundation\Response {
+    ): Response {
         return $this->render(
             'statbb/tabs/coach/user_teams.html.twig',
             [
@@ -115,9 +114,9 @@ class EquipeController extends AbstractController
     public function montreEquipe(
         string $nomEquipe,
         SettingsService $settingsService
-    ): \Symfony\Component\HttpFoundation\Response {
+    ): Response {
         if ($nomEquipe !== '') {
-            /** @var Teams[] $equipe */
+            /** @var Teams[] $equipes */
             $equipes = $this->getDoctrine()->getRepository(Teams::class)->requeteEquipeLike($nomEquipe);
 
             if (count($equipes) > 1) {
@@ -141,7 +140,7 @@ class EquipeController extends AbstractController
      * @param Request $request
      * @param int $equipeId
      */
-    public function uploadLogo(Request $request, EquipeService $equipeService, int $equipeId)
+    public function uploadLogo(Request $request, EquipeService $equipeService, int $equipeId) : Response
     {
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
 
@@ -167,11 +166,12 @@ class EquipeController extends AbstractController
      * @Route("/createTeam", name="createTeam")
      * @param Request $request
      * @param EquipeService $equipeService
+     * @return RedirectResponse|Response
      */
     public function createTeam(
         Request $request,
         EquipeService $equipeService
-    ) {
+    ) : Response {
         $equipe = new Teams();
 
         $currentRuleset = $this->getDoctrine()->getRepository(Setting::class)->findOneBy(['name' => 'currentRuleset']);
@@ -180,17 +180,21 @@ class EquipeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var array $datas */
             $datas = $request->request->get('creer_equipe');
 
-            /** @var Coaches $coach */
-            $teamid = $equipeService->createTeam(
-                $datas['Name'],
-                $this->getUser()->getCoachId(),
-                $datas[RulesetEnum::getChampRaceFromIntByRuleset($currentRuleset->getValue())],
-                $currentRuleset->getValue()
-            );
+            $coach = $this->getUser();
 
-            if ($teamid !== 0) {
+            if (isset($coach)) {
+                $teamid = $equipeService->createTeam(
+                    $datas['Name'],
+                    $coach->getCoachId(),
+                    $datas[RulesetEnum::getChampRaceFromIntByRuleset($currentRuleset->getValue())],
+                    (int)$currentRuleset->getValue()
+                );
+            }
+
+            if (!empty($teamid) && $teamid !== 0) {
                 $this->addFlash('success', 'Equipe Ajoutée!');
             }
 
@@ -204,11 +208,11 @@ class EquipeController extends AbstractController
      * @Route("/retireEquipe/{teamId}", name="retireEquipe")
      * @param int $teamId
      */
-    public function retireEquipe(int $teamId)
+    public function retireEquipe(int $teamId): RedirectResponse
     {
         $entityManager = $this->getDoctrine()->getManager();
 
-        /** @var Teams $team */
+        /** @var Teams $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
         $equipe->setRetired(true);
 
@@ -244,13 +248,13 @@ class EquipeController extends AbstractController
      * @param int $teamId
      * @param EquipeService $equipeService
      * @param PlayerService $playerService
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      */
     public function checkTeam(
         int $teamId,
         EquipeService $equipeService,
         PlayerService $playerService
-    ): \Symfony\Component\HttpFoundation\RedirectResponse {
+    ): RedirectResponse {
         /** @var Teams $team */
         $team = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
 
@@ -311,12 +315,12 @@ class EquipeController extends AbstractController
      * @Route("/recalculerTV", name="recalculerTV")
      * @param EquipeService $equipeService
      * @param PlayerService $playerService
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      */
     public function recalculerTV(
         EquipeService $equipeService,
         PlayerService $playerService
-    ): \Symfony\Component\HttpFoundation\RedirectResponse {
+    ): RedirectResponse {
         $entityManager = $this->getDoctrine()->getManager();
 
         /** @var Teams $equipe */

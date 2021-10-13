@@ -9,6 +9,8 @@ use App\Entity\GameDataPlayersBb2020;
 use App\Entity\GameDataStadium;
 use App\Entity\Matches;
 use App\Entity\Players;
+use App\Entity\Races;
+use App\Entity\RacesBb2020;
 use App\Entity\Stades;
 use App\Entity\Teams;
 use App\Enum\AnneeEnum;
@@ -176,9 +178,10 @@ class EquipeService
      * @param string $teamname
      * @param int $coachid
      * @param int $raceid
+     * @param int $ruleset
      * @return int|null
      */
-    public function createTeam(string $teamname, int $coachid, int $raceid, int $ruleset)
+    public function createTeam(string $teamname, int $coachid, int $raceid, int $ruleset): ?int
     {
         $race = $this->doctrineEntityManager->getRepository(RulesetEnum::getRaceRepoFromIntByRuleset($ruleset))->findOneBy([RulesetEnum::getRaceIdFromIntByRuleset($ruleset) => $raceid]);
         $coach = $this->doctrineEntityManager->getRepository(Coaches::class)->findOneBy(array('coachId' => $coachid));
@@ -198,6 +201,7 @@ class EquipeService
             $this->baseElo,
             $stade,
             $this->settingsService->anneeCourante(),
+            /* @phpstan-ignore-next-line  */
             $race,
             $coach,
             $ruleset
@@ -277,8 +281,8 @@ class EquipeService
                 }
                 break;
             case "apo":
-                $equipe->getApothecary() === true ? $nbr = 1 : $nbr = 0;
-                if ($equipe->getTreasury() >= $this->coutApo && $equipe->getApothecary() === false) {
+                $equipe->getApothecary() === 1 ? $nbr = 1 : $nbr = 0;
+                if ($equipe->getTreasury() >= $this->coutApo && $equipe->getApothecary() === 0) {
                     $nbr = 1;
                     $equipe->setApothecary(1);
                     $inducost = $this->coutApo;
@@ -369,8 +373,8 @@ class EquipeService
                 }
                 break;
             case "apo":
-                $equipe->getApothecary() === true ? $nbr = 1 : $nbr = 0;
-                if ($equipe->getApothecary() === true) {
+                $equipe->getApothecary() === 1 ? $nbr = 1 : $nbr = 0;
+                if ($equipe->getApothecary() === 1) {
                     $inducost = $this->coutApo;
                     $nbr = 0;
                     $equipe->setApothecary(0);
@@ -480,7 +484,7 @@ class EquipeService
     }
 
     /**
-     * @param int $coachActif
+     * @param Coaches $coachActif
      * @param int $annee
      * @return mixed[]
      */
@@ -505,6 +509,7 @@ class EquipeService
 
     /**
      * @param Teams $equipe
+     * @return GameDataPlayersBb2020|GameDataPlayers|null
      */
     public function positionDuJournalier(Teams $equipe)
     {
@@ -542,6 +547,8 @@ class EquipeService
                     return $position;
             }
         }
+
+        return null;
     }
 
     /**
@@ -686,7 +693,11 @@ class EquipeService
             ;
     }
 
-    public function compileLesEquipes(Coaches $coachActif)
+    /**
+     * @param Coaches|null $coachActif
+     * @return array
+     */
+    public function compileLesEquipes(?Coaches $coachActif): array
     {
         $annee = $this->settingsService->anneeCourante();
 
@@ -709,7 +720,11 @@ class EquipeService
         return $compilEquipes;
     }
 
-    public function compileEquipesAnneeEnCours(Coaches $coach)
+    /**
+     * @param Object|Coaches|null $coach
+     * @return array
+     */
+    public function compileEquipesAnneeEnCours($coach): array
     {
         $annee = $this->settingsService->anneeCourante();
 
@@ -740,7 +755,7 @@ class EquipeService
     {
         $pdata = [];
 
-        /** @var Players $players */
+        /** @var array $players */
         $players = $this->doctrineEntityManager
             ->getRepository(Players::class)
             ->listeDesJoueursPourlEquipe($equipe);
@@ -780,11 +795,11 @@ class EquipeService
 
     /**
      * @param Request $request
-     * @param $logoDirectory
+     * @param string $logoDirectory
      * @param Teams $equipe
      * @throws \Gumlet\ImageResizeException
      */
-    public function enregistreLogo(Request $request, $logoDirectory, Teams $equipe)
+    public function enregistreLogo(Request $request, string $logoDirectory, Teams $equipe) : void
     {
         $logoUpload = $request->files->all();
 
@@ -841,9 +856,9 @@ class EquipeService
 
     /**
      * @param Teams $equipe
-     * @param $logoDirectory
+     * @param string $logoDirectory
      */
-    public function supprimerLogo(Teams $equipe, $logoDirectory)
+    public function supprimerLogo(Teams $equipe, string $logoDirectory) : void
     {
         $fileSystem = new Filesystem();
         $fileSystem->remove($logoDirectory . '/' . $equipe->getLogo());
@@ -859,7 +874,7 @@ class EquipeService
     /**
      * @param Teams $equipe
      */
-    public function mettreEnFranchise(Teams $equipe)
+    public function mettreEnFranchise(Teams $equipe) : void
     {
         if ($equipe->getFranchise() === false) {
             $equipe->setFranchise(true);

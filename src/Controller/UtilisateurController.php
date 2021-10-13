@@ -47,7 +47,9 @@ class UtilisateurController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $citationService->enregistrerCitation($request->request->get('ajout_citation'));
+            /** @var array $citation */
+            $citation = $request->request->get('ajout_citation');
+            $citationService->enregistrerCitation($citation);
 
             $this->addFlash('success', 'Citation Ajoutée!');
 

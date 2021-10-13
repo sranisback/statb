@@ -107,21 +107,25 @@ class MatchData
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @var int
      */
     private $bonusSpp = 0;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @var int
      */
     private $det = 0;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @var int
      */
     private $lan = 0;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @var int
      */
     private $cartonsRouge = 0;
 

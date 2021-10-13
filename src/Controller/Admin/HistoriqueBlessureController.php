@@ -89,7 +89,7 @@ class HistoriqueBlessureController extends AbstractController
      * @param Request $request
      * @Route("/updateEditableHisto", name="updateEditableHisto", options = { "expose" = true })
      */
-    public function updateEditableHisto(Request $request, AdminService $adminService)
+    public function updateEditableHisto(Request $request, AdminService $adminService) : Response
     {
         $adminService->traiteModification($request->request->all(), HistoriqueBlessure::class);
 

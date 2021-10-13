@@ -3,6 +3,8 @@
 namespace App\Factory;
 
 use App\Entity\Coaches;
+use App\Entity\Races;
+use App\Entity\RacesBb2020;
 use App\Entity\Stades;
 use App\Entity\Teams;
 use App\Enum\RulesetEnum;
@@ -15,8 +17,9 @@ class TeamsFactory
      * @param int $baseElo
      * @param Stades $stade
      * @param int $annee
-     * @param $race
+     * @param Races|RacesBb2020 $race
      * @param Coaches $coach
+     * @param int $ruleset
      * @return Teams
      */
     public static function lancerEquipe(

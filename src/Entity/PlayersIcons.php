@@ -33,6 +33,7 @@ class PlayersIcons
     /**
      * @ORM\ManyToOne(targetEntity=GameDataPlayersBb2020::class)
      * @ORM\JoinColumn(name="pos_id", referencedColumnName="id")
+     * @var GameDataPlayersBb2020
      */
     private $positionBb2020;
 

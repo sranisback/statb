@@ -18,6 +18,9 @@ class AjoutDefisType extends AbstractType
 {
     private settingsService $settingsService;
 
+    /**
+     * @var Security
+     */
     private $security;
 
     public function __construct(Security $security, SettingsService $settingsService)

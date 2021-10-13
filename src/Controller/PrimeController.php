@@ -28,7 +28,9 @@ class PrimeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $primeService->creationPrime($request->request->get('prime'));
+            /** @var array $datas */
+            $datas = $request->request->get('prime');
+            $primeService->creationPrime($datas);
             $this->addFlash('success', 'Prime Ajoutée');
 
             return $this->redirectToRoute('frontUser');
@@ -84,7 +86,9 @@ class PrimeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $primeService->realiserPrime($request->request->get('realiser_prime'));
+            /** @var array $datas */
+            $datas = $request->request->get('realiser_prime');
+            $primeService->realiserPrime($datas);
             $this->addFlash('success', 'Prime Réalisée');
 
             return $this->redirectToRoute('frontUser');

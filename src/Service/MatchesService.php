@@ -304,17 +304,17 @@ class MatchesService
         }
     }
 
-    private function enregistreHistoriqueBlessure(int $nbr, Players $joueur, HistoriqueBlessure $histoBlessure)
+    private function enregistreHistoriqueBlessure(int $nbr, Players $joueur, HistoriqueBlessure $histoBlessure) : void
     {
         $histoBlessure->setBlessure($nbr);
         $joueur->addHistoriqueBlessure($histoBlessure);
     }
 
     /**
-     * @param Coaches $coach
+     * @param Coaches|Object $coach
      * @return mixed[][]
      */
-    public function tousLesMatchesDunCoachParAnnee(Coaches $coach): array
+    public function tousLesMatchesDunCoachParAnnee($coach): array
     {
         $anneeEnCours = $this->settingService->anneeCourante();
         $anneeEtiquette = (new AnneeEnum)->numeroToAnnee();

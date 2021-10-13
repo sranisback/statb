@@ -8,6 +8,8 @@ use App\Entity\Matches;
 use App\Entity\Players;
 use App\Entity\Teams;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\InputBag;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AdminService
 {
@@ -21,8 +23,14 @@ class AdminService
         $this->doctrineEntityManager = $doctrineEntityManager;
     }
 
-    public function traiteModification($request, $entity, $encoder = null)
+    /**
+     * @param array $request
+     * @param class-string $entity
+     * @param UserPasswordEncoderInterface|null $encoder
+     */
+    public function traiteModification(array $request, string $entity, UserPasswordEncoderInterface $encoder = null) : void
     {
+        /** @var class-string $entity */
         switch ($entity) {
             case Coaches::class:
                 $id = 'coachId';
@@ -41,16 +49,19 @@ class AdminService
             break;
         }
 
+        /** @var Coaches|Matches|Players|Teams $object */
         $object = $this->doctrineEntityManager
             ->getRepository($entity)
             ->findOneBy([$id => $request['pk']]);
 
         switch ($request['name']) {
             case 'Passwd':
+                /* @phpstan-ignore-next-line  */
                 $object->setPasswd($encoder->encodePassword($object, $object->getPasswd()));
                 break;
 
             case 'Roles':
+                /* @phpstan-ignore-next-line  */
                 $object->setRoles(['role' => 'ROLE_' . $request['value']]);
                 break;
 

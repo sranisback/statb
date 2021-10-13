@@ -10,7 +10,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class GameDataSkillFanFavoriteFixture extends Fixture
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager) : void
     {
         $gameDataSkillsFanFavorite = new GameDataSkills();
         $gameDataSkillsFanFavorite->setName('Fan Favorite');

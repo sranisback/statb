@@ -14,16 +14,19 @@ class GameDataSkillsBb2020
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @var int
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=60)
+     * @var string
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=1)
+     * @var string
      */
     private $cat;
 

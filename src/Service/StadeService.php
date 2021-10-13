@@ -5,14 +5,15 @@ namespace App\Service;
 use App\Entity\GameDataStadium;
 use App\Entity\Teams;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\InputBag;
 use Symfony\Component\HttpFoundation\Request;
 
 class StadeService
 {
     /**
-     * @var \Doctrine\ORM\EntityManagerInterface
+     * @var EntityManagerInterface
      */
-    private \Doctrine\ORM\EntityManagerInterface $doctrineEntityManager;
+    private EntityManagerInterface $doctrineEntityManager;
 
     public function __construct(EntityManagerInterface $doctrineEntityManager)
     {
@@ -88,20 +89,21 @@ class StadeService
         return true;
     }
 
-    public function creerStade(Request $request, Teams $equipe)
+    public function creerStade(Request $request, Teams $equipe): bool
     {
+        /* @var InputBag $form */
         $form = $request->request->get('creer_stade');
 
         /** @var GameDataStadium $typeStade */
         $typeStade = $this
             ->doctrineEntityManager
             ->getRepository(GameDataStadium::class)
-            ->findOneBy(['id' => $form['fTypeStade']]);
+            ->findOneBy(['id' => $form['fTypeStade']]); /* @phpstan-ignore-line */
 
-        if ($form['niveau'] === '5') {
+        if ($form['niveau'] === '5') {  /* @phpstan-ignore-line */
             $this->emenagerResidence(
                 $equipe,
-                $form['nom'],
+                $form['nom'],  /* @phpstan-ignore-line */
                 $typeStade
             );
 
@@ -110,8 +112,9 @@ class StadeService
 
         $this->construireStade(
             $equipe,
-            $form['nom'],
+            $form['nom'],  /* @phpstan-ignore-line */
             $typeStade,
+            /* @phpstan-ignore-next-line */
             $form['niveau']
         );
 

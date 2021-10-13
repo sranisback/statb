@@ -32,6 +32,7 @@ class PenaliteController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            /** @var array $datas */
             $datas = $request->request->get('ajout_penalite_form');
 
             /** @var Teams $equipe */

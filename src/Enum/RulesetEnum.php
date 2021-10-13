@@ -23,7 +23,7 @@ class RulesetEnum
     /**
      * @return array<int, string>
      */
-    public static function numeroVersEtiquette()
+    public static function numeroVersEtiquette() : array
     {
         return [
             0 => 'Bb 2016',
@@ -31,7 +31,7 @@ class RulesetEnum
         ];
     }
     
-    public static function rulesetParAnnee()
+    public static function rulesetParAnnee() : array
     {
         return [
             0 => 0,
@@ -45,7 +45,11 @@ class RulesetEnum
         ];
     }
 
-    public static function getGameDataPlayersRepoFromIntRuleset(int $ruleset)
+    /**
+     * @param int|string $ruleset
+     * @return class-string|null
+     */
+    public static function getGameDataPlayersRepoFromIntRuleset($ruleset): ?string
     {
         switch ($ruleset){
             case RulesetEnum::BB_2016:
@@ -57,7 +61,7 @@ class RulesetEnum
         }
     }
 
-    public static function champIdGameDataPlayerFromIntRuleset(int $ruleset)
+    public static function champIdGameDataPlayerFromIntRuleset(int $ruleset) : ?string
     {
         switch ($ruleset){
             case RulesetEnum::BB_2016:
@@ -69,7 +73,7 @@ class RulesetEnum
         }
     }
 
-    public static function champPositionFromIntRuleset(int $ruleset)
+    public static function champPositionFromIntRuleset(int $ruleset) : ?string
     {
         switch ($ruleset){
             case RulesetEnum::BB_2016:
@@ -85,7 +89,7 @@ class RulesetEnum
      * @param Teams $teams
      * @return string
      */
-    public static function getGameDataPlayerRepoFromTeamByRuleset(Teams $teams): string
+    public static function getGameDataPlayerRepoFromTeamByRuleset(Teams $teams) : string
     {
         switch ($teams->getRuleset()){
             case RulesetEnum::BB_2016:
@@ -97,6 +101,10 @@ class RulesetEnum
         }
     }
 
+    /**
+     * @param Players $player
+     * @return GameDataPlayers|GameDataPlayersBb2020|null
+     */
     public static function getPositionFromPlayerByRuleset(Players $player)
     {
         switch ($player->getRuleset()){
@@ -109,7 +117,11 @@ class RulesetEnum
         }
     }
 
-    public static function getGameDataSkillRepoFromPlayerByRuleset(Players $player): string
+    /**
+     * @param Players $player
+     * @return class-string|null
+     */
+    public static function getGameDataSkillRepoFromPlayerByRuleset(Players $player) : ?string
     {
         switch ($player->getRuleset()){
             case RulesetEnum::BB_2016:
@@ -117,7 +129,7 @@ class RulesetEnum
             case RulesetEnum::BB_2020:
                 return GameDataSkillsBb2020::class;
             default:
-                return 'erreur';
+                return null;
         }
     }
 
@@ -157,6 +169,7 @@ class RulesetEnum
         }
     }
 
+    /* @phpstan-ignore-next-line */
     public static function getRaceFromEquipeByRuleset(Teams $equipe)
     {
         switch ($equipe->getRuleset()) {
@@ -169,6 +182,7 @@ class RulesetEnum
         }
     }
 
+    /* @phpstan-ignore-next-line */
     public static function getRaceFromJoueurByRuleset(Players $joueur)
     {
         switch ($joueur->getRuleset()) {
@@ -181,15 +195,24 @@ class RulesetEnum
         }
     }
 
-    public static function setPositionAndRaceJoueurByRuleset(Players $joueur, $position)
+    /**
+     * @param Players $joueur
+     * @param GameDataPlayersBb2020|GameDataPlayers $position
+     * @return Players
+     */
+    public static function setPositionAndRaceJoueurByRuleset(Players $joueur, $position) : Players
     {
         switch ($joueur->getRuleset()) {
             case RulesetEnum::BB_2016:
+                /* @phpstan-ignore-next-line */
                 $joueur->setFPos($position);
+                /* @phpstan-ignore-next-line */
                 $joueur->setFRid($position->getfRace());
                 break;
             case RulesetEnum::BB_2020:
+                /* @phpstan-ignore-next-line */
                 $joueur->setFPosBb2020($position);
+                /* @phpstan-ignore-next-line */
                 $joueur->setFRidBb2020($position->getRace());
                 break;
             default:
@@ -199,19 +222,26 @@ class RulesetEnum
         return $joueur;
     }
 
-    public static function getIdFromGameDataSetByRuleset(Players $joueur, $skill)
+    /**
+     * @param Players $joueur
+     * @param GameDataSkills|GameDataPlayersBb2020 $skill
+     * @return int|null
+     */
+    public static function getIdFromGameDataSetByRuleset(Players $joueur, $skill) : ?int
     {
         switch ($joueur->getRuleset()) {
             case RulesetEnum::BB_2016:
+                /* @phpstan-ignore-next-line */
                  return $skill->getSkillId();
             case RulesetEnum::BB_2020:
+                /* @phpstan-ignore-next-line */
                 return $skill->getId();
             default:
                 return null;
         }
     }
 
-    public static function getIconeListeFromPlayerByRuleset(Players $joueur, EntityManagerInterface $entityManager)
+    public static function getIconeListeFromPlayerByRuleset(Players $joueur, EntityManagerInterface $entityManager) : ?array
     {
         switch ($joueur->getRuleset()) {
             case RulesetEnum::BB_2016:
@@ -223,19 +253,26 @@ class RulesetEnum
         }
     }
 
-    public static function setTeamRaceFromTeamByRuleset(Teams $team, $race)
+    /**
+     * @param Teams $team
+     * @param RacesBb2020|Races $race
+     * @return Teams|null
+     */
+    public static function setTeamRaceFromTeamByRuleset(Teams $team, $race) : ?Teams
     {
         switch ($team->getRuleset()){
             case RulesetEnum::BB_2016:
+                /* @phpstan-ignore-next-line */
                 return $team->setfRace($race);
             case RulesetEnum::BB_2020:
+                /* @phpstan-ignore-next-line */
                 return $team->setRace($race);
             default:
                 return null;
         }
     }
 
-    public static function setFanFactorFromTeamByRuleset(Teams $team)
+    public static function setFanFactorFromTeamByRuleset(Teams $team) : ?Teams
     {
         switch ($team->getRuleset()){
             case RulesetEnum::BB_2016:
@@ -247,7 +284,11 @@ class RulesetEnum
         }
     }
 
-    public static function getChampRaceFromIntByRuleset(int $ruleset)
+    /**
+     * @param int|string $ruleset
+     * @return string|null
+     */
+    public static function getChampRaceFromIntByRuleset($ruleset)
     {
         switch ($ruleset){
             case RulesetEnum::BB_2016:
@@ -259,7 +300,11 @@ class RulesetEnum
         }
     }
 
-    public static function getRaceRepoFromIntByRuleset(int $ruleset)
+    /**
+     * @param int $ruleset
+     * @return class-string|null
+     */
+    public static function getRaceRepoFromIntByRuleset(int $ruleset) : ?string
     {
         switch ($ruleset){
             case RulesetEnum::BB_2016:
@@ -271,7 +316,7 @@ class RulesetEnum
         }
     }
 
-    public static function getRaceIdFromIntByRuleset(int $ruleset)
+    public static function getRaceIdFromIntByRuleset(int $ruleset) : ?string
     {
         switch ($ruleset){
             case RulesetEnum::BB_2016:
@@ -283,7 +328,11 @@ class RulesetEnum
         }
     }
 
-    public static function getChampSkillFromIntByRuleset(int $ruleset)
+    /**
+     * @param int $ruleset
+     * @return string|null
+     */
+    public static function getChampSkillFromIntByRuleset(int $ruleset): ?string
     {
         switch ($ruleset){
             case RulesetEnum::BB_2016:

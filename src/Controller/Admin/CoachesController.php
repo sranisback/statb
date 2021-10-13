@@ -42,8 +42,9 @@ class CoachesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
 
+            /** @var array $datas */
             $datas = $request->request->get('coaches');
-            $coach->setRoles(['role' => 'ROLE_'.$datas['roles']]);
+            $coach->setRoles(['role' => 'ROLE_' . $datas['roles']]);
 
             $encoded = $encoder->encodePassword($coach, $coach->getPasswd());
             $coach->setPasswd($encoded);
@@ -69,6 +70,7 @@ class CoachesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var array $datas */
             $datas = $request->request->get('coaches');
             $coach->setRoles(['role' => 'ROLE_'.$datas['roles']]);
 
@@ -103,7 +105,7 @@ class CoachesController extends AbstractController
      * @param Request $request
      * @Route("/updateEditableCoach", name="updateEditableCoach", options = { "expose" = true })
      */
-    public function updateEditableCoach(Request $request, UserPasswordEncoderInterface $encoder, AdminService $adminService)
+    public function updateEditableCoach(Request $request, UserPasswordEncoderInterface $encoder, AdminService $adminService) : Response
     {
         $adminService->traiteModification($request->request->all(), Coaches::class, $encoder);
 

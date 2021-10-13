@@ -12,7 +12,7 @@ class RaceFixture extends Fixture
 {
     public const RACE_FIXTURE = 'race-fixture';
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager) : Races
     {
         $race = new Races();
         $race->setName('Test race');

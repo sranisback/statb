@@ -269,8 +269,6 @@ class ClassementService
     /**
      * @param int $annee
      * @return mixed[]
-     * @throws \Doctrine\ORM\NoResultException
-     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function totalCas(int $annee): array
     {
@@ -462,7 +460,13 @@ class ClassementService
         return $totalPointBonus;
     }
 
-    private function bonusNombreDeSortie($equipe, $match, $totalPointBonus)
+    /**
+     * @param Teams $equipe
+     * @param Matches $match
+     * @param int $totalPointBonus
+     * @return int
+     */
+    private function bonusNombreDeSortie(Teams $equipe, Matches $match, int $totalPointBonus) : int
     {
         if ($this->matchDataService->nombreDeSortiesDunMatch($equipe, $match) >= 4) {
             return $totalPointBonus + 1;
@@ -471,7 +475,13 @@ class ClassementService
         return $totalPointBonus;
     }
 
-    private function bonusGrosMarqueur($equipe, $match, $totalPointBonus)
+    /**
+     * @param Teams $equipe
+     * @param Matches $match
+     * @param int $totalPointBonus
+     * @return int
+     */
+    private function bonusGrosMarqueur(Teams $equipe, Matches $match, int $totalPointBonus): int
     {
         $tableResult = $this->equipeService->resultatDuMatch($equipe, $match);
         if ($tableResult['win'] == 1 && (($equipe === $match->getTeam1() && $match->getTeam1Score() > 2)
@@ -481,7 +491,13 @@ class ClassementService
         return $totalPointBonus;
     }
 
-    private function bonusIntrepide($equipe, $match, $totalPointBonus)
+    /**
+     * @param Teams $equipe
+     * @param Matches $match
+     * @param int $totalPointBonus
+     * @return int
+     */
+    private function bonusIntrepide(Teams $equipe, Matches $match, int $totalPointBonus): int
     {
         $tableResult = $this->equipeService->resultatDuMatch($equipe, $match);
         if ($tableResult['win'] == 1 && (($equipe === $match->getTeam1() && (($match->getTv2() / 1_000) - ($match->getTv1() / 1_000) >= 250)) ||
@@ -492,7 +508,13 @@ class ClassementService
         return $totalPointBonus;
     }
 
-    private function bonusDefense($equipe, $match, $totalPointBonus)
+    /**
+     * @param Teams $equipe
+     * @param Matches $match
+     * @param int $totalPointBonus
+     * @return int
+     */
+    private function bonusDefense(Teams $equipe, Matches $match, int $totalPointBonus): int
     {
         $tableResult = $this->equipeService->resultatDuMatch($equipe, $match);
         if ($tableResult['loss'] == 1 &&
@@ -503,7 +525,13 @@ class ClassementService
         return $totalPointBonus;
     }
 
-    private function bonusPetiteDefaite($equipe, $match, $totalPointBonus)
+    /**
+     * @param Teams $equipe
+     * @param Matches $match
+     * @param int $totalPointBonus
+     * @return int
+     */
+    private function bonusPetiteDefaite(Teams $equipe, Matches $match, int $totalPointBonus): int
     {
         $tableResult = $this->equipeService->resultatDuMatch($equipe, $match);
         if ($tableResult['loss'] == 1 &&

@@ -10,7 +10,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class MatchFixture extends Fixture
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager) : Matches
     {
         $meteo = new Meteo();
         $meteo->setNom('zob');
