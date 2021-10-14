@@ -79,7 +79,7 @@ class JoueurController extends AbstractController
 
         $contenuHtml = $html->getContent();
 
-        if(!$contenuHtml) {
+        if (!$contenuHtml) {
             $contenuHtml = null;
         }
 
@@ -238,7 +238,10 @@ class JoueurController extends AbstractController
 
         $form = $this->createForm(AjoutCompetenceType::class, $competence, ['ruleset' => $currentRuleset->getValue()]);
 
-        return $this->render('statbb/skillmodal.html.twig', ['playerId' => $playerid, 'form' => $form->createView(), 'ruleset' => $currentRuleset->getValue()]);
+        return $this->render(
+            'statbb/skillmodal.html.twig',
+            ['playerId' => $playerid, 'form' => $form->createView(), 'ruleset' => $currentRuleset->getValue()]
+        );
     }
 
     /**
@@ -260,7 +263,10 @@ class JoueurController extends AbstractController
         $repo = RulesetEnum::getGameDataSkillRepoFromPlayerByRuleset($joueur);
 
         $competence = $this->getDoctrine()->getRepository($repo)->findOneBy(
-            [RulesetEnum::getGameDataPlayerChampIdFromPlayerByRuleset($joueur) => $form[RulesetEnum::getChampSkillFromIntByRuleset($joueur->getRuleset())]]
+            [
+                RulesetEnum::getGameDataPlayerChampIdFromPlayerByRuleset($joueur)
+                => $form[RulesetEnum::getChampSkillFromIntByRuleset($joueur->getRuleset())]
+            ]
         );
 
         if (!empty($joueur)) {
@@ -270,9 +276,13 @@ class JoueurController extends AbstractController
         if (!empty($competence)) {
             $retour = $joueur->getRuleset() == 0 ?
                 $playerService->ajoutCompetence($joueur, $competence) :
-                $playerService->ajoutCompetenceBb2020($joueur, $competence, array_key_exists('hasard', $form) ? $form['hasard'] : false); /* @phpstan-ignore-line */
+                $playerService->ajoutCompetenceBb2020(
+                    $joueur,
+                    $competence,
+                    array_key_exists('hasard', $form) ? $form['hasard'] : false  /* @phpstan-ignore-line */
+                );
 
-            if($retour != 'ok') {
+            if ($retour != 'ok') {
                 $this->addFlash('fail', $retour);
             }
         }
@@ -341,8 +351,7 @@ class JoueurController extends AbstractController
         return $this->render('statbb/addPhoto.html.twig', [
                 'joueur' => $joueur,
                 'form' => $form->createView()
-            ]
-        );
+            ]);
     }
 
     /**

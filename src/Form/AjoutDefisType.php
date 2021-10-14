@@ -43,7 +43,7 @@ class AjoutDefisType extends AbstractType
                     'choice_label' => 'name',
                     'label' => 'Quelle Equipe ?',
                     'query_builder' =>
-                        function (EntityRepository $entityRepository) use($coach) {
+                        function (EntityRepository $entityRepository) use ($coach) {
                             return $entityRepository->createQueryBuilder('Teams')
                                 ->join('Teams.ownedByCoach', 'Coaches')
                                 ->where('Teams.year =' . $this->settingsService->anneeCourante())
@@ -60,13 +60,13 @@ class AjoutDefisType extends AbstractType
                     'choice_label' => 'name',
                     'label' => 'Defier quelle Equipe/Coach',
                     'query_builder' =>
-                        function (EntityRepository $entityRepository) use($coach) {
+                        function (EntityRepository $entityRepository) use ($coach) {
                             return $entityRepository->createQueryBuilder('Teams')
                                 ->join('Teams.ownedByCoach', 'Coaches')
                                 ->where('Teams.year =' . $this->settingsService->anneeCourante())
                                 ->andWhere('Teams.ownedByCoach !=' . $coach->getCoachId())
                                 ->orderBy('Coaches.name', 'ASC');
-                            },
+                        },
                     'group_by' => function (Teams $team) {
                         if (!empty($team->getOwnedByCoach())) {
                             return $team->getOwnedByCoach()->getName();

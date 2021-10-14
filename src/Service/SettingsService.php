@@ -43,7 +43,7 @@ class SettingsService
     {
         $citations = $this->doctrineEntityManager->getRepository(Citations::class)->findAll();
 
-        if($citations) {
+        if ($citations) {
             $nbrAuHasard = rand(0, count($citations) - 1);
 
             return  $citations[$nbrAuHasard];

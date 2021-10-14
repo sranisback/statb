@@ -105,7 +105,7 @@ class EquipeService
         }
 
         $inducement['pop'] = ($equipe->getFf() + $equipe->getFfBought()) * 10_000;
-        if($equipe->getRuleset() == RulesetEnum::BB_2020) {
+        if ($equipe->getRuleset() == RulesetEnum::BB_2020) {
             $inducement['pop'] = 0;
         }
         $inducement['asscoaches'] = $equipe->getAssCoaches() * 10_000;
@@ -183,7 +183,8 @@ class EquipeService
      */
     public function createTeam(string $teamname, int $coachid, int $raceid, int $ruleset): ?int
     {
-        $race = $this->doctrineEntityManager->getRepository(RulesetEnum::getRaceRepoFromIntByRuleset($ruleset))->findOneBy([RulesetEnum::getRaceIdFromIntByRuleset($ruleset) => $raceid]);
+        $race = $this->doctrineEntityManager->getRepository(RulesetEnum::getRaceRepoFromIntByRuleset($ruleset))
+            ->findOneBy([RulesetEnum::getRaceIdFromIntByRuleset($ruleset) => $raceid]);
         $coach = $this->doctrineEntityManager->getRepository(Coaches::class)->findOneBy(array('coachId' => $coachid));
 
         $stade = new Stades();
@@ -350,7 +351,7 @@ class EquipeService
                     $nbr -= 1;
                     $equipe->setFfBought($equipe->getFfBought() - 1);
                 }
-                if(count($matches) === 0 && $equipe->getFfBought() == 0 && $equipe->getFf() > 0) {
+                if (count($matches) === 0 && $equipe->getFfBought() == 0 && $equipe->getFf() > 0) {
                     $inducost = $this->coutpop;
                     $nbr -= 1;
                     $equipe->setFf($equipe->getFf() - 1);
@@ -539,10 +540,12 @@ class EquipeService
                         ->findOneBy(['id' => '74']);
                 default:
                     $position = $this->doctrineEntityManager->getRepository(GameDataPlayersBb2020::class)->findOneBy(
-                        ['race' => $equipe->getRace(), 'qty' => '12']);
-                    if(!$position) {
+                        ['race' => $equipe->getRace(), 'qty' => '12']
+                    );
+                    if (!$position) {
                         return $this->doctrineEntityManager->getRepository(GameDataPlayersBb2020::class)->findOneBy(
-                            ['race' => $equipe->getRace(), 'qty' => '16']);
+                            ['race' => $equipe->getRace(), 'qty' => '16']
+                        );
                     }
                     return $position;
             }

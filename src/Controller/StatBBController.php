@@ -194,7 +194,7 @@ class StatBBController extends AbstractController
     {
         /** @var GameDataPlayers $position */
         foreach ($this->getDoctrine()->getRepository(GameDataPlayers::class)->findAll() as $position) {
-            foreach (explode(',',$position->getSkills()) as $skillId) {
+            foreach (explode(',', $position->getSkills()) as $skillId) {
                 $skill = $this->getDoctrine()
                     ->getRepository(GameDataSkills::class)
                     ->findOneBy(['skillId' => $skillId]);

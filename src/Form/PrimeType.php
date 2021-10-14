@@ -47,7 +47,8 @@ class PrimeType extends AbstractType
                         return '';
                     },
                     'label' => 'Choisir un joueur',
-                    'query_builder' => fn (EntityRepository $entityRepository) => $entityRepository->createQueryBuilder('players')
+                    'query_builder' => fn (EntityRepository $entityRepository)
+                    => $entityRepository->createQueryBuilder('players')
                             ->join('players.ownedByTeam', 'teams')
                             ->where('teams.year ='.$this->settingsService->anneeCourante())
                             ->andWhere('players.journalier = FALSE')

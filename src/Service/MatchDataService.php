@@ -82,7 +82,7 @@ class MatchDataService
         }
 
         if ($matchData->getCartonsRouge() > 0) {
-            for ($compteur = 0; $compteur < $matchData->getCartonsRouge(); $compteur++ ) {
+            for ($compteur = 0; $compteur < $matchData->getCartonsRouge(); $compteur++) {
                 $ligneDuMatch .= 'Carton Rouge !, ';
             }
         }

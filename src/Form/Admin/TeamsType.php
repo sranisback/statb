@@ -34,17 +34,26 @@ class TeamsType extends AbstractType
             ->add('franchise')
             ->add('ownedByCoach', EntityType::class, ['class' => Coaches::class,'choice_label' =>'name'])
             ->add('fRace', EntityType::class, [
-                'class' => Races::class,'choice_label' =>'name', 'placeholder' => 'Choisir une Race BB2016', 'required' => false
+                'class' => Races::class,
+                'choice_label' =>'name',
+                'placeholder' => 'Choisir une Race BB2016',
+                'required' => false
             ])
             ->add('race', EntityType::class, [
-                'class' => RacesBb2020::class,'choice_label' =>'name', 'placeholder' => 'Choisir une Race BB2020', 'required' => false
+                'class' => RacesBb2020::class,
+                'choice_label' =>'name',
+                'placeholder' => 'Choisir une Race BB2020',
+                'required' => false
             ])
             ->add('fStades', EntityType::class, ['class' => Stades::class,'choice_label' =>'nom'])
-            ->add('ruleset',ChoiceType::class,
+            ->add(
+                'ruleset',
+                ChoiceType::class,
                 [
                     'choices' => ['BB2016' => 0, 'BB2020' => 1],
                     'label' => 'Ruleset',
-                ])
+                ]
+            )
         ;
     }
 

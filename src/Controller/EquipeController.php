@@ -35,7 +35,7 @@ class EquipeController extends AbstractController
      * @param SettingsService $settingsService
      * @return response
      */
-    public function montreLesEquipes(SettingsService $settingsService): \Symfony\Component\HttpFoundation\Response
+    public function montreLesEquipes(SettingsService $settingsService): Response
     {
         return $this->render(
             'statbb/tabs/ligue/showteams.html.twig',
@@ -92,7 +92,7 @@ class EquipeController extends AbstractController
         PlayerService $playerService,
         EquipeService $equipeService,
         int $teamid
-    ): \Symfony\Component\HttpFoundation\Response {
+    ): Response {
         /** @var Teams $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamid]);
 
@@ -176,7 +176,7 @@ class EquipeController extends AbstractController
 
         $currentRuleset = $this->getDoctrine()->getRepository(Setting::class)->findOneBy(['name' => 'currentRuleset']);
 
-        $form = $this->createForm(CreerEquipeType::class, $equipe,['ruleset'=>$currentRuleset->getValue()]);
+        $form = $this->createForm(CreerEquipeType::class, $equipe, ['ruleset'=>$currentRuleset->getValue()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -201,7 +201,10 @@ class EquipeController extends AbstractController
             return $this->redirectToRoute('team', ['teamid' => $teamid]);
         }
 
-        return $this->render('statbb/addteam.html.twig', ['form' => $form->createView(), 'ruleset' => $currentRuleset->getValue()]);
+        return $this->render(
+            'statbb/addteam.html.twig',
+            ['form' => $form->createView(), 'ruleset' => $currentRuleset->getValue()]
+        );
     }
 
     /**
@@ -339,7 +342,7 @@ class EquipeController extends AbstractController
      * @param Teams $equipe
      * @return Response
      */
-    public function listeDesJoueurs(Teams $equipe): \Symfony\Component\HttpFoundation\Response
+    public function listeDesJoueurs(Teams $equipe): Response
     {
         return $this->render(
             'statbb/playerAdderTable.html.twig',
@@ -356,7 +359,7 @@ class EquipeController extends AbstractController
      * @param int $equipeId
      * @return Response
      */
-    public function supprimeLogo(int $equipeId, EquipeService $equipeService): \Symfony\Component\HttpFoundation\Response
+    public function supprimeLogo(int $equipeId, EquipeService $equipeService): Response
     {
         $equipeService->supprimerLogo(
             $this->getDoctrine()

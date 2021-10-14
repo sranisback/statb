@@ -340,9 +340,9 @@ class ClassementService
         }
         if (($totalResultat['loss'] + $totalResultat['win']) > 0) {
             $tableConfrontation[] = round(
-                    ($totalResultat['win'] / ($totalResultat['loss'] + $totalResultat['win'])) * 100,
-                    2
-                ) . '%';
+                ($totalResultat['win'] / ($totalResultat['loss'] + $totalResultat['win'])) * 100,
+                2
+            ) . '%';
 
             $tableConfrontation[] = $totalResultat['win'];
             $tableConfrontation[] = $totalResultat['draw'];
@@ -500,7 +500,8 @@ class ClassementService
     private function bonusIntrepide(Teams $equipe, Matches $match, int $totalPointBonus): int
     {
         $tableResult = $this->equipeService->resultatDuMatch($equipe, $match);
-        if ($tableResult['win'] == 1 && (($equipe === $match->getTeam1() && (($match->getTv2() / 1_000) - ($match->getTv1() / 1_000) >= 250)) ||
+        if ($tableResult['win'] == 1 &&
+            (($equipe === $match->getTeam1() && (($match->getTv2() / 1_000) - ($match->getTv1() / 1_000) >= 250)) ||
                 ($equipe === $match->getTeam2() && (($match->getTv1() / 1_000) - ($match->getTv2() / 1_000) >= 250)))
         ) {
             return $totalPointBonus + 1;

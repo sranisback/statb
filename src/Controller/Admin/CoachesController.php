@@ -105,8 +105,11 @@ class CoachesController extends AbstractController
      * @param Request $request
      * @Route("/updateEditableCoach", name="updateEditableCoach", options = { "expose" = true })
      */
-    public function updateEditableCoach(Request $request, UserPasswordEncoderInterface $encoder, AdminService $adminService) : Response
-    {
+    public function updateEditableCoach(
+        Request $request,
+        UserPasswordEncoderInterface $encoder,
+        AdminService $adminService
+    ) : Response {
         $adminService->traiteModification($request->request->all(), Coaches::class, $encoder);
 
         return new Response();

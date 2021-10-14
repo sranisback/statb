@@ -24,7 +24,7 @@ class AjoutCompetenceType extends AbstractType
                     'class' => RulesetEnum::getGameDataSkillRepoFromIntByRuleset($options['ruleset']),
                     'choice_label' => 'name',
                     'query_builder' =>
-                        function (EntityRepository $entityRepository)  {
+                        function (EntityRepository $entityRepository) {
                             return $entityRepository->createQueryBuilder('Skills')
                                 ->where('Skills.cat <> \'E\'')
                                 ->orderBy('Skills.name', 'ASC');
@@ -50,9 +50,13 @@ class AjoutCompetenceType extends AbstractType
             ->add('submit', SubmitType::class, ['label' => 'Ajouter'])
             ->add('cancel', ButtonType::class, ['label' => 'Annuler', 'attr' => ['data-dismiss' => 'modal']]);
 
-            if($options['ruleset'] === RulesetEnum::BB_2020) {
-                $form->add('hasard', CheckboxType::class, ['label' => 'Tirée au hasard ?', 'mapped' => false, 'required' => false]);
-            }
+        if ($options['ruleset'] === RulesetEnum::BB_2020) {
+            $form->add(
+                'hasard',
+                CheckboxType::class,
+                ['label' => 'Tirée au hasard ?', 'mapped' => false, 'required' => false]
+            );
+        }
 
             $form->getForm();
     }

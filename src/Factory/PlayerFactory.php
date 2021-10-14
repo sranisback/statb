@@ -44,7 +44,7 @@ class PlayerFactory
 
         $dateBoughtFormat = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
 
-        $joueur = RulesetEnum::setPositionAndRaceJoueurByRuleset($joueur,$position);
+        $joueur = RulesetEnum::setPositionAndRaceJoueurByRuleset($joueur, $position);
 
         $joueur = self::attribuerIcone($joueur, $entityManager);
 

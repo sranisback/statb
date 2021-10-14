@@ -276,7 +276,7 @@ class MatchesService
                     break;
                 case 'RPM':
                     $joueur->setInjRpm(1);
-                    $this->enregistreHistoriqueBlessure(rand(41,48), $joueur, $histoBlessure);
+                    $this->enregistreHistoriqueBlessure(rand(41, 48), $joueur, $histoBlessure);
                     break;
                 case 'Tué':
                     $date = DateTime::createFromFormat(self::DATE_FORMAT, date(self::DATE_FORMAT));

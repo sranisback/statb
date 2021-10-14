@@ -28,25 +28,28 @@ class AdminService
      * @param class-string $entity
      * @param UserPasswordEncoderInterface|null $encoder
      */
-    public function traiteModification(array $request, string $entity, UserPasswordEncoderInterface $encoder = null) : void
-    {
+    public function traiteModification(
+        array $request,
+        string $entity,
+        UserPasswordEncoderInterface $encoder = null
+    ) : void {
         /** @var class-string $entity */
         switch ($entity) {
             case Coaches::class:
                 $id = 'coachId';
-            break;
+                break;
             case Matches::class:
                 $id = 'matchId';
-            break;
+                break;
             case Players::class:
                 $id = 'playerId';
-            break;
+                break;
             case Teams::class:
                 $id = 'teamId';
                 break;
             default:
                 $id = 'id';
-            break;
+                break;
         }
 
         /** @var Coaches|Matches|Players|Teams $object */

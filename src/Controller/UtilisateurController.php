@@ -46,7 +46,7 @@ class UtilisateurController extends AbstractController
         $form = $this->createForm(AjoutCitationType::class, $citation);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             /** @var array $citation */
             $citation = $request->request->get('ajout_citation');
             $citationService->enregistrerCitation($citation);
@@ -56,6 +56,9 @@ class UtilisateurController extends AbstractController
             return $this->redirectToRoute('frontUser');
         }
 
-        return $this->render('statbb/tabs/parametres/addcitation.html.twig', ['form' => $form->createView(), 'citation' => $citation]);
+        return $this->render(
+            'statbb/tabs/parametres/addcitation.html.twig',
+            ['form' => $form->createView(), 'citation' => $citation]
+        );
     }
 }

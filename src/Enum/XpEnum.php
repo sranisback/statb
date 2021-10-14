@@ -3,7 +3,6 @@
 
 namespace App\Enum;
 
-
 class XpEnum
 {
     public static function tableauXpBb2016() : array

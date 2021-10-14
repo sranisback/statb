@@ -127,7 +127,8 @@ class MatchDataRepository extends ServiceEntityRepository
             case 'xp':
                 $query->addSelect(
                     'SUM(Matchdata.cp) + (SUM(Matchdata.td)*3)+ (SUM(Matchdata.intcpt)*3)+ 
-                    (SUM(Matchdata.bh+Matchdata.si+Matchdata.ki)*2)+(SUM(Matchdata.mvp)*5)+ SUM(Matchdata.bonusSpp) AS score'
+                    (SUM(Matchdata.bh+Matchdata.si+Matchdata.ki)*2)+(SUM(Matchdata.mvp)*5)+ 
+                    SUM(Matchdata.bonusSpp) AS score'
                 );
                 break;
 

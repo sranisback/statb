@@ -261,7 +261,9 @@ class Players
     private ?string $photo = null;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\HistoriqueBlessure", mappedBy="Player", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(
+     *     targetEntity="App\Entity\HistoriqueBlessure", mappedBy="Player", orphanRemoval=true, cascade={"persist"}
+     *     )
      * @var \Doctrine\Common\Collections\Collection
      */
     private \Doctrine\Common\Collections\Collection $historiqueBlessures;

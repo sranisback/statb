@@ -35,7 +35,7 @@ class CoachesFixture extends Fixture
     {
         $coachFixtures = null;
 
-        for($compteur = 0; $compteur < $nombre; $compteur++){
+        for ($compteur = 0; $compteur < $nombre; $compteur++) {
             $coach = new Coaches();
             $coach->setName('test_' . $compteur);
             $coach->setRoles(['role' => 'ROLE_USER']);
