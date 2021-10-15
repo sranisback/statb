@@ -18,7 +18,7 @@ Période Défis actuelle : {{ render(controller('App\\Controller\\DefisIhmContro
                 <td>
                     {{ defis.equipeOrigine.name }} {% if defis.equipeOrigine.franchise == true %}
                     <span class="fas fa-tag text-success"></span>
-                    {% endif %} de {{ defis.equipeOrigine.ownedByCoach.name }}
+                    {% endif %} de {{ defis.equipeOrigine.ownedByCoach.username }}
                     ,
                     {% if(defis.equipeOrigine.ruleset == 0) %}
                         {{ defis.equipeOrigine.fRace.name }}
@@ -27,7 +27,7 @@ Période Défis actuelle : {{ render(controller('App\\Controller\\DefisIhmContro
                     {% endif %}
                 <td>{{ defis.equipeDefiee.name }} {% if defis.equipeDefiee.franchise == true %}
                     <span class="fas fa-tag text-success"></span>
-                    {% endif %} de {{ defis.equipeDefiee.ownedByCoach.name }}
+                    {% endif %} de {{ defis.equipeDefiee.ownedByCoach.username }}
                     ,
                     {% if(defis.equipeDefiee.ruleset == 0) %}
                         {{ defis.equipeDefiee.fRace.name }}

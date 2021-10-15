@@ -58,7 +58,7 @@ class InfosService
     public function equipeEstCree(Teams $equipe)
     {
         return $this->publierUnMessage(
-            $equipe->getOwnedByCoach()->getName() .
+            $equipe->getOwnedByCoach()->getUsername() .
             ' a crée l\'équipe <a href="' . $this->urlPrefix . self::TEAM_URL . $equipe->getTeamId() .
             '">' . $equipe->getName() . '</a>' .
             '(' . RulesetEnum::getRaceFromEquipeByRuleset($equipe)->getName() .
@@ -78,7 +78,7 @@ class InfosService
             ' a été engagé par <a href="' . $this->urlPrefix . self::TEAM_URL .
             $joueur->getOwnedByTeam()->getTeamId() . '">' .
             $joueur->getOwnedByTeam()->getName() . '</a>' .
-            ' de ' . $joueur->getOwnedByTeam()->getOwnedByCoach()->getName()
+            ' de ' . $joueur->getOwnedByTeam()->getOwnedByCoach()->getUsername()
         );
     }
 

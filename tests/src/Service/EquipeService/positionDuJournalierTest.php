@@ -9,6 +9,7 @@ use App\Entity\RacesBb2020;
 use App\Entity\Teams;
 use App\Enum\RulesetEnum;
 use App\Service\EquipeService;
+use App\Service\InducementService;
 use App\Service\InfosService;
 use App\Service\SettingsService;
 use Doctrine\Persistence\ObjectRepository;
@@ -41,7 +42,8 @@ class positionDuJournalierTest extends TestCase
         $equipeService = new EquipeService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(InducementService::class)
         );
 
         /** @var GameDataPlayers $journalierTest */
@@ -74,7 +76,8 @@ class positionDuJournalierTest extends TestCase
         $equipeService = new EquipeService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(InducementService::class)
         );
 
         /** @var GameDataPlayers $journalierTest */
@@ -107,7 +110,8 @@ class positionDuJournalierTest extends TestCase
         $equipeService = new EquipeService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(InducementService::class)
         );
 
         /** @var GameDataPlayers $journalierTest */
@@ -141,7 +145,8 @@ class positionDuJournalierTest extends TestCase
         $equipeService = new EquipeService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(InducementService::class)
         );
 
         /** @var GameDataPlayers $journalierTest */
@@ -175,7 +180,8 @@ class positionDuJournalierTest extends TestCase
         $equipeService = new EquipeService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(InducementService::class)
         );
 
         /** @var GameDataPlayers $journalierTest */

@@ -10,6 +10,7 @@ use App\Entity\PlayersIcons;
 use App\Entity\Races;
 use App\Entity\Teams;
 use App\Service\EquipeService;
+use App\Service\InducementService;
 use App\Service\InfosService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
@@ -84,7 +85,7 @@ class ajoutDesJournaliersTest extends TestCase
         $gameDataPlayersRepoMock->method('findOneBy')->willReturn($gameDataPlayerTest);
 
         $joueurRepoMock = $this->getMockBuilder(Players::class)
-            ->setMethods(['listeDesJoueursActifsPourlEquipe'])
+            ->addMethods(['listeDesJoueursActifsPourlEquipe'])
             ->getMock();
         $joueurRepoMock->method('listeDesJoueursActifsPourlEquipe')->willReturn(
             [
@@ -102,7 +103,7 @@ class ajoutDesJournaliersTest extends TestCase
         );
 
         $playerIconRepoMock = $this->getMockBuilder(PlayersIcons::class)
-            ->setMethods(['toutesLesIconesDunePosition'])
+            ->addMethods(['toutesLesIconesDunePosition'])
             ->getMock();
         $playerIconRepoMock->method('toutesLesIconesDunePosition')
             ->willReturn([$this->createMock(PlayersIcons::class)]);
@@ -131,7 +132,8 @@ class ajoutDesJournaliersTest extends TestCase
         $equipeService = new EquipeService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(InducementService::class)
         );
 
         $this->assertEquals(1, $equipeService->ajoutDesJournaliers(1, $equipeTest, $playerServiceMock));
@@ -197,7 +199,8 @@ class ajoutDesJournaliersTest extends TestCase
         $equipeService = new EquipeService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(InducementService::class)
         );
 
         $this->assertEquals(11, $equipeService->ajoutDesJournaliers(11, $equipeTest, $playerServiceMock));

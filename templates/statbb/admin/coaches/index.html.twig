@@ -21,8 +21,8 @@
         {% for coach in coaches %}
             <tr>
                 <td> {{ coach.coachId }}</td>
-                <td><a href="#" data-type="text" data-pk="{{ coach.coachId }}" data-name="Name" id="admin_coach_name_{{ loop.index }}"> {{ coach.name }}</a></td>
-                <td><a href="#" data-type="password" data-pk="{{ coach.coachId }}" data-name="Passwd" id="admin_coach_pass_{{ loop.index }}">{{ coach.passwd }}</a></td>
+                <td><a href="#" data-type="text" data-pk="{{ coach.coachId }}" data-name="Username" id="admin_coach_name_{{ loop.index }}"> {{ coach.username }}</a></td>
+                <td><a href="#" data-type="password" data-pk="{{ coach.coachId }}" data-name="Password" id="admin_coach_pass_{{ loop.index }}">{{ coach.password }}</a></td>
                 <td><a href="#" data-type="select" data-pk="{{ coach.coachId }}" data-name="Roles" data-source='{"ADMIN": "Administrateur", "USER":"Utilisateur"}' id="admin_coach_role_{{ loop.index }}">{{ coach.roles ? coach.roles|json_encode : '' }}</a></td>
                 <td>
                     <a href="{{ path('coaches_edit', {'coachId': coach.coachId}) }}">edit</a>

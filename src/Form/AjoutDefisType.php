@@ -69,7 +69,7 @@ class AjoutDefisType extends AbstractType
                         },
                     'group_by' => function (Teams $team) {
                         if (!empty($team->getOwnedByCoach())) {
-                            return $team->getOwnedByCoach()->getName();
+                            return $team->getOwnedByCoach()->getUsername();
                         }
                     },
                 ]

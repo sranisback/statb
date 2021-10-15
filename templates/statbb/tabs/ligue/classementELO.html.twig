@@ -12,7 +12,7 @@
         <tbody>
         {%  for equipe in equipeCollection %}
             <tr>
-                <td>{{ equipe.ownedByCoach.name }}</td>
+                <td>{{ equipe.ownedByCoach.username }}</td>
                 <td>
                     {{ equipe.name }}
                     {% if equipe.franchise == true %}

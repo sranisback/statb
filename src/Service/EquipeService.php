@@ -9,8 +9,6 @@ use App\Entity\GameDataPlayersBb2020;
 use App\Entity\GameDataStadium;
 use App\Entity\Matches;
 use App\Entity\Players;
-use App\Entity\Races;
-use App\Entity\RacesBb2020;
 use App\Entity\Stades;
 use App\Entity\Teams;
 use App\Enum\AnneeEnum;
@@ -20,6 +18,7 @@ use App\Factory\PlayerFactory;
 use App\Factory\TeamsFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use Gumlet\ImageResize;
+use Gumlet\ImageResizeException;
 use Nette\Utils\DateTime;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -31,38 +30,26 @@ class EquipeService
      * @var EntityManagerInterface
      */
     private EntityManagerInterface $doctrineEntityManager;
+
     /**
      * @var SettingsService
      */
     private SettingsService $settingsService;
 
+    /**
+     * @var InfosService
+     */
     private InfosService $infoService;
+
+    /**
+     * @var InducementService
+     */
+    private InducementService $inducementService;
 
     /**
      * @var int
      */
     private int $baseElo = 150;
-
-    /**
-     * @var int
-     */
-    private int $coutpop = 10_000;
-    /**
-     * @var int
-     */
-    private int $coutAssistant = 10_000;
-    /**
-     * @var int
-     */
-    private int $coutCheer = 10_000;
-    /**
-     * @var int
-     */
-    private int $coutApo = 50_000;
-    /**
-     * @var int
-     */
-    private int $payementStade = 70_000;
 
     private const MORTS_VIVANTS = 'Morts vivants';
     private const OWA = 'OWA';
@@ -71,11 +58,13 @@ class EquipeService
     public function __construct(
         EntityManagerInterface $doctrineEntityManager,
         SettingsService $settingsService,
-        InfosService $infoService
+        InfosService $infoService,
+        InducementService $inducementService
     ) {
         $this->infoService = $infoService;
         $this->doctrineEntityManager = $doctrineEntityManager;
         $this->settingsService = $settingsService;
+        $this->inducementService = $inducementService;
     }
 
     /**
@@ -83,7 +72,7 @@ class EquipeService
     * @param PlayerService $playerService
     * @return int
     */
-    public function tvDelEquipe(Teams $equipe, PlayerService $playerService)
+    public function tvDelEquipe(Teams $equipe, PlayerService $playerService) : int
     {
         $coutTotalJoueur = $playerService->coutTotalJoueurs($equipe);
 
@@ -142,7 +131,7 @@ class EquipeService
     /**
      * @param Teams $equipe
      * @param array<Matches> $matchesCollection
-     * @return array<mixed>
+     * @return array
      */
     public function resultatsEtDetailsDeLequipe(Teams $equipe, array $matchesCollection) : array
     {
@@ -224,195 +213,6 @@ class EquipeService
     }
 
     /**
-     * @param Teams $equipe
-     * @param string $type
-     * @param PlayerService $playerService
-     * @return array<string,int|null>
-     */
-    public function ajoutInducement(Teams $equipe, string $type, PlayerService $playerService): array
-    {
-        $nbr = 0;
-        $inducost = 0;
-
-        $matches = $this->doctrineEntityManager->getRepository(Matches::class)->listeDesMatchs($equipe);
-
-        switch ($type) {
-            case "rr":
-                $race = RulesetEnum::getRaceFromEquipeByRuleset($equipe);
-
-                if ($race !== null) {
-                    $coutRR = $race->getCostRr();
-                    $nbr = $equipe->getRerolls();
-
-                    if (count($matches) > 0) {
-                        $coutRR *= 2;
-                    }
-                    if ($equipe->getTreasury() >= $coutRR) {
-                        $inducost = $coutRR;
-                        $nbr += 1;
-                        $equipe->setRerolls($nbr);
-                    }
-                }
-                break;
-            case "pop":
-                $nbr = $equipe->getFfBought() + $equipe->getFf();
-
-                if (count($matches) === 0 && $equipe->getTreasury() >= $this->coutpop) {
-                    $nbr += 1;
-                    $equipe->setFfBought($equipe->getFfBought() + 1);
-                    $inducost = $this->coutpop;
-                }
-                break;
-            case "ac":
-                $nbr = $equipe->getAssCoaches();
-
-                if ($equipe->getTreasury() >= $this->coutAssistant) {
-                    $nbr += 1;
-                    $equipe->setAssCoaches($nbr);
-                    $inducost = $this->coutAssistant;
-                }
-                break;
-            case "chl":
-                $nbr = $equipe->getCheerleaders();
-
-                if ($equipe->getTreasury() >= $this->coutCheer) {
-                    $nbr += 1;
-                    $equipe->setCheerleaders($nbr);
-                    $inducost = $this->coutCheer;
-                }
-                break;
-            case "apo":
-                $equipe->getApothecary() === 1 ? $nbr = 1 : $nbr = 0;
-                if ($equipe->getTreasury() >= $this->coutApo && $equipe->getApothecary() === 0) {
-                    $nbr = 1;
-                    $equipe->setApothecary(1);
-                    $inducost = $this->coutApo;
-                }
-                break;
-            case "pay":
-                $stadeDelEquipe = $equipe->getFStades();
-
-                $nbr = $stadeDelEquipe->getTotalPayement();
-
-                if ($equipe->getTreasury() >= $this->payementStade) {
-                    $nbr += 50_000;
-                    $stadeDelEquipe->setTotalPayement($nbr);
-                    $this->doctrineEntityManager->persist($stadeDelEquipe);
-                    $inducost = 70_000;
-                }
-                break;
-            default:
-                break;
-        }
-
-        $nouveauTresor = $equipe->getTreasury() - $inducost;
-        $equipe->setTreasury($nouveauTresor);
-
-        $this->doctrineEntityManager->persist($equipe);
-        $this->doctrineEntityManager->flush();
-        $this->doctrineEntityManager->refresh($equipe);
-
-        $equipe->setTv($this->tvDelEquipe($equipe, $playerService));
-
-        $this->doctrineEntityManager->persist($equipe);
-        $this->doctrineEntityManager->flush();
-        $this->doctrineEntityManager->refresh($equipe);
-
-        return ['inducost' => $inducost, 'nbr' => $nbr];
-    }
-
-    /**
-     * @param Teams $equipe
-     * @param string $type
-     * @param PlayerService $playerService
-     * @return array<string,int|null>
-     */
-    public function supprInducement(Teams $equipe, string $type, PlayerService $playerService): array
-    {
-        $nbr = 0;
-        $inducost = 0;
-
-        $matches = $this->doctrineEntityManager->getRepository(Matches::class)->listeDesMatchs($equipe);
-
-        switch ($type) {
-            case "rr":
-                $race = RulesetEnum::getRaceFromEquipeByRuleset($equipe);
-
-                if ($race !== null && $equipe->getRerolls() > 0) {
-                    $inducost = $race->getCostRr();
-                    $nbr = $equipe->getRerolls() - 1;
-                    $equipe->setRerolls($nbr);
-                }
-                break;
-            case "pop":
-                $nbr = $equipe->getFfBought() + $equipe->getFf();
-                if (count($matches) === 0 && $equipe->getFfBought() > 0) {
-                    $inducost = $this->coutpop;
-                    $nbr -= 1;
-                    $equipe->setFfBought($equipe->getFfBought() - 1);
-                }
-                if (count($matches) === 0 && $equipe->getFfBought() == 0 && $equipe->getFf() > 0) {
-                    $inducost = $this->coutpop;
-                    $nbr -= 1;
-                    $equipe->setFf($equipe->getFf() - 1);
-                }
-                break;
-            case "ac":
-                $nbr = $equipe->getAssCoaches();
-                if ($nbr > 0) {
-                    $inducost = $this->coutAssistant;
-                    $nbr -= 1;
-                    $equipe->setAssCoaches($nbr);
-                }
-                break;
-            case "chl":
-                $nbr = $equipe->getCheerleaders();
-                if ($nbr > 0) {
-                    $inducost = $this->coutCheer;
-                    $nbr -= 1;
-                    $equipe->setCheerleaders($nbr);
-                }
-                break;
-            case "apo":
-                $equipe->getApothecary() === 1 ? $nbr = 1 : $nbr = 0;
-                if ($equipe->getApothecary() === 1) {
-                    $inducost = $this->coutApo;
-                    $nbr = 0;
-                    $equipe->setApothecary(0);
-                }
-                break;
-            case "pay":
-                $stadeDelEquipe = $equipe->getFStades();
-                $nbr = $stadeDelEquipe->getTotalPayement();
-                if ($nbr > 0) {
-                    $nbr -= 50_000;
-                    $stadeDelEquipe->setTotalPayement($nbr);
-                    $inducost = $this->payementStade;
-                }
-                break;
-            default:
-                break;
-        }
-
-        if (count($matches) === 0) {
-            $nouveauTresor = $equipe->getTreasury() + $inducost;
-            $equipe->setTreasury($nouveauTresor);
-        }
-
-        $this->doctrineEntityManager->persist($equipe);
-        $this->doctrineEntityManager->flush();
-        $this->doctrineEntityManager->refresh($equipe);
-
-        $equipe->setTv($this->tvDelEquipe($equipe, $playerService));
-
-        $this->doctrineEntityManager->persist($equipe);
-        $this->doctrineEntityManager->flush();
-        $this->doctrineEntityManager->refresh($equipe);
-
-        return ['inducost' => $inducost, 'nbr' => $nbr];
-    }
-
-    /**
      * @param integer $year
      * @return array<int,mixed>
      */
@@ -487,7 +287,7 @@ class EquipeService
     /**
      * @param Coaches $coachActif
      * @param int $annee
-     * @return mixed[]
+     * @return array
      */
     public function listeDesAnciennesEquipes(Coaches $coachActif, int $annee): array
     {
@@ -557,7 +357,7 @@ class EquipeService
     /**
      * @param Teams $equipe
      * @param PlayerService $playerService
-     * @return int[]|mixed[]
+     * @return int[]|array
      */
     public function gestionDesJournaliers(Teams $equipe, PlayerService $playerService): array
     {
@@ -664,9 +464,9 @@ class EquipeService
 
     /**
      * @param Teams $equipe
-     * @return array<mixed>
+     * @return array
      */
-    public function detailsScoreEquipe(Teams $equipe):array
+    public function detailsScoreEquipe(Teams $equipe) : array
     {
         /** @var ClassementGeneral $detailsPoints */
         $detailsPoints = $this->doctrineEntityManager
@@ -754,7 +554,7 @@ class EquipeService
      * @param PlayerService $playerService
      * @return array
      */
-    public function feuilleDequipeComplete(Teams $equipe, PlayerService $playerService)
+    public function feuilleDequipeComplete(Teams $equipe, PlayerService $playerService): array
     {
         $pdata = [];
 
@@ -780,9 +580,9 @@ class EquipeService
     /**
      * @param Teams $equipe
      * @param PlayerService $playerService
-     * @return mixed
+     * @return array
      */
-    public function calculsInducementEquipe(Teams $equipe, PlayerService $playerService)
+    public function calculsInducementEquipe(Teams $equipe, PlayerService $playerService) : array
     {
         $inducement = $this->valeurInducementDelEquipe($equipe);
 
@@ -800,7 +600,7 @@ class EquipeService
      * @param Request $request
      * @param string $logoDirectory
      * @param Teams $equipe
-     * @throws \Gumlet\ImageResizeException
+     * @throws ImageResizeException
      */
     public function enregistreLogo(Request $request, string $logoDirectory, Teams $equipe) : void
     {
@@ -841,9 +641,9 @@ class EquipeService
             ->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
 
         if ($action === 'add') {
-            $coutEtnbr = $this->ajoutInducement($equipe, $type, $playerService);
+            $coutEtnbr = $this->inducementService->ajoutInducement($equipe, $type, $playerService, $this);
         } else {
-            $coutEtnbr = $this->supprInducement($equipe, $type, $playerService);
+            $coutEtnbr = $this->inducementService->supprInducement($equipe, $type, $playerService, $this);
         }
         $tv = $this->tvDelEquipe($equipe, $playerService);
 

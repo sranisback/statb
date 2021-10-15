@@ -9,6 +9,7 @@ use App\Entity\RacesBb2020;
 use App\Entity\Teams;
 use App\Enum\RulesetEnum;
 use App\Service\EquipeService;
+use App\Service\InducementService;
 use App\Service\InfosService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
@@ -35,7 +36,8 @@ class calculsInducementEquipeTest extends TestCase
         $equipeServiceTest = new EquipeService(
             $this->createMock(EntityManager::class),
             $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(InducementService::class)
         );
 
         $attendu = [
@@ -69,7 +71,8 @@ class calculsInducementEquipeTest extends TestCase
         $equipeServiceTest = new EquipeService(
             $this->createMock(EntityManager::class),
             $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(InducementService::class)
         );
 
         $attendu = [

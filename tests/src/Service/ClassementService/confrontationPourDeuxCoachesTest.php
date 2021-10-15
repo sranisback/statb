@@ -20,11 +20,11 @@ class confrontationPourDeuxCoachesTest extends KernelTestCase
     public function le_resultat_de_deux_coaches_est_bien_retournee(): void
     {
         $coachTest0 = $this->createMock(Coaches::class);
-        $coachTest0->method('getName')->willReturn('coach 0');
+        $coachTest0->method('getUsername')->willReturn('coach 0');
         $coachTest0->method('getCoachId')->willReturn(0);
 
         $coachTest1 = $this->createMock(Coaches::class);
-        $coachTest1->method('getName')->willReturn('coach 1');
+        $coachTest1->method('getUsername')->willReturn('coach 1');
         $coachTest1->method('getCoachId')->willReturn(1);
 
         $equipeTest0 = new Teams();
@@ -80,9 +80,9 @@ class confrontationPourDeuxCoachesTest extends KernelTestCase
     public function il_n_y_a_pas_de_matchs_mais_des_equipes_et_coachs(): void
     {
         $coachTest0 = new Coaches();
-        $coachTest0->setName('coach 0');
+        $coachTest0->setUsername('coach 0');
         $coachTest1 = new Coaches();
-        $coachTest1->setName('coach 1');
+        $coachTest1->setUsername('coach 1');
 
         $equipeTest0 = new Teams();
         $equipeTest0->setOwnedByCoach($coachTest0);
@@ -123,9 +123,9 @@ class confrontationPourDeuxCoachesTest extends KernelTestCase
     public function il_n_y_a_pas_de_donnees(): void
     {
         $coachTest0 = new Coaches();
-        $coachTest0->setName('coach 0');
+        $coachTest0->setUsername('coach 0');
         $coachTest1 = new Coaches();
-        $coachTest1->setName('coach 1');
+        $coachTest1->setUsername('coach 1');
 
 
         $matchesRepoMock = $this->getMockBuilder(Matches::class)->setMethods(['tousLesMatchsDeDeuxCoach'])->getMock();
@@ -162,9 +162,9 @@ class confrontationPourDeuxCoachesTest extends KernelTestCase
     public function une_paire_de_coach_ne_se_sont_pas_rencontre(): void
     {
         $coachTest0 = new Coaches();
-        $coachTest0->setName('coach 0');
+        $coachTest0->setUsername('coach 0');
         $coachTest1 = new Coaches();
-        $coachTest1->setName('coach 1');
+        $coachTest1->setUsername('coach 1');
 
         $matchesRepoMock = $this->getMockBuilder(Matches::class)->setMethods(['tousLesMatchsDeDeuxCoach'])->getMock();
         $matchesRepoMock->method('tousLesMatchsDeDeuxCoach')->willReturnOnConsecutiveCalls(
@@ -199,11 +199,11 @@ class confrontationPourDeuxCoachesTest extends KernelTestCase
     public function les_coaches_ont_plusieurs_equipes(): void
     {
         $coachTest0 = $this->createMock(Coaches::class);
-        $coachTest0->method('getName')->willReturn('coach 0');
+        $coachTest0->method('getUsername')->willReturn('coach 0');
         $coachTest0->method('getCoachId')->willReturn(0);
 
         $coachTest1 = $this->createMock(Coaches::class);
-        $coachTest1->method('getName')->willReturn('coach 1');
+        $coachTest1->method('getUsername')->willReturn('coach 1');
         $coachTest1->method('getCoachId')->willReturn(1);
 
         $equipeTest0a = new Teams();

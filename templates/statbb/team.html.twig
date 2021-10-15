@@ -289,7 +289,7 @@
                                         src="{{ asset('build/'~app.environment~'/images/race_icons/'~feuille.team.race.icon~'.png') }}">
                                     {% endif %}
                         </td>
-                        <td colspan=4>Coach : {{ feuille.team.ownedByCoach.name }}</td>
+                        <td colspan=4>Coach : {{ feuille.team.ownedByCoach.username }}</td>
                         <td colspan=5 class="text-right">Valeur totale des joueurs :</td>
                         <td class="text-right" id="totalPV">{{ feuille.tdata.playersCost }}</td>
                     </tr>

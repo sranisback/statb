@@ -59,10 +59,7 @@ class Coaches implements UserInterface
         $this->equipes = new ArrayCollection();
     }
 
-    /**
-     * @return PersistentCollection
-     */
-    public function getEquipes(): PersistentCollection
+    public function getEquipes()
     {
         return $this->equipes;
     }
@@ -80,24 +77,24 @@ class Coaches implements UserInterface
         return $this->coachId;
     }
 
-    public function getName(): ?string
+    public function getUsername(): ?string
     {
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setUsername(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    public function getPasswd(): ?string
+    public function getPassword(): ?string
     {
         return $this->passwd;
     }
 
-    public function setPasswd(string $passwd): self
+    public function setPassword(string $passwd): self
     {
         $this->passwd = $passwd;
 
@@ -112,22 +109,12 @@ class Coaches implements UserInterface
         return $this->roles;
     }
 
-    public function getPassword(): ?string
-    {
-        return $this->passwd;
-    }
-
     /**
      * @return null
      */
     public function getSalt()
     {
         return null;
-    }
-
-    public function getUsername(): ?string
-    {
-        return $this->name;
     }
 
     public function eraseCredentials(): void

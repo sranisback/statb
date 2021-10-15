@@ -46,8 +46,8 @@ class CoachesController extends AbstractController
             $datas = $request->request->get('coaches');
             $coach->setRoles(['role' => 'ROLE_' . $datas['roles']]);
 
-            $encoded = $encoder->encodePassword($coach, $coach->getPasswd());
-            $coach->setPasswd($encoded);
+            $encoded = $encoder->encodePassword($coach, $coach->getPassword());
+            $coach->setPassword($encoded);
 
             $entityManager->persist($coach);
             $entityManager->flush();
@@ -74,7 +74,7 @@ class CoachesController extends AbstractController
             $datas = $request->request->get('coaches');
             $coach->setRoles(['role' => 'ROLE_'.$datas['roles']]);
 
-            $coach->setPasswd($encoder->encodePassword($coach, $coach->getPasswd()));
+            $coach->setPassword($encoder->encodePassword($coach, $coach->getPassword()));
 
             $this->getDoctrine()->getManager()->flush();
 

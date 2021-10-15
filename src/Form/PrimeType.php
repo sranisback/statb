@@ -62,7 +62,7 @@ class PrimeType extends AbstractType
                         }
 
                         if (!empty($joueur) && !empty($raceEquipe) && !empty($equipe) && !empty($coach)) {
-                            return $equipe->getName().', '.$raceEquipe->getName().', '.$coach->getName();
+                            return $equipe->getName().', '.$raceEquipe->getName().', '.$coach->getUsername();
                         }
                         return '';
                     },

@@ -60,7 +60,7 @@ class AdminService
         switch ($request['name']) {
             case 'Passwd':
                 /* @phpstan-ignore-next-line  */
-                $object->setPasswd($encoder->encodePassword($object, $object->getPasswd()));
+                $object->setPassword($encoder->encodePassword($object, $object->getPassword()));
                 break;
 
             case 'Roles':

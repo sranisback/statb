@@ -5,6 +5,7 @@ namespace App\Tests\src\Service\EquipeService;
 use App\Entity\Players;
 use App\Entity\Teams;
 use App\Service\EquipeService;
+use App\Service\InducementService;
 use App\Service\InfosService;
 use App\Service\SettingsService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,7 +21,7 @@ class suppressionDesJournaliersTest extends KernelTestCase
         $joueurTest0 = new Players();
 
         $joueurRepoMock = $this->getMockBuilder(Players::class)
-            ->setMethods(['listeDesJournaliersDeLequipe'])
+            ->addMethods(['listeDesJournaliersDeLequipe'])
             ->getMock();
         $joueurRepoMock->method('listeDesJournaliersDeLequipe')->willReturn(
             [
@@ -34,7 +35,8 @@ class suppressionDesJournaliersTest extends KernelTestCase
         $equipeService = new EquipeService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(InducementService::class)
         );
 
         $this->assertEquals(
@@ -55,7 +57,7 @@ class suppressionDesJournaliersTest extends KernelTestCase
         $joueurTest1 = new Players();
 
         $joueurRepoMock = $this->getMockBuilder(Players::class)
-            ->setMethods(['listeDesJournaliersDeLequipe'])
+            ->addMethods(['listeDesJournaliersDeLequipe'])
             ->getMock();
         $joueurRepoMock->method('listeDesJournaliersDeLequipe')->willReturn(
             [
@@ -70,7 +72,8 @@ class suppressionDesJournaliersTest extends KernelTestCase
         $equipeService = new EquipeService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(InducementService::class)
         );
 
         $this->assertEquals(
@@ -93,7 +96,7 @@ class suppressionDesJournaliersTest extends KernelTestCase
         $joueurTest3 = new Players();
 
         $joueurRepoMock = $this->getMockBuilder(Players::class)
-            ->setMethods(['listeDesJournaliersDeLequipe'])
+            ->addMethods(['listeDesJournaliersDeLequipe'])
             ->getMock();
         $joueurRepoMock->method('listeDesJournaliersDeLequipe')->willReturn(
             [
@@ -110,7 +113,8 @@ class suppressionDesJournaliersTest extends KernelTestCase
         $equipeService = new EquipeService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(InducementService::class)
         );
 
         $this->assertEquals(
@@ -135,7 +139,7 @@ class suppressionDesJournaliersTest extends KernelTestCase
         $joueurTest3 = new Players();
 
         $joueurRepoMock = $this->getMockBuilder(Players::class)
-            ->setMethods(['listeDesJournaliersDeLequipe'])
+            ->addMethods(['listeDesJournaliersDeLequipe'])
             ->getMock();
         $joueurRepoMock->method('listeDesJournaliersDeLequipe')->willReturn(
             [
@@ -152,7 +156,8 @@ class suppressionDesJournaliersTest extends KernelTestCase
         $equipeService = new EquipeService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(InducementService::class)
         );
 
         $this->assertEquals(

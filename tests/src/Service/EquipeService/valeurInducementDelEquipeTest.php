@@ -8,6 +8,7 @@ use App\Entity\RacesBb2020;
 use App\Entity\Teams;
 use App\Enum\RulesetEnum;
 use App\Service\EquipeService;
+use App\Service\InducementService;
 use App\Service\InfosService;
 use App\Service\SettingsService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -39,7 +40,8 @@ class valeurInducementDelEquipeTest extends KernelTestCase
         $equipeService = new EquipeService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(InducementService::class)
         );
 
         $retour = [
@@ -77,7 +79,8 @@ class valeurInducementDelEquipeTest extends KernelTestCase
         $equipeService = new EquipeService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(InducementService::class)
         );
 
         $retour = [

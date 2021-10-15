@@ -10,6 +10,7 @@ use App\Entity\PlayersIcons;
 use App\Entity\Races;
 use App\Entity\Teams;
 use App\Service\EquipeService;
+use App\Service\InducementService;
 use App\Service\InfosService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
@@ -92,7 +93,7 @@ class GestionDesJournaliersTest extends TestCase
         $gameDataPlayersRepoMock->method('findOneBy')->willReturn($gameDataPlayerTest);
 
         $joueurRepoMock = $this->getMockBuilder(Players::class)
-            ->setMethods(['listeDesJoueursActifsPourlEquipe', 'listeDesJournaliersDeLequipe'])
+            ->addMethods(['listeDesJoueursActifsPourlEquipe', 'listeDesJournaliersDeLequipe'])
             ->getMock();
         $joueurRepoMock->method('listeDesJoueursActifsPourlEquipe')->willReturn(
             [
@@ -139,7 +140,8 @@ class GestionDesJournaliersTest extends TestCase
         $equipeService = new EquipeService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(InducementService::class)
         );
 
         $retourTest['vendu'] = 1;
@@ -211,7 +213,7 @@ class GestionDesJournaliersTest extends TestCase
         $gameDataPlayersRepoMock->method('findOneBy')->willReturn($gameDataPlayerTest);
 
         $joueurRepoMock = $this->getMockBuilder(Players::class)
-            ->setMethods(['listeDesJoueursActifsPourlEquipe'])
+            ->addMethods(['listeDesJoueursActifsPourlEquipe'])
             ->getMock();
         $joueurRepoMock->method('listeDesJoueursActifsPourlEquipe')->willReturn(
             [
@@ -229,7 +231,7 @@ class GestionDesJournaliersTest extends TestCase
         );
 
         $playerIconRepoMock = $this->getMockBuilder(PlayersIcons::class)
-            ->setMethods(['toutesLesIconesDunePosition'])
+            ->addMethods(['toutesLesIconesDunePosition'])
             ->getMock();
         $playerIconRepoMock->method('toutesLesIconesDunePosition')
             ->willReturn([$this->createMock(PlayersIcons::class)]);
@@ -260,7 +262,8 @@ class GestionDesJournaliersTest extends TestCase
         $equipeService = new EquipeService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(InducementService::class)
         );
 
         $retourTest['ajout'] = 1;

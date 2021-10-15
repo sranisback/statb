@@ -292,7 +292,7 @@ class ClassementService
         $tableauCompletConfrontation = [];
 
         foreach ($this->doctrineEntityManager->getRepository(Coaches::class)->findAll() as $coach) {
-            $tableauCompletConfrontation[$coach->getName()] = $this->confrontationTousLesCoaches(
+            $tableauCompletConfrontation[$coach->getUsername()] = $this->confrontationTousLesCoaches(
                 $coach,
                 $equipeService
             );
@@ -366,7 +366,7 @@ class ClassementService
         foreach ($this->doctrineEntityManager->getRepository(Coaches::class)->tousLesAutresCoaches(
             $coach
         ) as $autreCoach) {
-            $tableConfrontation[$autreCoach->getName()] = $this->confrontationPourDeuxCoaches(
+            $tableConfrontation[$autreCoach->getUsername()] = $this->confrontationPourDeuxCoaches(
                 $coach,
                 $autreCoach,
                 $equipeService

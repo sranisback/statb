@@ -15,7 +15,7 @@ class CoachesFixture extends Fixture
     public function load(ObjectManager $manager): Coaches
     {
         $this->coachFixture = new Coaches();
-        $this->coachFixture->setName('test');
+        $this->coachFixture->setUsername('test');
         $this->coachFixture->setRoles(['role' => 'ROLE_USER']);
 
         $manager->persist($this->coachFixture);
@@ -37,7 +37,7 @@ class CoachesFixture extends Fixture
 
         for ($compteur = 0; $compteur < $nombre; $compteur++) {
             $coach = new Coaches();
-            $coach->setName('test_' . $compteur);
+            $coach->setUsername('test_' . $compteur);
             $coach->setRoles(['role' => 'ROLE_USER']);
 
             $coachFixtures[] = $coach;

@@ -7,7 +7,6 @@ use App\Entity\PlayersSkills;
 use App\Entity\Setting;
 use App\Entity\Teams;
 use App\Enum\RulesetEnum;
-use App\Form\AjoutCompetenceBb2020Type;
 use App\Form\AjoutCompetenceType;
 use App\Form\AjoutJoueurType;
 use App\Form\JoueurPhotoEnvoiType;
@@ -53,6 +52,7 @@ class JoueurController extends AbstractController
      * @Route("/getposstat/{posId}", name="getposstat", options = { "expose" = true })
      * @param int $posId
      * @param PlayerService $playerService
+     * @param Request $request
      * @return Response
      */
     public function getposstat(int $posId, PlayerService $playerService, Request $request): Response
@@ -214,6 +214,8 @@ class JoueurController extends AbstractController
 
     /**
      * @Route("/changeNomEtNumero", name="changeNomEtNumero", options = { "expose" = true })
+     * @param Request $request
+     * @param AdminService $adminService
      * @return Response
      */
     public function changeNomEtNumero(
@@ -236,7 +238,7 @@ class JoueurController extends AbstractController
 
         $currentRuleset = $this->getDoctrine()->getRepository(Setting::class)->findOneBy(['name' => 'currentRuleset']);
 
-        $form = $this->createForm(AjoutCompetenceType::class, $competence, ['ruleset' => $currentRuleset->getValue()]);
+        $form = $this->createForm(AjoutCompetenceType::class, $competence, ['ruleset' => (int)$currentRuleset->getValue()]);
 
         return $this->render(
             'statbb/skillmodal.html.twig',
@@ -257,7 +259,7 @@ class JoueurController extends AbstractController
         $form = $request->request->get('ajout_competence');
 
         /** @var Players $joueur */
-        $joueur = $this->getDoctrine()->getRepository(\App\Entity\Players::class)->findOneBy(['playerId' => $playerid]);
+        $joueur = $this->getDoctrine()->getRepository(Players::class)->findOneBy(['playerId' => $playerid]);
 
         /** @var class-string<object> $repo */
         $repo = RulesetEnum::getGameDataSkillRepoFromPlayerByRuleset($joueur);

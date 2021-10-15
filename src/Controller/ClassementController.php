@@ -266,7 +266,7 @@ class ClassementController extends AbstractController
                         ->getDoctrine()
                         ->getRepository(Matches::class)
                         ->tousLesMatchsDeDeuxCoach($coachActif, $coachAdverse),
-                'contreCoach' => $coachAdverse->getName()
+                'contreCoach' => $coachAdverse->getUsername()
             ]
         );
     }
