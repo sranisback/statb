@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\src\Service\EquipeService;
+namespace App\Tests\src\Service\EquipeGestionService;
 
 
 use App\Entity\Coaches;
@@ -9,13 +9,13 @@ use App\Entity\Players;
 use App\Entity\PlayersIcons;
 use App\Entity\Races;
 use App\Entity\Teams;
-use App\Service\EquipeService;
+use App\Service\EquipeGestionService;
 use App\Service\InducementService;
 use App\Service\InfosService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
-use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManager;
+use Doctrine\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
 
 
@@ -129,14 +129,14 @@ class ajoutDesJournaliersTest extends TestCase
         $playerServiceMock = $this->createMock(PlayerService::class);
         $playerServiceMock->method('numeroLibreDelEquipe')->willReturn(11);
 
-        $equipeService = new EquipeService(
+        $equipeGestionService = new EquipeGestionService(
             $objectManager,
             $this->createMock(SettingsService::class),
             $this->createMock(InfosService::class),
             $this->createMock(InducementService::class)
         );
 
-        $this->assertEquals(1, $equipeService->ajoutDesJournaliers(1, $equipeTest, $playerServiceMock));
+        $this->assertEquals(1, $equipeGestionService->ajoutDesJournaliers(1, $equipeTest, $playerServiceMock));
     }
 
     /**
@@ -163,13 +163,13 @@ class ajoutDesJournaliersTest extends TestCase
         $gameDataPlayersRepoMock->method('findOneBy')->willReturn($gameDataPlayerTest);
 
         $playerIconRepoMock = $this->getMockBuilder(PlayersIcons::class)
-            ->setMethods(['toutesLesIconesDunePosition'])
+            ->addMethods(['toutesLesIconesDunePosition'])
             ->getMock();
         $playerIconRepoMock->method('toutesLesIconesDunePosition')
             ->willReturn([$this->createMock(PlayersIcons::class)]);
 
         $joueurRepoMock = $this->getMockBuilder(Players::class)
-            ->setMethods(['listeDesJoueursActifsPourlEquipe'])
+            ->addMethods(['listeDesJoueursActifsPourlEquipe'])
             ->getMock();
         $joueurRepoMock->method('listeDesJoueursActifsPourlEquipe')->willReturn(
             []
@@ -196,13 +196,13 @@ class ajoutDesJournaliersTest extends TestCase
         $playerServiceMock = $this->createMock(PlayerService::class);
         $playerServiceMock->method('numeroLibreDelEquipe')->willReturn(11);
 
-        $equipeService = new EquipeService(
+        $equipeGestionService = new EquipeGestionService(
             $objectManager,
             $this->createMock(SettingsService::class),
             $this->createMock(InfosService::class),
             $this->createMock(InducementService::class)
         );
 
-        $this->assertEquals(11, $equipeService->ajoutDesJournaliers(11, $equipeTest, $playerServiceMock));
+        $this->assertEquals(11, $equipeGestionService->ajoutDesJournaliers(11, $equipeTest, $playerServiceMock));
     }
 }

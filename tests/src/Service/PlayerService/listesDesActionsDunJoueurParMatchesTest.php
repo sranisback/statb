@@ -7,6 +7,7 @@ namespace App\Tests\src\Service\PlayerService;
 use App\Entity\MatchData;
 use App\Entity\Matches;
 use App\Entity\Players;
+use App\Service\EquipeGestionService;
 use App\Service\EquipeService;
 use App\Service\InfosService;
 use App\Service\MatchDataService;
@@ -49,15 +50,12 @@ class listesDesActionsDunJoueurParMatchesTest extends TestCase
                 }
             )
         );
-
-        $equipeServiceMock = $this->createMock(EquipeService::class);
-
         $matchDataServiceMock = $this->createMock(MatchDataService::class);
         $matchDataServiceMock->method('lectureLignedUnMatch')->willReturn('MVP: 1, ');
 
         $playerServiceTest = new PlayerService(
             $objectManager,
-            $equipeServiceMock,
+            $this->createMock(EquipeGestionService::class),
             $matchDataServiceMock,
             $this->createMock(InfosService::class)
         );
@@ -105,14 +103,12 @@ class listesDesActionsDunJoueurParMatchesTest extends TestCase
             )
         );
 
-        $equipeServiceMock = $this->createMock(EquipeService::class);
-
         $matchDataServiceMock = $this->createMock(MatchDataService::class);
         $matchDataServiceMock->method('lectureLignedUnMatch')->willReturn('MVP: 1, ');
 
         $playerServiceTest = new PlayerService(
             $objectManager,
-            $equipeServiceMock,
+            $this->createMock(EquipeGestionService::class),
             $matchDataServiceMock,
             $this->createMock(InfosService::class)
         );

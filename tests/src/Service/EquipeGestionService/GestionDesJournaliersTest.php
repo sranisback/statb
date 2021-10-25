@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\src\Service\EquipeService;
+namespace App\Tests\src\Service\EquipeGestionService;
 
 
 use App\Entity\Coaches;
@@ -9,13 +9,13 @@ use App\Entity\Players;
 use App\Entity\PlayersIcons;
 use App\Entity\Races;
 use App\Entity\Teams;
-use App\Service\EquipeService;
+use App\Service\EquipeGestionService;
 use App\Service\InducementService;
 use App\Service\InfosService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
-use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
 
 class GestionDesJournaliersTest extends TestCase
@@ -137,7 +137,7 @@ class GestionDesJournaliersTest extends TestCase
         $playerServiceMock = $this->createMock(PlayerService::class);
         $playerServiceMock->method('numeroLibreDelEquipe')->willReturn(11);
 
-        $equipeService = new EquipeService(
+        $equipeGestionService = new EquipeGestionService(
             $objectManager,
             $this->createMock(SettingsService::class),
             $this->createMock(InfosService::class),
@@ -146,7 +146,7 @@ class GestionDesJournaliersTest extends TestCase
 
         $retourTest['vendu'] = 1;
 
-        $this->assertEquals($retourTest, $equipeService->gestionDesJournaliers($equipeTest, $playerServiceMock));
+        $this->assertEquals($retourTest, $equipeGestionService->gestionDesJournaliers($equipeTest, $playerServiceMock));
     }
 
     /**
@@ -259,7 +259,7 @@ class GestionDesJournaliersTest extends TestCase
         $playerServiceMock = $this->createMock(PlayerService::class);
         $playerServiceMock->method('numeroLibreDelEquipe')->willReturn(11);
 
-        $equipeService = new EquipeService(
+        $equipeGestionService = new EquipeGestionService(
             $objectManager,
             $this->createMock(SettingsService::class),
             $this->createMock(InfosService::class),
@@ -268,6 +268,6 @@ class GestionDesJournaliersTest extends TestCase
 
         $retourTest['ajout'] = 1;
 
-        $this->assertEquals($retourTest, $equipeService->gestionDesJournaliers($equipeTest, $playerServiceMock));
+        $this->assertEquals($retourTest, $equipeGestionService->gestionDesJournaliers($equipeTest, $playerServiceMock));
     }
 }

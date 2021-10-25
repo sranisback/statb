@@ -7,9 +7,9 @@ use App\Entity\ClassementGeneral;
 use App\Entity\Coaches;
 use App\Entity\Matches;
 use App\Entity\Teams;
+use App\Service\EquipeGestionService;
 use App\Service\EquipeService;
 use App\Service\InducementService;
-use App\Service\InfosService;
 use App\Service\SettingsService;
 use App\Tests\src\Functionnal;
 use Doctrine\ORM\EntityManager;
@@ -70,8 +70,8 @@ class compileEquipesAnneeEnCoursTest extends Functionnal
         $equipeServiceTest = new EquipeService(
             $objectManager,
             $settingServiceMock,
-            $this->createMock(InfosService::class),
-            $this->createMock(InducementService::class)
+            $this->createMock(InducementService::class),
+            $this->createMock(EquipeGestionService::class)
         );
 
         $resultats = [

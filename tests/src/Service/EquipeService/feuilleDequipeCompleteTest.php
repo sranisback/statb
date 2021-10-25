@@ -7,6 +7,7 @@ namespace App\Tests\src\Service\EquipeService;
 use App\Entity\Players;
 use App\Entity\Races;
 use App\Entity\Teams;
+use App\Service\EquipeGestionService;
 use App\Service\EquipeService;
 use App\Service\InducementService;
 use App\Service\InfosService;
@@ -63,14 +64,29 @@ class feuilleDequipeCompleteTest extends TestCase
             [$joueurMock0, $joueurMock1, $joueurMock2, $joueurMock3, $joueurMock4]
         );
 
+        $inducementServiceMock = $this->createMock(InducementService::class);
+        $inducementServiceMock->method('valeurInducementDelEquipe')->willReturn(
+            [
+                'rerolls' => 0,
+                'pop' => 0,
+                'asscoaches' => 0,
+                'cheerleader' => 0,
+                'apo' => 0,
+                'total' => 0
+            ]
+        );
+
         $objectManager = $this->createMock(EntityManager::class);
         $objectManager->method('getRepository')->willReturn($joueurRepoMock);
+
+        $equipeGestionServiceMock = $this->createMock(EquipeGestionService::class);
+        $equipeGestionServiceMock->method('tvDelEquipe')->willReturn(500_000);
 
         $equipeServiceTest = new EquipeService(
             $objectManager,
             $settingServiceMock,
-            $this->createMock(InfosService::class),
-            $this->createMock(InducementService::class)
+            $inducementServiceMock,
+            $equipeGestionServiceMock
         );
 
         $attendu = [

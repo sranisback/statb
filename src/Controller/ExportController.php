@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Players;
 use App\Entity\Teams;
 use App\Service\EquipeService;
+use App\Service\InducementService;
 use App\Service\PlayerService;
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -19,9 +20,10 @@ class ExportController extends AbstractController
      * @Route("/pdfTeam/{id}", name="pdfTeam")
      * @param PlayerService $playerService
      * @param EquipeService $equipeService
+     * @param InducementService $inducementService
      * @param int $id
      */
-    public function pdfTeam(PlayerService $playerService, EquipeService $equipeService, int $id): void
+    public function pdfTeam(PlayerService $playerService, EquipeService $equipeService, InducementService $inducementService, int $id): void
     {
         /** @var Teams $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->find($id);
@@ -70,7 +72,7 @@ class ExportController extends AbstractController
             $count++;
         }
 
-        $tdata = $equipeService->valeurInducementDelEquipe($equipe);
+        $tdata = $inducementService->valeurInducementDelEquipe($equipe);
         $tdata['playersCost'] = $playerService->coutTotalJoueurs($equipe);
         $tdata['tv'] = $equipeService->tvDelEquipe($equipe, $playerService);
 

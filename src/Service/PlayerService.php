@@ -28,9 +28,9 @@ class PlayerService
      */
     private EntityManagerInterface $doctrineEntityManager;
     /**
-     * @var EquipeService
+     * @var EquipeGestionService
      */
-    private EquipeService $equipeService;
+    private EquipeGestionService $equipeGestionService;
     /**
      * @var MatchDataService
      */
@@ -40,12 +40,12 @@ class PlayerService
 
     public function __construct(
         EntityManagerInterface $doctrineEntityManager,
-        EquipeService $equipeService,
+        EquipeGestionService $equipeGestionService,
         MatchDataService $matchDataService,
         InfosService $infosService
     ) {
         $this->doctrineEntityManager = $doctrineEntityManager;
-        $this->equipeService = $equipeService;
+        $this->equipeGestionService = $equipeGestionService;
         $this->matchDataService = $matchDataService;
         $this->infoService = $infosService;
     }
@@ -374,7 +374,7 @@ class PlayerService
 
                     $this->doctrineEntityManager->persist($joueur);
 
-                    $equipe->setTv($this->equipeService->tvDelEquipe($equipe, $this));
+                    $equipe->setTv($this->equipeGestionService->tvDelEquipe($equipe, $this));
 
                     $this->doctrineEntityManager->persist($equipe);
                     $this->doctrineEntityManager->flush();
@@ -443,7 +443,7 @@ class PlayerService
             }
             $this->doctrineEntityManager->flush();
 
-            $equipe->setTv($this->equipeService->tvDelEquipe($equipe, $this));
+            $equipe->setTv($this->equipeGestionService->tvDelEquipe($equipe, $this));
 
             $this->doctrineEntityManager->persist($equipe);
             $this->doctrineEntityManager->flush();

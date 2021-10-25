@@ -13,6 +13,7 @@ use App\Enum\RulesetEnum;
 use App\Form\CreerStadeType;
 use App\Form\LogoEnvoiType;
 use App\Service\AdminService;
+use App\Service\EquipeGestionService;
 use App\Service\EquipeService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
@@ -165,12 +166,11 @@ class EquipeController extends AbstractController
     /**
      * @Route("/createTeam", name="createTeam")
      * @param Request $request
-     * @param EquipeService $equipeService
      * @return RedirectResponse|Response
      */
     public function createTeam(
         Request $request,
-        EquipeService $equipeService
+        EquipeGestionService $equipeGestionService
     ) : Response {
         $equipe = new Teams();
 
@@ -186,7 +186,7 @@ class EquipeController extends AbstractController
             $coach = $this->getUser();
 
             if (isset($coach)) {
-                $teamid = $equipeService->createTeam(
+                $teamid = $equipeGestionService->creationEquipe(
                     $datas['Name'],
                     $coach->getCoachId(),
                     $datas[RulesetEnum::getChampRaceFromIntByRuleset($currentRuleset->getValue())],
@@ -240,7 +240,7 @@ class EquipeController extends AbstractController
         string $action,
         int $teamId,
         string $type
-    ): \Symfony\Component\HttpFoundation\JsonResponse {
+    ): JsonResponse {
         return TransformeEnJSON::transforme(
             $equipeService->gestionInducement($teamId, $action, $type, $playerService)
         );
@@ -249,20 +249,20 @@ class EquipeController extends AbstractController
     /**
      * @Route("/checkteam/{teamId}", name="Checkteam")
      * @param int $teamId
-     * @param EquipeService $equipeService
+     * @param EquipeGestionService $equipeService
      * @param PlayerService $playerService
      * @return RedirectResponse
      */
     public function checkTeam(
         int $teamId,
-        EquipeService $equipeService,
+        EquipeGestionService $equipeGestionService,
         PlayerService $playerService
     ): RedirectResponse {
         /** @var Teams $team */
         $team = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
 
         if (!empty($team)) {
-            $equipeService->checkEquipe($team, $playerService);
+            $equipeGestionService->checkEquipe($team, $playerService);
 
             return $this->redirectToRoute('team', ['teamid' => $team->getTeamId()]);
         }
@@ -374,14 +374,15 @@ class EquipeController extends AbstractController
     /**
      * @route("/mettreEnFranchise/{equipeId}", name="mettreEnFranchise")
      * @param int $equipeId
+     * @param EquipeGestionService $equipeGestionService
      * @return Response
      */
-    public function mettreEnFranchise(int $equipeId, EquipeService $equipeService): Response
+    public function mettreEnFranchise(int $equipeId, EquipeGestionService $equipeGestionService): Response
     {
         /** @var Teams $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
 
-        $equipeService->mettreEnFranchise($equipe);
+        $equipeGestionService->mettreEnFranchise($equipe);
 
         return $this->redirectToRoute('team', ['teamid' => $equipeId]);
     }

@@ -8,6 +8,7 @@ use App\Entity\RacesBb2020;
 use App\Entity\Stades;
 use App\Entity\Teams;
 use App\Enum\RulesetEnum;
+use App\Service\EquipeGestionService;
 use App\Service\EquipeService;
 use App\Service\InducementService;
 use App\Service\PlayerService;
@@ -53,7 +54,7 @@ class AjoutInducementTest extends KernelTestCase
             $equipeTest,
             'rr',
             $this->createMock(PlayerService::class),
-            $this->createMock(EquipeService::class)
+            $this->createMock(EquipeGestionService::class)
         ));
 
         $this->assertEquals(0, $equipeTest->getTreasury());
@@ -95,7 +96,7 @@ class AjoutInducementTest extends KernelTestCase
             $equipeTest,
             'rr',
             $this->createMock(PlayerService::class),
-            $this->createMock(EquipeService::class)
+            $this->createMock(EquipeGestionService::class)
         ));
 
         $this->assertEquals(0, $equipeTest->getTreasury());
@@ -137,7 +138,7 @@ class AjoutInducementTest extends KernelTestCase
             $equipeTest,
             'pop',
             $this->createMock(PlayerService::class),
-            $this->createMock(EquipeService::class)
+            $this->createMock(EquipeGestionService::class)
         ));
 
         $this->assertEquals(2, $equipeTest->getFfBought());
@@ -179,7 +180,7 @@ class AjoutInducementTest extends KernelTestCase
             $equipeTest,
             'pop',
             $this->createMock(PlayerService::class),
-            $this->createMock(EquipeService::class)
+            $this->createMock(EquipeGestionService::class)
         ));
 
         $this->assertEquals(2, $equipeTest->getFfBought());
@@ -219,7 +220,7 @@ class AjoutInducementTest extends KernelTestCase
             $equipeTest,
             'rr',
             $this->createMock(PlayerService::class),
-            $this->createMock(EquipeService::class)
+            $this->createMock(EquipeGestionService::class)
         ));
 
         $this->assertEquals(0, $equipeTest->getTreasury());
@@ -259,7 +260,7 @@ class AjoutInducementTest extends KernelTestCase
             $equipeTest,
             'rr',
             $this->createMock(PlayerService::class),
-            $this->createMock(EquipeService::class)
+            $this->createMock(EquipeGestionService::class)
         ));
 
         $this->assertEquals(0, $equipeTest->getTreasury());
@@ -299,7 +300,7 @@ class AjoutInducementTest extends KernelTestCase
             $equipeTest,
             'pop',
             $this->createMock(PlayerService::class),
-            $this->createMock(EquipeService::class)
+            $this->createMock(EquipeGestionService::class)
         ));
 
         $this->assertEquals(1, $equipeTest->getFfBought());
@@ -339,7 +340,7 @@ class AjoutInducementTest extends KernelTestCase
             $equipeTest,
             'chl',
             $this->createMock(PlayerService::class),
-            $this->createMock(EquipeService::class)
+            $this->createMock(EquipeGestionService::class)
         ));
 
         $this->assertEquals(1, $equipeTest->getCheerleaders());
@@ -379,7 +380,7 @@ class AjoutInducementTest extends KernelTestCase
             $equipeTest,
             'ac',
             $this->createMock(PlayerService::class),
-            $this->createMock(EquipeService::class)
+            $this->createMock(EquipeGestionService::class)
         ));
 
         $this->assertEquals(1, $equipeTest->getAssCoaches());
@@ -419,7 +420,7 @@ class AjoutInducementTest extends KernelTestCase
             $equipeTest,
             'apo',
             $this->createMock(PlayerService::class),
-            $this->createMock(EquipeService::class)
+            $this->createMock(EquipeGestionService::class)
         ));
 
         $this->assertEquals(1, $equipeTest->getApothecary());
@@ -462,7 +463,7 @@ class AjoutInducementTest extends KernelTestCase
             $equipeTest,
             'pay',
             $this->createMock(PlayerService::class),
-            $this->createMock(EquipeService::class)
+            $this->createMock(EquipeGestionService::class)
         ));
 
         $this->assertEquals(0, $equipeTest->getTreasury());

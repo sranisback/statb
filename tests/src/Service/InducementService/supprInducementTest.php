@@ -8,6 +8,7 @@ use App\Entity\Races;
 use App\Entity\RacesBb2020;
 use App\Entity\Teams;
 use App\Enum\RulesetEnum;
+use App\Service\EquipeGestionService;
 use App\Service\EquipeService;
 use App\Service\InducementService;
 use App\Service\InfosService;
@@ -51,7 +52,7 @@ class supprInducementTest extends KernelTestCase
             $equipeTest,
             'rr',
             $this->createMock(PlayerService::class),
-            $this->createMock(EquipeService::class)
+            $this->createMock(EquipeGestionService::class)
         ));
 
         $this->assertEquals(50_000, $equipeTest->getTreasury());
@@ -91,7 +92,7 @@ class supprInducementTest extends KernelTestCase
             $equipeTest,
             'rr',
             $this->createMock(PlayerService::class),
-            $this->createMock(EquipeService::class)
+            $this->createMock(EquipeGestionService::class)
         ));
 
         $this->assertEquals(50_000, $equipeTest->getTreasury());
@@ -133,7 +134,7 @@ class supprInducementTest extends KernelTestCase
             $equipeTest,
             'rr',
             $this->createMock(PlayerService::class),
-            $this->createMock(EquipeService::class)
+            $this->createMock(EquipeGestionService::class)
         ));
 
         $this->assertEquals(0, $equipeTest->getTreasury());
@@ -175,7 +176,7 @@ class supprInducementTest extends KernelTestCase
             $equipeTest,
             'rr',
             $this->createMock(PlayerService::class),
-            $this->createMock(EquipeService::class)
+            $this->createMock(EquipeGestionService::class)
         ));
 
         $this->assertEquals(0, $equipeTest->getTreasury());
@@ -214,7 +215,7 @@ class supprInducementTest extends KernelTestCase
             $equipeTest,
             'pop',
             $this->createMock(PlayerService::class),
-            $this->createMock(EquipeService::class)
+            $this->createMock(EquipeGestionService::class)
         ));
 
         $this->assertEquals(0, $equipeTest->getFf());
@@ -255,7 +256,7 @@ class supprInducementTest extends KernelTestCase
             $equipeTest,
             'apo',
             $this->createMock(PlayerService::class),
-            $this->createMock(EquipeService::class)
+            $this->createMock(EquipeGestionService::class)
         ));
 
         $this->assertEquals(0, $equipeTest->getApothecary());
@@ -296,7 +297,7 @@ class supprInducementTest extends KernelTestCase
             $equipeTest,
             'ac',
             $this->createMock(PlayerService::class),
-            $this->createMock(EquipeService::class)
+            $this->createMock(EquipeGestionService::class)
         ));
 
         $this->assertEquals(0, $equipeTest->getAssCoaches());
@@ -336,7 +337,7 @@ class supprInducementTest extends KernelTestCase
             $equipeTest,
             'ac',
             $this->createMock(PlayerService::class),
-            $this->createMock(EquipeService::class)
+            $this->createMock(EquipeGestionService::class)
         ));
 
         $this->assertEquals(1, $equipeTest->getAssCoaches());
@@ -377,7 +378,7 @@ class supprInducementTest extends KernelTestCase
             $equipeTest,
             'chl',
             $this->createMock(PlayerService::class),
-            $this->createMock(EquipeService::class)
+            $this->createMock(EquipeGestionService::class)
         ));
 
         $this->assertEquals(0, $equipeTest->getCheerleaders());
@@ -418,7 +419,7 @@ class supprInducementTest extends KernelTestCase
             $equipeTest,
             'pop',
             $this->createMock(PlayerService::class),
-            $this->createMock(EquipeService::class)
+            $this->createMock(EquipeGestionService::class)
         ));
 
         $this->assertEquals(0, $equipeTest->getFfBought());

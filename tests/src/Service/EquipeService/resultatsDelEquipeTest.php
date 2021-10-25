@@ -5,6 +5,7 @@ namespace App\Tests\src\Service\EquipeService;
 
 use App\Entity\Matches;
 use App\Entity\Teams;
+use App\Service\EquipeGestionService;
 use App\Service\EquipeService;
 use App\Service\InducementService;
 use App\Service\InfosService;
@@ -39,8 +40,8 @@ class resultatsDelEquipeTest extends KernelTestCase
         $equipeServiceTest = new EquipeService(
             $this->createMock(EntityManagerInterface::class),
             $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class),
-            $this->createMock(InducementService::class)
+            $this->createMock(InducementService::class),
+            $this->createMock(EquipeGestionService::class)
         );
 
         $resultatAttendu = [
@@ -50,7 +51,5 @@ class resultatsDelEquipeTest extends KernelTestCase
         ];
 
         $this->assertEquals($resultatAttendu, $equipeServiceTest->resultatsDelEquipe($equipeTest,[$matchTest0, $matchTest1, $matchTest2]));
-
-        ;
     }
 }

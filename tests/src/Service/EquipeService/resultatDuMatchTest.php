@@ -4,6 +4,7 @@ namespace App\Tests\src\Service\EquipeService;
 
 use App\Entity\Matches;
 use App\Entity\Teams;
+use App\Service\EquipeGestionService;
 use App\Service\EquipeService;
 use App\Service\InducementService;
 use App\Service\InfosService;
@@ -30,8 +31,8 @@ class resultatDuMatchTest extends KernelTestCase
         $equipeServiceTest = new EquipeService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class),
-            $this->createMock(InducementService::class)
+            $this->createMock(InducementService::class),
+            $this->createMock(EquipeGestionService::class)
         );
 
         $resultatAttendu = [
@@ -60,8 +61,8 @@ class resultatDuMatchTest extends KernelTestCase
         $equipeServiceTest = new EquipeService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class),
-            $this->createMock(InducementService::class)
+            $this->createMock(InducementService::class),
+            $this->createMock(EquipeGestionService::class)
         );
 
         $resultatAttendu = [
@@ -90,8 +91,8 @@ class resultatDuMatchTest extends KernelTestCase
         $equipeServiceTest = new EquipeService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class),
-            $this->createMock(InducementService::class)
+            $this->createMock(InducementService::class),
+            $this->createMock(EquipeGestionService::class)
         );
 
         $resultatAttendu = [

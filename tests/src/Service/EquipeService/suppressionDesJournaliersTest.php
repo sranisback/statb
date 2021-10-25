@@ -4,6 +4,7 @@ namespace App\Tests\src\Service\EquipeService;
 
 use App\Entity\Players;
 use App\Entity\Teams;
+use App\Service\EquipeGestionService;
 use App\Service\EquipeService;
 use App\Service\InducementService;
 use App\Service\InfosService;
@@ -35,8 +36,8 @@ class suppressionDesJournaliersTest extends KernelTestCase
         $equipeService = new EquipeService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class),
-            $this->createMock(InducementService::class)
+            $this->createMock(InducementService::class),
+            $this->createMock(EquipeGestionService::class)
         );
 
         $this->assertEquals(
@@ -72,8 +73,8 @@ class suppressionDesJournaliersTest extends KernelTestCase
         $equipeService = new EquipeService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class),
-            $this->createMock(InducementService::class)
+            $this->createMock(InducementService::class),
+            $this->createMock(EquipeGestionService::class)
         );
 
         $this->assertEquals(
@@ -113,8 +114,8 @@ class suppressionDesJournaliersTest extends KernelTestCase
         $equipeService = new EquipeService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class),
-            $this->createMock(InducementService::class)
+            $this->createMock(InducementService::class),
+            $this->createMock(EquipeGestionService::class)
         );
 
         $this->assertEquals(
@@ -156,8 +157,8 @@ class suppressionDesJournaliersTest extends KernelTestCase
         $equipeService = new EquipeService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class),
-            $this->createMock(InducementService::class)
+            $this->createMock(InducementService::class),
+            $this->createMock(EquipeGestionService::class)
         );
 
         $this->assertEquals(

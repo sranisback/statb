@@ -29,10 +29,10 @@ class InducementService
      * @param Teams $equipe
      * @param string $type
      * @param PlayerService $playerService
-     * @param EquipeService $equipeService
+     * @param EquipeGestionService $equipeGestionService
      * @return array<string,int|null>
      */
-    public function ajoutInducement(Teams $equipe, string $type, PlayerService $playerService, EquipeService $equipeService): array
+    public function ajoutInducement(Teams $equipe, string $type, PlayerService $playerService, EquipeGestionService $equipeGestionService): array
     {
         $nbr = 0;
         $inducost = 0;
@@ -62,7 +62,7 @@ class InducementService
                 break;
         }
         $equipe->setTreasury($equipe->getTreasury() - $inducost);
-        $equipe->setTv($equipeService->tvDelEquipe($equipe, $playerService));
+        $equipe->setTv($equipeGestionService->tvDelEquipe($equipe, $playerService));
 
         $this->doctrineEntityManager->persist($equipe);
         $this->doctrineEntityManager->flush();
@@ -198,7 +198,7 @@ class InducementService
      * @param EquipeService $equipeService
      * @return array<string,int|null>
      */
-    public function supprInducement(Teams $equipe, string $type, PlayerService $playerService, EquipeService $equipeService): array
+    public function supprInducement(Teams $equipe, string $type, PlayerService $playerService, EquipeGestionService $equipeGestionService): array
     {
         $nbr = 0;
         $inducost = 0;
@@ -233,7 +233,7 @@ class InducementService
             $equipe->setTreasury($nouveauTresor);
         }
 
-        $equipe->setTv($equipeService->tvDelEquipe($equipe, $playerService));
+        $equipe->setTv($equipeGestionService->tvDelEquipe($equipe, $playerService));
 
         $this->doctrineEntityManager->persist($equipe);
         $this->doctrineEntityManager->flush();
@@ -350,5 +350,31 @@ class InducementService
             $inducost = self::PAYEMENT_STADE;
         }
         return array($nbr, $inducost);
+    }
+
+    /**
+     * @param Teams $equipe
+     * @return array<string,mixed>
+     */
+    public function valeurInducementDelEquipe(Teams $equipe): array
+    {
+        $equipeRace = RulesetEnum::getRaceFromEquipeByRuleset($equipe);
+
+        if ($equipeRace !== null) {
+            $inducement['rerolls'] = $equipe->getRerolls() * $equipeRace->getCostRr();
+        }
+
+        $inducement['pop'] = ($equipe->getFf() + $equipe->getFfBought()) * 10_000;
+        if ($equipe->getRuleset() == RulesetEnum::BB_2020) {
+            $inducement['pop'] = 0;
+        }
+
+        $inducement['asscoaches'] = $equipe->getAssCoaches() * 10_000;
+        $inducement['cheerleader'] = $equipe->getCheerleaders() * 10_000;
+        $inducement['apo'] = $equipe->getApothecary() * 50_000;
+        $inducement['total'] = $inducement['rerolls'] + $inducement['pop']
+            + $inducement['asscoaches'] + $inducement['cheerleader'] + $inducement['apo'];
+
+        return $inducement;
     }
 }

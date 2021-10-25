@@ -44,6 +44,10 @@ class MatchesService
      * @var InfosService
      */
     private InfosService $infoService;
+    /**
+     * @var EquipeGestionService
+     */
+    private EquipeGestionService $equipeGestionService;
 
     private const DATE_FORMAT = "Y-m-d H:i:s";
 
@@ -53,7 +57,8 @@ class MatchesService
         PlayerService $playerService,
         SettingsService $settingService,
         DefisService $defisService,
-        InfosService $infoService
+        InfosService $infoService,
+        EquipeGestionService $equipeGestionService
     ) {
         $this->doctrineEntityManager = $doctrineEntityManager;
         $this->equipeService = $equipeService;
@@ -61,6 +66,7 @@ class MatchesService
         $this->settingService = $settingService;
         $this->defisService = $defisService;
         $this->infoService = $infoService;
+        $this->equipeGestionService = $equipeGestionService;
     }
 
     /**
@@ -143,8 +149,8 @@ class MatchesService
             $donneesMatch,
             $equipe1,
             $equipe2,
-            $this->equipeService->tvDelEquipe($equipe1, $this->playerService),
-            $this->equipeService->tvDelEquipe($equipe2, $this->playerService),
+            $this->equipeGestionService->tvDelEquipe($equipe1, $this->playerService),
+            $this->equipeGestionService->tvDelEquipe($equipe2, $this->playerService),
             $this->doctrineEntityManager->getRepository(Meteo::class)->findOneBy(
                 ['id' => $donneesMatch['meteo']]
             ),

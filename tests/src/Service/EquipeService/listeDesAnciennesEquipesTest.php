@@ -5,6 +5,7 @@ namespace App\Tests\src\Service\EquipeService;
 
 use App\Entity\Coaches;
 use App\Entity\Teams;
+use App\Service\EquipeGestionService;
 use App\Service\EquipeService;
 use App\Service\InducementService;
 use App\Service\InfosService;
@@ -56,8 +57,8 @@ class listeDesAnciennesEquipesTest extends KernelTestCase
         $equipeService = new EquipeService(
             $objectManager,
             $settingServiceMock,
-            $this->createMock(InfosService::class),
-            $this->createMock(InducementService::class)
+            $this->createMock(InducementService::class),
+            $this->createMock(EquipeGestionService::class)
         );
 
         $this->assertEquals(4, count($equipeService->listeDesAnciennesEquipes($coach, 3)));
@@ -85,8 +86,8 @@ class listeDesAnciennesEquipesTest extends KernelTestCase
         $equipeService = new EquipeService(
             $objectManager,
             $settingServiceMock ,
-            $this->createMock(InfosService::class),
-            $this->createMock(InducementService::class)
+            $this->createMock(InducementService::class),
+            $this->createMock(EquipeGestionService::class)
         );
 
         $this->assertEquals(0, count($equipeService->listeDesAnciennesEquipes($coach, 3)));
@@ -131,8 +132,8 @@ class listeDesAnciennesEquipesTest extends KernelTestCase
         $equipeService = new EquipeService(
             $objectManager,
             $settingServiceMock,
-            $this->createMock(InfosService::class),
-            $this->createMock(InducementService::class)
+            $this->createMock(InducementService::class),
+            $this->createMock(EquipeGestionService::class)
         );
 
         $this->assertEquals(3, count($equipeService->listeDesAnciennesEquipes($coach, 3)));

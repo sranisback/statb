@@ -6,6 +6,7 @@ namespace App\Tests\src\Service\PlayerService;
 
 use App\Entity\GameDataPlayers;
 use App\Entity\GameDataSkills;
+use App\Service\EquipeGestionService;
 use App\Service\EquipeService;
 use App\Service\InfosService;
 use App\Service\MatchDataService;
@@ -34,7 +35,7 @@ class StatPositionsTest extends TestCase
 
         $playerServiceTest = new PlayerService(
             $this->createMock(EntityManager::class),
-            $this->createMock(EquipeService::class),
+            $this->createMock(EquipeGestionService::class),
             $this->createMock(MatchDataService::class),
             $this->createMock(InfosService::class)
         );
@@ -66,7 +67,7 @@ class StatPositionsTest extends TestCase
 
         $playerServiceTest = new PlayerService(
             $this->createMock(EntityManager::class),
-            $this->createMock(EquipeService::class),
+            $this->createMock(EquipeGestionService::class),
             $this->createMock(MatchDataService::class),
             $this->createMock(InfosService::class)
         );
@@ -89,7 +90,7 @@ class StatPositionsTest extends TestCase
 
         $playerServiceTest = new PlayerService(
             $this->createMock(EntityManager::class),
-            $this->createMock(EquipeService::class),
+            $this->createMock(EquipeGestionService::class),
             $this->createMock(MatchDataService::class),
             $this->createMock(InfosService::class)
         );
