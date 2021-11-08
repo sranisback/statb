@@ -8,6 +8,7 @@ use App\Form\AjoutDefisType;
 use App\Service\DefisService;
 use App\Service\SettingsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -102,10 +103,10 @@ class DefisIhmController extends AbstractController
      * @Route("/supprimerDefis/{defisId}", name="supprimerDefis")
      * @param DefisService $defisService
      * @param int $defisId
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      */
     public function supprimerDefis(DefisService $defisService, int $defisId)
-    : \Symfony\Component\HttpFoundation\RedirectResponse
+    : RedirectResponse
     {
         if ($defisService->supprimerDefis($defisId) !== '') {
             $this->addFlash('success', 'Defis Supprimée');

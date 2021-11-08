@@ -11,6 +11,7 @@ use App\Service\DefisService;
 use App\Service\SettingsService;
 
 use App\Tools\randomNameGenerator;
+use http\Env\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,16 +32,24 @@ class StatBBController extends AbstractController
      * @param  mixed $response
      * @return JsonResponse
      */
-    public static function transformeEnJson($response): JsonResponse
+    public static function transformeObjetEnJsonResponse($response): JsonResponse
     {
-        $encoders = array(new XmlEncoder(), new JsonEncoder());
-        $normalizers = array(new ObjectNormalizer());
+        $encoders = [new XmlEncoder(), new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
 
         $serializer = new Serializer($normalizers, $encoders);
 
-        $jsonContent = $serializer->serialize($response, 'json');
+        return new JsonResponse($serializer->serialize($response, 'json'));
+    }
 
-        return new JsonResponse($jsonContent);
+    public static function transformeJsonEnObjet(String $json, $class)
+    {
+        $encoders = [new XmlEncoder(), new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
+
+        $serializer = new Serializer($normalizers, $encoders);
+
+        return $serializer->deserialize($json, $class, 'json');
     }
 
     /**

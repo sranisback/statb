@@ -48,8 +48,8 @@ class MatchDataType extends AbstractType
                 [
                     'class' => Matches::class,
                     'choice_label' => fn (Matches $match) => $match->getMatchId() . ' - ' .
-                            $match->getTeam1()->getName() . ' vs ' .
-                            $match->getTeam2()->getName()
+                        ($match->getTeam1() ? $match->getTeam1()->getName() : '') . ' vs ' .
+                        ($match->getTeam2() ? $match->getTeam2()->getName() : '')
                 ]
             )
         ;

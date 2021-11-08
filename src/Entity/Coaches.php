@@ -15,6 +15,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *
  * @ORM\Table(name="coaches")
  * @ORM\Entity(repositoryClass="App\Repository\CoachesRepository")
+ * @method string getUserIdentifier()
  */
 class Coaches implements UserInterface
 {
@@ -150,5 +151,10 @@ class Coaches implements UserInterface
     public function setRoles(array $roles): void
     {
         $this->roles = $roles;
+    }
+
+    public function __call($name, $arguments)
+    {
+        // TODO: Implement @method string getUserIdentifier()
     }
 }

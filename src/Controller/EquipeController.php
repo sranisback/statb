@@ -27,7 +27,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Core\Security;
 
 class EquipeController extends AbstractController
 {
@@ -316,19 +315,19 @@ class EquipeController extends AbstractController
 
     /**
      * @Route("/recalculerTV", name="recalculerTV")
-     * @param EquipeService $equipeService
+     * @param EquipeGestionService $equipeGestionService
      * @param PlayerService $playerService
      * @return RedirectResponse
      */
     public function recalculerTV(
-        EquipeService $equipeService,
+        EquipeGestionService $equipeGestionService,
         PlayerService $playerService
     ): RedirectResponse {
         $entityManager = $this->getDoctrine()->getManager();
 
         /** @var Teams $equipe */
         foreach ($this->getDoctrine()->getRepository(Teams::class)->findAll() as $equipe) {
-            $equipe->setTv($equipeService->tvDelEquipe($equipe, $playerService));
+            $equipe->setTv($equipeGestionService->tvDelEquipe($equipe, $playerService));
 
             $entityManager->persist($equipe);
             $entityManager->flush();

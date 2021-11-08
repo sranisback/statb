@@ -109,7 +109,7 @@ class MatchesService
      * @return Matches
      * @throws Exception
      */
-    public function creationEnteteMatch(array $donneesMatch): \App\Entity\Matches
+    public function creationEnteteMatch(array $donneesMatch): Matches
     {
         /** @var Teams $equipe1 */
         $equipe1 = $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\RulesetEnum;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -176,25 +177,25 @@ class Players
      *
      * @ORM\ManyToOne(targetEntity="GameDataPlayers")
      * @ORM\JoinColumn(name="f_pos_id", referencedColumnName="pos_id")
-     * @var null|\App\Entity\GameDataPlayers
+     * @var null|GameDataPlayers
      */
-    private ?\App\Entity\GameDataPlayers $fPos = null;
+    private ?GameDataPlayers $fPos = null;
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\GameDataPlayersBb2020")
+     * @ORM\ManyToOne(targetEntity="GameDataPlayersBb2020")
      * @ORM\JoinColumn(name="pos_id_bb2020", referencedColumnName="id")
-     * @var null|\App\Entity\GameDataPlayersBb2020
+     * @var null|GameDataPlayersBb2020
      */
-    private ?\App\Entity\GameDataPlayersBb2020 $fPosBb2020 = null;
+    private ?GameDataPlayersBb2020 $fPosBb2020 = null;
 
     /**
      *
      * @ORM\ManyToOne(targetEntity="Races")
      * @ORM\JoinColumn(name="f_rid", referencedColumnName="race_id")
-     * @var \App\Entity\Races|null
+     * @var Races|null
      */
-    private ?\App\Entity\Races $fRid = null;
+    private ?Races $fRid = null;
 
     /**
      * @return GameDataPlayersBb2020|null
@@ -235,24 +236,24 @@ class Players
      *
      * @ORM\ManyToOne(targetEntity="RacesBb2020")
      * @ORM\JoinColumn(name="f_rid_bb2020", referencedColumnName="id")
-     * @var \App\Entity\RacesBb2020|null
+     * @var RacesBb2020|null
      */
-    private ?\App\Entity\RacesBb2020 $fRidBb2020 = null;
+    private ?RacesBb2020 $fRidBb2020 = null;
 
     /**
      *
      * @ORM\ManyToOne(targetEntity="Teams", inversedBy="joueurs")
      * @ORM\JoinColumn (name="owned_by_team_id", referencedColumnName="team_id")
-     * @var \App\Entity\Teams|null
+     * @var Teams|null
      */
-    private ?\App\Entity\Teams $ownedByTeam = null;
+    private ?Teams $ownedByTeam = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\PlayersIcons")
      * @ORM\JoinColumn(nullable=false)
-     * @var \App\Entity\PlayersIcons
+     * @var PlayersIcons
      */
-    private \App\Entity\PlayersIcons $icon;
+    private PlayersIcons $icon;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -262,21 +263,21 @@ class Players
 
     /**
      * @ORM\OneToMany(
-     *     targetEntity="App\Entity\HistoriqueBlessure", mappedBy="Player", orphanRemoval=true, cascade={"persist"}
+     *     targetEntity="App\Entity\HistoriqueBlessure", mappedBy="Player", orphanRemoval=true, cascade={"persist", "remove"}
      *     )
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      */
-    private \Doctrine\Common\Collections\Collection $historiqueBlessures;
+    private Collection $historiqueBlessures;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\MatchData", mappedBy="fPlayer", orphanRemoval=true, cascade={"remove"})
-     * @var \Doctrine\Common\Collections\Collection
+     * @ORM\OneToMany(targetEntity="App\Entity\MatchData", mappedBy="fPlayer", orphanRemoval=true, cascade={"persist", "remove"})
+     * @var Collection
      */
     private Collection $matchData;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PlayersSkills", mappedBy="fPid", orphanRemoval=true, cascade={"remove"})
-     * @var \App\Entity\PlayersSkills[]|\Doctrine\Common\Collections\Collection
+     * @ORM\OneToMany(targetEntity="App\Entity\PlayersSkills", mappedBy="fPid", orphanRemoval=true, cascade={"persist", "remove"})
+     * @var PlayersSkills[]|Collection
      */
     private Collection $skills;
 
@@ -284,13 +285,16 @@ class Players
      * @ORM\Column(type="integer")
      * @var int
      */
-    private $Ruleset;
+    private int $Ruleset = RulesetEnum::BB_2016;
 
     public function __construct()
     {
         $this->historiqueBlessures = new ArrayCollection();
         $this->matchData = new ArrayCollection();
         $this->skills = new ArrayCollection();
+        if($this->getIcon() == null) {
+            $this->setIcon()
+        }
     }
 
     /**
@@ -311,9 +315,9 @@ class Players
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
-    public function getMatchData(): \Doctrine\Common\Collections\Collection
+    public function getMatchData(): Collection
     {
         return $this->matchData;
     }
@@ -604,7 +608,7 @@ class Players
         return $this;
     }
 
-    public function getIcon(): \App\Entity\PlayersIcons
+    public function getIcon(): PlayersIcons
     {
         return $this->icon;
     }

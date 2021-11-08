@@ -32,7 +32,7 @@ class TeamsType extends AbstractType
             ->add('year')
             ->add('logo')
             ->add('franchise')
-            ->add('ownedByCoach', EntityType::class, ['class' => Coaches::class,'choice_label' =>'name'])
+            ->add('ownedByCoach', EntityType::class, ['class' => Coaches::class,'choice_label' =>'Username'])
             ->add('fRace', EntityType::class, [
                 'class' => Races::class,
                 'choice_label' =>'name',

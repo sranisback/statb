@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Players;
 use App\Entity\Teams;
+use App\Service\EquipeGestionService;
 use App\Service\EquipeService;
 use App\Service\InducementService;
 use App\Service\PlayerService;
@@ -23,7 +24,7 @@ class ExportController extends AbstractController
      * @param InducementService $inducementService
      * @param int $id
      */
-    public function pdfTeam(PlayerService $playerService, EquipeService $equipeService, InducementService $inducementService, int $id): void
+    public function pdfTeam(PlayerService $playerService, EquipeGestionService $equipeGestionService, InducementService $inducementService, int $id): void
     {
         /** @var Teams $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->find($id);
@@ -74,7 +75,7 @@ class ExportController extends AbstractController
 
         $tdata = $inducementService->valeurInducementDelEquipe($equipe);
         $tdata['playersCost'] = $playerService->coutTotalJoueurs($equipe);
-        $tdata['tv'] = $equipeService->tvDelEquipe($equipe, $playerService);
+        $tdata['tv'] = $equipeGestionService->tvDelEquipe($equipe, $playerService);
 
         $html = $this->renderView(
             'statbb/pdfteam.html.twig',
@@ -108,6 +109,11 @@ class ExportController extends AbstractController
     {
         $ignore = ['.', '..'];
         $nbr = -2;
+
+        if(!is_dir($this->getParameter('pdf_directory'))) {
+            mkdir($this->getParameter('pdf_directory'));
+        }
+
         foreach (scandir($this->getParameter('pdf_directory')) as $fichier) {
             if (!in_array($fichier, $ignore)
                 &&

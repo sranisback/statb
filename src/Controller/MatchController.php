@@ -28,7 +28,7 @@ class MatchController extends AbstractController
      * @param int $nbr
      * @return JsonResponse
      */
-    public function dropdownPlayer(int $teamId, int $nbr): \Symfony\Component\HttpFoundation\JsonResponse
+    public function dropdownPlayer(int $teamId, int $nbr): JsonResponse
     {
         /** @var Teams $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
@@ -59,7 +59,7 @@ class MatchController extends AbstractController
     public function addGame(
         MatchesService $matchesService,
         Request $request
-    ): \Symfony\Component\HttpFoundation\JsonResponse {
+    ): JsonResponse {
         $recuperationDonneeForm = [];
 
         if (($contenu = $request->getContent()) !== '') {

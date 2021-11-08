@@ -60,7 +60,7 @@ class PrimeController extends AbstractController
      * @Route("/supprimerPrime/{primeId}", name="supprimerPrime")
      * @param PrimeService $primeService
      * @param int $primeId
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      */
     public function supprimerPrime(
         PrimeService $primeService,

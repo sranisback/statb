@@ -10,6 +10,7 @@ use App\Enum\AnneeEnum;
 use App\Service\ClassementService;
 use App\Service\EquipeService;
 use App\Service\SettingsService;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,9 +18,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ClassementController extends AbstractController
 {
     /**
-     * @var \App\Service\SettingsService
+     * @var SettingsService
      */
-    private \App\Service\SettingsService $settingsService;
+    private SettingsService $settingsService;
 
     public function __construct(SettingsService $settingsService)
     {
@@ -33,7 +34,7 @@ class ClassementController extends AbstractController
      * @param string|null $etiquette
      * @return Response
      */
-    public function classGen(int $annee, ?string $etiquette): \Symfony\Component\HttpFoundation\Response
+    public function classGen(int $annee, ?string $etiquette): Response
     {
         return $this->render(
             'statbb/tabs/ligue/classement.html.twig',
@@ -51,7 +52,7 @@ class ClassementController extends AbstractController
      * @return Response
      */
     public function classGenDetail(ClassementService $classementService, int $annee)
-    : \Symfony\Component\HttpFoundation\Response
+    : Response
     {
         return $this->render(
             'statbb/tabs/ligue/classementDetail.html.twig',
@@ -76,7 +77,7 @@ class ClassementController extends AbstractController
         string $type,
         int $limit,
         int $annee
-    ): \Symfony\Component\HttpFoundation\Response {
+    ): Response {
         $sousClassement = $classementService->genereClassementEquipes(
             $annee,
             $type,
@@ -99,7 +100,7 @@ class ClassementController extends AbstractController
         string $type,
         int $limit,
         int $annee
-    ): \Symfony\Component\HttpFoundation\Response {
+    ): Response {
         $sousClassement = $classementService->genereClassementJoueurs(
             $annee,
             $type,
@@ -113,7 +114,7 @@ class ClassementController extends AbstractController
      * @Route("/totalcas/{annee}", options = { "expose" = true }))
      */
     public function affichetotalCas(ClassementService $classementService, int $annee)
-    : \Symfony\Component\HttpFoundation\Response
+    : Response
     {
         $totalCas = $classementService->totalCas($annee);
 
@@ -128,7 +129,7 @@ class ClassementController extends AbstractController
      * @param ClassementService $classementService
      * @return Response
      */
-    public function cinqDernierMatch(ClassementService $classementService): \Symfony\Component\HttpFoundation\Response
+    public function cinqDernierMatch(ClassementService $classementService): Response
     {
         return $this->render(
             'statbb/lastfivesmatches.html.twig',
@@ -143,7 +144,7 @@ class ClassementController extends AbstractController
      * @return Response
      */
     public function cinqDernierMatchPourEquipe(ClassementService $classementService, int $equipeId)
-    : \Symfony\Component\HttpFoundation\Response
+    : Response
     {
         return $this->render(
             'statbb/lastfivesmatches.html.twig',
@@ -157,7 +158,7 @@ class ClassementController extends AbstractController
      * @return Response
      */
     public function tousLesMatchesPourEquipe(int $equipeId)
-    : \Symfony\Component\HttpFoundation\Response
+    : Response
     {
         return $this->render(
             'statbb/tousLesMatches.html.twig',
@@ -171,7 +172,7 @@ class ClassementController extends AbstractController
      * @Route("/montreLeCimetierre", name="montreLeCimetierre")
      * @return Response
      */
-    public function montreLeCimetiere(): \Symfony\Component\HttpFoundation\Response
+    public function montreLeCimetiere(): Response
     {
         return $this->render(
             'statbb/tabs/ligue/cimetiere.html.twig',
@@ -187,7 +188,7 @@ class ClassementController extends AbstractController
      * @Route("/montreClassementELO", name="montreClassementELO")
      * @return Response
      */
-    public function montreClassementELO(): \Symfony\Component\HttpFoundation\Response
+    public function montreClassementELO(): Response
     {
         return $this->render(
             'statbb/tabs/ligue/classementELO.html.twig',
@@ -206,7 +207,7 @@ class ClassementController extends AbstractController
      * @return Response
      */
     public function afficheConfrontation(ClassementService $classementService, EquipeService $equipeService)
-    : \Symfony\Component\HttpFoundation\Response
+    : Response
     {
         /** @var Coaches $coach */
         $coach = $this->getUser();
@@ -227,7 +228,7 @@ class ClassementController extends AbstractController
      * @param int $annee
      * @return Response
      */
-    public function afficheAncienClassement(int $annee): \Symfony\Component\HttpFoundation\Response
+    public function afficheAncienClassement(int $annee): Response
     {
         $labelAnnee = (new AnneeEnum)->numeroToAnnee();
         return $this->render(
@@ -239,7 +240,7 @@ class ClassementController extends AbstractController
     /**
      * @route("/listeAnciennesAnnees", name="listeAncienneAnnnee")
      */
-    public function listeAncienAnneClassement(): \Symfony\Component\HttpFoundation\Response
+    public function listeAncienAnneClassement(): Response
     {
         return $this->render(
             'statbb/tabs/coach/ancienClassement.html.twig',
@@ -252,7 +253,7 @@ class ClassementController extends AbstractController
      * @param int $coachId
      * @return Response
      */
-    public function matchesContreCoach(int $coachId): \Symfony\Component\HttpFoundation\Response
+    public function matchesContreCoach(int $coachId): Response
     {
         $coachActif = $this->getUser();
         /** @var Coaches $coachAdverse */
@@ -275,9 +276,9 @@ class ClassementController extends AbstractController
      * @route("/calculClassementGen/{annee}", name="calcul_classement_gen" )
      * @param int $annee
      * @param ClassementService $classementService
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      */
-    public function calculClassementGen(int $annee, ClassementService $classementService)
+    public function calculClassementGen(int $annee, ClassementService $classementService): RedirectResponse
     {
         $classementService->sauvegardeClassementGeneral(
             $classementService->toutesLesEquipesPourLeClassementGeneral(
@@ -290,6 +291,6 @@ class ClassementController extends AbstractController
 
         $this->addFlash('success', 'Classement Calculé! Année: '. $labelAnnee[$annee]);
 
-        return $this->redirectToRoute('index');
+        return $this->redirectToRoute('index', [], 200);
     }
 }

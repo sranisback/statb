@@ -25,11 +25,11 @@ class HistoriqueBlessure
     private ?int $blessure = 0;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Players", inversedBy="historiqueBlessures")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Players", inversedBy="historiqueBlessures",cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="fplayer", referencedColumnName="player_id")
-     * @var null|\App\Entity\Players
+     * @var null|Players
      */
-    private ?\App\Entity\Players $Player = null;
+    private ?Players $Player = null;
 
     /**
      *
@@ -41,9 +41,9 @@ class HistoriqueBlessure
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Matches", inversedBy="blessuresMatch")
      * @ORM\JoinColumn(name="matches", referencedColumnName="match_id")
-     * @var \App\Entity\Matches|null
+     * @var Matches|null
      */
-    private ?\App\Entity\Matches $fmatch= null;
+    private ?Matches $fmatch= null;
 
     public function getId(): ?int
     {
