@@ -11,10 +11,10 @@ use App\Service\EquipeGestionService;
 use App\Service\EquipeService;
 use App\Service\InducementService;
 use App\Service\SettingsService;
-use App\Tests\src\Functionnal;
 use Doctrine\ORM\EntityManager;
+use PHPUnit\Framework\TestCase;
 
-class compileEquipesAnneeEnCoursTest extends Functionnal
+class compileEquipesAnneeEnCoursTest extends TestCase
 {
     /**
      * @test

@@ -71,7 +71,7 @@ class AdminService
                 break;
 
             case 'Player' && $entity == HistoriqueBlessure::class:
-                $object->setPlayer(StatBBController::transformeJsonEnObjet($request['value'], Players::class));
+                //$object->setPlayer(StatBBController::transformeJsonEnObjet($request['value'], Players::class));
                 break;
 
             default:

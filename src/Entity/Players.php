@@ -292,9 +292,6 @@ class Players
         $this->historiqueBlessures = new ArrayCollection();
         $this->matchData = new ArrayCollection();
         $this->skills = new ArrayCollection();
-        if($this->getIcon() == null) {
-            $this->setIcon()
-        }
     }
 
     /**

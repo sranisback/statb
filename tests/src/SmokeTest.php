@@ -7,7 +7,6 @@ use App\Controller\StatBBController;
 use App\DataFixtures\SmokeFixture;
 use App\Entity\Coaches;
 use App\Entity\Players;
-use App\Enum\RulesetEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
@@ -67,6 +66,7 @@ class SmokeTest extends WebTestCase
      */
     public function testPageIsSuccessful(String $url)
     {
+        $this->client->followRedirects(true);
         $this->client->request('GET', $url);
 
         $this->assertResponseIsSuccessful();
@@ -86,22 +86,27 @@ class SmokeTest extends WebTestCase
 
     public function urlProviderPOST(): \Generator
     {
+        yield ['/Admin/coaches/updateEditableCoach', ['pk' => 1, 'name' => 'Username', 'value' => 'test']];
+        yield ['/Admin/defis/updateEditableDefis', ['pk' => 1, 'name' => 'DefieRealise', 'value' => true]];
+        yield ['/Admin/match/data/updateEditableMatchData', ['pk' => 1, 'name' => 'Mvp', 'value' => 5]];
+        yield ['/Admin/matches/updateEditableMatch', ['pk' => 1, 'name' => 'Fans', 'value' => 1000]];
+        yield ['/Admin/players/updateEditablePlayers', ['pk' => 1, 'name' => 'Nr', 'value' => 25]];
+        yield ['/Admin/teams/updateEditableTeams', ['pk' => 1, 'name' => 'Treasury', 'value' => 50000]];
+        yield ['/changeNomStade', ['pk' => 1, 'name' => 'Nom', 'value' => 'toto']];
 
-        //yield ['/Admin/coaches/updateEditableCoach', ['pk' => 1, 'name' => 'Username', 'value' => 'test']];
-        //yield ['/Admin/defis/updateEditableDefis', ['pk' => 1, 'name' => 'DefieRealise', 'value' => true]];
+        // ne fait rien
         yield ['/Admin/historique/blessure/updateEditableHisto', ['pk' => 1, 'name' => 'Player', 'value' =>  StatBBController::transformeObjetEnJsonResponse(new Players())->getContent()]];
-       /* yield ['/Admin/match/data/updateEditableMatchData'];
-        yield ['/Admin/matches/updateEditableMatch'];
-        yield ['/Admin/players/updateEditablePlayers'];
-        yield ['/Admin/teams/updateEditableTeams'];
-        yield ['/changeNomStade'];
-        yield ['/pdfTournois'];
-        yield ['/getposstat/1'];
-        yield ['/addPlayer'];
-        yield ['/changeNomEtNumero'];
-        yield ['/genereNumero'];
-        yield ['/ajoutComp/1'];
-        yield ['/addGame'];*/
+
+        // a retravailler
+        //yield ['/pdfTournois',StatBBController::transformeObjetEnJsonResponse(['post' => ['test', 'test']])];
+
+        //trouver comment tester
+        //yield ['/getposstat/1',[$this->createMock(EquipeService::class),[]]];
+        //yield ['/addPlayer'];
+        //yield ['/changeNomEtNumero'];
+        //yield ['/genereNumero'];
+        //yield ['/ajoutComp/1'];
+        //yield ['/addGame'];
     }
 
     public function urlProviderDELETE(): \Generator
@@ -131,8 +136,17 @@ class SmokeTest extends WebTestCase
 
     public function urlProvider(): \Generator
     {
+        yield ['/calculClassementGen/6'];
+        yield ['/supprimerDefis/1'];
+        yield ['/team/test'];
+        yield ['/retireEquipe/1'];
+        yield ['/checkteam/1'];
+        yield ['/recalculerTV'];
+        yield ['/mettreEnFranchise/1'];
+        yield ['/supprimerPrime/1'];
+        yield ['/logout'];
         //yield ['/pdfTeam/1']; - erreur stream
-        yield ['/Admin'];
+     /*   yield ['/Admin'];
         yield ['/Admin/coaches/'];
         yield ['/Admin/coaches/new'];
         yield ['/Admin/coaches/1/edit'];
@@ -218,7 +232,7 @@ class SmokeTest extends WebTestCase
         yield ['/listePosition/1'];
         yield ['/nombreVersComp/1'];
         yield ['/classeLesComp/G/A'];
-        yield ['/usercontrol'];
+        yield ['/usercontrol'];*/
     }
 
     public function tearDown(): void

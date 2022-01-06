@@ -291,6 +291,6 @@ class ClassementController extends AbstractController
 
         $this->addFlash('success', 'Classement Calculé! Année: '. $labelAnnee[$annee]);
 
-        return $this->redirectToRoute('index', [], 200);
+        return $this->redirectToRoute('index');
     }
 }
