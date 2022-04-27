@@ -30,6 +30,14 @@
         <server name="SYMFONY_PHPUNIT_REMOVE" value="" />
         <server name="SYMFONY_PHPUNIT_VERSION" value="9.5" />
 >>>>>>> theirs
+<<<<<<< ours
+=======
+
+        <!-- ###+ symfony/framework-bundle ### -->
+        <env name="APP_ENV" value="dev"/>
+        <env name="APP_SECRET" value="4a3301f4d6751983d4dbcf0d9d42a6af"/>
+        <!-- ###- symfony/framework-bundle ### -->
+>>>>>>> theirs
     </php>
 
     <testsuites>
