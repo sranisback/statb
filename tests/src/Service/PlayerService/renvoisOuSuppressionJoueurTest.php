@@ -11,6 +11,7 @@ use App\Entity\Players;
 use App\Entity\PlayersSkills;
 use App\Entity\Teams;
 use App\Enum\RulesetEnum;
+use App\Service\EquipeGestionService;
 use App\Service\EquipeService;
 use App\Service\InfosService;
 use App\Service\MatchDataService;
@@ -79,12 +80,12 @@ class renvoisOuSuppressionJoueurTest extends TestCase
             )
         );
 
-        $equipeServiceMock = $this->createMock(EquipeService::class);
-        $equipeServiceMock->method('tvDelEquipe')->willReturnOnConsecutiveCalls(1_000_000);
+        $equipeGestionServiceMock = $this->createMock(EquipeGestionService::class);
+        $equipeGestionServiceMock->method('tvDelEquipe')->willReturnOnConsecutiveCalls(1_000_000);
 
         $playerServiceTest = new PlayerService(
             $objectManager,
-            $equipeServiceMock,
+            $equipeGestionServiceMock,
             $this->createMock(MatchDataService::class),
             $this->createMock(InfosService::class)
         );
@@ -157,12 +158,12 @@ class renvoisOuSuppressionJoueurTest extends TestCase
             )
         );
 
-        $equipeServiceMock = $this->createMock(EquipeService::class);
-        $equipeServiceMock->method('tvDelEquipe')->willReturnOnConsecutiveCalls(1_000_000);
+        $equipeGestionServiceMock = $this->createMock(EquipeGestionService::class);
+        $equipeGestionServiceMock->method('tvDelEquipe')->willReturnOnConsecutiveCalls(1_000_000);
 
         $playerServiceTest = new PlayerService(
             $objectManager,
-            $equipeServiceMock,
+            $equipeGestionServiceMock,
             $this->createMock(MatchDataService::class),
             $this->createMock(InfosService::class)
         );
@@ -233,12 +234,12 @@ class renvoisOuSuppressionJoueurTest extends TestCase
             )
         );
 
-        $equipeServiceMock = $this->createMock(EquipeService::class);
-        $equipeServiceMock->method('tvDelEquipe')->willReturn(1_000_000);
+        $equipeGestionServiceMock = $this->createMock(EquipeGestionService::class);
+        $equipeGestionServiceMock->method('tvDelEquipe')->willReturn(1_000_000);
 
         $playerServiceTest = new PlayerService(
             $objectManager,
-            $equipeServiceMock,
+            $equipeGestionServiceMock,
             $this->createMock(MatchDataService::class),
             $this->createMock(InfosService::class)
         );
@@ -309,12 +310,12 @@ class renvoisOuSuppressionJoueurTest extends TestCase
             )
         );
 
-        $equipeServiceMock = $this->createMock(EquipeService::class);
-        $equipeServiceMock->method('tvDelEquipe')->willReturn(1_000_000);
+        $equipeGestionServiceMock = $this->createMock(EquipeGestionService::class);
+        $equipeGestionServiceMock->method('tvDelEquipe')->willReturn(1_000_000);
 
         $playerServiceTest = new PlayerService(
             $objectManager,
-            $equipeServiceMock,
+            $equipeGestionServiceMock,
             $this->createMock(MatchDataService::class),
             $this->createMock(InfosService::class)
         );

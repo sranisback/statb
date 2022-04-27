@@ -21,7 +21,7 @@
                     {{ match.team1.Race.name }}
                 {% endif %}
                 , {{ match.tv1/1000 }}
-                de {{ match.team1.ownedByCoach.name }} )
+                de {{ match.team1.ownedByCoach.username }} )
             </td>
             <td> Vs</td>
             <td>{{ match.team2.name }} {% if match.team2.franchise == true %}
@@ -33,7 +33,7 @@
                     {{ match.team2.Race.name }}
                 {% endif %}
                 , {{ match.tv2/1000 }}
-                de {{ match.team2.ownedByCoach.name }} )
+                de {{ match.team2.ownedByCoach.username }} )
             </td>
             <td>{{ match.team1Score }} - {{ match.team2Score }}</td>
             <td>{{ match.dateCreated|date("d/m/Y") }}</td>

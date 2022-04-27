@@ -34,9 +34,8 @@ class LigneClassementGeneralTest extends TestCase
         $matchMock2->setTeam1($equipeMock0);
         $matchMock2->setTeam2($this->createMock(Teams::class));
 
-
         $matchRepoMock = $this->getMockBuilder(Matches::class)
-            ->setMethods(['listeDesMatchs'])
+            ->addMethods(['listeDesMatchs'])
             ->getMock();
 
         $matchRepoMock->method('listeDesMatchs')->willReturnOnConsecutiveCalls(
@@ -54,7 +53,7 @@ class LigneClassementGeneralTest extends TestCase
         );
 
         $penaliteRepoMock = $this->getMockBuilder(Penalite::class)
-            ->setMethods(['penaliteDuneEquipe'])
+            ->addMethods(['penaliteDuneEquipe'])
             ->getMock();
         $penaliteRepoMock->method('penaliteDuneEquipe')->willReturn(2);
 
@@ -79,8 +78,20 @@ class LigneClassementGeneralTest extends TestCase
         $equipeServiceMock->method('resultatsDelEquipe')->willReturn(['win' => 1, 'draw' => 1, 'loss' => 1]);
         $equipeServiceMock->method('resultatDuMatch')->willReturnOnConsecutiveCalls(
             ['win' => 1, 'loss' => 0, 'draw' => 0],
+            ['win' => 1, 'loss' => 0, 'draw' => 0],
+            ['win' => 1, 'loss' => 0, 'draw' => 0],
+            ['win' => 1, 'loss' => 0, 'draw' => 0],
+            ['win' => 1, 'loss' => 0, 'draw' => 0],
+            ['win' => 0, 'loss' => 1, 'draw' => 0],
+            ['win' => 0, 'loss' => 1, 'draw' => 0],
+            ['win' => 0, 'loss' => 1, 'draw' => 0],
+            ['win' => 0, 'loss' => 1, 'draw' => 0],
             ['win' => 0, 'loss' => 1, 'draw' => 0],
             ['win' => 0, 'loss' => 0, 'draw' => 1],
+            ['win' => 0, 'loss' => 0, 'draw' => 1],
+            ['win' => 0, 'loss' => 0, 'draw' => 1],
+            ['win' => 0, 'loss' => 0, 'draw' => 1],
+            ['win' => 0, 'loss' => 0, 'draw' => 1]
         );
 
         $matchDateServiceMock = $this->createMock(MatchDataService::class);

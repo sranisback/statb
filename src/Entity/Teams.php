@@ -156,12 +156,14 @@ class Teams
 
     /**
      * @ORM\Column(type="integer")
+     * @var int
      */
     private $ruleset = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity=RacesBb2020::class)
      * @ORM\JoinColumn(name="race_id", referencedColumnName="id", nullable=true)
+     * @var RacesBb2020
      */
     private $race;
 

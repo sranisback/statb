@@ -43,7 +43,7 @@
                                 {{ team.race.name }}
                             {% endif %}
                         </td>
-                        <td>{{ team.ownedByCoach.name }}</td>
+                        <td>{{ team.ownedByCoach.Username }}</td>
                         <td><a href="#" data-type="number" data-pk="{{ team.teamId }}" data-name="Treasury" id="admin_teams_treasury_{{ loop.index }}"> {{ team.treasury }}</a></td>
                         <td><a href="#" data-type="number" data-pk="{{ team.teamId }}" data-name="Apothecary" id="admin_teams_apo_{{ loop.index }}"> {{ team.apothecary }}</a></td>
                         <td><a href="#" data-type="number" data-pk="{{ team.teamId }}" data-name="Rerolls" id="admin_teams_apo_{{ loop.index }}">{{ team.rerolls }}</a></td>

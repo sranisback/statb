@@ -41,6 +41,7 @@ class PlayersController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
 
+            /** @var array $datas */
             $datas = $request->request->get('players');
 
             /** @var GameDataPlayers $position */
@@ -97,7 +98,7 @@ class PlayersController extends AbstractController
      * @param Request $request
      * @Route("/updateEditablePlayers", name="updateEditablePlayers", options = { "expose" = true })
      */
-    public function updateEditablePlayers(Request $request, AdminService $adminService)
+    public function updateEditablePlayers(Request $request, AdminService $adminService) : Response
     {
         $adminService->traiteModification($request->request->all(), Players::class);
 

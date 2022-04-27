@@ -96,7 +96,6 @@ class TournoisController extends AbstractController
 
             if (strpos($doub, $comp->getCat()) !== false) {
                 $listeCompDoubles[] = $comp;
-                continue;
             }
         }
 

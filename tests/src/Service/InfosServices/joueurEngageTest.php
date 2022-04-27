@@ -24,7 +24,7 @@ class joueurEngageTest extends TestCase
     public function message_enregistre_pour_achat_joueur_bb2016()
     {
         $coachMock = $this->createMock(Coaches::class);
-        $coachMock->method('getName')->willReturn('Zorro');
+        $coachMock->method('getUsername')->willReturn('Zorro');
 
         $raceMock = $this->createMock(Races::class);
         $raceMock->method('getName')->willReturn('Hobbit');
@@ -68,7 +68,7 @@ class joueurEngageTest extends TestCase
     public function message_enregistre_pour_achat_joueur_bb2020()
     {
         $coachMock = $this->createMock(Coaches::class);
-        $coachMock->method('getName')->willReturn('Zorro');
+        $coachMock->method('getUsername')->willReturn('Zorro');
 
         $raceMock = $this->createMock(RacesBb2020::class);
         $raceMock->method('getName')->willReturn('Hobbit');

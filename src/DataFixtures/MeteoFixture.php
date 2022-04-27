@@ -8,7 +8,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class MeteoFixture extends Fixture
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager) : Meteo
     {
         $meteoFixture = new Meteo();
         $meteoFixture->setNom('zob');

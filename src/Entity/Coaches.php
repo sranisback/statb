@@ -15,6 +15,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *
  * @ORM\Table(name="coaches")
  * @ORM\Entity(repositoryClass="App\Repository\CoachesRepository")
+ * @method string getUserIdentifier()
  */
 class Coaches implements UserInterface
 {
@@ -59,10 +60,7 @@ class Coaches implements UserInterface
         $this->equipes = new ArrayCollection();
     }
 
-    /**
-     * @return PersistentCollection
-     */
-    public function getEquipes(): PersistentCollection
+    public function getEquipes()
     {
         return $this->equipes;
     }
@@ -80,24 +78,24 @@ class Coaches implements UserInterface
         return $this->coachId;
     }
 
-    public function getName(): ?string
+    public function getUsername(): ?string
     {
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setUsername(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    public function getPasswd(): ?string
+    public function getPassword(): ?string
     {
         return $this->passwd;
     }
 
-    public function setPasswd(string $passwd): self
+    public function setPassword(string $passwd): self
     {
         $this->passwd = $passwd;
 
@@ -112,11 +110,6 @@ class Coaches implements UserInterface
         return $this->roles;
     }
 
-    public function getPassword(): ?string
-    {
-        return $this->passwd;
-    }
-
     /**
      * @return null
      */
@@ -125,13 +118,9 @@ class Coaches implements UserInterface
         return null;
     }
 
-    public function getUsername(): ?string
-    {
-        return $this->name;
-    }
-
     public function eraseCredentials(): void
     {
+        //a implementer...
     }
 
     /** @see \Serializable::serialize() */
@@ -162,5 +151,10 @@ class Coaches implements UserInterface
     public function setRoles(array $roles): void
     {
         $this->roles = $roles;
+    }
+
+    public function __call($name, $arguments)
+    {
+        // TODO: Implement @method string getUserIdentifier()
     }
 }

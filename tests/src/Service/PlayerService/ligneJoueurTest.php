@@ -8,6 +8,7 @@ use App\Entity\GameDataSkills;
 use App\Entity\MatchData;
 use App\Entity\Players;
 use App\Entity\PlayersSkills;
+use App\Service\EquipeGestionService;
 use App\Service\EquipeService;
 use App\Service\InfosService;
 use App\Service\MatchDataService;
@@ -73,7 +74,7 @@ class ligneJoueurTest extends TestCase
 
         $playerServiceTest = new PlayerService(
             $objectManager,
-            $this->createMock(EquipeService::class),
+            $this->createMock(EquipeGestionService::class),
             $this->createMock(MatchDataService::class),
             $this->createMock(InfosService::class)
         );
@@ -111,7 +112,7 @@ class ligneJoueurTest extends TestCase
 
         $playerServiceTest = new PlayerService(
             $this->createMock(EntityManager::class),
-            $this->createMock(EquipeService::class),
+            $this->createMock(EquipeGestionService::class),
             $this->createMock(MatchDataService::class),
             $this->createMock(InfosService::class)
         );
@@ -176,7 +177,7 @@ class ligneJoueurTest extends TestCase
 
         $playerServiceTest = new PlayerService(
             $objectManager,
-            $this->createMock(EquipeService::class),
+            $this->createMock(EquipeGestionService::class),
             $this->createMock(MatchDataService::class),
             $this->createMock(InfosService::class)
         );

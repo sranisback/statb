@@ -24,14 +24,14 @@ class PenaliteController extends AbstractController
     public function ajoutPenaliteForm(
         Request $request,
         PenaliteService $penaliteService
-    ): Response
-    {
+    ): Response {
         $penalite = new Penalite();
 
         $form = $this->createForm(AjoutPenaliteForm::class, $penalite);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var array $datas */
             $datas = $request->request->get('ajout_penalite_form');
 
             /** @var Teams $equipe */

@@ -20,8 +20,14 @@ class InfosService
      * @var EntityManagerInterface
      */
     private $doctrineEntityManager;
-    
+
+    /**
+     * @var string
+     */
     private $urlPrefix;
+
+    private const TEAM_URL = '/team/';
+    private const HREF = '<a href="';
 
     public function __construct(EntityManagerInterface $doctrineEntityManager, ContainerBagInterface $params)
     {
@@ -30,10 +36,10 @@ class InfosService
     }
 
     /**
-     * @param $text
+     * @param string $text
      * @return Infos
      */
-    public function publierUnMessage($text)
+    public function publierUnMessage(string $text) : Infos
     {
         $message = new Infos();
         $message->setMessages($text);
@@ -52,8 +58,8 @@ class InfosService
     public function equipeEstCree(Teams $equipe)
     {
         return $this->publierUnMessage(
-            $equipe->getOwnedByCoach()->getName() .
-            ' a crée l\'équipe <a href="' . $this->urlPrefix . '/team/' . $equipe->getTeamId() .
+            $equipe->getOwnedByCoach()->getUsername() .
+            ' a crée l\'équipe <a href="' . $this->urlPrefix . self::TEAM_URL . $equipe->getTeamId() .
             '">' . $equipe->getName() . '</a>' .
             '(' . RulesetEnum::getRaceFromEquipeByRuleset($equipe)->getName() .
             ')'
@@ -69,9 +75,10 @@ class InfosService
         return $this->publierUnMessage(
             $joueur->getName() . ', ' . RulesetEnum::getPositionFromPlayerByRuleset($joueur)->getPos() . ' ' .
             RulesetEnum::getRaceFromJoueurByRuleset($joueur)->getName() .
-            ' a été engagé par <a href="' . $this->urlPrefix . '/team/' . $joueur->getOwnedByTeam()->getTeamId() . '">' .
+            ' a été engagé par <a href="' . $this->urlPrefix . self::TEAM_URL .
+            $joueur->getOwnedByTeam()->getTeamId() . '">' .
             $joueur->getOwnedByTeam()->getName() . '</a>' .
-            ' de ' . $joueur->getOwnedByTeam()->getOwnedByCoach()->getName()
+            ' de ' . $joueur->getOwnedByTeam()->getOwnedByCoach()->getUsername()
         );
     }
 
@@ -84,7 +91,7 @@ class InfosService
         return $this->publierUnMessage(
             'Match(' . $matches->getMatchId() . '): ' .
             $matches->getTeam1()->getName() . ' VS ' . $matches->getTeam2()->getName() . ' enregistré. ' .
-            '<a href="' . $this->urlPrefix . '/match/' . $matches->getMatchId() . '">voir</a>'
+            self::HREF . $this->urlPrefix . '/match/' . $matches->getMatchId() . '">voir</a>'
         );
     }
 
@@ -95,9 +102,11 @@ class InfosService
     public function mortDunJoueur(Players $joueur)
     {
         return $this->publierUnMessage(
-            $joueur->getName() . ', ' .  RulesetEnum::getPositionFromPlayerByRuleset($joueur)->getPos() . ' '  . RulesetEnum::getRaceFromJoueurByRuleset($joueur)->getName() .
-            ' de <a href="' . $this->urlPrefix . '/team/' . $joueur->getOwnedByTeam()->getTeamId() . '">' .
-            $joueur->getOwnedByTeam()->getName() . '</a> est mort !'
+            $joueur->getName() . ', ' .  RulesetEnum::getPositionFromPlayerByRuleset($joueur)->getPos()
+            . ' '  . RulesetEnum::getRaceFromJoueurByRuleset($joueur)->getName()
+            . ' de <a href="' . $this->urlPrefix . self::TEAM_URL . $joueur->getOwnedByTeam()->getTeamId() . '">'
+            . $joueur->getOwnedByTeam()->getName()
+            . '</a> est mort !'
         );
     }
 
@@ -108,10 +117,12 @@ class InfosService
     public function defisEstLance(Defis $defis)
     {
         return $this->publierUnMessage(
-            '<a href="' . $this->urlPrefix . '/team/' . $defis->getEquipeOrigine()->getTeamId() . '">' .
-            $defis->getEquipeOrigine()->getName() . '</a> (' .  RulesetEnum::getRaceFromEquipeByRuleset($defis->getEquipeOrigine())->getName() .
-            ') défie <a href="' . $this->urlPrefix . '/team/' . $defis->getEquipeDefiee()->getTeamId() . '">' .
-            $defis->getEquipeDefiee()->getName() . '</a> (' . RulesetEnum::getRaceFromEquipeByRuleset($defis->getEquipeDefiee())->getName() . ')'
+            self::HREF . $this->urlPrefix . self::TEAM_URL . $defis->getEquipeOrigine()->getTeamId() . '">'
+            . $defis->getEquipeOrigine()->getName() . '</a> ('
+            .  RulesetEnum::getRaceFromEquipeByRuleset($defis->getEquipeOrigine())->getName()
+            . ') défie <a href="' . $this->urlPrefix . self::TEAM_URL . $defis->getEquipeDefiee()->getTeamId() . '">'
+            . $defis->getEquipeDefiee()->getName() . '</a> ('
+            . RulesetEnum::getRaceFromEquipeByRuleset($defis->getEquipeDefiee())->getName() . ')'
         );
     }
 
@@ -119,13 +130,14 @@ class InfosService
      * @param Defis $defis
      * @return Infos
      */
-    public function defisRealise(Defis $defis)
+    public function defisRealise(Defis $defis) : Infos
     {
         return $this->publierUnMessage(
-            'Le défis ' . '<a href="' . $this->urlPrefix . '/team/' . $defis->getEquipeOrigine()->getTeamId() . '">' .
-            $defis->getEquipeOrigine()->getName() . '</a> contre ' . '<a href="' . $this->urlPrefix . '/team/' .
-            $defis->getEquipeDefiee()->getTeamId() . '">' . $defis->getEquipeDefiee()->getName() .
-            '</a> a été réalisé : <a href="' . $this->urlPrefix . '/match/' . $defis->getMatchDefi()->getMatchId()  . '">Voir</a>'
+            'Le défis ' . self::HREF . $this->urlPrefix . self::TEAM_URL
+            . $defis->getEquipeOrigine()->getTeamId() . '">' . $defis->getEquipeOrigine()->getName() . '</a> contre '
+            . self::HREF . $this->urlPrefix . self::TEAM_URL . $defis->getEquipeDefiee()->getTeamId() . '">'
+            . $defis->getEquipeDefiee()->getName() . '</a> a été réalisé : ' . self::HREF . $this->urlPrefix
+            . '/match/' . $defis->getMatchDefi()->getMatchId()  . '">Voir</a>'
         );
     }
 
@@ -133,21 +145,30 @@ class InfosService
      * @param Primes $prime
      * @return Infos
      */
-    public function primeMise(Primes $prime)
+    public function primeMise(Primes $prime) : Infos
     {
         return $this->publierUnMessage(
-            $prime->getPlayers()->getName() . ', ' . RulesetEnum::getPositionFromPlayerByRuleset($prime->getPlayers())->getPos()  . ' ' .
-            RulesetEnum::getRaceFromJoueurByRuleset($prime->getPlayers())->getName() . ' de ' . $prime->getPlayers()->getOwnedByTeam()->getName() .
+            $prime->getPlayers()->getName() . ', '
+            . RulesetEnum::getPositionFromPlayerByRuleset($prime->getPlayers())->getPos()  . ' '
+            . RulesetEnum::getRaceFromJoueurByRuleset($prime->getPlayers())->getName() . ' de '
+            . $prime->getPlayers()->getOwnedByTeam()->getName() .
             ' a une prime de ' . $prime->getMontant() . ' Po'
         );
     }
 
-    public function primeGagnee(Primes $prime)
+    /**
+     * @param Primes $prime
+     * @return Infos
+     */
+    public function primeGagnee(Primes $prime) : infos
     {
         return $this->publierUnMessage(
-            $prime->getEquipePrime()->getName() . ' a touché la prime de ' . $prime->getMontant() . 'Po sur ' .
-            $prime->getPlayers()->getName()  . ', ' . RulesetEnum::getPositionFromPlayerByRuleset($prime->getPlayers())->getPos() . ' ' .
-            RulesetEnum::getRaceFromJoueurByRuleset($prime->getPlayers())->getName()
+            $prime->getEquipePrime()->getName() . ' a touché la prime de ' . $prime->getMontant() . 'Po sur '
+            . $prime->getPlayers()->getName()  . ', '
+            . RulesetEnum::getPositionFromPlayerByRuleset($prime->getPlayers())->getPos() . ' '
+            . RulesetEnum::getRaceFromJoueurByRuleset($prime->getPlayers())->getName()
         );
     }
+
+    //ajouter des messages pour les morts randomisés, et rajouter les cas
 }

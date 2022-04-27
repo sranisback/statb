@@ -5,6 +5,7 @@ namespace App\Tests\src\Service\PlayerService;
 use App\Entity\MatchData;
 use App\Entity\Players;
 use App\Enum\RulesetEnum;
+use App\Service\EquipeGestionService;
 use App\Service\EquipeService;
 use App\Service\InfosService;
 use App\Service\MatchDataService;
@@ -39,7 +40,7 @@ class xpDuJoueurTest extends KernelTestCase
 
         $playerServiceTest = new PlayerService(
             $objectManager,
-            $this->createMock(EquipeService::class),
+            $this->createMock(EquipeGestionService::class),
             $this->createMock(MatchDataService::class),
             $this->createMock(InfosService::class)
         );
@@ -71,7 +72,7 @@ class xpDuJoueurTest extends KernelTestCase
 
         $playerServiceTest = new PlayerService(
             $objectManager,
-            $this->createMock(EquipeService::class),
+            $this->createMock(EquipeGestionService::class),
             $this->createMock(MatchDataService::class),
             $this->createMock(InfosService::class)
         );
@@ -95,7 +96,7 @@ class xpDuJoueurTest extends KernelTestCase
 
         $playerServiceTest = new PlayerService(
             $objectManager,
-            $this->createMock(EquipeService::class),
+            $this->createMock(EquipeGestionService::class),
             $this->createMock(MatchDataService::class),
             $this->createMock(InfosService::class)
         );
@@ -122,7 +123,7 @@ class xpDuJoueurTest extends KernelTestCase
 
         $playerServiceTest = new PlayerService(
             $objectManager,
-            $this->createMock(EquipeService::class),
+            $this->createMock(EquipeGestionService::class),
             $this->createMock(MatchDataService::class),
             $this->createMock(InfosService::class)
         );

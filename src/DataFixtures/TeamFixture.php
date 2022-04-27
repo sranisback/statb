@@ -9,11 +9,12 @@ use Doctrine\Persistence\ObjectManager;
 
 class TeamFixture extends Fixture
 {
+    /** @var Teams $equipeFixture */
     private $equipeFixture;
 
     public const TEAM_RACE_FIXTURE = 'team-race-fixture';
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager) : Teams
     {
         $this->equipeFixture = new Teams();
 
@@ -31,7 +32,7 @@ class TeamFixture extends Fixture
         return $this->equipeFixture;
     }
 
-    public function deleteFixture(ObjectManager $manager)
+    public function deleteFixture(ObjectManager $manager) : void
     {
         $manager->remove($this->equipeFixture);
         $manager->flush();

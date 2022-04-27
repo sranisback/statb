@@ -19,7 +19,7 @@ class tirerDYKauHasardTest extends TestCase
         $dykMock->method('getDykText')->willReturn('test');
 
         $dykRepoMock = $this->getMockBuilder(Dyk::class)
-            ->setMethods(['findAll'])->getMock();
+            ->addMethods(['findAll'])->getMock();
 
         $dykRepoMock->method('findAll')->willReturn([$dykMock, $dykMock, $dykMock]);
 
@@ -42,7 +42,7 @@ class tirerDYKauHasardTest extends TestCase
         $dykMock->method('getDykText')->willReturn('test');
 
         $dykRepoMock = $this->getMockBuilder(Dyk::class)
-            ->setMethods(['findAll'])->getMock();
+            ->addMethods(['findAll'])->getMock();
 
         $dykRepoMock->method('findAll')->willReturn([$dykMock]);
 
@@ -65,9 +65,9 @@ class tirerDYKauHasardTest extends TestCase
         $dykMock->method('getDykText')->willReturn('test');
 
         $dykRepoMock = $this->getMockBuilder(Dyk::class)
-            ->setMethods(['findAll'])->getMock();
+            ->addMethods(['findAll'])->getMock();
 
-        $dykRepoMock->method('findAll')->willReturn(false);
+        $dykRepoMock->method('findAll')->willReturn(null);
 
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($dykRepoMock);

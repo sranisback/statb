@@ -22,7 +22,7 @@ class equipeEstCreeTest extends TestCase
     public function une_equipe_est_cree_bb2016()
     {
         $coachMock = $this->createMock(Coaches::class);
-        $coachMock->method('getName')->willReturn('Zorro');
+        $coachMock->method('getUsername')->willReturn('Zorro');
 
         $raceMock = $this->createMock(Races::class);
         $raceMock->method('getName')->willReturn('Hobbit');
@@ -54,7 +54,7 @@ class equipeEstCreeTest extends TestCase
     public function une_equipe_est_cree_bb2020()
     {
         $coachMock = $this->createMock(Coaches::class);
-        $coachMock->method('getName')->willReturn('Zorro');
+        $coachMock->method('getUsername')->willReturn('Zorro');
 
         $raceMock = $this->createMock(RacesBb2020::class);
         $raceMock->method('getName')->willReturn('Hobbit');

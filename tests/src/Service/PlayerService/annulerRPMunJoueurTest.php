@@ -3,6 +3,7 @@
 namespace App\Tests\src\Service\PlayerService;
 
 use App\Entity\Players;
+use App\Service\EquipeGestionService;
 use App\Service\EquipeService;
 use App\Service\InfosService;
 use App\Service\MatchDataService;
@@ -26,11 +27,13 @@ class annulerRPMunJoueurTest extends KernelTestCase
 
         $playerService = new PlayerService(
             $objectManager,
-            $this->createMock(EquipeService::class),
+            $this->createMock(EquipeGestionService::class),
             $matchDataService,
             $this->createMock(InfosService::class)
         );
 
-        $this->assertEquals(0,$playerService->annulerRPMunJoueur($joueur));
+        $playerService->annulerRPMunJoueur($joueur);
+
+        $this->assertEquals(0,$joueur->getInjRpm());
     }
 }

@@ -18,7 +18,7 @@ class AjoutCitationType extends AbstractType
             ->add('citation', TextType::class)
             ->add('coachId', EntityType::class, [
                 'class' => Coaches::class,
-                'choice_label' => 'name',
+                'choice_label' => 'username',
                 'label' => 'Coach'
             ])
             ->add('submit', SubmitType::class, ['label' => 'Ajouter'])

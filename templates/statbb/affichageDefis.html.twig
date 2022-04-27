@@ -16,9 +16,9 @@ Période Défis actuelle : {{ render(controller('App\\Controller\\DefisControlle
         {% for defis in defisCollection %}
             <tr>
                 <td>
-                    {{ defis.equipeOrigine.name }} de {{ defis.equipeOrigine.ownedByCoach.name }}
+                    {{ defis.equipeOrigine.name }} de {{ defis.equipeOrigine.ownedByCoach.username }}
                     , {{ defis.equipeOrigine.fRace.name }}
-                <td>{{ defis.equipeDefiee.name }} de {{ defis.equipeDefiee.ownedByCoach.name }}
+                <td>{{ defis.equipeDefiee.name }} de {{ defis.equipeDefiee.ownedByCoach.username }}
                     , {{ defis.equipeDefiee.fRace.name }}
                 </td>
                 {% if(defis.matchDefi != null ) %}

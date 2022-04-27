@@ -47,7 +47,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-right text-nowrap">{{ game.team1.ownedByCoach.name }}
+                        <td class="text-right text-nowrap">{{ game.team1.ownedByCoach.username }}
                             ,
                             {% if game.team1.ruleset == 0 %}
                                 {{ game.team1.fRace.name }}
@@ -57,7 +57,7 @@
                             , {{ game.tv1/1000 }} </td>
                         <td class="text-center text-nowrap"><a
                                     href="{{ path('match', {'matchId': game.matchId}) }}">Voir</a></td>
-                        <td class="text-left text-nowrap">{{ game.team2.ownedByCoach.name }}
+                        <td class="text-left text-nowrap">{{ game.team2.ownedByCoach.username }}
                             ,
                             {% if game.team2.ruleset == 0 %}
                                 {{ game.team2.fRace.name }}
@@ -126,7 +126,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="text-right text-nowrap">{{ game.team1.ownedByCoach.name }}
+                                <td class="text-right text-nowrap">{{ game.team1.ownedByCoach.username }}
                                     ,
                                     {% if game.team1.ruleset == 0 %}
                                         {{ game.team1.fRace.name }}
@@ -136,7 +136,7 @@
                                     , {{ game.tv1/1000 }} </td>
                                 <td class="text-center text-nowrap"><a
                                             href="{{ path('match', {'matchId': game.matchId}) }}">Voir</a></td>
-                                <td class="text-left text-nowrap">{{ game.team2.ownedByCoach.name }}
+                                <td class="text-left text-nowrap">{{ game.team2.ownedByCoach.username }}
                                     ,
                                     {% if game.team2.ruleset == 0 %}
                                         {{ game.team2.fRace.name }}

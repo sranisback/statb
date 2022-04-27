@@ -72,11 +72,14 @@ class PlayersType extends AbstractType
                 'choice_label' =>'icon_name',
                 'group_by' => 'position.pos'
             ])
-            ->add('ruleset',ChoiceType::class,
+            ->add(
+                'ruleset',
+                ChoiceType::class,
                 [
                     'choices' => ['BB2016' => 0, 'BB2020' => 1],
                     'label' => 'Ruleset',
-                ])
+                ]
+            )
         ;
     }
 

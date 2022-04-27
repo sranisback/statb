@@ -6,6 +6,7 @@ use App\Entity\GameDataPlayers;
 use App\Entity\GameDataPlayersBb2020;
 use App\Entity\GameDataSkills;
 use App\Entity\Players;
+use App\Service\EquipeGestionService;
 use App\Service\EquipeService;
 use App\Service\InfosService;
 use App\Service\MatchDataService;
@@ -58,14 +59,14 @@ class listeDesCompdDeBasedUnJoueurTest extends TestCase
 
         $playerService = new PlayerService(
             $objectManager,
-            $this->createMock(EquipeService::class),
+            $this->createMock(EquipeGestionService::class),
             $matchDataService,
             $this->createMock(InfosService::class)
         );
 
         $retour = '<text class="test-primary">Frenzy</text>, <text class="test-primary">Dodge</text>, <text class="test-primary">Jump Up</text>, ';
 
-        $this->assertEquals($playerService->listeDesCompdDeBasedUnJoueur($joueurMock), $retour);
+        $this->assertEquals($retour, $playerService->listeDesCompdDeBasedUnJoueur($joueurMock));
     }
 
     /**
@@ -109,13 +110,13 @@ class listeDesCompdDeBasedUnJoueurTest extends TestCase
 
         $playerService = new PlayerService(
             $objectManager,
-            $this->createMock(EquipeService::class),
+            $this->createMock(EquipeGestionService::class),
             $matchDataService,
             $this->createMock(InfosService::class)
         );
 
         $retour = '<text class="test-primary">Frenzy</text>, <text class="test-primary">Dodge</text>, <text class="test-primary">Jump Up</text>, ';
 
-        $this->assertEquals($playerService->listeDesCompdDeBasedUnJoueur($joueurMock), $retour);
+        $this->assertEquals($retour, $playerService->listeDesCompdDeBasedUnJoueur($joueurMock));
     }
 }

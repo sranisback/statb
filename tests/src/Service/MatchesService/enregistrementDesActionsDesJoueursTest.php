@@ -6,6 +6,7 @@ use App\Entity\Matches;
 use App\Entity\Players;
 use App\Factory\MatchDataFactory;
 use App\Service\DefisService;
+use App\Service\EquipeGestionService;
 use App\Service\EquipeService;
 use App\Service\InfosService;
 use App\Service\MatchesService;
@@ -42,7 +43,8 @@ class enregistrementDesActionsDesJoueursTest extends TestCase
             $this->createMock(PlayerService::class),
             $this->createMock(SettingsService::class),
             $this->createMock(DefisService::class),
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(EquipeGestionService::class)
         );
 
         $actionTest = [
@@ -82,7 +84,8 @@ class enregistrementDesActionsDesJoueursTest extends TestCase
             $this->createMock(PlayerService::class),
             $this->createMock(SettingsService::class),
             $this->createMock(DefisService::class),
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(EquipeGestionService::class)
         );
 
         $actionTest = [
@@ -126,7 +129,8 @@ class enregistrementDesActionsDesJoueursTest extends TestCase
             $this->createMock(PlayerService::class),
             $this->createMock(SettingsService::class),
             $this->createMock(DefisService::class),
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(EquipeGestionService::class)
         );
 
         $actionTest = [
@@ -162,7 +166,8 @@ class enregistrementDesActionsDesJoueursTest extends TestCase
             $this->createMock(PlayerService::class),
             $this->createMock(SettingsService::class),
             $this->createMock(DefisService::class),
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(EquipeGestionService::class)
         );
 
         $actionTest = [
@@ -226,7 +231,8 @@ class enregistrementDesActionsDesJoueursTest extends TestCase
             $this->createMock(PlayerService::class),
             $this->createMock(SettingsService::class),
             $this->createMock(DefisService::class),
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(EquipeGestionService::class)
         );
 
         $actionTest = [

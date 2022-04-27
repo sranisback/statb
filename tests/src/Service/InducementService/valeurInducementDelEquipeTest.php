@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\src\Service\EquipeService;
+namespace App\Tests\src\Service\InducementService;
 
 
 use App\Entity\Races;
@@ -8,6 +8,7 @@ use App\Entity\RacesBb2020;
 use App\Entity\Teams;
 use App\Enum\RulesetEnum;
 use App\Service\EquipeService;
+use App\Service\InducementService;
 use App\Service\InfosService;
 use App\Service\SettingsService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -36,10 +37,8 @@ class valeurInducementDelEquipeTest extends KernelTestCase
 
         $objectManager = $this->createMock(EntityManagerInterface::class);
 
-        $equipeService = new EquipeService(
-            $objectManager,
-            $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class)
+        $inducementServiceTest = new InducementService(
+            $objectManager
         );
 
         $retour = [
@@ -51,7 +50,7 @@ class valeurInducementDelEquipeTest extends KernelTestCase
             'total'=> 500_000
         ];
 
-        $this->assertEquals($retour,$equipeService->valeurInducementDelEquipe($equipeTest));
+        $this->assertEquals($retour, $inducementServiceTest->valeurInducementDelEquipe($equipeTest));
     }
 
     /**
@@ -74,10 +73,8 @@ class valeurInducementDelEquipeTest extends KernelTestCase
 
         $objectManager = $this->createMock(EntityManagerInterface::class);
 
-        $equipeService = new EquipeService(
-            $objectManager,
-            $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class)
+        $inducementServiceTest = new InducementService(
+            $objectManager
         );
 
         $retour = [
@@ -89,6 +86,6 @@ class valeurInducementDelEquipeTest extends KernelTestCase
             'total'=> 400_000
         ];
 
-        $this->assertEquals($retour,$equipeService->valeurInducementDelEquipe($equipeTest));
+        $this->assertEquals($retour,$inducementServiceTest->valeurInducementDelEquipe($equipeTest));
     }
 }

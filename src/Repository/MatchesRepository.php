@@ -7,6 +7,7 @@ use App\Entity\Matches;
 use App\Entity\Teams;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 class MatchesRepository extends ServiceEntityRepository
@@ -97,10 +98,9 @@ class MatchesRepository extends ServiceEntityRepository
                 ->select('MAX(m.matchId)')
                 ->getQuery()
                 ->getSingleScalarResult();
-        } catch (NonUniqueResultException $e) {
+        } catch (NoResultException $e) {
+            return 0;
         }
-
-        return 0;
     }
 
 

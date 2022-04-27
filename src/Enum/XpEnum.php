@@ -3,10 +3,9 @@
 
 namespace App\Enum;
 
-
 class XpEnum
 {
-    public static function tableauXpBb2016()
+    public static function tableauXpBb2016() : array
     {
         return [
             0 => 5,
@@ -17,7 +16,7 @@ class XpEnum
         ];
     }
 
-    public static function tableauRecompenseXp()
+    public static function tableauRecompenseXp() : array
     {
         return [
             'LAN' => 1,
@@ -31,7 +30,7 @@ class XpEnum
         ];
     }
 
-    public static function tableauXpBb2020()
+    public static function tableauXpBb2020() : array
     {
         return [
             'PH' => [
@@ -69,7 +68,7 @@ class XpEnum
         ];
     }
 
-    public static function tableauXpParNiveau()
+    public static function tableauXpParNiveau() : array
     {
         return [
             0 => [

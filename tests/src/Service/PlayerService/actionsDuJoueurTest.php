@@ -3,6 +3,7 @@ namespace App\Tests\src\Service\PlayerService;
 
 use App\Entity\MatchData;
 use App\Entity\Players;
+use App\Service\EquipeGestionService;
 use App\Service\EquipeService;
 use App\Service\InfosService;
 use App\Service\MatchDataService;
@@ -46,7 +47,7 @@ class actionsDuJoueurTest extends TestCase
 
         $playerService = new PlayerService(
             $objectManager,
-            $this->createMock(EquipeService::class),
+            $this->createMock(EquipeGestionService::class),
             $matchDataService,
             $this->createMock(InfosService::class)
         );

@@ -8,6 +8,7 @@ use App\Form\AjoutDefisType;
 use App\Service\DefisService;
 use App\Service\SettingsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,13 +26,14 @@ class DefisIhmController extends AbstractController
         Request $request,
         DefisService $defisService,
         SettingsService $settingService
-    ): \Symfony\Component\HttpFoundation\Response {
+    ): Response {
         $defis = new Defis();
 
         $form = $this->createForm(AjoutDefisType::class, $defis);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var array $datas */
             $datas = $request->request->get('ajout_defis');
 
             /** @var Teams $equipe */
@@ -90,10 +92,8 @@ class DefisIhmController extends AbstractController
     {
         $periode = $settingsService->periodeDefisCourrante();
 
-        if (!empty($periode)) {
-            if ($periode['debut'] != false && $periode['fin'] != false) {
-                return new Response($periode['debut']->format('d/m/Y') . ' - ' . $periode['fin']->format('d/m/Y'));
-            }
+        if (!empty($periode) && ($periode['debut'] && $periode['fin'])) {
+            return new Response($periode['debut']->format('d/m/Y') . ' - ' . $periode['fin']->format('d/m/Y'));
         }
 
         return new Response('Periode defis pas configurée/abscente !');
@@ -103,10 +103,10 @@ class DefisIhmController extends AbstractController
      * @Route("/supprimerDefis/{defisId}", name="supprimerDefis")
      * @param DefisService $defisService
      * @param int $defisId
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      */
     public function supprimerDefis(DefisService $defisService, int $defisId)
-    : \Symfony\Component\HttpFoundation\RedirectResponse
+    : RedirectResponse
     {
         if ($defisService->supprimerDefis($defisId) !== '') {
             $this->addFlash('success', 'Defis Supprimée');

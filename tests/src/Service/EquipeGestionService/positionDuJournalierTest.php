@@ -1,18 +1,20 @@
 <?php
 
-namespace App\Tests\src\Service\EquipeService;
+namespace App\Tests\src\Service\EquipeGestionService;
 
 
 use App\Entity\GameDataPlayers;
+use App\Entity\GameDataPlayersBb2020;
 use App\Entity\Races;
 use App\Entity\RacesBb2020;
 use App\Entity\Teams;
 use App\Enum\RulesetEnum;
-use App\Service\EquipeService;
+use App\Service\EquipeGestionService;
+use App\Service\InducementService;
 use App\Service\InfosService;
 use App\Service\SettingsService;
-use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
 
 class positionDuJournalierTest extends TestCase
@@ -38,14 +40,15 @@ class positionDuJournalierTest extends TestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($gameDataPlayersRepoMock);
 
-        $equipeService = new EquipeService(
+        $equipeGestionService = new EquipeGestionService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(InducementService::class)
         );
 
         /** @var GameDataPlayers $journalierTest */
-        $journalierTest = $equipeService->positionDuJournalier($equipeTest);
+        $journalierTest = $equipeGestionService->positionDuJournalier($equipeTest);
 
         $this->assertEquals('halflings', $journalierTest->getPos() );
     }
@@ -55,7 +58,7 @@ class positionDuJournalierTest extends TestCase
      */
     public function une_position_0_16_est_renvoyee_bb2020(): void
     {
-        $gameDatPlayerTest = new GameDataPlayers();
+        $gameDatPlayerTest = new GameDataPlayersBb2020();
         $gameDatPlayerTest->setQty('16');
         $gameDatPlayerTest->setPos('halflings');
 
@@ -66,19 +69,20 @@ class positionDuJournalierTest extends TestCase
         $equipeTest->setRuleset(RulesetEnum::BB_2020);
 
         $gameDataPlayersRepoMock = $this->createMock(ObjectRepository::class);
-        $gameDataPlayersRepoMock->method('findOneBy')->willReturn($gameDatPlayerTest);
+        $gameDataPlayersRepoMock->method('findOneBy')->willReturnOnConsecutiveCalls(null,$gameDatPlayerTest);
 
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($gameDataPlayersRepoMock);
 
-        $equipeService = new EquipeService(
+        $equipeGestionService = new EquipeGestionService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(InducementService::class)
         );
 
         /** @var GameDataPlayers $journalierTest */
-        $journalierTest = $equipeService->positionDuJournalier($equipeTest);
+        $journalierTest = $equipeGestionService->positionDuJournalier($equipeTest);
 
         $this->assertEquals('halflings', $journalierTest->getPos() );
     }
@@ -88,7 +92,7 @@ class positionDuJournalierTest extends TestCase
      */
     public function une_position_0_12_est_renvoyee_bb2020(): void
     {
-        $gameDatPlayerTest = new GameDataPlayers();
+        $gameDatPlayerTest = new GameDataPlayersBb2020();
         $gameDatPlayerTest->setQty('12');
         $gameDatPlayerTest->setPos('halflings');
 
@@ -104,14 +108,15 @@ class positionDuJournalierTest extends TestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($gameDataPlayersRepoMock);
 
-        $equipeService = new EquipeService(
+        $equipeGestionService = new EquipeGestionService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(InducementService::class)
         );
 
         /** @var GameDataPlayers $journalierTest */
-        $journalierTest = $equipeService->positionDuJournalier($equipeTest);
+        $journalierTest = $equipeGestionService->positionDuJournalier($equipeTest);
 
         $this->assertEquals('halflings', $journalierTest->getPos() );
     }
@@ -119,7 +124,7 @@ class positionDuJournalierTest extends TestCase
     /**
      * @test
      */
-    public function une_equipe_mort_vivant_recois_un_zombie_bb2016(): void
+    public function une_equipe_mort_vivant_recoit_un_zombie_bb2016(): void
     {
         $gameDatPlayerTest = new GameDataPlayers();
         $gameDatPlayerTest->setQty('16');
@@ -138,14 +143,15 @@ class positionDuJournalierTest extends TestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($gameDataPlayersRepoMock);
 
-        $equipeService = new EquipeService(
+        $equipeGestionService = new EquipeGestionService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(InducementService::class)
         );
 
         /** @var GameDataPlayers $journalierTest */
-        $journalierTest = $equipeService->positionDuJournalier($equipeTest);
+        $journalierTest = $equipeGestionService->positionDuJournalier($equipeTest);
 
         $this->assertEquals('zombie', $journalierTest->getPos() );
     }
@@ -153,9 +159,9 @@ class positionDuJournalierTest extends TestCase
     /**
      * @test
      */
-    public function une_equipe_mort_vivant_recois_un_zombie_bb2020(): void
+    public function une_equipe_mort_vivant_recoit_un_zombie_bb2020(): void
     {
-        $gameDatPlayerTest = new GameDataPlayers();
+        $gameDatPlayerTest = new GameDataPlayersBb2020();
         $gameDatPlayerTest->setQty('16');
         $gameDatPlayerTest->setPos('zombie');
 
@@ -172,14 +178,15 @@ class positionDuJournalierTest extends TestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($gameDataPlayersRepoMock);
 
-        $equipeService = new EquipeService(
+        $equipeGestionService = new EquipeGestionService(
             $objectManager,
             $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(InducementService::class)
         );
 
         /** @var GameDataPlayers $journalierTest */
-        $journalierTest = $equipeService->positionDuJournalier($equipeTest);
+        $journalierTest = $equipeGestionService->positionDuJournalier($equipeTest);
 
         $this->assertEquals('zombie', $journalierTest->getPos() );
     }

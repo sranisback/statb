@@ -39,3 +39,8 @@ parameters:
         - '#setDate.+#'
         - '#findByName.+#'
         - '#getEquipes.+#'
+        - '#isCsrfTokenValid.*#'
+        - '#cinqDernieresNews.+#'
+        - '#.*ajoutCompetence\(\) expects App\\Entity\\GameDataSkills, object given.*#'
+        - '#getGameDataPlayersRepoFromIntRuleset.*#'
+        - '#champIdGameDataPlayerFromIntRuleset.*#'

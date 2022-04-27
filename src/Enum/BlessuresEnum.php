@@ -3,7 +3,7 @@
 
 namespace App\Enum;
 
-class   BlessuresEnum
+class BlessuresEnum
 {
     /**
      * @return string[]
@@ -35,7 +35,7 @@ class   BlessuresEnum
         ];
     }
 
-    public static function numeroToBlessureBb2020()
+    public static function numeroToBlessureBb2020() : array
     {
         return [
             1 => 'Traumatisme crânien',

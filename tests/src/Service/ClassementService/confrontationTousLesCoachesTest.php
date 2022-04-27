@@ -20,19 +20,19 @@ class confrontationTousLesCoachesTest extends KernelTestCase
     public function un_tableau_de_confrontation_est_retourne(): void
     {
         $coachTest0 = $this->createMock(Coaches::class);
-        $coachTest0->method('getName')->willReturn('coach 0');
+        $coachTest0->method('getUsername')->willReturn('coach 0');
         $coachTest0->method('getCoachId')->willReturn(0);
 
         $coachTest1 = $this->createMock(Coaches::class);
-        $coachTest1->method('getName')->willReturn('coach 1');
+        $coachTest1->method('getUsername')->willReturn('coach 1');
         $coachTest1->method('getCoachId')->willReturn(1);
 
         $coachTest2 = $this->createMock(Coaches::class);
-        $coachTest2->method('getName')->willReturn('coach 2');
+        $coachTest2->method('getUsername')->willReturn('coach 2');
         $coachTest2->method('getCoachId')->willReturn(2);
 
         $coachTest3 = $this->createMock(Coaches::class);
-        $coachTest3->method('getName')->willReturn('coach 3');
+        $coachTest3->method('getUsername')->willReturn('coach 3');
         $coachTest3->method('getCoachId')->willReturn(3);
 
         $equipeTest0 = new Teams();
@@ -131,13 +131,13 @@ class confrontationTousLesCoachesTest extends KernelTestCase
     public function il_n_y_a_pas_de_matchs_mais_des_equipes_et_coachs(): void
     {
         $coachTest0 = new Coaches();
-        $coachTest0->setName('coach 0');
+        $coachTest0->setUsername('coach 0');
         $coachTest1 = new Coaches();
-        $coachTest1->setName('coach 1');
+        $coachTest1->setUsername('coach 1');
         $coachTest2 = new Coaches();
-        $coachTest2->setName('coach 2');
+        $coachTest2->setUsername('coach 2');
         $coachTest3 = new Coaches();
-        $coachTest3->setName('coach 3');
+        $coachTest3->setUsername('coach 3');
 
         $equipeTest0 = new Teams();
         $equipeTest0->setOwnedByCoach($coachTest0);
@@ -198,7 +198,7 @@ class confrontationTousLesCoachesTest extends KernelTestCase
     public function il_n_y_a_pas_de_donnees(): void
     {
         $coachTest0 = new Coaches();
-        $coachTest0->setName('coach 0');
+        $coachTest0->setUsername('coach 0');
 
         $equipeTest0 = new Teams();
         $equipeTest0->setOwnedByCoach($coachTest0);
@@ -231,19 +231,19 @@ class confrontationTousLesCoachesTest extends KernelTestCase
     public function une_paire_de_coach_ne_se_sont_pas_rencontre(): void
     {
         $coachTest0 = $this->createMock(Coaches::class);
-        $coachTest0->method('getName')->willReturn('coach 0');
+        $coachTest0->method('getUsername')->willReturn('coach 0');
         $coachTest0->method('getCoachId')->willReturn(0);
 
         $coachTest1 = $this->createMock(Coaches::class);
-        $coachTest1->method('getName')->willReturn('coach 1');
+        $coachTest1->method('getUsername')->willReturn('coach 1');
         $coachTest1->method('getCoachId')->willReturn(1);
 
         $coachTest2 = $this->createMock(Coaches::class);
-        $coachTest2->method('getName')->willReturn('coach 2');
+        $coachTest2->method('getUsername')->willReturn('coach 2');
         $coachTest2->method('getCoachId')->willReturn(2);
 
         $coachTest3 = $this->createMock(Coaches::class);
-        $coachTest3->method('getName')->willReturn('coach 3');
+        $coachTest3->method('getUsername')->willReturn('coach 3');
         $coachTest3->method('getCoachId')->willReturn(3);
 
         $equipeTest0 = new Teams();
@@ -330,19 +330,19 @@ class confrontationTousLesCoachesTest extends KernelTestCase
     public function les_coaches_ont_plusieurs_equipes(): void
     {
         $coachTest0 = $this->createMock(Coaches::class);
-        $coachTest0->method('getName')->willReturn('coach 0');
+        $coachTest0->method('getUsername')->willReturn('coach 0');
         $coachTest0->method('getCoachId')->willReturn(0);
 
         $coachTest1 = $this->createMock(Coaches::class);
-        $coachTest1->method('getName')->willReturn('coach 1');
+        $coachTest1->method('getUsername')->willReturn('coach 1');
         $coachTest1->method('getCoachId')->willReturn(1);
 
         $coachTest2 = $this->createMock(Coaches::class);
-        $coachTest2->method('getName')->willReturn('coach 2');
+        $coachTest2->method('getUsername')->willReturn('coach 2');
         $coachTest2->method('getCoachId')->willReturn(2);
 
         $coachTest3 = $this->createMock(Coaches::class);
-        $coachTest3->method('getName')->willReturn('coach 3');
+        $coachTest3->method('getUsername')->willReturn('coach 3');
         $coachTest3->method('getCoachId')->willReturn(3);
 
         $equipeTest0a = new Teams();

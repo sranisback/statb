@@ -9,7 +9,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class GameDataPlayersFixture2 extends Fixture
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): GameDataPlayers
     {
         $race = new Races();
         $race->setName('Test');

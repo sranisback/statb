@@ -14,8 +14,8 @@ class CoachesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options) : void
     {
         $builder
-            ->add('name')
-            ->add('passwd')
+            ->add('Username')
+            ->add('Password')
             ->add(
                 'roles',
                 ChoiceType::class,

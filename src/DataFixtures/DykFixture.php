@@ -8,9 +8,9 @@ use Doctrine\Persistence\ObjectManager;
 
 class DykFixture extends Fixture
 {
-    private $dykFixture;
+    private Dyk $dykFixture;
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): Dyk
     {
         $this->dykFixture = new Dyk();
         $this->dykFixture->setDykText('test');
@@ -21,7 +21,7 @@ class DykFixture extends Fixture
         return $this->dykFixture;
     }
 
-    public function deleteFixture(ObjectManager $manager)
+    public function deleteFixture(ObjectManager $manager) : void
     {
         $manager->remove($this->dykFixture);
         $manager->flush();

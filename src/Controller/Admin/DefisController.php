@@ -87,7 +87,7 @@ class DefisController extends AbstractController
      * @param Request $request
      * @Route("/updateEditableDefis", name="updateEditableDefis", options = { "expose" = true })
      */
-    public function updateEditableDefis(Request $request, AdminService $adminService)
+    public function updateEditableDefis(Request $request, AdminService $adminService) : Response
     {
         $adminService->traiteModification($request->request->all(), Defis::class);
 

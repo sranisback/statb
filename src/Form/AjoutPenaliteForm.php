@@ -42,7 +42,6 @@ class AjoutPenaliteForm extends AbstractType
             )
             ->add('submit', SubmitType::class, array('label' => 'Ajouter'))
             ->add('cancel', ButtonType::class, array('label' => 'Annuler', 'attr' => array('data-dismiss' => 'modal')));
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver) : void

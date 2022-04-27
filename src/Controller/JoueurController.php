@@ -7,7 +7,6 @@ use App\Entity\PlayersSkills;
 use App\Entity\Setting;
 use App\Entity\Teams;
 use App\Enum\RulesetEnum;
-use App\Form\AjoutCompetenceBb2020Type;
 use App\Form\AjoutCompetenceType;
 use App\Form\AjoutJoueurType;
 use App\Form\JoueurPhotoEnvoiType;
@@ -19,6 +18,7 @@ use App\Tools\TransformeEnJSON;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,7 +31,7 @@ class JoueurController extends AbstractController
      * @param PlayerService $playerService
      * @return Response
      */
-    public function showPlayer(int $playerid, PlayerService $playerService): \Symfony\Component\HttpFoundation\Response
+    public function showPlayer(int $playerid, PlayerService $playerService): Response
     {
         $joueur = $this->getDoctrine()->getRepository(Players::class)->findOneBy(['playerId' => $playerid]);
 
@@ -52,12 +52,14 @@ class JoueurController extends AbstractController
      * @Route("/getposstat/{posId}", name="getposstat", options = { "expose" = true })
      * @param int $posId
      * @param PlayerService $playerService
+     * @param Request $request
      * @return Response
      */
-    public function getposstat(int $posId, PlayerService $playerService, Request $request): \Symfony\Component\HttpFoundation\Response
+    public function getposstat(int $posId, PlayerService $playerService, Request $request): Response
     {
         $donneesRuleset = $request->request->all();
 
+        /** @var  class-string<object> $repo */
         $repo = RulesetEnum::getGameDataPlayersRepoFromIntRuleset($donneesRuleset['ruleset']);
         $champ = RulesetEnum::champIdGameDataPlayerFromIntRuleset($donneesRuleset['ruleset']);
 
@@ -70,12 +72,18 @@ class JoueurController extends AbstractController
             'statbb/affichePosition.html.twig',
             [
                 'position' => $position,
-                'competence' => $playerService->competencesDunePositon($position),
+                'competence' => $playerService->competencesDunePositon($position), /* @phpstan-ignore-line */
                 'ruleset' => $donneesRuleset['ruleset']
             ]
         );
 
-        return new response($html->getContent());
+        $contenuHtml = $html->getContent();
+
+        if (!$contenuHtml) {
+            $contenuHtml = null;
+        }
+
+        return new response($contenuHtml);
     }
 
     /**
@@ -83,7 +91,7 @@ class JoueurController extends AbstractController
      * @param Teams $equipe
      * @return Response
      */
-    public function playerAdder(Teams $equipe): \Symfony\Component\HttpFoundation\Response
+    public function playerAdder(Teams $equipe): Response
     {
         $form = $this->createForm(AjoutJoueurType::class, null, ['equipe' => $equipe]);
 
@@ -101,7 +109,8 @@ class JoueurController extends AbstractController
         PlayerService $playerService,
         EquipeService $equipeService,
         Request $request
-    ): \Symfony\Component\HttpFoundation\JsonResponse {
+    ): JsonResponse {
+        /** @var array $donneesPourAjout */
         $donneesPourAjout = $request->request->all();
         $resultat = $playerService->ajoutJoueur(
             $donneesPourAjout['idPosition'],
@@ -185,7 +194,7 @@ class JoueurController extends AbstractController
     public function remPlayer(
         PlayerService $playerService,
         int $playerId
-    ): \Symfony\Component\HttpFoundation\JsonResponse {
+    ): JsonResponse {
         $resultat[''] = '';
         /** @var Players $joueur */
         $joueur = $this->getDoctrine()->getRepository(Players::class)->findOneBy(['playerId' => $playerId]);
@@ -205,12 +214,14 @@ class JoueurController extends AbstractController
 
     /**
      * @Route("/changeNomEtNumero", name="changeNomEtNumero", options = { "expose" = true })
+     * @param Request $request
+     * @param AdminService $adminService
      * @return Response
      */
     public function changeNomEtNumero(
         Request $request,
         AdminService $adminService
-    ): \Symfony\Component\HttpFoundation\Response {
+    ): Response {
         $adminService->traiteModification($request->request->all(), Players::class);
 
         return new Response();
@@ -221,15 +232,18 @@ class JoueurController extends AbstractController
      * @param int $playerid
      * @return Response
      */
-    public function skillmodal(int $playerid): \Symfony\Component\HttpFoundation\Response
+    public function skillmodal(int $playerid): Response
     {
         $competence = new PlayersSkills();
 
         $currentRuleset = $this->getDoctrine()->getRepository(Setting::class)->findOneBy(['name' => 'currentRuleset']);
 
-        $form = $this->createForm(AjoutCompetenceType::class, $competence, ['ruleset' => $currentRuleset->getValue()]);
+        $form = $this->createForm(AjoutCompetenceType::class, $competence, ['ruleset' => (int)$currentRuleset->getValue()]);
 
-        return $this->render('statbb/skillmodal.html.twig', ['playerId' => $playerid, 'form' => $form->createView(), 'ruleset' => $currentRuleset->getValue()]);
+        return $this->render(
+            'statbb/skillmodal.html.twig',
+            ['playerId' => $playerid, 'form' => $form->createView(), 'ruleset' => $currentRuleset->getValue()]
+        );
     }
 
     /**
@@ -237,17 +251,24 @@ class JoueurController extends AbstractController
      * @param Request $request
      * @param PlayerService $playerService
      * @param int $playerid
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|string
+     * @return RedirectResponse|string
      */
     public function ajoutComp(Request $request, PlayerService $playerService, int $playerid)
     {
+        /** @var array $form */
         $form = $request->request->get('ajout_competence');
 
         /** @var Players $joueur */
-        $joueur = $this->getDoctrine()->getRepository(\App\Entity\Players::class)->findOneBy(['playerId' => $playerid]);
+        $joueur = $this->getDoctrine()->getRepository(Players::class)->findOneBy(['playerId' => $playerid]);
 
-        $competence = $this->getDoctrine()->getRepository(RulesetEnum::getGameDataSkillRepoFromPlayerByRuleset($joueur))->findOneBy(
-            [RulesetEnum::getGameDataPlayerChampIdFromPlayerByRuleset($joueur) => $form[$joueur->getRuleset() == 0 ? 'fSkill' : 'fSkillBb2020']]
+        /** @var class-string<object> $repo */
+        $repo = RulesetEnum::getGameDataSkillRepoFromPlayerByRuleset($joueur);
+
+        $competence = $this->getDoctrine()->getRepository($repo)->findOneBy(
+            [
+                RulesetEnum::getGameDataPlayerChampIdFromPlayerByRuleset($joueur)
+                => $form[RulesetEnum::getChampSkillFromIntByRuleset($joueur->getRuleset())]
+            ]
         );
 
         if (!empty($joueur)) {
@@ -257,9 +278,13 @@ class JoueurController extends AbstractController
         if (!empty($competence)) {
             $retour = $joueur->getRuleset() == 0 ?
                 $playerService->ajoutCompetence($joueur, $competence) :
-                $playerService->ajoutCompetenceBb2020($joueur, $competence, array_key_exists('hasard', $form) ? $form['hasard'] : false);
+                $playerService->ajoutCompetenceBb2020(
+                    $joueur,
+                    $competence,
+                    array_key_exists('hasard', $form) ? $form['hasard'] : false  /* @phpstan-ignore-line */
+                );
 
-            if($retour != 'ok') {
+            if ($retour != 'ok') {
                 $this->addFlash('fail', $retour);
             }
         }
@@ -275,7 +300,7 @@ class JoueurController extends AbstractController
      * @Route("/genereNom", name="genereNom", options = { "expose" = true })
      * @return Response
      */
-    public function genereNomJoueur(): \Symfony\Component\HttpFoundation\Response
+    public function genereNomJoueur(): Response
     {
         $generateurDeNom = new randomNameGenerator();
         $nom = $generateurDeNom->generateNames(1);
@@ -292,7 +317,7 @@ class JoueurController extends AbstractController
     public function genereNumero(
         PlayerService $playerService,
         Request $request
-    ): \Symfony\Component\HttpFoundation\Response {
+    ): Response {
         $donnees = $request->request->all();
         /** @var Teams $equipe */
         $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $donnees['equipeId']]);
@@ -307,6 +332,8 @@ class JoueurController extends AbstractController
      * @Route("/uploadPhoto/{joueurId}", name="uploadPhoto")
      * @param Request $request
      * @param int $joueurId
+     * @param PlayerService $playerService
+     * @return RedirectResponse|Response
      */
     public function uploadPhoto(Request $request, int $joueurId, PlayerService $playerService)
     {
@@ -326,8 +353,7 @@ class JoueurController extends AbstractController
         return $this->render('statbb/addPhoto.html.twig', [
                 'joueur' => $joueur,
                 'form' => $form->createView()
-            ]
-        );
+            ]);
     }
 
     /**
@@ -335,7 +361,7 @@ class JoueurController extends AbstractController
      * @param int $joueurId
      * @return Response
      */
-    public function supprimePhotos(int $joueurId): \Symfony\Component\HttpFoundation\Response
+    public function supprimePhotos(int $joueurId): Response
     {
         /** @var Players $joueur */
         $joueur = $this->getDoctrine()->getRepository(Players::class)->findOneBy(['playerId' => $joueurId]);

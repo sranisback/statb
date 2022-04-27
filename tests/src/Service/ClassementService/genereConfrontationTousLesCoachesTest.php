@@ -20,19 +20,19 @@ class genereConfrontationTousLesCoachesTest extends KernelTestCase
     public function le_resultat_de_tous_les_coaches_est_bien_retournee(): void
     {
         $coachTest0 = $this->createMock(Coaches::class);
-        $coachTest0->method('getName')->willReturn('coach 0');
+        $coachTest0->method('getUsername')->willReturn('coach 0');
         $coachTest0->method('getCoachId')->willReturn(0);
 
         $coachTest1 = $this->createMock(Coaches::class);
-        $coachTest1->method('getName')->willReturn('coach 1');
+        $coachTest1->method('getUsername')->willReturn('coach 1');
         $coachTest1->method('getCoachId')->willReturn(1);
 
         $coachTest2 = $this->createMock(Coaches::class);
-        $coachTest2->method('getName')->willReturn('coach 2');
+        $coachTest2->method('getUsername')->willReturn('coach 2');
         $coachTest2->method('getCoachId')->willReturn(2);
 
         $coachTest3 = $this->createMock(Coaches::class);
-        $coachTest3->method('getName')->willReturn('coach 3');
+        $coachTest3->method('getUsername')->willReturn('coach 3');
         $coachTest3->method('getCoachId')->willReturn(3);
 
         $equipeTest0 = new Teams();

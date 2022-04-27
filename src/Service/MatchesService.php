@@ -44,6 +44,12 @@ class MatchesService
      * @var InfosService
      */
     private InfosService $infoService;
+    /**
+     * @var EquipeGestionService
+     */
+    private EquipeGestionService $equipeGestionService;
+
+    private const DATE_FORMAT = "Y-m-d H:i:s";
 
     public function __construct(
         EntityManagerInterface $doctrineEntityManager,
@@ -51,7 +57,8 @@ class MatchesService
         PlayerService $playerService,
         SettingsService $settingService,
         DefisService $defisService,
-        InfosService $infoService
+        InfosService $infoService,
+        EquipeGestionService $equipeGestionService
     ) {
         $this->doctrineEntityManager = $doctrineEntityManager;
         $this->equipeService = $equipeService;
@@ -59,6 +66,7 @@ class MatchesService
         $this->settingService = $settingService;
         $this->defisService = $defisService;
         $this->infoService = $infoService;
+        $this->equipeGestionService = $equipeGestionService;
     }
 
     /**
@@ -101,7 +109,7 @@ class MatchesService
      * @return Matches
      * @throws Exception
      */
-    public function creationEnteteMatch(array $donneesMatch): \App\Entity\Matches
+    public function creationEnteteMatch(array $donneesMatch): Matches
     {
         /** @var Teams $equipe1 */
         $equipe1 = $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(
@@ -133,14 +141,16 @@ class MatchesService
                     $typeStade = $stade->getFTypeStade();
                 }
                 break;
+            default:
+                break;
         }
 
         $match = MatchesFactory::creerUnMatch(
             $donneesMatch,
             $equipe1,
             $equipe2,
-            $this->equipeService->tvDelEquipe($equipe1, $this->playerService),
-            $this->equipeService->tvDelEquipe($equipe2, $this->playerService),
+            $this->equipeGestionService->tvDelEquipe($equipe1, $this->playerService),
+            $this->equipeGestionService->tvDelEquipe($equipe2, $this->playerService),
             $this->doctrineEntityManager->getRepository(Meteo::class)->findOneBy(
                 ['id' => $donneesMatch['meteo']]
             ),
@@ -195,7 +205,7 @@ class MatchesService
 
             $histoBlessure = new HistoriqueBlessure();
 
-            $dateBless = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
+            $dateBless = DateTime::createFromFormat(self::DATE_FORMAT, date(self::DATE_FORMAT));
 
             if (!empty($dateBless)) {
                 $histoBlessure->setDate($dateBless);
@@ -272,10 +282,10 @@ class MatchesService
                     break;
                 case 'RPM':
                     $joueur->setInjRpm(1);
-                    $this->enregistreHistoriqueBlessure(rand(41,48), $joueur, $histoBlessure);
+                    $this->enregistreHistoriqueBlessure(rand(41, 48), $joueur, $histoBlessure);
                     break;
                 case 'Tué':
-                    $date = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
+                    $date = DateTime::createFromFormat(self::DATE_FORMAT, date(self::DATE_FORMAT));
                     if (!empty($date)) {
                         $joueur->setDateDied($date);
                     }
@@ -288,6 +298,8 @@ class MatchesService
                     $histoBlessure->setBlessure(30);
                     $joueur->addHistoriqueBlessure($histoBlessure);
                     break;
+                default:
+                    break;
             }
 
             if ($histoBlessure->getPlayer() !== null) {
@@ -298,17 +310,17 @@ class MatchesService
         }
     }
 
-    private function enregistreHistoriqueBlessure(int $nbr, Players $joueur, HistoriqueBlessure $histoBlessure)
+    private function enregistreHistoriqueBlessure(int $nbr, Players $joueur, HistoriqueBlessure $histoBlessure) : void
     {
         $histoBlessure->setBlessure($nbr);
         $joueur->addHistoriqueBlessure($histoBlessure);
     }
 
     /**
-     * @param Coaches $coach
+     * @param Coaches|Object $coach
      * @return mixed[][]
      */
-    public function tousLesMatchesDunCoachParAnnee(Coaches $coach): array
+    public function tousLesMatchesDunCoachParAnnee($coach): array
     {
         $anneeEnCours = $this->settingService->anneeCourante();
         $anneeEtiquette = (new AnneeEnum)->numeroToAnnee();

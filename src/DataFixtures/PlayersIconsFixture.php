@@ -8,7 +8,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class PlayersIconsFixture extends Fixture
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager) : void
     {
         $playerIconsFixture = new PlayersIcons();
         $playerIconsFixture->setIconName('nope');

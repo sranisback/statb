@@ -34,7 +34,7 @@ class PrimeService
             ->getRepository(Primes::class)
             ->findOneBy(['players' => $data['players']]);
 
-        if ($prime == false) {
+        if ($prime === null) {
             $prime = new Primes();
         }
 

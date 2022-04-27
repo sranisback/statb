@@ -48,6 +48,7 @@ class PlayersSkills
     /**
      * @ORM\ManyToOne(targetEntity=GameDataSkillsBb2020::class)
      * @ORM\JoinColumn(name="f_skillBb2020_id", referencedColumnName="id")
+     * @var GameDataSkillsBb2020
      */
     private $fSkillBb2020;
 

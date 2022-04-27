@@ -22,7 +22,7 @@ class CalculPointBonusTest extends TestCase
         $equipeMock = $this->createMock(Teams::class);
 
         $matchRepoMock = $this->getMockBuilder(Matches::class)
-            ->setMethods(['listeDesMatchs'])
+            ->addMethods(['listeDesMatchs'])
             ->getMock();
 
         $matchRepoMock->method('listeDesMatchs')->willReturn(
@@ -61,22 +61,16 @@ class CalculPointBonusTest extends TestCase
         $equipeMock = $this->createMock(Teams::class);
 
         $matchRepoMock = $this->getMockBuilder(Matches::class)
-            ->setMethods(['listeDesMatchs'])
+            ->addMethods(['listeDesMatchs'])
             ->getMock();
 
         $match0 = new Matches();
         $match0->setTeam1($equipeMock);
-        $match0->setTeam1Score(2);
-
-        $match1 = new Matches();
-        $match1->setTeam2($equipeMock);
-        $match1->setTeam2Score(3);
+        $match0->setTeam1Score(3);
 
         $matchRepoMock->method('listeDesMatchs')->willReturn(
             [
-                $match0,
-                $this->createMock(Matches::class),
-                $match1
+                $match0
             ]
         );
 
@@ -86,7 +80,9 @@ class CalculPointBonusTest extends TestCase
         $equipeServiceMock = $this->createMock(EquipeService::class);
         $equipeServiceMock->method('resultatDuMatch')->willReturnOnConsecutiveCalls(
             ['win' => 1, 'loss' => 0, 'draw' => 0],
-            ['win' => 0, 'loss' => 1, 'draw' => 0],
+            ['win' => 1, 'loss' => 0, 'draw' => 0],
+            ['win' => 1, 'loss' => 0, 'draw' => 0],
+            ['win' => 1, 'loss' => 0, 'draw' => 0],
             ['win' => 1, 'loss' => 0, 'draw' => 0]
         );
 
@@ -107,21 +103,18 @@ class CalculPointBonusTest extends TestCase
         $equipeMock = $this->createMock(Teams::class);
 
         $matchRepoMock = $this->getMockBuilder(Matches::class)
-            ->setMethods(['listeDesMatchs'])
+            ->addMethods(['listeDesMatchs'])
             ->getMock();
 
         $match0 = new Matches();
-        $match0->setTeam1($equipeMock);
-        $match0->setTeam2Score(0);
+        $match0->setTeam2($equipeMock);
+        $match0->setTeam1Score(1);
 
         $match1 = new Matches();
-        $match1->setTeam2($equipeMock);
-        $match1->setTeam1Score(1);
 
         $matchRepoMock->method('listeDesMatchs')->willReturn(
             [
                 $match0,
-                $this->createMock(Matches::class),
                 $match1
             ]
         );
@@ -132,8 +125,15 @@ class CalculPointBonusTest extends TestCase
         $equipeServiceMock = $this->createMock(EquipeService::class);
         $equipeServiceMock->method('resultatDuMatch')->willReturnOnConsecutiveCalls(
             ['win' => 0, 'loss' => 1, 'draw' => 0],
+            ['win' => 0, 'loss' => 1, 'draw' => 0],
+            ['win' => 0, 'loss' => 1, 'draw' => 0],
+            ['win' => 0, 'loss' => 1, 'draw' => 0],
+            ['win' => 0, 'loss' => 1, 'draw' => 0],
             ['win' => 0, 'loss' => 0, 'draw' => 1],
-            ['win' => 0, 'loss' => 1, 'draw' => 0]
+            ['win' => 0, 'loss' => 0, 'draw' => 1],
+            ['win' => 0, 'loss' => 0, 'draw' => 1],
+            ['win' => 0, 'loss' => 0, 'draw' => 1],
+            ['win' => 0, 'loss' => 0, 'draw' => 1]
         );
 
         $classementService = new ClassementService(
@@ -153,7 +153,7 @@ class CalculPointBonusTest extends TestCase
         $equipeMock = $this->createMock(Teams::class);
 
         $matchRepoMock = $this->getMockBuilder(Matches::class)
-            ->setMethods(['listeDesMatchs'])
+            ->addMethods(['listeDesMatchs'])
             ->getMock();
 
         $match0 = new Matches();
@@ -180,7 +180,19 @@ class CalculPointBonusTest extends TestCase
         $equipeServiceMock = $this->createMock(EquipeService::class);
         $equipeServiceMock->method('resultatDuMatch')->willReturnOnConsecutiveCalls(
             ['win' => 1, 'loss' => 0, 'draw' => 0],
+            ['win' => 1, 'loss' => 0, 'draw' => 0],
+            ['win' => 1, 'loss' => 0, 'draw' => 0],
+            ['win' => 1, 'loss' => 0, 'draw' => 0],
+            ['win' => 1, 'loss' => 0, 'draw' => 0],
             ['win' => 0, 'loss' => 0, 'draw' => 1],
+            ['win' => 0, 'loss' => 0, 'draw' => 1],
+            ['win' => 0, 'loss' => 0, 'draw' => 1],
+            ['win' => 0, 'loss' => 0, 'draw' => 1],
+            ['win' => 0, 'loss' => 0, 'draw' => 1],
+            ['win' => 1, 'loss' => 0, 'draw' => 0],
+            ['win' => 1, 'loss' => 0, 'draw' => 0],
+            ['win' => 1, 'loss' => 0, 'draw' => 0],
+            ['win' => 1, 'loss' => 0, 'draw' => 0],
             ['win' => 1, 'loss' => 0, 'draw' => 0]
         );
 

@@ -2,6 +2,8 @@
 
 namespace App\Factory;
 
+use App\Entity\GameDataPlayers;
+use App\Entity\GameDataPlayersBb2020;
 use App\Entity\Players;
 use App\Entity\PlayersIcons;
 use App\Entity\Teams;
@@ -13,12 +15,12 @@ use Nette\Utils\DateTime;
 class PlayerFactory
 {
     /**
-     * @param $position
+     * @param GameDataPlayers|GameDataPlayersBb2020 $position
      * @param int $numero
      * @param Teams $equipe
      * @param bool $journalier
      * @param EntityManagerInterface $entityManager
-     * @param string $ruleset
+     * @param int $ruleset
      * @param string|null $nom
      * @return Players
      */
@@ -42,7 +44,7 @@ class PlayerFactory
 
         $dateBoughtFormat = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
 
-        $joueur = RulesetEnum::setPositionAndRaceJoueurByRuleset($joueur,$position);
+        $joueur = RulesetEnum::setPositionAndRaceJoueurByRuleset($joueur, $position);
 
         $joueur = self::attribuerIcone($joueur, $entityManager);
 
@@ -66,12 +68,13 @@ class PlayerFactory
     }
 
     /**
+     * @param Players $joueur
      * @param EntityManagerInterface $entityManager
-     * @param $position
      * @return Players
      */
     private static function attribuerIcone(Players $joueur, EntityManagerInterface $entityManager): Players
     {
+        /* @var array $listeIcones */
         $listeIcones = RulesetEnum::getIconeListeFromPlayerByRuleset($joueur, $entityManager);
 
         if ($listeIcones) {
@@ -82,41 +85,6 @@ class PlayerFactory
 
             $joueur->setIcon($iconeNope);
         }
-        return $joueur;
-    }
-
-    /**
-     * @param $position
-     * @param Players $joueur
-     */
-    private static function attributPositionEtRaceBb2016($position, Players $joueur): Players
-    {
-        $race = $position->getFRace();
-
-        if (!empty($race)) {
-            $joueur->setFRid($race);
-        }
-
-        $joueur->setFPos($position);
-
-        return $joueur;
-    }
-
-    /**
-     * @param $position
-     * @param Players $joueur
-     * @return Players
-     */
-    private static function attributPositionEtRaceBb2020($position, Players $joueur): Players
-    {
-        $race = $position->getRace();
-
-        if (!empty($race)) {
-            $joueur->setFRidBb2020($race);
-        }
-
-        $joueur->setFPosBb2020($position);
-
         return $joueur;
     }
 }

@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Tests\src\Service\EquipeService;
+namespace App\Tests\src\Service\EquipeGestionService;
 
 
 use App\Entity\Races;
 use App\Entity\RacesBb2020;
 use App\Entity\Teams;
 use App\Enum\RulesetEnum;
-use App\Service\EquipeService;
+use App\Service\EquipeGestionService;
+use App\Service\InducementService;
 use App\Service\InfosService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
@@ -25,7 +26,6 @@ class tvDelEquipeTest extends KernelTestCase
         $raceTest->setCostRr(50_000);
 
         $equipeTest = new Teams;
-        $equipeTest->setRerolls(4);
         $equipeTest->setFf(1);
         $equipeTest->setFRace($raceTest);
         $equipeTest->setRuleset(RulesetEnum::BB_2016);
@@ -35,13 +35,26 @@ class tvDelEquipeTest extends KernelTestCase
         $playerServiceMock = $this->createMock(PlayerService::class);
         $playerServiceMock->method('coutTotalJoueurs')->willReturn(100_000);
 
-        $equipeService = new EquipeService(
-            $objectManager,
-            $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class)
+        $inducementServiceMock = $this->createMock(InducementService::class);
+        $inducementServiceMock->method('valeurInducementDelEquipe')->willReturn(
+            [
+                'rerolls' => 200_000,
+                'pop' => 10_000,
+                'asscoaches' => 0,
+                'cheerleader' => 0,
+                'apo' => 0,
+                'total' => 210_000
+            ]
         );
 
-        $this->assertEquals(310_000, $equipeService->tvDelEquipe($equipeTest, $playerServiceMock));
+        $equipeGestionService = new EquipeGestionService(
+            $objectManager,
+            $this->createMock(SettingsService::class),
+            $this->createMock(InfosService::class),
+            $inducementServiceMock
+        );
+
+        $this->assertEquals(310_000, $equipeGestionService->tvDelEquipe($equipeTest, $playerServiceMock));
     }
 
     /**
@@ -53,8 +66,6 @@ class tvDelEquipeTest extends KernelTestCase
         $raceTest->setCostRr(50_000);
 
         $equipeTest = new Teams;
-        $equipeTest->setRerolls(4);
-        $equipeTest->setFf(1);
         $equipeTest->setRace($raceTest);
         $equipeTest->setRuleset(RulesetEnum::BB_2020);
 
@@ -63,13 +74,26 @@ class tvDelEquipeTest extends KernelTestCase
         $playerServiceMock = $this->createMock(PlayerService::class);
         $playerServiceMock->method('coutTotalJoueurs')->willReturn(100_000);
 
-        $equipeService = new EquipeService(
-            $objectManager,
-            $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class)
+        $inducementServiceMock = $this->createMock(InducementService::class);
+        $inducementServiceMock->method('valeurInducementDelEquipe')->willReturn(
+            [
+                'rerolls' => 200_000,
+                'pop' => 0,
+                'asscoaches' => 0,
+                'cheerleader' => 0,
+                'apo' => 0,
+                'total' => 200_000
+            ]
         );
 
-        $this->assertEquals(300_000, $equipeService->tvDelEquipe($equipeTest, $playerServiceMock));
+        $equipeGestionService = new EquipeGestionService(
+            $objectManager,
+            $this->createMock(SettingsService::class),
+            $this->createMock(InfosService::class),
+            $inducementServiceMock
+        );
+
+        $this->assertEquals(300_000, $equipeGestionService->tvDelEquipe($equipeTest, $playerServiceMock));
     }
 }
 
