@@ -10,7 +10,6 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: true
             provider: db_users
             # activate different ways to authenticate
 
@@ -31,6 +30,3 @@ security:
     access_control:
          #- { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
-    encoders:
-        App\Entity\Coaches:
-            algorithm: 'bcrypt'
