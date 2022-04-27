@@ -58,7 +58,11 @@
         "preferred-install": {
             "*": "dist"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "phpstan/extension-installer": true,
+            "symfony/flex": true
+        }
     },
     "autoload": {
         "psr-4": {
@@ -102,13 +106,6 @@
     "conflict": {
         "symfony/symfony": "*"
     },
-
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/weaverryan/FOSJsRoutingBundle"
-        }
-    ],
     "extra": {
         "symfony": {
             "allow-contrib": false,
