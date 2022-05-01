@@ -90,13 +90,16 @@
         "version": "v1.0.7"
     },
     "friendsofsymfony/jsrouting-bundle": {
-        "version": "2.0",
+        "version": "3.1",
         "recipe": {
             "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "2.0",
-            "ref": "370bcf99b04c0dfd0b545745aad622d757af5e1b"
-        }
+            "branch": "main",
+            "version": "2.3",
+            "ref": "a9f2e49180f75cdc71ae279a929c4b2e0638de84"
+        },
+        "files": [
+            "./config/routes/fos_js_routing.yaml"
+        ]
     },
     "fzaninotto/faker": {
         "version": "v1.8.0"
@@ -513,7 +516,7 @@
         "version": "v4.2.3"
     },
     "symfony/serializer": {
-        "version": "v4.1.6"
+        "version": "v5.4.8"
     },
     "symfony/service-contracts": {
         "version": "v1.1.6"
@@ -616,6 +619,6 @@
         "version": "1.9.1"
     },
     "willdurand/jsonp-callback-validator": {
-        "version": "v1.1.0"
+        "version": "v2.0.0"
     }
 }
