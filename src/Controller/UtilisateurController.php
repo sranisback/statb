@@ -3,36 +3,19 @@
 namespace App\Controller;
 
 use App\Entity\Citations;
+use App\Entity\Coaches;
 use App\Form\AjoutCitationType;
+use App\Form\AjoutCoachType;
 use App\Service\CitationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UtilisateurController extends AbstractController
 {
-    /**
-     * @param mixed $response
-     * @return JsonResponse
-     */
-    public static function transformeEnJson($response): JsonResponse
-    {
-        $encoders = array(new XmlEncoder(), new JsonEncoder());
-        $normalizers = array(new ObjectNormalizer());
-
-        $serializer = new Serializer($normalizers, $encoders);
-
-        $jsonContent = $serializer->serialize($response, 'json');
-
-        return new JsonResponse($jsonContent);
-    }
-
     /**
      * @Route("/usercontrol", name="usercontrol")
      * @param Request $request
@@ -60,5 +43,40 @@ class UtilisateurController extends AbstractController
             'statbb/tabs/parametres/addcitation.html.twig',
             ['form' => $form->createView(), 'citation' => $citation]
         );
+    }
+
+    /**
+     * @Route("/creeCoach", name="creeCoach")
+     * @param Request $request
+     * @return RedirectResponse|Response
+     */
+    public function creeCoach(Request $request,  UserPasswordEncoderInterface $encoder)
+    {
+        $coach = new Coaches();
+
+        $form = $this->createForm(AjoutCoachType::class, $coach);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $coach->setRoles(['role' => 'ROLE_USER']);
+
+            $encoded = $encoder->encodePassword($coach, $coach->getPassword());
+            $coach->setPassword($encoded);
+
+            $entityManager = $this->getDoctrine()->getManager();
+
+            $entityManager->persist($coach);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Coach crée!');
+
+            return $this->redirectToRoute('index');
+        }
+
+        return $this->render(
+            'statbb/addCoach.html.twig',
+            ['form' => $form->createView(), 'coach' => $coach]
+        );
+
     }
 }

@@ -9,18 +9,16 @@ use App\Entity\Players;
 use App\Entity\PlayersIcons;
 use App\Service\DefisService;
 use App\Service\SettingsService;
-
 use App\Tools\randomNameGenerator;
-use http\Env\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * Class StatBBController
@@ -40,16 +38,6 @@ class StatBBController extends AbstractController
         $serializer = new Serializer($normalizers, $encoders);
 
         return new JsonResponse($serializer->serialize($response, 'json'));
-    }
-
-    public static function transformeJsonEnObjet(String $json, $class)
-    {
-        $encoders = [new XmlEncoder(), new JsonEncoder()];
-        $normalizers = [new ObjectNormalizer()];
-
-        $serializer = new Serializer($normalizers, $encoders);
-
-        return $serializer->deserialize($json, $class, 'json');
     }
 
     /**
@@ -89,9 +77,9 @@ class StatBBController extends AbstractController
 
     /**
      * @Route("/logout", name="logout")
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      */
-    public function logout(): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function logout(): RedirectResponse
     {
         return $this->redirectToRoute('index');
     }
