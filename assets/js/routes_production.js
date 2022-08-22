@@ -736,6 +736,14 @@ const routes_prod = {
             "hosttokens": [],
             "methods": [],
             "schemes": []
+        },
+        "creeCoach": {
+            "tokens": [["text", "\/creeCoach"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
         }
     },
     "prefix": "",
