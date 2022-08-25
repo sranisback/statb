@@ -67,8 +67,9 @@ class lesDefisEnCoursContreLeCoachTest extends TestCase
 
         $defisService = new DefisService(
             $objectManager,
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $settingServiceMock
         );
-        $this->assertEquals($reponse, $defisService->lesDefisEnCoursContreLeCoach($settingServiceMock, $coachMock));
+        $this->assertEquals($reponse, $defisService->lesDefisEnCoursContreLeCoach( $coachMock));
     }
 }

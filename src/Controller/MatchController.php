@@ -141,7 +141,7 @@ class MatchController extends AbstractController
             'statbb/tabs/coach/anciensMatchs.html.twig',
             [
                 'listeMatchesParAns' => $matchesService->tousLesMatchesDunCoachParAnnee($this->getUser()),
-                'EtiquettesAnnees' => (new AnneeEnum)->numeroToAnnee(),
+                'EtiquettesAnnees' => AnneeEnum::numeroToAnnee(),
             ]
         );
     }

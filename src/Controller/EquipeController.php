@@ -21,6 +21,7 @@ use App\Form\CreerEquipeType;
 
 use App\Service\StadeService;
 use App\Tools\TransformeEnJSON;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,6 +31,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class EquipeController extends AbstractController
 {
+
+    private ManagerRegistry $doctrine;
+
+    public function __construct(ManagerRegistry $doctrine)
+    {
+        $this->doctrine = $doctrine;
+    }
     /**
      * @Route("/montreLesEquipes", name="showteams")
      * @param SettingsService $settingsService
@@ -40,7 +48,7 @@ class EquipeController extends AbstractController
         return $this->render(
             'statbb/tabs/ligue/showteams.html.twig',
             [
-                'teams' => $this->getDoctrine()->getRepository(Teams::class)->findBy(
+                'teams' => $this->doctrine->getRepository(Teams::class)->findBy(
                     ['year' => $settingsService->anneeCourante(), 'retired' => false]
                 ),
             ]
@@ -94,7 +102,7 @@ class EquipeController extends AbstractController
         int $teamid
     ): Response {
         /** @var Teams $equipe */
-        $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamid]);
+        $equipe = $this->doctrine->getRepository(Teams::class)->findOneBy(['teamId' => $teamid]);
 
         return $this->render(
             'statbb/team.html.twig',
@@ -117,14 +125,14 @@ class EquipeController extends AbstractController
     ): Response {
         if ($nomEquipe !== '') {
             /** @var Teams[] $equipes */
-            $equipes = $this->getDoctrine()->getRepository(Teams::class)->requeteEquipeLike($nomEquipe);
+            $equipes = $this->doctrine->getRepository(Teams::class)->requeteEquipeLike($nomEquipe);
 
             if (count($equipes) > 1) {
                 return $this->render(
                     'statbb/didYouMean.html.twig',
                     [
                         'listeEquipe' => $equipes,
-                        'annees' => (new AnneeEnum)->numeroToAnnee()
+                        'annees' => AnneeEnum::numeroToAnnee()
                     ]
                 );
             }
@@ -142,7 +150,7 @@ class EquipeController extends AbstractController
      */
     public function uploadLogo(Request $request, EquipeService $equipeService, int $equipeId) : Response
     {
-        $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
+        $equipe = $this->doctrine->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
 
         $form = $this->createForm(LogoEnvoiType::class, $equipe);
         $form->handleRequest($request);
@@ -173,7 +181,7 @@ class EquipeController extends AbstractController
     ) : Response {
         $equipe = new Teams();
 
-        $currentRuleset = $this->getDoctrine()->getRepository(Setting::class)->findOneBy(['name' => 'currentRuleset']);
+        $currentRuleset = $this->doctrine->getRepository(Setting::class)->findOneBy(['name' => 'currentRuleset']);
 
         $form = $this->createForm(CreerEquipeType::class, $equipe, ['ruleset'=>$currentRuleset->getValue()]);
         $form->handleRequest($request);
@@ -212,10 +220,10 @@ class EquipeController extends AbstractController
      */
     public function retireEquipe(int $teamId): RedirectResponse
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->doctrine->getManager();
 
         /** @var Teams $equipe */
-        $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
+        $equipe = $this->doctrine->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
         $equipe->setRetired(true);
 
         $entityManager->persist($equipe);
@@ -258,7 +266,7 @@ class EquipeController extends AbstractController
         PlayerService $playerService
     ): RedirectResponse {
         /** @var Teams $team */
-        $team = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
+        $team = $this->doctrine->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
 
         if (!empty($team)) {
             $equipeGestionService->checkEquipe($team, $playerService);
@@ -295,7 +303,7 @@ class EquipeController extends AbstractController
         StadeService $stadeService
     ): Response {
         /** @var Teams $equipe */
-        $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
+        $equipe = $this->doctrine->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
         $stade = $equipe->getFStades();
 
         $form = $this->createForm(CreerStadeType::class, $stade);
@@ -323,10 +331,10 @@ class EquipeController extends AbstractController
         EquipeGestionService $equipeGestionService,
         PlayerService $playerService
     ): RedirectResponse {
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->doctrine->getManager();
 
         /** @var Teams $equipe */
-        foreach ($this->getDoctrine()->getRepository(Teams::class)->findAll() as $equipe) {
+        foreach ($this->doctrine->getRepository(Teams::class)->findAll() as $equipe) {
             $equipe->setTv($equipeGestionService->tvDelEquipe($equipe, $playerService));
 
             $entityManager->persist($equipe);
@@ -346,7 +354,7 @@ class EquipeController extends AbstractController
         return $this->render(
             'statbb/playerAdderTable.html.twig',
             [
-                'listeJoueurs' => $this->getDoctrine()
+                'listeJoueurs' => $this->doctrine
                     ->getRepository(Players::class)
                     ->listeDesJoueursActifsPourlEquipe($equipe)
             ]
@@ -361,7 +369,7 @@ class EquipeController extends AbstractController
     public function supprimeLogo(int $equipeId, EquipeService $equipeService): Response
     {
         $equipeService->supprimerLogo(
-            $this->getDoctrine()
+            $this->doctrine
                 ->getRepository(Teams::class)
                 ->findOneBy(['teamId' => $equipeId]),
             $this->getParameter('logo_directory')
@@ -379,7 +387,7 @@ class EquipeController extends AbstractController
     public function mettreEnFranchise(int $equipeId, EquipeGestionService $equipeGestionService): Response
     {
         /** @var Teams $equipe */
-        $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
+        $equipe = $this->doctrine->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
 
         $equipeGestionService->mettreEnFranchise($equipe);
 

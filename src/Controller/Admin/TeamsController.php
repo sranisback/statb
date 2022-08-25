@@ -29,7 +29,7 @@ class TeamsController extends AbstractController
     {
         return $this->render('statbb/admin/teams/index.html.twig', [
             'teams' => $teamRepository->findAll(),
-            'etiquetteAnne' => (new AnneeEnum)->numeroToAnnee(),
+            'etiquetteAnne' => AnneeEnum::numeroToAnnee(),
             'etiquetteRuleset' => RulesetEnum::numeroVersEtiquette()
         ]);
     }

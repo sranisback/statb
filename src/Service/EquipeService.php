@@ -274,7 +274,7 @@ class EquipeService
     {
         $annee = $this->settingsService->anneeCourante();
 
-        $etiquetteAnne = (new AnneeEnum)->numeroToAnnee();
+        $etiquetteAnne = AnneeEnum::numeroToAnnee();
 
         $compilEquipes = [];
 

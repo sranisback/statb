@@ -10,6 +10,7 @@ use App\Enum\AnneeEnum;
 use App\Service\ClassementService;
 use App\Service\EquipeService;
 use App\Service\SettingsService;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,9 +23,12 @@ class ClassementController extends AbstractController
      */
     private SettingsService $settingsService;
 
-    public function __construct(SettingsService $settingsService)
+    private ManagerRegistry $doctrine;
+
+    public function __construct(SettingsService $settingsService, ManagerRegistry $doctrine)
     {
         $this->settingsService = $settingsService;
+        $this->doctrine = $doctrine;
     }
 
     /**
@@ -39,7 +43,7 @@ class ClassementController extends AbstractController
         return $this->render(
             'statbb/tabs/ligue/classement.html.twig',
             [
-            'classement' => $this->getDoctrine()->getRepository(ClassementGeneral::class)->classementGeneral($annee),
+            'classement' => $this->doctrine->getRepository(ClassementGeneral::class)->classementGeneral($annee),
             'annee' => $annee,
             'etiquette' => $etiquette
             ]
@@ -57,7 +61,7 @@ class ClassementController extends AbstractController
         return $this->render(
             'statbb/tabs/ligue/classementDetail.html.twig',
             [
-                'classementDet' => $this->getDoctrine()
+                'classementDet' => $this->doctrine
                         ->getRepository(ClassementGeneral::class)
                         ->classementGeneralDetail($annee)
             ]
@@ -162,8 +166,8 @@ class ClassementController extends AbstractController
     {
         return $this->render(
             'statbb/tousLesMatches.html.twig',
-            ['games' => $this->getDoctrine()->getRepository(Matches::class)->listeDesMatchs(
-                $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId])
+            ['games' => $this->doctrine->getRepository(Matches::class)->listeDesMatchs(
+                $this->doctrine->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId])
             )]
         );
     }
@@ -177,7 +181,7 @@ class ClassementController extends AbstractController
         return $this->render(
             'statbb/tabs/ligue/cimetiere.html.twig',
             [
-                'joueurCollection' => $this->getDoctrine()->getRepository(\App\Entity\Players::class)->mortPourlAnnee(
+                'joueurCollection' => $this->doctrine->getRepository(\App\Entity\Players::class)->mortPourlAnnee(
                     $this->settingsService->anneeCourante()
                 ),
             ]
@@ -193,7 +197,7 @@ class ClassementController extends AbstractController
         return $this->render(
             'statbb/tabs/ligue/classementELO.html.twig',
             [
-                'equipeCollection' => $this->getDoctrine()->getRepository(Teams::class)->findBy(
+                'equipeCollection' => $this->doctrine->getRepository(Teams::class)->findBy(
                     ['year' => $this->settingsService->anneeCourante(), 'retired' => false]
                 ),
             ]
@@ -230,7 +234,7 @@ class ClassementController extends AbstractController
      */
     public function afficheAncienClassement(int $annee): Response
     {
-        $labelAnnee = (new AnneeEnum)->numeroToAnnee();
+        $labelAnnee = AnneeEnum::numeroToAnnee();
         return $this->render(
             'statbb/ancienClassement.html.twig',
             ['annee' => $annee, 'etiquette' => $labelAnnee[$annee]]
@@ -244,7 +248,7 @@ class ClassementController extends AbstractController
     {
         return $this->render(
             'statbb/tabs/coach/ancienClassement.html.twig',
-            ['annee' => $this->settingsService->anneeCourante(), 'label' => (new AnneeEnum)->numeroToAnnee()]
+            ['annee' => $this->settingsService->anneeCourante(), 'label' => AnneeEnum::numeroToAnnee()]
         );
     }
 
@@ -257,14 +261,14 @@ class ClassementController extends AbstractController
     {
         $coachActif = $this->getUser();
         /** @var Coaches $coachAdverse */
-        $coachAdverse = $this->getDoctrine()->getRepository(Coaches::class)->findOneBy(['coachId' => $coachId]);
+        $coachAdverse = $this->doctrine->getRepository(Coaches::class)->findOneBy(['coachId' => $coachId]);
 
         return $this->render(
             'statbb/matchsContreUnCoach.html.twig',
             [
                 'listeMatches' =>
                     $this
-                        ->getDoctrine()
+                        ->doctrine
                         ->getRepository(Matches::class)
                         ->tousLesMatchsDeDeuxCoach($coachActif, $coachAdverse),
                 'contreCoach' => $coachAdverse->getUsername()
@@ -287,7 +291,7 @@ class ClassementController extends AbstractController
             )
         );
 
-        $labelAnnee = (new AnneeEnum)->numeroToAnnee();
+        $labelAnnee = AnneeEnum::numeroToAnnee();
 
         $this->addFlash('success', 'Classement Calculé! Année: '. $labelAnnee[$annee]);
 

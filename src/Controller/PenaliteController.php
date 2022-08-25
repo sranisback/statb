@@ -4,10 +4,10 @@
 namespace App\Controller;
 
 use App\Entity\Penalite;
-use App\Entity\Teams;
 use App\Form\AjoutPenaliteForm;
 use App\Service\PenaliteService;
 use App\Service\SettingsService;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +15,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PenaliteController extends AbstractController
 {
+
+    private ManagerRegistry $doctrine;
+
+    public function __construct(ManagerRegistry $doctrine)
+    {
+        $this->doctrine = $doctrine;
+    }
     /**
      * @Route("/ajoutPenaliteForm", name="ajoutPenaliteForm")
      * @param Request $request
@@ -30,17 +37,8 @@ class PenaliteController extends AbstractController
         $form = $this->createForm(AjoutPenaliteForm::class, $penalite);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            /** @var array $datas */
-            $datas = $request->request->get('ajout_penalite_form');
-
-            /** @var Teams $equipe */
-            $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $datas['equipe']]);
-
-            if (!empty($equipe)) {
-                $penaliteService->creerUnePenalite($datas);
-                $this->addFlash('success', 'Penalité Ajouté!');
-            }
+        if($penaliteService->creerUnePenalite($penalite)) {
+            $this->addFlash('success', 'Penalité Ajouté!');
 
             return $this->redirectToRoute('frontUser');
         }
@@ -58,7 +56,7 @@ class PenaliteController extends AbstractController
         return $this->render(
             'statbb/tabs/ligue/affichagePenalite.html.twig',
             [
-                'penaliteCollection' => $this->getDoctrine()->getRepository(Penalite::class)->listePenaliteEnCours(
+                'penaliteCollection' => $this->doctrine->getRepository(Penalite::class)->listePenaliteEnCours(
                     $settingsService->anneeCourante()
                 ),
             ]

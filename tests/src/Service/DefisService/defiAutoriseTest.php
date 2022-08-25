@@ -48,10 +48,10 @@ class defiAutoriseTest extends TestCase
         $defiMock2->method('getDateDefi')->willReturn(\DateTime::createFromFormat('d/m/Y', '19/01/2019'));
 
         $defiRepoMock = $this->createMock(ObjectRepository::class);
-        $defiRepoMock->expects($this->any())->method('findBy')->willReturn([$defiMock,$defiMock2]);
+        $defiRepoMock->method('findBy')->willReturn([$defiMock,$defiMock2]);
 
         $objectManager = $this->createMock(EntityManagerInterface::class);
-        $objectManager->expects($this->any())->method('getRepository')->will($this->returnCallback(
+        $objectManager->method('getRepository')->will($this->returnCallback(
             function ($entityName) use ($teamRepoMock, $defiRepoMock) {
                 if ($entityName === 'App\Entity\Teams') {
                     return $teamRepoMock;
@@ -70,16 +70,17 @@ class defiAutoriseTest extends TestCase
             'fin' => \DateTime::createFromFormat('d/m/Y', '01/09/2019'),
         ];
         $settingServiceMock = $this->createMock(SettingsService::class);
-        $settingServiceMock->expects($this->any())->method('periodeDefisCourrante')->willReturn($periode);
-        $settingServiceMock->expects($this->any())->method('anneeCourante')->willReturn(3);
-        $settingServiceMock->expects($this->any())->method('dateDansLaPeriodeCourante')->willReturn(false);
+        $settingServiceMock->method('periodeDefisCourrante')->willReturn($periode);
+        $settingServiceMock->method('anneeCourante')->willReturn(3);
+        $settingServiceMock->method('dateDansLaPeriodeCourante')->willReturn(false);
 
         $defisService = new DefisService(
             $objectManager,
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $settingServiceMock
         );
 
-        $this->assertTrue($defisService->defiAutorise($teamMock, $settingServiceMock));
+        $this->assertTrue($defisService->defiAutorise($teamMock));
     }
 
     /**
@@ -139,15 +140,16 @@ class defiAutoriseTest extends TestCase
         ];
 
         $settingServiceMock = $this->createMock(SettingsService::class);
-        $settingServiceMock->expects($this->any())->method('periodeDefisCourrante')->willReturn($periode);
-        $settingServiceMock->expects($this->any())->method('anneeCourante')->willReturn(3);
-        $settingServiceMock->expects($this->any())->method('dateDansLaPeriodeCourante')->willReturn(true);
+        $settingServiceMock->method('periodeDefisCourrante')->willReturn($periode);
+        $settingServiceMock->method('anneeCourante')->willReturn(3);
+        $settingServiceMock->method('dateDansLaPeriodeCourante')->willReturn(true);
 
         $defisService = new DefisService(
             $objectManager,
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $settingServiceMock
         );
 
-        $this->assertFalse($defisService->defiAutorise($teamMock, $settingServiceMock));
+        $this->assertFalse($defisService->defiAutorise($teamMock));
     }
 }

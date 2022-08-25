@@ -61,17 +61,11 @@ class AdminService
 
         switch ($request['name']) {
             case 'Password':
-                /* @phpstan-ignore-next-line  */
                 $object->setPassword($encoder->encodePassword($object, $object->getPassword()));
                 break;
 
             case 'Roles':
-                /* @phpstan-ignore-next-line  */
                 $object->setRoles(['role' => 'ROLE_' . $request['value']]);
-                break;
-
-            case 'Player' && $entity == HistoriqueBlessure::class:
-                //$object->setPlayer(StatBBController::transformeJsonEnObjet($request['value'], Players::class));
                 break;
 
             default:

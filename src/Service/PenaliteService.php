@@ -11,9 +11,9 @@ use Nette\Utils\DateTime;
 class PenaliteService
 {
     /**
-     * @var \Doctrine\ORM\EntityManagerInterface
+     * @var EntityManagerInterface
      */
-    private \Doctrine\ORM\EntityManagerInterface $doctrineEntityManager;
+    private EntityManagerInterface $doctrineEntityManager;
 
     public function __construct(EntityManagerInterface $doctrineEntityManager)
     {
@@ -21,22 +21,22 @@ class PenaliteService
     }
 
     /**
-     * @param array<mixed> $datas
-     * @return Penalite
+     * @param Penalite $penalite
+     * @param $form
+     * @return bool
      */
-    public function creerUnePenalite(array $datas): Penalite
+    public function creerUnePenalite(Penalite $penalite, $form): bool
     {
-        $penalite = new Penalite();
-        $penalite->setEquipe($this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(
-            ['teamId' => $datas['equipe']]
-        ));
-        $penalite->setPoints($datas['points']);
-        $penalite->setMotif($datas['motif']);
-        $penalite->setDate(DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s")));
+        if ($form->isSubmitted() && $form->isValid()) {
+            $penalite->setDate(DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s")));
 
-        $this->doctrineEntityManager->persist($penalite);
-        $this->doctrineEntityManager->flush();
+            $this->doctrineEntityManager->persist($penalite);
+            $this->doctrineEntityManager->flush();
 
-        return $penalite;
+            return true;
+        }
+
+        return false;
     }
+
 }

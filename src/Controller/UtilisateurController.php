@@ -6,7 +6,7 @@ use App\Entity\Citations;
 use App\Entity\Coaches;
 use App\Form\AjoutCitationType;
 use App\Form\AjoutCoachType;
-use App\Service\CitationService;
+use App\Service\UtilisateurService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,24 +16,27 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UtilisateurController extends AbstractController
 {
+
+    private UtilisateurService $utilisateurService;
+
+    public function __construct(UtilisateurService $utilisateurService)
+    {
+        $this->utilisateurService = $utilisateurService;
+    }
+
     /**
      * @Route("/usercontrol", name="usercontrol")
      * @param Request $request
-     * @param CitationService $citationService
      * @return Response
      */
-    public function interfaceUtilisateur(Request $request, CitationService $citationService): Response
+    public function interfaceUtilisateur(Request $request): Response
     {
         $citation = new Citations();
 
         $form = $this->createForm(AjoutCitationType::class, $citation);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            /** @var array $citation */
-            $citation = $request->request->get('ajout_citation');
-            $citationService->enregistrerCitation($citation);
-
+        if ($this->utilisateurService->ajoutCitation($citation, $form)) {
             $this->addFlash('success', 'Citation Ajoutée!');
 
             return $this->redirectToRoute('frontUser');
@@ -48,26 +51,17 @@ class UtilisateurController extends AbstractController
     /**
      * @Route("/creeCoach", name="creeCoach")
      * @param Request $request
+     * @param UserPasswordEncoderInterface $encoder
      * @return RedirectResponse|Response
      */
-    public function creeCoach(Request $request,  UserPasswordEncoderInterface $encoder)
+    public function creeCoach(Request $request,  UserPasswordEncoderInterface $encoder): RedirectResponse|Response
     {
         $coach = new Coaches();
 
         $form = $this->createForm(AjoutCoachType::class, $coach);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $coach->setRoles(['role' => 'ROLE_USER']);
-
-            $encoded = $encoder->encodePassword($coach, $coach->getPassword());
-            $coach->setPassword($encoded);
-
-            $entityManager = $this->getDoctrine()->getManager();
-
-            $entityManager->persist($coach);
-            $entityManager->flush();
-
+        if($this->utilisateurService->creeCoach($coach, $form, $encoder)) {
             $this->addFlash('success', 'Coach crée!');
 
             return $this->redirectToRoute('index');
@@ -77,6 +71,5 @@ class UtilisateurController extends AbstractController
             'statbb/addCoach.html.twig',
             ['form' => $form->createView(), 'coach' => $coach]
         );
-
     }
 }
