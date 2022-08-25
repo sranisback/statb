@@ -8,6 +8,7 @@ use App\Entity\Matches;
 use App\Entity\Teams;
 use App\Factory\DefiFactory;
 use Doctrine\ORM\EntityManagerInterface;
+use Nette\Utils\DateTime;
 
 class DefisService
 {
@@ -16,41 +17,35 @@ class DefisService
      */
     private EntityManagerInterface $doctrineEntityManager;
 
-    public InfosService $infoService;
+    private InfosService $infoService;
 
-    public function __construct(EntityManagerInterface $doctrineEntityManager, InfosService $infoService)
+    private SettingsService $settingsService;
+
+    public function __construct(EntityManagerInterface $doctrineEntityManager, InfosService $infoService, SettingsService $settingsService)
     {
         $this->doctrineEntityManager = $doctrineEntityManager;
         $this->infoService = $infoService;
+        $this->settingsService = $settingsService;
     }
 
     /**
-     * @param array<string,mixed> $datas
-     * @return Defis
+     * @param Defis $defis
+     * @return void
      */
-    public function creerDefis(array $datas): \App\Entity\Defis
+    public function creerDefis(Defis $defis)
     {
-        $defis = DefiFactory::lancerDefis(
-            $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(
-                ['teamId' => $datas['equipeDefiee']]
-            ),
-            $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(
-                ['teamId' => $datas['equipeOrigine']]
-            )
-        );
+        $defis->setDateDefi(DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s")));
 
         $this->doctrineEntityManager->persist($defis);
         $this->doctrineEntityManager->flush();
 
         $this->infoService->defisEstLance($defis);
-
-        return $defis;
     }
 
-    public function defiAutorise(Teams $equipe, SettingsService $settingsService): bool
+    public function defiAutorise(Teams $equipe): bool
     {
         foreach ($this->doctrineEntityManager->getRepository(Teams::class)->findBy(
-            ['ownedByCoach' => $equipe->getOwnedByCoach(), 'year' => $settingsService->anneeCourante()]
+            ['ownedByCoach' => $equipe->getOwnedByCoach(), 'year' => $this->settingsService->anneeCourante()]
         ) as $equipeVerif) {
             $defis =  $this->doctrineEntityManager->getRepository(Defis::class)->findBy(
                 ['equipeOrigine' => $equipeVerif->getTeamId()]
@@ -58,7 +53,7 @@ class DefisService
             if (count($defis) > 0) {
                 /** @var Defis $defisVerifie */
                 foreach ($defis as $defisVerifie) {
-                    if ($settingsService->dateDansLaPeriodeCourante($defisVerifie->getDateDefi())) {
+                    if ($this->settingsService->dateDansLaPeriodeCourante($defisVerifie->getDateDefi())) {
                         return false;
                     }
                 }
@@ -73,16 +68,16 @@ class DefisService
      */
     public function supprimerDefis(int $defisId): string
     {
-        $prime = $this->doctrineEntityManager->getRepository(Defis::class)->findOneBy(['id' => $defisId]);
+        $defi = $this->doctrineEntityManager->getRepository(Defis::class)->findOneBy(['id' => $defisId]);
 
-        $this->doctrineEntityManager->remove($prime);
+        $this->doctrineEntityManager->remove($defi);
 
         $this->doctrineEntityManager->flush();
 
         return 'ok';
     }
 
-    public function verificationDefis(Matches $matches): ?\App\Entity\Defis
+    public function verificationDefis(Matches $matches): ?Defis
     {
         $defiEnCours = null;
 
@@ -108,14 +103,15 @@ class DefisService
     }
 
     /**
-     * @return string[][]|null[][]
+     * @param Coaches $coach
+     * @return array
      */
-    public function lesDefisEnCoursContreLeCoach(SettingsService $settingsService, Coaches $coach): array
+    public function lesDefisEnCoursContreLeCoach(Coaches $coach): array
     {
         $contenuMessage = [];
 
         foreach ($this->doctrineEntityManager->getRepository(Teams::class)->findBy(
-            ['ownedByCoach' => $coach->getCoachId(), 'year' => $settingsService->anneeCourante()]
+            ['ownedByCoach' => $coach->getCoachId(), 'year' => $this->settingsService->anneeCourante()]
         ) as $equipeDuCoach) {
             foreach ($this->doctrineEntityManager->getRepository(Defis::class)->findBy(
                 ['equipeDefiee' => $equipeDuCoach, 'defieRealise' => 0]
@@ -128,5 +124,24 @@ class DefisService
         }
 
         return $contenuMessage;
+    }
+
+    /**
+     * @param $form
+     * @param Defis $defis
+     * @return int
+     */
+    public function ajoutDefiForm($form, Defis $defis): int
+    {
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->defiAutorise($defis->getEquipeOrigine())) {
+                $this->creerDefis($defis);
+
+                return 1;
+            }
+            return 2;
+        }
+
+        return 3;
     }
 }

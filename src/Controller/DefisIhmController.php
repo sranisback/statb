@@ -7,6 +7,7 @@ use App\Entity\Teams;
 use App\Form\AjoutDefisType;
 use App\Service\DefisService;
 use App\Service\SettingsService;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,45 +16,39 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DefisIhmController extends AbstractController
 {
+    private ManagerRegistry $doctrine;
+
+    private SettingsService $settingsService;
+
+    private DefisService $defisService;
+
+    public function __construct(ManagerRegistry $doctrine, SettingsService $settingsService, DefisService $defisService)
+    {
+        $this->doctrine = $doctrine;
+        $this->settingsService = $settingsService;
+        $this->defisService = $defisService;
+    }
+
     /**
      * @Route("/ajoutDefisForm/", name="ajoutDefisForm")
      * @param Request $request
      * @param DefisService $defisService
-     * @param SettingsService $settingService
      * @return Response
      */
-    public function ajoutDefisForm(
-        Request $request,
-        DefisService $defisService,
-        SettingsService $settingService
-    ): Response {
+    public function ajoutDefisForm(Request $request): Response {
         $defis = new Defis();
 
         $form = $this->createForm(AjoutDefisType::class, $defis);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            /** @var array $datas */
-            $datas = $request->request->get('ajout_defis');
+        $defiDispo = $this->defisService->ajoutDefiForm($form, $defis);
 
-            /** @var Teams $equipe */
-            $equipe = $this->getDoctrine()
-                ->getRepository(Teams::class)
-                ->findOneBy(['teamId' => $datas['equipeOrigine']]);
-
-            if (!empty($equipe)) {
-                if ($defisService->defiAutorise(
-                    $equipe,
-                    $settingService
-                )) {
-                    $defisService->creerDefis($datas);
-                    $this->addFlash('success', 'Défis Ajouté!');
-                } else {
-                    $this->addFlash('fail', 'Plus de défis pour cette période');
-                }
-            }
+        if($defiDispo == 1) {
+            $this->addFlash('success', 'Défis Ajouté!');
 
             return $this->redirectToRoute('frontUser');
+        } else if ($defiDispo == 2) {
+            $this->addFlash('fail', 'Plus de défis pour cette période');
         }
 
         return $this->render(
@@ -67,16 +62,15 @@ class DefisIhmController extends AbstractController
 
     /**
      * @Route("/afficherDefis", name="afficherDefis", options = { "expose" = true })
-     * @param SettingsService $settingsService
      * @return Response
      */
-    public function afficherLesDefis(SettingsService $settingsService): \Symfony\Component\HttpFoundation\Response
+    public function afficherLesDefis(): Response
     {
         return $this->render(
             'statbb/tabs/ligue/affichageDefis.html.twig',
             [
-                'defisCollection' => $this->getDoctrine()->getRepository(Defis::class)->listeDefisEnCours(
-                    $settingsService->anneeCourante()
+                'defisCollection' => $this->doctrine->getRepository(Defis::class)->listeDefisEnCours(
+                    $this->settingsService->anneeCourante()
                 ),
             ]
         );
@@ -84,13 +78,11 @@ class DefisIhmController extends AbstractController
 
     /**
      * @Route("/afficherPeriodeDefisActuelle", name="afficherPeriodeDefisActuelle")
-     * @param SettingsService $settingsService
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function afficherPeriodeDefisActuelle(SettingsService $settingsService)
-    : \Symfony\Component\HttpFoundation\Response
+    public function afficherPeriodeDefisActuelle() : Response
     {
-        $periode = $settingsService->periodeDefisCourrante();
+        $periode = $this->settingsService->periodeDefisCourrante();
 
         if (!empty($periode) && ($periode['debut'] && $periode['fin'])) {
             return new Response($periode['debut']->format('d/m/Y') . ' - ' . $periode['fin']->format('d/m/Y'));
@@ -105,10 +97,9 @@ class DefisIhmController extends AbstractController
      * @param int $defisId
      * @return RedirectResponse
      */
-    public function supprimerDefis(DefisService $defisService, int $defisId)
-    : RedirectResponse
+    public function supprimerDefis(int $defisId) : RedirectResponse
     {
-        if ($defisService->supprimerDefis($defisId) !== '') {
+        if ($this->defisService->supprimerDefis($defisId) !== '') {
             $this->addFlash('success', 'Defis Supprimée');
         }
 

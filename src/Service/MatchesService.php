@@ -82,23 +82,7 @@ class MatchesService
         $team2 = $match->getTeam2();
 
         if (!empty($team1) && !empty($team2)) {
-            $this->playerService->remplirMatchDataDeLigneAzero($team1, $match);
-
-            $this->playerService->remplirMatchDataDeLigneAzero($team2, $match);
-
-            $this->modificationEquipes($match, $team1, $team2);
-
-            $this->playerService->annulerRPMtousLesJoueursDeLequipe($team1);
-            $this->playerService->annulerRPMtousLesJoueursDeLequipe($team2);
-
-            $this->enregistrementDesActionsDesJoueurs($donnneesMatch['player'], $match);
-
-            $this->playerService->controleNiveauDesJoueursDelEquipe($team1);
-            $this->playerService->controleNiveauDesJoueursDelEquipe($team2);
-
-            $this->equipeService->eloDesEquipes($this->settingService->anneeCourante());
-
-            $this->infoService->matchEnregistre($match);
+            $this->processMatch($team1, $match, $team2, $donnneesMatch['player']);
         }
 
         return ['enregistrement' => $match->getMatchId(), 'defis' => $this->defisService->verificationDefis($match)];
@@ -323,7 +307,7 @@ class MatchesService
     public function tousLesMatchesDunCoachParAnnee($coach): array
     {
         $anneeEnCours = $this->settingService->anneeCourante();
-        $anneeEtiquette = (new AnneeEnum)->numeroToAnnee();
+        $anneeEtiquette = AnneeEnum::numeroToAnnee();
 
         $equipesParAnnees = [];
         $liste = [];
@@ -349,5 +333,32 @@ class MatchesService
         }
 
         return $liste;
+    }
+
+    /**
+     * @param Teams $team1
+     * @param Matches $match
+     * @param Teams $team2
+     * @param $player
+     */
+    private function processMatch(Teams $team1, Matches $match, Teams $team2, $player): void
+    {
+        $this->playerService->remplirMatchDataDeLigneAzero($team1, $match);
+
+        $this->playerService->remplirMatchDataDeLigneAzero($team2, $match);
+
+        $this->modificationEquipes($match, $team1, $team2);
+
+        $this->playerService->annulerRPMtousLesJoueursDeLequipe($team1);
+        $this->playerService->annulerRPMtousLesJoueursDeLequipe($team2);
+
+        $this->enregistrementDesActionsDesJoueurs($player, $match);
+
+        $this->playerService->controleNiveauDesJoueursDelEquipe($team1);
+        $this->playerService->controleNiveauDesJoueursDelEquipe($team2);
+
+        $this->equipeService->eloDesEquipes($this->settingService->anneeCourante());
+
+        $this->infoService->matchEnregistre($match);
     }
 }

@@ -15,10 +15,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ClassementService
 {
-    /**
-     * @var \Doctrine\ORM\EntityManagerInterface
-     */
-    private \Doctrine\ORM\EntityManagerInterface $doctrineEntityManager;
+
+    private EntityManagerInterface $doctrineEntityManager;
 
     private EquipeService $equipeService;
 

@@ -8,6 +8,7 @@ use App\Entity\Matches;
 use App\Entity\Teams;
 use App\Service\DefisService;
 use App\Service\InfosService;
+use App\Service\SettingsService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -34,7 +35,7 @@ class verificationDefisTest extends KernelTestCase
         $defi->setDefieRealise(0);
 
         $defiRepoMock = $this->getMockBuilder(Defis::class)
-            ->setMethods(['listeDeDefisActifPourLeMatch'])
+            ->addMethods(['listeDeDefisActifPourLeMatch'])
             ->getMock();
         $defiRepoMock->method('listeDeDefisActifPourLeMatch')->willReturn($defi);
 
@@ -51,7 +52,8 @@ class verificationDefisTest extends KernelTestCase
 
         $defisService = new DefisService(
             $objectManager,
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(SettingsService::class)
         );
 
         $testDefis = $defisService->verificationDefis($matchMock);
@@ -75,7 +77,7 @@ class verificationDefisTest extends KernelTestCase
         $matchMock->method('getTeam2')->willReturn($equipeMock1);
 
         $defiRepoMock = $this->getMockBuilder(Defis::class)
-            ->setMethods(['listeDeDefisActifPourLeMatch'])
+            ->addMethods(['listeDeDefisActifPourLeMatch'])
             ->getMock();
         $defiRepoMock->method('listeDeDefisActifPourLeMatch')->willReturn(null);
 
@@ -92,7 +94,8 @@ class verificationDefisTest extends KernelTestCase
 
         $defisService = new DefisService(
             $objectManager,
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(SettingsService::class)
         );
 
         $this->assertNull($defisService->verificationDefis($matchMock));

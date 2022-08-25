@@ -7,7 +7,7 @@ class AnneeEnum
     /**
      * @return array<int, string>
      */
-    public function numeroToAnnee()
+    public static function numeroToAnnee()
     {
         return [
             0 => '2015 - 2016',

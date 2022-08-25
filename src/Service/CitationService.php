@@ -21,16 +21,8 @@ class CitationService
     /**
      * @param array<string,string> $datas
      */
-    public function enregistrerCitation(array $datas): void
+    public function enregistrerCitation(Citations $citation): void
     {
-        $citation = new Citations;
-
-        $citation->setCitation($datas['citation']);
-
-        $citation->setCoachId(
-            $this->doctrineEntityManager->getRepository(Coaches::class)->findOneBy(['coachId' => $datas['coachId']])
-        );
-
         $this->doctrineEntityManager->persist($citation);
         $this->doctrineEntityManager->flush();
         $this->doctrineEntityManager->refresh($citation);
