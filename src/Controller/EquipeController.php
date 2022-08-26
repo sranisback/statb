@@ -194,10 +194,10 @@ class EquipeController extends AbstractController
 
             if (isset($coach)) {
                 $teamid = $equipeGestionService->creationEquipe(
-                    $datas['Name'],
-                    $coach->getCoachId(),
+                    (int)$currentRuleset->getValue(),
                     $datas[RulesetEnum::getChampRaceFromIntByRuleset($currentRuleset->getValue())],
-                    (int)$currentRuleset->getValue()
+                    $coach->getCoachId(),
+                    $datas['Name']
                 );
             }
 

@@ -5,6 +5,7 @@ namespace App\Tests\src\Controller\MatchController;
 
 
 use App\DataFixtures\MeteoFixture;
+use App\DataFixtures\SettingFixtures;
 use App\DataFixtures\StadesFixture;
 use App\DataFixtures\TeamFixture;
 use App\Tests\src\Functionnal;
@@ -26,6 +27,16 @@ class addGameTest extends Functionnal
 
         $meteoFixture = new MeteoFixture();
         $meteoTest = $meteoFixture->load($this->entityManager);
+
+        $settingFixture = new SettingFixtures();
+        $settingTest = $settingFixture->load($this->entityManager);
+        $settingTest->setName('points_8');
+        $settingTest->setValue("10;0;-10");
+
+        $settingFixture = new SettingFixtures();
+        $settingTest1 = $settingFixture->load($this->entityManager);
+        $settingTest1->setName('Year');
+        $settingTest1->setValue("8");
 
         $table =  [
             'team_1' => $equipe0Test->getTeamId(),

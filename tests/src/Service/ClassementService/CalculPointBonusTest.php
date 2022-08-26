@@ -9,11 +9,39 @@ use App\Entity\Teams;
 use App\Service\ClassementService;
 use App\Service\EquipeService;
 use App\Service\MatchDataService;
+use App\Service\SettingsService;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 
 class CalculPointBonusTest extends TestCase
 {
+    private $equipeServiceMock;
+
+    private $objectManager;
+
+    private $matchDateServiceMock;
+
+    private $classementService;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->equipeServiceMock = $this->createMock(EquipeService::class);
+
+        $this->objectManager = $this->createMock(EntityManagerInterface::class);
+
+        $this->matchDateServiceMock = $this->createMock(MatchDataService::class);
+
+        $this->classementService = new ClassementService(
+            $this->objectManager,
+            $this->equipeServiceMock,
+            $this->matchDateServiceMock,
+            $this->createMock(SettingsService::class)
+        );
+
+    }
+
     /**
      * @test
      */
@@ -33,24 +61,15 @@ class CalculPointBonusTest extends TestCase
             ]
         );
 
-        $objectManager = $this->createMock(EntityManagerInterface::class);
-        $objectManager->method('getRepository')->willReturn($matchRepoMock);
+        $this->objectManager->method('getRepository')->willReturn($matchRepoMock);
 
-        $matchDateServiceMock = $this->createMock(MatchDataService::class);
-        $matchDateServiceMock->method('nombreDeSortiesDunMatch')->willReturnOnConsecutiveCalls(2,5,1);
+        $this->matchDateServiceMock->method('nombreDeSortiesDunMatch')->willReturnOnConsecutiveCalls(2,5,1);
 
-        $equipeServiceMock = $this->createMock(EquipeService::class);
-        $equipeServiceMock->method('resultatDuMatch')->willReturn(
+        $this->equipeServiceMock->method('resultatDuMatch')->willReturn(
             ['win' => 0, 'loss' => 0, 'draw' => 0],
         );
 
-        $classementService = new ClassementService(
-            $objectManager,
-            $equipeServiceMock,
-            $matchDateServiceMock
-        );
-
-        $this->assertEquals(1,$classementService->calculPointsBonus($equipeMock));
+        $this->assertEquals(1,$this->classementService->calculPointsBonus($equipeMock));
     }
 
     /**
@@ -60,13 +79,13 @@ class CalculPointBonusTest extends TestCase
     {
         $equipeMock = $this->createMock(Teams::class);
 
-        $matchRepoMock = $this->getMockBuilder(Matches::class)
-            ->addMethods(['listeDesMatchs'])
-            ->getMock();
-
         $match0 = new Matches();
         $match0->setTeam1($equipeMock);
         $match0->setTeam1Score(3);
+
+        $matchRepoMock = $this->getMockBuilder(Matches::class)
+            ->addMethods(['listeDesMatchs'])
+            ->getMock();
 
         $matchRepoMock->method('listeDesMatchs')->willReturn(
             [
@@ -74,11 +93,9 @@ class CalculPointBonusTest extends TestCase
             ]
         );
 
-        $objectManager = $this->createMock(EntityManagerInterface::class);
-        $objectManager->method('getRepository')->willReturn($matchRepoMock);
+        $this->objectManager->method('getRepository')->willReturn($matchRepoMock);
 
-        $equipeServiceMock = $this->createMock(EquipeService::class);
-        $equipeServiceMock->method('resultatDuMatch')->willReturnOnConsecutiveCalls(
+        $this->equipeServiceMock->method('resultatDuMatch')->willReturnOnConsecutiveCalls(
             ['win' => 1, 'loss' => 0, 'draw' => 0],
             ['win' => 1, 'loss' => 0, 'draw' => 0],
             ['win' => 1, 'loss' => 0, 'draw' => 0],
@@ -86,13 +103,7 @@ class CalculPointBonusTest extends TestCase
             ['win' => 1, 'loss' => 0, 'draw' => 0]
         );
 
-        $classementService = new ClassementService(
-            $objectManager,
-            $equipeServiceMock,
-            $this->createMock(MatchDataService::class)
-        );
-
-        $this->assertEquals(1,$classementService->calculPointsBonus($equipeMock));
+        $this->assertEquals(1, $this->classementService->calculPointsBonus($equipeMock));
     }
 
     /**
@@ -102,9 +113,6 @@ class CalculPointBonusTest extends TestCase
     {
         $equipeMock = $this->createMock(Teams::class);
 
-        $matchRepoMock = $this->getMockBuilder(Matches::class)
-            ->addMethods(['listeDesMatchs'])
-            ->getMock();
 
         $match0 = new Matches();
         $match0->setTeam2($equipeMock);
@@ -112,6 +120,9 @@ class CalculPointBonusTest extends TestCase
 
         $match1 = new Matches();
 
+        $matchRepoMock = $this->getMockBuilder(Matches::class)
+            ->addMethods(['listeDesMatchs'])
+            ->getMock();
         $matchRepoMock->method('listeDesMatchs')->willReturn(
             [
                 $match0,
@@ -119,11 +130,9 @@ class CalculPointBonusTest extends TestCase
             ]
         );
 
-        $objectManager = $this->createMock(EntityManagerInterface::class);
-        $objectManager->method('getRepository')->willReturn($matchRepoMock);
+        $this->objectManager->method('getRepository')->willReturn($matchRepoMock);
 
-        $equipeServiceMock = $this->createMock(EquipeService::class);
-        $equipeServiceMock->method('resultatDuMatch')->willReturnOnConsecutiveCalls(
+        $this->equipeServiceMock->method('resultatDuMatch')->willReturnOnConsecutiveCalls(
             ['win' => 0, 'loss' => 1, 'draw' => 0],
             ['win' => 0, 'loss' => 1, 'draw' => 0],
             ['win' => 0, 'loss' => 1, 'draw' => 0],
@@ -136,13 +145,7 @@ class CalculPointBonusTest extends TestCase
             ['win' => 0, 'loss' => 0, 'draw' => 1]
         );
 
-        $classementService = new ClassementService(
-            $objectManager,
-            $equipeServiceMock,
-            $this->createMock(MatchDataService::class)
-        );
-
-        $this->assertEquals(2,$classementService->calculPointsBonus($equipeMock));
+        $this->assertEquals(2, $this->classementService->calculPointsBonus($equipeMock));
     }
 
     /**
@@ -151,10 +154,6 @@ class CalculPointBonusTest extends TestCase
     public function le_bonus_intrepide_est_bien_calcule()
     {
         $equipeMock = $this->createMock(Teams::class);
-
-        $matchRepoMock = $this->getMockBuilder(Matches::class)
-            ->addMethods(['listeDesMatchs'])
-            ->getMock();
 
         $match0 = new Matches();
         $match0->setTeam1($equipeMock);
@@ -166,6 +165,9 @@ class CalculPointBonusTest extends TestCase
         $match1->setTv1(1000000);
         $match1->setTv2(1500000);
 
+        $matchRepoMock = $this->getMockBuilder(Matches::class)
+            ->addMethods(['listeDesMatchs'])
+            ->getMock();
         $matchRepoMock->method('listeDesMatchs')->willReturn(
             [
                 $match0,
@@ -174,11 +176,9 @@ class CalculPointBonusTest extends TestCase
             ]
         );
 
-        $objectManager = $this->createMock(EntityManagerInterface::class);
-        $objectManager->method('getRepository')->willReturn($matchRepoMock);
+        $this->objectManager->method('getRepository')->willReturn($matchRepoMock);
 
-        $equipeServiceMock = $this->createMock(EquipeService::class);
-        $equipeServiceMock->method('resultatDuMatch')->willReturnOnConsecutiveCalls(
+        $this->equipeServiceMock->method('resultatDuMatch')->willReturnOnConsecutiveCalls(
             ['win' => 1, 'loss' => 0, 'draw' => 0],
             ['win' => 1, 'loss' => 0, 'draw' => 0],
             ['win' => 1, 'loss' => 0, 'draw' => 0],
@@ -196,12 +196,6 @@ class CalculPointBonusTest extends TestCase
             ['win' => 1, 'loss' => 0, 'draw' => 0]
         );
 
-        $classementService = new ClassementService(
-            $objectManager,
-            $equipeServiceMock,
-            $this->createMock(MatchDataService::class)
-        );
-
-        $this->assertEquals(1,$classementService->calculPointsBonus($equipeMock));
+        $this->assertEquals(1, $this->classementService->calculPointsBonus($equipeMock));
     }
 }

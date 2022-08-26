@@ -8,8 +8,8 @@ use App\Entity\MatchData;
 use App\Entity\Matches;
 use App\Entity\Penalite;
 use App\Entity\Players;
-use App\Entity\Setting;
 use App\Entity\Teams;
+use App\Enum\PoulpiEnum;
 use App\Enum\RulesetEnum;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -22,14 +22,18 @@ class ClassementService
 
     private MatchDataService $matchDataService;
 
+    private SettingsService $settingsService;
+
     public function __construct(
         EntityManagerInterface $doctrineEntityManager,
         EquipeService $equipeService,
-        MatchDataService $matchDataService
+        MatchDataService $matchDataService,
+        SettingsService $settingsService
     ) {
         $this->doctrineEntityManager = $doctrineEntityManager;
         $this->equipeService = $equipeService;
         $this->matchDataService = $matchDataService;
+        $this->settingsService = $settingsService;
     }
 
     /**
@@ -124,9 +128,9 @@ class ClassementService
         $classement = '';
         $titre = '';
 
-        $currentYear = $this->doctrineEntityManager->getRepository(Setting::class)->findOneBy(['name' => 'year']);
+        $currentYear = $this->settingsService->anneeCourante();
 
-        $ruleset = RulesetEnum::rulesetParAnnee()[$currentYear->getValue()];
+        $ruleset = RulesetEnum::rulesetParAnnee()[$currentYear];
 
         $matchData = $this->doctrineEntityManager->getRepository(MatchData::class)->sousClassementJoueur(
             $annee,
@@ -202,9 +206,9 @@ class ClassementService
         $classement = '';
         $titre = '';
 
-        $currentYear = $this->doctrineEntityManager->getRepository(Setting::class)->findOneBy(['name' => 'year']);
+        $currentYear = $this->settingsService->anneeCourante();
 
-        $ruleset = RulesetEnum::rulesetParAnnee()[$currentYear->getValue()];
+        $ruleset = RulesetEnum::rulesetParAnnee()[$currentYear];
 
         if ($type === 'dead') {
             $matchData = $this->doctrineEntityManager->getRepository(
@@ -379,33 +383,12 @@ class ClassementService
      * @param array<int> $point
      * @return array<string, mixed>
      */
-    public function ligneClassementGeneral(Teams $equipe, array $point)
+    public function ligneClassementGeneral(Teams $equipe, array $point): array
     {
-        $resultatEquipe = $this->equipeService->resultatsDelEquipe(
-            $equipe,
-            $this->doctrineEntityManager->getRepository(Matches::class)->listeDesMatchs($equipe)
-        );
+        list($resultatEquipe, $points) = $this->calculDesPointsGeneraux($equipe, $point);
 
-        $points = 0;
-
-        foreach ($resultatEquipe as $typeResultat => $nombreResultat) {
-            switch ($typeResultat) {
-                case 'win':
-                    $points += $nombreResultat * $point[0];
-                    break;
-                case 'draw':
-                    $points += $nombreResultat * $point[1];
-                    break;
-                case 'loss':
-                    $points += $nombreResultat * $point[2];
-                    break;
-                default:
-                    $points += 0;
-                    break;
-            }
-        }
-
-        $bonus = $this->calculPointsBonus($equipe);
+        $bonus = PoulpiEnum::classementPoulpiParAnnee()[$this->settingsService->anneeCourante()] == 0 ?
+            $this->calculPointsBonus($equipe) : $this->equipeService->calculBonusPoulpi($equipe);
 
         $classementDetail = $this->classementDetailScoreDuneEquipe($equipe);
 
@@ -413,7 +396,7 @@ class ClassementService
             'gagne' => $resultatEquipe['win'],
             'nul' => $resultatEquipe['draw'],
             'perdu' => $resultatEquipe['loss'],
-            'pts' => $points,
+            'pts' => PoulpiEnum::classementPoulpiParAnnee()[$this->settingsService->anneeCourante()] == 0 ? $points : $equipe->getScore(),
             'bonus' => $bonus,
             'equipe' => $equipe,
             'tdMis' => $classementDetail['tdMis'],
@@ -570,5 +553,38 @@ class ClassementService
             $this->doctrineEntityManager->persist($ligneClassement);
             $this->doctrineEntityManager->flush();
         }
+    }
+
+    /**
+     * @param Teams $equipe
+     * @param array $point
+     * @return array
+     */
+    public function calculDesPointsGeneraux(Teams $equipe, array $point): array
+    {
+        $resultatEquipe = $this->equipeService->resultatsDelEquipe(
+            $equipe,
+            $this->doctrineEntityManager->getRepository(Matches::class)->listeDesMatchs($equipe)
+        );
+
+        $points = 0;
+
+        foreach ($resultatEquipe as $typeResultat => $nombreResultat) {
+            switch ($typeResultat) {
+                case 'win':
+                    $points += $nombreResultat * $point[0];
+                    break;
+                case 'draw':
+                    $points += $nombreResultat * $point[1];
+                    break;
+                case 'loss':
+                    $points += $nombreResultat * $point[2];
+                    break;
+                default:
+                    $points += 0;
+                    break;
+            }
+        }
+        return [$resultatEquipe, $points];
     }
 }

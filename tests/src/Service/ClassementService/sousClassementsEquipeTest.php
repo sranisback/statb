@@ -10,12 +10,31 @@ use App\Enum\RulesetEnum;
 use App\Service\ClassementService;
 use App\Service\EquipeService;
 use App\Service\MatchDataService;
+use App\Service\SettingsService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
 
 class sousClassementsEquipeTest extends TestCase
 {
+    private ClassementService $classementService;
+
+    private $objectManager;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->objectManager = $this->createMock(EntityManagerInterface::class);
+
+        $this->classementService = new ClassementService(
+            $this->objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class),
+            $this->createMock(SettingsService::class)
+        );
+    }
+
     /**
      * @test
      */
@@ -44,15 +63,13 @@ class sousClassementsEquipeTest extends TestCase
             [$teamMock0, $teamMock1, $teamMock2, $teamMock3, $teamMock4]
         );
 
-
         $settingMock = $this->createMock(Setting::class);
         $settingMock->method('getValue')->willReturn((string) RulesetEnum::BB_2016);
 
         $settingRepoMock = $this->createMock(ObjectRepository::class);
         $settingRepoMock->method('findOneBy')->willReturn($settingMock);
 
-        $objectManager = $this->createMock(EntityManagerInterface::class);
-        $objectManager->method('getRepository')->will(
+        $this->objectManager->method('getRepository')->will(
             $this->returnCallback(
                 function ($entityName) use ($matchDataRepoMock, $settingRepoMock) {
                     if ($entityName === MatchData::class) {
@@ -68,15 +85,10 @@ class sousClassementsEquipeTest extends TestCase
             )
         );
 
-        $classementService = new ClassementService(
-            $objectManager,
-            $this->createMock(EquipeService::class),
-            $this->createMock(MatchDataService::class)
-        );
 
         $this->assertEquals(
             $match_data_test,
-            $classementService->genereClassementEquipes(
+            $this->classementService->genereClassementEquipes(
                 3,
                 'bash',
                 5
@@ -118,8 +130,7 @@ class sousClassementsEquipeTest extends TestCase
         $settingRepoMock = $this->createMock(ObjectRepository::class);
         $settingRepoMock->method('findOneBy')->willReturn($settingMock);
 
-        $objectManager = $this->createMock(EntityManagerInterface::class);
-        $objectManager->method('getRepository')->will(
+        $this->objectManager->method('getRepository')->will(
             $this->returnCallback(
                 function ($entityName) use ($matchDataRepoMock, $settingRepoMock) {
                     if ($entityName === MatchData::class) {
@@ -135,15 +146,9 @@ class sousClassementsEquipeTest extends TestCase
             )
         );
 
-        $classementService = new ClassementService(
-            $objectManager,
-            $this->createMock(EquipeService::class),
-            $this->createMock(MatchDataService::class)
-        );
-
         $this->assertEquals(
             $match_data_test,
-            $classementService->genereClassementEquipes(
+            $this->classementService->genereClassementEquipes(
                 3,
                 'td',
                 5
@@ -185,8 +190,7 @@ class sousClassementsEquipeTest extends TestCase
         $settingRepoMock = $this->createMock(ObjectRepository::class);
         $settingRepoMock->method('findOneBy')->willReturn($settingMock);
 
-        $objectManager = $this->createMock(EntityManagerInterface::class);
-        $objectManager->method('getRepository')->will(
+        $this->objectManager->method('getRepository')->will(
             $this->returnCallback(
                 function ($entityName) use ($playerRepoMock, $settingRepoMock) {
                     if ($entityName === Players::class) {
@@ -202,15 +206,9 @@ class sousClassementsEquipeTest extends TestCase
             )
         );
 
-        $classementService = new ClassementService(
-            $objectManager,
-            $this->createMock(EquipeService::class),
-            $this->createMock(MatchDataService::class)
-        );
-
         $this->assertEquals(
             $match_data_test,
-            $classementService->genereClassementEquipes(
+            $this->classementService->genereClassementEquipes(
                 3,
                 'dead',
                 5
@@ -252,8 +250,7 @@ class sousClassementsEquipeTest extends TestCase
         $settingRepoMock = $this->createMock(ObjectRepository::class);
         $settingRepoMock->method('findOneBy')->willReturn($settingMock);
 
-        $objectManager = $this->createMock(EntityManagerInterface::class);
-        $objectManager->method('getRepository')->will(
+        $this->objectManager->method('getRepository')->will(
             $this->returnCallback(
                 function ($entityName) use ($matchDataRepoMock, $settingRepoMock) {
                     if ($entityName === MatchData::class) {
@@ -269,14 +266,9 @@ class sousClassementsEquipeTest extends TestCase
             )
         );
 
-        $classementService = new ClassementService(
-            $objectManager,
-            $this->createMock(EquipeService::class),
-            $this->createMock(MatchDataService::class)
-        );
         $this->assertEquals(
             $match_data_test,
-            $classementService->genereClassementEquipes(
+            $this->classementService->genereClassementEquipes(
                 3,
                 'foul',
                 5
@@ -290,7 +282,6 @@ class sousClassementsEquipeTest extends TestCase
      */
     public function il_n_y_a_pas_de_donnees(): void
     {
-
         $match_data_test = [
             'teams' => [],
             'title' => 'Les plus méchants',
@@ -301,7 +292,7 @@ class sousClassementsEquipeTest extends TestCase
         ];
 
         $matchDataRepoMock = $this->getMockBuilder(MatchData::class)
-            ->setMethods(['sousClassementEquipe'])
+            ->addMethods(['sousClassementEquipe'])
             ->getMock();
 
         $matchDataRepoMock->method('sousClassementEquipe')->willReturn(
@@ -314,8 +305,7 @@ class sousClassementsEquipeTest extends TestCase
         $settingRepoMock = $this->createMock(ObjectRepository::class);
         $settingRepoMock->method('findOneBy')->willReturn($settingMock);
 
-        $objectManager = $this->createMock(EntityManagerInterface::class);
-        $objectManager->method('getRepository')->will(
+        $this->objectManager->method('getRepository')->will(
             $this->returnCallback(
                 function ($entityName) use ($matchDataRepoMock, $settingRepoMock) {
                     if ($entityName === MatchData::class) {
@@ -331,15 +321,9 @@ class sousClassementsEquipeTest extends TestCase
             )
         );
 
-        $classementService = new ClassementService(
-            $objectManager,
-            $this->createMock(EquipeService::class),
-            $this->createMock(MatchDataService::class)
-        );
-
         $this->assertEquals(
             $match_data_test,
-            $classementService->genereClassementEquipes(
+            $this->classementService->genereClassementEquipes(
                 3,
                 'bash',
                 5
