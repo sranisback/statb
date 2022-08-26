@@ -11,6 +11,7 @@ use App\Form\AjoutCompetenceType;
 use App\Form\AjoutJoueurType;
 use App\Form\JoueurPhotoEnvoiType;
 use App\Service\AdminService;
+use App\Service\EquipeGestionService;
 use App\Service\EquipeService;
 use App\Service\PlayerService;
 use App\Tools\randomNameGenerator;
@@ -108,6 +109,7 @@ class JoueurController extends AbstractController
     public function addPlayer(
         PlayerService $playerService,
         EquipeService $equipeService,
+        EquipeGestionService $equipeGestionService,
         Request $request
     ): JsonResponse {
         /** @var array $donneesPourAjout */
@@ -155,7 +157,7 @@ class JoueurController extends AbstractController
                 }
 
                 if ($equipe !== null) {
-                    $tv = $equipeService->tvDelEquipe($equipe, $playerService);
+                    $tv = $equipeGestionService->tvDelEquipe($equipe, $playerService);
                     $tresors = $equipe->getTreasury();
                 }
 

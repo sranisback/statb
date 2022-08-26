@@ -7,12 +7,31 @@ use App\Entity\Teams;
 use App\Service\ClassementService;
 use App\Service\EquipeService;
 use App\Service\MatchDataService;
+use App\Service\SettingsService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
 
 class CinqDernierMatchesPourEquipesTest extends TestCase
 {
+
+    private ClassementService $classementService;
+
+    private $objectManager;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->objectManager = $this->createMock(EntityManagerInterface::class);
+
+        $this->classementService = new ClassementService(
+            $this->objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class),
+            $this->createMock(SettingsService::class)
+        );
+    }
 
     /**
      * @test
@@ -29,9 +48,8 @@ class CinqDernierMatchesPourEquipesTest extends TestCase
         $equipeMock = $this->createMock(Teams::class);
 
         $matchRepoMock = $this->getMockBuilder(Matches::class)
-            ->setMethods(['listeDesMatchs'])
+            ->addMethods(['listeDesMatchs'])
             ->getMock();
-
         $matchRepoMock->method('listeDesMatchs')->willReturn(
             [$matchMock0, $matchMock1, $matchMock2, $matchMock3, $matchMock4, $matchMock5]
         );
@@ -39,15 +57,14 @@ class CinqDernierMatchesPourEquipesTest extends TestCase
         $teamRepoMock = $this->createMock(ObjectRepository::class);
         $teamRepoMock->method('findOneBy')->willReturn($equipeMock);
 
-        $objectManager = $this->createMock(EntityManagerInterface::class);
-        $objectManager->expects($this->any())->method('getRepository')->will(
+        $this->objectManager->expects($this->any())->method('getRepository')->will(
             $this->returnCallback(
                 function ($entityName) use ($teamRepoMock, $matchRepoMock) {
-                    if ($entityName === 'App\Entity\Teams') {
+                    if ($entityName === Teams::class) {
                         return $teamRepoMock;
                     }
 
-                    if ($entityName === 'App\Entity\Matches') {
+                    if ($entityName === Matches::class) {
                         return $matchRepoMock;
                     }
 
@@ -56,13 +73,7 @@ class CinqDernierMatchesPourEquipesTest extends TestCase
             )
         );
 
-        $classementService = new ClassementService(
-            $objectManager,
-            $this->createMock(EquipeService::class),
-            $this->createMock(MatchDataService::class)
-        );
-
-        $this->assertEquals(5, count($classementService->cinqDerniersMatchsParEquipe(0)));
+        $this->assertEquals(5, count($this->classementService->cinqDerniersMatchsParEquipe(0)));
     }
 
     /**
@@ -73,16 +84,14 @@ class CinqDernierMatchesPourEquipesTest extends TestCase
         $equipeMock = $this->createMock(Teams::class);
 
         $matchRepoMock = $this->getMockBuilder(Matches::class)
-            ->setMethods(['listeDesMatchs'])
+            ->addMethods(['listeDesMatchs'])
             ->getMock();
-
         $matchRepoMock->method('listeDesMatchs')->willReturn([]);
 
         $teamRepoMock = $this->createMock(ObjectRepository::class);
         $teamRepoMock->method('findOneBy')->willReturn($equipeMock);
 
-        $objectManager = $this->createMock(EntityManagerInterface::class);
-        $objectManager->expects($this->any())->method('getRepository')->will(
+        $this->objectManager->expects($this->any())->method('getRepository')->will(
             $this->returnCallback(
                 function ($entityName) use ($teamRepoMock, $matchRepoMock) {
                     if ($entityName === 'App\Entity\Teams') {
@@ -98,12 +107,6 @@ class CinqDernierMatchesPourEquipesTest extends TestCase
             )
         );
 
-        $classementService = new ClassementService(
-            $objectManager,
-            $this->createMock(EquipeService::class),
-            $this->createMock(MatchDataService::class)
-        );
-
-        $this->assertEquals(0, count($classementService->cinqDerniersMatchsParEquipe(0)));
+        $this->assertEquals(0, count($this->classementService->cinqDerniersMatchsParEquipe(0)));
     }
 }

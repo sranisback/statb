@@ -113,25 +113,25 @@ class Teams
      *
      * @ORM\ManyToOne(targetEntity="Coaches", inversedBy="equipes")
      *   @ORM\JoinColumn  (name="owned_by_coach_id",  referencedColumnName="coach_id")
-     * @var \App\Entity\Coaches|null
+     * @var Coaches|null
      */
-    private ?\App\Entity\Coaches $ownedByCoach = null;
+    private ?Coaches $ownedByCoach = null;
 
     /**
      *
      * @ORM\ManyToOne(targetEntity="Races")
      * @ORM\JoinColumn(name="f_race_id", referencedColumnName="race_id", nullable=true)
-     * @var \App\Entity\Races|null
+     * @var Races|null
      */
-    private ?\App\Entity\Races $fRace = null;
+    private ?Races $fRace = null;
 
     /**
      *
      * @ORM\OneToOne(targetEntity="Stades", cascade={"remove"})
      * @ORM\JoinColumn(name="f_stade_id", referencedColumnName="id", nullable=true)
-     * @var \App\Entity\Stades|null
+     * @var Stades|null
      */
-    private ?\App\Entity\Stades $fStades = null;
+    private ?Stades $fStades = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -159,6 +159,12 @@ class Teams
      * @var int
      */
     private $ruleset = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @var int
+     */
+    private $score = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity=RacesBb2020::class)
@@ -192,7 +198,7 @@ class Teams
     /**
      * @return Stades|null
      */
-    public function getFStades(): ?\App\Entity\Stades
+    public function getFStades(): ?Stades
     {
         return $this->fStades;
     }
@@ -472,6 +478,24 @@ class Teams
     {
         $this->race = $race;
 
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getScore(): int
+    {
+        return $this->score;
+    }
+
+    /**
+     * @param int $score
+     * @return Teams
+     */
+    public function setScore(int $score): Teams
+    {
+        $this->score = $score;
         return $this;
     }
 }

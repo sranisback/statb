@@ -41,6 +41,7 @@ class TeamsFactory
         $equipe->setFStades($stade);
         $equipe->setYear($annee);
         $equipe->setRuleset($ruleset);
+        $equipe->setScore(100);
 
         RulesetEnum::setTeamRaceFromTeamByRuleset($equipe, $race);
         RulesetEnum::setFanFactorFromTeamByRuleset($equipe);

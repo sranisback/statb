@@ -9,12 +9,31 @@ use App\Enum\RulesetEnum;
 use App\Service\ClassementService;
 use App\Service\EquipeService;
 use App\Service\MatchDataService;
+use App\Service\SettingsService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class sousClassementJoueurTest extends KernelTestCase
 {
+    private ClassementService $classementService;
+
+    private $objectManager;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->objectManager = $this->createMock(EntityManagerInterface::class);
+
+        $this->classementService = new ClassementService(
+            $this->objectManager,
+            $this->createMock(EquipeService::class),
+            $this->createMock(MatchDataService::class),
+            $this->createMock(SettingsService::class)
+        );
+    }
+
     /**
      * @test
      */
@@ -49,8 +68,7 @@ class sousClassementJoueurTest extends KernelTestCase
         $settingRepoMock = $this->createMock(ObjectRepository::class);
         $settingRepoMock->method('findOneBy')->willReturn($settingMock);
 
-        $objectManager = $this->createMock(EntityManagerInterface::class);
-        $objectManager->method('getRepository')->will(
+        $this->objectManager->method('getRepository')->will(
             $this->returnCallback(
                 function ($entityName) use ($matchDataRepoMock, $settingRepoMock) {
                     if ($entityName === MatchData::class) {
@@ -66,15 +84,9 @@ class sousClassementJoueurTest extends KernelTestCase
             )
         );
 
-        $classementService = new ClassementService(
-            $objectManager,
-            $this->createMock(EquipeService::class),
-            $this->createMock(MatchDataService::class)
-        );
-
         $this->assertEquals(
             $match_data_test,
-            $classementService->genereClassementJoueurs(
+            $this->classementService->genereClassementJoueurs(
                 3,
                 'bash',
                 5
@@ -116,8 +128,7 @@ class sousClassementJoueurTest extends KernelTestCase
         $settingRepoMock = $this->createMock(ObjectRepository::class);
         $settingRepoMock->method('findOneBy')->willReturn($settingMock);
 
-        $objectManager = $this->createMock(EntityManagerInterface::class);
-        $objectManager->method('getRepository')->will(
+        $this->objectManager->method('getRepository')->will(
             $this->returnCallback(
                 function ($entityName) use ($matchDataRepoMock, $settingRepoMock) {
                     if ($entityName === MatchData::class) {
@@ -133,15 +144,9 @@ class sousClassementJoueurTest extends KernelTestCase
             )
         );
 
-        $classementService = new ClassementService(
-            $objectManager,
-            $this->createMock(EquipeService::class),
-            $this->createMock(MatchDataService::class)
-        );
-
         $this->assertEquals(
             $match_data_test,
-            $classementService->genereClassementJoueurs(
+            $this->classementService->genereClassementJoueurs(
                 3,
                 'td',
                 5
@@ -184,8 +189,7 @@ class sousClassementJoueurTest extends KernelTestCase
         $settingRepoMock = $this->createMock(ObjectRepository::class);
         $settingRepoMock->method('findOneBy')->willReturn($settingMock);
 
-        $objectManager = $this->createMock(EntityManagerInterface::class);
-        $objectManager->method('getRepository')->will(
+        $this->objectManager->method('getRepository')->will(
             $this->returnCallback(
                 function ($entityName) use ($matchDataRepoMock, $settingRepoMock) {
                     if ($entityName === MatchData::class) {
@@ -201,15 +205,9 @@ class sousClassementJoueurTest extends KernelTestCase
             )
         );
 
-        $classementService = new ClassementService(
-            $objectManager,
-            $this->createMock(EquipeService::class),
-            $this->createMock(MatchDataService::class)
-        );
-
         $this->assertEquals(
             $match_data_test,
-            $classementService->genereClassementJoueurs(
+            $this->classementService->genereClassementJoueurs(
                 3,
                 'xp',
                 5
@@ -251,8 +249,7 @@ class sousClassementJoueurTest extends KernelTestCase
         $settingRepoMock = $this->createMock(ObjectRepository::class);
         $settingRepoMock->method('findOneBy')->willReturn($settingMock);
 
-        $objectManager = $this->createMock(EntityManagerInterface::class);
-        $objectManager->method('getRepository')->will(
+        $this->objectManager->method('getRepository')->will(
             $this->returnCallback(
                 function ($entityName) use ($matchDataRepoMock, $settingRepoMock) {
                     if ($entityName === MatchData::class) {
@@ -268,15 +265,9 @@ class sousClassementJoueurTest extends KernelTestCase
             )
         );
 
-        $classementService = new ClassementService(
-            $objectManager,
-            $this->createMock(EquipeService::class),
-            $this->createMock(MatchDataService::class)
-        );
-
         $this->assertEquals(
             $match_data_test,
-            $classementService->genereClassementJoueurs(
+            $this->classementService->genereClassementJoueurs(
                 3,
                 'pass',
                 5
@@ -318,8 +309,7 @@ class sousClassementJoueurTest extends KernelTestCase
         $settingRepoMock = $this->createMock(ObjectRepository::class);
         $settingRepoMock->method('findOneBy')->willReturn($settingMock);
 
-        $objectManager = $this->createMock(EntityManagerInterface::class);
-        $objectManager->method('getRepository')->will(
+        $this->objectManager->method('getRepository')->will(
             $this->returnCallback(
                 function ($entityName) use ($matchDataRepoMock, $settingRepoMock) {
                     if ($entityName === MatchData::class) {
@@ -335,15 +325,9 @@ class sousClassementJoueurTest extends KernelTestCase
             )
         );
 
-        $classementService = new ClassementService(
-            $objectManager,
-            $this->createMock(EquipeService::class),
-            $this->createMock(MatchDataService::class)
-        );
-
         $this->assertEquals(
             $match_data_test,
-            $classementService->genereClassementJoueurs(
+            $this->classementService->genereClassementJoueurs(
                 3,
                 'foul',
                 5
@@ -356,7 +340,6 @@ class sousClassementJoueurTest extends KernelTestCase
      */
     public function il_n_y_a_pas_de_donnees()
     {
-
         $match_data_test = [
             'players' => [],
             'title' => 'Le Bash Lord - Record CAS',
@@ -374,15 +357,13 @@ class sousClassementJoueurTest extends KernelTestCase
             []
         );
 
-
         $settingMock = $this->createMock(Setting::class);
         $settingMock->method('getValue')->willReturn((string) RulesetEnum::BB_2016);
 
         $settingRepoMock = $this->createMock(ObjectRepository::class);
         $settingRepoMock->method('findOneBy')->willReturn($settingMock);
 
-        $objectManager = $this->createMock(EntityManagerInterface::class);
-        $objectManager->method('getRepository')->will(
+        $this->objectManager->method('getRepository')->will(
             $this->returnCallback(
                 function ($entityName) use ($matchDataRepoMock, $settingRepoMock) {
                     if ($entityName === MatchData::class) {
@@ -398,15 +379,9 @@ class sousClassementJoueurTest extends KernelTestCase
             )
         );
 
-        $classementService = new ClassementService(
-            $objectManager,
-            $this->createMock(EquipeService::class),
-            $this->createMock(MatchDataService::class)
-        );
-
         $this->assertEquals(
             $match_data_test,
-            $classementService->genereClassementJoueurs(
+            $this->classementService->genereClassementJoueurs(
                 3,
                 'bash',
                 5

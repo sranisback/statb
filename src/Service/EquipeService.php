@@ -443,4 +443,63 @@ class EquipeService
 
         $this->doctrineEntityManager->refresh($equipe);
     }
+
+    public function calculBonusPoulpi(Teams $equipe):int
+    {
+        $bonusTotal = 0;
+
+        /** @var Matches $match */
+        foreach ($this->doctrineEntityManager->getRepository(Matches::class)->listeDesMatchs($equipe) as $match) {
+            $bonusTotal += $this->calculBonusPourUnMatchPoulpi($equipe, $match);
+        }
+
+        return $bonusTotal;
+    }
+
+    /**
+     * @param $equipe
+     * @param Matches $match
+     * @return float|int
+     */
+    public function calculBonusPourUnMatchPoulpi($equipe, Matches $match)
+    {
+        $resultatMatch = $this->resultatDuMatch($equipe, $match);
+
+        if ($match->getTeam1() === $equipe) {
+            $scoreEquipeAdv = $match->getScoreClassementTeam2();
+            $score = $match->getScoreClassementTeam1();
+        } else {
+            $scoreEquipeAdv = $match->getScoreClassementTeam1();
+            $score = $match->getScoreClassementTeam2();
+        }
+
+        $bonus = ($scoreEquipeAdv - $score) / 10;
+
+        if ($resultatMatch['win'] === 1) {
+            if ($score >= $scoreEquipeAdv) {
+                $bonus = $bonus > 5 ? 5 : $bonus;
+            } else {
+                $bonus = $bonus > 15 ? 15 : $bonus;
+            }
+        }
+
+        if ($resultatMatch['loss'] === 1) {
+            if ($score >= $scoreEquipeAdv) {
+                $bonus = $bonus < -5 ? -5 : $bonus;
+            } else {
+                $bonus = $bonus < -15 ? -15 : $bonus;
+            }
+        }
+
+        if ($resultatMatch['draw'] === 1) {
+            if ($score >= $scoreEquipeAdv) {
+                $bonus = $bonus > -5 ? -5 : $bonus;
+            } else {
+                $bonus = $bonus > 5 ? 5 : $bonus;
+            }
+        }
+
+        return $bonus;
+    }
+
 }

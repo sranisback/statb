@@ -102,29 +102,29 @@ class Matches
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="team1_id", referencedColumnName="team_id")
      * })
-     * @var \App\Entity\Teams|null
+     * @var Teams|null
      */
-    private ?\App\Entity\Teams $team1 = null;
+    private ?Teams $team1 = null;
 
     /**
      *
      * @ORM\ManyToOne(targetEntity="Teams", fetch="EAGER")
      * @ORM\JoinColumn(name="team2_id", referencedColumnName="team_id")
-     * @var null|\App\Entity\Teams
+     * @var null|Teams
      */
-    private ?\App\Entity\Teams $team2 = null;
+    private ?Teams $team2 = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Meteo")
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?\App\Entity\Meteo $fMeteo = null;
+    private ?Meteo $fMeteo = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\GameDataStadium")
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?\App\Entity\GameDataStadium $fStade = null;
+    private ?GameDataStadium $fStade = null;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\HistoriqueBlessure", mappedBy="fmatch")
@@ -146,6 +146,11 @@ class Matches
      * @ORM\Column(type="integer", nullable=true)
      */
     private int $depense2 = 0;
+
+    private $scoreClassementTeam1;
+
+    private $scoreClassementTeam2;
+
 
     public function __construct()
     {
@@ -301,7 +306,7 @@ class Matches
         return $this;
     }
 
-    public function getFMeteo(): ?\App\Entity\Meteo
+    public function getFMeteo(): ?Meteo
     {
         return $this->fMeteo;
     }
@@ -313,7 +318,7 @@ class Matches
         return $this;
     }
 
-    public function getFStade(): ?\App\Entity\GameDataStadium
+    public function getFStade(): ?GameDataStadium
     {
         return $this->fStade;
     }
@@ -388,6 +393,42 @@ class Matches
     {
         $this->depense2 = $depense2;
 
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getScoreClassementTeam1()
+    {
+        return $this->scoreClassementTeam1;
+    }
+
+    /**
+     * @param mixed $scoreClassementTeam1
+     * @return Matches
+     */
+    public function setScoreClassementTeam1($scoreClassementTeam1)
+    {
+        $this->scoreClassementTeam1 = $scoreClassementTeam1;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getScoreClassementTeam2()
+    {
+        return $this->scoreClassementTeam2;
+    }
+
+    /**
+     * @param mixed $scoreClassementTeam2
+     * @return Matches
+     */
+    public function setScoreClassementTeam2($scoreClassementTeam2)
+    {
+        $this->scoreClassementTeam2 = $scoreClassementTeam2;
         return $this;
     }
 }

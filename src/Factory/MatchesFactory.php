@@ -28,7 +28,7 @@ class MatchesFactory
         int $tv2,
         Meteo $meteo,
         GameDataStadium $stade
-    ): \App\Entity\Matches {
+    ): Matches {
         $dateMatch = DateTime::createFromFormat("Y-m-d H:i:s", date("Y-m-d H:i:s"));
 
         $match = new Matches();
@@ -55,6 +55,8 @@ class MatchesFactory
             if (!empty($donnees['depense2'])) {
                 $match->setDepense2((int) -$donnees['depense2']);
             }
+            $match->setScoreClassementTeam1($equipe1->getScore());
+            $match->setScoreClassementTeam2($equipe2->getScore());
         }
 
         return $match;

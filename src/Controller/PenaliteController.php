@@ -37,7 +37,7 @@ class PenaliteController extends AbstractController
         $form = $this->createForm(AjoutPenaliteForm::class, $penalite);
         $form->handleRequest($request);
 
-        if($penaliteService->creerUnePenalite($penalite)) {
+        if($penaliteService->creerUnePenalite($penalite, $form)) {
             $this->addFlash('success', 'Penalité Ajouté!');
 
             return $this->redirectToRoute('frontUser');

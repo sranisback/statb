@@ -359,6 +359,30 @@ class MatchesService
 
         $this->equipeService->eloDesEquipes($this->settingService->anneeCourante());
 
+        $this->majScoreDesEquipes($match, $team1);
+        $this->majScoreDesEquipes($match, $team2);
+
         $this->infoService->matchEnregistre($match);
+    }
+
+    private function majScoreDesEquipes(Matches $match, Teams $equipe)
+    {
+        $points = $this->settingService->pointsEnCours($this->settingService->anneeCourante());
+
+        $resultat = $this->equipeService->resultatDuMatch($equipe,$match);
+
+        $pointsDuMatch = 0;
+
+        $pointsDuMatch += $resultat['win'] == 1 ? $points[0] : 0;
+        $pointsDuMatch += $resultat['draw'] == 1 ? $points[1] : 0;
+        $pointsDuMatch += $resultat['loss'] == 1 ? $points[2] : 0;
+
+        $bonus = $this->equipeService->calculBonusPourUnMatchPoulpi($equipe, $match);
+
+        $equipe->setScore($equipe->getScore() + $bonus + $pointsDuMatch);
+
+        $this->doctrineEntityManager->persist($equipe);
+        $this->doctrineEntityManager->flush();
+        $this->doctrineEntityManager->refresh($equipe);
     }
 }
