@@ -147,8 +147,14 @@ class Matches
      */
     private int $depense2 = 0;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
     private $scoreClassementTeam1;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
     private $scoreClassementTeam2;
 
 
