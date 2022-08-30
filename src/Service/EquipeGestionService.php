@@ -85,7 +85,6 @@ class EquipeGestionService
             self::BASE_ELO,
             $stade,
             $this->settingsService->anneeCourante(),
-            /* @phpstan-ignore-next-line */
             $race,
             $coach,
             $ruleset
