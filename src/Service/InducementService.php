@@ -274,11 +274,27 @@ class InducementService
             $inducost = self::POP;
             $nbr -= 1;
             $equipe->setFfBought($equipe->getFfBought() - 1);
+            if($equipe->getFfBought() === 0 && $equipe->getRuleset() === RulesetEnum::BB_2020) {
+                $equipe->setTreasury($equipe->getTreasury() + self::POP);
+            }
+            if($equipe->getFfBought() < 0 && $equipe->getRuleset() === RulesetEnum::BB_2016) {
+                $equipe->setFfBought(0);
+                $nbr = 0;
+            }
         }
         if (count($matches) === 0 && $equipe->getFfBought() == 0 && $equipe->getFf() > 0) {
             $inducost = self::POP;
             $nbr -= 1;
             $equipe->setFf($equipe->getFf() - 1);
+            if($equipe->getFf() === 0 && $equipe->getRuleset() === RulesetEnum::BB_2020) {
+                $equipe->setFf(1);
+                $nbr = 1;
+                $equipe->setTreasury($equipe->getTreasury() - self::POP);
+            }
+            if($equipe->getFf() < 0 && $equipe->getRuleset() === RulesetEnum::BB_2016) {
+                $equipe->setFf(0);
+                $nbr = 0;
+            }
         }
         return array($nbr, $inducost);
     }
@@ -364,10 +380,11 @@ class InducementService
             $inducement['rerolls'] = $equipe->getRerolls() * $equipeRace->getCostRr();
         }
 
-        $inducement['pop'] = ($equipe->getFf() + $equipe->getFfBought()) * 10_000;
-        if ($equipe->getRuleset() == RulesetEnum::BB_2020) {
-            $inducement['pop'] = 0;
+        $totalPop = $equipe->getFf() + $equipe->getFfBought();
+        if($equipe->getRuleset() == RulesetEnum::BB_2020) {
+            $totalPop -= 1;
         }
+        $inducement['pop'] = $totalPop * 10_000;
 
         $inducement['asscoaches'] = $equipe->getAssCoaches() * 10_000;
         $inducement['cheerleader'] = $equipe->getCheerleaders() * 10_000;

@@ -208,7 +208,7 @@ class supprInducementTest extends KernelTestCase
 
         $resultatAttendu = [
             'inducost' => 10000,
-            'nbr' => 0
+            'nbr' => 1
         ];
 
         $this->assertEquals($resultatAttendu, $inducementServiceTest->supprInducement(
@@ -218,7 +218,7 @@ class supprInducementTest extends KernelTestCase
             $this->createMock(EquipeGestionService::class)
         ));
 
-        $this->assertEquals(0, $equipeTest->getFf());
+        $this->assertEquals(1, $equipeTest->getFf());
         $this->assertEquals(0, $equipeTest->getFfBought());
     }
 
@@ -388,7 +388,7 @@ class supprInducementTest extends KernelTestCase
     /**
      * @test
      */
-    public function suppression_de_la_pop()
+    public function suppression_de_la_pop_bb2016()
     {
         $raceTest = new RacesBb2020();
         $raceTest->setCostRr(50_000);
@@ -397,7 +397,7 @@ class supprInducementTest extends KernelTestCase
         $equipeTest->setTreasury(0);
         $equipeTest->setRerolls(0);
         $equipeTest->setRace($raceTest);
-        $equipeTest->setRuleset(RulesetEnum::BB_2020);
+        $equipeTest->setRuleset(RulesetEnum::BB_2016);
         $equipeTest->setFfBought(1);
 
         $matchRepoMock = $this->getMockBuilder(Matches::class)->addMethods(['listeDesMatchs'])->getMock();
@@ -423,6 +423,50 @@ class supprInducementTest extends KernelTestCase
         ));
 
         $this->assertEquals(0, $equipeTest->getFfBought());
+        $this->assertEquals(10_000, $equipeTest->getTreasury());
+    }
+
+
+    /**
+     * @test
+     */
+    public function suppression_de_la_pop_bb2020()
+    {
+        $raceTest = new RacesBb2020();
+        $raceTest->setCostRr(50_000);
+
+        $equipeTest = new Teams();
+        $equipeTest->setTreasury(0);
+        $equipeTest->setRerolls(0);
+        $equipeTest->setRace($raceTest);
+        $equipeTest->setRuleset(RulesetEnum::BB_2020);
+        $equipeTest->setFfBought(1);
+        $equipeTest->setFf(1);
+
+        $matchRepoMock = $this->getMockBuilder(Matches::class)->addMethods(['listeDesMatchs'])->getMock();
+        $matchRepoMock->method('listeDesMatchs')->willReturn([]);
+
+        $objectManager = $this->createMock(EntityManagerInterface::class);
+        $objectManager->method('getRepository')->willReturn($matchRepoMock);
+
+        $inducementServiceTest = new InducementService(
+            $objectManager
+        );
+
+        $resultatAttendu = [
+            'inducost' => 10_000,
+            'nbr' => 1
+        ];
+
+        $this->assertEquals($resultatAttendu, $inducementServiceTest->supprInducement(
+            $equipeTest,
+            'pop',
+            $this->createMock(PlayerService::class),
+            $this->createMock(EquipeGestionService::class)
+        ));
+
+        $this->assertEquals(0, $equipeTest->getFfBought());
+        $this->assertEquals(1, $equipeTest->getFf());
         $this->assertEquals(10_000, $equipeTest->getTreasury());
     }
 }

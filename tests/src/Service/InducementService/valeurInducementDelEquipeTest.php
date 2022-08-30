@@ -79,11 +79,11 @@ class valeurInducementDelEquipeTest extends KernelTestCase
 
         $retour = [
             'rerolls'=> 200_000,
-            'pop'=> 0,
+            'pop'=> 90_000,
             'asscoaches'=> 50_000,
             'cheerleader'=> 100_000,
             'apo'=> 50_000,
-            'total'=> 400_000
+            'total'=> 490_000
         ];
 
         $this->assertEquals($retour,$inducementServiceTest->valeurInducementDelEquipe($equipeTest));
