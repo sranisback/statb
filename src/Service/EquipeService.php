@@ -493,7 +493,7 @@ class EquipeService
 
         if ($resultatMatch['draw'] === 1) {
             if ($score >= $scoreEquipeAdv) {
-                $bonus = $bonus > -5 ? -5 : $bonus;
+                $bonus = $bonus < -5 ? -5 : $bonus;
             } else {
                 $bonus = $bonus > 5 ? 5 : $bonus;
             }

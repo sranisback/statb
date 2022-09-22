@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Coaches;
 use App\Entity\Players;
 use App\Entity\Setting;
 use App\Entity\Stades;
@@ -10,6 +9,7 @@ use App\Entity\Teams;
 use App\Enum\AnneeEnum;
 use App\Enum\NiveauStadeEnum;
 use App\Enum\RulesetEnum;
+use App\Form\CreerEquipeType;
 use App\Form\CreerStadeType;
 use App\Form\LogoEnvoiType;
 use App\Service\AdminService;
@@ -17,17 +17,15 @@ use App\Service\EquipeGestionService;
 use App\Service\EquipeService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
-use App\Form\CreerEquipeType;
-
 use App\Service\StadeService;
 use App\Tools\TransformeEnJSON;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 
 class EquipeController extends AbstractController
 {
@@ -341,6 +339,32 @@ class EquipeController extends AbstractController
             $entityManager->flush();
         }
 
+        return $this->redirectToRoute('frontUser');
+    }
+
+
+    /**
+     * @Route("/recalculerTVAnneeActive", name="recalculerTVAnneeActive")
+     * @param EquipeGestionService $equipeGestionService
+     * @param PlayerService $playerService
+     * @return RedirectResponse
+     */
+    public function recalculerTVPourAnneActive(
+        EquipeGestionService $equipeGestionService,
+        PlayerService $playerService,
+        SettingsService $settingsService
+    ): RedirectResponse {
+        $entityManager = $this->doctrine->getManager();
+
+        /** @var Teams $equipe */
+        foreach ($this->doctrine->getRepository(Teams::class)->findBy(['year' => $settingsService->anneeCourante()]) as $equipe) {
+            $equipe->setTv($equipeGestionService->tvDelEquipe($equipe, $playerService));
+
+            $entityManager->persist($equipe);
+            $entityManager->flush();
+        }
+
+        $this->addFlash('admin', 'Tv Recalculée pour année ' . AnneeEnum::numeroToAnnee()[$settingsService->anneeCourante()]);
         return $this->redirectToRoute('frontUser');
     }
 

@@ -382,9 +382,10 @@ class InducementService
 
         $totalPop = $equipe->getFf() + $equipe->getFfBought();
         if($equipe->getRuleset() == RulesetEnum::BB_2020) {
-            $totalPop -= 1;
+            $inducement['pop'] = 0;
+        } else {
+            $inducement['pop'] = $totalPop * 10_000;
         }
-        $inducement['pop'] = $totalPop * 10_000;
 
         $inducement['asscoaches'] = $equipe->getAssCoaches() * 10_000;
         $inducement['cheerleader'] = $equipe->getCheerleaders() * 10_000;
