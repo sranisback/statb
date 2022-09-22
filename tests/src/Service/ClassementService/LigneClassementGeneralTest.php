@@ -23,6 +23,8 @@ class LigneClassementGeneralTest extends TestCase
 
     private $matchDateService;
 
+    private $settingService;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -33,11 +35,13 @@ class LigneClassementGeneralTest extends TestCase
 
         $this->matchDateService = $this->createMock(MatchDataService::class);
 
+        $this->settingService = $this->createMock(SettingsService::class);
+
         $this->classementService = new ClassementService(
             $this->objectManager,
             $this->equipeService,
             $this->matchDateService,
-            $this->createMock(SettingsService::class)
+            $this->settingService
         );
     }
 
@@ -100,6 +104,7 @@ class LigneClassementGeneralTest extends TestCase
             )
         );
 
+        $this->settingService->method('anneeCourante')->willReturn(7);
 
         $this->equipeService->method('resultatsDelEquipe')->willReturn(['win' => 1, 'draw' => 1, 'loss' => 1]);
         $this->equipeService->method('resultatDuMatch')->willReturnOnConsecutiveCalls(
@@ -138,6 +143,76 @@ class LigneClassementGeneralTest extends TestCase
                 'penalite' => 2
             ],
             $this->classementService->ligneClassementGeneral($equipeMock0,[8,3,-3])
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function les_equipes_sont_a_la_meme_tv_classement_poulpi()
+    {
+        $equipe1 = new Teams();
+        $equipe1->setScore(100);
+        $equipe2 = new Teams();
+
+        $match = new Matches();
+        $match->setTeam1($equipe1);
+        $match->setTeam2($equipe2);
+        $match->setTeam1Score(1);
+        $match->setTeam2Score(0);
+
+        $matchRepoMock = $this->getMockBuilder(Matches::class)
+        ->addMethods(['listeDesMatchs'])
+        ->getMock();
+        $matchRepoMock->method('listeDesMatchs')->willReturn(
+            [$match]
+        );
+
+        $penaliteRepoMock = $this->getMockBuilder(Penalite::class)
+            ->addMethods(['penaliteDuneEquipe'])
+            ->getMock();
+        $penaliteRepoMock->method('penaliteDuneEquipe')->willReturn(0);
+
+        $this->objectManager->method('getRepository')->will(
+            $this->returnCallback(
+                function ($entityName) use ($penaliteRepoMock, $matchRepoMock) {
+                    if ($entityName === Penalite::class) {
+                        return $penaliteRepoMock;
+                    }
+
+                    if ($entityName === Matches::class) {
+                        return $matchRepoMock;
+                    }
+
+                    return true;
+                }
+            )
+        );
+
+        $this->equipeService->method('resultatsDelEquipe')->willReturn(
+            ['win' => 1, 'loss' => 0, 'draw' => 0]
+        );
+        $this->equipeService->method('calculBonusPoulpi')->willReturn(0);
+
+        $this->settingService->method('anneeCourante')->willReturn(8);
+
+        $this->matchDateService->method('nombreDeSortiesDunMatch')->willReturn(1);
+
+        $this->assertEquals(
+            [
+                'gagne' => 1,
+                'nul' => 0,
+                'perdu' => 0,
+                'pts' => 100,
+                'bonus' => 0,
+                'equipe' => $equipe1,
+                'tdMis' => 1,
+                'tdPris' => 0,
+                'sortiesPour' => 1,
+                'sortiesContre' => 1,
+                'penalite' => 0
+            ],
+            $this->classementService->ligneClassementGeneral($equipe1,[10,0,-10])
         );
     }
 }
