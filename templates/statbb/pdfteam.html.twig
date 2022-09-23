@@ -194,7 +194,7 @@
             {% set colspan = 18 %}
         {% endif %}
         <tr>
-            <td colspan={{ colspan }} style="text-align:right;">Total joueurs :</td>
+            <td colspan={{ colspan }} style="text-align:right;">{{ compteur.actif }} joueurs - {{ compteur.journalier }} journaliers - {{ compteur.blesses }} blessés - Total joueurs :</td>
             <td style="text-align:right;">{{ tdata.playersCost }}</td>
         </tr>
         <tr>

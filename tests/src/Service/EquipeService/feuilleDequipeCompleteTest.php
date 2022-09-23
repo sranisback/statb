@@ -10,9 +10,9 @@ use App\Entity\Teams;
 use App\Service\EquipeGestionService;
 use App\Service\EquipeService;
 use App\Service\InducementService;
-use App\Service\InfosService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\TestCase;
 
@@ -38,17 +38,25 @@ class feuilleDequipeCompleteTest extends TestCase
             'status' => ''
         ];
 
-        $joueurMock0 = $this->createMock(Players::class);
-        $joueurMock1 = $this->createMock(Players::class);
-        $joueurMock2 = $this->createMock(Players::class);
-        $joueurMock3 = $this->createMock(Players::class);
-        $joueurMock4 = $this->createMock(Players::class);
+        $joueur0 = new Players();
+        $joueur1 = new Players();
+        $joueur2 = new Players();
+        $joueur3 = new Players();
+        $joueur4 = new Players();
 
-        $raceMock = $this->createMock(Races::class);
-        $raceMock->method('getCostRr')->willReturn(50000);
+        $joueurCollection = new ArrayCollection();
+        $joueurCollection->add($joueur0);
+        $joueurCollection->add($joueur1);
+        $joueurCollection->add($joueur2);
+        $joueurCollection->add($joueur3);
+        $joueurCollection->add($joueur4);
 
-        $equipeMock = $this->createMock(Teams::class);
-        $equipeMock->method('getFRace')->willReturn($raceMock);
+        $race = new Races();
+        $race->setCostRr(50000);
+
+        $equipe = new Teams();
+        $equipe->setFRace($race);
+        $equipe->setJoueurs($joueurCollection);
 
         $settingServiceMock = $this->createMock(SettingsService::class);
         $settingServiceMock->method('anneeCourante')->willReturn(2);
@@ -56,13 +64,6 @@ class feuilleDequipeCompleteTest extends TestCase
         $playerServiceMock = $this->createMock(PlayerService::class);
         $playerServiceMock->method('ligneJoueur')->willReturn([$pData,$pData,$pData,$pData,$pData]);
         $playerServiceMock->method('coutTotalJoueurs')->willReturn(500000);
-
-        $joueurRepoMock = $this->getMockBuilder(Players::class)
-            ->addMethods(['listeDesJoueursPourlEquipe'])
-            ->getMock();
-        $joueurRepoMock->method('listeDesJoueursPourlEquipe')->willReturn(
-            [$joueurMock0, $joueurMock1, $joueurMock2, $joueurMock3, $joueurMock4]
-        );
 
         $inducementServiceMock = $this->createMock(InducementService::class);
         $inducementServiceMock->method('valeurInducementDelEquipe')->willReturn(
@@ -77,7 +78,6 @@ class feuilleDequipeCompleteTest extends TestCase
         );
 
         $objectManager = $this->createMock(EntityManager::class);
-        $objectManager->method('getRepository')->willReturn($joueurRepoMock);
 
         $equipeGestionServiceMock = $this->createMock(EquipeGestionService::class);
         $equipeGestionServiceMock->method('tvDelEquipe')->willReturn(500_000);
@@ -90,8 +90,8 @@ class feuilleDequipeCompleteTest extends TestCase
         );
 
         $attendu = [
-            'players' => [$joueurMock0, $joueurMock1, $joueurMock2, $joueurMock3, $joueurMock4],
-            'team' => $equipeMock,
+            'players' => $joueurCollection,
+            'team' => $equipe,
             'pdata' => [
                 $pData,
                 $pData,
@@ -115,11 +115,16 @@ class feuilleDequipeCompleteTest extends TestCase
                 2 => 'Terrain bien aménagé',
                 3 => 'Stade Correct',
                 4 => 'Stade Ultra moderne',
-                5 => 'Résidence',
+                5 => 'Résidence'
+            ],
+            'compteur' => [
+                'actif' => 5,
+                'journalier' => 0,
+                'blesses' => 0
             ]
         ];
 
-        $this->assertEquals($attendu, $equipeServiceTest->feuilleDequipeComplete($equipeMock, $playerServiceMock));
+        $this->assertEquals($attendu, $equipeServiceTest->feuilleDequipeComplete($equipe, $playerServiceMock));
     }
 
 }

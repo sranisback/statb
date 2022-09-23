@@ -2,102 +2,46 @@
 
 namespace App\Controller;
 
-use App\Entity\Players;
-use App\Entity\Teams;
-use App\Service\EquipeGestionService;
-use App\Service\EquipeService;
-use App\Service\InducementService;
-use App\Service\PlayerService;
+use App\Service\ExportService;
 use Dompdf\Dompdf;
 use Dompdf\Options;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class ExportController extends AbstractController
 {
     /**
      * @Route("/pdfTeam/{id}", name="pdfTeam")
-     * @param PlayerService $playerService
-     * @param EquipeService $equipeService
-     * @param InducementService $inducementService
+     * @param ExportService $exportService
      * @param int $id
      */
-    public function pdfTeam(PlayerService $playerService, EquipeGestionService $equipeGestionService, InducementService $inducementService, int $id): void
+    public function pdfTeam(ExportService $exportService, int $id): void
     {
-        /** @var Teams $equipe */
-        $equipe = $this->getDoctrine()->getRepository(Teams::class)->find($id);
-
-        $count = 0;
-
-        $pdata = [];
-        $pdata[] = [];
-
-        $joueurCollection = $this->getDoctrine()->getRepository(Players::class)->listeDesJoueursActifsPourlEquipe(
-            $equipe
-        );
-
-        /** @var Players $joueur */
-        foreach ($joueurCollection as $joueur) {
-            $listeCompetence = $playerService->toutesLesCompsdUnJoueur($joueur);
-            $actionJoueur = $playerService->actionsDuJoueur($joueur);
-
-            if (!$joueur->getName()) {
-                $joueur->setName('Inconnu');
-            }
-
-            if (empty($joueur->getSppDepense())) {
-                $joueur->setSppDepense(0);
-            }
-
-            $pdata[$count]['pid'] = $joueur->getPlayerId();
-            $pdata[$count]['nbrm'] = $actionJoueur['NbrMatch'];
-            $pdata[$count]['cp'] = $actionJoueur['cp'];
-            $pdata[$count]['td'] = $actionJoueur['td'];
-            $pdata[$count]['int'] = $actionJoueur['int'];
-            $pdata[$count]['cas'] = $actionJoueur['cas'];
-            $pdata[$count]['mvp'] = $actionJoueur['mvp'];
-            $pdata[$count]['agg'] = $actionJoueur['agg'];
-            $pdata[$count]['exp'] = $actionJoueur['exp'];
-            $pdata[$count]['bonusXP'] = $actionJoueur['bonus'];
-            $pdata[$count]['skill'] = substr($listeCompetence, 0, strlen($listeCompetence) - 2);
-            $pdata[$count]['spp'] = $playerService->xpDuJoueur($joueur);
-            if ($joueur->getInjRpm() != 0) {
-                $pdata[$count]['cost'] = '<s>' . $playerService->valeurDunJoueur($joueur) . '</s>';
-            } else {
-                $pdata[$count]['cost'] = $playerService->valeurDunJoueur($joueur);
-            }
-            $pdata[$count]['status'] = $playerService->statutDuJoueur($joueur);
-
-            $count++;
-        }
-
-        $tdata = $inducementService->valeurInducementDelEquipe($equipe);
-        $tdata['playersCost'] = $playerService->coutTotalJoueurs($equipe);
-        $tdata['tv'] = $equipeGestionService->tvDelEquipe($equipe, $playerService);
+        $dataGenerated = $exportService->generatePdf($id);
 
         $html = $this->renderView(
             'statbb/pdfteam.html.twig',
             [
-                'players' => $joueurCollection,
-                'team' => $equipe,
-                'pdata' => $pdata,
-                'tdata' => $tdata,
+                'players' => $dataGenerated['players'],
+                'team' => $dataGenerated['team'],
+                'pdata' => $dataGenerated['pdata'],
+                'tdata' => $dataGenerated['tdata'],
+                'compteur' => $dataGenerated['compteur'],
             ]
         );
 
         $pdfOptions = new Options();
         $pdfOptions->set('defaultFont', 'Arial');
         $pdfOptions->setIsRemoteEnabled(true);
-        $pdfOptions->setIsHtml5ParserEnabled(true);
 
         $dompdf = new Dompdf($pdfOptions);
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'landscape');
         $dompdf->render();
 
-        $dompdf->stream($equipe->getName() . '.pdf', ["Attachment" => true]);
+        $dompdf->stream($dataGenerated['nom'] . '.pdf', ["Attachment" => true]);
     }
 
     /**
@@ -110,7 +54,7 @@ class ExportController extends AbstractController
         $ignore = ['.', '..'];
         $nbr = -2;
 
-        if(!is_dir($this->getParameter('pdf_directory'))) {
+        if (!is_dir($this->getParameter('pdf_directory'))) {
             mkdir($this->getParameter('pdf_directory'));
         }
 
@@ -131,7 +75,8 @@ class ExportController extends AbstractController
 
         $request = $request->request->all();
 
-        $json = json_decode($request['post']); /* @phpstan-ignore-line */
+        $json = json_decode($request['post']);
+        /* @phpstan-ignore-line */
 
         $json[1] = str_replace('<th class="first"></th>', '', $json[1]);
         $json[1] = str_replace(

@@ -328,12 +328,9 @@ class EquipeService
     {
         $pdata = [];
 
-        /** @var array $players */
-        $players = $this->doctrineEntityManager
-            ->getRepository(Players::class)
-            ->listeDesJoueursPourlEquipe($equipe);
+        $players = $equipe->getJoueurs();
 
-        $pdata = $playerService->ligneJoueur($players);
+        $pdata = $playerService->ligneJoueur($players->toArray());
 
         $tdata = $this->calculsInducementEquipe($equipe, $playerService);
 
@@ -343,7 +340,8 @@ class EquipeService
             'pdata' => $pdata,
             'tdata' => $tdata,
             'annee' => $this->settingsService->anneeCourante(),
-            'niveauStade' => NiveauStadeEnum::numeroVersNiveauDeStade()
+            'niveauStade' => NiveauStadeEnum::numeroVersNiveauDeStade(),
+            'compteur' => $this->compteLesjoueurs($equipe)
         ];
     }
 
@@ -500,6 +498,78 @@ class EquipeService
         }
 
         return $bonus;
+    }
+
+    /**
+     * @param Teams $equipe
+     * @return array
+     */
+    public function compteLesjoueurs(Teams $equipe): array
+    {
+        $collectionJoueurs = $equipe->getJoueurs();
+
+        $compteJoueurActif =  $compteJournalier = $compteJoueurblesses = 0;
+
+        if (!$collectionJoueurs->isEmpty()) {
+            $joueursActif = $collectionJoueurs->filter(
+                function ($joueur) {
+                    /** @var Players $joueur */
+                    if(
+                        !$joueur->getJournalier()
+                        && $joueur->getInjRpm() == 0
+                        && $joueur->getStatus() != 7
+                        && $joueur->getStatus() != 8
+                    ) {
+                        return true;
+                    }
+
+                    return false;
+                }
+            );
+
+            $journaliers = $collectionJoueurs->filter(
+                function ($joueur) {
+                    /** @var Players $joueur */
+                    if(
+                        $joueur->getJournalier()
+                        && $joueur->getInjRpm() == 0
+                        && $joueur->getStatus() != 7
+                        && $joueur->getStatus() != 8
+                    ) {
+                        return true;
+                    }
+
+                    return false;
+                }
+            );
+
+            $blesses = $collectionJoueurs->filter(
+                function ($joueur) {
+                    /** @var Players $joueur */
+                    if(
+                        !$joueur->getJournalier()
+                        && $joueur->getInjRpm() == 1
+                        && $joueur->getStatus() != 7
+                        && $joueur->getStatus() != 8
+                    ) {
+                        return true;
+                    }
+
+                    return false;
+                }
+            );
+
+            $compteJoueurActif = !$joueursActif->isEmpty() ? $joueursActif->count() : 0;
+            $compteJournalier = !$journaliers->isEmpty() ? $journaliers->count() : 0;
+            $compteJoueurblesses = !$blesses->isEmpty() ? $blesses->count() : 0;
+        }
+
+
+        return [
+            'actif' => $compteJoueurActif,
+            'journalier' => $compteJournalier,
+            'blesses' => $compteJoueurblesses
+        ];
     }
 
 }
