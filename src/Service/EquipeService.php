@@ -9,6 +9,8 @@ use App\Entity\Players;
 use App\Entity\Teams;
 use App\Enum\AnneeEnum;
 use App\Enum\NiveauStadeEnum;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Gumlet\ImageResize;
 use Gumlet\ImageResizeException;
@@ -323,12 +325,15 @@ class EquipeService
      * @param Teams $equipe
      * @param PlayerService $playerService
      * @return array
+     * @throws \Exception
      */
     public function feuilleDequipeComplete(Teams $equipe, PlayerService $playerService): array
     {
         $pdata = [];
 
         $players = $equipe->getJoueurs();
+
+        $players = $this->sortPlayers($players);
 
         $pdata = $playerService->ligneJoueur($players->toArray());
 
@@ -570,6 +575,21 @@ class EquipeService
             'journalier' => $compteJournalier,
             'blesses' => $compteJoueurblesses
         ];
+    }
+
+    /**
+     * @param Collection $players
+     * @return ArrayCollection
+     * @throws \Exception
+     */
+    private function sortPlayers(Collection $players): ArrayCollection
+    {
+        $iterator = $players->getIterator();
+        $iterator->uasort(function ($a, $b) {
+            return ($a->getNr() < $b->getNr()) ? -1 : 1;
+        });
+        $players = new ArrayCollection(iterator_to_array($iterator));
+        return $players;
     }
 
 }

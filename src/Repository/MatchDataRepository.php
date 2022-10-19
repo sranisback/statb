@@ -7,6 +7,7 @@ use App\Entity\Matches;
 use App\Entity\Players;
 use App\Entity\Teams;
 use App\Enum\RulesetEnum;
+use App\Enum\XpEnum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -125,11 +126,30 @@ class MatchDataRepository extends ServiceEntityRepository
                 break;
 
             case 'xp':
-                $query->addSelect(
-                    'SUM(Matchdata.cp) + (SUM(Matchdata.td)*3)+ (SUM(Matchdata.intcpt)*3)+ 
-                    (SUM(Matchdata.bh+Matchdata.si+Matchdata.ki)*2)+(SUM(Matchdata.mvp)*5)+ 
-                    SUM(Matchdata.bonusSpp) AS score'
-                );
+                switch ($ruleset) {
+                    case RulesetEnum::BB_2016:
+                        $selectText = '
+                        SUM(Matchdata.cp)
+                        + (SUM(Matchdata.td) * ' . XpEnum::tableauRecompenseXp()['TD'] . ')
+                        + (SUM(Matchdata.intcpt) * ' . XpEnum::tableauRecompenseXp()['INT'] . ')
+                        + (SUM(Matchdata.bh+Matchdata.si+Matchdata.ki) * ' . XpEnum::tableauRecompenseXp()['CAS'] . ')
+                        + (SUM(Matchdata.mvp) * ' . XpEnum::tableauRecompenseXp()['MVP2016'] . ')
+                        + (SUM(Matchdata.bonusSpp)) AS score';
+                        break;
+                    case RulesetEnum::BB_2020:
+                        $selectText = '
+                        SUM(Matchdata.cp)
+                        + (SUM(Matchdata.td) * ' . XpEnum::tableauRecompenseXp()['TD'] . ')
+                        + (SUM(Matchdata.intcpt) * ' . XpEnum::tableauRecompenseXp()['INT'] . ')
+                        + (SUM(Matchdata.bh+Matchdata.si+Matchdata.ki) * ' . XpEnum::tableauRecompenseXp()['CAS'] . ')
+                        + (SUM(Matchdata.mvp) * ' . XpEnum::tableauRecompenseXp()['MVP2020'] . ')
+                        + (SUM(Matchdata.bonusSpp))
+                        + (SUM(Matchdata.det))
+                        + (SUM(Matchdata.lan)) AS score';
+
+                        break;
+                }
+                $query->addSelect($selectText);
                 break;
 
             case 'pass':

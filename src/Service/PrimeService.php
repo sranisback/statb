@@ -16,12 +16,15 @@ class PrimeService
      */
     private EntityManagerInterface $doctrineEntityManager;
 
-    public InfosService $infoService;
+    private InfosService $infoService;
 
-    public function __construct(EntityManagerInterface $doctrineEntityManager, InfosService $infoService)
+    private SettingsService $settingService;
+
+    public function __construct(EntityManagerInterface $doctrineEntityManager, InfosService $infoService, SettingsService $settingsService)
     {
         $this->doctrineEntityManager = $doctrineEntityManager;
         $this->infoService = $infoService;
+        $this->settingService = $settingsService;
     }
 
     /**
@@ -88,5 +91,12 @@ class PrimeService
         $this->infoService->primeGagnee($prime);
 
         return 'ok';
+    }
+
+    public function montrePrimeEnCours()
+    {
+        return $this->doctrineEntityManager
+            ->getRepository(Primes::class)
+            ->listePrimeEnCours($this->settingService->anneeCourante());
     }
 }

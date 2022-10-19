@@ -26,9 +26,9 @@ class PlayersIcons
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\GameDataPlayers")
      * @ORM\JoinColumn(name="f_pos_id", referencedColumnName="pos_id")
-     * @var null|\App\Entity\GameDataPlayers
+     * @var null|GameDataPlayers
      */
-    private ?\App\Entity\GameDataPlayers $position = null;
+    private ?GameDataPlayers $position = null;
 
     /**
      * @ORM\ManyToOne(targetEntity=GameDataPlayersBb2020::class)

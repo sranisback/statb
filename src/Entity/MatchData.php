@@ -93,17 +93,17 @@ class MatchData
      *
      * @ORM\ManyToOne(targetEntity="Players", inversedBy="matchData")
      * @ORM\JoinColumn(name="f_player_id", referencedColumnName="player_id")
-     * @var \App\Entity\Players|null
+     * @var Players|null
      */
-    private ?\App\Entity\Players $fPlayer = null;
+    private ?Players $fPlayer = null;
 
     /**
      *
      * @ORM\ManyToOne(targetEntity="Matches")
      * @ORM\JoinColumn(name="f_match_id", referencedColumnName="match_id")
-     * @var \App\Entity\Matches|null
+     * @var Matches|null
      */
-    private ?\App\Entity\Matches $fMatch = null;
+    private ?Matches $fMatch = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
