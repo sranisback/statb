@@ -1,12 +1,13 @@
 {
     "devDependencies": {
+        "@popperjs/core": "^2.11.6",
         "@symfony/webpack-encore": "^0.28.2",
-        "bootstrap": "^4.4.1",
+        "bootstrap": "^4.6.2",
         "child_process": "^1.0.2",
         "dotenv": "^8.2.0",
         "dotenv-webpack": "^1.7.0",
         "fs": "0.0.1-security",
-        "node-sass": "^7.0.0",
+        "jquery": "^3.6.1",
         "popper.js": "^1.16.0",
         "sass-loader": "^7.1.0",
         "webpack-notifier": "^1.6.0"
@@ -25,11 +26,11 @@
         "html2canvas": "^1.0.0-rc.5",
         "html2canvas-webpack": "^0.5.0-beta4",
         "html2pdf": "0.0.11",
-        "html2pdf.js": "^0.9.1",
-        "jquery": "^3.5.0",
+        "html2pdf.js": "^0.10.1",
         "jspdf": "^2.3.1",
         "module": "^1.2.5",
         "rfs": "^9.0.2",
+        "sass": "^1.55.0",
         "serialize-javascript": ">=2.1.1"
     }
 }
