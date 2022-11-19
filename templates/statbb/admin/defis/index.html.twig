@@ -1,11 +1,11 @@
 {% extends 'statbb/base.html.twig' %}
 
-{% block title %}Defis index{% endblock %}
+{% block title %}Defis{% endblock %}
 
 {% block body %}
 <div class="m-2">
     <div class="card">
-    <h1>Defis index</h1>
+    <h1>Defis</h1>
         <a href="{{ path('Admin') }}">Retour</a>
     <table class="table" id="Admin" entity="Defis">
         <thead>
@@ -13,8 +13,8 @@
                 <th>Id</th>
                 <th>Equipe Origine</th>
                 <th>Equipe Défiée</th>
-                <th>DefieRealise</th>
-                <th>DateDefi</th>
+                <th>Defi Realise</th>
+                <th>Date Defi</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -24,10 +24,10 @@
                 <td>{{ defi.id }}</td>
                 <td>{{ defi.equipeOrigine.name }}</td>
                 <td>{{ defi.equipeDefiee.name }}</td>
-                <td><a href="#" data-type="select" data-pk="{{ defi.Id }}" data-name="DefieRealise" data-source='{"true": "Yes", "false":"No"}'  id="admin_defis_realise_{{ loop.index }}"> {{ defi.defieRealise ? 'Yes' : 'No' }}</a></td>
+                <td><a href="#" data-type="select" data-pk="{{ defi.Id }}" data-name="DefieRealise" data-source='{"true": "Oui", "false":"Non"}'  id="admin_defis_realise_{{ loop.index }}"> {{ defi.defieRealise ? 'Oui' : 'Non' }}</a></td>
                 <td>{{ defi.dateDefi ? defi.dateDefi|date('d/m/Y') : '' }}</td>
                 <td>
-                    <a href="{{ path('defis_edit', {'id': defi.id}) }}">edit</a>
+                    <a href="{{ path('defis_edit', {'id': defi.id}) }}">editer</a>
                 </td>
             </tr>
         {% else %}
@@ -38,7 +38,7 @@
         </tbody>
     </table>
 
-    <a href="{{ path('defis_new') }}">Create new</a>
+    <a href="{{ path('defis_new') }}">Ajouter un défi</a>
     </div>
 </div>
 {% endblock %}

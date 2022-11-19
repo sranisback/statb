@@ -32,9 +32,9 @@
         <tbody>
         {% for match_datum in match_datas %}
             <tr>
-                <td>{{ match_datum.fMatch.matchId }}</td>
-                <td>{{ match_datum.fPlayer.ownedByTeam.name }}</td>
-                <td>{{ match_datum.fPlayer.name }}</td>
+                <td>{{ match_datum.fMatch ? match_datum.fMatch.matchId : '' }}</td>
+                <td>{{ match_datum.fPlayer and match_datum.fPlayer.ownedByTeam ? match_datum.fPlayer.ownedByTeam.name : ''}}</td>
+                <td>{{ match_datum.fPlayer ? match_datum.fPlayer.name  : '' }}</td>
                 <td><a href="#" data-type="number" data-pk="{{ match_datum.id }}" data-name="Mvp" id="admin_Md_mvp_{{ loop.index }}">{{ match_datum.mvp }}</a></td>
                 <td><a href="#" data-type="number" data-pk="{{ match_datum.id }}" data-name="Cp" id="admin_Md_cp_{{ loop.index }}">{{ match_datum.cp }}</a></td>
                 <td><a href="#" data-type="number" data-pk="{{ match_datum.id }}" data-name="Td" id="admin_Md_td_{{ loop.index }}">{{ match_datum.td }}</a></td>

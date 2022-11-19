@@ -1,15 +1,15 @@
 {% extends 'statbb/base.html.twig' %}
 
-{% block title %}New Coaches{% endblock %}
+{% block title %}Ajouter un coach{% endblock %}
 
 {% block body %}
 <div class="m-2">
     <div class="card">
-    <h1>Create new Coaches</h1>
+    <h1>Ajouter un coach</h1>
 
     {{ include('statbb/admin/coaches/_form.html.twig') }}
 
-    <a href="{{ path('coaches_index') }}">back to list</a>
+    <a href="{{ path('coaches_index') }}">Retour à la liste</a>
     </div>
 </div>
 {% endblock %}

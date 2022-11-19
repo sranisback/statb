@@ -16,7 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class HistoriqueBlessureType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options) : void
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $tableauBlessure = null;
 
@@ -28,26 +28,29 @@ class HistoriqueBlessureType extends AbstractType
             ->add('blessure', ChoiceType::class, [
                 'choices' => Array_flip($tableauBlessure),
             ])
-            ->add('date', DateType::class, ['widget'=>'single_text', 'html5' => true])
+            ->add('date', DateType::class,
+                ['widget' => 'single_text', 'html5' => true, 'required' => false, 'empty_data' => ''])
             ->add('Player', EntityType::class, [
                 'class' => Players::class,
-                'choice_label' => fn (Players $joueur) =>  $joueur->getNr()
+                'choice_label' => fn(Players $joueur) => $joueur->getNr()
                     . ', ' . $joueur->getName()
                     . ', ' . ($joueur->getFPos() ? $joueur->getFPos()->getPos() : $joueur->getFPosBb2020()->getPos()) .
-                        ($joueur->getJournalier() === true ? ', Journalier' : '')
+                    ($joueur->getJournalier() === true ? ', Journalier' : '')
                     . ', ' . RulesetEnum::numeroVersEtiquette()[$joueur->getRuleset()],
-                'group_by' =>  'ownedByTeam.name'
+                'group_by' => 'ownedByTeam.name',
+                'label' => 'Joueur'
             ])
             ->add('fmatch', EntityType::class, [
                 'class' => Matches::class,
-                'choice_label' => fn (Matches $match) => $match->getMatchId() . ' - ' .
+                'choice_label' => fn(Matches $match) => $match->getMatchId() . ' - ' .
                     ($match->getTeam1() ? $match->getTeam1()->getName() : '') . ' vs ' .
-                    ($match->getTeam2() ? $match->getTeam2()->getName() : '')
-                ])
-        ;
+                    ($match->getTeam2() ? $match->getTeam2()->getName() : ''),
+                'required' => false,
+                'label' => 'Match'
+            ]);
     }
 
-    public function configureOptions(OptionsResolver $resolver) : void
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => HistoriqueBlessure::class,

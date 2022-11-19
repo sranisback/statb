@@ -1,11 +1,11 @@
 {% extends 'statbb/base.html.twig' %}
 
-{% block title %}HistoriqueBlessure index{% endblock %}
+{% block title %}Historique des blessures{% endblock %}
 
 {% block body %}
 <div class="m-2">
     <div class="card">
-    <h1>HistoriqueBlessure index</h1>
+    <h1>Historique des blessures</h1>
         <a href="{{ path('Admin') }}">Retour</a>
     <table class="table" id="Admin" entity="Histo">
         <thead>
@@ -13,7 +13,7 @@
                 <th>Id</th>
                 <th>Joueur</th>
                 <th>Equipe</th>
-                <th>Match Id</th>
+                <th>Id du Match</th>
                 <th>Blessure</th>
                 <th>Date</th>
                 <th>actions</th>
@@ -40,7 +40,7 @@
         </tbody>
     </table>
 
-    <a href="{{ path('historique_blessure_new') }}">Create new</a>
+    <a href="{{ path('historique_blessure_new') }}">Ajouter une blessure</a>
     </div>
 </div>
 {% endblock %}
