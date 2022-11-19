@@ -1,19 +1,19 @@
 {% extends 'statbb/base.html.twig' %}
 
-{% block title %}Coaches index{% endblock %}
+{% block title %}Coaches{% endblock %}
 
 {% block body %}
 <div class="m-2">
     <div class="card">
-    <h1>Coaches index</h1>
+    <h1>Coaches</h1>
     <a href="{{ path('Admin') }}">Retour</a>
     <table class="table" id="Admin" entity="Coach">
         <thead>
             <tr>
-                <th>CoachId</th>
-                <th>Name</th>
-                <th>Passwd</th>
-                <th>Roles</th>
+                <th>Id du Coach</th>
+                <th>Nom</th>
+                <th>Password</th>
+                <th>Role</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -25,7 +25,7 @@
                 <td><a href="#" data-type="password" data-pk="{{ coach.coachId }}" data-name="Password" id="admin_coach_pass_{{ loop.index }}">{{ coach.password }}</a></td>
                 <td><a href="#" data-type="select" data-pk="{{ coach.coachId }}" data-name="Roles" data-source='{"ADMIN": "Administrateur", "USER":"Utilisateur"}' id="admin_coach_role_{{ loop.index }}">{{ coach.roles ? coach.roles|json_encode : '' }}</a></td>
                 <td>
-                    <a href="{{ path('coaches_edit', {'coachId': coach.coachId}) }}">edit</a>
+                    <a href="{{ path('coaches_edit', {'coachId': coach.coachId}) }}">editer</a>
                 </td>
             </tr>
         {% else %}
@@ -36,7 +36,7 @@
         </tbody>
     </table>
 
-    <a href="{{ path('coaches_new') }}">Create new</a>
+    <a href="{{ path('coaches_new') }}">Ajouter un nouveau</a>
     </div>
 </div>
 {% endblock %}

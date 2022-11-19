@@ -33,7 +33,7 @@ class HistoriqueBlessure
 
     /**
      *
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      * @var \DateTimeInterface|null
      */
     private ?\DateTimeInterface $date= null;
@@ -79,7 +79,7 @@ class HistoriqueBlessure
         return $this->date;
     }
 
-    public function setDate(\DateTime $date): self
+    public function setDate(?\DateTime $date): self
     {
         $this->date = $date;
 

@@ -128,9 +128,9 @@ class Matches
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\HistoriqueBlessure", mappedBy="fmatch")
-     * @var \App\Entity\HistoriqueBlessure[]|\Doctrine\Common\Collections\Collection
+     * @var \App\Entity\HistoriqueBlessure[]|Collection
      */
-    private \Doctrine\Common\Collections\Collection $blessuresMatch;
+    private Collection $blessuresMatch;
 /**
      * @ORM\Column(type="integer", nullable=true)
      * @var int|null
@@ -233,7 +233,7 @@ class Matches
         return $this->dateCreated;
     }
 
-    public function setDateCreated(DateTime $dateCreated): self
+    public function setDateCreated(?\DateTime $dateCreated): self
     {
         $this->dateCreated = $dateCreated;
 
@@ -339,7 +339,7 @@ class Matches
     /**
      * @return Collection|HistoriqueBlessure[]
      */
-    public function getBlessuresMatch(): \Doctrine\Common\Collections\Collection
+    public function getBlessuresMatch(): Collection
     {
         return $this->blessuresMatch;
     }

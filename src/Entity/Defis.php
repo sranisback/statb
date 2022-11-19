@@ -20,9 +20,9 @@ class Defis
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Teams", cascade={"persist"})
      * @ORM\JoinColumn(name="equipe_Defiee", referencedColumnName="team_id")
-     * @var null|\App\Entity\Teams
+     * @var null|Teams
      */
-    private ?\App\Entity\Teams $equipeDefiee = null;
+    private ?Teams $equipeDefiee = null;
 
     /**
      * @ORM\Column(type="boolean")
@@ -33,9 +33,9 @@ class Defis
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Matches", cascade={"persist"})
      * @ORM\JoinColumn(name="match_Defie", referencedColumnName="match_id")
-     * @var \App\Entity\Matches|null
+     * @var Matches|null
      */
-    private ?\App\Entity\Matches $matchDefi = null;
+    private ?Matches $matchDefi = null;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -46,9 +46,9 @@ class Defis
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Teams")
      * @ORM\JoinColumn(name="equipe_Origine", referencedColumnName="team_id")
-     * @var null|\App\Entity\Teams
+     * @var null|Teams
      */
-    private ?\App\Entity\Teams $equipeOrigine = null;
+    private ?Teams $equipeOrigine = null;
 
     public function getId(): ?int
     {
@@ -96,7 +96,7 @@ class Defis
         return $this->dateDefi;
     }
 
-    public function setDateDefi(\DateTime $dateDefi): self
+    public function setDateDefi(?\DateTime $dateDefi): self
     {
         $this->dateDefi = $dateDefi;
 

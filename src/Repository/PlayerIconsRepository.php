@@ -22,7 +22,7 @@ class PlayerIconsRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return \App\Entity\PlayersIcons[]
+     * @return PlayersIcons[]
      */
     public function toutesLesIconesDunePosition($position): array
     {
@@ -30,7 +30,7 @@ class PlayerIconsRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return \App\Entity\PlayersIcons[]
+     * @return PlayersIcons[]
      */
     public function toutesLesIconesDunePositionBb2020($position): array
     {

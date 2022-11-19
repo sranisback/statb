@@ -152,7 +152,11 @@
                                         {% else %}
                                             <td>
                                         {% endif %}
-                                                {{ player.fPosBb2020.cp - player.achCp + player.injCp }}+
+                                        {% if(player.fPosBb2020.cp != null) %}
+                                            {{ player.fPosBb2020.cp - player.achCp + player.injCp }}+
+                                        {% else %}
+                                            -
+                                        {% endif %}
                                             </td>
                                     {% endif %}
 

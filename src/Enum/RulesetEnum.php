@@ -204,15 +204,11 @@ class RulesetEnum
     {
         switch ($joueur->getRuleset()) {
             case RulesetEnum::BB_2016:
-                /* @phpstan-ignore-next-line */
                 $joueur->setFPos($position);
-                /* @phpstan-ignore-next-line */
                 $joueur->setFRid($position->getfRace());
                 break;
             case RulesetEnum::BB_2020:
-                /* @phpstan-ignore-next-line */
                 $joueur->setFPosBb2020($position);
-                /* @phpstan-ignore-next-line */
                 $joueur->setFRidBb2020($position->getRace());
                 break;
             default:
@@ -231,10 +227,8 @@ class RulesetEnum
     {
         switch ($joueur->getRuleset()) {
             case RulesetEnum::BB_2016:
-                /* @phpstan-ignore-next-line */
                 return $skill->getSkillId();
             case RulesetEnum::BB_2020:
-                /* @phpstan-ignore-next-line */
                 return $skill->getId();
             default:
                 return null;
@@ -268,10 +262,8 @@ class RulesetEnum
     {
         switch ($team->getRuleset()) {
             case RulesetEnum::BB_2016:
-                /* @phpstan-ignore-next-line */
                 return $team->setfRace($race);
             case RulesetEnum::BB_2020:
-                /* @phpstan-ignore-next-line */
                 return $team->setRace($race);
             default:
                 return null;

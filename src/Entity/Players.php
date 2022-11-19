@@ -385,7 +385,7 @@ class Players
         return $this->dateSold;
     }
 
-    public function setDateSold(DateTime $dateSold): self
+    public function setDateSold(?\DateTime $dateSold): self
     {
         $this->dateSold = $dateSold;
 
@@ -487,10 +487,10 @@ class Players
     }
 
     /**
-     * @param DateTime $dateDied
+     * @param DateTime|null $dateDied
      * @return Players
      */
-    public function setDateDied(DateTime $dateDied): self
+    public function setDateDied(?\DateTime $dateDied): self
     {
         $this->dateDied = $dateDied;
 
@@ -632,7 +632,7 @@ class Players
     /**
      * @return ArrayCollection
      */
-    public function getHistoriqueBlessures(): \Doctrine\Common\Collections\ArrayCollection
+    public function getHistoriqueBlessures(): ArrayCollection
     {
         return $this->historiqueBlessures;
     }

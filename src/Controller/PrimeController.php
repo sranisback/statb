@@ -7,6 +7,7 @@ use App\Form\PrimeType;
 use App\Form\RealiserPrimeType;
 use App\Service\PrimeService;
 use App\Service\SettingsService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,6 +16,17 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PrimeController extends AbstractController
 {
+
+    private EntityManagerInterface $doctrineEntityManager;
+
+    private PrimeService $primeService;
+
+    public function __construct(EntityManagerInterface $doctrineEntityManager, PrimeService $primeService)
+    {
+        $this->doctrineEntityManager = $doctrineEntityManager;
+        $this->primeService = $primeService;
+    }
+
     /**
      * @Route("/ajoutPrimeForm", name="ajoutPrimeForm")
      * @return Response
@@ -22,7 +34,7 @@ class PrimeController extends AbstractController
     public function ajoutPrimeForm(
         Request $request,
         PrimeService $primeService
-    ): \Symfony\Component\HttpFoundation\Response {
+    ): Response {
         $prime = new Primes();
         $form = $this->createForm(PrimeType::class, $prime);
         $form->handleRequest($request);
@@ -41,17 +53,14 @@ class PrimeController extends AbstractController
 
     /**
      * @Route("/montrePrimesEnCours", name="montrePrimesEnCours")
-     * @param SettingsService $settingsService
      * @return Response
      */
-    public function montrePrimesEnCours(SettingsService $settingsService): \Symfony\Component\HttpFoundation\Response
+    public function montrePrimesEnCours(): Response
     {
         return $this->render(
             'statbb/tabs/ligue/affichagePrimes.html.twig',
             [
-                'primeCollection' => $this->getDoctrine()->getRepository(Primes::class)->listePrimeEnCours(
-                    $settingsService->anneeCourante()
-                ),
+                'primeCollection' => $this->primeService->montrePrimeEnCours()
             ]
         );
     }

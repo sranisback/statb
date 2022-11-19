@@ -78,7 +78,7 @@ $dropDown       : false;
     .dropdown-item.active {
       color: $colHighlight;
       background-color: $bgHighlight; }}}
-@media (max-width: 767px) {
+@media (max-width: 480px) {
   .navbar-expend-md .navbar-nav .show .dropdown-menu {
     .dropdown-item {
       color: $colDefault;
@@ -87,7 +87,7 @@ $dropDown       : false;
     .dropdown-item.active {
       color: $colHighlight;
       background-color: $bgHighlight; }}}
-@media (max-width: 991px) {
+@media (max-width: 768px) {
   .navbar-expend-lg .navbar-nav .show .dropdown-menu {
     .dropdown-item {
       color: $colDefault;
@@ -96,7 +96,7 @@ $dropDown       : false;
     .dropdown-item.active {
       color: $colHighlight;
       background-color: $bgHighlight; }}}
-@media (max-width: 1199px) {
+@media (max-width: 1279px) {
   .navbar-expend-xl .navbar-nav .show .dropdown-menu {
     .dropdown-item {
       color: $colDefault;

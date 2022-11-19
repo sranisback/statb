@@ -1,25 +1,25 @@
 {% extends 'statbb/base.html.twig' %}
 
-{% block title %}Players index{% endblock %}
+{% block title %}Tous les joueurs{% endblock %}
 
 {% block body %}
 <div class="m-2">
     <div class="card">
-    <h1>Players index</h1>
+    <h1>Joueurs</h1>
         <a href="{{ path('Admin') }}">Retour</a>
     <table class="table" id="Admin" entity="Players">
         <thead>
             <tr>
-                <th>PlayerId</th>
-                <th>Nr</th>
-                <th>Name</th>
-                <th>Team</th>
+                <th>Id du joueur</th>
+                <th>Numero</th>
+                <th>Nom</th>
+                <th>Equipe</th>
                 <th>Position</th>
                 <th>Status</th>
-                <th>Value</th>
+                <th>Valeur</th>
                 <th>Photo</th>
                 <th>Ruleset</th>
-                <th>icon</th>
+                <th>icone</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -55,7 +55,7 @@
                 <td>{{ etiquetteRuleset[player.ruleset] }}</td>
                 <td><img src="{{ asset('build/'~app.environment~'/images/player_icons/'~player.icon.iconName~'.gif') }}" class=".img-responsive"></td>
                 <td>
-                   <a href="{{ path('players_edit', {'playerId': player.playerId}) }}">edit</a>
+                   <a href="{{ path('players_edit', {'playerId': player.playerId}) }}">editer</a>
                 </td>
             </tr>
         {% else %}
@@ -66,7 +66,7 @@
         </tbody>
     </table>
 
-    <a href="{{ path('players_new') }}">Create new</a>
+{#    <a href="{{ path('players_new') }}">Create new</a>#}
     </div>
 </div>
 {% endblock %}

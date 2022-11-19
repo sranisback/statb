@@ -7,6 +7,7 @@ use App\Entity\Players;
 use App\Entity\Primes;
 use App\Service\InfosService;
 use App\Service\PrimeService;
+use App\Service\SettingsService;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -53,7 +54,8 @@ class CreationPrimeTest extends TestCase
 
         $primeService = new PrimeService(
             $objectManager,
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(SettingsService::class)
         );
 
         $datasDuForm = [
@@ -109,7 +111,8 @@ class CreationPrimeTest extends TestCase
 
         $primeService = new PrimeService(
             $objectManager,
-            $this->createMock(InfosService::class)
+            $this->createMock(InfosService::class),
+            $this->createMock(SettingsService::class)
         );
 
         $datasDuForm = [

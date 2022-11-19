@@ -32,7 +32,7 @@
         "symfony/twig-bundle": "*",
         "symfony/validator": "*",
         "symfony/web-link": "*",
-        "symfony/webpack-encore-bundle": "*",
+        "symfony/webpack-encore-bundle": "^1.16",
         "symfony/yaml": "*",
         "twbs/bootstrap": "*",
         "twig/extensions": "*"
