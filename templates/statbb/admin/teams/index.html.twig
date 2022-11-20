@@ -27,6 +27,7 @@
                     <th>Year</th>
                     <th>Logo</th>
                     <th>Franchise</th>
+                    <th>Sponsor</th>
                     <th>Ruleset</th>
                     <th>actions</th>
                 </tr>
@@ -61,6 +62,7 @@
                             {% endif %}
                         </td>
                         <td>{{ team.franchise ? 'Yes' : 'No' }}</td>
+                        <td>{{ team.sponsor ? team.sponsor.name : 'No' }}</td>
                         <td>{{ etiquetteRuleset[team.ruleset] }}</td>
                         <td>
                             <a href="{{ path('teams_edit', {'teamId': team.teamId}) }}">edit</a>

@@ -37,7 +37,7 @@ class ExportService
         $this->equipeService = $equipeService;
     }
 
-    public function generatePdf($equipeId)
+    public function generatePdf($equipeId): array
     {
         /** @var Teams $equipe */
         $equipe = $this->doctrineEntityManager->getRepository(Teams::class)->find($equipeId);

@@ -7,6 +7,7 @@ use App\Entity\GameDataPlayers;
 use App\Entity\GameDataSkills;
 use App\Entity\Players;
 use App\Entity\PlayersIcons;
+use App\Service\CitationService;
 use App\Service\DefisService;
 use App\Service\SettingsService;
 use App\Tools\randomNameGenerator;
@@ -81,12 +82,12 @@ class StatBBController extends AbstractController
 
     /**
      * @Route("/citation")
-     * @param SettingsService $settingsService
+     * @param CitationService $citationService
      * @return Response
      */
-    public function citation(SettingsService $settingsService): Response
+    public function citation(CitationService $citationService): Response
     {
-        return $this->render('statbb/citation.html.twig', ['citation' => $settingsService->tirerCitationAuHasard()]);
+        return $this->render('statbb/citation.html.twig', ['citation' => $citationService->tirerCitationAuHasard()]);
     }
 
     /**

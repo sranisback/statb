@@ -173,6 +173,11 @@ class Teams
      */
     private $race;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Sponsors::class, inversedBy="teamsSponsorisees")
+     */
+    private $sponsor;
+
     public function __construct()
     {
         $this->joueurs = new ArrayCollection();
@@ -496,6 +501,18 @@ class Teams
     public function setScore(int $score): Teams
     {
         $this->score = $score;
+        return $this;
+    }
+
+    public function getSponsor(): ?Sponsors
+    {
+        return $this->sponsor;
+    }
+
+    public function setSponsor(?Sponsors $sponsor): self
+    {
+        $this->sponsor = $sponsor;
+
         return $this;
     }
 }

@@ -55,7 +55,7 @@ class InfosService
      * @param Teams $equipe
      * @return Infos
      */
-    public function equipeEstCree(Teams $equipe)
+    public function equipeEstCree(Teams $equipe): Infos
     {
         return $this->publierUnMessage(
             $equipe->getOwnedByCoach()->getUsername() .
@@ -70,7 +70,7 @@ class InfosService
      * @param Players $joueur
      * @return Infos
      */
-    public function joueurEngage(Players $joueur)
+    public function joueurEngage(Players $joueur): Infos
     {
         return $this->publierUnMessage(
             $joueur->getName() . ', ' . RulesetEnum::getPositionFromPlayerByRuleset($joueur)->getPos() . ' ' .
@@ -86,7 +86,7 @@ class InfosService
      * @param Matches $matches
      * @return Infos
      */
-    public function matchEnregistre(Matches $matches)
+    public function matchEnregistre(Matches $matches): Infos
     {
         return $this->publierUnMessage(
             'Match(' . $matches->getMatchId() . '): ' .
@@ -99,7 +99,7 @@ class InfosService
      * @param Players $joueur
      * @return Infos
      */
-    public function mortDunJoueur(Players $joueur)
+    public function mortDunJoueur(Players $joueur): Infos
     {
         return $this->publierUnMessage(
             $joueur->getName() . ', ' .  RulesetEnum::getPositionFromPlayerByRuleset($joueur)->getPos()
@@ -114,7 +114,7 @@ class InfosService
      * @param Defis $defis
      * @return Infos
      */
-    public function defisEstLance(Defis $defis)
+    public function defisEstLance(Defis $defis): Infos
     {
         return $this->publierUnMessage(
             self::HREF . $this->urlPrefix . self::TEAM_URL . $defis->getEquipeOrigine()->getTeamId() . '">'
@@ -167,6 +167,22 @@ class InfosService
             . $prime->getPlayers()->getName()  . ', '
             . RulesetEnum::getPositionFromPlayerByRuleset($prime->getPlayers())->getPos() . ' '
             . RulesetEnum::getRaceFromJoueurByRuleset($prime->getPlayers())->getName()
+        );
+    }
+
+    public function sponsorAjoute(Teams $equipe): Infos
+    {
+        return $this->publierUnMessage(
+            $equipe->getSponsor()->getName() . ' a décidé de sponsoriser '
+            . '<a href="' . $this->urlPrefix . self::TEAM_URL . $equipe->getTeamId() . '">' . $equipe->getName() . '</a> !'
+        );
+    }
+
+    public function sponsorSupprime(Teams $equipe): Infos
+    {
+        return $this->publierUnMessage(
+            $equipe->getSponsor()->getName() . ' a décidé de ne plus sponsoriser '
+            . '<a href="' . $this->urlPrefix . self::TEAM_URL . $equipe->getTeamId() . '">' . $equipe->getName() . '</a> !'
         );
     }
 
