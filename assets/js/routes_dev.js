@@ -737,6 +737,14 @@ const routes_dev = {
             "methods": [],
             "schemes": []
         },
+        "updateEditableSponsors": {
+            "tokens": [["text", "\/Admin\/sponsors\/updateEditableSponsors"]],
+            "defaults": [],
+            "requirements": [],
+            "hosttokens": [],
+            "methods": [],
+            "schemes": []
+        },
         "creeCoach": {
             "tokens": [["text", "\/creeCoach"]],
             "defaults": [],

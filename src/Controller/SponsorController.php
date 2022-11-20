@@ -23,28 +23,22 @@ class SponsorController extends AbstractController
     }
 
     /**
-     * @Route ("/addSponso/{equipeId}", name="addSponso")
+     * @Route ("/addSponso/{teamId}", name="addSponso")
      */
-    public function addSponso(int $equipeId): RedirectResponse
+    public function addSponso(Teams $equipe): RedirectResponse
     {
-        /** @var Teams $equipe */
-        $equipe = $this->doctrine->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
-
         $this->sponsorService->affecteUnSponsor($equipe);
 
-        return $this->redirectToRoute('team', ['teamid' => $equipeId]);
+        return $this->redirectToRoute('team', ['teamid' => $equipe->getTeamId()]);
     }
 
     /**
-     * @Route ("/supprSponso/{equipeId}", name="supprSponso")
+     * @Route ("/supprSponso/{teamId}", name="supprSponso")
      */
-    public function supprSponso(int $equipeId): RedirectResponse
+    public function supprSponso(Teams $equipe): RedirectResponse
     {
-        /** @var Teams $equipe */
-        $equipe = $this->doctrine->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId]);
-
         $this->sponsorService->supprimeUnSponsor($equipe);
 
-        return $this->redirectToRoute('team', ['teamid' => $equipeId]);
+        return $this->redirectToRoute('team', ['teamid' => $equipe->getTeamId()]);
     }
 }

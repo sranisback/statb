@@ -1,0 +1,38 @@
+{% extends 'statbb/base.html.twig' %}
+
+{% block title %}Sponsors index{% endblock %}
+
+{% block body %}
+<div class="m-2">
+    <div class="card">
+    <h1>Sponsors index</h1>
+
+    <table class="table" id="Admin" entity="Sponsors">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for sponsor in sponsors %}
+            <tr>
+                <td>{{ sponsor.id }}</td>
+                <td><a href="#" data-type="text" data-pk="{{ sponsor.id }}" data-name="name" id="admin_sponsors_name_{{ loop.index }}">{{ sponsor.name }}</a></td>
+                <td>
+                    <a href="{{ path('sponsors_edit', {'id': sponsor.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('sponsors_new') }}">Create new</a>
+    </div>
+</div>
+{% endblock %}

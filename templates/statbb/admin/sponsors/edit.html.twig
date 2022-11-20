@@ -1,0 +1,17 @@
+{% extends 'statbb/base.html.twig' %}
+
+{% block title %}Edit Sponsors{% endblock %}
+
+{% block body %}
+<div class="m-2">
+    <div class="card">
+    <h1>Edit Sponsors</h1>
+
+    {{ include('statbb/admin/sponsors/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('sponsors_index') }}">back to list</a>
+
+    {{ include('statbb/admin/sponsors/_delete_form.html.twig') }}
+    </div>
+</div>
+{% endblock %}
