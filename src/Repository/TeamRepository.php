@@ -187,7 +187,7 @@ FROM teams t
             ->getResult();
     }
 
-    public function requeteEquipeLike($nomEquipe)
+    public function requeteEquipeLike(string $nomEquipe)
     {
         return $this->createQueryBuilder('Teams')
             ->where('Teams.name LIKE :nomEquipe')

@@ -133,8 +133,8 @@ class MatchesService
             $donneesMatch,
             $equipe1,
             $equipe2,
-            $this->equipeGestionService->tvDelEquipe($equipe1, $this->playerService),
-            $this->equipeGestionService->tvDelEquipe($equipe2, $this->playerService),
+            $this->equipeGestionService->tvDelEquipe($equipe1),
+            $this->equipeGestionService->tvDelEquipe($equipe2),
             $this->doctrineEntityManager->getRepository(Meteo::class)->findOneBy(
                 ['id' => $donneesMatch['meteo']]
             ),

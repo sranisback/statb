@@ -14,6 +14,7 @@ use App\Service\InducementService;
 use App\Service\InfosService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
+use App\Tests\src\TestServiceFactory\EquipeGestionServiceTestFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
@@ -137,16 +138,13 @@ class GestionDesJournaliersTest extends TestCase
         $playerServiceMock = $this->createMock(PlayerService::class);
         $playerServiceMock->method('numeroLibreDelEquipe')->willReturn(11);
 
-        $equipeGestionService = new EquipeGestionService(
-            $objectManager,
-            $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class),
-            $this->createMock(InducementService::class)
+        $equipeGestionService = (new EquipeGestionServiceTestFactory())->getInstance(
+            $objectManager
         );
 
         $retourTest['vendu'] = 1;
 
-        $this->assertEquals($retourTest, $equipeGestionService->gestionDesJournaliers($equipeTest, $playerServiceMock));
+        $this->assertEquals($retourTest, $equipeGestionService->gestionDesJournaliers($equipeTest));
     }
 
     /**
@@ -259,15 +257,12 @@ class GestionDesJournaliersTest extends TestCase
         $playerServiceMock = $this->createMock(PlayerService::class);
         $playerServiceMock->method('numeroLibreDelEquipe')->willReturn(11);
 
-        $equipeGestionService = new EquipeGestionService(
-            $objectManager,
-            $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class),
-            $this->createMock(InducementService::class)
+        $equipeGestionService = (new EquipeGestionServiceTestFactory())->getInstance(
+            $objectManager
         );
 
         $retourTest['ajout'] = 1;
 
-        $this->assertEquals($retourTest, $equipeGestionService->gestionDesJournaliers($equipeTest, $playerServiceMock));
+        $this->assertEquals($retourTest, $equipeGestionService->gestionDesJournaliers($equipeTest));
     }
 }

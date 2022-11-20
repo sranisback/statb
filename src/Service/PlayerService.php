@@ -374,7 +374,7 @@ class PlayerService
 
                     $this->doctrineEntityManager->persist($joueur);
 
-                    $equipe->setTv($this->equipeGestionService->tvDelEquipe($equipe, $this));
+                    $equipe->setTv($this->equipeGestionService->tvDelEquipe($equipe));
 
                     $this->doctrineEntityManager->persist($equipe);
                     $this->doctrineEntityManager->flush();
@@ -443,7 +443,7 @@ class PlayerService
             }
             $this->doctrineEntityManager->flush();
 
-            $equipe->setTv($this->equipeGestionService->tvDelEquipe($equipe, $this));
+            $equipe->setTv($this->equipeGestionService->tvDelEquipe($equipe));
 
             $this->doctrineEntityManager->persist($equipe);
             $this->doctrineEntityManager->flush();

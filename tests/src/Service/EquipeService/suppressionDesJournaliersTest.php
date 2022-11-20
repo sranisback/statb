@@ -9,7 +9,9 @@ use App\Service\EquipeService;
 use App\Service\InducementService;
 use App\Service\InfosService;
 use App\Service\SettingsService;
+use App\Tests\src\TestServiceFactory\EquipeServiceTestFactory;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class suppressionDesJournaliersTest extends KernelTestCase
@@ -33,11 +35,8 @@ class suppressionDesJournaliersTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($joueurRepoMock);
 
-        $equipeService = new EquipeService(
-            $objectManager,
-            $this->createMock(SettingsService::class),
-            $this->createMock(InducementService::class),
-            $this->createMock(EquipeGestionService::class)
+        $equipeService = (new EquipeServiceTestFactory)->getInstance(
+            $objectManager
         );
 
         $this->assertEquals(
@@ -70,11 +69,8 @@ class suppressionDesJournaliersTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($joueurRepoMock);
 
-        $equipeService = new EquipeService(
-            $objectManager,
-            $this->createMock(SettingsService::class),
-            $this->createMock(InducementService::class),
-            $this->createMock(EquipeGestionService::class)
+        $equipeService = (new EquipeServiceTestFactory)->getInstance(
+            $objectManager
         );
 
         $this->assertEquals(
@@ -111,11 +107,8 @@ class suppressionDesJournaliersTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($joueurRepoMock);
 
-        $equipeService = new EquipeService(
-            $objectManager,
-            $this->createMock(SettingsService::class),
-            $this->createMock(InducementService::class),
-            $this->createMock(EquipeGestionService::class)
+        $equipeService = (new EquipeServiceTestFactory)->getInstance(
+            $objectManager
         );
 
         $this->assertEquals(
@@ -154,11 +147,8 @@ class suppressionDesJournaliersTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($joueurRepoMock);
 
-        $equipeService = new EquipeService(
-            $objectManager,
-            $this->createMock(SettingsService::class),
-            $this->createMock(InducementService::class),
-            $this->createMock(EquipeGestionService::class)
+        $equipeService = (new EquipeServiceTestFactory)->getInstance(
+            $objectManager
         );
 
         $this->assertEquals(

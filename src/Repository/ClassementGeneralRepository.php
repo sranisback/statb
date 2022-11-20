@@ -20,7 +20,7 @@ class ClassementGeneralRepository extends ServiceEntityRepository
         parent::__construct($registry, ClassementGeneral::class);
     }
 
-    public function classementGeneral($annee)
+    public function classementGeneral(int $annee)
     {
         return $this->createQueryBuilder('cg')
             ->select(
@@ -36,7 +36,7 @@ class ClassementGeneralRepository extends ServiceEntityRepository
             ->getQuery()->execute();
     }
 
-    public function classementGeneralDetail($annee)
+    public function classementGeneralDetail(int $annee)
     {
         return $this->createQueryBuilder('cg')
             ->select(

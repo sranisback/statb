@@ -39,6 +39,8 @@ class EquipeGestionService
      */
     private InducementService $inducementService;
 
+    private PlayerService $playerService;
+
     private const BASE_ELO = 150;
 
     private const MORTS_VIVANTS = 'Morts vivants';
@@ -49,12 +51,14 @@ class EquipeGestionService
         EntityManagerInterface $doctrineEntityManager,
         SettingsService $settingsService,
         InfosService $infoService,
-        InducementService $inducementService
+        InducementService $inducementService,
+        PlayerService $playerService
     ) {
         $this->infoService = $infoService;
         $this->doctrineEntityManager = $doctrineEntityManager;
         $this->settingsService = $settingsService;
         $this->inducementService = $inducementService;
+        $this->playerService = $playerService;
     }
 
     /**
@@ -123,15 +127,14 @@ class EquipeGestionService
 
     /**
      * @param Teams $equipe
-     * @param PlayerService $playerService
      */
-    public function checkEquipe(Teams $equipe, PlayerService $playerService): void
+    public function checkEquipe(Teams $equipe): void
     {
-        $playerService->controleNiveauDesJoueursDelEquipe($equipe);
+        $this->playerService->controleNiveauDesJoueursDelEquipe($equipe);
 
-        $this->gestionDesJournaliers($equipe, $playerService);
+        $this->gestionDesJournaliers($equipe);
 
-        $equipe->setTv($this->tvDelEquipe($equipe, $playerService));
+        $equipe->setTv($this->tvDelEquipe($equipe));
 
         $this->doctrineEntityManager->persist($equipe);
 
@@ -140,10 +143,9 @@ class EquipeGestionService
 
     /**
      * @param Teams $equipe
-     * @param PlayerService $playerService
      * @return int[]|array
      */
-    public function gestionDesJournaliers(Teams $equipe, PlayerService $playerService): array
+    public function gestionDesJournaliers(Teams $equipe): array
     {
         $resultat = [];
 
@@ -158,8 +160,7 @@ class EquipeGestionService
         } elseif ($nbrJoueurActifs < 11) {
             $resultat['ajout'] = $this->ajoutDesJournaliers(
                 11 - $nbrJoueurActifs,
-                $equipe,
-                $playerService
+                $equipe
             );
         }
 
@@ -198,10 +199,9 @@ class EquipeGestionService
     /**
      * @param int $nbrDeJournalier
      * @param Teams $equipe
-     * @param PlayerService $playerService
      * @return int
      */
-    public function ajoutDesJournaliers(int $nbrDeJournalier, Teams $equipe, PlayerService $playerService): int
+    public function ajoutDesJournaliers(int $nbrDeJournalier, Teams $equipe): int
     {
         $nombreAjoute = 0;
 
@@ -211,7 +211,7 @@ class EquipeGestionService
         for ($x = 0; $x < $nbrDeJournalier; $x++) {
             $journalier = PlayerFactory::nouveauJoueur(
                 $positionJournalier,
-                $playerService->numeroLibreDelEquipe($equipe),
+                $this->playerService->numeroLibreDelEquipe($equipe),
                 $equipe,
                 true,
                 $this->doctrineEntityManager,
@@ -297,12 +297,11 @@ class EquipeGestionService
 
     /**
      * @param Teams $equipe
-     * @param PlayerService $playerService
      * @return int
      */
-    public function tvDelEquipe(Teams $equipe, PlayerService $playerService) : int
+    public function tvDelEquipe(Teams $equipe) : int
     {
-        $coutTotalJoueur = $playerService->coutTotalJoueurs($equipe);
+        $coutTotalJoueur = $this->playerService->coutTotalJoueurs($equipe);
 
         $inducement = $this->inducementService->valeurInducementDelEquipe($equipe);
 

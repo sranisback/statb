@@ -32,7 +32,6 @@ class DefisIhmController extends AbstractController
     /**
      * @Route("/ajoutDefisForm/", name="ajoutDefisForm")
      * @param Request $request
-     * @param DefisService $defisService
      * @return Response
      */
     public function ajoutDefisForm(Request $request): Response {
@@ -92,14 +91,13 @@ class DefisIhmController extends AbstractController
     }
 
     /**
-     * @Route("/supprimerDefis/{defisId}", name="supprimerDefis")
-     * @param DefisService $defisService
-     * @param int $defisId
+     * @Route("/supprimerDefis/{id}", name="supprimerDefis")
+     * @param Defis $defis
      * @return RedirectResponse
      */
-    public function supprimerDefis(int $defisId) : RedirectResponse
+    public function supprimerDefis(Defis $defis) : RedirectResponse
     {
-        if ($this->defisService->supprimerDefis($defisId) !== '') {
+        if ($this->defisService->supprimerDefis($defis) !== '') {
             $this->addFlash('success', 'Defis Supprimée');
         }
 

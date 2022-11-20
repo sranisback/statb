@@ -12,6 +12,7 @@ use App\Service\EquipeService;
 use App\Service\InducementService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
+use App\Tests\src\TestServiceFactory\EquipeServiceTestFactory;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\TestCase;
@@ -82,11 +83,12 @@ class feuilleDequipeCompleteTest extends TestCase
         $equipeGestionServiceMock = $this->createMock(EquipeGestionService::class);
         $equipeGestionServiceMock->method('tvDelEquipe')->willReturn(500_000);
 
-        $equipeServiceTest = new EquipeService(
+        $equipeServiceTest = (new EquipeServiceTestFactory)->getInstance(
             $objectManager,
             $settingServiceMock,
             $inducementServiceMock,
-            $equipeGestionServiceMock
+            $equipeGestionServiceMock,
+            $playerServiceMock
         );
 
         $attendu = [
@@ -124,7 +126,7 @@ class feuilleDequipeCompleteTest extends TestCase
             ]
         ];
 
-        $this->assertEquals($attendu, $equipeServiceTest->feuilleDequipeComplete($equipe, $playerServiceMock));
+        $this->assertEquals($attendu, $equipeServiceTest->feuilleDequipeComplete($equipe));
     }
 
 }

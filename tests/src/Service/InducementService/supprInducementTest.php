@@ -14,10 +14,12 @@ use App\Service\InducementService;
 use App\Service\InfosService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
+use App\Tests\src\TestServiceFactory\InducementServiceTestFactory;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class supprInducementTest extends KernelTestCase
+class supprInducementTest extends TestCase
 {
     /**
      * @test
@@ -39,7 +41,7 @@ class supprInducementTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchRepoMock);
 
-        $inducementServiceTest = new InducementService(
+        $inducementServiceTest = (new InducementServiceTestFactory)->getInstance(
             $objectManager
         );
 
@@ -50,9 +52,7 @@ class supprInducementTest extends KernelTestCase
 
         $this->assertEquals($resultatAttendu, $inducementServiceTest->supprInducement(
             $equipeTest,
-            'rr',
-            $this->createMock(PlayerService::class),
-            $this->createMock(EquipeGestionService::class)
+            'rr'
         ));
 
         $this->assertEquals(50_000, $equipeTest->getTreasury());
@@ -79,7 +79,7 @@ class supprInducementTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchRepoMock);
 
-        $inducementServiceTest = new InducementService(
+        $inducementServiceTest = (new InducementServiceTestFactory)->getInstance(
             $objectManager
         );
 
@@ -90,9 +90,7 @@ class supprInducementTest extends KernelTestCase
 
         $this->assertEquals($resultatAttendu, $inducementServiceTest->supprInducement(
             $equipeTest,
-            'rr',
-            $this->createMock(PlayerService::class),
-            $this->createMock(EquipeGestionService::class)
+            'rr'
         ));
 
         $this->assertEquals(50_000, $equipeTest->getTreasury());
@@ -121,7 +119,7 @@ class supprInducementTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchRepoMock);
 
-        $inducementServiceTest = new InducementService(
+        $inducementServiceTest = (new InducementServiceTestFactory)->getInstance(
             $objectManager
         );
 
@@ -132,9 +130,7 @@ class supprInducementTest extends KernelTestCase
 
         $this->assertEquals($resultatAttendu, $inducementServiceTest->supprInducement(
             $equipeTest,
-            'rr',
-            $this->createMock(PlayerService::class),
-            $this->createMock(EquipeGestionService::class)
+            'rr'
         ));
 
         $this->assertEquals(0, $equipeTest->getTreasury());
@@ -163,7 +159,7 @@ class supprInducementTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchRepoMock);
 
-        $inducementServiceTest = new InducementService(
+        $inducementServiceTest = (new InducementServiceTestFactory)->getInstance(
             $objectManager
         );
 
@@ -174,9 +170,7 @@ class supprInducementTest extends KernelTestCase
 
         $this->assertEquals($resultatAttendu, $inducementServiceTest->supprInducement(
             $equipeTest,
-            'rr',
-            $this->createMock(PlayerService::class),
-            $this->createMock(EquipeGestionService::class)
+            'rr'
         ));
 
         $this->assertEquals(0, $equipeTest->getTreasury());
@@ -202,7 +196,7 @@ class supprInducementTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchRepoMock);
 
-        $inducementServiceTest = new InducementService(
+        $inducementServiceTest = (new InducementServiceTestFactory)->getInstance(
             $objectManager
         );
 
@@ -213,9 +207,7 @@ class supprInducementTest extends KernelTestCase
 
         $this->assertEquals($resultatAttendu, $inducementServiceTest->supprInducement(
             $equipeTest,
-            'pop',
-            $this->createMock(PlayerService::class),
-            $this->createMock(EquipeGestionService::class)
+            'pop'
         ));
 
         $this->assertEquals(1, $equipeTest->getFf());
@@ -243,7 +235,7 @@ class supprInducementTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchRepoMock);
 
-        $inducementServiceTest = new InducementService(
+        $inducementServiceTest = (new InducementServiceTestFactory)->getInstance(
             $objectManager
         );
 
@@ -254,9 +246,7 @@ class supprInducementTest extends KernelTestCase
 
         $this->assertEquals($resultatAttendu, $inducementServiceTest->supprInducement(
             $equipeTest,
-            'apo',
-            $this->createMock(PlayerService::class),
-            $this->createMock(EquipeGestionService::class)
+            'apo'
         ));
 
         $this->assertEquals(0, $equipeTest->getApothecary());
@@ -284,7 +274,7 @@ class supprInducementTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchRepoMock);
 
-        $inducementServiceTest = new InducementService(
+        $inducementServiceTest = (new InducementServiceTestFactory)->getInstance(
             $objectManager
         );
 
@@ -295,9 +285,7 @@ class supprInducementTest extends KernelTestCase
 
         $this->assertEquals($resultatAttendu, $inducementServiceTest->supprInducement(
             $equipeTest,
-            'ac',
-            $this->createMock(PlayerService::class),
-            $this->createMock(EquipeGestionService::class)
+            'ac'
         ));
 
         $this->assertEquals(0, $equipeTest->getAssCoaches());
@@ -324,7 +312,7 @@ class supprInducementTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchRepoMock);
 
-        $inducementServiceTest = new InducementService(
+        $inducementServiceTest = (new InducementServiceTestFactory)->getInstance(
             $objectManager
         );
 
@@ -335,9 +323,7 @@ class supprInducementTest extends KernelTestCase
 
         $this->assertEquals($resultatAttendu, $inducementServiceTest->ajoutInducement(
             $equipeTest,
-            'ac',
-            $this->createMock(PlayerService::class),
-            $this->createMock(EquipeGestionService::class)
+            'ac'
         ));
 
         $this->assertEquals(1, $equipeTest->getAssCoaches());
@@ -365,7 +351,7 @@ class supprInducementTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchRepoMock);
 
-        $inducementServiceTest = new InducementService(
+        $inducementServiceTest = (new InducementServiceTestFactory)->getInstance(
             $objectManager
         );
 
@@ -376,9 +362,7 @@ class supprInducementTest extends KernelTestCase
 
         $this->assertEquals($resultatAttendu, $inducementServiceTest->supprInducement(
             $equipeTest,
-            'chl',
-            $this->createMock(PlayerService::class),
-            $this->createMock(EquipeGestionService::class)
+            'chl'
         ));
 
         $this->assertEquals(0, $equipeTest->getCheerleaders());
@@ -406,7 +390,7 @@ class supprInducementTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchRepoMock);
 
-        $inducementServiceTest = new InducementService(
+        $inducementServiceTest = (new InducementServiceTestFactory)->getInstance(
             $objectManager
         );
 
@@ -417,9 +401,7 @@ class supprInducementTest extends KernelTestCase
 
         $this->assertEquals($resultatAttendu, $inducementServiceTest->supprInducement(
             $equipeTest,
-            'pop',
-            $this->createMock(PlayerService::class),
-            $this->createMock(EquipeGestionService::class)
+            'pop'
         ));
 
         $this->assertEquals(0, $equipeTest->getFfBought());
@@ -449,7 +431,7 @@ class supprInducementTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchRepoMock);
 
-        $inducementServiceTest = new InducementService(
+        $inducementServiceTest = (new InducementServiceTestFactory)->getInstance(
             $objectManager
         );
 
@@ -460,9 +442,7 @@ class supprInducementTest extends KernelTestCase
 
         $this->assertEquals($resultatAttendu, $inducementServiceTest->supprInducement(
             $equipeTest,
-            'pop',
-            $this->createMock(PlayerService::class),
-            $this->createMock(EquipeGestionService::class)
+            'pop'
         ));
 
         $this->assertEquals(0, $equipeTest->getFfBought());

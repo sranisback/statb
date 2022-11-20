@@ -11,7 +11,9 @@ use App\Service\EquipeService;
 use App\Service\InducementService;
 use App\Service\InfosService;
 use App\Service\SettingsService;
+use App\Tests\src\TestServiceFactory\InducementServiceTestFactory;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class valeurInducementDelEquipeTest extends KernelTestCase
@@ -37,7 +39,7 @@ class valeurInducementDelEquipeTest extends KernelTestCase
 
         $objectManager = $this->createMock(EntityManagerInterface::class);
 
-        $inducementServiceTest = new InducementService(
+        $inducementServiceTest = (new InducementServiceTestFactory)->getInstance(
             $objectManager
         );
 
@@ -73,7 +75,7 @@ class valeurInducementDelEquipeTest extends KernelTestCase
 
         $objectManager = $this->createMock(EntityManagerInterface::class);
 
-        $inducementServiceTest = new InducementService(
+        $inducementServiceTest = (new InducementServiceTestFactory)->getInstance(
             $objectManager
         );
 

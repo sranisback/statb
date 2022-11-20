@@ -157,7 +157,7 @@ class JoueurController extends AbstractController
                 }
 
                 if ($equipe !== null) {
-                    $tv = $equipeGestionService->tvDelEquipe($equipe, $playerService);
+                    $tv = $equipeGestionService->tvDelEquipe($equipe);
                     $tresors = $equipe->getTreasury();
                 }
 

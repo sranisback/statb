@@ -14,6 +14,9 @@ class Functionnal extends WebTestCase
     public $entityManager;
     public $referenceRepo;
 
+    /**
+     * @throws \Doctrine\ORM\Tools\ToolsException
+     */
     public function setUp(): void
     {
         parent::setUp();

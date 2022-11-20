@@ -14,6 +14,7 @@ use App\Service\InducementService;
 use App\Service\InfosService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
+use App\Tests\src\TestServiceFactory\EquipeGestionServiceTestFactory;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
@@ -129,14 +130,11 @@ class ajoutDesJournaliersTest extends TestCase
         $playerServiceMock = $this->createMock(PlayerService::class);
         $playerServiceMock->method('numeroLibreDelEquipe')->willReturn(11);
 
-        $equipeGestionService = new EquipeGestionService(
-            $objectManager,
-            $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class),
-            $this->createMock(InducementService::class)
+        $equipeGestionService = (new EquipeGestionServiceTestFactory())->getInstance(
+            $objectManager
         );
 
-        $this->assertEquals(1, $equipeGestionService->ajoutDesJournaliers(1, $equipeTest, $playerServiceMock));
+        $this->assertEquals(1, $equipeGestionService->ajoutDesJournaliers(1, $equipeTest));
     }
 
     /**
@@ -196,13 +194,10 @@ class ajoutDesJournaliersTest extends TestCase
         $playerServiceMock = $this->createMock(PlayerService::class);
         $playerServiceMock->method('numeroLibreDelEquipe')->willReturn(11);
 
-        $equipeGestionService = new EquipeGestionService(
-            $objectManager,
-            $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class),
-            $this->createMock(InducementService::class)
+        $equipeGestionService = (new EquipeGestionServiceTestFactory())->getInstance(
+            $objectManager
         );
 
-        $this->assertEquals(11, $equipeGestionService->ajoutDesJournaliers(11, $equipeTest, $playerServiceMock));
+        $this->assertEquals(11, $equipeGestionService->ajoutDesJournaliers(11, $equipeTest));
     }
 }

@@ -117,8 +117,8 @@ class MatchesRepository extends ServiceEntityRepository
             ->join('team1.ownedByCoach', 'coach1')
             ->join('team2.ownedByCoach', 'coach2')
             ->where(
-                '(coach1.coachId ='.$coach1->getCoachId().' AND coach2.coachId ='.$coach2->getCoachId().') OR
-               (coach1.coachId ='.$coach2->getCoachId().' AND coach2.coachId ='.$coach1->getCoachId().') '
+                '(coach1.coachId ='.$coach1->getCoachId().' AND coach2.coachId =' . $coach2->getCoachId() . ') OR
+               (coach1.coachId =' . $coach2->getCoachId() . ' AND coach2.coachId =' . $coach1->getCoachId() . ') '
             )
             ->getQuery()
             ->execute();

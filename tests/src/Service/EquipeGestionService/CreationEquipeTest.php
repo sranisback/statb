@@ -15,6 +15,7 @@ use App\Service\EquipeGestionService;
 use App\Service\InducementService;
 use App\Service\InfosService;
 use App\Service\SettingsService;
+use App\Tests\src\TestServiceFactory\EquipeGestionServiceTestFactory;
 use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\TestCase;
 
@@ -105,11 +106,9 @@ class CreationEquipeTest extends TestCase
         $settingServiceMock->method('recupererTresorDepart')->willReturn(1_000_000);
         $settingServiceMock->method('anneeCourante')->willReturn(7);
 
-        $this->equipeGestionService = new EquipeGestionService(
+        $this->equipeGestionService = (new EquipeGestionServiceTestFactory())->getInstance(
             $this->objectManager,
-            $settingServiceMock,
-            $this->createMock(InfosService::class),
-            $this->createMock(InducementService::class)
+            $settingServiceMock
         );
     }
 

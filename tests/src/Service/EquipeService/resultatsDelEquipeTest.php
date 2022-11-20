@@ -10,10 +10,12 @@ use App\Service\EquipeService;
 use App\Service\InducementService;
 use App\Service\InfosService;
 use App\Service\SettingsService;
+use App\Tests\src\TestServiceFactory\EquipeServiceTestFactory;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class resultatsDelEquipeTest extends KernelTestCase
+class resultatsDelEquipeTest extends TestCase
 {
     /**
      * @test
@@ -37,12 +39,7 @@ class resultatsDelEquipeTest extends KernelTestCase
         $matchTest2->setTeam2Score(1);
         $matchTest2->setTeam1($equipeTest);
 
-        $equipeServiceTest = new EquipeService(
-            $this->createMock(EntityManagerInterface::class),
-            $this->createMock(SettingsService::class),
-            $this->createMock(InducementService::class),
-            $this->createMock(EquipeGestionService::class)
-        );
+        $equipeServiceTest = (new EquipeServiceTestFactory)->getInstance();
 
         $resultatAttendu = [
             'win' => 1,

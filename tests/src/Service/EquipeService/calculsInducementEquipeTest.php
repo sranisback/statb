@@ -13,6 +13,7 @@ use App\Service\EquipeService;
 use App\Service\InducementService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
+use App\Tests\src\TestServiceFactory\EquipeServiceTestFactory;
 use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\TestCase;
 
@@ -49,11 +50,12 @@ class calculsInducementEquipeTest extends TestCase
         $equipeGestionServiceMock = $this->createMock(EquipeGestionService::class);
         $equipeGestionServiceMock->method('tvDelEquipe')->willReturn(500_000);
 
-        $equipeServiceTest = new EquipeService(
-            $this->createMock(EntityManager::class),
-            $this->createMock(SettingsService::class),
+        $equipeServiceTest = (new EquipeServiceTestFactory)->getInstance(
+            null,
+            null,
             $inducementServiceMock,
-            $equipeGestionServiceMock
+            $equipeGestionServiceMock,
+            $playerServiceMock
         );
 
         $attendu = [
@@ -66,7 +68,7 @@ class calculsInducementEquipeTest extends TestCase
             'tv' => 500_000
         ];
 
-        $this->assertEquals($attendu, $equipeServiceTest->calculsInducementEquipe($equipeMock,$playerServiceMock));
+        $this->assertEquals($attendu, $equipeServiceTest->calculsInducementEquipe($equipeMock));
     }
 
     /**
@@ -99,11 +101,12 @@ class calculsInducementEquipeTest extends TestCase
         $equipeGestionServiceMock = $this->createMock(EquipeGestionService::class);
         $equipeGestionServiceMock->method('tvDelEquipe')->willReturn(500_000);
 
-        $equipeServiceTest = new EquipeService(
-            $this->createMock(EntityManager::class),
-            $this->createMock(SettingsService::class),
+        $equipeServiceTest = (new EquipeServiceTestFactory)->getInstance(
+            null,
+            null,
             $inducementServiceMock,
-            $equipeGestionServiceMock
+            $equipeGestionServiceMock,
+            $playerServiceMock
         );
 
         $attendu = [
@@ -116,6 +119,6 @@ class calculsInducementEquipeTest extends TestCase
             'tv' => 500000
         ];
 
-        $this->assertEquals($attendu, $equipeServiceTest->calculsInducementEquipe($equipeMock,$playerServiceMock));
+        $this->assertEquals($attendu, $equipeServiceTest->calculsInducementEquipe($equipeMock));
     }
 }

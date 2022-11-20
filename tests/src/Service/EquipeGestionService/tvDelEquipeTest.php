@@ -12,7 +12,9 @@ use App\Service\InducementService;
 use App\Service\InfosService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
+use App\Tests\src\TestServiceFactory\EquipeGestionServiceTestFactory;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class tvDelEquipeTest extends KernelTestCase
@@ -47,14 +49,15 @@ class tvDelEquipeTest extends KernelTestCase
             ]
         );
 
-        $equipeGestionService = new EquipeGestionService(
+        $equipeGestionService = (new EquipeGestionServiceTestFactory())->getInstance(
             $objectManager,
-            $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class),
-            $inducementServiceMock
+            null,
+            null,
+            $inducementServiceMock,
+            $playerServiceMock
         );
 
-        $this->assertEquals(310_000, $equipeGestionService->tvDelEquipe($equipeTest, $playerServiceMock));
+        $this->assertEquals(310_000, $equipeGestionService->tvDelEquipe($equipeTest));
     }
 
     /**
@@ -86,14 +89,15 @@ class tvDelEquipeTest extends KernelTestCase
             ]
         );
 
-        $equipeGestionService = new EquipeGestionService(
+        $equipeGestionService = (new EquipeGestionServiceTestFactory())->getInstance(
             $objectManager,
-            $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class),
-            $inducementServiceMock
+            null,
+            null,
+            $inducementServiceMock,
+            $playerServiceMock
         );
 
-        $this->assertEquals(300_000, $equipeGestionService->tvDelEquipe($equipeTest, $playerServiceMock));
+        $this->assertEquals(300_000, $equipeGestionService->tvDelEquipe($equipeTest));
     }
 }
 

@@ -11,6 +11,7 @@ use App\Service\EquipeGestionService;
 use App\Service\EquipeService;
 use App\Service\InducementService;
 use App\Service\SettingsService;
+use App\Tests\src\TestServiceFactory\EquipeServiceTestFactory;
 use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\TestCase;
 
@@ -67,11 +68,9 @@ class compileEquipesAnneeEnCoursTest extends TestCase
             )
         );
 
-        $equipeServiceTest = new EquipeService(
+        $equipeServiceTest = (new EquipeServiceTestFactory)->getInstance(
             $objectManager,
-            $settingServiceMock,
-            $this->createMock(InducementService::class),
-            $this->createMock(EquipeGestionService::class)
+            $settingServiceMock
         );
 
         $resultats = [

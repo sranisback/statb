@@ -63,13 +63,11 @@ class DefisService
     }
 
     /**
-     * @param int $defisId
+     * @param Defis $defi
      * @return string
      */
-    public function supprimerDefis(int $defisId): string
+    public function supprimerDefis(Defis $defi): string
     {
-        $defi = $this->doctrineEntityManager->getRepository(Defis::class)->findOneBy(['id' => $defisId]);
-
         $this->doctrineEntityManager->remove($defi);
 
         $this->doctrineEntityManager->flush();

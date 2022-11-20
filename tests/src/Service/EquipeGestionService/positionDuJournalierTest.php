@@ -13,6 +13,7 @@ use App\Service\EquipeGestionService;
 use App\Service\InducementService;
 use App\Service\InfosService;
 use App\Service\SettingsService;
+use App\Tests\src\TestServiceFactory\EquipeGestionServiceTestFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
@@ -40,11 +41,8 @@ class positionDuJournalierTest extends TestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($gameDataPlayersRepoMock);
 
-        $equipeGestionService = new EquipeGestionService(
-            $objectManager,
-            $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class),
-            $this->createMock(InducementService::class)
+        $equipeGestionService = (new EquipeGestionServiceTestFactory())->getInstance(
+            $objectManager
         );
 
         /** @var GameDataPlayers $journalierTest */
@@ -74,11 +72,8 @@ class positionDuJournalierTest extends TestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($gameDataPlayersRepoMock);
 
-        $equipeGestionService = new EquipeGestionService(
-            $objectManager,
-            $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class),
-            $this->createMock(InducementService::class)
+        $equipeGestionService = (new EquipeGestionServiceTestFactory())->getInstance(
+            $objectManager
         );
 
         /** @var GameDataPlayers $journalierTest */
@@ -108,11 +103,8 @@ class positionDuJournalierTest extends TestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($gameDataPlayersRepoMock);
 
-        $equipeGestionService = new EquipeGestionService(
-            $objectManager,
-            $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class),
-            $this->createMock(InducementService::class)
+        $equipeGestionService = (new EquipeGestionServiceTestFactory())->getInstance(
+            $objectManager
         );
 
         /** @var GameDataPlayers $journalierTest */
@@ -143,11 +135,8 @@ class positionDuJournalierTest extends TestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($gameDataPlayersRepoMock);
 
-        $equipeGestionService = new EquipeGestionService(
-            $objectManager,
-            $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class),
-            $this->createMock(InducementService::class)
+        $equipeGestionService = (new EquipeGestionServiceTestFactory())->getInstance(
+            $objectManager
         );
 
         /** @var GameDataPlayers $journalierTest */
@@ -178,11 +167,8 @@ class positionDuJournalierTest extends TestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($gameDataPlayersRepoMock);
 
-        $equipeGestionService = new EquipeGestionService(
-            $objectManager,
-            $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class),
-            $this->createMock(InducementService::class)
+        $equipeGestionService = (new EquipeGestionServiceTestFactory())->getInstance(
+            $objectManager
         );
 
         /** @var GameDataPlayers $journalierTest */

@@ -311,8 +311,7 @@ class ClassementService
      */
     public function confrontationPourDeuxCoaches(
         Coaches $coach,
-        Coaches $autreCoach,
-        EquipeService $equipeService
+        Coaches $autreCoach
     ): array {
         $totalResultat = [
             'win' => 0,
@@ -331,9 +330,9 @@ class ClassementService
             foreach ($listMatches as $match) {
                 /** @var Matches $match */
                 if ($match->getTeam1()->getOwnedByCoach() === $coach) {
-                    $tableResultat = $equipeService->resultatDuMatch($match->getTeam1(), $match);
+                    $tableResultat = $this->equipeService->resultatDuMatch($match->getTeam1(), $match);
                 } else {
-                    $tableResultat = $equipeService->resultatDuMatch($match->getTeam2(), $match);
+                    $tableResultat = $this->equipeService->resultatDuMatch($match->getTeam2(), $match);
                 }
                 $totalResultat['win'] += $tableResultat['win'];
                 $totalResultat['draw'] += $tableResultat['draw'];
@@ -360,7 +359,7 @@ class ClassementService
     /**
      * @return mixed[][]
      */
-    public function confrontationTousLesCoaches(Coaches $coach, EquipeService $equipeService): array
+    public function confrontationTousLesCoaches(Coaches $coach): array
     {
         $tableConfrontation = [];
 
@@ -370,8 +369,7 @@ class ClassementService
         ) as $autreCoach) {
             $tableConfrontation[$autreCoach->getUsername()] = $this->confrontationPourDeuxCoaches(
                 $coach,
-                $autreCoach,
-                $equipeService
+                $autreCoach
             );
         }
 

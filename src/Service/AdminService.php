@@ -3,14 +3,13 @@
 
 namespace App\Service;
 
-use App\Controller\StatBBController;
 use App\Entity\Coaches;
 use App\Entity\HistoriqueBlessure;
 use App\Entity\Matches;
 use App\Entity\Players;
+use App\Entity\Sponsors;
 use App\Entity\Teams;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\InputBag;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AdminService
@@ -54,7 +53,7 @@ class AdminService
                 break;
         }
 
-        /** @var Coaches|Matches|Players|Teams|HistoriqueBlessure $object */
+        /** @var Coaches|Matches|Players|Teams|HistoriqueBlessure|Sponsors $object */
         $object = $this->doctrineEntityManager
             ->getRepository($entity)
             ->findOneBy([$id => $request['pk']]);

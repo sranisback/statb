@@ -8,12 +8,14 @@ use App\Entity\Defis;
 use App\Service\DefisService;
 use App\Service\InfosService;
 use App\Service\SettingsService;
+use App\Tests\src\TestServiceFactory\DefisServiceTestFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
 
 class supprimerDefisTest extends TestCase
 {
+
     /**
      * @test
      */
@@ -21,20 +23,14 @@ class supprimerDefisTest extends TestCase
     {
         $defis = new Defis();
 
-        $defiRepo = $this->createMock(ObjectRepository::class);
-        $defiRepo->method('findOneBy')->willReturn($defis);
-
         $objectManager = $this->createMock(EntityManagerInterface::class);
-        $objectManager->method('getRepository')->willReturn($defiRepo);
         $objectManager->expects($this->once())->method('remove')->with($defis);
         $objectManager->expects($this->once())->method('flush');
 
-        $defiService = new DefisService(
-            $objectManager,
-            $this->createMock(InfosService::class),
-            $this->createMock(SettingsService::class)
+        $defiService = (new DefisServiceTestFactory)->getInstance(
+            $objectManager
         );
 
-        $defiService->supprimerDefis(1);
+        $defiService->supprimerDefis($defis);
     }
 }
