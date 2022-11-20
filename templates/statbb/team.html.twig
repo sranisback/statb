@@ -289,10 +289,10 @@
 
                     {% if feuille.team.sponsor != null %}
                         <a type="button" class="btn btn-primary"
-                           href="{{ path('supprSponso', {'equipeId': feuille.team.teamId} ) }}">Résiller un sponsor</a>
+                           href="{{ path('supprSponso', {'teamId': feuille.team.teamId} ) }}">Résiller un sponsor</a>
                     {% else %}
                         <a type="button" class="btn btn-primary"
-                           href="{{ path('addSponso', {'equipeId': feuille.team.teamId} ) }}">Signer un sponsor</a>
+                           href="{{ path('addSponso', {'teamId': feuille.team.teamId} ) }}">Signer un sponsor</a>
                     {% endif %}
 
                 {% endif %}
