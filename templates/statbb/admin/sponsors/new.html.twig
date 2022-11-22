@@ -1,0 +1,15 @@
+{% extends 'statbb/base.html.twig' %}
+
+{% block title %}New Sponsors{% endblock %}
+
+{% block body %}
+<div class="m-2">
+    <div class="card">
+    <h1>Create new Sponsors</h1>
+
+    {{ include('statbb/admin/sponsors/_form.html.twig') }}
+
+    <a href="{{ path('sponsors_index') }}">back to list</a>
+    </div>
+</div>
+{% endblock %}

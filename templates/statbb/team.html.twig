@@ -32,10 +32,17 @@
                                 {% endif %}
                                 ">
                     {% endif %}
+
                 </div>
-                <div><h1 class="display-4"><strong>{{ feuille.team.name }}</strong></h1> {% if feuille.team.franchise == true %}
+                <div>
+                    <h1 class="display-4"><strong>{{ feuille.team.name }}</strong></h1>
+                    {% if feuille.team.franchise == true %}
                         <span class="fas fa-tag text-success"></span>
-                    {% endif %}</div>
+                    {% endif %}
+                    {% if(feuille.team.sponsor) %}
+                        Sponsorisé par <u><i>{{ feuille.team.sponsor.name }}</i></u> !
+                    {% endif %}
+                </div>
             </div>
 
             <div class="d-inline-flex my-2">
@@ -278,6 +285,14 @@
                     {% if app.user == feuille.team.ownedByCoach and feuille.team.retired == 0 %}
                         {{ render(controller('App\\Controller\\EquipeController::ajoutStadeModal',{'equipeId':feuille.team.teamId} )) }}
                         {{ render(controller('App\\Controller\\EquipeController::uploadLogo', {'equipeId':feuille.team.teamId} )) }}
+                    {% endif %}
+
+                    {% if feuille.team.sponsor != null %}
+                        <a type="button" class="btn btn-primary"
+                           href="{{ path('supprSponso', {'teamId': feuille.team.teamId} ) }}">Résiller un sponsor</a>
+                    {% else %}
+                        <a type="button" class="btn btn-primary"
+                           href="{{ path('addSponso', {'teamId': feuille.team.teamId} ) }}">Signer un sponsor</a>
                     {% endif %}
 
                 {% endif %}

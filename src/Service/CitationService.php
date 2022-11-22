@@ -27,4 +27,22 @@ class CitationService
         $this->doctrineEntityManager->flush();
         $this->doctrineEntityManager->refresh($citation);
     }
+
+
+    /**
+     * @return Citations
+     */
+    public function tirerCitationAuHasard():Citations
+    {
+        $citations = $this->doctrineEntityManager->getRepository(Citations::class)->findAll();
+
+        if ($citations) {
+            $nbrAuHasard = rand(0, count($citations) - 1);
+
+            return  $citations[$nbrAuHasard];
+        }
+
+        return new Citations();
+    }
 }
+

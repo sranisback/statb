@@ -93,6 +93,7 @@ class EquipeController extends AbstractController
      * @param EquipeService $equipeService
      * @param int $teamid
      * @return Response
+     * @throws \Exception
      */
     public function showTeam(
         PlayerService $playerService,
