@@ -175,6 +175,7 @@ class Teams
 
     /**
      * @ORM\ManyToOne(targetEntity=Sponsors::class, inversedBy="teamsSponsorisees")
+     * @ORM\JoinColumn(name="sponsorId", referencedColumnName="id")
      */
     private $sponsor;
 
