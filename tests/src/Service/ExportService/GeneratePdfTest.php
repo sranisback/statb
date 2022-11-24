@@ -20,6 +20,7 @@ class GeneratePdfTest extends TestCase
 
     /**
      * @test
+     * @throws \Exception
      */
     public function generatePdfTest()
     {
@@ -52,15 +53,6 @@ class GeneratePdfTest extends TestCase
             'exp' => 0
         ];
 
-        $equipeRepo = $this->getMockBuilder(Teams::class)
-            ->addMethods(['find'])
-            ->getMock();
-
-        $equipeRepo->method('find')->willReturn($equipe);
-
-        $objectManager = $this->createMock(EntityManagerInterface::class);
-        $objectManager->method('getRepository')->willReturn($equipeRepo);
-
         $playerService = $this->createMock(PlayerService::class);
         $playerService->method('toutesLesCompsdUnJoueur')->willReturn('<text class="test-primary">Test</text>, <text class="text-danger">Test</text>, ');
         $playerService->method('actionsDuJoueur')->willReturn($retour);
@@ -86,16 +78,17 @@ class GeneratePdfTest extends TestCase
 
         $equipeService = $this->createMock(EquipeService::class);
         $equipeService->method('compteLesjoueurs')->willReturn(['actif' => 5, 'journalier' => 0, 'blesses' => 0]);
+        $equipeService->method('getListActivePlayers')->willReturn($joueurList->toArray());
 
         $exportService = new ExportService(
-            $objectManager,
+            $this->createMock(EntityManagerInterface::class),
             $playerService,
             $inducementService,
             $equipeGestionService,
             $equipeService
         );
 
-        $actual = $exportService->generatePdf("1");
+        $actual = $exportService->generatePdf($equipe);
 
         $pData = [
             'agg' => 0,
@@ -127,7 +120,7 @@ class GeneratePdfTest extends TestCase
 
         $expected = [
             'nom' => $equipe->getName(),
-            'players' => $joueurList,
+            'players' => $joueurList->toArray(),
             'pdata' => [$pData,$pData,$pData,$pData,$pData],
             'tdata' => $tData,
             'team' => $equipe,

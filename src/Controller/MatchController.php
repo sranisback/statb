@@ -6,41 +6,49 @@ namespace App\Controller;
 use App\Entity\GameDataStadium;
 use App\Entity\Matches;
 use App\Entity\Meteo;
-use App\Entity\Players;
 use App\Entity\Teams;
 use App\Enum\AnneeEnum;
 use App\Enum\NiveauStadeEnum;
+use App\Service\EquipeService;
 use App\Service\MatchesService;
 use App\Service\PlayerService;
 use App\Service\SettingsService;
 use App\Tools\TransformeEnJSON;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 
 class MatchController extends AbstractController
 {
+
+    private ManagerRegistry $doctrine;
+
+    private EquipeService $equipeService;
+
+    public function __construct(ManagerRegistry $doctrine, EquipeService $equipeService)
+    {
+        $this->doctrine = $doctrine;
+        $this->equipeService = $equipeService;
+    }
+
     /**
      * @Route("/dropdownPlayer/{teamId}/{nbr}", name="dropdownPlayer", options = { "expose" = true })
-     * @param int $teamId
+     * @param Teams $equipe
      * @param int $nbr
      * @return JsonResponse
+     * @throws \Exception
      */
-    public function dropdownPlayer(int $teamId, int $nbr): JsonResponse
+    public function dropdownPlayer(Teams $equipe, int $nbr): JsonResponse
     {
-        /** @var Teams $equipe */
-        $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
-
         $response = [
             'html' => $this->renderView(
                 'statbb/dropdownplayers.html.twig',
                 [
-                    'players' => $this->getDoctrine()->getRepository(
-                        Players::class
-                    )->listeDesJoueursActifsPourlEquipe($equipe),
-                    'teamId' => $teamId,
+                    'players' => $this->equipeService->getListActivePlayers($equipe),
+                    'teamId' => $equipe->getTeamId(),
                     'nbr' => $nbr,
                     'ruleset' => $equipe->getRuleset()
                 ]

@@ -270,7 +270,7 @@
                     {{ render(controller('App\\Controller\\JoueurController::playerAdder', {'equipe' : feuille.team})) }}
                     <a type="button" class="btn btn-primary" href="{{ path('Checkteam', {'teamId': feuille.team.teamId} ) }}">Check
                         Equipe</a>
-                    <a type="button" class="btn btn-primary" href="{{ path('pdfTeam', {'id': feuille.team.teamId} ) }}">Exporter
+                    <a type="button" class="btn btn-primary" href="{{ path('pdfTeam', {'teamId': feuille.team.teamId} ) }}">Exporter
                         en PDF</a>
 
                     <a type="button" class="btn btn-primary" equipeId="{{ feuille.team.teamId }}"

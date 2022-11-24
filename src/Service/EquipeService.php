@@ -578,18 +578,46 @@ class EquipeService
     }
 
     /**
-     * @param Collection $players
+     * @param Collection $joueurs
      * @return ArrayCollection
      * @throws \Exception
      */
-    private function sortPlayers(Collection $players): ArrayCollection
+    private function sortPlayers(Collection $joueurs): ArrayCollection
     {
-        $iterator = $players->getIterator();
+        $iterator = $joueurs->getIterator();
         $iterator->uasort(function ($a, $b) {
             return ($a->getNr() < $b->getNr()) ? -1 : 1;
         });
-        $players = new ArrayCollection(iterator_to_array($iterator));
-        return $players;
+        return new ArrayCollection(iterator_to_array($iterator));
     }
 
+    /**
+     * @param Teams $equipe
+     * @return array
+     * @throws \Exception
+     */
+    public function getListActivePlayers(Teams $equipe): array
+    {
+        $joueurCollection = $equipe->getJoueurs();
+
+        if (isset($joueurCollection)) {
+            $joueurCollection = $this->sortPlayers($joueurCollection);
+            $joueurCollection = $joueurCollection->filter(
+                function ($joueur) {
+                    /** @var Players $joueur */
+                    if(
+                        $joueur->getInjRpm() == 0
+                        && $joueur->getStatus() != 7
+                        && $joueur->getStatus() != 8
+                    ) {
+                        return true;
+                    }
+
+                    return false;
+                }
+            );
+        }
+
+        return $joueurCollection->toArray();
+    }
 }

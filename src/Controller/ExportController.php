@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Teams;
 use App\Service\ExportService;
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -13,13 +14,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class ExportController extends AbstractController
 {
     /**
-     * @Route("/pdfTeam/{id}", name="pdfTeam")
+     * @Route("/pdfTeam/{teamId}", name="pdfTeam")
      * @param ExportService $exportService
-     * @param int $id
+     * @param Teams $equipe
+     * @throws \Exception
      */
-    public function pdfTeam(ExportService $exportService, int $id): void
+    public function pdfTeam(ExportService $exportService, Teams $equipe): void
     {
-        $dataGenerated = $exportService->generatePdf($id);
+        $dataGenerated = $exportService->generatePdf($equipe);
 
         $html = $this->renderView(
             'statbb/pdfteam.html.twig',
@@ -49,7 +51,7 @@ class ExportController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function pdfTournois(Request $request)
+    public function pdfTournois(Request $request): Response
     {
         $ignore = ['.', '..'];
         $nbr = -2;

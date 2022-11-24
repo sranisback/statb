@@ -9,7 +9,6 @@ use App\Entity\MatchData;
 use App\Entity\Matches;
 use App\Entity\Meteo;
 use App\Entity\Players;
-use App\Entity\Stades;
 use App\Entity\Teams;
 use App\Enum\AnneeEnum;
 use App\Factory\MatchesFactory;
@@ -385,4 +384,5 @@ class MatchesService
         $this->doctrineEntityManager->flush();
         $this->doctrineEntityManager->refresh($equipe);
     }
+
 }

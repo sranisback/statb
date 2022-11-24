@@ -37,20 +37,20 @@ class ExportService
         $this->equipeService = $equipeService;
     }
 
-    public function generatePdf($equipeId): array
+    /**
+     * @throws \Exception
+     */
+    public function generatePdf(Teams $equipe): array
     {
-        /** @var Teams $equipe */
-        $equipe = $this->doctrineEntityManager->getRepository(Teams::class)->find($equipeId);
-
         $count = 0;
 
         $pdata = [];
         $pdata[] = [];
 
-        $joueurCollection = $equipe->getJoueurs();
+        $joueurs = $this->equipeService->getListActivePlayers($equipe);
 
         /** @var Players $joueur */
-        foreach ($joueurCollection->toArray() as $joueur) {
+        foreach ($joueurs as $joueur) {
             $listeCompetence = $this->playerService->toutesLesCompsdUnJoueur($joueur);
             $actionJoueur = $this->playerService->actionsDuJoueur($joueur);
 
@@ -91,7 +91,7 @@ class ExportService
         $compteur = $this->equipeService->compteLesjoueurs($equipe);
 
         return [
-            'players' => $joueurCollection,
+            'players' => $joueurs,
             'team' => $equipe,
             'pdata' => $pdata,
             'tdata' => $tdata,
