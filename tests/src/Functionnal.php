@@ -19,6 +19,8 @@ class Functionnal extends WebTestCase
         parent::setUp();
 
         $this->client = static::createClient();
+        $this->client->disableReboot();
+        //$this->client->insulate(true);
         $container = $this->client->getContainer();
         $doctrine = $container->get('doctrine');
         $this->entityManager = $doctrine->getManager();

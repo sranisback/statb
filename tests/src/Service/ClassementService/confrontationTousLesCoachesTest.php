@@ -252,7 +252,6 @@ class confrontationTousLesCoachesTest extends KernelTestCase
         $equipeTest3 = new Teams();
         $equipeTest3->setOwnedByCoach($coachTest3);
 
-
         $match0 = new Matches();
         $match0->setTeam1($equipeTest0);
         $match0->setTeam2($equipeTest1);
