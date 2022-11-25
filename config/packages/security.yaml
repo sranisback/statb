@@ -1,4 +1,6 @@
 security:
+    enable_authenticator_manager: true
+
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         db_users:
@@ -10,7 +12,6 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: true
             provider: db_users
             # activate different ways to authenticate
 
@@ -31,6 +32,6 @@ security:
     access_control:
          #- { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
-    encoders:
+    password_hashers:
         App\Entity\Coaches:
             algorithm: 'bcrypt'
