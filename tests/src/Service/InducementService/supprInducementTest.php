@@ -51,7 +51,6 @@ class supprInducementTest extends KernelTestCase
         $this->assertEquals($resultatAttendu, $inducementServiceTest->supprInducement(
             $equipeTest,
             'rr',
-            $this->createMock(PlayerService::class),
             $this->createMock(EquipeGestionService::class)
         ));
 
@@ -91,7 +90,6 @@ class supprInducementTest extends KernelTestCase
         $this->assertEquals($resultatAttendu, $inducementServiceTest->supprInducement(
             $equipeTest,
             'rr',
-            $this->createMock(PlayerService::class),
             $this->createMock(EquipeGestionService::class)
         ));
 
@@ -133,7 +131,6 @@ class supprInducementTest extends KernelTestCase
         $this->assertEquals($resultatAttendu, $inducementServiceTest->supprInducement(
             $equipeTest,
             'rr',
-            $this->createMock(PlayerService::class),
             $this->createMock(EquipeGestionService::class)
         ));
 
@@ -175,7 +172,6 @@ class supprInducementTest extends KernelTestCase
         $this->assertEquals($resultatAttendu, $inducementServiceTest->supprInducement(
             $equipeTest,
             'rr',
-            $this->createMock(PlayerService::class),
             $this->createMock(EquipeGestionService::class)
         ));
 
@@ -214,7 +210,6 @@ class supprInducementTest extends KernelTestCase
         $this->assertEquals($resultatAttendu, $inducementServiceTest->supprInducement(
             $equipeTest,
             'pop',
-            $this->createMock(PlayerService::class),
             $this->createMock(EquipeGestionService::class)
         ));
 
@@ -255,7 +250,6 @@ class supprInducementTest extends KernelTestCase
         $this->assertEquals($resultatAttendu, $inducementServiceTest->supprInducement(
             $equipeTest,
             'apo',
-            $this->createMock(PlayerService::class),
             $this->createMock(EquipeGestionService::class)
         ));
 
@@ -296,7 +290,6 @@ class supprInducementTest extends KernelTestCase
         $this->assertEquals($resultatAttendu, $inducementServiceTest->supprInducement(
             $equipeTest,
             'ac',
-            $this->createMock(PlayerService::class),
             $this->createMock(EquipeGestionService::class)
         ));
 
@@ -336,7 +329,6 @@ class supprInducementTest extends KernelTestCase
         $this->assertEquals($resultatAttendu, $inducementServiceTest->ajoutInducement(
             $equipeTest,
             'ac',
-            $this->createMock(PlayerService::class),
             $this->createMock(EquipeGestionService::class)
         ));
 
@@ -377,7 +369,6 @@ class supprInducementTest extends KernelTestCase
         $this->assertEquals($resultatAttendu, $inducementServiceTest->supprInducement(
             $equipeTest,
             'chl',
-            $this->createMock(PlayerService::class),
             $this->createMock(EquipeGestionService::class)
         ));
 
@@ -418,7 +409,6 @@ class supprInducementTest extends KernelTestCase
         $this->assertEquals($resultatAttendu, $inducementServiceTest->supprInducement(
             $equipeTest,
             'pop',
-            $this->createMock(PlayerService::class),
             $this->createMock(EquipeGestionService::class)
         ));
 
@@ -461,7 +451,6 @@ class supprInducementTest extends KernelTestCase
         $this->assertEquals($resultatAttendu, $inducementServiceTest->supprInducement(
             $equipeTest,
             'pop',
-            $this->createMock(PlayerService::class),
             $this->createMock(EquipeGestionService::class)
         ));
 

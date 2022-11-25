@@ -86,7 +86,7 @@ class ExportService
 
         $tdata = $this->inducementService->valeurInducementDelEquipe($equipe);
         $tdata['playersCost'] = $this->playerService->coutTotalJoueurs($equipe);
-        $tdata['tv'] = $this->equipeGestionService->tvDelEquipe($equipe, $this->playerService);
+        $tdata['tv'] = $this->equipeGestionService->tvDelEquipe($equipe);
 
         $compteur = $this->equipeService->compteLesjoueurs($equipe);
 

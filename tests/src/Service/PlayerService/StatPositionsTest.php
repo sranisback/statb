@@ -6,14 +6,8 @@ namespace App\Tests\src\Service\PlayerService;
 
 use App\Entity\GameDataPlayers;
 use App\Entity\GameDataSkills;
-use App\Service\EquipeGestionService;
-use App\Service\EquipeService;
-use App\Service\InfosService;
-use App\Service\MatchDataService;
-use App\Service\PlayerService;
+use App\Tests\src\TestServiceFactory\PlayerServiceTestFactory;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManager;
-use Doctrine\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
 
 class StatPositionsTest extends TestCase
@@ -33,12 +27,7 @@ class StatPositionsTest extends TestCase
 
         $baseSkillsTest->add($gameDateSkillMock);
 
-        $playerServiceTest = new PlayerService(
-            $this->createMock(EntityManager::class),
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
-        );
+        $playerServiceTest = (new PlayerServiceTestFactory)->getInstance();
 
         $this->assertEquals(
             '<text class="test-primary">Block</text>',
@@ -65,12 +54,7 @@ class StatPositionsTest extends TestCase
         $baseSkillsTest->add($gameDateSkillMock0);
         $baseSkillsTest->add($gameDateSkillMock1);
 
-        $playerServiceTest = new PlayerService(
-            $this->createMock(EntityManager::class),
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
-        );
+        $playerServiceTest = (new PlayerServiceTestFactory)->getInstance();
 
         $this->assertEquals(
             '<text class="test-primary">Block</text>, <text class="test-primary">Guard</text>',
@@ -88,13 +72,7 @@ class StatPositionsTest extends TestCase
         $gameDataPlayerMock = $this->createMock(GameDataPlayers::class);
         $gameDataPlayerMock->method('getBaseSkills')->willReturn($baseSkillsTest);
 
-        $playerServiceTest = new PlayerService(
-            $this->createMock(EntityManager::class),
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
-        );
-
+        $playerServiceTest = (new PlayerServiceTestFactory)->getInstance();
         $this->assertEquals(
             '',
             $playerServiceTest->competencesDunePositon($gameDataPlayerMock)

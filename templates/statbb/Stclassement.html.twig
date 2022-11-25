@@ -18,7 +18,7 @@
             {% for team in teams %}
                 <tr>
                     <td>{{ loop.index }}</td>
-                    <td><a href="{{ path('team', {'teamid': team.teamId }) }}">{{ team.name }}</a></td>
+                    <td><a href="{{ path('team', {'teamId': team.teamId }) }}">{{ team.name }}</a></td>
                     <td>{{ team.score }}</td>
                 </tr>
             {% endfor %}

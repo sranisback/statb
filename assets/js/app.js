@@ -393,7 +393,7 @@ $(document).ready(function () {
     });
 
     $('#supprimeLogo').click(function () {
-        $.post(Routing.generate('supprimeLogo', {equipeId: $(this).attr('teamId')}),
+        $.post(Routing.generate('supprimeLogo', {teamId: $(this).attr('teamId')}),
             {},
             function () {
                 window.location.reload();

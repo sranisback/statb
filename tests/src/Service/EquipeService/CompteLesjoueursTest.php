@@ -6,10 +6,8 @@ namespace App\Tests\src\Service\EquipeService;
 
 use App\Entity\Players;
 use App\Entity\Teams;
-use App\Service\EquipeGestionService;
 use App\Service\EquipeService;
-use App\Service\InducementService;
-use App\Service\SettingsService;
+use App\Tests\src\TestServiceFactory\EquipeServiceTestFactory;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
@@ -25,11 +23,8 @@ class CompteLesjoueursTest extends TestCase
 
         $objectManager = $this->createMock(EntityManagerInterface::class);
 
-        $this->equipeService = new EquipeService(
-            $objectManager,
-            $this->createMock(SettingsService::class),
-            $this->createMock(InducementService::class),
-            $this->createMock(EquipeGestionService::class)
+        $this->equipeService = (new EquipeServiceTestFactory)->getInstance(
+            $objectManager
         );
     }
 

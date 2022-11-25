@@ -3,13 +3,10 @@ namespace App\Tests\src\Service\PlayerService;
 
 use App\Entity\MatchData;
 use App\Entity\Players;
-use App\Service\EquipeGestionService;
-use App\Service\EquipeService;
-use App\Service\InfosService;
 use App\Service\MatchDataService;
-use App\Service\PlayerService;
-use Doctrine\Persistence\ObjectRepository;
+use App\Tests\src\TestServiceFactory\PlayerServiceTestFactory;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
 
 class actionsDuJoueurTest extends TestCase
@@ -45,11 +42,9 @@ class actionsDuJoueurTest extends TestCase
 
         $matchDataService = new MatchDataService($objectManager);
 
-        $playerService = new PlayerService(
+        $playerService = (new PlayerServiceTestFactory)->getInstance(
             $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $matchDataService,
-            $this->createMock(InfosService::class)
+            $matchDataService
         );
 
         $this->assertEquals($retour, $playerService->actionsDuJoueur($playerMock));

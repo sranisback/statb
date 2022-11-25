@@ -29,7 +29,7 @@
             {% else %}
                 <tr>
             {% endif %}
-            <td><a href="{{ path('team', {'teamid': ligne.equipe.teamId }) }}">{{ ligne.equipe.name }}</a>
+            <td><a href="{{ path('team', {'teamId': ligne.equipe.teamId }) }}">{{ ligne.equipe.name }}</a>
                 {% if ligne.equipe.franchise == true %}
                 <span class="fas fa-tag text-success"></span>
                 {% endif %}

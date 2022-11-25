@@ -7,14 +7,10 @@ use App\Entity\GameDataSkills;
 use App\Entity\MatchData;
 use App\Entity\Players;
 use App\Entity\PlayersSkills;
-use App\Service\EquipeGestionService;
-use App\Service\EquipeService;
-use App\Service\InfosService;
-use App\Service\MatchDataService;
-use App\Service\PlayerService;
+use App\Tests\src\TestServiceFactory\PlayerServiceTestFactory;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
 
 class statsDuJoueurTest extends TestCase
@@ -67,12 +63,7 @@ class statsDuJoueurTest extends TestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchDataRepoMock);
 
-        $playerService = new PlayerService(
-            $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
-        );
+        $playerService = (new PlayerServiceTestFactory)->getInstance($objectManager);
 
         $retour['comp'] = '<text class="test-primary">Frenzy</text>, <text class="test-primary">Dodge</text>, <text class="test-primary">Jump Up</text>, <text class="text-success">Block</text>';
         $retour['actions'] = [

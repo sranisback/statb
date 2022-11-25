@@ -4,15 +4,12 @@ namespace App\Tests\src\Service\PlayerService;
 
 use App\Entity\Players;
 use App\Entity\Teams;
-use App\Service\EquipeGestionService;
-use App\Service\EquipeService;
-use App\Service\InfosService;
 use App\Service\MatchDataService;
-use App\Service\PlayerService;
+use App\Tests\src\TestServiceFactory\PlayerServiceTestFactory;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use PHPUnit\Framework\TestCase;
 
-class annulerRPMtousLesJoueursDeLequipeTest extends KernelTestCase
+class annulerRPMtousLesJoueursDeLequipeTest extends TestCase
 {
     /**
      * @test
@@ -30,7 +27,7 @@ class annulerRPMtousLesJoueursDeLequipeTest extends KernelTestCase
         $joueur4 = new Players();
 
         $playerRepoMock = $this->getMockBuilder(Players::class)
-            ->setMethods(['listeDesJoueursPourlEquipe'])
+            ->addMethods(['listeDesJoueursPourlEquipe'])
             ->getMock();
         $playerRepoMock->method('listeDesJoueursPourlEquipe')->willReturn(
             [$joueur0, $joueur1, $joueur2, $joueur3, $joueur4]
@@ -41,11 +38,9 @@ class annulerRPMtousLesJoueursDeLequipeTest extends KernelTestCase
 
         $matchDataService = new MatchDataService($objectManager);
 
-        $playerService = new PlayerService(
+        $playerService = (new PlayerServiceTestFactory)->getInstance(
             $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $matchDataService,
-            $this->createMock(InfosService::class)
+            $matchDataService
         );
 
         $playerService->annulerRPMtousLesJoueursDeLequipe($equipeMock);

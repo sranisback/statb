@@ -9,11 +9,7 @@ use App\Entity\GameDataSkillsBb2020;
 use App\Entity\Players;
 use App\Entity\PlayersSkills;
 use App\Enum\RulesetEnum;
-use App\Service\EquipeGestionService;
-use App\Service\EquipeService;
-use App\Service\InfosService;
-use App\Service\MatchDataService;
-use App\Service\PlayerService;
+use App\Tests\src\TestServiceFactory\PlayerServiceTestFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -65,11 +61,8 @@ class LeJoueurEstFanFavoriteTest extends TestCase
             )
         );
 
-        $playerServiceTest = new PlayerService(
-            $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
+        $playerServiceTest =(new PlayerServiceTestFactory)->getInstance(
+            $objectManager
         );
 
         $this->assertTrue($playerServiceTest->leJoueurEstFanFavorite($joueurMock));
@@ -115,11 +108,8 @@ class LeJoueurEstFanFavoriteTest extends TestCase
             )
         );
 
-        $playerServiceTest = new PlayerService(
-            $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
+        $playerServiceTest = (new PlayerServiceTestFactory)->getInstance(
+            $objectManager
         );
 
         $this->assertFalse($playerServiceTest->leJoueurEstFanFavorite($joueurMock));
@@ -169,11 +159,8 @@ class LeJoueurEstFanFavoriteTest extends TestCase
             )
         );
 
-        $playerServiceTest = new PlayerService(
-            $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
+        $playerServiceTest = (new PlayerServiceTestFactory)->getInstance(
+            $objectManager
         );
 
         $this->assertTrue($playerServiceTest->leJoueurEstFanFavorite($joueurMock));
@@ -219,11 +206,8 @@ class LeJoueurEstFanFavoriteTest extends TestCase
             )
         );
 
-        $playerServiceTest = new PlayerService(
-            $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
+        $playerServiceTest = (new PlayerServiceTestFactory)->getInstance(
+            $objectManager
         );
 
         $this->assertFalse($playerServiceTest->leJoueurEstFanFavorite($joueurMock));

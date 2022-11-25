@@ -7,13 +7,10 @@ use App\Entity\Players;
 use App\Entity\PlayersSkills;
 use App\Entity\Teams;
 use App\Enum\RulesetEnum;
-use App\Service\EquipeGestionService;
-use App\Service\EquipeService;
-use App\Service\InfosService;
 use App\Service\MatchDataService;
-use App\Service\PlayerService;
-use Doctrine\Persistence\ObjectRepository;
+use App\Tests\src\TestServiceFactory\PlayerServiceTestFactory;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
 
 class controleNiveauDesJoueursDelEquipeTest extends TestCase
@@ -65,11 +62,9 @@ class controleNiveauDesJoueursDelEquipeTest extends TestCase
 
         $matchDataService = new MatchDataService($objectManager);
 
-        $playerService = new PlayerService(
+        $playerService = $playerService = (new PlayerServiceTestFactory)->getInstance(
             $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $matchDataService,
-            $this->createMock(InfosService::class)
+            $matchDataService
         );
 
         $playerService->controleNiveauDesJoueursDelEquipe($equipeMock);
@@ -124,12 +119,7 @@ class controleNiveauDesJoueursDelEquipeTest extends TestCase
             }
         ));
 
-        $playerService = new PlayerService(
-            $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
-        );
+        $playerService = (new PlayerServiceTestFactory)->getInstance($objectManager);
 
         $playerService->controleNiveauDesJoueursDelEquipe($equipeMock);
 
@@ -185,11 +175,9 @@ class controleNiveauDesJoueursDelEquipeTest extends TestCase
 
         $matchDataService = new MatchDataService($objectManager);
 
-        $playerService = new PlayerService(
+        $playerService = (new PlayerServiceTestFactory)->getInstance(
             $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $matchDataService,
-            $this->createMock(InfosService::class)
+            $matchDataService
         );
 
         $playerService->controleNiveauDesJoueursDelEquipe($equipeMock);
@@ -246,12 +234,7 @@ class controleNiveauDesJoueursDelEquipeTest extends TestCase
             }
         ));
 
-        $playerService = new PlayerService(
-            $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
-        );
+        $playerService = (new PlayerServiceTestFactory)->getInstance($objectManager);
 
         $playerService->controleNiveauDesJoueursDelEquipe($equipeMock);
 

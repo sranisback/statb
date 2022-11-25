@@ -5,10 +5,7 @@ namespace App\Tests\src\Service\EquipeGestionService;
 
 
 use App\Entity\Teams;
-use App\Service\EquipeGestionService;
-use App\Service\InducementService;
-use App\Service\InfosService;
-use App\Service\SettingsService;
+use App\Tests\src\TestServiceFactory\EquipeGestionServiceTestFactory;
 use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\TestCase;
 
@@ -24,11 +21,8 @@ class MettreEnFranchiseTest extends TestCase
 
         $objectManager = $this->createMock(EntityManager::class);
 
-        $equipeGestionServiceTest = new EquipeGestionService(
-            $objectManager,
-            $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class),
-            $this->createMock(InducementService::class)
+        $equipeGestionServiceTest = (new EquipeGestionServiceTestFactory())->getInstance(
+            $objectManager
         );
 
         $equipeExpected = new Teams();
@@ -48,11 +42,8 @@ class MettreEnFranchiseTest extends TestCase
 
         $objectManager = $this->createMock(EntityManager::class);
 
-        $equipeGestionServiceTest = new EquipeGestionService(
-            $objectManager,
-            $this->createMock(SettingsService::class),
-            $this->createMock(InfosService::class),
-            $this->createMock(InducementService::class)
+        $equipeGestionServiceTest = (new EquipeGestionServiceTestFactory())->getInstance(
+            $objectManager
         );
 
         $equipeExpected = new Teams();

@@ -9,9 +9,8 @@ use App\Entity\Stades;
 use App\Entity\Teams;
 use App\Enum\RulesetEnum;
 use App\Service\EquipeGestionService;
-use App\Service\EquipeService;
 use App\Service\InducementService;
-use App\Service\PlayerService;
+use App\Tests\src\TestServiceFactory\InducementServiceTestFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -39,10 +38,8 @@ class AjoutInducementTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchRepoMock);
 
-        $inducementServiceTest = new InducementService(
-            $objectManager,
-            $this->createMock(EquipeService::class),
-            $this->createMock(PlayerService::class)
+        $inducementServiceTest = (new InducementServiceTestFactory)->getInstance(
+            $objectManager
         );
 
         $resultatAttendu = [
@@ -53,7 +50,6 @@ class AjoutInducementTest extends KernelTestCase
         $this->assertEquals($resultatAttendu, $inducementServiceTest ->ajoutInducement(
             $equipeTest,
             'rr',
-            $this->createMock(PlayerService::class),
             $this->createMock(EquipeGestionService::class)
         ));
 
@@ -95,7 +91,6 @@ class AjoutInducementTest extends KernelTestCase
         $this->assertEquals($resultatAttendu, $inducementServiceTest->ajoutInducement(
             $equipeTest,
             'rr',
-            $this->createMock(PlayerService::class),
             $this->createMock(EquipeGestionService::class)
         ));
 
@@ -137,7 +132,6 @@ class AjoutInducementTest extends KernelTestCase
         $this->assertEquals($resultatAttendu, $inducementServiceTest->ajoutInducement(
             $equipeTest,
             'pop',
-            $this->createMock(PlayerService::class),
             $this->createMock(EquipeGestionService::class)
         ));
 
@@ -179,7 +173,6 @@ class AjoutInducementTest extends KernelTestCase
         $this->assertEquals($resultatAttendu, $inducementServiceTest->ajoutInducement(
             $equipeTest,
             'pop',
-            $this->createMock(PlayerService::class),
             $this->createMock(EquipeGestionService::class)
         ));
 
@@ -219,7 +212,6 @@ class AjoutInducementTest extends KernelTestCase
         $this->assertEquals($resultatAttendu, $inducementServiceTest->ajoutInducement(
             $equipeTest,
             'rr',
-            $this->createMock(PlayerService::class),
             $this->createMock(EquipeGestionService::class)
         ));
 
@@ -259,7 +251,6 @@ class AjoutInducementTest extends KernelTestCase
         $this->assertEquals($resultatAttendu, $inducementServiceTest->ajoutInducement(
             $equipeTest,
             'rr',
-            $this->createMock(PlayerService::class),
             $this->createMock(EquipeGestionService::class)
         ));
 
@@ -299,7 +290,6 @@ class AjoutInducementTest extends KernelTestCase
         $this->assertEquals($resultatAttendu, $inducementServiceTest->ajoutInducement(
             $equipeTest,
             'pop',
-            $this->createMock(PlayerService::class),
             $this->createMock(EquipeGestionService::class)
         ));
 
@@ -339,7 +329,6 @@ class AjoutInducementTest extends KernelTestCase
         $this->assertEquals($resultatAttendu, $inducementServiceTest->ajoutInducement(
             $equipeTest,
             'chl',
-            $this->createMock(PlayerService::class),
             $this->createMock(EquipeGestionService::class)
         ));
 
@@ -379,7 +368,6 @@ class AjoutInducementTest extends KernelTestCase
         $this->assertEquals($resultatAttendu, $inducementServiceTest->ajoutInducement(
             $equipeTest,
             'ac',
-            $this->createMock(PlayerService::class),
             $this->createMock(EquipeGestionService::class)
         ));
 
@@ -419,7 +407,6 @@ class AjoutInducementTest extends KernelTestCase
         $this->assertEquals($resultatAttendu, $inducementServiceTest->ajoutInducement(
             $equipeTest,
             'apo',
-            $this->createMock(PlayerService::class),
             $this->createMock(EquipeGestionService::class)
         ));
 
@@ -462,7 +449,6 @@ class AjoutInducementTest extends KernelTestCase
         $this->assertEquals($resultatAttendu, $inducementServiceTest->ajoutInducement(
             $equipeTest,
             'pay',
-            $this->createMock(PlayerService::class),
             $this->createMock(EquipeGestionService::class)
         ));
 

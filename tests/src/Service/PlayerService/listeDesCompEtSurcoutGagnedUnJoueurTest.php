@@ -5,11 +5,8 @@ namespace App\Tests\src\Service\PlayerService;
 use App\Entity\GameDataSkills;
 use App\Entity\Players;
 use App\Entity\PlayersSkills;
-use App\Service\EquipeGestionService;
-use App\Service\EquipeService;
-use App\Service\InfosService;
 use App\Service\MatchDataService;
-use App\Service\PlayerService;
+use App\Tests\src\TestServiceFactory\PlayerServiceTestFactory;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
@@ -37,11 +34,9 @@ class listeDesCompEtSurcoutGagnedUnJoueurTest extends TestCase
 
         $matchDataService = new MatchDataService($objectManager);
 
-        $playerService = new PlayerService(
+        $playerService = (new PlayerServiceTestFactory())->getInstance(
             $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $matchDataService,
-            $this->createMock(InfosService::class)
+            $matchDataService
         );
 
         $retour = ['compgagnee' => '<text class="text-success">Block</text>, ', 'cout' => 20_000];
@@ -77,11 +72,9 @@ class listeDesCompEtSurcoutGagnedUnJoueurTest extends TestCase
 
         $matchDataService = new MatchDataService($objectManager);
 
-        $playerService = new PlayerService(
+        $playerService = (new PlayerServiceTestFactory())->getInstance(
             $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $matchDataService,
-            $this->createMock(InfosService::class)
+            $matchDataService
         );
 
         $retour = ['compgagnee' => '<text class="text-success">Block</text>, <text class="text-danger">Esquive</text>, ', 'cout' => 50_000];

@@ -8,11 +8,7 @@ use App\Entity\GameDataSkills;
 use App\Entity\MatchData;
 use App\Entity\Players;
 use App\Entity\PlayersSkills;
-use App\Service\EquipeGestionService;
-use App\Service\EquipeService;
-use App\Service\InfosService;
-use App\Service\MatchDataService;
-use App\Service\PlayerService;
+use App\Tests\src\TestServiceFactory\PlayerServiceTestFactory;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ObjectRepository;
@@ -72,11 +68,8 @@ class ligneJoueurTest extends TestCase
             )
         );
 
-        $playerServiceTest = new PlayerService(
+        $playerServiceTest = (new PlayerServiceTestFactory)->getInstance(
             $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
         );
 
         $attendu = [
@@ -110,12 +103,7 @@ class ligneJoueurTest extends TestCase
         $joueurMock->method('getPlayerId')->willReturn(1);
         $joueurMock->method('getJournalier')->willReturn(false);
 
-        $playerServiceTest = new PlayerService(
-            $this->createMock(EntityManager::class),
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
-        );
+        $playerServiceTest = (new PlayerServiceTestFactory)->getInstance();
 
         $attendu = [];
 
@@ -175,11 +163,8 @@ class ligneJoueurTest extends TestCase
             )
         );
 
-        $playerServiceTest = new PlayerService(
+        $playerServiceTest = (new PlayerServiceTestFactory)->getInstance(
             $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
         );
 
         $attendu = [

@@ -26,6 +26,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class JoueurController extends AbstractController
 {
+
+    private EquipeGestionService $equipeGestionService;
+
+    public function __construct(EquipeGestionService $equipeGestionService)
+    {
+        $this->equipeGestionService = $equipeGestionService;
+    }
+
     /**
      * @Route("/player/{playerid}", name="Player")
      * @param int $playerid
@@ -119,7 +127,8 @@ class JoueurController extends AbstractController
             $donneesPourAjout['teamId'],
             $donneesPourAjout['nom'],
             $donneesPourAjout['nr'],
-            $donneesPourAjout['ruleset']
+            $donneesPourAjout['ruleset'],
+            $this->equipeGestionService
         );
         $tresors = 0;
         $html = '';
@@ -157,7 +166,7 @@ class JoueurController extends AbstractController
                 }
 
                 if ($equipe !== null) {
-                    $tv = $equipeGestionService->tvDelEquipe($equipe, $playerService);
+                    $tv = $this->equipeGestionService->tvDelEquipe($equipe);
                     $tresors = $equipe->getTreasury();
                 }
 
@@ -201,7 +210,7 @@ class JoueurController extends AbstractController
         /** @var Players $joueur */
         $joueur = $this->getDoctrine()->getRepository(Players::class)->findOneBy(['playerId' => $playerId]);
 
-        $resultat = $playerService->renvoisOuSuppressionJoueur($joueur);
+        $resultat = $playerService->renvoisOuSuppressionJoueur($joueur,$this->equipeGestionService);
 
         $response = [
             "tv" => $resultat['tv'],

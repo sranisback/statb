@@ -274,7 +274,7 @@
                         en PDF</a>
 
                     <a type="button" class="btn btn-primary" equipeId="{{ feuille.team.teamId }}"
-                       href="{{ path('mettreEnFranchise', {'equipeId': feuille.team.teamId} ) }}">
+                       href="{{ path('mettreEnFranchise', {'teamId': feuille.team.teamId} ) }}">
                         {% if feuille.team.franchise == false %}
                             <span class="far fa-square"></span>
                         {% else %}
@@ -283,8 +283,8 @@
                         Equipe Franchisee ?
                     </a>
                     {% if app.user == feuille.team.ownedByCoach and feuille.team.retired == 0 %}
-                        {{ render(controller('App\\Controller\\EquipeController::ajoutStadeModal',{'equipeId':feuille.team.teamId} )) }}
-                        {{ render(controller('App\\Controller\\EquipeController::uploadLogo', {'equipeId':feuille.team.teamId} )) }}
+                        {{ render(controller('App\\Controller\\EquipeController::ajoutStadeModal',{'teamId':feuille.team.teamId} )) }}
+                        {{ render(controller('App\\Controller\\EquipeController::uploadLogo', {'teamId':feuille.team.teamId} )) }}
                     {% endif %}
 
                     {% if feuille.team.sponsor != null %}

@@ -6,10 +6,8 @@ namespace App\Tests\src\Service\EquipeService;
 
 use App\Entity\Matches;
 use App\Entity\Teams;
-use App\Service\EquipeGestionService;
 use App\Service\EquipeService;
-use App\Service\InducementService;
-use App\Service\SettingsService;
+use App\Tests\src\TestServiceFactory\EquipeServiceTestFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -42,13 +40,9 @@ class CalculBonusPoulpiTest extends TestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchRepoMock);
 
-        $this->EquipeService = new EquipeService(
-            $objectManager,
-            $this->createMock(SettingsService::class),
-            $this->createMock(InducementService::class),
-            $this->createMock(EquipeGestionService::class)
+        $this->EquipeService = (new EquipeServiceTestFactory)->getInstance(
+            $objectManager
         );
-
     }
 
     /**

@@ -4,15 +4,12 @@ namespace App\Tests\src\Service\PlayerService;
 
 use App\Entity\Players;
 use App\Enum\RulesetEnum;
-use App\Service\EquipeGestionService;
-use App\Service\EquipeService;
-use App\Service\InfosService;
 use App\Service\MatchDataService;
-use App\Service\PlayerService;
+use App\Tests\src\TestServiceFactory\PlayerServiceTestFactory;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use PHPUnit\Framework\TestCase;
 
-class listenivSpeciauxEtSurcoutTest extends KernelTestCase
+class listenivSpeciauxEtSurcoutTest extends TestCase
 {
     /**
      * @test
@@ -27,11 +24,9 @@ class listenivSpeciauxEtSurcoutTest extends KernelTestCase
 
         $matchDataService = new MatchDataService($objectManager);
 
-        $playerService = new PlayerService(
+        $playerService = (new PlayerServiceTestFactory())->getInstance(
             $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $matchDataService,
-            $this->createMock(InfosService::class)
+            $matchDataService
         );
 
         $retour = ['nivspec' => '<text class="text-success">+1 St</text>, ', 'cout' => 50_000];
@@ -52,11 +47,9 @@ class listenivSpeciauxEtSurcoutTest extends KernelTestCase
 
         $matchDataService = new MatchDataService($objectManager);
 
-        $playerService = new PlayerService(
+        $playerService = (new PlayerServiceTestFactory())->getInstance(
             $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $matchDataService,
-            $this->createMock(InfosService::class)
+            $matchDataService
         );
 
         $retour = ['nivspec' => '<text class="text-success">+1 St</text>, ', 'cout' => 80_000];

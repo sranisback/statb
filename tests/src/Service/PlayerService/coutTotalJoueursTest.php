@@ -11,14 +11,10 @@ use App\Entity\Players;
 use App\Entity\PlayersSkills;
 use App\Entity\Teams;
 use App\Enum\RulesetEnum;
-use App\Service\EquipeGestionService;
-use App\Service\EquipeService;
-use App\Service\InfosService;
-use App\Service\MatchDataService;
-use App\Service\PlayerService;
+use App\Tests\src\TestServiceFactory\PlayerServiceTestFactory;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
 
 class coutTotalJoueursTest extends TestCase
@@ -84,11 +80,8 @@ class coutTotalJoueursTest extends TestCase
             }
         ));
 
-        $playerServiceTest = new PlayerService(
+        $playerServiceTest = (new PlayerServiceTestFactory)->getInstance(
             $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
         );
 
         $this->assertEquals('130000', $playerServiceTest->coutTotalJoueurs($equipeMock));
@@ -157,11 +150,8 @@ class coutTotalJoueursTest extends TestCase
             }
         ));
 
-        $playerServiceTest = new PlayerService(
+        $playerServiceTest = (new PlayerServiceTestFactory)->getInstance(
             $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
         );
 
         $this->assertEquals('130000', $playerServiceTest->coutTotalJoueurs($equipeMock));

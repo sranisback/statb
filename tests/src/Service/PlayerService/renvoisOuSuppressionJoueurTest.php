@@ -12,12 +12,9 @@ use App\Entity\PlayersSkills;
 use App\Entity\Teams;
 use App\Enum\RulesetEnum;
 use App\Service\EquipeGestionService;
-use App\Service\EquipeService;
-use App\Service\InfosService;
-use App\Service\MatchDataService;
-use App\Service\PlayerService;
-use Doctrine\Persistence\ObjectRepository;
+use App\Tests\src\TestServiceFactory\PlayerServiceTestFactory;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
 
 class renvoisOuSuppressionJoueurTest extends TestCase
@@ -83,12 +80,7 @@ class renvoisOuSuppressionJoueurTest extends TestCase
         $equipeGestionServiceMock = $this->createMock(EquipeGestionService::class);
         $equipeGestionServiceMock->method('tvDelEquipe')->willReturnOnConsecutiveCalls(1_000_000);
 
-        $playerServiceTest = new PlayerService(
-            $objectManager,
-            $equipeGestionServiceMock,
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
-        );
+        $playerServiceTest = (new PlayerServiceTestFactory())->getInstance($objectManager);
 
         $reponseTest = [
             'reponse' => 'sld',
@@ -97,7 +89,7 @@ class renvoisOuSuppressionJoueurTest extends TestCase
             'playercost' => 50_000,
         ];
 
-        $this->assertEquals($reponseTest, $playerServiceTest->renvoisOuSuppressionJoueur($playerTest));
+        $this->assertEquals($reponseTest, $playerServiceTest->renvoisOuSuppressionJoueur($playerTest, $equipeGestionServiceMock));
     }
 
     /**
@@ -161,12 +153,7 @@ class renvoisOuSuppressionJoueurTest extends TestCase
         $equipeGestionServiceMock = $this->createMock(EquipeGestionService::class);
         $equipeGestionServiceMock->method('tvDelEquipe')->willReturnOnConsecutiveCalls(1_000_000);
 
-        $playerServiceTest = new PlayerService(
-            $objectManager,
-            $equipeGestionServiceMock,
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
-        );
+        $playerServiceTest = (new PlayerServiceTestFactory())->getInstance($objectManager);
 
         $reponseTest = [
             'reponse' => 'sld',
@@ -175,7 +162,7 @@ class renvoisOuSuppressionJoueurTest extends TestCase
             'playercost' => 50_000,
         ];
 
-        $this->assertEquals($reponseTest, $playerServiceTest->renvoisOuSuppressionJoueur($playerTest));
+        $this->assertEquals($reponseTest, $playerServiceTest->renvoisOuSuppressionJoueur($playerTest, $equipeGestionServiceMock));
     }
 
     /**
@@ -237,12 +224,7 @@ class renvoisOuSuppressionJoueurTest extends TestCase
         $equipeGestionServiceMock = $this->createMock(EquipeGestionService::class);
         $equipeGestionServiceMock->method('tvDelEquipe')->willReturn(1_000_000);
 
-        $playerServiceTest = new PlayerService(
-            $objectManager,
-            $equipeGestionServiceMock,
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
-        );
+        $playerServiceTest = (new PlayerServiceTestFactory())->getInstance($objectManager);
 
         $reponseTest = [
             'reponse' => 'rm',
@@ -251,7 +233,7 @@ class renvoisOuSuppressionJoueurTest extends TestCase
             'playercost' => 50_000,
         ];
 
-        $this->assertEquals($reponseTest, $playerServiceTest->renvoisOuSuppressionJoueur($playerTest));
+        $this->assertEquals($reponseTest, $playerServiceTest->renvoisOuSuppressionJoueur($playerTest, $equipeGestionServiceMock));
     }
 
     /**
@@ -313,12 +295,7 @@ class renvoisOuSuppressionJoueurTest extends TestCase
         $equipeGestionServiceMock = $this->createMock(EquipeGestionService::class);
         $equipeGestionServiceMock->method('tvDelEquipe')->willReturn(1_000_000);
 
-        $playerServiceTest = new PlayerService(
-            $objectManager,
-            $equipeGestionServiceMock,
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
-        );
+        $playerServiceTest = (new PlayerServiceTestFactory())->getInstance($objectManager);
 
         $reponseTest = [
             'reponse' => 'rm',
@@ -327,6 +304,6 @@ class renvoisOuSuppressionJoueurTest extends TestCase
             'playercost' => 50_000,
         ];
 
-        $this->assertEquals($reponseTest, $playerServiceTest->renvoisOuSuppressionJoueur($playerTest));
+        $this->assertEquals($reponseTest, $playerServiceTest->renvoisOuSuppressionJoueur($playerTest, $equipeGestionServiceMock));
     }
 }

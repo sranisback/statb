@@ -3,7 +3,7 @@
 
             <div class="card m-2">
                 <div class="card-header">
-                    <h4 class="text-center"><a href='{{ path("team",{"teamid":team.teamId}) }}'>{{ team.name }}</a>
+                    <h4 class="text-center"><a href='{{ path("team",{"teamId":team.teamId}) }}'>{{ team.name }}</a>
                         {% if team.franchise == true %}
                             <span class="fas fa-tag text-success"></span>
                         {% endif %}</h4>

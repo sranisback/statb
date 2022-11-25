@@ -28,10 +28,6 @@ class PlayerService
      */
     private EntityManagerInterface $doctrineEntityManager;
     /**
-     * @var EquipeGestionService
-     */
-    private EquipeGestionService $equipeGestionService;
-    /**
      * @var MatchDataService
      */
     private MatchDataService $matchDataService;
@@ -40,12 +36,10 @@ class PlayerService
 
     public function __construct(
         EntityManagerInterface $doctrineEntityManager,
-        EquipeGestionService $equipeGestionService,
         MatchDataService $matchDataService,
         InfosService $infosService
     ) {
         $this->doctrineEntityManager = $doctrineEntityManager;
-        $this->equipeGestionService = $equipeGestionService;
         $this->matchDataService = $matchDataService;
         $this->infoService = $infosService;
     }
@@ -323,8 +317,14 @@ class PlayerService
      * @param int $ruleset
      * @return array<string,mixed>
      */
-    public function ajoutJoueur(int $positionId, int $teamId, string $nom, string $numero, int $ruleset): array
-    {
+    public function ajoutJoueur(
+        int $positionId,
+        int $teamId,
+        string $nom,
+        string $numero,
+        int $ruleset,
+        EquipeGestionService $equipeGestionService
+    ): array {
         $repo = RulesetEnum::getGameDataPlayersRepoFromIntRuleset($ruleset);
         $champ = RulesetEnum::champIdGameDataPlayerFromIntRuleset($ruleset);
 
@@ -351,16 +351,12 @@ class PlayerService
         }
 
         if ($equipe && $position) {
-            /* @phpstan-ignore-next-line */
             if ($equipe->getTreasury() >= $position->getCost()) {
-                /* @phpstan-ignore-next-line */
                 if ($count < $position->getQty()) {
-                    /* @phpstan-ignore-next-line */
                     $tresors = $equipe->getTreasury() - $position->getCost();
                     $equipe->setTreasury($tresors);
 
                     $joueur = PlayerFactory::nouveauJoueur(
-                    /* @phpstan-ignore-next-line */
                         $position,
                         (int)$numero,
                         $equipe,
@@ -374,7 +370,7 @@ class PlayerService
 
                     $this->doctrineEntityManager->persist($joueur);
 
-                    $equipe->setTv($this->equipeGestionService->tvDelEquipe($equipe, $this));
+                    $equipe->setTv($equipeGestionService->tvDelEquipe($equipe));
 
                     $this->doctrineEntityManager->persist($equipe);
                     $this->doctrineEntityManager->flush();
@@ -416,7 +412,7 @@ class PlayerService
      * @param Players $joueur
      * @return array<string,mixed>
      */
-    public function renvoisOuSuppressionJoueur(Players $joueur): array
+    public function renvoisOuSuppressionJoueur(Players $joueur, EquipeGestionService $equipeGestionService): array
     {
         $equipe = $joueur->getOwnedByTeam();
         $position = RulesetEnum::getPositionFromPlayerByRuleset($joueur);
@@ -443,7 +439,7 @@ class PlayerService
             }
             $this->doctrineEntityManager->flush();
 
-            $equipe->setTv($this->equipeGestionService->tvDelEquipe($equipe, $this));
+            $equipe->setTv($equipeGestionService->tvDelEquipe($equipe));
 
             $this->doctrineEntityManager->persist($equipe);
             $this->doctrineEntityManager->flush();
@@ -861,7 +857,6 @@ class PlayerService
             ->getRepository(RulesetEnum::getGameDataSkillRepoFromPlayerByRuleset($joueur))
             ->findOneBy(['name' => 'Fan Favorite']);
 
-        /* @phpstan-ignore-next-line */
         $fanFavouriteId = RulesetEnum::getIdFromGameDataSetByRuleset($joueur, $fanFavourite);
 
         if (!empty($fanFavourite)) {
@@ -948,7 +943,6 @@ class PlayerService
      * @param Players $joueur
      * @param string $photoDirectory
      */
-    /* @phpstan-ignore-next-line */
     public function uploadPhotoJoueur($request, Players $joueur, string $photoDirectory): void
     {
         $form = $request->files->all();

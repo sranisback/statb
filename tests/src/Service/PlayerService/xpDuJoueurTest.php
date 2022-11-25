@@ -5,16 +5,12 @@ namespace App\Tests\src\Service\PlayerService;
 use App\Entity\MatchData;
 use App\Entity\Players;
 use App\Enum\RulesetEnum;
-use App\Service\EquipeGestionService;
-use App\Service\EquipeService;
-use App\Service\InfosService;
-use App\Service\MatchDataService;
-use App\Service\PlayerService;
-use Doctrine\Persistence\ObjectRepository;
+use App\Tests\src\TestServiceFactory\PlayerServiceTestFactory;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Doctrine\Persistence\ObjectRepository;
+use PHPUnit\Framework\TestCase;
 
-class xpDuJoueurTest extends KernelTestCase
+class xpDuJoueurTest extends TestCase
 {
     /**
      * @test
@@ -38,11 +34,8 @@ class xpDuJoueurTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchDataRepoMock);
 
-        $playerServiceTest = new PlayerService(
-            $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
+        $playerServiceTest = (new PlayerServiceTestFactory())->getInstance(
+            $objectManager
         );
 
         $this->assertEquals(13, $playerServiceTest->xpDuJoueur($joueurTest));
@@ -70,13 +63,9 @@ class xpDuJoueurTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchDataRepoMock);
 
-        $playerServiceTest = new PlayerService(
-            $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
+        $playerServiceTest = (new PlayerServiceTestFactory())->getInstance(
+            $objectManager
         );
-
         $this->assertEquals(12, $playerServiceTest->xpDuJoueur($joueurTest));
     }
 
@@ -94,11 +83,8 @@ class xpDuJoueurTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchDataRepoMock);
 
-        $playerServiceTest = new PlayerService(
-            $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
+        $playerServiceTest = (new PlayerServiceTestFactory())->getInstance(
+            $objectManager
         );
 
         $this->assertEquals(0, $playerServiceTest->xpDuJoueur($joueurTest));
@@ -121,11 +107,8 @@ class xpDuJoueurTest extends KernelTestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchDataRepoMock);
 
-        $playerServiceTest = new PlayerService(
-            $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
+        $playerServiceTest = (new PlayerServiceTestFactory())->getInstance(
+            $objectManager
         );
 
         $this->assertEquals(0, $playerServiceTest->xpDuJoueur($joueurTest));

@@ -7,15 +7,12 @@ use App\Entity\MatchData;
 use App\Entity\Matches;
 use App\Entity\Players;
 use App\Entity\Teams;
-use App\Service\EquipeGestionService;
-use App\Service\EquipeService;
-use App\Service\InfosService;
 use App\Service\MatchDataService;
-use App\Service\PlayerService;
+use App\Tests\src\TestServiceFactory\PlayerServiceTestFactory;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use PHPUnit\Framework\TestCase;
 
-class toutesLesActionsDeLequipeDansUnMatchTest extends KernelTestCase
+class toutesLesActionsDeLequipeDansUnMatchTest extends TestCase
 {
     /**
      * @test
@@ -40,7 +37,7 @@ class toutesLesActionsDeLequipeDansUnMatchTest extends KernelTestCase
         $matchData->setMvp(1);
 
         $MatchDataRepoMock = $this->getMockBuilder(MatchData::class)
-            ->setMethods(['listeDesJoueursdUnMatch', 'findBy'])
+            ->addMethods(['listeDesJoueursdUnMatch', 'findBy'])
             ->getMock();
         $MatchDataRepoMock->method('listeDesJoueursdUnMatch')->willReturn([$matchData]);
         $MatchDataRepoMock->method('findBy')->willReturn([$matchData]);
@@ -50,11 +47,9 @@ class toutesLesActionsDeLequipeDansUnMatchTest extends KernelTestCase
 
         $matchDataService = new MatchDataService($objectManager);
 
-        $playerService = new PlayerService(
+        $playerService = (new PlayerServiceTestFactory())->getInstance(
             $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $matchDataService,
-            $this->createMock(InfosService::class)
+            $matchDataService
         );
 
         $this->assertEquals(
@@ -85,7 +80,7 @@ class toutesLesActionsDeLequipeDansUnMatchTest extends KernelTestCase
         $matchData->setMvp(1);
 
         $MatchDataRepoMock = $this->getMockBuilder(MatchData::class)
-            ->setMethods(['listeDesJoueursdUnMatch', 'findBy'])
+            ->addMethods(['listeDesJoueursdUnMatch', 'findBy'])
             ->getMock();
         $MatchDataRepoMock->method('listeDesJoueursdUnMatch')->willReturn([$matchData]);
         $MatchDataRepoMock->method('findBy')->willReturn([$matchData]);
@@ -95,11 +90,9 @@ class toutesLesActionsDeLequipeDansUnMatchTest extends KernelTestCase
 
         $matchDataService = new MatchDataService($objectManager);
 
-        $playerService = new PlayerService(
+        $playerService = (new PlayerServiceTestFactory())->getInstance(
             $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $matchDataService,
-            $this->createMock(InfosService::class)
+            $matchDataService
         );
 
         $this->assertEquals(
@@ -129,7 +122,7 @@ class toutesLesActionsDeLequipeDansUnMatchTest extends KernelTestCase
         $matchData->setFPlayer($joueur);
 
         $MatchDataRepoMock = $this->getMockBuilder(MatchData::class)
-            ->setMethods(['listeDesJoueursdUnMatch', 'findBy'])
+            ->addMethods(['listeDesJoueursdUnMatch', 'findBy'])
             ->getMock();
         $MatchDataRepoMock->method('listeDesJoueursdUnMatch')->willReturn([$matchData]);
         $MatchDataRepoMock->method('findBy')->willReturn([$matchData]);
@@ -139,11 +132,9 @@ class toutesLesActionsDeLequipeDansUnMatchTest extends KernelTestCase
 
         $matchDataService = new MatchDataService($objectManager);
 
-        $playerService = new PlayerService(
+        $playerService = (new PlayerServiceTestFactory())->getInstance(
             $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $matchDataService,
-            $this->createMock(InfosService::class)
+            $matchDataService
         );
 
         $this->assertEquals('', $playerService->toutesLesActionsDeLequipeDansUnMatch($match, $equipe));

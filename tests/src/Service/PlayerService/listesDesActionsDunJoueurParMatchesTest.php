@@ -7,11 +7,8 @@ namespace App\Tests\src\Service\PlayerService;
 use App\Entity\MatchData;
 use App\Entity\Matches;
 use App\Entity\Players;
-use App\Service\EquipeGestionService;
-use App\Service\EquipeService;
-use App\Service\InfosService;
 use App\Service\MatchDataService;
-use App\Service\PlayerService;
+use App\Tests\src\TestServiceFactory\PlayerServiceTestFactory;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\TestCase;
@@ -53,11 +50,9 @@ class listesDesActionsDunJoueurParMatchesTest extends TestCase
         $matchDataServiceMock = $this->createMock(MatchDataService::class);
         $matchDataServiceMock->method('lectureLignedUnMatch')->willReturn('MVP: 1, ');
 
-        $playerServiceTest = new PlayerService(
+        $playerServiceTest = (new PlayerServiceTestFactory())->getInstance(
             $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $matchDataServiceMock,
-            $this->createMock(InfosService::class)
+            $matchDataServiceMock
         );
 
         $attendu = [
@@ -106,11 +101,9 @@ class listesDesActionsDunJoueurParMatchesTest extends TestCase
         $matchDataServiceMock = $this->createMock(MatchDataService::class);
         $matchDataServiceMock->method('lectureLignedUnMatch')->willReturn('MVP: 1, ');
 
-        $playerServiceTest = new PlayerService(
+        $playerServiceTest = (new PlayerServiceTestFactory())->getInstance(
             $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $matchDataServiceMock,
-            $this->createMock(InfosService::class)
+            $matchDataServiceMock
         );
 
         $attendu = [

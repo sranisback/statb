@@ -19,20 +19,17 @@ class InducementService
     private const APOTHICAIRE = 50_000;
     private const PAYEMENT_STADE = 70_000;
 
-    public function __construct(
-        EntityManagerInterface $doctrineEntityManager
-    ) {
+    public function __construct(EntityManagerInterface $doctrineEntityManager)
+    {
         $this->doctrineEntityManager = $doctrineEntityManager;
     }
 
     /**
      * @param Teams $equipe
      * @param string $type
-     * @param PlayerService $playerService
-     * @param EquipeGestionService $equipeGestionService
      * @return array<string,int|null>
      */
-    public function ajoutInducement(Teams $equipe, string $type, PlayerService $playerService, EquipeGestionService $equipeGestionService): array
+    public function ajoutInducement(Teams $equipe, string $type, EquipeGestionService $equipeGestionService): array
     {
         $nbr = 0;
         $inducost = 0;
@@ -62,7 +59,7 @@ class InducementService
                 break;
         }
         $equipe->setTreasury($equipe->getTreasury() - $inducost);
-        $equipe->setTv($equipeGestionService->tvDelEquipe($equipe, $playerService));
+        $equipe->setTv($equipeGestionService->tvDelEquipe($equipe));
 
         $this->doctrineEntityManager->persist($equipe);
         $this->doctrineEntityManager->flush();
@@ -194,11 +191,9 @@ class InducementService
     /**
      * @param Teams $equipe
      * @param string $type
-     * @param PlayerService $playerService
-     * @param EquipeService $equipeService
      * @return array<string,int|null>
      */
-    public function supprInducement(Teams $equipe, string $type, PlayerService $playerService, EquipeGestionService $equipeGestionService): array
+    public function supprInducement(Teams $equipe, string $type, EquipeGestionService $equipeGestionService): array
     {
         $nbr = 0;
         $inducost = 0;
@@ -233,7 +228,7 @@ class InducementService
             $equipe->setTreasury($nouveauTresor);
         }
 
-        $equipe->setTv($equipeGestionService->tvDelEquipe($equipe, $playerService));
+        $equipe->setTv($equipeGestionService->tvDelEquipe($equipe));
 
         $this->doctrineEntityManager->persist($equipe);
         $this->doctrineEntityManager->flush();

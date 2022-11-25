@@ -8,11 +8,10 @@ use App\Entity\Players;
 use App\Entity\Teams;
 use App\Service\EquipeGestionService;
 use App\Service\EquipeService;
-use App\Service\ExportService;
 use App\Service\InducementService;
 use App\Service\PlayerService;
+use App\Tests\src\TestServiceFactory\ExportServiceFactoryTest;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 
 class GeneratePdfTest extends TestCase
@@ -80,8 +79,8 @@ class GeneratePdfTest extends TestCase
         $equipeService->method('compteLesjoueurs')->willReturn(['actif' => 5, 'journalier' => 0, 'blesses' => 0]);
         $equipeService->method('getListActivePlayers')->willReturn($joueurList->toArray());
 
-        $exportService = new ExportService(
-            $this->createMock(EntityManagerInterface::class),
+        $exportService = (new ExportServiceFactoryTest())->getInstance(
+            null,
             $playerService,
             $inducementService,
             $equipeGestionService,

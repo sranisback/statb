@@ -5,11 +5,8 @@ namespace App\Tests\src\Service\EquipeService;
 
 use App\Entity\Coaches;
 use App\Entity\Teams;
-use App\Service\EquipeGestionService;
-use App\Service\EquipeService;
-use App\Service\InducementService;
-use App\Service\InfosService;
 use App\Service\SettingsService;
+use App\Tests\src\TestServiceFactory\EquipeServiceTestFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -54,11 +51,9 @@ class listeDesAnciennesEquipesTest extends KernelTestCase
         $settingServiceMock = $this->createMock(SettingsService::class);
         $settingServiceMock->method('anneeCourante')->willReturn(3);
 
-        $equipeService = new EquipeService(
+        $equipeService = (new EquipeServiceTestFactory)->getInstance(
             $objectManager,
-            $settingServiceMock,
-            $this->createMock(InducementService::class),
-            $this->createMock(EquipeGestionService::class)
+            $settingServiceMock
         );
 
         $this->assertEquals(4, count($equipeService->listeDesAnciennesEquipes($coach, 3)));
@@ -83,11 +78,9 @@ class listeDesAnciennesEquipesTest extends KernelTestCase
         $settingServiceMock = $this->createMock(SettingsService::class);
         $settingServiceMock->method('anneeCourante')->willReturn(3);
 
-        $equipeService = new EquipeService(
+        $equipeService = (new EquipeServiceTestFactory)->getInstance(
             $objectManager,
-            $settingServiceMock ,
-            $this->createMock(InducementService::class),
-            $this->createMock(EquipeGestionService::class)
+            $settingServiceMock
         );
 
         $this->assertEquals(0, count($equipeService->listeDesAnciennesEquipes($coach, 3)));
@@ -129,11 +122,9 @@ class listeDesAnciennesEquipesTest extends KernelTestCase
         $settingServiceMock = $this->createMock(SettingsService::class);
         $settingServiceMock->method('anneeCourante')->willReturn(3);
 
-        $equipeService = new EquipeService(
+        $equipeService = (new EquipeServiceTestFactory)->getInstance(
             $objectManager,
-            $settingServiceMock,
-            $this->createMock(InducementService::class),
-            $this->createMock(EquipeGestionService::class)
+            $settingServiceMock
         );
 
         $this->assertEquals(3, count($equipeService->listeDesAnciennesEquipes($coach, 3)));

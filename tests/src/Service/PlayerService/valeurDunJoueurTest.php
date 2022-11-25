@@ -10,13 +10,9 @@ use App\Entity\GameDataSkillsBb2020;
 use App\Entity\Players;
 use App\Entity\PlayersSkills;
 use App\Enum\RulesetEnum;
-use App\Service\EquipeGestionService;
-use App\Service\EquipeService;
-use App\Service\InfosService;
-use App\Service\MatchDataService;
-use App\Service\PlayerService;
-use Doctrine\Persistence\ObjectRepository;
+use App\Tests\src\TestServiceFactory\PlayerServiceTestFactory;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
 
 class valeurDunJoueurTest extends TestCase
@@ -58,11 +54,8 @@ class valeurDunJoueurTest extends TestCase
             )
         );
 
-        $playerServiceTest = new PlayerService(
-            $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
+        $playerServiceTest = (new PlayerServiceTestFactory())->getInstance(
+            $objectManager
         );
 
         $this->assertEquals(50_000, $playerServiceTest->valeurDunJoueur($joueurTest));
@@ -105,11 +98,8 @@ class valeurDunJoueurTest extends TestCase
             )
         );
 
-        $playerServiceTest = new PlayerService(
-            $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
+        $playerServiceTest = (new PlayerServiceTestFactory())->getInstance(
+            $objectManager
         );
 
         $this->assertEquals(50_000, $playerServiceTest->valeurDunJoueur($joueurTest));
@@ -159,11 +149,8 @@ class valeurDunJoueurTest extends TestCase
             )
         );
 
-        $playerServiceTest = new PlayerService(
-            $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
+        $playerServiceTest = (new PlayerServiceTestFactory())->getInstance(
+            $objectManager
         );
 
         $this->assertEquals(70_000, $playerServiceTest->valeurDunJoueur($joueurTest));
@@ -213,11 +200,8 @@ class valeurDunJoueurTest extends TestCase
             )
         );
 
-        $playerServiceTest = new PlayerService(
-            $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
+        $playerServiceTest = (new PlayerServiceTestFactory())->getInstance(
+            $objectManager
         );
 
         $this->assertEquals(70_000, $playerServiceTest->valeurDunJoueur($joueurTest));
@@ -267,11 +251,8 @@ class valeurDunJoueurTest extends TestCase
             )
         );
 
-        $playerServiceTest = new PlayerService(
-            $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
+        $playerServiceTest = (new PlayerServiceTestFactory())->getInstance(
+            $objectManager
         );
 
         $this->assertEquals(80_000, $playerServiceTest->valeurDunJoueur($joueurTest));
@@ -321,11 +302,8 @@ class valeurDunJoueurTest extends TestCase
             )
         );
 
-        $playerServiceTest = new PlayerService(
-            $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
+        $playerServiceTest = (new PlayerServiceTestFactory())->getInstance(
+            $objectManager
         );
 
         $this->assertEquals(90_000, $playerServiceTest->valeurDunJoueur($joueurTest));
@@ -373,11 +351,8 @@ class valeurDunJoueurTest extends TestCase
             )
         );
 
-        $playerServiceTest = new PlayerService(
-            $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
+        $playerServiceTest = (new PlayerServiceTestFactory())->getInstance(
+            $objectManager
         );
 
         $this->assertEquals(200_000, $playerServiceTest->valeurDunJoueur($joueurTest));
@@ -433,11 +408,8 @@ class valeurDunJoueurTest extends TestCase
             )
         );
 
-        $playerServiceTest = new PlayerService(
-            $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
+        $playerServiceTest = (new PlayerServiceTestFactory())->getInstance(
+            $objectManager
         );
 
         $this->assertEquals(100_000, $playerServiceTest->valeurDunJoueur($joueurTest));
@@ -492,11 +464,8 @@ class valeurDunJoueurTest extends TestCase
             )
         );
 
-        $playerServiceTest = new PlayerService(
-            $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
+        $playerServiceTest = (new PlayerServiceTestFactory())->getInstance(
+            $objectManager
         );
 
         $this->assertEquals(110_000, $playerServiceTest->valeurDunJoueur($joueurTest));
@@ -544,11 +513,8 @@ class valeurDunJoueurTest extends TestCase
             )
         );
 
-        $playerServiceTest = new PlayerService(
-            $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
+        $playerServiceTest = (new PlayerServiceTestFactory())->getInstance(
+            $objectManager
         );
 
         $this->assertEquals(0, $playerServiceTest->valeurDunJoueur($joueurTest));
@@ -596,11 +562,8 @@ class valeurDunJoueurTest extends TestCase
             )
         );
 
-        $playerServiceTest = new PlayerService(
-            $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
+        $playerServiceTest = (new PlayerServiceTestFactory())->getInstance(
+            $objectManager
         );
 
         $this->assertEquals(0, $playerServiceTest->valeurDunJoueur($joueurTest));

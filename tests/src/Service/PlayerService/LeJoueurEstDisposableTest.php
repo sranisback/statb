@@ -7,11 +7,7 @@ namespace App\Tests\src\Service\PlayerService;
 use App\Entity\GameDataPlayers;
 use App\Entity\GameDataSkills;
 use App\Entity\Players;
-use App\Service\EquipeGestionService;
-use App\Service\EquipeService;
-use App\Service\InfosService;
-use App\Service\MatchDataService;
-use App\Service\PlayerService;
+use App\Tests\src\TestServiceFactory\PlayerServiceTestFactory;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
@@ -45,11 +41,8 @@ class LeJoueurEstDisposableTest extends TestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($gameDataSkillsRepoMock);
 
-        $playerServiceTest = new PlayerService(
-            $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
+        $playerServiceTest = (new PlayerServiceTestFactory)->getInstance(
+            $objectManager
         );
 
         $this->assertTrue($playerServiceTest->leJoueurEstDisposable($joueurMock));
@@ -82,11 +75,8 @@ class LeJoueurEstDisposableTest extends TestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($gameDataSkillsRepoMock);
 
-        $playerServiceTest = new PlayerService(
-            $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
+        $playerServiceTest = (new PlayerServiceTestFactory)->getInstance(
+            $objectManager
         );
 
         $this->assertFalse($playerServiceTest->leJoueurEstDisposable($joueurMock));

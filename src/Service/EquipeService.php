@@ -41,16 +41,20 @@ class EquipeService
      */
     private EquipeGestionService $equipeGestionService;
 
+    private PlayerService $playerService;
+
     public function __construct(
         EntityManagerInterface $doctrineEntityManager,
         SettingsService $settingsService,
         InducementService $inducementService,
-        EquipeGestionService $equipeGestionService
+        EquipeGestionService $equipeGestionService,
+        PlayerService $playerService
     ) {
         $this->doctrineEntityManager = $doctrineEntityManager;
         $this->settingsService = $settingsService;
         $this->inducementService = $inducementService;
         $this->equipeGestionService = $equipeGestionService;
+        $this->playerService = $playerService;
     }
 
     /**
@@ -327,7 +331,7 @@ class EquipeService
      * @return array
      * @throws \Exception
      */
-    public function feuilleDequipeComplete(Teams $equipe, PlayerService $playerService): array
+    public function feuilleDequipeComplete(Teams $equipe): array
     {
         $pdata = [];
 
@@ -335,9 +339,9 @@ class EquipeService
 
         $players = $this->sortPlayers($players);
 
-        $pdata = $playerService->ligneJoueur($players->toArray());
+        $pdata = $this->playerService->ligneJoueur($players->toArray());
 
-        $tdata = $this->calculsInducementEquipe($equipe, $playerService);
+        $tdata = $this->calculsInducementEquipe($equipe, $this->playerService);
 
         return  [
             'players' => $players,
@@ -365,7 +369,7 @@ class EquipeService
         $tdata['asscoaches'] = $inducement['asscoaches'];
         $tdata['cheerleader'] = $inducement['cheerleader'];
         $tdata['apo'] = $inducement['apo'];
-        $tdata['tv'] = $this->equipeGestionService->tvDelEquipe($equipe, $playerService);
+        $tdata['tv'] = $this->equipeGestionService->tvDelEquipe($equipe);
         return $tdata;
     }
 
@@ -397,28 +401,19 @@ class EquipeService
     }
 
     /**
-     * @param int $teamId
+     * @param Teams $equipe
      * @param string $action
      * @param string $type
-     * @param PlayerService $playerService
      * @return array
      */
-    public function gestionInducement(
-        int $teamId,
-        string $action,
-        string $type,
-        PlayerService $playerService
-    ): array {
-        /** @var Teams $equipe */
-        $equipe = $this->doctrineEntityManager
-            ->getRepository(Teams::class)->findOneBy(['teamId' => $teamId]);
-
+    public function gestionInducement(Teams $equipe, string $action, string $type): array
+    {
         if ($action === 'add') {
-            $coutEtnbr = $this->inducementService->ajoutInducement($equipe, $type, $playerService, $this->equipeGestionService);
+            $coutEtnbr = $this->inducementService->ajoutInducement($equipe, $type, $this->equipeGestionService);
         } else {
-            $coutEtnbr = $this->inducementService->supprInducement($equipe, $type, $playerService, $this->equipeGestionService);
+            $coutEtnbr = $this->inducementService->supprInducement($equipe, $type, $this->equipeGestionService);
         }
-        $tv = $this->equipeGestionService->tvDelEquipe($equipe, $playerService);
+        $tv = $this->equipeGestionService->tvDelEquipe($equipe);
 
         return [
             "tv" => $tv,
@@ -447,6 +442,10 @@ class EquipeService
         $this->doctrineEntityManager->refresh($equipe);
     }
 
+    /**
+     * @param Teams $equipe
+     * @return int
+     */
     public function calculBonusPoulpi(Teams $equipe):int
     {
         $bonusTotal = 0;

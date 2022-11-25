@@ -17,7 +17,7 @@
                     <td>{{ loop.index }}</td>
                     <td><img src="{{ asset('build/'~app.environment~'/images/player_icons/'~player.icon~'.gif') }}"
                              class="img-fluid">{{ player.nr }}.{{ player.name }}{{ player.sold }}{{ player.dead }}
-                        - <a href="{{ path('team', {'teamid': player.equipeId }) }}">{{ player.equipe }}</a></td>
+                        - <a href="{{ path('team', {'teamId': player.equipeId }) }}">{{ player.equipe }}</a></td>
                     <td>{{ player.score }}</td>
                 </tr>
             {% endfor %}

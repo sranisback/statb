@@ -10,14 +10,10 @@ use App\Entity\GameDataSkillsBb2020;
 use App\Entity\Players;
 use App\Entity\PlayersSkills;
 use App\Enum\RulesetEnum;
-use App\Service\EquipeGestionService;
-use App\Service\EquipeService;
-use App\Service\InfosService;
-use App\Service\MatchDataService;
-use App\Service\PlayerService;
+use App\Tests\src\TestServiceFactory\PlayerServiceTestFactory;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
 
 class toutesLesCompsdunJoueurTest extends TestCase
@@ -69,11 +65,8 @@ class toutesLesCompsdunJoueurTest extends TestCase
             }
         ));
 
-        $playerService = new PlayerService(
-            $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
+        $playerService = (new PlayerServiceTestFactory())->getInstance(
+            $objectManager
         );
 
         $retourAttendu = '<text class="test-primary">Test</text>, <text class="text-danger">Test</text>, ';
@@ -115,11 +108,8 @@ class toutesLesCompsdunJoueurTest extends TestCase
             }
         ));
 
-        $playerService = new PlayerService(
-            $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
+        $playerService = (new PlayerServiceTestFactory())->getInstance(
+            $objectManager
         );
 
         $this->assertEquals('', $playerService->toutesLesCompsdUnJoueur($joueurTest));
@@ -172,11 +162,8 @@ class toutesLesCompsdunJoueurTest extends TestCase
             }
         ));
 
-        $playerService = new PlayerService(
-            $objectManager,
-            $this->createMock(EquipeGestionService::class),
-            $this->createMock(MatchDataService::class),
-            $this->createMock(InfosService::class)
+        $playerService = (new PlayerServiceTestFactory())->getInstance(
+            $objectManager
         );
 
         $retourAttendu = '<text class="test-primary">Test</text>, <text class="text-danger">Test</text>, ';

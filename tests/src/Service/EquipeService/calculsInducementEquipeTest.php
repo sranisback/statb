@@ -9,11 +9,9 @@ use App\Entity\RacesBb2020;
 use App\Entity\Teams;
 use App\Enum\RulesetEnum;
 use App\Service\EquipeGestionService;
-use App\Service\EquipeService;
 use App\Service\InducementService;
 use App\Service\PlayerService;
-use App\Service\SettingsService;
-use Doctrine\ORM\EntityManager;
+use App\Tests\src\TestServiceFactory\EquipeServiceTestFactory;
 use PHPUnit\Framework\TestCase;
 
 class calculsInducementEquipeTest extends TestCase
@@ -49,11 +47,12 @@ class calculsInducementEquipeTest extends TestCase
         $equipeGestionServiceMock = $this->createMock(EquipeGestionService::class);
         $equipeGestionServiceMock->method('tvDelEquipe')->willReturn(500_000);
 
-        $equipeServiceTest = new EquipeService(
-            $this->createMock(EntityManager::class),
-            $this->createMock(SettingsService::class),
+        $equipeServiceTest = (new EquipeServiceTestFactory)->getInstance(
+            null,
+            null,
             $inducementServiceMock,
-            $equipeGestionServiceMock
+            $equipeGestionServiceMock,
+            $playerServiceMock
         );
 
         $attendu = [
@@ -99,11 +98,12 @@ class calculsInducementEquipeTest extends TestCase
         $equipeGestionServiceMock = $this->createMock(EquipeGestionService::class);
         $equipeGestionServiceMock->method('tvDelEquipe')->willReturn(500_000);
 
-        $equipeServiceTest = new EquipeService(
-            $this->createMock(EntityManager::class),
-            $this->createMock(SettingsService::class),
+        $equipeServiceTest = (new EquipeServiceTestFactory)->getInstance(
+            null,
+            null,
             $inducementServiceMock,
-            $equipeGestionServiceMock
+            $equipeGestionServiceMock,
+            $playerServiceMock
         );
 
         $attendu = [

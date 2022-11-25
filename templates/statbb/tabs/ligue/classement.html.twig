@@ -31,7 +31,7 @@
                 {% for ligne in classement %}
                     <tr>
                         <td class="pos">{{ loop.index }}</td>
-                        <td><a href="{{ path('team', {'teamid': ligne.total.equipe.teamId }) }}">{{ ligne.total.equipe.name }}</a>
+                        <td><a href="{{ path('team', {'teamId': ligne.total.equipe.teamId }) }}">{{ ligne.total.equipe.name }}</a>
                             {% if ligne.total.equipe.franchise == true %}
                                 <span class="fas fa-tag text-success"></span>
                             {% endif %}
