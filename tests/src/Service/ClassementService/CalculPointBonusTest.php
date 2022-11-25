@@ -10,6 +10,7 @@ use App\Service\ClassementService;
 use App\Service\EquipeService;
 use App\Service\MatchDataService;
 use App\Service\SettingsService;
+use App\Tests\src\TestServiceFactory\ClassementServiceTestFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -33,11 +34,10 @@ class CalculPointBonusTest extends TestCase
 
         $this->matchDateServiceMock = $this->createMock(MatchDataService::class);
 
-        $this->classementService = new ClassementService(
+        $this->classementService = (new ClassementServiceTestFactory())->getInstance(
             $this->objectManager,
             $this->equipeServiceMock,
-            $this->matchDateServiceMock,
-            $this->createMock(SettingsService::class)
+            $this->matchDateServiceMock
         );
 
     }

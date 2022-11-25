@@ -15,7 +15,6 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ClassementService
 {
-
     private EntityManagerInterface $doctrineEntityManager;
 
     private EquipeService $equipeService;
@@ -68,16 +67,14 @@ class ClassementService
     }
 
     /**
-     * @param int $equipeId
+     * @param Teams $equipe
      * @return mixed[]
      */
-    public function cinqDerniersMatchsParEquipe(int $equipeId): array
+    public function cinqDerniersMatchsParEquipe(Teams $equipe): array
     {
-        $matches = $this->doctrineEntityManager->getRepository(Matches::class)->listeDesMatchs(
-            $this->doctrineEntityManager->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId])
+        return $this->cinqPremierMatches(
+            $this->doctrineEntityManager->getRepository(Matches::class)->listeDesMatchs($equipe)
         );
-
-        return $this->cinqPremierMatches($matches);
     }
 
     /**
@@ -286,18 +283,14 @@ class ClassementService
     }
 
     /**
-     * @param EquipeService $equipeService
      * @return array<string, mixed>
      */
-    public function genereConfrontationTousLesCoaches(EquipeService $equipeService): array
+    public function genereConfrontationTousLesCoaches(): array
     {
         $tableauCompletConfrontation = [];
 
         foreach ($this->doctrineEntityManager->getRepository(Coaches::class)->findAll() as $coach) {
-            $tableauCompletConfrontation[$coach->getUsername()] = $this->confrontationTousLesCoaches(
-                $coach,
-                $equipeService
-            );
+            $tableauCompletConfrontation[$coach->getUsername()] = $this->confrontationTousLesCoaches($coach);
         }
 
         return $tableauCompletConfrontation;
@@ -306,14 +299,9 @@ class ClassementService
     /**
      * @param Coaches $coach
      * @param Coaches $autreCoach
-     * @param EquipeService $equipeService
      * @return array<int,mixed>
      */
-    public function confrontationPourDeuxCoaches(
-        Coaches $coach,
-        Coaches $autreCoach,
-        EquipeService $equipeService
-    ): array {
+    public function confrontationPourDeuxCoaches(Coaches $coach, Coaches $autreCoach): array {
         $totalResultat = [
             'win' => 0,
             'draw' => 0,
@@ -331,9 +319,9 @@ class ClassementService
             foreach ($listMatches as $match) {
                 /** @var Matches $match */
                 if ($match->getTeam1()->getOwnedByCoach() === $coach) {
-                    $tableResultat = $equipeService->resultatDuMatch($match->getTeam1(), $match);
+                    $tableResultat = $this->equipeService->resultatDuMatch($match->getTeam1(), $match);
                 } else {
-                    $tableResultat = $equipeService->resultatDuMatch($match->getTeam2(), $match);
+                    $tableResultat = $this->equipeService->resultatDuMatch($match->getTeam2(), $match);
                 }
                 $totalResultat['win'] += $tableResultat['win'];
                 $totalResultat['draw'] += $tableResultat['draw'];
@@ -360,19 +348,13 @@ class ClassementService
     /**
      * @return mixed[][]
      */
-    public function confrontationTousLesCoaches(Coaches $coach, EquipeService $equipeService): array
+    public function confrontationTousLesCoaches(Coaches $coach): array
     {
         $tableConfrontation = [];
 
         /** @var Coaches $autreCoach */
-        foreach ($this->doctrineEntityManager->getRepository(Coaches::class)->tousLesAutresCoaches(
-            $coach
-        ) as $autreCoach) {
-            $tableConfrontation[$autreCoach->getUsername()] = $this->confrontationPourDeuxCoaches(
-                $coach,
-                $autreCoach,
-                $equipeService
-            );
+        foreach ($this->doctrineEntityManager->getRepository(Coaches::class)->tousLesAutresCoaches($coach) as $autreCoach) {
+            $tableConfrontation[$autreCoach->getUsername()] = $this->confrontationPourDeuxCoaches($coach, $autreCoach );
         }
 
         return $tableConfrontation;

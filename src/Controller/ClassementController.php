@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\ClassementGeneral;
 use App\Entity\Coaches;
 use App\Entity\Matches;
+use App\Entity\Players;
 use App\Entity\Teams;
 use App\Enum\AnneeEnum;
 use App\Service\ClassementService;
@@ -25,10 +26,18 @@ class ClassementController extends AbstractController
 
     private ManagerRegistry $doctrine;
 
-    public function __construct(SettingsService $settingsService, ManagerRegistry $doctrine)
-    {
+    private ClassementService $classementService;
+
+    private EquipeService $equipeService;
+
+    public function __construct(
+        SettingsService $settingsService,
+        ManagerRegistry $doctrine,
+        ClassementService $classementService
+    ) {
         $this->settingsService = $settingsService;
         $this->doctrine = $doctrine;
+        $this->classementService = $classementService;
     }
 
     /**
@@ -43,20 +52,19 @@ class ClassementController extends AbstractController
         return $this->render(
             'statbb/tabs/ligue/classement.html.twig',
             [
-            'classement' => $this->doctrine->getRepository(ClassementGeneral::class)->classementGeneral($annee),
-            'annee' => $annee,
-            'etiquette' => $etiquette
+                'classement' => $this->doctrine->getRepository(ClassementGeneral::class)->classementGeneral($annee),
+                'annee' => $annee,
+                'etiquette' => $etiquette
             ]
         );
     }
 
     /**
      * @Route("/classement/detail/{annee}", name="classGenDetail")
-     * @param ClassementService $classementService
+     * @param int $annee
      * @return Response
      */
-    public function classGenDetail(ClassementService $classementService, int $annee)
-    : Response
+    public function classGenDetail(int $annee) : Response
     {
         return $this->render(
             'statbb/tabs/ligue/classementDetail.html.twig',
@@ -70,57 +78,40 @@ class ClassementController extends AbstractController
 
     /**
      * @Route("/classementEquipe/{type}/{limit}/{annee}", defaults={"limit"=0}, name="classementEquipe")
-     * @param ClassementService $classementService
      * @param string $type
      * @param int $limit
      * @param int $annee
      * @return Response
      */
-    public function afficheSousClassementsEquipe(
-        ClassementService $classementService,
-        string $type,
-        int $limit,
-        int $annee
-    ): Response {
-        $sousClassement = $classementService->genereClassementEquipes(
-            $annee,
-            $type,
-            $limit
+    public function afficheSousClassementsEquipe(string $type, int $limit, int $annee): Response {
+        return $this->render(
+            'statbb/Stclassement.html.twig',
+            $this->classementService->genereClassementEquipes($annee, $type, $limit)
         );
-
-        return $this->render('statbb/Stclassement.html.twig', $sousClassement);
     }
 
     /**
      * @Route("/classementJoueur/{type}/{limit}/{annee}", defaults={"limit"=0}, name="classementJoueur")
-     * @param ClassementService $classementService
      * @param string $type
      * @param int $limit
      * @param int $annee
      * @return Response
      */
-    public function afficheSousClassementJoueur(
-        ClassementService $classementService,
-        string $type,
-        int $limit,
-        int $annee
-    ): Response {
-        $sousClassement = $classementService->genereClassementJoueurs(
-            $annee,
-            $type,
-            $limit
+    public function afficheSousClassementJoueur(string $type, int $limit, int $annee): Response {
+        return $this->render(
+            'statbb/Spclassement.html.twig',
+            $this->classementService->genereClassementJoueurs($annee, $type, $limit)
         );
-
-        return $this->render('statbb/Spclassement.html.twig', $sousClassement);
     }
 
     /**
      * @Route("/totalcas/{annee}", options = { "expose" = true }))
+     * @param int $annee
+     * @return Response
      */
-    public function affichetotalCas(ClassementService $classementService, int $annee)
-    : Response
+    public function affichetotalCas(int $annee) : Response
     {
-        $totalCas = $classementService->totalCas($annee);
+        $totalCas = $this->classementService->totalCas($annee);
 
         return new Response(
             '<strong>Total : ' . $totalCas['score'] . ' En ' . $totalCas['nbrMatches'] . ' Matches.</strong><br/>
@@ -130,45 +121,39 @@ class ClassementController extends AbstractController
 
     /**
      * @Route("/cinqDernierMatch")
-     * @param ClassementService $classementService
      * @return Response
      */
-    public function cinqDernierMatch(ClassementService $classementService): Response
+    public function cinqDernierMatch(): Response
     {
         return $this->render(
             'statbb/lastfivesmatches.html.twig',
-            ['games' => $classementService->cinqDerniersMatchsParAnnee($this->settingsService->anneeCourante())]
+            ['games' => $this->classementService->cinqDerniersMatchsParAnnee($this->settingsService->anneeCourante())]
         );
     }
 
     /**
-     * @Route("/cinqDernierMatchPourEquipe/{equipeId}")
-     * @param ClassementService $classementService
-     * @param integer $equipeId
+     * @Route("/cinqDernierMatchPourEquipe/{teamId}")
+     * @param Teams $equipe
      * @return Response
      */
-    public function cinqDernierMatchPourEquipe(ClassementService $classementService, int $equipeId)
-    : Response
+    public function cinqDernierMatchPourEquipe(Teams $equipe) : Response
     {
         return $this->render(
             'statbb/lastfivesmatches.html.twig',
-            ['games' => $classementService->cinqDerniersMatchsParEquipe($equipeId)]
+            ['games' => $this->classementService->cinqDerniersMatchsParEquipe($equipe)]
         );
     }
 
     /**
-     * @Route("/tousLesMatchesPourEquipe/{equipeId}")
-     * @param integer $equipeId
+     * @Route("/tousLesMatchesPourEquipe/{teamId}")
+     * @param Teams $equipe
      * @return Response
      */
-    public function tousLesMatchesPourEquipe(int $equipeId)
-    : Response
+    public function tousLesMatchesPourEquipe(Teams $equipe) : Response
     {
         return $this->render(
             'statbb/tousLesMatches.html.twig',
-            ['games' => $this->doctrine->getRepository(Matches::class)->listeDesMatchs(
-                $this->doctrine->getRepository(Teams::class)->findOneBy(['teamId' => $equipeId])
-            )]
+            ['games' => $this->doctrine->getRepository(Matches::class)->listeDesMatchs($equipe)]
         );
     }
 
@@ -181,7 +166,7 @@ class ClassementController extends AbstractController
         return $this->render(
             'statbb/tabs/ligue/cimetiere.html.twig',
             [
-                'joueurCollection' => $this->doctrine->getRepository(\App\Entity\Players::class)->mortPourlAnnee(
+                'joueurCollection' => $this->doctrine->getRepository(Players::class)->mortPourlAnnee(
                     $this->settingsService->anneeCourante()
                 ),
             ]
@@ -206,23 +191,14 @@ class ClassementController extends AbstractController
 
     /**
      * @Route("/montreConfrontation", name="montreConfrontation")
-     * @param ClassementService $classementService
-     * @param EquipeService $equipeService
      * @return Response
      */
-    public function afficheConfrontation(ClassementService $classementService, EquipeService $equipeService)
-    : Response
+    public function afficheConfrontation() : Response
     {
-        /** @var Coaches $coach */
-        $coach = $this->getUser();
-
         return $this->render(
             'statbb/tabs/coach/confrontation.html.twig',
             [
-                'tableauConfrontation' => $classementService->confrontationTousLesCoaches(
-                    $coach,
-                    $equipeService
-                ),
+                'tableauConfrontation' => $this->classementService->confrontationTousLesCoaches($this->getUser()),
             ]
         );
     }
@@ -254,14 +230,12 @@ class ClassementController extends AbstractController
 
     /**
      * @route("/matchesContreCoach/{coachId}", name="matchesContreCoach")
-     * @param int $coachId
+     * @param Coaches $coachAdverse
      * @return Response
      */
-    public function matchesContreCoach(int $coachId): Response
+    public function matchesContreCoach(Coaches $coachAdverse): Response
     {
         $coachActif = $this->getUser();
-        /** @var Coaches $coachAdverse */
-        $coachAdverse = $this->doctrine->getRepository(Coaches::class)->findOneBy(['coachId' => $coachId]);
 
         return $this->render(
             'statbb/matchsContreUnCoach.html.twig',
@@ -279,13 +253,12 @@ class ClassementController extends AbstractController
     /**
      * @route("/calculClassementGen/{annee}", name="calcul_classement_gen" )
      * @param int $annee
-     * @param ClassementService $classementService
      * @return RedirectResponse
      */
-    public function calculClassementGen(int $annee, ClassementService $classementService): RedirectResponse
+    public function calculClassementGen(int $annee): RedirectResponse
     {
-        $classementService->sauvegardeClassementGeneral(
-            $classementService->toutesLesEquipesPourLeClassementGeneral(
+        $this->classementService->sauvegardeClassementGeneral(
+            $this->classementService->toutesLesEquipesPourLeClassementGeneral(
                 $annee,
                 $this->settingsService->pointsEnCours($annee)
             )

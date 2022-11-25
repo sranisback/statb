@@ -73,7 +73,7 @@ class CinqDernierMatchesPourEquipesTest extends TestCase
             )
         );
 
-        $this->assertEquals(5, count($this->classementService->cinqDerniersMatchsParEquipe(0)));
+        $this->assertEquals(5, count($this->classementService->cinqDerniersMatchsParEquipe($equipeMock)));
     }
 
     /**
@@ -107,6 +107,6 @@ class CinqDernierMatchesPourEquipesTest extends TestCase
             )
         );
 
-        $this->assertEquals(0, count($this->classementService->cinqDerniersMatchsParEquipe(0)));
+        $this->assertEquals(0, count($this->classementService->cinqDerniersMatchsParEquipe($equipeMock)));
     }
 }
