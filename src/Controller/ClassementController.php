@@ -28,8 +28,6 @@ class ClassementController extends AbstractController
 
     private ClassementService $classementService;
 
-    private EquipeService $equipeService;
-
     public function __construct(
         SettingsService $settingsService,
         ManagerRegistry $doctrine,
