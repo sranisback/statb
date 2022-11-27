@@ -6,7 +6,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-                {{ form_start(form , {'action': path('uploadPhoto',{'joueurId': joueur.playerId})}) }}
+                {{ form_start(form , {'action': path('uploadPhoto',{'playerId': joueur.playerId})}) }}
                 {{ form_row(form.photo,{'attr' : {'accept' : '.png, .jpg'}}) }}
                 {{ form_end(form) }}
             </div>

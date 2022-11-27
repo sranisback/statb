@@ -16,7 +16,7 @@
 
             <div class="modal-body">
                 <div class="modal-body">
-                    {{ form_start(form, {'action': path('ajoutComp',{'playerid':playerId})}) }}
+                    {{ form_start(form, {'action': path('ajoutComp',{'playerId':playerId})}) }}
                     {{ form_errors(form) }}
                     {% if(ruleset == 0) %}
                         {{ form_row(form.fSkill) }}

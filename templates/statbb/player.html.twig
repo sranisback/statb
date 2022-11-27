@@ -229,7 +229,7 @@
                 </div>
                 {% if app.user == player.ownedByTeam.ownedByCoach %}
                 <div class="d-flex">
-                    {{ render(controller('App\\Controller\\JoueurController::uploadPhoto', {'joueurId' : player.playerId} )) }}
+                    {{ render(controller('App\\Controller\\JoueurController::uploadPhoto', {'playerId' : player.playerId} )) }}
                 </div>
                 {%  endif %}
             </div>

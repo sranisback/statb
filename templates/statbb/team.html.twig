@@ -139,7 +139,7 @@
                             {% else %}
                                 {{ player.name }}
                             {% endif %}
-                            <a class="fas fa-search" href="{{ path('Player', {'playerid': player.playerId }) }}"></a>
+                            <a class="fas fa-search" href="{{ path('Player', {'playerId': player.playerId }) }}"></a>
                             {% if player.journalier == true %}
                                 <p class="fas fa-euro-sign"/>
                             {% endif %}
@@ -466,7 +466,7 @@
                 </table>
             </div>
             Lien direct vers l'équipe : <a
-                    href="{{ url('montreEquipe', {'nomEquipe': feuille.team.name }) }}">{{ url('montreEquipe', {'nomEquipe': feuille.team.name }) }}</a>
+                    href="{{ url('montreEquipe', {'nomEquipe': feuille.team.name}) }}">{{ url('montreEquipe', {'nomEquipe': feuille.team.name}) }}</a>
         </div>
     </div>
 </div>

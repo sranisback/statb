@@ -26,7 +26,7 @@
                     , {{ prime.players.Fpos.pos }} de  {{ prime.players.OwnedByTeam.name }}, {{ prime.players.OwnedByTeam.fRace.name }}
                     <a
                             class="glyphicon glyphicon-search"
-                            href="{{ path('Player', {'playerid': prime.players.playerId,'type':'n' }) }}"></a></td>
+                            href="{{ path('Player', {'playerId': prime.players.playerId,'type':'n' }) }}"></a></td>
                 <td>{{ prime.teams.name }}, {{ prime.teams.fRace.name }} de {{ prime.Coaches.name }}</td>
                 <td>{{ prime.montant }}</td>
             {% if app.user.roles["role"] == 'ROLE_ADMIN' %}

@@ -12,10 +12,10 @@ use App\Form\AjoutJoueurType;
 use App\Form\JoueurPhotoEnvoiType;
 use App\Service\AdminService;
 use App\Service\EquipeGestionService;
-use App\Service\EquipeService;
 use App\Service\PlayerService;
 use App\Tools\randomNameGenerator;
 use App\Tools\TransformeEnJSON;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -29,28 +29,38 @@ class JoueurController extends AbstractController
 
     private EquipeGestionService $equipeGestionService;
 
-    public function __construct(EquipeGestionService $equipeGestionService)
-    {
+    private ManagerRegistry $doctrine;
+
+    private PlayerService $playerService;
+
+    private AdminService $adminService;
+
+    public function __construct(
+        EquipeGestionService $equipeGestionService,
+        ManagerRegistry $doctrine,
+        PlayerService $playerService,
+        AdminService $adminService
+    ) {
         $this->equipeGestionService = $equipeGestionService;
+        $this->doctrine = $doctrine;
+        $this->playerService = $playerService;
+        $this->adminService = $adminService;
     }
 
     /**
-     * @Route("/player/{playerid}", name="Player")
-     * @param int $playerid
-     * @param PlayerService $playerService
+     * @Route("/player/{playerId}", name="Player")
+     * @param Players $joueur
      * @return Response
      */
-    public function showPlayer(int $playerid, PlayerService $playerService): Response
+    public function showPlayer(Players $joueur): Response
     {
-        $joueur = $this->getDoctrine()->getRepository(Players::class)->findOneBy(['playerId' => $playerid]);
-
-        list($listeMatches, $msdata) = $playerService->listesDesActionsDunJoueurParMatches($joueur);
+        list($listeMatches, $msdata) = $this->playerService->listesDesActionsDunJoueurParMatches($joueur);
 
         return $this->render(
             'statbb/player.html.twig',
             [
                 'player' => $joueur,
-                'pdata' => $playerService->ligneJoueur([$joueur]),
+                'pdata' => $this->playerService->ligneJoueur([$joueur]),
                 'matches' => $listeMatches,
                 'mdata' => $msdata
             ]
@@ -60,11 +70,10 @@ class JoueurController extends AbstractController
     /**
      * @Route("/getposstat/{posId}", name="getposstat", options = { "expose" = true })
      * @param int $posId
-     * @param PlayerService $playerService
      * @param Request $request
      * @return Response
      */
-    public function getposstat(int $posId, PlayerService $playerService, Request $request): Response
+    public function getposstat(int $posId, Request $request): Response
     {
         $donneesRuleset = $request->request->all();
 
@@ -72,7 +81,7 @@ class JoueurController extends AbstractController
         $repo = RulesetEnum::getGameDataPlayersRepoFromIntRuleset($donneesRuleset['ruleset']);
         $champ = RulesetEnum::champIdGameDataPlayerFromIntRuleset($donneesRuleset['ruleset']);
 
-        $position = $this->getDoctrine()
+        $position = $this->doctrine
             ->getManager()
             ->getRepository($repo)
             ->findOneBy([$champ => $posId]);
@@ -81,7 +90,7 @@ class JoueurController extends AbstractController
             'statbb/affichePosition.html.twig',
             [
                 'position' => $position,
-                'competence' => $playerService->competencesDunePositon($position), /* @phpstan-ignore-line */
+                'competence' => $this->playerService->competencesDunePositon($position),
                 'ruleset' => $donneesRuleset['ruleset']
             ]
         );
@@ -109,81 +118,53 @@ class JoueurController extends AbstractController
 
     /**
      * @Route("/addPlayer", name="addPlayer", options = { "expose" = true })
-     * @param PlayerService $playerService
-     * @param EquipeService $equipeService
      * @param Request $request
      * @return JsonResponse
      */
-    public function addPlayer(
-        PlayerService $playerService,
-        EquipeService $equipeService,
-        EquipeGestionService $equipeGestionService,
-        Request $request
-    ): JsonResponse {
-        /** @var array $donneesPourAjout */
+    public function addPlayer(Request $request): JsonResponse
+    {
+        /** @Var array $donneesPourAjout */
         $donneesPourAjout = $request->request->all();
-        $resultat = $playerService->ajoutJoueur(
-            $donneesPourAjout['idPosition'],
-            $donneesPourAjout['teamId'],
-            $donneesPourAjout['nom'],
-            $donneesPourAjout['nr'],
-            $donneesPourAjout['ruleset'],
-            $this->equipeGestionService
-        );
+        $resultat = $this->playerService->ajoutJoueur($donneesPourAjout['idPosition'], $donneesPourAjout['teamId'],
+            $donneesPourAjout['nom'], $donneesPourAjout['nr'], $donneesPourAjout['ruleset'],
+            $this->equipeGestionService);
         $tresors = 0;
         $html = '';
         $coutjoueur = 0;
         $reponse = '';
         $tv = 0;
-
         if ($resultat['resultat'] == 'ok') {
             /** @var Players $joueur */
             $joueur = $resultat['joueur'];
             $position = RulesetEnum::getPositionFromPlayerByRuleset($joueur);
             if ($position !== null) {
-                $competences = $playerService->listeDesCompdDeBasedUnJoueur($joueur);
-
+                $competences = $this->playerService->listeDesCompdDeBasedUnJoueur($joueur);
                 $competences = substr($competences, 0, strlen($competences) - 2);
-
                 $cout = $position->getCost();
-
-                if ($playerService->leJoueurEstDisposable($joueur) || $playerService->leJoueurEstFanFavorite($joueur)) {
+                if ($this->playerService->leJoueurEstDisposable($joueur) || $this->playerService->leJoueurEstFanFavorite($joueur)) {
                     $cout = 0;
                 }
-
-                $html = $this->render(
-                    'statbb/lineteamsheet.html.twig',
-                    ['position' => $position, 'player' => $joueur, 'skill' => $competences, 'cout' => $cout]
-                )
-                    ->getContent();
-
+                $html = $this->render('statbb/lineteamsheet.html.twig',
+                    ['position' => $position, 'player' => $joueur, 'skill' => $competences, 'cout' => $cout])->getContent();
                 $equipe = $joueur->getOwnedByTeam();
-
                 $coutjoueur = $joueur->getValue();
-
-                if ($playerService->leJoueurEstDisposable($joueur) || $playerService->leJoueurEstFanFavorite($joueur)) {
+                if ($this->playerService->leJoueurEstDisposable($joueur) || $this->playerService->leJoueurEstFanFavorite($joueur)) {
                     $coutjoueur = 0;
                 }
-
                 if ($equipe !== null) {
                     $tv = $this->equipeGestionService->tvDelEquipe($equipe);
                     $tresors = $equipe->getTreasury();
                 }
-
                 $reponse = 'ok';
             }
         } else {
             $html = $resultat['resultat'];
         }
-
         if (!empty($equipe)) {
             $equipe->setTv($tv);
-
-            $this->getDoctrine()->getManager()->persist($equipe);
-
-            $this->getDoctrine()->getManager()->flush();
+            $this->doctrine->getManager()->persist($equipe);
+            $this->doctrine->getManager()->flush();
         }
-
         $response = [
             "html" => $html,
             "tv" => $tv,
@@ -192,25 +173,19 @@ class JoueurController extends AbstractController
             "playercost" => $coutjoueur,
             "reponse" => $reponse,
         ];
-
         return TransformeEnJSON::transforme($response);
     }
 
     /**
      * @Route("/remPlayer/{playerId}", name="remPlayer", options = { "expose" = true })
-     * @param PlayerService $playerService
-     * @param int $playerId
+     * @param Players $joueur
      * @return JsonResponse
      */
-    public function remPlayer(
-        PlayerService $playerService,
-        int $playerId
-    ): JsonResponse {
+    public function remPlayer(Players $joueur): JsonResponse
+    {
         $resultat[''] = '';
-        /** @var Players $joueur */
-        $joueur = $this->getDoctrine()->getRepository(Players::class)->findOneBy(['playerId' => $playerId]);
 
-        $resultat = $playerService->renvoisOuSuppressionJoueur($joueur,$this->equipeGestionService);
+        $resultat = $this->playerService->renvoisOuSuppressionJoueur($joueur,$this->equipeGestionService);
 
         $response = [
             "tv" => $resultat['tv'],
@@ -226,14 +201,11 @@ class JoueurController extends AbstractController
     /**
      * @Route("/changeNomEtNumero", name="changeNomEtNumero", options = { "expose" = true })
      * @param Request $request
-     * @param AdminService $adminService
      * @return Response
      */
-    public function changeNomEtNumero(
-        Request $request,
-        AdminService $adminService
-    ): Response {
-        $adminService->traiteModification($request->request->all(), Players::class);
+    public function changeNomEtNumero(Request $request): Response
+    {
+        $this->adminService->traiteModification($request->request->all(), Players::class);
 
         return new Response();
     }
@@ -247,7 +219,7 @@ class JoueurController extends AbstractController
     {
         $competence = new PlayersSkills();
 
-        $currentRuleset = $this->getDoctrine()->getRepository(Setting::class)->findOneBy(['name' => 'currentRuleset']);
+        $currentRuleset = $this->doctrine->getRepository(Setting::class)->findOneBy(['name' => 'currentRuleset']);
 
         $form = $this->createForm(AjoutCompetenceType::class, $competence, ['ruleset' => (int)$currentRuleset->getValue()]);
 
@@ -258,24 +230,20 @@ class JoueurController extends AbstractController
     }
 
     /**
-     * @Route("/ajoutComp/{playerid}", name="ajoutComp")
+     * @Route("/ajoutComp/{playerId}", name="ajoutComp")
      * @param Request $request
-     * @param PlayerService $playerService
-     * @param int $playerid
+     * @param Players $joueur
      * @return RedirectResponse|string
      */
-    public function ajoutComp(Request $request, PlayerService $playerService, int $playerid)
+    public function ajoutComp(Request $request, Players $joueur)
     {
         /** @var array $form */
         $form = $request->request->get('ajout_competence');
 
-        /** @var Players $joueur */
-        $joueur = $this->getDoctrine()->getRepository(Players::class)->findOneBy(['playerId' => $playerid]);
-
         /** @var class-string<object> $repo */
         $repo = RulesetEnum::getGameDataSkillRepoFromPlayerByRuleset($joueur);
 
-        $competence = $this->getDoctrine()->getRepository($repo)->findOneBy(
+        $competence = $this->doctrine->getRepository($repo)->findOneBy(
             [
                 RulesetEnum::getGameDataPlayerChampIdFromPlayerByRuleset($joueur)
                 => $form[RulesetEnum::getChampSkillFromIntByRuleset($joueur->getRuleset())]
@@ -288,11 +256,11 @@ class JoueurController extends AbstractController
 
         if (!empty($competence)) {
             $retour = $joueur->getRuleset() == 0 ?
-                $playerService->ajoutCompetence($joueur, $competence) :
-                $playerService->ajoutCompetenceBb2020(
+                $this->playerService->ajoutCompetence($joueur, $competence) :
+                $this->playerService->ajoutCompetenceBb2020(
                     $joueur,
                     $competence,
-                    array_key_exists('hasard', $form) ? $form['hasard'] : false  /* @phpstan-ignore-line */
+                    array_key_exists('hasard', $form) ? $form['hasard'] : false
                 );
 
             if ($retour != 'ok') {
@@ -301,7 +269,7 @@ class JoueurController extends AbstractController
         }
 
         if (!empty($equipe)) {
-            return $this->redirectToRoute('team', ['teamid' => $equipe->getTeamId()]);
+            return $this->redirectToRoute('team', ['teamId' => $equipe->getTeamId()]);
         }
 
         return 'erreur';
@@ -321,35 +289,29 @@ class JoueurController extends AbstractController
 
     /**
      * @Route("/genereNumero", name="genereNumero", options = { "expose" = true })
-     * @param PlayerService $playerService
      * @param Request $request
      * @return Response
      */
-    public function genereNumero(
-        PlayerService $playerService,
-        Request $request
-    ): Response {
+    public function genereNumero(Request $request): Response
+    {
         $donnees = $request->request->all();
         /** @var Teams $equipe */
-        $equipe = $this->getDoctrine()->getRepository(Teams::class)->findOneBy(['teamId' => $donnees['equipeId']]);
+        $equipe = $this->doctrine->getRepository(Teams::class)->findOneBy(['teamId' => $donnees['equipeId']]);
         if (!empty($equipe)) {
-            return new Response((string)$playerService->numeroLibreDelEquipe($equipe));
+            return new Response((string)$this->playerService->numeroLibreDelEquipe($equipe));
         }
 
         return new Response((string)99);
     }
 
     /**
-     * @Route("/uploadPhoto/{joueurId}", name="uploadPhoto")
+     * @Route("/uploadPhoto/{playerId}", name="uploadPhoto")
      * @param Request $request
-     * @param int $joueurId
-     * @param PlayerService $playerService
+     * @param Players $joueur
      * @return RedirectResponse|Response
      */
-    public function uploadPhoto(Request $request, int $joueurId, PlayerService $playerService)
+    public function uploadPhoto(Request $request, Players $joueur)
     {
-        $joueur = $this->getDoctrine()->getRepository(Players::class)->findOneBy(['playerId' => $joueurId]);
-
         $form = $this->createForm(
             JoueurPhotoEnvoiType::class,
             $joueur
@@ -357,8 +319,8 @@ class JoueurController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $playerService->uploadPhotoJoueur($request, $joueur, $this->getParameter('photo_directory'));
-            return $this->redirectToRoute('Player', ['playerid' => $joueur->getPlayerId()]);
+            $this->playerService->uploadPhotoJoueur($request, $joueur, $this->getParameter('photo_directory'));
+            return $this->redirectToRoute('Player', ['playerId' => $joueur->getPlayerId()]);
         }
 
         return $this->render('statbb/addPhoto.html.twig', [
@@ -368,24 +330,21 @@ class JoueurController extends AbstractController
     }
 
     /**
-     * @route("/supprimePhoto/{joueurId}", name="supprimePhoto", options = { "expose" = true })
-     * @param int $joueurId
+     * @route("/supprimePhoto/{playerId}", name="supprimePhoto", options = { "expose" = true })
+     * @param Players $joueur
      * @return Response
      */
-    public function supprimePhotos(int $joueurId): Response
+    public function supprimePhotos(Players $joueur): Response
     {
-        /** @var Players $joueur */
-        $joueur = $this->getDoctrine()->getRepository(Players::class)->findOneBy(['playerId' => $joueurId]);
-
         $fileSystem = new Filesystem();
         $fileSystem->remove($this->getParameter('photo_directory') . '/' . $joueur->getPhoto());
 
         $joueur->setPhoto(null);
 
-        $this->getDoctrine()->getManager()->persist($joueur);
-        $this->getDoctrine()->getManager()->flush();
+        $this->doctrine->getManager()->persist($joueur);
+        $this->doctrine->getManager()->flush();
 
-        $this->getDoctrine()->getManager()->refresh($joueur);
+        $this->doctrine->getManager()->refresh($joueur);
 
         return new Response('ok');
     }

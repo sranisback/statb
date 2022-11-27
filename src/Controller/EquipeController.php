@@ -120,8 +120,7 @@ class EquipeController extends AbstractController
     }
 
     /**
-     * @Route("/team/{nomEquipe}", name="montreEquipe",
-     *     requirements={"nomEquipe" = "\D+"}, options = { "expose" = true })
+     * @Route("/team/{nomEquipe}", name="montreEquipe", options = { "expose" = true })
      * @param string $nomEquipe
      * @return Response
      */
@@ -140,7 +139,7 @@ class EquipeController extends AbstractController
                 );
             }
             if ($equipes !== []) {
-                return $this->redirectToRoute('team', ['teamid' => $equipes[0]->getTeamId()]);
+                return $this->redirectToRoute('team', ['teamId' => $equipes[0]->getTeamId()]);
             }
         }
         return $this->render('statbb/front.html.twig', ['annee' => $this->settingsService->anneeCourante()]);
@@ -358,7 +357,7 @@ class EquipeController extends AbstractController
     }
 
     /**
-     * @route("/mettreEnFranchise/{equipeId}", name="mettreEnFranchise")
+     * @route("/mettreEnFranchise/{teamId}", name="mettreEnFranchise")
      * @param Teams $equipe
      * @return Response
      */
