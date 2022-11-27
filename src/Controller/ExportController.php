@@ -13,15 +13,20 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ExportController extends AbstractController
 {
+    private ExportService $exportService;
+
+    public function __construct(ExportService $exportService) {
+        $this->exportService = $exportService;
+    }
+
     /**
      * @Route("/pdfTeam/{teamId}", name="pdfTeam")
-     * @param ExportService $exportService
      * @param Teams $equipe
      * @throws \Exception
      */
-    public function pdfTeam(ExportService $exportService, Teams $equipe): void
+    public function pdfTeam(Teams $equipe): void
     {
-        $dataGenerated = $exportService->generatePdf($equipe);
+        $dataGenerated = $this->exportService->generatePdf($equipe);
 
         $html = $this->renderView(
             'statbb/pdfteam.html.twig',
