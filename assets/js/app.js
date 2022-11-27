@@ -30,10 +30,10 @@ $(document).ready(function () {
     //switch (process.env.ENV) {
     /*  case 'dev':
           */
-    //Routing.setRoutingData(routes_dev);
+    Routing.setRoutingData(routes_dev);
       //      break;
        // case 'prod':*/
-    Routing.setRoutingData(routes_prod);
+    //Routing.setRoutingData(routes_prod);
     /* break;
 }*/
 
@@ -136,18 +136,6 @@ $(document).ready(function () {
     $("[id^='enleve_prime_']").click(function () {
         $(this).after($('#loadingmessage'));
         $.post(Routing.generate('supprimerPrime', {primeId: $(this).attr("primeId")}),
-            {},
-            function (result) {
-                window.location.reload();
-            });
-    });
-
-    /*
-     * retirer defis
-     */
-    $("[id^='enleve_defis_']").click(function () {
-        $(this).after($('#loadingmessage'));
-        $.post(Routing.generate('supprimerDefis', {defisId: $(this).attr("defisId")}),
             {},
             function (result) {
                 window.location.reload();

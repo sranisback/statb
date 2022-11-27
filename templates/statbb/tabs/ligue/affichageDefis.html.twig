@@ -48,8 +48,7 @@ Période Défis actuelle : {{ render(controller('App\\Controller\\DefisIhmContro
                     {% endif %}
                 </td>
                 {% if app.user.roles["role"] == 'ROLE_ADMIN' %}
-                    <td><i class="fas fa-times text-danger" id="enleve_defis_{{ defis.id }}"
-                           defisId="{{ defis.id }}"></i></td>
+                    <td> <a  href="{{ path('supprimerDefis', {'id': defis.id}) }}"><i class=" fas fa-times text-danger"></i></a></td>
                 {% endif %}
             </tr>
         {% endfor %}

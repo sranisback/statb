@@ -35,6 +35,6 @@ class supprimerDefisTest extends TestCase
             $this->createMock(SettingsService::class)
         );
 
-        $defiService->supprimerDefis(1);
+        $defiService->supprimerDefis($defis);
     }
 }
