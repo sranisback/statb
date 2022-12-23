@@ -20,13 +20,13 @@ class ClassementGeneralRepository extends ServiceEntityRepository
         parent::__construct($registry, ClassementGeneral::class);
     }
 
-    public function classementGeneral($annee)
+    public function classementGeneral($annee, $poulpiActivated)
     {
         return $this->createQueryBuilder('cg')
             ->select(
                 'cg total',
                 'cg.gagne+cg.egalite+cg.perdu nbr',
-                'cg.points + cg.bonus-cg.penalite pointTotaux'
+                'cg.points  ' . ($poulpiActivated ? '' : ' + cg.bonus-cg.penalite ') .' pointTotaux'
             )
             ->join('cg.equipe', 'equipe')
             ->where('equipe.year =' . $annee)

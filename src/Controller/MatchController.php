@@ -17,6 +17,7 @@ use App\Tools\TransformeEnJSON;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -169,5 +170,16 @@ class MatchController extends AbstractController
         );
 
         return $this->render('statbb/tabs/ligue/matches.html.twig', ['matches' => $matches]);
+    }
+
+    /**
+     * @Route("/recalculLeScore", name="recalculLeScore")
+     */
+    public function recalculLeScore(MatchesService $matchesService): RedirectResponse
+    {
+        $matchesService->recalculLeScore();
+
+        $this->addFlash('admin', 'Score Recalculé');
+        return $this->redirectToRoute('frontUser');
     }
 }

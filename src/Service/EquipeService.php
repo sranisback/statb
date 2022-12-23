@@ -466,8 +466,6 @@ class EquipeService
      */
     public function calculBonusPourUnMatchPoulpi($equipe, Matches $match)
     {
-        $resultatMatch = $this->resultatDuMatch($equipe, $match);
-
         if ($match->getTeam1() === $equipe) {
             $scoreEquipeAdv = $match->getScoreClassementTeam2();
             $score = $match->getScoreClassementTeam1();
@@ -476,33 +474,7 @@ class EquipeService
             $score = $match->getScoreClassementTeam2();
         }
 
-        $bonus = ($scoreEquipeAdv - $score) / 10;
-
-        if ($resultatMatch['win'] === 1) {
-            if ($score >= $scoreEquipeAdv) {
-                $bonus = $bonus > 5 ? 5 : $bonus;
-            } else {
-                $bonus = $bonus > 15 ? 15 : $bonus;
-            }
-        }
-
-        if ($resultatMatch['loss'] === 1) {
-            if ($score >= $scoreEquipeAdv) {
-                $bonus = $bonus < -5 ? -5 : $bonus;
-            } else {
-                $bonus = $bonus < -15 ? -15 : $bonus;
-            }
-        }
-
-        if ($resultatMatch['draw'] === 1) {
-            if ($score >= $scoreEquipeAdv) {
-                $bonus = $bonus < -5 ? -5 : $bonus;
-            } else {
-                $bonus = $bonus > 5 ? 5 : $bonus;
-            }
-        }
-
-        return $bonus;
+        return floor(($scoreEquipeAdv - $score) / 10);
     }
 
     /**
@@ -619,5 +591,46 @@ class EquipeService
         }
 
         return $joueurCollection->toArray();
+    }
+
+    public function maxScore($point, $resultat, $match, $equipe)
+    {
+        if ($match->getTeam1() === $equipe) {
+            $scoreEquipeAdv = $match->getScoreClassementTeam2();
+            $score = $match->getScoreClassementTeam1();
+        } else {
+            $scoreEquipeAdv = $match->getScoreClassementTeam1();
+            $score = $match->getScoreClassementTeam2();
+        }
+
+        if($score == $scoreEquipeAdv) {
+            return $point;
+        }
+
+        if ($resultat['win'] === 1) {
+            if ($score > $scoreEquipeAdv) {
+                $point = $point > 5 ? 5 : $point;
+            } else {
+                $point = $point > 15 ? 15 : $point;
+            }
+        }
+
+        if ($resultat['loss'] === 1) {
+            if ($score < $scoreEquipeAdv) {
+                $point = $point < -5 ? -5 : $point;
+            } else {
+                $point = $point < -15 ? -15 : $point;
+            }
+        }
+
+        if ($resultat['draw'] === 1) {
+            if ($score < $scoreEquipeAdv) {
+                $point = $point < -5 ? -5 : $point;
+            } else {
+                $point = $point > 5 ? 5 : $point;
+            }
+        }
+
+        return $point;
     }
 }

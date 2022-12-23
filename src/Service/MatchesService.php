@@ -378,11 +378,31 @@ class MatchesService
 
         $bonus = $this->equipeService->calculBonusPourUnMatchPoulpi($equipe, $match);
 
-        $equipe->setScore($equipe->getScore() + $bonus + $pointsDuMatch);
+        $pointMaxed = $this->equipeService->maxScore($pointsDuMatch + $bonus, $resultat, $match, $equipe);
+
+        $equipe->setScore($equipe->getScore() + $pointMaxed);
 
         $this->doctrineEntityManager->persist($equipe);
         $this->doctrineEntityManager->flush();
         $this->doctrineEntityManager->refresh($equipe);
+    }
+
+    public function recalculLeScore()
+    {
+        $equipeList = $this->doctrineEntityManager->getRepository(Teams::class)->findBy(['year' => $this->settingService->anneeCourante()]);
+
+        array_map(function ($equipe) { return $equipe->setScore(100);}, $equipeList);
+
+        $matchList = $this->doctrineEntityManager->getRepository(Matches::class)->tousLesMatchDuneAnneClassementChrono($this->settingService->anneeCourante(), 'ASC');
+
+        /** @var Matches $match */
+        foreach ($matchList as $match) {
+            $match->setScoreClassementTeam1($match->getTeam1()->getScore());
+            $match->setScoreClassementTeam2($match->getTeam2()->getScore());
+
+            $this->majScoreDesEquipes($match, $match->getTeam1());
+            $this->majScoreDesEquipes($match, $match->getTeam2());
+        }
     }
 
 }

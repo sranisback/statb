@@ -51,27 +51,12 @@ class CalculBonusPoulpiTest extends TestCase
 
     }
 
-    /**
-     * @test
-     */
-    public function le_calcul_du_bonus_est_correct_victoire_pts_plus_bas()
-    {
-        $this->matches->setTeam1Score(1);
-        $this->matches->setTeam2Score(0);
-        $this->matches->setScoreClassementTeam1(50);
-        $this->matches->setScoreClassementTeam2(200);
-
-        $this->assertEquals(15, $this->EquipeService->calculBonusPoulpi($this->equipe1));
-    }
-
 
     /**
      * @test
      */
     public function le_calcul_du_bonus_est_correct_pts_plus_haut()
     {
-        $this->matches->setTeam1Score(1);
-        $this->matches->setTeam2Score(0);
         $this->matches->setScoreClassementTeam1(100);
         $this->matches->setScoreClassementTeam2(50);
 
@@ -81,52 +66,11 @@ class CalculBonusPoulpiTest extends TestCase
     /**
      * @test
      */
-    public function le_calcul_du_bonus_est_correct_defaite_pts_plus_bas()
+    public function le_calcul_du_bonus_est_correct_pts_plus_bas()
     {
-        $this->matches->setTeam1Score(0);
-        $this->matches->setTeam2Score(1);
         $this->matches->setScoreClassementTeam1(50);
         $this->matches->setScoreClassementTeam2(100);
 
         $this->assertEquals(5, $this->EquipeService->calculBonusPoulpi($this->equipe1));
-    }
-
-    /**
-     * @test
-     */
-    public function le_calcul_du_bonus_est_correct_defaite_pts_plus_haut()
-    {
-        $this->matches->setTeam1Score(0);
-        $this->matches->setTeam2Score(1);
-        $this->matches->setScoreClassementTeam1(100);
-        $this->matches->setScoreClassementTeam2(50);
-
-        $this->assertEquals(-5, $this->EquipeService->calculBonusPoulpi($this->equipe1));
-    }
-
-    /**
-     * @test
-     */
-    public function le_calcul_du_bonus_est_correct_egalite_pts_plus_bas()
-    {
-        $this->matches->setTeam1Score(0);
-        $this->matches->setTeam2Score(0);
-        $this->matches->setScoreClassementTeam1(50);
-        $this->matches->setScoreClassementTeam2(100);
-
-        $this->assertEquals(5, $this->EquipeService->calculBonusPoulpi($this->equipe1));
-    }
-
-    /**
-     * @test
-     */
-    public function le_calcul_du_bonus_est_correct_egalite_pts_plus_haut()
-    {
-        $this->matches->setTeam1Score(0);
-        $this->matches->setTeam2Score(0);
-        $this->matches->setScoreClassementTeam1(100);
-        $this->matches->setScoreClassementTeam2(50);
-
-        $this->assertEquals(-5, $this->EquipeService->calculBonusPoulpi($this->equipe1));
     }
 }

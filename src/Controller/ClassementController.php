@@ -7,6 +7,7 @@ use App\Entity\Coaches;
 use App\Entity\Matches;
 use App\Entity\Teams;
 use App\Enum\AnneeEnum;
+use App\Enum\PoulpiEnum;
 use App\Service\ClassementService;
 use App\Service\EquipeService;
 use App\Service\SettingsService;
@@ -43,7 +44,7 @@ class ClassementController extends AbstractController
         return $this->render(
             'statbb/tabs/ligue/classement.html.twig',
             [
-            'classement' => $this->doctrine->getRepository(ClassementGeneral::class)->classementGeneral($annee),
+            'classement' => $this->doctrine->getRepository(ClassementGeneral::class)->classementGeneral($annee, PoulpiEnum::classementPoulpiParAnnee()[$annee] != 0),
             'annee' => $annee,
             'etiquette' => $etiquette
             ]

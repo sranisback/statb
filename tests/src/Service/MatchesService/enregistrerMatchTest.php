@@ -18,6 +18,7 @@ use App\Service\PlayerService;
 use App\Service\SettingsService;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 
 class enregistrerMatchTest extends TestCase
 {
@@ -82,7 +83,7 @@ class enregistrerMatchTest extends TestCase
             $this->returnCallback(
                 function($match) {
                     if ($match instanceof Matches) {
-                        $reflection = new \ReflectionClass($match);
+                        $reflection = new ReflectionClass($match);
                         $property = $reflection->getProperty('matchId');
                         $property->setAccessible(true);
                         $property->setValue($match, '1');
@@ -99,7 +100,7 @@ class enregistrerMatchTest extends TestCase
             $this->returnCallback(
                 function($equipe) {
                     if ($equipe instanceof Teams) {
-                        self::assertEquals(70, $equipe->getScore());
+                        self::assertEquals(65, $equipe->getScore());
                     }
 
                     return true;
@@ -108,7 +109,7 @@ class enregistrerMatchTest extends TestCase
             $this->returnCallback(
                 function($equipe) {
                     if ($equipe instanceof Teams) {
-                        self::assertEquals(95, $equipe->getScore());
+                        self::assertEquals(90, $equipe->getScore());
                     }
 
                     return true;
@@ -121,7 +122,8 @@ class enregistrerMatchTest extends TestCase
         $infoService = $this->createMock(InfosService::class);
 
         $equipeService = $this->createMock(EquipeService::class);
-        $equipeService->method('calculBonusPourUnMatchPoulpi')->willReturn(10,5);
+        $equipeService->method('calculBonusPourUnMatchPoulpi')->willReturn(10,-10);
+        $equipeService->method('maxScore')->willReturn(15,-10);
         $equipeService->method('resultatDuMatch')->willReturn(
             [
                 'win'=> 1,
