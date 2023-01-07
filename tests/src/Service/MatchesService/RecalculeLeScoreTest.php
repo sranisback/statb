@@ -5,6 +5,7 @@ namespace App\Tests\src\Service\MatchesService;
 
 
 use App\Entity\Matches;
+use App\Entity\ScoreCalcul;
 use App\Entity\Teams;
 use App\Service\DefisService;
 use App\Service\EquipeGestionService;
@@ -72,16 +73,25 @@ class RecalculeLeScoreTest extends TestCase
             [$match1, $match2, $match3, $match4]
         );
 
+        $scoreCalculMock = $this->getMockBuilder(ScoreCalcul::class)
+            ->addMethods(['findAll'])
+            ->getMock();
+        $scoreCalculMock->method('findAll')->willReturn([]);
+
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->will(
             $this->returnCallback(
-                function ($entityName) use ($teamRepoMock, $matchRepoMock) {
+                function ($entityName) use ($teamRepoMock, $matchRepoMock, $scoreCalculMock) {
                     if ($entityName === Teams::class) {
                         return $teamRepoMock;
                     }
 
                     if ($entityName === Matches::class) {
                         return $matchRepoMock;
+                    }
+
+                    if ($entityName === ScoreCalcul::class) {
+                        return $scoreCalculMock;
                     }
 
                     return true;
