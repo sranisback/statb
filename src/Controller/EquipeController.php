@@ -418,4 +418,18 @@ class EquipeController extends AbstractController
 
         return $this->redirectToRoute('team', ['teamid' => $equipeId]);
     }
+
+    /**
+     * @route("/afficheScoreCalcul/{equipe}", name="scoreCalculStat")
+     * @param Teams $equipe
+     * @param EquipeService $equipeService
+     * @return Response
+     */
+    public function afficheScoreCalcul(Teams $equipe, EquipeService $equipeService): Response
+    {
+        return $this->render(
+            'statbb/scoreCalcul.html.twig',
+            ['table' => $equipeService->afficheCalculScore($equipe)]
+        );
+    }
 }

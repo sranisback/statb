@@ -79,7 +79,7 @@ class enregistrerMatchTest extends TestCase
             )
         );
 
-        $objectManager->expects($this->exactly(5))->method('persist')->willReturnOnConsecutiveCalls(
+        $objectManager->expects($this->exactly(7))->method('persist')->willReturnOnConsecutiveCalls(
             $this->returnCallback(
                 function($match) {
                     if ($match instanceof Matches) {

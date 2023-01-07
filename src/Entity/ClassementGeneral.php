@@ -33,9 +33,9 @@ class ClassementGeneral
     private int $perdu = 0;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="float", nullable=true)
      */
-    private int $points = 0;
+    private float $points = 0;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -66,7 +66,7 @@ class ClassementGeneral
      * @ORM\OneToOne(targetEntity=Teams::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn( referencedColumnName="team_id", nullable=true)
      */
-    private ?\App\Entity\Teams $equipe = null;
+    private ?Teams $equipe = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -114,12 +114,12 @@ class ClassementGeneral
         return $this;
     }
 
-    public function getPoints(): ?int
+    public function getPoints(): float
     {
         return $this->points;
     }
 
-    public function setPoints(?int $points): self
+    public function setPoints(float $points): self
     {
         $this->points = $points;
 

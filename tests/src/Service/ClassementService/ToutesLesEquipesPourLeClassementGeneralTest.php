@@ -187,14 +187,14 @@ class ToutesLesEquipesPourLeClassementGeneralTest extends TestCase
 
         $equipeMock1 = $this->createMock(Teams::class);
         $equipeMock1->method('getTeamId')->willReturn(1);
-        $equipeMock1->method('getScore')->willReturn(20);
+        $equipeMock1->method('getScore')->willReturn(20.0);
 
         $equipeMock2 = $this->createMock(Teams::class);
         $equipeMock2->method('getTeamId')->willReturn(2);
 
         $equipeMock3 = $this->createMock(Teams::class);
         $equipeMock3->method('getTeamId')->willReturn(3);
-        $equipeMock3->method('getScore')->willReturn(-20);
+        $equipeMock3->method('getScore')->willReturn(-20.0);
 
         $matchRepoMock = $this->getMockBuilder(Matches::class)
             ->addMethods(['listeDesMatchs'])

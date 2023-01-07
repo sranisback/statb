@@ -161,8 +161,8 @@ class Teams
     private $ruleset = 0;
 
     /**
-     * @ORM\Column(type="integer")
-     * @var int
+     * @ORM\Column(type="float")
+     * @var float
      */
     private $score = 0;
 
@@ -488,18 +488,18 @@ class Teams
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getScore(): int
+    public function getScore(): float
     {
         return $this->score;
     }
 
     /**
-     * @param int $score
+     * @param float $score
      * @return Teams
      */
-    public function setScore(int $score): Teams
+    public function setScore(float $score): Teams
     {
         $this->score = $score;
         return $this;
