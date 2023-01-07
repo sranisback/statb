@@ -9,6 +9,7 @@ use App\Entity\MatchData;
 use App\Entity\Matches;
 use App\Entity\Meteo;
 use App\Entity\Players;
+use App\Entity\ScoreCalcul;
 use App\Entity\Teams;
 use App\Enum\AnneeEnum;
 use App\Factory\MatchesFactory;
@@ -385,10 +386,26 @@ class MatchesService
         $this->doctrineEntityManager->persist($equipe);
         $this->doctrineEntityManager->flush();
         $this->doctrineEntityManager->refresh($equipe);
+
+        $scoreCalcul = new ScoreCalcul();
+        $scoreCalcul->setTeams($equipe);
+        $scoreCalcul->setMatchCible($match);
+        $scoreCalcul->setBonus($bonus);
+        $scoreCalcul->setLostPoint(abs($pointMaxed) - abs($pointsDuMatch + $bonus));
+
+        $this->doctrineEntityManager->persist($scoreCalcul);
+        $this->doctrineEntityManager->flush();
+
     }
 
     public function recalculLeScore()
     {
+        $scoreCalculArray = $this->doctrineEntityManager->getRepository(ScoreCalcul::class)->findAll();
+        foreach ($scoreCalculArray as $scoreCalcul) {
+            $this->doctrineEntityManager->remove($scoreCalcul);
+        }
+        $this->doctrineEntityManager->flush();
+
         $equipeList = $this->doctrineEntityManager->getRepository(Teams::class)->findBy(['year' => $this->settingService->anneeCourante()]);
 
         array_map(function ($equipe) { return $equipe->setScore(100);}, $equipeList);

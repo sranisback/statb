@@ -6,6 +6,7 @@ use App\Entity\ClassementGeneral;
 use App\Entity\Coaches;
 use App\Entity\Matches;
 use App\Entity\Players;
+use App\Entity\ScoreCalcul;
 use App\Entity\Teams;
 use App\Enum\AnneeEnum;
 use App\Enum\NiveauStadeEnum;
@@ -447,7 +448,7 @@ class EquipeService
         $this->doctrineEntityManager->refresh($equipe);
     }
 
-    public function calculBonusPoulpi(Teams $equipe):int
+    public function calculBonusPoulpi(Teams $equipe): float
     {
         $bonusTotal = 0;
 
@@ -462,7 +463,7 @@ class EquipeService
     /**
      * @param $equipe
      * @param Matches $match
-     * @return float|int
+     * @return float
      */
     public function calculBonusPourUnMatchPoulpi($equipe, Matches $match)
     {
@@ -474,7 +475,7 @@ class EquipeService
             $score = $match->getScoreClassementTeam2();
         }
 
-        return floor(($scoreEquipeAdv - $score) / 10);
+        return ($scoreEquipeAdv - $score) / 10;
     }
 
     /**
@@ -608,29 +609,66 @@ class EquipeService
         }
 
         if ($resultat['win'] === 1) {
-            if ($score > $scoreEquipeAdv) {
-                $point = $point > 5 ? 5 : $point;
-            } else {
-                $point = $point > 15 ? 15 : $point;
-            }
+            $point = $point < 5 ? 5 : $point;
+            $point = $point > 15 ? 15 : $point;
         }
 
         if ($resultat['loss'] === 1) {
-            if ($score < $scoreEquipeAdv) {
-                $point = $point < -5 ? -5 : $point;
-            } else {
-                $point = $point < -15 ? -15 : $point;
-            }
+            $point = $point > -5 ? -5 : $point;
+            $point = $point < -15 ? -15 : $point;
         }
 
         if ($resultat['draw'] === 1) {
-            if ($score < $scoreEquipeAdv) {
-                $point = $point < -5 ? -5 : $point;
-            } else {
-                $point = $point > 5 ? 5 : $point;
-            }
+            $point = $point < -5 ? -5 : $point;
+            $point = $point > 5 ? 5 : $point;
         }
 
         return $point;
+    }
+
+    public function afficheCalculScore(Teams $equipe)
+    {
+        $scoreCalculList = $this->doctrineEntityManager->getRepository(ScoreCalcul::class)->findBy(['teams' => $equipe->getTeamId()]);
+
+        /** @var ScoreCalcul $scoreCalcul */
+        foreach ($scoreCalculList as $scoreCalcul) {
+            if($equipe === $scoreCalcul->getMatchCible()->getTeam1()) {
+                $ligneResult['scoreDebutMatch'] = $scoreCalcul->getMatchCible()->getScoreClassementTeam1();
+                $ligneResult['equipeAdv'] = $scoreCalcul->getMatchCible()->getTeam2();
+                $ligneResult['scoreAdv'] = $scoreCalcul->getMatchCible()->getScoreClassementTeam2();
+            } else {
+                $ligneResult['scoreDebutMatch'] = $scoreCalcul->getMatchCible()->getScoreClassementTeam2();
+                $ligneResult['scoreAdv'] = $scoreCalcul->getMatchCible()->getScoreClassementTeam1();
+                $ligneResult['equipeAdv'] = $scoreCalcul->getMatchCible()->getTeam1();
+            }
+
+            $points = $this->settingsService->pointsEnCours($this->settingsService->anneeCourante());
+
+            $resultat = $this->resultatDuMatch($equipe, $scoreCalcul->getMatchCible());
+
+            $ligneResult['mouvement'] = 0;
+
+            $ligneResult['mouvement'] += $resultat['win'] == 1 ? $points[0] : 0;
+            $ligneResult['mouvement'] += $resultat['draw'] == 1 ? $points[1] : 0;
+            $ligneResult['mouvement'] += $resultat['loss'] == 1 ? $points[2] : 0;
+
+            $ligneResult['resultat'] = '';
+
+            $ligneResult['resultat'] = $resultat['win'] == 1 ? 'victoire' : $ligneResult['resultat'];
+            $ligneResult['resultat'] = $resultat['draw'] == 1 ? 'Egalite': $ligneResult['resultat'];
+            $ligneResult['resultat'] = $resultat['loss'] == 1 ? 'défaite': $ligneResult['resultat'];
+
+            $ligneResult['bonus'] = $scoreCalcul->getBonus();
+
+            $ligneResult['mouvementTotal'] = $ligneResult['mouvement'] + $ligneResult['bonus'];
+
+            $ligneResult['ajustement'] = $scoreCalcul->getLostPoint();
+
+            $ligneResult['match'] = $scoreCalcul->getMatchCible();
+
+            $result[] = $ligneResult;
+        }
+
+        return $result;
     }
 }

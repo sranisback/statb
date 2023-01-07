@@ -1,0 +1,114 @@
+<a data-toggle="collapse" href="#calculScore">
+    Afficher le theme Blood bowlistique
+</a>
+<div class="collapse" id="calculScore">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <td>
+                    Match
+                </td>
+                {% if table is not empty %}
+                    {% for tab in table %}
+                        <td>
+                            M{{ loop.index }} <a href="{{ path('match', {'matchId': tab.match.matchId}) }}">Voir</a>
+                        </td>
+                    {% endfor %}
+                {% endif %}
+            </tr>
+            <tr>
+                <td>
+                    Score Debut Match
+                </td>
+                {% if table is not empty %}
+                    {% for tab in table %}
+                        <td>
+                            {{ tab.scoreDebutMatch }}
+                        </td>
+                    {% endfor %}
+                {% endif %}
+            </tr>
+            <tr>
+                <td>
+                    Score Adversaire
+                </td>
+                {% if table is not empty %}
+                    {% for tab in table %}
+                        <td>
+                            {{ tab.scoreAdv }}<br/>
+                            <a href="{{ path('team', {'teamid': tab.equipeAdv.teamid }) }}"> {{ tab.equipeAdv.name }}</a>
+                        </td>
+                    {% endfor %}
+                {% endif %}
+            </tr>
+            <tr>
+                <td>
+                    Résultat
+                </td>
+                {% if table is not empty %}
+                    {% for tab in table %}
+                        <td>
+                            {% if tab.resultat == 'victoire' %}
+                                <span class="fas fa-check-circle text-success" aria-hidden="true"></span>
+                            {% endif %}
+                            {% if tab.resultat == 'défaite' %}
+                                <span class="fas fa-check-circle text-danger" aria-hidden="true"></span>
+                            {% endif %}
+                            {% if tab.resultat == 'Egalite' %}
+                                <span class="fas fa-check-circle text-warning" aria-hidden="true"></span>
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                {% endif %}
+            </tr>
+            <tr>
+                <td>
+                    Mouvement
+                </td>
+                {% if table is not empty %}
+                    {% for tab in table %}
+                        <td>
+                            {{ tab.mouvement }}
+                        </td>
+                    {% endfor %}
+                {% endif %}
+            </tr>
+            <tr>
+                <td>
+                    Bonus
+                </td>
+                {% if table is not empty %}
+                    {% for tab in table %}
+                        <td>
+                            {{ tab.bonus }}
+                        </td>
+                    {% endfor %}
+                {% endif %}
+            </tr>
+            <tr>
+                <td>
+                    Total
+                </td>
+                {% if table is not empty %}
+                    {% for tab in table %}
+                        <td>
+                            {{ tab.mouvementTotal }}
+                        </td>
+                    {% endfor %}
+                {% endif %}
+            </tr>
+            <tr>
+                <td>
+                    Ajustement
+                </td>
+                {% if table is not empty %}
+                    {% for tab in table %}
+                        <td>
+                            {{ tab.ajustement }}
+                        </td>
+                    {% endfor %}
+                {% endif %}
+            </tr>
+        </table>
+    </div>
+</div>

@@ -148,14 +148,14 @@ class Matches
     private int $depense2 = 0;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="float", nullable=true)
      */
-    private $scoreClassementTeam1;
+    private float $scoreClassementTeam1;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="float", nullable=true)
      */
-    private $scoreClassementTeam2;
+    private float $scoreClassementTeam2;
 
 
     public function __construct()
@@ -414,7 +414,7 @@ class Matches
      * @param mixed $scoreClassementTeam1
      * @return Matches
      */
-    public function setScoreClassementTeam1($scoreClassementTeam1)
+    public function setScoreClassementTeam1(float $scoreClassementTeam1)
     {
         $this->scoreClassementTeam1 = $scoreClassementTeam1;
         return $this;
@@ -432,7 +432,7 @@ class Matches
      * @param mixed $scoreClassementTeam2
      * @return Matches
      */
-    public function setScoreClassementTeam2($scoreClassementTeam2)
+    public function setScoreClassementTeam2(float $scoreClassementTeam2)
     {
         $this->scoreClassementTeam2 = $scoreClassementTeam2;
         return $this;

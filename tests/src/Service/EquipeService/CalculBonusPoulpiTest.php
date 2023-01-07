@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 
 class CalculBonusPoulpiTest extends TestCase
 {
-    private EquipeService $EquipeService;
+    private EquipeService $equipeService;
 
     private Teams $equipe1;
 
@@ -42,7 +42,7 @@ class CalculBonusPoulpiTest extends TestCase
         $objectManager = $this->createMock(EntityManagerInterface::class);
         $objectManager->method('getRepository')->willReturn($matchRepoMock);
 
-        $this->EquipeService = new EquipeService(
+        $this->equipeService = new EquipeService(
             $objectManager,
             $this->createMock(SettingsService::class),
             $this->createMock(InducementService::class),
@@ -60,7 +60,7 @@ class CalculBonusPoulpiTest extends TestCase
         $this->matches->setScoreClassementTeam1(100);
         $this->matches->setScoreClassementTeam2(50);
 
-        $this->assertEquals(-5, $this->EquipeService->calculBonusPoulpi($this->equipe1));
+        $this->assertEqualsWithDelta(-5, $this->equipeService->calculBonusPoulpi($this->equipe1), 0);
     }
 
     /**
@@ -71,6 +71,17 @@ class CalculBonusPoulpiTest extends TestCase
         $this->matches->setScoreClassementTeam1(50);
         $this->matches->setScoreClassementTeam2(100);
 
-        $this->assertEquals(5, $this->EquipeService->calculBonusPoulpi($this->equipe1));
+        $this->assertEqualsWithDelta(5, $this->equipeService->calculBonusPoulpi($this->equipe1), 0);
+    }
+
+    /**
+     * @test
+     */
+    public function le_calcul_du_bonus_est_decimal()
+    {
+        $this->matches->setScoreClassementTeam1(53);
+        $this->matches->setScoreClassementTeam2(100);
+
+        $this->assertEqualsWithDelta(4.7, $this->equipeService->calculBonusPoulpi($this->equipe1), 0);
     }
 }

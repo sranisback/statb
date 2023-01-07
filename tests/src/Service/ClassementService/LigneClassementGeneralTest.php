@@ -192,7 +192,7 @@ class LigneClassementGeneralTest extends TestCase
         $this->equipeService->method('resultatsDelEquipe')->willReturn(
             ['win' => 1, 'loss' => 0, 'draw' => 0]
         );
-        $this->equipeService->method('calculBonusPoulpi')->willReturn(0);
+        $this->equipeService->method('calculBonusPoulpi')->willReturn(0.0);
 
         $this->settingService->method('anneeCourante')->willReturn(8);
 
