@@ -60,7 +60,7 @@ class CalculBonusPoulpiTest extends TestCase
         $this->matches->setScoreClassementTeam1(100);
         $this->matches->setScoreClassementTeam2(50);
 
-        $this->assertEqualsWithDelta(-5, $this->equipeService->calculBonusPoulpi($this->equipe1), 0);
+        $this->assertEquals(5, $this->equipeService->calculBonusPoulpi($this->equipe1));
     }
 
     /**

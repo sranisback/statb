@@ -18,10 +18,8 @@ class MaxScoreTest extends TestCase
     /**
      * @test
      */
-    public function le_score_est_maxe_win()
+    public function le_score_est_bien_calcule_equipe_plus_petit_score()
     {
-        $resultat = ['win' => 1, 'draw' => 0, 'loss' => 0 ];
-
         $equipe = new Teams();
 
         $match = new Matches();
@@ -36,22 +34,20 @@ class MaxScoreTest extends TestCase
             $this->createMock(EquipeGestionService::class)
         );
 
-        $this->assertEquals(15, $equipeService->maxScore(25, $resultat, $match, $equipe));
+        $this->assertEquals(5, $equipeService->maxScore(5, $match, $equipe));
     }
 
     /**
      * @test
      */
-    public function le_score_est_min_win()
+    public function le_score_est_bien_calcule_equipe_plus_grand_score()
     {
-        $resultat = ['win' => 1, 'draw' => 0, 'loss' => 0 ];
-
         $equipe = new Teams();
 
         $match = new Matches();
         $match->setTeam1($equipe);
-        $match->setScoreClassementTeam1(50);
-        $match->setScoreClassementTeam2(150);
+        $match->setScoreClassementTeam1(150);
+        $match->setScoreClassementTeam2(50);
 
         $equipeService = new EquipeService(
             $this->createMock(EntityManagerInterface::class),
@@ -60,102 +56,6 @@ class MaxScoreTest extends TestCase
             $this->createMock(EquipeGestionService::class)
         );
 
-        $this->assertEquals(5, $equipeService->maxScore(2, $resultat, $match, $equipe));
-    }
-
-    /**
-     * @test
-     */
-    public function le_score_est_max_loss()
-    {
-        $resultat = ['win' => 0, 'draw' => 0, 'loss' => 1 ];
-
-        $equipe = new Teams();
-
-        $match = new Matches();
-        $match->setTeam1($equipe);
-        $match->setScoreClassementTeam1(50);
-        $match->setScoreClassementTeam2(150);
-
-        $equipeService = new EquipeService(
-            $this->createMock(EntityManagerInterface::class),
-            $this->createMock(SettingsService::class),
-            $this->createMock(InducementService::class),
-            $this->createMock(EquipeGestionService::class)
-        );
-
-        $this->assertEquals(-5, $equipeService->maxScore(2, $resultat, $match, $equipe));
-    }
-
-    /**
-     * @test
-     */
-    public function le_score_est_min_loss()
-    {
-        $resultat = ['win' => 0, 'draw' => 0, 'loss' => 1 ];
-
-        $equipe = new Teams();
-
-        $match = new Matches();
-        $match->setTeam1($equipe);
-        $match->setScoreClassementTeam1(50);
-        $match->setScoreClassementTeam2(150);
-
-        $equipeService = new EquipeService(
-            $this->createMock(EntityManagerInterface::class),
-            $this->createMock(SettingsService::class),
-            $this->createMock(InducementService::class),
-            $this->createMock(EquipeGestionService::class)
-        );
-
-        $this->assertEquals(-15, $equipeService->maxScore(-25, $resultat, $match, $equipe));
-    }
-
-    /**
-     * @test
-     */
-    public function le_score_est_min_draw()
-    {
-        $resultat = ['win' => 0, 'draw' => 1, 'loss' => 0 ];
-
-        $equipe = new Teams();
-
-        $match = new Matches();
-        $match->setTeam1($equipe);
-        $match->setScoreClassementTeam1(50);
-        $match->setScoreClassementTeam2(150);
-
-        $equipeService = new EquipeService(
-            $this->createMock(EntityManagerInterface::class),
-            $this->createMock(SettingsService::class),
-            $this->createMock(InducementService::class),
-            $this->createMock(EquipeGestionService::class)
-        );
-
-        $this->assertEquals(-5, $equipeService->maxScore(-25, $resultat, $match, $equipe));
-    }
-
-    /**
-     * @test
-     */
-    public function le_score_est_max_draw()
-    {
-        $resultat = ['win' => 0, 'draw' => 1, 'loss' => 0 ];
-
-        $equipe = new Teams();
-
-        $match = new Matches();
-        $match->setTeam1($equipe);
-        $match->setScoreClassementTeam1(50);
-        $match->setScoreClassementTeam2(150);
-
-        $equipeService = new EquipeService(
-            $this->createMock(EntityManagerInterface::class),
-            $this->createMock(SettingsService::class),
-            $this->createMock(InducementService::class),
-            $this->createMock(EquipeGestionService::class)
-        );
-
-        $this->assertEquals(5, $equipeService->maxScore(25, $resultat, $match, $equipe));
+        $this->assertEquals(-5, $equipeService->maxScore(5, $match, $equipe));
     }
 }

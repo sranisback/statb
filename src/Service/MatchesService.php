@@ -377,11 +377,11 @@ class MatchesService
         $pointsDuMatch += $resultat['draw'] == 1 ? $points[1] : 0;
         $pointsDuMatch += $resultat['loss'] == 1 ? $points[2] : 0;
 
-        $bonus = $this->equipeService->calculBonusPourUnMatchPoulpi($equipe, $match);
+        list($bonus, $pointsPerdus) = $this->equipeService->calculBonusPourUnMatchPoulpi($equipe, $match);
 
-        $pointMaxed = $this->equipeService->maxScore($pointsDuMatch + $bonus, $resultat, $match, $equipe);
+        $bonus = $this->equipeService->maxScore($bonus, $match, $equipe);
 
-        $equipe->setScore($equipe->getScore() + $pointMaxed);
+        $equipe->setScore($equipe->getScore() + $pointsDuMatch + $bonus);
 
         $this->doctrineEntityManager->persist($equipe);
         $this->doctrineEntityManager->flush();
@@ -391,7 +391,7 @@ class MatchesService
         $scoreCalcul->setTeams($equipe);
         $scoreCalcul->setMatchCible($match);
         $scoreCalcul->setBonus($bonus);
-        $scoreCalcul->setLostPoint(abs($pointMaxed) - abs($pointsDuMatch + $bonus));
+        $scoreCalcul->setLostPoint($pointsPerdus);
 
         $this->doctrineEntityManager->persist($scoreCalcul);
         $this->doctrineEntityManager->flush();

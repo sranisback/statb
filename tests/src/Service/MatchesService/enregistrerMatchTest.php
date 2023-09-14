@@ -100,7 +100,7 @@ class enregistrerMatchTest extends TestCase
             $this->returnCallback(
                 function($equipe) {
                     if ($equipe instanceof Teams) {
-                        self::assertEquals(65, $equipe->getScore());
+                        self::assertEquals(75, $equipe->getScore());
                     }
 
                     return true;
@@ -109,7 +109,7 @@ class enregistrerMatchTest extends TestCase
             $this->returnCallback(
                 function($equipe) {
                     if ($equipe instanceof Teams) {
-                        self::assertEquals(90, $equipe->getScore());
+                        self::assertEquals(80, $equipe->getScore());
                     }
 
                     return true;

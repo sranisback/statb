@@ -454,7 +454,8 @@ class EquipeService
 
         /** @var Matches $match */
         foreach ($this->doctrineEntityManager->getRepository(Matches::class)->listeDesMatchs($equipe) as $match) {
-            $bonusTotal += $this->calculBonusPourUnMatchPoulpi($equipe, $match);
+            list($bonus, $pts) = $this->calculBonusPourUnMatchPoulpi($equipe, $match);
+            $bonusTotal += $bonus;
         }
 
         return $bonusTotal;
@@ -463,7 +464,7 @@ class EquipeService
     /**
      * @param $equipe
      * @param Matches $match
-     * @return float
+     * @return float|float[]|int[]
      */
     public function calculBonusPourUnMatchPoulpi($equipe, Matches $match)
     {
@@ -475,7 +476,28 @@ class EquipeService
             $score = $match->getScoreClassementTeam2();
         }
 
-        return ($scoreEquipeAdv - $score) / 10;
+        if($scoreEquipeAdv > $score) {
+          $bonus = ($scoreEquipeAdv - $score) / 10;
+        } else {
+          $bonus = ($score - $scoreEquipeAdv) / 10;
+        }
+
+        $pointsPerdus = 0;
+
+        if($bonus > 5) {
+            $pointsPerdus = $bonus - 5;
+            $bonus = 5;
+        }
+
+        if($bonus < -5) {
+            $pointsPerdus = -(abs($bonus) - 5);
+            $bonus = -5;
+        }
+
+        $bonus = $bonus > 5 ? 5 : $bonus;
+        $bonus = $bonus < -5 ? -5 : $bonus;
+
+        return [$bonus, $pointsPerdus];
     }
 
     /**
@@ -594,7 +616,7 @@ class EquipeService
         return $joueurCollection->toArray();
     }
 
-    public function maxScore($point, $resultat, $match, $equipe)
+    public function maxScore($point, $match, $equipe)
     {
         if ($match->getTeam1() === $equipe) {
             $scoreEquipeAdv = $match->getScoreClassementTeam2();
@@ -604,23 +626,8 @@ class EquipeService
             $score = $match->getScoreClassementTeam2();
         }
 
-        if($score == $scoreEquipeAdv) {
-            return $point;
-        }
-
-        if ($resultat['win'] === 1) {
-            $point = $point < 5 ? 5 : $point;
-            $point = $point > 15 ? 15 : $point;
-        }
-
-        if ($resultat['loss'] === 1) {
-            $point = $point > -5 ? -5 : $point;
-            $point = $point < -15 ? -15 : $point;
-        }
-
-        if ($resultat['draw'] === 1) {
-            $point = $point < -5 ? -5 : $point;
-            $point = $point > 5 ? 5 : $point;
+        if($score > $scoreEquipeAdv) {
+            $point = -$point;
         }
 
         return $point;

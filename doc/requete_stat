@@ -1,0 +1,31 @@
+SELECT zob1.name, zob2.name, zob1.fan, zob2.fan, SUM(zob1.fan + zob2.fan) FROM (
+SELECT t2.name, SUM(m.fans) as fan
+FROM matches m
+         JOIN teams t2 on m.team2_id = t2.team_id
+WHERE t2.year = 8 AND m.date_created < '2023-05-31'
+GROUP BY t2.name
+ORDER BY t2.name ) zob1
+LEFT JOIN (SELECT t1.name, SUM(m.fans) as fan
+      FROM matches m
+               JOIN teams t1 on m.team1_id = t1.team_id
+      WHERE t1.year = 8 AND m.date_created < '2023-05-31'
+      GROUP BY t1.name
+      ORDER BY t1.name) zob2 on zob1.name = zob2.name
+GROUP BY zob1.name, zob2.name
+ORDER BY SUM(zob1.fan + zob2.fan)
+
+SELECT zob1.name, zob2.name, zob1.fan, zob2.fan, SUM(zob1.fan + zob2.fan) FROM (
+SELECT t2.name, SUM(m.income2) as fan
+FROM matches m
+        JOIN teams t2 on m.team2_id = t2.team_id
+WHERE t2.year = 8 AND m.date_created < '2023-05-31'
+GROUP BY t2.name
+ORDER BY t2.name ) zob1
+LEFT JOIN (SELECT t1.name, SUM(m.income2) as fan
+          FROM matches m
+                   JOIN teams t1 on m.team1_id = t1.team_id
+          WHERE t1.year = 8 AND m.date_created < '2023-05-31'
+          GROUP BY t1.name
+          ORDER BY t1.name) zob2 on zob1.name = zob2.name
+GROUP BY zob1.name, zob2.name
+ORDER BY SUM(zob1.fan + zob2.fan) DESC
