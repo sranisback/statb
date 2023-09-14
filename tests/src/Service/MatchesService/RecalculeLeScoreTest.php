@@ -141,16 +141,16 @@ class RecalculeLeScoreTest extends TestCase
         $matchService->recalculLeScore();
 
         $this->assertEquals(104, $equipe1->getScore());
-        $this->assertEquals(86, $equipe2->getScore());
-        $this->assertEquals(115, $equipe3->getScore());
+        $this->assertEquals(76, $equipe2->getScore());
+        $this->assertEquals(125, $equipe3->getScore());
         $this->assertEquals(99, $equipe4->getScore());
         $this->assertEquals(100, $match1->getScoreClassementTeam1());
         $this->assertEquals(100, $match1->getScoreClassementTeam2());
         $this->assertEquals(100, $match2->getScoreClassementTeam1());
         $this->assertEquals(100, $match2->getScoreClassementTeam2());
-        $this->assertEquals(115, $match3->getScoreClassementTeam1());
+        $this->assertEquals(125, $match3->getScoreClassementTeam1());
         $this->assertEquals(100, $match3->getScoreClassementTeam2());
-        $this->assertEquals(85, $match4->getScoreClassementTeam1());
+        $this->assertEquals(75, $match4->getScoreClassementTeam1());
         $this->assertEquals(100, $match4->getScoreClassementTeam2());
     }
 
