@@ -1,0 +1,24 @@
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#chooseSpecialRule">
+    Choisir une regle speciale
+</button>
+
+<div class="modal fade" id="chooseSpecialRule" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">    Choisir une regle speciale</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                {{ form_start(form, {'action': path('chooseSpecialRuleRep')}) }}
+                {{ form_errors(form) }}
+                {{ form_row(form.regleSpecial) }}
+            </div>
+            <div class="modal-footer">
+                {{ form_widget(form.submit) }}{{ form_widget(form.cancel) }}
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+</div>
+

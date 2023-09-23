@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\RacesBb2020Repository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -35,6 +37,16 @@ class RacesBb2020
      * @var string
      */
     private $icon;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=SpecialRule::class, inversedBy="racesBb2020s")
+     */
+    private $specialRule;
+
+    public function __construct()
+    {
+        $this->specialRule = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -73,6 +85,30 @@ class RacesBb2020
     public function setIcon(string $icon): self
     {
         $this->icon = $icon;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SpecialRule>
+     */
+    public function getSpecialRule(): Collection
+    {
+        return $this->specialRule;
+    }
+
+    public function addSpecialRule(SpecialRule $specialRule): self
+    {
+        if (!$this->specialRule->contains($specialRule)) {
+            $this->specialRule[] = $specialRule;
+        }
+
+        return $this;
+    }
+
+    public function removeSpecialRule(SpecialRule $specialRule): self
+    {
+        $this->specialRule->removeElement($specialRule);
 
         return $this;
     }

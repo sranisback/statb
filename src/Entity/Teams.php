@@ -179,6 +179,11 @@ class Teams
      */
     private $sponsor;
 
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $specialRulechoosed;
+
     public function __construct()
     {
         $this->joueurs = new ArrayCollection();
@@ -513,6 +518,18 @@ class Teams
     public function setSponsor(?Sponsors $sponsor): self
     {
         $this->sponsor = $sponsor;
+
+        return $this;
+    }
+
+    public function getSpecialRulechoosed(): ?String
+    {
+        return $this->specialRulechoosed;
+    }
+
+    public function setSpecialRulechoosed(?String $specialRulechoosed): self
+    {
+        $this->specialRulechoosed = $specialRulechoosed;
 
         return $this;
     }

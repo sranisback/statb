@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Entity\Players;
 use App\Entity\Teams;
+use App\Enum\RulesetEnum;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ExportService
@@ -87,6 +88,13 @@ class ExportService
         $tdata = $this->inducementService->valeurInducementDelEquipe($equipe);
         $tdata['playersCost'] = $this->playerService->coutTotalJoueurs($equipe);
         $tdata['tv'] = $this->equipeGestionService->tvDelEquipe($equipe, $this->playerService);
+        if($equipe->getRuleset() == RulesetEnum::BB_2020) {
+            if($equipe->getSpecialRulechoosed() == null && in_array($equipe->getRace()->getName(), $this->equipeService->raceChoice)) {
+                $tdata['reglesSpeciales'] = 'A choisir';
+            } else {
+                $tdata['reglesSpeciales']  = $this->equipeService->parseReglesSpeciales($equipe);
+            }
+        }
 
         $compteur = $this->equipeService->compteLesjoueurs($equipe);
 

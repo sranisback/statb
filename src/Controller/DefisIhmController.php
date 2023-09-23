@@ -32,7 +32,6 @@ class DefisIhmController extends AbstractController
     /**
      * @Route("/ajoutDefisForm/", name="ajoutDefisForm")
      * @param Request $request
-     * @param DefisService $defisService
      * @return Response
      */
     public function ajoutDefisForm(Request $request): Response {

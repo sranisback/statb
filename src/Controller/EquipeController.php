@@ -4,11 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Players;
 use App\Entity\Setting;
+use App\Entity\SpecialRule;
 use App\Entity\Stades;
 use App\Entity\Teams;
 use App\Enum\AnneeEnum;
 use App\Enum\NiveauStadeEnum;
 use App\Enum\RulesetEnum;
+use App\Form\ChooseSpecialRuleType;
 use App\Form\CreerEquipeType;
 use App\Form\CreerStadeType;
 use App\Form\LogoEnvoiType;
@@ -31,6 +33,9 @@ class EquipeController extends AbstractController
 {
 
     private ManagerRegistry $doctrine;
+
+    private const CHAOS_DWARF = 'Nains du chaos';
+    private $valeurAjouter = ['Bagarre des Terres Arides', 'Super-ligue du Bord du Monde'];
 
     public function __construct(ManagerRegistry $doctrine)
     {
@@ -432,4 +437,55 @@ class EquipeController extends AbstractController
             ['table' => $equipeService->afficheCalculScore($equipe)]
         );
     }
+
+    /**
+     * @Route("/chooseSpecialRule/{equipe}", name="chooseSpecialRule")
+     * @param Teams $equipe
+     * @return Response
+     */
+    public function chooseSpecialRule(Teams $equipe): Response
+    {
+        $form = $this->createForm(ChooseSpecialRuleType::class, null, ['equipe' => $equipe]);
+
+        return $this->render('statbb/chooseSpecialRule.html.twig', ['form' => $form->createView(), 'equipe' => $equipe]);
+    }
+
+    /**
+     * @Route("/chooseSpecialRuleRep", name="chooseSpecialRuleRep")
+     * @param Teams $equipe
+     * @return Response
+     */
+    public function chooseSpecialRuleRep(Request $request): Response
+    {
+        $request = $request->request->get('choose_special_rule');
+
+        /** @var Teams $equipe */
+        $equipe = $this->doctrine->getRepository(Teams::class)->findOneBy(['teamId' => $request['teamId']]);
+
+        if($equipe) {
+            /** @var SpecialRule $specialRule */
+            $specialRule = $this->doctrine->getRepository(SpecialRule::Class)->findOneBy(['id' => $request['regleSpecial']]);
+
+            $name = $specialRule->getName();
+
+            if($equipe->getRace()->getName() == self::CHAOS_DWARF) {
+                $name .= ', ';
+                foreach ($this->valeurAjouter as $value)  {
+                    $name .= $value . ', ';
+                }
+
+                $name =  substr($name, 0, strlen($name)-2);
+            }
+
+            $equipe->setSpecialRulechoosed($name);
+
+            $this->doctrine->getManager()->persist($equipe);
+            $this->doctrine->getManager()->flush();
+        }
+
+        return $this->redirectToRoute('team', ['teamid' => $request['teamId']]);
+    }
+
+
+
 }

@@ -459,7 +459,23 @@
                         <td class="text-right" id="tapo">{{ feuille.tdata.apo }}</td>
                     </tr>
                     <tr>
-                        <td colspan=4 rowspan=1></td>
+                        {% if feuille.team.ruleset == 0 %}
+                            <td colspan=4 rowspan=1></td>
+                        {% elseif feuille.team.ruleset == 1 %}
+                            {% if (app.user != null) %}
+                                {% if (app.user == feuille.team.ownedByCoach and feuille.team.retired == 0 and feuille.team.year == feuille.annee)or app.user.roles["role"] == 'ROLE_ADMIN' %}
+                                    {% if feuille.tdata.reglesSpeciales == 'choose' %}
+                                        <td colspan=4 rowspan=1>{{ render(controller('App\\Controller\\EquipeController::chooseSpecialRule', {'equipe' : feuille.team})) }}</td>
+                                    {% else %}
+                                        <td colspan=4 rowspan=1>Règles Spéciales : {{ feuille.tdata.reglesSpeciales }}</td>
+                                    {% endif %}
+                                {% else %}
+                                    <td colspan=4 rowspan=1></td>
+                                {% endif %}
+                            {% else %}
+                                <td colspan=4 rowspan=1></td>
+                            {% endif %}
+                        {% endif %}
                         <td colspan=5 class="text-right">Total :</td>
                         <td class="text-right" id="caseTv">{{ feuille.tdata.tv }}</td>
                     </tr>
