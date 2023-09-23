@@ -373,7 +373,7 @@ class EquipeService
         $tdata['tv'] = $this->equipeGestionService->tvDelEquipe($equipe, $playerService);
         if($equipe->getRuleset() == RulesetEnum::BB_2020) {
             if($equipe->getSpecialRulechoosed() == null && in_array($equipe->getRace()->getName(), $this->raceChoice)) {
-                $tdata['reglesSpeciales'] = 'A choisir';
+                $tdata['reglesSpeciales'] = 'choose';
             } else {
                 $tdata['reglesSpeciales']  = $this->parseReglesSpeciales($equipe);
             }

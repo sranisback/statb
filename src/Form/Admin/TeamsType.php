@@ -42,6 +42,7 @@ class TeamsType extends AbstractType
                 'placeholder' => 'Pas de sponsor',
                 'required' => false
             ])
+            ->add('specialRuleChoosed')
             ->add('ownedByCoach', EntityType::class, ['class' => Coaches::class,'choice_label' =>'Username']);
 
             if ($team && $team->getRuleset() == RulesetEnum::BB_2016) {
