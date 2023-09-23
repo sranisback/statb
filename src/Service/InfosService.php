@@ -3,6 +3,7 @@
 
 namespace App\Service;
 
+use App\Entity\DeadPlayerInfo;
 use App\Entity\Defis;
 use App\Entity\Infos;
 use App\Entity\Matches;
@@ -101,13 +102,28 @@ class InfosService
      */
     public function mortDunJoueur(Players $joueur): Infos
     {
-        return $this->publierUnMessage(
-            $joueur->getName() . ', ' .  RulesetEnum::getPositionFromPlayerByRuleset($joueur)->getPos()
+        $titreJoueur = $joueur->getName() . ', ' .  RulesetEnum::getPositionFromPlayerByRuleset($joueur)->getPos()
             . ' '  . RulesetEnum::getRaceFromJoueurByRuleset($joueur)->getName()
             . ' de <a href="' . $this->urlPrefix . self::TEAM_URL . $joueur->getOwnedByTeam()->getTeamId() . '">'
-            . $joueur->getOwnedByTeam()->getName()
-            . '</a> est mort !'
-        );
+            . $joueur->getOwnedByTeam()->getName() . '</a>';
+
+        return $this->publierUnMessage($this->genererPhrase($titreJoueur));
+    }
+
+    private function genererPhrase($titreJoueur)
+    {
+        $listePhrases = $this->doctrineEntityManager->getRepository(DeadPlayerInfo::class)->findAll();
+
+        if($listePhrases) {
+            $nbrAuHasard = rand(0, count($listePhrases) - 1);
+
+            $phrase = str_replace("*", $titreJoueur, $listePhrases[$nbrAuHasard]->getPhrase());
+
+            return  $phrase;
+        }
+
+        return $titreJoueur . '</a> est mort !';
+
     }
 
     /**
@@ -187,4 +203,5 @@ class InfosService
     }
 
     //ajouter des messages pour les morts randomisés, et rajouter les cas
+
 }

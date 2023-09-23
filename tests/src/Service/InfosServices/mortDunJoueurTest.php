@@ -4,6 +4,7 @@
 namespace App\Tests\src\Service\InfosServices;
 
 
+use App\Entity\DeadPlayerInfo;
 use App\Entity\GameDataPlayers;
 use App\Entity\GameDataPlayersBb2020;
 use App\Entity\Players;
@@ -11,8 +12,9 @@ use App\Entity\Races;
 use App\Entity\RacesBb2020;
 use App\Entity\Teams;
 use App\Enum\RulesetEnum;
+use App\Repository\DeadPlayerInfoRepository;
 use App\Service\InfosService;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
@@ -40,11 +42,20 @@ class mortDunJoueurTest extends TestCase
         $joueurMock->method('getOwnedByTeam')->willReturn($equipeMock);
         $joueurMock->method('getRuleset')->willReturn(RulesetEnum::BB_2016);
 
+        $deadPlayerInfo = new DeadPlayerInfo();
+        $deadPlayerInfo->setPhrase('* est mort !');
+
+        $deadPlayerInfoRepo = $this->createMock(DeadPlayerInfoRepository::class);
+        $deadPlayerInfoRepo->method('findAll')->willReturn([$deadPlayerInfo]);
+
+        $objectManager = $this->createMock(EntityManagerInterface::class);
+        $objectManager->method('getRepository')->willReturn($deadPlayerInfoRepo);
+
         $envMock = $this->createMock(ContainerBagInterface::class);
         $envMock->method('get')->willReturn('dev');
 
         $infosServiceTest = new InfosService(
-            $this->createMock(EntityManager::class),
+            $objectManager,
             $envMock
         );
 
@@ -79,11 +90,20 @@ class mortDunJoueurTest extends TestCase
         $joueurMock->method('getOwnedByTeam')->willReturn($equipeMock);
         $joueurMock->method('getRuleset')->willReturn(RulesetEnum::BB_2020);
 
+        $deadPlayerInfo = new DeadPlayerInfo();
+        $deadPlayerInfo->setPhrase('* est mort !');
+
+        $deadPlayerInfoRepo = $this->createMock(DeadPlayerInfoRepository::class);
+        $deadPlayerInfoRepo->method('findAll')->willReturn([$deadPlayerInfo]);
+
+        $objectManager = $this->createMock(EntityManagerInterface::class);
+        $objectManager->method('getRepository')->willReturn($deadPlayerInfoRepo);
+
         $envMock = $this->createMock(ContainerBagInterface::class);
         $envMock->method('get')->willReturn('dev');
 
         $infosServiceTest = new InfosService(
-            $this->createMock(EntityManager::class),
+            $objectManager,
             $envMock
         );
 
