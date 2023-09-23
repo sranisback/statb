@@ -133,6 +133,8 @@ class EquipeGestionService
 
         $equipe->setTv($this->tvDelEquipe($equipe, $playerService));
 
+        $equipe->setLocked(true);
+
         $this->doctrineEntityManager->persist($equipe);
 
         $this->doctrineEntityManager->flush();

@@ -29,6 +29,7 @@
                     <th>Franchise</th>
                     <th>Sponsor</th>
                     <th>Ruleset</th>
+                    <th>locked</th>
                     <th>actions</th>
                 </tr>
                 </thead>
@@ -64,6 +65,7 @@
                         <td>{{ team.franchise ? 'Yes' : 'No' }}</td>
                         <td>{{ team.sponsor ? team.sponsor.name : 'No' }}</td>
                         <td>{{ etiquetteRuleset[team.ruleset] }}</td>
+                        <td>{{ team.locked ? 'Yes' : 'No' }}</td>
                         <td>
                             <a href="{{ path('teams_edit', {'teamId': team.teamId}) }}">edit</a>
                         </td>

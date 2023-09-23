@@ -43,6 +43,7 @@ class TeamsType extends AbstractType
                 'required' => false
             ])
             ->add('specialRuleChoosed')
+            ->add('locked')
             ->add('ownedByCoach', EntityType::class, ['class' => Coaches::class,'choice_label' =>'Username']);
 
             if ($team && $team->getRuleset() == RulesetEnum::BB_2016) {
