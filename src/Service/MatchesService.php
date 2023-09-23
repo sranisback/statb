@@ -383,6 +383,8 @@ class MatchesService
 
         $equipe->setScore($equipe->getScore() + $pointsDuMatch + $bonus);
 
+        $equipe->setLocked(false);
+
         $this->doctrineEntityManager->persist($equipe);
         $this->doctrineEntityManager->flush();
         $this->doctrineEntityManager->refresh($equipe);

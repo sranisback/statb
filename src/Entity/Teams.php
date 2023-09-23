@@ -184,6 +184,11 @@ class Teams
      */
     private $specialRulechoosed;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $locked;
+
     public function __construct()
     {
         $this->joueurs = new ArrayCollection();
@@ -530,6 +535,18 @@ class Teams
     public function setSpecialRulechoosed(?String $specialRulechoosed): self
     {
         $this->specialRulechoosed = $specialRulechoosed;
+
+        return $this;
+    }
+
+    public function isLocked(): ?bool
+    {
+        return $this->locked;
+    }
+
+    public function setLocked(?bool $locked): self
+    {
+        $this->locked = $locked;
 
         return $this;
     }

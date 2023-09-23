@@ -260,7 +260,7 @@ class EquipeController extends AbstractController
     /**
      * @Route("/checkteam/{teamId}", name="Checkteam")
      * @param int $teamId
-     * @param EquipeGestionService $equipeService
+     * @param EquipeGestionService $equipeGestionService
      * @param PlayerService $playerService
      * @return RedirectResponse
      */

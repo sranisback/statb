@@ -95,16 +95,23 @@ class MatchController extends AbstractController
      */
     public function ajoutMatch(SettingsService $settingsService): Response
     {
+        $teamsNotLocked = $this->doctrine->getRepository(Teams::class)->findBy(
+            ['year' => $settingsService->anneeCourante(), 'locked' => false],
+            ['name' => 'ASC']
+        );
+
+        $teamsLockedNull = $this->doctrine->getRepository(Teams::class)->findBy(
+            ['year' => $settingsService->anneeCourante(), 'locked' => null],
+            ['name' => 'ASC']
+        );
+
         return $this->render(
             'statbb/ajoutMatch.html.twig',
             [
-                'teams' => $this->getDoctrine()->getRepository(Teams::class)->findBy(
-                    ['year' => $settingsService->anneeCourante()],
-                    ['name' => 'ASC']
-                ),
-                'meteos' => $this->getDoctrine()->getRepository(Meteo::class)->findAll(),
-                'stades' => $this->getDoctrine()->getRepository(GameDataStadium::class)->findAll(),
-                'numero' => $this->getDoctrine()->getRepository(Matches::class)->numeroDeMatch(),
+                'teams' => array_merge($teamsNotLocked, $teamsLockedNull),
+                'meteos' => $this->doctrine->getRepository(Meteo::class)->findAll(),
+                'stades' => $this->doctrine->getRepository(GameDataStadium::class)->findAll(),
+                'numero' => $this->doctrine->getRepository(Matches::class)->numeroDeMatch(),
             ]
         );
     }
