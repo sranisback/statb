@@ -7,9 +7,11 @@ use App\Entity\Coaches;
 use App\Entity\Matches;
 use App\Entity\Players;
 use App\Entity\ScoreCalcul;
+use App\Entity\SpecialRule;
 use App\Entity\Teams;
 use App\Enum\AnneeEnum;
 use App\Enum\NiveauStadeEnum;
+use App\Enum\RulesetEnum;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -41,6 +43,8 @@ class EquipeService
      * @var EquipeGestionService
      */
     private EquipeGestionService $equipeGestionService;
+
+    public $raceChoice = ['Elus du chaos', 'Nains du chaos', 'Nordiques', 'Renégats du chaos'];
 
     public function __construct(
         EntityManagerInterface $doctrineEntityManager,
@@ -367,7 +371,36 @@ class EquipeService
         $tdata['cheerleader'] = $inducement['cheerleader'];
         $tdata['apo'] = $inducement['apo'];
         $tdata['tv'] = $this->equipeGestionService->tvDelEquipe($equipe, $playerService);
+        if($equipe->getRuleset() == RulesetEnum::BB_2020) {
+            if($equipe->getSpecialRulechoosed() == null && in_array($equipe->getRace()->getName(), $this->raceChoice)) {
+                $tdata['reglesSpeciales'] = 'choose';
+            } else {
+                $tdata['reglesSpeciales']  = $this->parseReglesSpeciales($equipe);
+            }
+        }
         return $tdata;
+    }
+
+    public function parseReglesSpeciales(Teams $equipe) : String
+    {
+        $race = $equipe->getRace();
+
+        $text = '';
+
+        if(!in_array($race->getName(),$this->raceChoice)) {
+
+            if(!$race->getSpecialRule()->isEmpty()) {
+                /** @var SpecialRule  $specialRule */
+                foreach ($race->getSpecialRule() as $specialRule) {
+                    $text .= $specialRule->getName();
+                    $text .= ', ';
+                }
+            }
+
+            return substr($text, 0, strlen($text)-2);
+        }
+
+        return $equipe->getSpecialRulechoosed() == null ? 'A choisir' : $equipe->getSpecialRulechoosed();
     }
 
     /**
@@ -636,6 +669,8 @@ class EquipeService
     public function afficheCalculScore(Teams $equipe)
     {
         $scoreCalculList = $this->doctrineEntityManager->getRepository(ScoreCalcul::class)->findBy(['teams' => $equipe->getTeamId()]);
+
+        $result = [];
 
         /** @var ScoreCalcul $scoreCalcul */
         foreach ($scoreCalculList as $scoreCalcul) {

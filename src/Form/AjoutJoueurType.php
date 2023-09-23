@@ -22,9 +22,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class AjoutJoueurType extends AbstractType
 {
     /**
-     * @var \App\Service\PlayerService
+     * @var PlayerService
      */
-    private \App\Service\PlayerService $playerService;
+    private PlayerService $playerService;
 
     public function __construct(PlayerService $playerService)
     {

@@ -194,7 +194,7 @@
             {% set colspan = 18 %}
         {% endif %}
         <tr>
-            <td colspan={{ colspan }} style="text-align:right;">{% if team.sponsor %}Sponsorisé par <i><u>{{ team.sponsor.name }}</u></i> - {% endif %}{{ compteur.actif }} joueurs - {{ compteur.journalier }} journaliers - {{ compteur.blesses }} blessés - Total joueurs :</td>
+            <td colspan={{ colspan }} style="text-align:right;">{% if tdata.reglesSpeciales %} Regles spéciales : {{ tdata.reglesSpeciales }} - {% endif %}{% if team.sponsor %}Sponsorisé par <i><u>{{ team.sponsor.name }}</u></i> - {% endif %}{{ compteur.actif }} joueurs - {{ compteur.journalier }} journaliers - {{ compteur.blesses }} blessés - Total joueurs :</td>
             <td style="text-align:right;">{{ tdata.playersCost }}</td>
         </tr>
         <tr>

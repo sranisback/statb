@@ -6,6 +6,7 @@ namespace App\Tests\src\Service\EquipeService;
 
 use App\Entity\Races;
 use App\Entity\RacesBb2020;
+use App\Entity\SpecialRule;
 use App\Entity\Teams;
 use App\Enum\RulesetEnum;
 use App\Service\EquipeGestionService;
@@ -74,12 +75,16 @@ class calculsInducementEquipeTest extends TestCase
      */
     public function les_inducements_sont_calcules_bb2020()
     {
-        $raceMock = $this->createMock(RacesBb2020::class);
-        $raceMock->method('getCostRr')->willReturn(50000);
+        $specialRule = new SpecialRule();
+        $specialRule->setName("TEST SPERULE");
 
-        $equipeMock = $this->createMock(Teams::class);
-        $equipeMock->method('getRace')->willReturn($raceMock);
-        $equipeMock->method('getRuleset')->willReturn(RulesetEnum::BB_2020);
+        $race = new RacesBb2020();
+        $race->setCostRr(50000);
+        $race->addSpecialRule($specialRule);
+
+        $equipe = new Teams();
+        $equipe->setRace($race);
+        $equipe->setRuleset(RulesetEnum::BB_2020);
 
         $playerServiceMock = $this->createMock(PlayerService::class);
         $playerServiceMock->method('coutTotalJoueurs')->willReturn(500000);
@@ -113,9 +118,10 @@ class calculsInducementEquipeTest extends TestCase
             'asscoaches' => 0,
             'cheerleader' => 0,
             'apo' => 0,
-            'tv' => 500000
+            'tv' => 500000,
+            'reglesSpeciales' => 'TEST SPERULE'
         ];
 
-        $this->assertEquals($attendu, $equipeServiceTest->calculsInducementEquipe($equipeMock,$playerServiceMock));
+        $this->assertEquals($attendu, $equipeServiceTest->calculsInducementEquipe($equipe,$playerServiceMock));
     }
 }
