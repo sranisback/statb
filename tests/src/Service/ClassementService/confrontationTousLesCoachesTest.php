@@ -86,10 +86,10 @@ class confrontationTousLesCoachesTest extends KernelTestCase
         $match5->setTeam1($equipeTest3);
         $match5->setTeam2($equipeTest0);
 
-        $coachesRepoMock = $this->getMockBuilder(Coaches::class)->setMethods(['tousLesAutresCoaches'])->getMock();
+        $coachesRepoMock = $this->getMockBuilder(Coaches::class)->addMethods(['tousLesAutresCoaches'])->getMock();
         $coachesRepoMock->method('tousLesAutresCoaches')->willReturn([$coachTest1, $coachTest2, $coachTest3]);
 
-        $matchesRepoMock = $this->getMockBuilder(Matches::class)->setMethods(['tousLesMatchsDeDeuxCoach'])->getMock();
+        $matchesRepoMock = $this->getMockBuilder(Matches::class)->addMethods(['tousLesMatchsDeDeuxCoach'])->getMock();
         $matchesRepoMock->method('tousLesMatchsDeDeuxCoach')->willReturnOnConsecutiveCalls(
             [$match0, $match1],
             [$match2, $match3],
@@ -164,10 +164,10 @@ class confrontationTousLesCoachesTest extends KernelTestCase
         $equipeTest3->setOwnedByCoach($coachTest3);
 
 
-        $coachesRepoMock = $this->getMockBuilder(Coaches::class)->setMethods(['tousLesAutresCoaches'])->getMock();
+        $coachesRepoMock = $this->getMockBuilder(Coaches::class)->addMethods(['tousLesAutresCoaches'])->getMock();
         $coachesRepoMock->method('tousLesAutresCoaches')->willReturn([$coachTest1, $coachTest2, $coachTest3]);
 
-        $matchesRepoMock = $this->getMockBuilder(Matches::class)->setMethods(['tousLesMatchsDeDeuxCoach'])->getMock();
+        $matchesRepoMock = $this->getMockBuilder(Matches::class)->addMethods(['tousLesMatchsDeDeuxCoach'])->getMock();
         $matchesRepoMock->method('tousLesMatchsDeDeuxCoach')->willReturnOnConsecutiveCalls([]);
 
         $this->objectManager->method('getRepository')->will(
@@ -209,7 +209,7 @@ class confrontationTousLesCoachesTest extends KernelTestCase
         $equipeTest0 = new Teams();
         $equipeTest0->setOwnedByCoach($coachTest0);
 
-        $coachesRepoMock = $this->getMockBuilder(Coaches::class)->setMethods(['tousLesAutresCoaches'])->getMock();
+        $coachesRepoMock = $this->getMockBuilder(Coaches::class)->addMethods(['tousLesAutresCoaches'])->getMock();
         $coachesRepoMock->method('tousLesAutresCoaches')->willReturn([]);
 
         $this->objectManager->method('getRepository')->willReturn($coachesRepoMock);
@@ -266,10 +266,10 @@ class confrontationTousLesCoachesTest extends KernelTestCase
         $match5->setTeam2($equipeTest0);
 
 
-        $coachesRepoMock = $this->getMockBuilder(Coaches::class)->setMethods(['tousLesAutresCoaches'])->getMock();
+        $coachesRepoMock = $this->getMockBuilder(Coaches::class)->addMethods(['tousLesAutresCoaches'])->getMock();
         $coachesRepoMock->method('tousLesAutresCoaches')->willReturn([$coachTest1, $coachTest2, $coachTest3]);
 
-        $matchesRepoMock = $this->getMockBuilder(Matches::class)->setMethods(['tousLesMatchsDeDeuxCoach'])->getMock();
+        $matchesRepoMock = $this->getMockBuilder(Matches::class)->addMethods(['tousLesMatchsDeDeuxCoach'])->getMock();
         $matchesRepoMock->method('tousLesMatchsDeDeuxCoach')->willReturnOnConsecutiveCalls(
             [$match0, $match1],
             [],
@@ -369,10 +369,10 @@ class confrontationTousLesCoachesTest extends KernelTestCase
         $match5->setTeam1($equipeTest3b);
         $match5->setTeam2($equipeTest0b);
 
-        $coachesRepoMock = $this->getMockBuilder(Coaches::class)->setMethods(['tousLesAutresCoaches'])->getMock();
+        $coachesRepoMock = $this->getMockBuilder(Coaches::class)->addMethods(['tousLesAutresCoaches'])->getMock();
         $coachesRepoMock->method('tousLesAutresCoaches')->willReturn([$coachTest1, $coachTest2, $coachTest3]);
 
-        $matchesRepoMock = $this->getMockBuilder(Matches::class)->setMethods(['tousLesMatchsDeDeuxCoach'])->getMock();
+        $matchesRepoMock = $this->getMockBuilder(Matches::class)->addMethods(['tousLesMatchsDeDeuxCoach'])->getMock();
         $matchesRepoMock->method('tousLesMatchsDeDeuxCoach')->willReturnOnConsecutiveCalls(
             [$match0, $match1],
             [$match2, $match3],

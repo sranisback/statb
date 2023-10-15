@@ -342,7 +342,7 @@ class tousLesMatchesDunCoachParAnneeTest extends KernelTestCase
         $matchMock4 = $this->createMock(Matches::class);
 
         $equipeRepoMock = $this->getMockBuilder(Teams::class)
-            ->setMethods(['toutesLesEquipesDunCoachParAnnee'])
+            ->addMethods(['toutesLesEquipesDunCoachParAnnee'])
             ->getMock();
 
         $equipeRepoMock->method('toutesLesEquipesDunCoachParAnnee')->willReturnOnConsecutiveCalls(
@@ -353,7 +353,7 @@ class tousLesMatchesDunCoachParAnneeTest extends KernelTestCase
         );
 
         $matchRepoMock = $this->getMockBuilder(Matches::class)
-            ->setMethods(['listeDesMatchs'])
+            ->addMethods(['listeDesMatchs'])
             ->getMock();
 
         $matchRepoMock->method('listeDesMatchs')->willReturnOnConsecutiveCalls(

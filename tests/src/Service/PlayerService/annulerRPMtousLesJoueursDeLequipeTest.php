@@ -30,7 +30,7 @@ class annulerRPMtousLesJoueursDeLequipeTest extends KernelTestCase
         $joueur4 = new Players();
 
         $playerRepoMock = $this->getMockBuilder(Players::class)
-            ->setMethods(['listeDesJoueursPourlEquipe'])
+            ->addMethods(['listeDesJoueursPourlEquipe'])
             ->getMock();
         $playerRepoMock->method('listeDesJoueursPourlEquipe')->willReturn(
             [$joueur0, $joueur1, $joueur2, $joueur3, $joueur4]

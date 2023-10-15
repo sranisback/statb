@@ -116,7 +116,7 @@ class genereConfrontationTousLesCoachesTest extends KernelTestCase
         $match11->setTeam2($equipeTest2);
 
 
-        $coachesRepoMock = $this->getMockBuilder(Coaches::class)->setMethods(
+        $coachesRepoMock = $this->getMockBuilder(Coaches::class)->addMethods(
             ['tousLesAutresCoaches', 'findAll']
         )->getMock();
         $coachesRepoMock->method('tousLesAutresCoaches')->willReturnOnConsecutiveCalls(
@@ -127,7 +127,7 @@ class genereConfrontationTousLesCoachesTest extends KernelTestCase
         );
         $coachesRepoMock->method('findAll')->willReturn([$coachTest0, $coachTest1, $coachTest2, $coachTest3]);
 
-        $matchesRepoMock = $this->getMockBuilder(Matches::class)->setMethods(['tousLesMatchsDeDeuxCoach'])->getMock();
+        $matchesRepoMock = $this->getMockBuilder(Matches::class)->addMethods(['tousLesMatchsDeDeuxCoach'])->getMock();
         $matchesRepoMock->method('tousLesMatchsDeDeuxCoach')->willReturnOnConsecutiveCalls(
             [$match0, $match1], // 0 - 1
             [$match2, $match3], // 0 - 2

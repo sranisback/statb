@@ -16,7 +16,7 @@ class pointEnCoursTest extends TestCase
     public function un_tableau_de_point_est_retourne_en_fonction_de_l_annee()
     {
         $settingRepoMock = $this->getMockBuilder(Setting::class)
-            ->setMethods(['findByName'])->getMock();
+            ->addMethods(['findByName'])->getMock();
 
         $settingRepoMock->method('findByName')->with(
             $this->logicalOr(

@@ -7,6 +7,7 @@ use App\Entity\GameDataPlayers;
 use App\Entity\GameDataSkills;
 use App\Entity\Players;
 use App\Entity\PlayersIcons;
+use App\Enum\RulesetEnum;
 use App\Service\CitationService;
 use App\Service\DefisService;
 use App\Service\SettingsService;
@@ -145,7 +146,7 @@ class StatBBController extends AbstractController
     public function attributIconManquante(): Response
     {
         /** @var Players $joueur */
-        foreach ($this->getDoctrine()->getRepository(Players::class)->findAll() as $joueur) {
+        foreach ($this->getDoctrine()->getRepository(Players::class)->findBy(['Ruleset' => RulesetEnum::BB_2016]) as $joueur) {
             $icon = $joueur->getIcon();
             if (!empty($icon) && $icon->getIconName() === 'nope') {
                 /** @var PlayersIcons[] $iconesPositions */
@@ -159,6 +160,30 @@ class StatBBController extends AbstractController
         }
         return new Response('ok');
     }
+
+    /**
+     * @Route("/attributIconManquanteBb2020")
+     */
+    public function attributIconManquanteBb2020(): Response
+    {
+        /** @var Players $joueur */
+        foreach ($this->getDoctrine()->getRepository(Players::class)->findBy(['Ruleset' => RulesetEnum::BB_2020]) as $joueur) {
+            $icon = $joueur->getIcon();
+            if (!empty($icon) && $icon->getIconName() === 'nope') {
+                /** @var PlayersIcons[] $iconesPositions */
+                $iconesPositions = $this
+                    ->getDoctrine()
+                    ->getRepository(PlayersIcons::class)->findBy(['positionBb2020' => $joueur->getFPosBb2020()]);
+                if(count($iconesPositions)> 0) {
+                    $joueur->setIcon($iconesPositions[ rand(0, count($iconesPositions) - 1)]);
+                    $this->getDoctrine()->getManager()->persist($joueur);
+                    $this->getDoctrine()->getManager()->flush();
+                }
+            }
+        }
+        return new Response('ok');
+    }
+
 
     /**
      * @Route("/genereNomManquant")
