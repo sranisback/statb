@@ -1,0 +1,60 @@
+{% extends 'statbb/base.html.twig' %}
+
+{% block title %}Tableau Confrontation{% endblock %}
+
+{% block body %}
+    <div class="m-2">
+        <div class="card">
+            <div class="text-center mt-3">
+                <h1 class="font-weight-bold">Table de confrontations</h1>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        {% for team, matches in tableExpected %}
+                            <th>
+                                {% if team|length > 10 %}
+                                    <span class="d-inline-block" data-toggle="tooltip" data-placement="top" title="{{ team }}">
+                                         {{ team[:10] }} <span class="text-primary" style="cursor: pointer;">&hellip;</span>
+                                    </span>
+                                {% else %}
+                                    {{ team }}
+                                {% endif %}
+                            </th>
+                        {% endfor %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for team, matches in tableExpected %}
+                        <tr>
+                            <th>
+                                {% if team|length > 10 %}
+                                    <span class="d-inline-block" data-toggle="tooltip" data-placement="top" title="{{ team }}">
+                                         {{ team[:10] }} <span class="text-primary" style="cursor: pointer;">&hellip;</span>
+                                    </span>
+                                {% else %}
+                                    {{ team }}
+                                {% endif %}
+                            </th>
+                            {% for opponent, score in matches %}
+                                {% set cellClass = '' %}
+                                {% set text = '' %}
+                                {% if score > 0 %}
+                                    {% set cellClass = 'bg-success' %}
+                                {% endif %}
+                                {% if team == opponent %}
+                                    {% set cellClass = 'bg-danger' %}
+                                {% endif %}
+                                <td class="{{ cellClass }}"></td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
