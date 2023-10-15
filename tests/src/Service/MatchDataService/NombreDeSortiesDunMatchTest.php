@@ -48,7 +48,7 @@ class NombreDeSortiesDunMatchTest extends TestCase
         $matchData2->setFPlayer($player2);
 
         $joueurRepoMock = $this->getMockBuilder(Players::class)
-            ->setMethods(['listeDesJoueursPourlEquipe'])
+            ->addMethods(['listeDesJoueursPourlEquipe'])
             ->getMock();
 
         $joueurRepoMock->method('listeDesJoueursPourlEquipe')->willReturn(
@@ -56,7 +56,7 @@ class NombreDeSortiesDunMatchTest extends TestCase
         );
 
         $matchDataRepoMock = $this->getMockBuilder(MatchData::class)
-        ->setMethods(['findOneBy'])
+        ->addMethods(['findOneBy'])
         ->getMock();
 
         $matchDataRepoMock->method('findOneBy')->willReturnOnConsecutiveCalls(

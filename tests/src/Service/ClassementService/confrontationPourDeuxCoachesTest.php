@@ -62,7 +62,7 @@ class confrontationPourDeuxCoachesTest extends TestCase
         $match1->setTeam1($equipeTest1);
         $match1->setTeam2($equipeTest0);
 
-        $matchesRepoMock = $this->getMockBuilder(Matches::class)->setMethods(['tousLesMatchsDeDeuxCoach'])->getMock();
+        $matchesRepoMock = $this->getMockBuilder(Matches::class)->addMethods(['tousLesMatchsDeDeuxCoach'])->getMock();
         $matchesRepoMock->method('tousLesMatchsDeDeuxCoach')->willReturnOnConsecutiveCalls(
             [$match0, $match1]
         );
@@ -104,7 +104,7 @@ class confrontationPourDeuxCoachesTest extends TestCase
         $equipeTest1 = new Teams();
         $equipeTest1->setOwnedByCoach($coachTest1);
 
-        $matchesRepoMock = $this->getMockBuilder(Matches::class)->setMethods(['tousLesMatchsDeDeuxCoach'])->getMock();
+        $matchesRepoMock = $this->getMockBuilder(Matches::class)->addMethods(['tousLesMatchsDeDeuxCoach'])->getMock();
         $matchesRepoMock->method('tousLesMatchsDeDeuxCoach')->willReturnOnConsecutiveCalls(
             []
         );
@@ -136,7 +136,7 @@ class confrontationPourDeuxCoachesTest extends TestCase
         $coachTest1->setUsername('coach 1');
 
 
-        $matchesRepoMock = $this->getMockBuilder(Matches::class)->setMethods(['tousLesMatchsDeDeuxCoach'])->getMock();
+        $matchesRepoMock = $this->getMockBuilder(Matches::class)->addMethods(['tousLesMatchsDeDeuxCoach'])->getMock();
         $matchesRepoMock->method('tousLesMatchsDeDeuxCoach')->willReturnOnConsecutiveCalls(
             []
         );
@@ -168,7 +168,7 @@ class confrontationPourDeuxCoachesTest extends TestCase
         $coachTest1 = new Coaches();
         $coachTest1->setUsername('coach 1');
 
-        $matchesRepoMock = $this->getMockBuilder(Matches::class)->setMethods(['tousLesMatchsDeDeuxCoach'])->getMock();
+        $matchesRepoMock = $this->getMockBuilder(Matches::class)->addMethods(['tousLesMatchsDeDeuxCoach'])->getMock();
         $matchesRepoMock->method('tousLesMatchsDeDeuxCoach')->willReturnOnConsecutiveCalls(
             []
         );
@@ -217,7 +217,7 @@ class confrontationPourDeuxCoachesTest extends TestCase
         $match1->setTeam1($equipeTest0b);
         $match1->setTeam2($equipeTest1b);
 
-        $matchesRepoMock = $this->getMockBuilder(Matches::class)->setMethods(['tousLesMatchsDeDeuxCoach'])->getMock();
+        $matchesRepoMock = $this->getMockBuilder(Matches::class)->addMethods(['tousLesMatchsDeDeuxCoach'])->getMock();
         $matchesRepoMock->method('tousLesMatchsDeDeuxCoach')->willReturnOnConsecutiveCalls(
             [$match0, $match1]
         );

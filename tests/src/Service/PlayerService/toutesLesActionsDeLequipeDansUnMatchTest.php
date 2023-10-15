@@ -40,7 +40,7 @@ class toutesLesActionsDeLequipeDansUnMatchTest extends KernelTestCase
         $matchData->setMvp(1);
 
         $MatchDataRepoMock = $this->getMockBuilder(MatchData::class)
-            ->setMethods(['listeDesJoueursdUnMatch', 'findBy'])
+            ->addMethods(['listeDesJoueursdUnMatch', 'findBy'])
             ->getMock();
         $MatchDataRepoMock->method('listeDesJoueursdUnMatch')->willReturn([$matchData]);
         $MatchDataRepoMock->method('findBy')->willReturn([$matchData]);
@@ -85,7 +85,7 @@ class toutesLesActionsDeLequipeDansUnMatchTest extends KernelTestCase
         $matchData->setMvp(1);
 
         $MatchDataRepoMock = $this->getMockBuilder(MatchData::class)
-            ->setMethods(['listeDesJoueursdUnMatch', 'findBy'])
+            ->addMethods(['listeDesJoueursdUnMatch', 'findBy'])
             ->getMock();
         $MatchDataRepoMock->method('listeDesJoueursdUnMatch')->willReturn([$matchData]);
         $MatchDataRepoMock->method('findBy')->willReturn([$matchData]);
@@ -129,7 +129,7 @@ class toutesLesActionsDeLequipeDansUnMatchTest extends KernelTestCase
         $matchData->setFPlayer($joueur);
 
         $MatchDataRepoMock = $this->getMockBuilder(MatchData::class)
-            ->setMethods(['listeDesJoueursdUnMatch', 'findBy'])
+            ->addMethods(['listeDesJoueursdUnMatch', 'findBy'])
             ->getMock();
         $MatchDataRepoMock->method('listeDesJoueursdUnMatch')->willReturn([$matchData]);
         $MatchDataRepoMock->method('findBy')->willReturn([$matchData]);
